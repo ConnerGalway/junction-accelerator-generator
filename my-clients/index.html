@@ -367,7 +367,7 @@
 
       if (user.role === 'admin') {
         // Admin: all active client rows (requires user_plans_admin_sees_all RLS policy)
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('user_plans')
           .select('email, client_slug, cohort_start_date, coach_email')
           .eq('role', 'client')
@@ -378,7 +378,7 @@
         fetchError = error;
       } else {
         // Coach: only clients assigned to them (requires user_plans_coach_sees_clients RLS policy)
-        const { data, error } = await supabase
+        const { data, error } = await supabaseClient
           .from('user_plans')
           .select('email, client_slug, cohort_start_date, coach_email')
           .eq('coach_email', user.email)
@@ -431,7 +431,7 @@
         // Fetch progress rows for this client
         // (requires progress_coach_sees_assigned or progress_admin_sees_all RLS policy)
         try {
-          const { data: progressRows } = await supabase
+          const { data: progressRows } = await supabaseClient
             .from('progress')
             .select('checked')
             .eq('client_slug', client.client_slug);
