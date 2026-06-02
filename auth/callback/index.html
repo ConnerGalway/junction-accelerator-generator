@@ -84,59 +84,61 @@
 
   <script src="/shared/supabase-client.js"></script>
   <script>
-    (async function () {
-
-      // ------------------------------------------------------------------
-      // 1. Exchange the token in the URL for a live session.
-      //    Supabase JS SDK handles the token automatically from the URL hash.
-      // ------------------------------------------------------------------
-      const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
-
-      if (sessionError || !session) {
-        // Token invalid or already used — send back to login
-        window.location.replace('/login?error=invalid_link');
-        return;
-      }
-
+    async function handleSession(session) {
       const userEmail = session.user.email;
 
-      // ------------------------------------------------------------------
-      // 2. Look up the user's role in user_plans.
-      //    Check for a direct row first, then fall back to admin wildcard.
-      // ------------------------------------------------------------------
-      const { data: rows } = await supabase
+      const { data: rows } = await supabaseClient
         .from('user_plans')
         .select('role, client_slug')
         .eq('email', userEmail)
         .eq('active', true);
 
       if (!rows || rows.length === 0) {
-        // Authenticated but not in user_plans — access denied
         window.location.replace('/login?error=access_denied');
         return;
       }
 
-      // Prefer the first non-wildcard row to determine destination
       const nonWildcard = rows.filter(r => r.client_slug !== '*');
       const wildcard    = rows.find(r => r.client_slug === '*');
+      const primaryRow  = nonWildcard.length > 0 ? nonWildcard[0] : wildcard;
+      const role        = primaryRow.role;
 
-      const primaryRow = nonWildcard.length > 0 ? nonWildcard[0] : wildcard;
-      const role       = primaryRow.role;
-
-      // ------------------------------------------------------------------
-      // 3. Redirect based on role
-      // ------------------------------------------------------------------
       if (role === 'client') {
-        // Clients go directly to their plan page
         window.location.replace('/' + primaryRow.client_slug + '/');
       } else if (role === 'coach' || role === 'admin') {
-        // Coaches and admins go to the client picker
         window.location.replace('/my-clients/');
       } else {
         window.location.replace('/login?error=access_denied');
       }
+    }
 
-    })();
+    let handled = false;
+
+    // Listen for the SIGNED_IN event fired when Supabase processes the URL hash token
+    const { data: { subscription } } = supabaseClient.auth.onAuthStateChange(async (event, session) => {
+      if (handled) return;
+      if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session) {
+        handled = true;
+        subscription.unsubscribe();
+        await handleSession(session);
+      }
+    });
+
+    // Also check immediately — session may already be set if the hash was processed fast
+    supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
+      if (handled || !session) return;
+      handled = true;
+      subscription.unsubscribe();
+      await handleSession(session);
+    });
+
+    // Timeout fallback — if nothing happens in 10s, give up
+    setTimeout(() => {
+      if (!handled) {
+        handled = true;
+        window.location.replace('/login?error=invalid_link');
+      }
+    }, 10000);
   </script>
 
 </body>
