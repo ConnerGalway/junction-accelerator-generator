@@ -5,3 +5,6 @@
 *.local
 node_modules/
 supabase/.env
+
+# Local Netlify folder
+.netlify
