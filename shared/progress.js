@@ -20,7 +20,7 @@
   // ------------------------------------------------------------------
   // 2. Get the current user's id from the active session
   // ------------------------------------------------------------------
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) return;
 
   const userId = session.user.id;
@@ -33,7 +33,7 @@
   // ------------------------------------------------------------------
   // 4. Load saved progress from Supabase and apply to checkboxes
   // ------------------------------------------------------------------
-  const { data: progressRows } = await supabase
+  const { data: progressRows } = await supabaseClient
     .from('progress')
     .select('item_key, checked')
     .eq('user_id', userId)
@@ -73,7 +73,7 @@
       checked:     checked
     };
 
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from('progress')
       .upsert(record, { onConflict: 'user_id,client_slug,item_key' });
 
@@ -113,7 +113,7 @@
     const stillFailing = [];
 
     for (const record of queue) {
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from('progress')
         .upsert(record, { onConflict: 'user_id,client_slug,item_key' });
 

@@ -11,7 +11,7 @@ window.__authReady = (async function () {
   // ------------------------------------------------------------------
   // 1. Check for an active session — redirect to /login if none exists
   // ------------------------------------------------------------------
-  const { data: { session } } = await supabase.auth.getSession();
+  const { data: { session } } = await supabaseClient.auth.getSession();
 
   if (!session) {
     window.location.replace('/login');
@@ -28,7 +28,7 @@ window.__authReady = (async function () {
   // ==================================================================
   if (page === 'my-clients') {
 
-    const { data: rows } = await supabase
+    const { data: rows } = await supabaseClient
       .from('user_plans')
       .select('role, client_slug')
       .eq('email', userEmail)
@@ -65,7 +65,7 @@ window.__authReady = (async function () {
     // ------------------------------------------------------------------
     // 2. Look up the user's row in user_plans for this specific client
     // ------------------------------------------------------------------
-    const { data: rows } = await supabase
+    const { data: rows } = await supabaseClient
       .from('user_plans')
       .select('role, active')
       .eq('email', userEmail)
@@ -83,7 +83,7 @@ window.__authReady = (async function () {
     //    Admins can access any client page via the '*' row
     // ------------------------------------------------------------------
     if (!matchedRole) {
-      const { data: adminRows } = await supabase
+      const { data: adminRows } = await supabaseClient
         .from('user_plans')
         .select('role, active')
         .eq('email', userEmail)

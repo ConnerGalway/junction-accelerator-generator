@@ -90,7 +90,7 @@
       // 1. Exchange the token in the URL for a live session.
       //    Supabase JS SDK handles the token automatically from the URL hash.
       // ------------------------------------------------------------------
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+      const { data: { session }, error: sessionError } = await supabaseClient.auth.getSession();
 
       if (sessionError || !session) {
         // Token invalid or already used — send back to login

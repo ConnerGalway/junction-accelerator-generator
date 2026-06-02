@@ -355,7 +355,7 @@
 
       // Sign-out handler
       document.getElementById('signOutBtn').addEventListener('click', async () => {
-        await supabase.auth.signOut();
+        await supabaseClient.auth.signOut();
         window.location.replace('/login');
       });
 

@@ -441,7 +441,7 @@
 
     let error;
     try {
-      ({ error } = await supabase.auth.signInWithOtp({
+      ({ error } = await supabaseClient.auth.signInWithOtp({
         email,
         options: {
           emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
