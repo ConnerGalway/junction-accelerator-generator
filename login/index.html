@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accelerator Dashboard — eLearningU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800&family=Open+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── Layout ─────────────────────────────────────────── */
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+    }
+
+    /* ── Left: Brand panel ──────────────────────────────── */
+    .brand-panel {
+      background: var(--navy);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      padding: 52px 56px;
+    }
+
+    .brand-panel__bg {
+      position: absolute;
+      inset: 0;
+      opacity: 0.08;
+    }
+
+    /* LOGO — swap src for real image when available */
+    .brand-panel__logo {
+      position: relative;
+      z-index: 1;
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 22px;
+      color: var(--mint);
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .brand-panel__content {
+      position: relative;
+      z-index: 1;
+      margin-top: auto;
+      padding-bottom: 16px;
+    }
+
+    .brand-panel__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint);
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .brand-panel__title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.15;
+      color: #fff;
+      margin-bottom: 28px;
+    }
+
+    .brand-panel__title span { color: var(--mint); }
+
+    .brand-panel__divider {
+      width: 48px;
+      height: 3px;
+      background: var(--mint);
+      border-radius: 2px;
+      margin-bottom: 24px;
+    }
+
+    .brand-panel__tagline {
+      font-size: 15px;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.6);
+      max-width: 360px;
+    }
+
+    /* ── Right: Form panel ──────────────────────────────── */
+    .form-panel {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 64px 72px;
+      background: var(--cream);
+      position: relative;
+    }
+
+    .form-inner {
+      position: relative;
+      z-index: 1;
+      max-width: 420px;
+      width: 100%;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint-dark);
+      margin-bottom: 16px;
+    }
+
+    .form-headline {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: clamp(26px, 3vw, 36px);
+      line-height: 1.2;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    .form-subhead {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 40px;
+    }
+
+    /* ── Form ───────────────────────────────────────────── */
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+    }
+
+    .input-group input {
+      height: 52px;
+      padding: 0 18px;
+      border: 1.5px solid rgba(17,21,75,0.15);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      background: #fff;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.08);
+    }
+
+    .input-group input::placeholder { color: #b0b0c3; }
+
+    .btn-submit {
+      height: 52px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 4px;
+    }
+
+    .btn-submit:hover  { background: var(--navy-mid); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    /* ── Error ──────────────────────────────────────────── */
+    .error-msg {
+      display: none;
+      padding: 14px 16px;
+      background: #fff0f0;
+      border: 1.5px solid #f5c0c0;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: #b03030;
+      line-height: 1.5;
+    }
+
+    .error-msg.visible { display: block; }
+    .error-msg a { color: #b03030; }
+
+    /* ── Success state ──────────────────────────────────── */
+    .success-state {
+      display: none;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .success-state.visible { display: block; }
+
+    .success-icon {
+      width: 56px;
+      height: 56px;
+      background: var(--mint);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+
+    .success-icon svg {
+      width: 26px;
+      height: 26px;
+      stroke: var(--navy);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .success-headline {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .success-body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    /* ── Enroll link ────────────────────────────────────── */
+    .enroll-link {
+      margin-top: 32px;
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    .enroll-link a {
+      color: var(--navy);
+      font-weight: 600;
+      text-decoration: none;
+      border-bottom: 1.5px solid var(--mint);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .enroll-link a:hover { color: var(--mint-dark); border-color: var(--mint-dark); }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .form-footer {
+      margin-top: 48px;
+      padding-top: 24px;
+      border-top: 1px solid rgba(17,21,75,0.1);
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Mobile ─────────────────────────────────────────── */
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+
+      .brand-panel {
+        padding: 32px 28px;
+        min-height: auto;
+      }
+
+      .brand-panel__content { margin-top: 32px; padding-bottom: 8px; }
+      .brand-panel__tagline { display: none; }
+
+      .form-panel {
+        padding: 48px 28px;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- ═══ LEFT: BRAND PANEL ═══════════════════════════════ -->
+  <div class="brand-panel">
+
+    <!-- Animated topographic background -->
+    <svg class="brand-panel__bg" viewBox="0 0 600 800" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <style>
+        .topo { fill: none; stroke: #aadab6; }
+        @keyframes topoFloat   { 0%,100% { transform: translateY(0); }    50% { transform: translateY(-8px); } }
+        @keyframes topoFloat2  { 0%,100% { transform: translateY(0); }    50% { transform: translateY(-6px); } }
+        .tg1 { animation: topoFloat  12s ease-in-out infinite; }
+        .tg2 { animation: topoFloat2 15s ease-in-out infinite reverse; animation-delay: -4s; }
+        .tg3 { animation: topoFloat  10s ease-in-out infinite; animation-delay: -7s; }
+      </style>
+      <g class="tg1">
+        <ellipse class="topo" cx="300" cy="400" rx="260" ry="180" stroke-width="1.2"/>
+        <ellipse class="topo" cx="300" cy="400" rx="210" ry="140" stroke-width="1"/>
+        <ellipse class="topo" cx="300" cy="400" rx="160" ry="100" stroke-width="0.8"/>
+        <ellipse class="topo" cx="300" cy="400" rx="110" ry="65"  stroke-width="0.7"/>
+        <ellipse class="topo" cx="300" cy="400" rx="60"  ry="35"  stroke-width="0.6"/>
+      </g>
+      <g class="tg2">
+        <ellipse class="topo" cx="80" cy="160" rx="140" ry="100" stroke-width="1"/>
+        <ellipse class="topo" cx="80" cy="160" rx="100" ry="70"  stroke-width="0.8"/>
+        <ellipse class="topo" cx="80" cy="160" rx="60"  ry="42"  stroke-width="0.6"/>
+      </g>
+      <g class="tg3">
+        <ellipse class="topo" cx="520" cy="680" rx="160" ry="110" stroke-width="1"/>
+        <ellipse class="topo" cx="520" cy="680" rx="110" ry="75"  stroke-width="0.8"/>
+        <ellipse class="topo" cx="520" cy="680" rx="65"  ry="44"  stroke-width="0.6"/>
+      </g>
+      <line class="topo" x1="0"   y1="600" x2="200" y2="200" stroke-width="0.5" opacity="0.4"/>
+      <line class="topo" x1="400" y1="800" x2="600" y2="400" stroke-width="0.5" opacity="0.4"/>
+      <line class="topo" x1="100" y1="800" x2="500" y2="0"   stroke-width="0.3" opacity="0.3"/>
+    </svg>
+
+    <!-- LOGO — replace with <img> when real logo is available -->
+    <div class="brand-panel__logo">eLearningU</div>
+
+    <div class="brand-panel__content">
+      <p class="brand-panel__eyebrow">Junction eLearningU</p>
+      <h1 class="brand-panel__title">Tourism Digital<br>Marketing<br><span>Accelerator</span></h1>
+      <div class="brand-panel__divider"></div>
+      <p class="brand-panel__tagline">Personalized plans and guidance from coaches with deep industry expertise — built for tourism businesses ready to grow.</p>
+    </div>
+
+  </div>
+
+  <!-- ═══ RIGHT: FORM PANEL ════════════════════════════════ -->
+  <div class="form-panel">
+    <div class="form-inner">
+
+      <p class="form-eyebrow">Accelerator Dashboard</p>
+      <h2 class="form-headline">Welcome back.<br>Your plan is waiting.</h2>
+      <p class="form-subhead">Enter your email and we'll send you a secure link to access your Accelerator Dashboard.</p>
+
+      <!-- Login form -->
+      <form class="login-form" id="loginForm" novalidate>
+        <div class="input-group">
+          <label for="emailInput">Email address</label>
+          <input
+            type="email"
+            id="emailInput"
+            name="email"
+            placeholder="you@yourbusiness.com"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <div class="error-msg" id="errorMsg">
+          Something went wrong. Please try again or contact
+          <a href="mailto:brooke@elearningu.com">brooke@elearningu.com</a>.
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Send my link</button>
+      </form>
+
+      <!-- Success state — shown after submit, form hidden -->
+      <div class="success-state" id="successState">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+        </div>
+        <p class="success-headline">Check your inbox.</p>
+        <p class="success-body">
+          We've sent you a secure login link. It expires in one hour.<br><br>
+          If you don't see it, check your spam folder.
+        </p>
+      </div>
+
+      <p class="enroll-link" id="enrollLink">
+        Not enrolled yet? <a href="https://www.elearningu.com/accelerator" target="_blank" rel="noopener">Learn about the Accelerator program.</a>
+      </p>
+
+      <div class="form-footer">eLearningU &nbsp;·&nbsp; &copy; 2026</div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="/shared/supabase-client.js"></script>
+<script>
+  const form         = document.getElementById('loginForm');
+  const emailInput   = document.getElementById('emailInput');
+  const submitBtn    = document.getElementById('submitBtn');
+  const errorMsg     = document.getElementById('errorMsg');
+  const successState = document.getElementById('successState');
+  const enrollLink   = document.getElementById('enrollLink');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const email = emailInput.value.trim();
+    if (!email) return;
+
+    submitBtn.disabled    = true;
+    submitBtn.textContent = 'Sending…';
+    errorMsg.classList.remove('visible');
+
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
+      }
+    });
+
+    if (error) {
+      // Show generic error — never reveal whether an email is registered
+      errorMsg.classList.add('visible');
+      submitBtn.disabled    = false;
+      submitBtn.textContent = 'Send my link';
+      return;
+    }
+
+    // Success — hide form and enroll link, show confirmation
+    form.style.display        = 'none';
+    enrollLink.style.display  = 'none';
+    successState.classList.add('visible');
+  });
+</script>
+
+</body>
+</html>

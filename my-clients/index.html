@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Clients — eLearningU Accelerator</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --cream-mid: #f5ede0;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+      --border:    rgba(17,21,75,0.1);
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── Top bar ────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      box-shadow: 0 2px 16px rgba(17,21,75,0.18);
+    }
+
+    /* LOGO — replace text with <img> when real logo is available */
+    .topbar__logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--mint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar__email {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.01em;
+    }
+
+    .topbar__signout {
+      height: 34px;
+      padding: 0 16px;
+      background: transparent;
+      border: 1.5px solid rgba(170,218,182,0.45);
+      border-radius: 6px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--mint);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .topbar__signout:hover {
+      background: rgba(170,218,182,0.1);
+      border-color: var(--mint);
+    }
+
+    /* ── Main content ───────────────────────────────────── */
+    .main {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ── Page header ────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .page-header__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint-dark);
+      margin-bottom: 10px;
+    }
+
+    .page-header__title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .page-header__sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── Client list ────────────────────────────────────── */
+    .client-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .client-card {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .client-card:hover {
+      border-color: var(--navy);
+      box-shadow: 0 4px 20px rgba(17,21,75,0.08);
+      transform: translateY(-1px);
+    }
+
+    .client-card__main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .client-card__header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+
+    .client-card__name {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--navy);
+    }
+
+    .client-card__week {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      background: rgba(170,218,182,0.3);
+      border: 1px solid rgba(127,191,142,0.5);
+      border-radius: 20px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+
+    /* Progress bar */
+    .progress-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .progress-bar {
+      flex: 1;
+      height: 7px;
+      background: var(--cream-mid);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar__fill {
+      height: 100%;
+      background: var(--mint-dark);
+      border-radius: 99px;
+      transition: width 0.6s ease;
+      min-width: 0;
+    }
+
+    .progress-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--muted);
+      white-space: nowrap;
+      min-width: 80px;
+      text-align: right;
+    }
+
+    /* Arrow */
+    .client-card__arrow {
+      font-size: 20px;
+      color: rgba(17,21,75,0.25);
+      flex-shrink: 0;
+      transition: color 0.2s, transform 0.2s;
+    }
+
+    .client-card:hover .client-card__arrow {
+      color: var(--navy);
+      transform: translateX(3px);
+    }
+
+    /* ── Skeleton loading ───────────────────────────────── */
+    .skeleton {
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 12px;
+      padding: 24px 28px;
+      animation: pulse 1.4s ease-in-out infinite;
+    }
+
+    .skeleton__line {
+      height: 14px;
+      background: var(--cream-mid);
+      border-radius: 6px;
+      margin-bottom: 12px;
+    }
+
+    .skeleton__line--short { width: 40%; }
+    .skeleton__line--long  { width: 65%; }
+    .skeleton__line--bar   { width: 100%; height: 7px; margin-bottom: 0; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50%       { opacity: 0.55; }
+    }
+
+    /* ── Empty state ────────────────────────────────────── */
+    .empty-state {
+      padding: 48px 0;
+      text-align: center;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    /* ── Error state ────────────────────────────────────── */
+    .error-state {
+      padding: 20px 24px;
+      background: #fff0f0;
+      border: 1.5px solid #f5c0c0;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #b03030;
+    }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 24px 40px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Animation ──────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stagger cards */
+    .client-card:nth-child(1) { animation-delay: 0.05s; }
+    .client-card:nth-child(2) { animation-delay: 0.10s; }
+    .client-card:nth-child(3) { animation-delay: 0.15s; }
+    .client-card:nth-child(4) { animation-delay: 0.20s; }
+    .client-card:nth-child(5) { animation-delay: 0.25s; }
+
+    /* ── Mobile ─────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 20px; }
+      .topbar__email { display: none; }
+      .main { padding: 36px 20px 60px; }
+      .client-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body data-page="my-clients">
+
+  <!-- ══ TOP BAR ═══════════════════════════════════════════ -->
+  <header class="topbar">
+    <!-- LOGO — replace with <img> when real logo is available -->
+    <div class="topbar__logo">eLearningU</div>
+    <div class="topbar__right">
+      <span class="topbar__email" id="topbarEmail"></span>
+      <button class="topbar__signout" id="signOutBtn">Sign out</button>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ══════════════════════════════════════════════ -->
+  <main class="main">
+
+    <div class="page-header">
+      <p class="page-header__eyebrow">Accelerator Dashboard</p>
+      <h1 class="page-header__title">Your Clients</h1>
+      <p class="page-header__sub" id="clientCount"></p>
+    </div>
+
+    <div class="client-list" id="clientList">
+      <!-- Skeleton loading state -->
+      <div class="skeleton">
+        <div class="skeleton__line skeleton__line--long"></div>
+        <div class="skeleton__line skeleton__line--short"></div>
+        <div class="skeleton__line skeleton__line--bar"></div>
+      </div>
+      <div class="skeleton">
+        <div class="skeleton__line skeleton__line--long"></div>
+        <div class="skeleton__line skeleton__line--short"></div>
+        <div class="skeleton__line skeleton__line--bar"></div>
+      </div>
+      <div class="skeleton">
+        <div class="skeleton__line skeleton__line--long"></div>
+        <div class="skeleton__line skeleton__line--short"></div>
+        <div class="skeleton__line skeleton__line--bar"></div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">eLearningU &nbsp;·&nbsp; &copy; 2026</footer>
+
+  <script src="/shared/supabase-client.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script>
+    (async function () {
+
+      // Wait for auth.js to verify the session and confirm coach/admin role
+      const user = await window.__authReady;
+
+      // Show email in top bar
+      document.getElementById('topbarEmail').textContent = user.email;
+
+      // Sign-out handler
+      document.getElementById('signOutBtn').addEventListener('click', async () => {
+        await supabase.auth.signOut();
+        window.location.replace('/login');
+      });
+
+      // ----------------------------------------------------------------
+      // Fetch the list of clients this user can see
+      // ----------------------------------------------------------------
+      let clientRows = [];
+      let fetchError = null;
+
+      if (user.role === 'admin') {
+        // Admin: all active client rows (requires user_plans_admin_sees_all RLS policy)
+        const { data, error } = await supabase
+          .from('user_plans')
+          .select('email, client_slug, cohort_start_date, coach_email')
+          .eq('role', 'client')
+          .eq('active', true)
+          .order('cohort_start_date', { ascending: false });
+
+        clientRows = data || [];
+        fetchError = error;
+      } else {
+        // Coach: only clients assigned to them (requires user_plans_coach_sees_clients RLS policy)
+        const { data, error } = await supabase
+          .from('user_plans')
+          .select('email, client_slug, cohort_start_date, coach_email')
+          .eq('coach_email', user.email)
+          .eq('role', 'client')
+          .eq('active', true)
+          .order('cohort_start_date', { ascending: false });
+
+        clientRows = data || [];
+        fetchError = error;
+      }
+
+      const list  = document.getElementById('clientList');
+      const count = document.getElementById('clientCount');
+
+      if (fetchError) {
+        list.innerHTML = `<div class="error-state">
+          Could not load clients. This is likely a permissions issue — make sure the
+          additional RLS policies for coaches and admins have been applied in Supabase.
+        </div>`;
+        return;
+      }
+
+      count.textContent = `${clientRows.length} active client${clientRows.length !== 1 ? 's' : ''}`;
+
+      if (clientRows.length === 0) {
+        list.innerHTML = `<p class="empty-state">No clients assigned yet.</p>`;
+        return;
+      }
+
+      // ----------------------------------------------------------------
+      // For each client: fetch plan.json for total item count,
+      // then query progress for checked count
+      // ----------------------------------------------------------------
+      const clients = await Promise.all(clientRows.map(async (client) => {
+        let totalItems  = 0;
+        let checkedCount = 0;
+
+        // Fetch plan.json (static file — may not exist in dev)
+        try {
+          const res = await fetch(`/${client.client_slug}/plan.json`);
+          if (res.ok) {
+            const plan = await res.json();
+            plan.weeks.forEach(w => {
+              totalItems += (w.actions   || []).length;
+              totalItems += (w.checklist || []).length;
+            });
+          }
+        } catch (_) { /* plan.json not deployed yet — fall back to raw count */ }
+
+        // Fetch progress rows for this client
+        // (requires progress_coach_sees_assigned or progress_admin_sees_all RLS policy)
+        try {
+          const { data: progressRows } = await supabase
+            .from('progress')
+            .select('checked')
+            .eq('client_slug', client.client_slug);
+
+          checkedCount = (progressRows || []).filter(r => r.checked).length;
+        } catch (_) { /* RLS not yet configured — show raw count of 0 */ }
+
+        return { ...client, totalItems, checkedCount };
+      }));
+
+      // ----------------------------------------------------------------
+      // Render client cards
+      // ----------------------------------------------------------------
+      list.innerHTML = clients.map(client => {
+        const name  = toTitleCase(client.client_slug);
+        const week  = getCohortWeek(client.cohort_start_date);
+        const hasPct = client.totalItems > 0;
+        const pct   = hasPct ? Math.round((client.checkedCount / client.totalItems) * 100) : 0;
+        const label = hasPct
+          ? `${pct}% complete`
+          : (client.checkedCount > 0 ? `${client.checkedCount} items checked` : 'No activity yet');
+
+        return `
+          <a href="/${client.client_slug}/" class="client-card">
+            <div class="client-card__main">
+              <div class="client-card__header">
+                <h2 class="client-card__name">${name}</h2>
+                <span class="client-card__week">Week ${week} of 12</span>
+              </div>
+              <div class="progress-row">
+                <div class="progress-bar">
+                  <div class="progress-bar__fill" style="width: ${pct}%"></div>
+                </div>
+                <span class="progress-label">${label}</span>
+              </div>
+            </div>
+            <div class="client-card__arrow">&#8594;</div>
+          </a>
+        `;
+      }).join('');
+
+    })();
+
+    // ── Helpers ────────────────────────────────────────────
+    function toTitleCase(slug) {
+      return slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+    }
+
+    function getCohortWeek(startDate) {
+      const start = new Date(startDate);
+      const days  = Math.floor((Date.now() - start.getTime()) / 86400000);
+      return Math.min(Math.max(Math.floor(days / 7) + 1, 1), 12);
+    }
+  </script>
+
+</body>
+</html>

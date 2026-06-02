@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signing you in — eLearningU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:  #11154b;
+      --mint:  #aadab6;
+      --cream: #fcf5ec;
+      --muted: #6b6b8a;
+    }
+
+    html, body {
+      height: 100%;
+      background: var(--cream);
+      font-family: 'Open Sans', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      text-align: center;
+      padding: 32px;
+    }
+
+    /* Spinning ring in brand colours */
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(17,21,75,0.1);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading__logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--mint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .loading__text {
+      font-size: 16px;
+      color: var(--navy);
+      font-weight: 500;
+    }
+
+    .loading__sub {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: -12px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="loading">
+    <!-- LOGO — replace with <img> when real logo is available -->
+    <div class="loading__logo">eLearningU</div>
+    <div class="spinner"></div>
+    <p class="loading__text">Signing you in…</p>
+    <p class="loading__sub">You'll be redirected in a moment.</p>
+  </div>
+
+  <script src="/shared/supabase-client.js"></script>
+  <script>
+    (async function () {
+
+      // ------------------------------------------------------------------
+      // 1. Exchange the token in the URL for a live session.
+      //    Supabase JS SDK handles the token automatically from the URL hash.
+      // ------------------------------------------------------------------
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+      if (sessionError || !session) {
+        // Token invalid or already used — send back to login
+        window.location.replace('/login?error=invalid_link');
+        return;
+      }
+
+      const userEmail = session.user.email;
+
+      // ------------------------------------------------------------------
+      // 2. Look up the user's role in user_plans.
+      //    Check for a direct row first, then fall back to admin wildcard.
+      // ------------------------------------------------------------------
+      const { data: rows } = await supabase
+        .from('user_plans')
+        .select('role, client_slug')
+        .eq('email', userEmail)
+        .eq('active', true);
+
+      if (!rows || rows.length === 0) {
+        // Authenticated but not in user_plans — access denied
+        window.location.replace('/login?error=access_denied');
+        return;
+      }
+
+      // Prefer the first non-wildcard row to determine destination
+      const nonWildcard = rows.filter(r => r.client_slug !== '*');
+      const wildcard    = rows.find(r => r.client_slug === '*');
+
+      const primaryRow = nonWildcard.length > 0 ? nonWildcard[0] : wildcard;
+      const role       = primaryRow.role;
+
+      // ------------------------------------------------------------------
+      // 3. Redirect based on role
+      // ------------------------------------------------------------------
+      if (role === 'client') {
+        // Clients go directly to their plan page
+        window.location.replace('/' + primaryRow.client_slug + '/');
+      } else if (role === 'coach' || role === 'admin') {
+        // Coaches and admins go to the client picker
+        window.location.replace('/my-clients/');
+      } else {
+        window.location.replace('/login?error=access_denied');
+      }
+
+    })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<!--
+  Monday Email Template — Junction eLearningU Accelerator
+  Paste into MailerSend: Email → Templates → New Template → HTML editor
+
+  MailerSend variables used (pass via personalization.data in API call):
+    {{client_name}}    — e.g. "Alberni Adventure Gear"
+    {{week_number}}    — e.g. 3
+    {{goal}}           — verbatim from plan.json
+    {{actions}}        — array of action strings
+    {{checklist}}      — array of checklist strings
+    {{deep_link}}      — URL to the client's week anchor
+    {{stat_content}}   — tourism stat or quote text
+    {{stat_source}}    — attribution / source
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  @media only screen and (max-width:600px) {
+    .email-wrap { width:100% !important; }
+    .content    { padding:28px 20px !important; }
+    .cta-btn    { display:block !important; text-align:center !important; }
+  }
+</style>
+</head>
+<body style="margin:0;padding:0;background-color:#e8e0d4;font-family:Arial,sans-serif;">
+<table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="background-color:#e8e0d4;">
+<tr><td align="center" style="padding:24px 12px;">
+
+  <table role="presentation" class="email-wrap" width="600" cellspacing="0" cellpadding="0" border="0"
+    style="max-width:600px;width:100%;background-color:#fcf5ec;border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,0.08);">
+
+    <!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+    <tr>
+      <td style="background-color:#11154b;padding:28px 40px;text-align:center;">
+        <!-- LOGO — replace text with <img> when real logo is available -->
+        <div style="font-family:Arial,sans-serif;font-weight:800;font-size:22px;color:#aadab6;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:6px;">eLearningU</div>
+        <div style="font-size:11px;color:rgba(255,255,255,0.5);letter-spacing:0.12em;text-transform:uppercase;">Tourism Digital Marketing Accelerator</div>
+      </td>
+    </tr>
+
+    <!-- ═══ WEEK BADGE ═══════════════════════════════════════════ -->
+    <tr>
+      <td style="background-color:#1d2260;padding:10px 40px;text-align:center;">
+        <span style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#aadab6;letter-spacing:0.15em;text-transform:uppercase;">
+          Week {{week_number}} of 12
+        </span>
+      </td>
+    </tr>
+
+    <!-- ═══ BODY ══════════════════════════════════════════════════ -->
+    <tr>
+      <td class="content" style="padding:40px;">
+
+        <!-- Greeting -->
+        <p style="font-family:Arial,sans-serif;font-size:15px;color:#6b6b8a;margin:0 0 4px;">Good morning,</p>
+        <h1 style="font-family:Arial,sans-serif;font-size:26px;font-weight:800;color:#11154b;margin:0 0 28px;line-height:1.2;">{{client_name}}.</h1>
+
+        <!-- Goal block -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:32px;">
+          <tr>
+            <td style="background-color:#eef7f1;border-left:4px solid #aadab6;border-radius:0 8px 8px 0;padding:16px 20px;">
+              <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#7fbf8e;letter-spacing:0.15em;text-transform:uppercase;margin:0 0 8px;">Your 90-day goal</p>
+              <p style="font-family:Arial,sans-serif;font-size:14px;color:#1a1a2e;line-height:1.6;margin:0;">{{goal}}</p>
+            </td>
+          </tr>
+        </table>
+
+        <!-- This week's actions -->
+        <h2 style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#11154b;margin:0 0 16px;padding-bottom:10px;border-bottom:2px solid #aadab6;">
+          This week's actions
+        </h2>
+        {{#each actions}}
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:12px;">
+          <tr>
+            <td width="28" valign="top" style="padding-top:2px;">
+              <div style="width:22px;height:22px;background-color:#11154b;border-radius:50%;text-align:center;line-height:22px;">
+                <span style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#aadab6;">{{@index}}</span>
+              </div>
+            </td>
+            <td style="padding-left:10px;">
+              <p style="font-family:Arial,sans-serif;font-size:14px;color:#1a1a2e;line-height:1.55;margin:0;">{{this}}</p>
+            </td>
+          </tr>
+        </table>
+        {{/each}}
+
+        <!-- Completion checklist -->
+        <h2 style="font-family:Arial,sans-serif;font-size:15px;font-weight:700;color:#11154b;margin:28px 0 16px;padding-bottom:10px;border-bottom:2px solid #aadab6;">
+          You'll know you're done when...
+        </h2>
+        {{#each checklist}}
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin-bottom:12px;">
+          <tr>
+            <td width="24" valign="top" style="padding-top:3px;">
+              <div style="width:18px;height:18px;border:2px solid #aadab6;border-radius:4px;"></div>
+            </td>
+            <td style="padding-left:10px;">
+              <p style="font-family:Arial,sans-serif;font-size:14px;color:#1a1a2e;line-height:1.55;margin:0;">{{this}}</p>
+            </td>
+          </tr>
+        </table>
+        {{/each}}
+
+        <!-- CTA button -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0" style="margin:36px 0;">
+          <tr>
+            <td align="center">
+              <a href="{{deep_link}}" class="cta-btn"
+                style="display:inline-block;background-color:#11154b;color:#ffffff;font-family:Arial,sans-serif;font-size:15px;font-weight:700;text-decoration:none;padding:14px 36px;border-radius:8px;letter-spacing:0.02em;">
+                Open my week {{week_number}} plan &rarr;
+              </a>
+            </td>
+          </tr>
+        </table>
+
+        <!-- Tourism stat / quote -->
+        <table role="presentation" width="100%" cellspacing="0" cellpadding="0" border="0">
+          <tr>
+            <td style="background-color:#eef7f1;border:1px solid #aadab6;border-radius:8px;padding:20px 24px;">
+              <p style="font-family:Arial,sans-serif;font-size:11px;font-weight:700;color:#7fbf8e;letter-spacing:0.12em;text-transform:uppercase;margin:0 0 10px;">This week in tourism</p>
+              <p style="font-family:Arial,sans-serif;font-size:15px;color:#11154b;line-height:1.6;margin:0 0 10px;font-style:italic;">&ldquo;{{stat_content}}&rdquo;</p>
+              <p style="font-family:Arial,sans-serif;font-size:12px;color:#6b6b8a;margin:0;">&mdash; {{stat_source}}</p>
+            </td>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+
+    <!-- ═══ FOOTER ════════════════════════════════════════════════ -->
+    <tr>
+      <td style="background-color:#11154b;padding:24px 40px;text-align:center;">
+        <p style="font-family:Arial,sans-serif;font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6;margin:0 0 8px;">
+          You're receiving this because you're enrolled in the Junction eLearningU Accelerator.
+        </p>
+        <p style="font-family:Arial,sans-serif;font-size:12px;margin:0;">
+          <a href="{$unsubscribe}" style="color:#aadab6;text-decoration:underline;">Unsubscribe</a>
+        </p>
+      </td>
+    </tr>
+
+  </table>
+</td></tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,20 @@
+# ──────────────────────────────────────────────────────────────────────
+# Netlify _redirects — Accelerator Dashboard
+# Rules are processed top-to-bottom; first match wins.
+#
+# Note: Netlify's static file + pretty-URL serving fires before redirect
+# rules for 200 rewrites — so /login, /my-clients, and /auth/callback are
+# served directly from their index.html files without needing explicit rules.
+# Only non-obvious routing requires rules here.
+# ──────────────────────────────────────────────────────────────────────
+
+# Root → login (302: temporary so browsers don't cache the redirect)
+/               /login          302
+
+# Client plan pages
+# Files live at clients/[slug]/index.html but are served at /[slug]/
+/:slug          /clients/:slug/index.html   200
+/:slug/         /clients/:slug/index.html   200
+
+# 404 fallback — any unrecognised path goes to login
+/*              /login          302

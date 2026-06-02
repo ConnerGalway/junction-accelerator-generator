@@ -1,7 +1,3 @@
-# YYYY.MM.DD — Accelerator Implementation Plan — [Client Name]
-
----
-
 > 📋 INTERNAL USE ONLY — Complete the grey fields before writing the plan.
 > These fields feed directly into the accelerator webpage generator.
 > Do not skip them or the generator will produce incomplete output.
@@ -12,9 +8,9 @@
 
 **Client Name:** [Full business name as it should appear on the page]
 **Client Slug:** [lowercase-with-hyphens — e.g. alberni-adventure-gear]
-**Grant Budget:** [e.g. $1,500 — delete this line if no grant]
-**Target Milestone:** [Event name · Date · Revenue target — delete this line if none]
-**GBP Quick Wins Section:** [Yes / No]
+**Budget:** [e.g. $1,500 — delete this line if no defined budget]
+**Target Milestone:** [Event name · Date · Target — delete this line if none]
+**Quick Wins Section:** [Yes / No]
 **Welcome Message:** [1–2 sentences for the welcome screen. Acknowledge where the client is right now and frame this plan as the next step. Keep it specific to them — not generic. e.g. "One year in, you're doing what most year-one businesses aren't. This plan turns that foundation into a measurable system."]
 
 ---
@@ -528,3 +524,5 @@
 
 *Junction · eLearningU Accelerator Program*
 *Questions? support@elearningu.com*
+
+
