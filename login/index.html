@@ -439,15 +439,21 @@
     submitBtn.textContent = 'Sending…';
     errorMsg.classList.remove('visible');
 
-    const { error } = await supabase.auth.signInWithOtp({
-      email,
-      options: {
-        emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
-      }
-    });
+    let error;
+    try {
+      ({ error } = await supabase.auth.signInWithOtp({
+        email,
+        options: {
+          emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
+        }
+      }));
+    } catch (e) {
+      console.error('signInWithOtp threw:', e);
+      error = e;
+    }
 
     if (error) {
-      // Show generic error — never reveal whether an email is registered
+      console.error('Login error:', error);
       errorMsg.classList.add('visible');
       submitBtn.disabled    = false;
       submitBtn.textContent = 'Send my link';
