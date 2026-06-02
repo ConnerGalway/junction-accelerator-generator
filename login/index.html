@@ -51,16 +51,15 @@
       opacity: 0.08;
     }
 
-    /* LOGO — swap src for real image when available */
     .brand-panel__logo {
       position: relative;
       z-index: 1;
-      font-family: 'Raleway', sans-serif;
-      font-weight: 800;
-      font-size: 22px;
-      color: var(--mint);
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
+    }
+
+    .brand-panel__logo img {
+      height: 36px;
+      width: auto;
+      filter: brightness(0) invert(1);
     }
 
     .brand-panel__content {
@@ -355,8 +354,9 @@
       <line class="topo" x1="100" y1="800" x2="500" y2="0"   stroke-width="0.3" opacity="0.3"/>
     </svg>
 
-    <!-- LOGO — replace with <img> when real logo is available -->
-    <div class="brand-panel__logo">eLearningU</div>
+    <div class="brand-panel__logo">
+      <img src="/assets/elearningu-logo.png" alt="eLearningU">
+    </div>
 
     <div class="brand-panel__content">
       <p class="brand-panel__eyebrow">Junction eLearningU</p>
@@ -413,7 +413,7 @@
         Not enrolled yet? <a href="https://www.elearningu.com/accelerator" target="_blank" rel="noopener">Learn about the Accelerator program.</a>
       </p>
 
-      <div class="form-footer">eLearningU &nbsp;·&nbsp; &copy; 2026</div>
+      <div class="form-footer"><img src="/assets/elearningu-logo.png" alt="eLearningU" style="height:16px;width:auto;vertical-align:middle;opacity:0.45;"> &nbsp;·&nbsp; &copy; 2026</div>
 
     </div>
   </div>
