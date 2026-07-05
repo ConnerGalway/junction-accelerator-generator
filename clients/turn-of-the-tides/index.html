@@ -1173,6 +1173,18 @@ nav{flex:1;padding:12px 0}
 .restart-tour-btn:hover{color:rgba(255,255,255,.7);background:rgba(255,255,255,.06)}
 .restart-tour-btn svg{width:14px;height:14px;flex-shrink:0}
 
+/* ── Sidebar user section ─────────────────────── */
+.sidebar-user{
+  padding:12px 20px 16px;
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+/* ── Mobile user menu button ─────────────────── */
+.mobile-header .user-menu-container{
+  margin-left:auto;
+  margin-right:8px;
+}
+
 /* ══════════════════════════════════════════════
    WELCOME MODAL
    ══════════════════════════════════════════════ */
@@ -1645,12 +1657,16 @@ nav{flex:1;padding:12px 0}
       Replay welcome tour
     </button>
   </div>
+  <div class="sidebar-user">
+    <div class="user-menu-container" id="sidebarUserMenu"></div>
+  </div>
 
 </aside>
 
 <!-- ── Mobile header ────────────────────────────────────────── -->
 <header class="mobile-header">
   <img id="mobile-logo-img" src="" alt="eLearningU">
+  <div class="user-menu-container" id="mobileUserMenu"></div>
   <button class="hamburger" id="nav-hamburger" onclick="toggleDrawer()" aria-label="Menu">
     <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
   </button>
@@ -3356,6 +3372,25 @@ function howToLink(page, stepId) {
   }, 260);
 }
 
+</script>
+
+<!-- ── Shared scripts for auth and progress ─────────────────── -->
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script src="/shared/user-menu.js"></script>
+<script src="/shared/progress.js"></script>
+<script>
+// Initialize user menu when auth is ready
+if (window.__authReady) {
+  window.__authReady.then(function(user) {
+    // Initialize for sidebar (desktop)
+    window.initUserMenu('#sidebarUserMenu', user.email, user.role || 'client');
+    // Initialize for mobile header
+    window.initUserMenu('#mobileUserMenu', user.email, user.role || 'client');
+  }).catch(function(err) {
+    console.error('Auth not ready for user menu:', err);
+  });
+}
 </script>
 </body>
 </html>
