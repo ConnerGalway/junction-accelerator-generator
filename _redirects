@@ -11,6 +11,11 @@
 # Root → login (302: temporary so browsers don't cache the redirect)
 /               /login          302
 
+# Shared assets and scripts (serve directly, no redirect)
+/shared/*       /shared/:splat  200
+/assets/*       /assets/:splat  200
+/account/*      /account/:splat 200
+
 # Client plan pages
 # Files live at clients/[slug]/index.html but are served at /[slug]/
 /:slug          /clients/:slug/index.html   200
