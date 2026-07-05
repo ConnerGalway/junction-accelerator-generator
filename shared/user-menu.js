@@ -59,6 +59,15 @@
       z-index: 1000;
     }
 
+    /* Opens downward (for top-positioned menus like topbar) */
+    .user-menu--down .user-menu__dropdown {
+      bottom: auto;
+      top: calc(100% + 8px);
+      right: 0;
+      left: auto;
+      transform: translateY(-8px);
+    }
+
     .user-menu.open .user-menu__dropdown {
       opacity: 1;
       visibility: visible;
@@ -199,9 +208,10 @@
   // ══════════════════════════════════════════════════════════════
   // CREATE MENU HTML
   // ══════════════════════════════════════════════════════════════
-  function createMenuHTML(userEmail, userRole) {
+  function createMenuHTML(userEmail, userRole, direction) {
+    const dirClass = direction === 'down' ? ' user-menu--down' : '';
     return `
-      <div class="user-menu" id="userMenu">
+      <div class="user-menu${dirClass}" id="userMenu">
         <div class="user-menu__backdrop" onclick="window.closeUserMenu()"></div>
         <button class="user-menu__trigger" onclick="window.toggleUserMenu()" title="Menu">
           ${ICONS.menu}
@@ -301,8 +311,9 @@
 
   // ══════════════════════════════════════════════════════════════
   // INIT FUNCTION
+  // direction: 'up' (default) opens upward, 'down' opens downward
   // ══════════════════════════════════════════════════════════════
-  window.initUserMenu = async function(containerSelector, userEmail, userRole) {
+  window.initUserMenu = async function(containerSelector, userEmail, userRole, direction) {
     injectStyles();
 
     // If no user info provided, try to get from auth
@@ -319,7 +330,7 @@
 
     const container = document.querySelector(containerSelector);
     if (container) {
-      container.innerHTML = createMenuHTML(userEmail, userRole);
+      container.innerHTML = createMenuHTML(userEmail, userRole, direction);
     }
   };
 

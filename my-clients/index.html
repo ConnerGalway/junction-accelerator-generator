@@ -1208,8 +1208,8 @@
       // Show email in top bar
       document.getElementById('topbarEmail').textContent = user.email;
 
-      // Initialize user menu
-      window.initUserMenu('#userMenuContainer', user.email, user.role);
+      // Initialize user menu (opens downward since it's in the topbar)
+      window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
 
       // Load dashboard data
       await loadDashboardData();
