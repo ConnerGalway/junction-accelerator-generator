@@ -45,8 +45,8 @@
 
     .user-menu__dropdown {
       position: absolute;
-      top: calc(100% + 8px);
-      right: 0;
+      bottom: calc(100% + 8px);
+      left: 0;
       background: #fff;
       border-radius: 12px;
       box-shadow: 0 10px 40px rgba(17,21,75,0.2);
@@ -54,7 +54,7 @@
       padding: 8px 0;
       opacity: 0;
       visibility: hidden;
-      transform: translateY(-8px);
+      transform: translateY(8px);
       transition: all 0.2s ease;
       z-index: 1000;
     }
