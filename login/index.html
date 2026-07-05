@@ -287,6 +287,72 @@
 
     .enroll-link a:hover { color: var(--mint-dark); border-color: var(--mint-dark); }
 
+    /* ── Login mode toggle ─────────────────────────────── */
+    .login-toggle {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(17,21,75,0.1);
+      text-align: center;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .login-toggle a {
+      color: var(--navy);
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border-bottom: 1.5px solid var(--mint);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+
+    .login-toggle a:hover {
+      color: var(--mint-dark);
+      border-color: var(--mint-dark);
+    }
+
+    .login-toggle-label {
+      display: block;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    /* Password field - hidden by default */
+    .password-group {
+      display: none;
+    }
+
+    .password-group.visible {
+      display: flex;
+    }
+
+    /* Forgot password link */
+    .forgot-password {
+      display: none;
+      text-align: right;
+      margin-top: -8px;
+      margin-bottom: 8px;
+    }
+
+    .forgot-password.visible {
+      display: block;
+    }
+
+    .forgot-password a {
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+
+    .forgot-password a:hover {
+      color: var(--navy);
+    }
+
     /* ── Footer ─────────────────────────────────────────── */
     .form-footer {
       margin-top: 48px;
@@ -374,7 +440,7 @@
 
       <p class="form-eyebrow">Accelerator Dashboard</p>
       <h2 class="form-headline">Welcome back.<br>Your plan is waiting.</h2>
-      <p class="form-subhead">Enter your email and we'll send you a secure link to access your Accelerator Dashboard.</p>
+      <p class="form-subhead" id="formSubhead">Enter your email and we'll send you a secure link to access your Accelerator Dashboard.</p>
 
       <!-- Login form -->
       <form class="login-form" id="loginForm" novalidate>
@@ -390,12 +456,32 @@
           >
         </div>
 
+        <div class="input-group password-group" id="passwordGroup">
+          <label for="passwordInput">Password</label>
+          <input
+            type="password"
+            id="passwordInput"
+            name="password"
+            placeholder="Enter your password"
+            autocomplete="current-password"
+          >
+        </div>
+
+        <div class="forgot-password" id="forgotPassword">
+          <a href="#" onclick="sendPasswordReset(event)">Forgot password or need to set one up?</a>
+        </div>
+
         <div class="error-msg" id="errorMsg">
           Something went wrong. Please try again or contact
           <a href="mailto:brooke@elearningu.com">brooke@elearningu.com</a>.
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">Send my link</button>
+
+        <div class="login-toggle" id="loginToggle">
+          <span class="login-toggle-label">Or</span>
+          <a onclick="toggleLoginMode()" id="toggleLink">Sign in with password instead</a>
+        </div>
       </form>
 
       <!-- Success state — shown after submit, form hidden -->
@@ -423,48 +509,222 @@
 
 <script src="/shared/supabase-client.js"></script>
 <script>
-  const form         = document.getElementById('loginForm');
-  const emailInput   = document.getElementById('emailInput');
-  const submitBtn    = document.getElementById('submitBtn');
-  const errorMsg     = document.getElementById('errorMsg');
-  const successState = document.getElementById('successState');
-  const enrollLink   = document.getElementById('enrollLink');
+  // ══════════════════════════════════════════════════════════════
+  // ELEMENTS
+  // ══════════════════════════════════════════════════════════════
+  const form           = document.getElementById('loginForm');
+  const emailInput     = document.getElementById('emailInput');
+  const passwordGroup  = document.getElementById('passwordGroup');
+  const passwordInput  = document.getElementById('passwordInput');
+  const forgotPassword = document.getElementById('forgotPassword');
+  const submitBtn      = document.getElementById('submitBtn');
+  const errorMsg       = document.getElementById('errorMsg');
+  const successState   = document.getElementById('successState');
+  const enrollLink     = document.getElementById('enrollLink');
+  const loginToggle    = document.getElementById('loginToggle');
+  const formSubhead    = document.querySelector('.form-subhead');
 
+  // ══════════════════════════════════════════════════════════════
+  // STATE
+  // ══════════════════════════════════════════════════════════════
+  let usePassword = false;
+
+  // ══════════════════════════════════════════════════════════════
+  // TOGGLE LOGIN MODE
+  // ══════════════════════════════════════════════════════════════
+  function toggleLoginMode() {
+    usePassword = !usePassword;
+
+    if (usePassword) {
+      // Password mode
+      passwordGroup.classList.add('visible');
+      forgotPassword.classList.add('visible');
+      passwordInput.required = true;
+      submitBtn.textContent = 'Sign in';
+      loginToggle.innerHTML = '<span class="login-toggle-label">Or</span><a onclick="toggleLoginMode()">Use email link instead</a>';
+      formSubhead.textContent = 'Enter your email and password to access your dashboard.';
+    } else {
+      // Email link mode
+      passwordGroup.classList.remove('visible');
+      forgotPassword.classList.remove('visible');
+      passwordInput.required = false;
+      passwordInput.value = '';
+      submitBtn.textContent = 'Send my link';
+      loginToggle.innerHTML = '<span class="login-toggle-label">Or</span><a onclick="toggleLoginMode()">Sign in with password instead</a>';
+      formSubhead.textContent = "Enter your email and we'll send you a secure link to access your Accelerator Dashboard.";
+    }
+
+    errorMsg.classList.remove('visible');
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // SEND PASSWORD RESET / SETUP EMAIL
+  // ══════════════════════════════════════════════════════════════
+  async function sendPasswordReset(event) {
+    event.preventDefault();
+
+    const email = emailInput.value.trim();
+    if (!email) {
+      errorMsg.textContent = 'Please enter your email address first.';
+      errorMsg.classList.add('visible');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+    errorMsg.classList.remove('visible');
+
+    try {
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://accelerator.elearningu.com/auth/set-password'
+      });
+
+      if (error) throw error;
+
+      // Show success state with password-specific message
+      form.style.display = 'none';
+      enrollLink.style.display = 'none';
+      successState.querySelector('.success-headline').textContent = 'Check your inbox.';
+      successState.querySelector('.success-body').innerHTML =
+        "We've sent you a link to set up or reset your password.<br><br>" +
+        "If you don't see it, check your spam folder.";
+      successState.classList.add('visible');
+
+    } catch (err) {
+      console.error('Password reset error:', err);
+      errorMsg.textContent = 'Could not send password reset email. Please try again.';
+      errorMsg.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign in';
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // HANDLE SESSION AFTER LOGIN
+  // ══════════════════════════════════════════════════════════════
+  async function handleSessionRedirect(session) {
+    const userEmail = session.user.email;
+
+    const { data: rows } = await supabaseClient
+      .from('user_plans')
+      .select('role, client_slug')
+      .eq('email', userEmail)
+      .eq('active', true);
+
+    if (!rows || rows.length === 0) {
+      errorMsg.textContent = 'Access denied. Your account may not be active.';
+      errorMsg.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Sign in';
+      return;
+    }
+
+    const nonWildcard = rows.filter(r => r.client_slug !== '*');
+    const wildcard    = rows.find(r => r.client_slug === '*');
+    const primaryRow  = nonWildcard.length > 0 ? nonWildcard[0] : wildcard;
+    const role        = primaryRow.role;
+
+    if (role === 'client') {
+      window.location.replace('/' + primaryRow.client_slug + '/');
+    } else if (role === 'coach' || role === 'admin') {
+      window.location.replace('/my-clients/');
+    } else {
+      window.location.replace('/login?error=access_denied');
+    }
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // FORM SUBMIT
+  // ══════════════════════════════════════════════════════════════
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     const email = emailInput.value.trim();
     if (!email) return;
 
-    submitBtn.disabled    = true;
-    submitBtn.textContent = 'Sending…';
+    submitBtn.disabled = true;
     errorMsg.classList.remove('visible');
 
-    let error;
-    try {
-      ({ error } = await supabaseClient.auth.signInWithOtp({
-        email,
-        options: {
-          emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
+    if (usePassword) {
+      // ─── PASSWORD LOGIN ───────────────────────────────────────
+      const password = passwordInput.value;
+      if (!password) {
+        errorMsg.textContent = 'Please enter your password.';
+        errorMsg.classList.add('visible');
+        submitBtn.disabled = false;
+        return;
+      }
+
+      submitBtn.textContent = 'Signing in…';
+
+      let error, data;
+      try {
+        ({ error, data } = await supabaseClient.auth.signInWithPassword({
+          email,
+          password
+        }));
+      } catch (e) {
+        console.error('signInWithPassword threw:', e);
+        error = e;
+      }
+
+      if (error) {
+        console.error('Login error:', error);
+        if (error.message?.includes('Invalid login credentials')) {
+          errorMsg.textContent = 'Invalid email or password. Please try again.';
+        } else {
+          errorMsg.textContent = 'Something went wrong. Please try again.';
         }
-      }));
-    } catch (e) {
-      console.error('signInWithOtp threw:', e);
-      error = e;
-    }
+        errorMsg.classList.add('visible');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Sign in';
+        return;
+      }
 
-    if (error) {
-      console.error('Login error:', error);
-      errorMsg.classList.add('visible');
-      submitBtn.disabled    = false;
-      submitBtn.textContent = 'Send my link';
-      return;
-    }
+      // Success - redirect based on role
+      await handleSessionRedirect(data.session);
 
-    // Success — hide form and enroll link, show confirmation
-    form.style.display        = 'none';
-    enrollLink.style.display  = 'none';
-    successState.classList.add('visible');
+    } else {
+      // ─── EMAIL LINK (OTP) LOGIN ───────────────────────────────
+      submitBtn.textContent = 'Sending…';
+
+      let error;
+      try {
+        ({ error } = await supabaseClient.auth.signInWithOtp({
+          email,
+          options: {
+            emailRedirectTo: 'https://accelerator.elearningu.com/auth/callback'
+          }
+        }));
+      } catch (e) {
+        console.error('signInWithOtp threw:', e);
+        error = e;
+      }
+
+      if (error) {
+        console.error('Login error:', error);
+        errorMsg.textContent = 'Something went wrong. Please try again or contact brooke@elearningu.com.';
+        errorMsg.classList.add('visible');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Send my link';
+        return;
+      }
+
+      // Success — hide form and enroll link, show confirmation
+      form.style.display = 'none';
+      enrollLink.style.display = 'none';
+      successState.classList.add('visible');
+    }
+  });
+
+  // ══════════════════════════════════════════════════════════════
+  // CHECK FOR EXISTING SESSION ON LOAD
+  // ══════════════════════════════════════════════════════════════
+  supabaseClient.auth.getSession().then(async ({ data: { session } }) => {
+    if (session) {
+      // Already logged in - redirect to appropriate page
+      await handleSessionRedirect(session);
+    }
   });
 </script>
 

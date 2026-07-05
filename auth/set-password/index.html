@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Set Your Password — eLearningU</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(17,21,75,0.12);
+      padding: 48px;
+      width: 100%;
+      max-width: 440px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .logo {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 32px;
+    }
+
+    .logo img {
+      height: 32px;
+      width: auto;
+    }
+
+    .logo-text {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--navy);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .headline {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 24px;
+      color: var(--navy);
+      text-align: center;
+      margin-bottom: 12px;
+    }
+
+    .subhead {
+      font-size: 14px;
+      color: var(--muted);
+      text-align: center;
+      line-height: 1.6;
+      margin-bottom: 32px;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+    }
+
+    .input-group input {
+      height: 52px;
+      padding: 0 18px;
+      border: 1.5px solid rgba(17,21,75,0.15);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 15px;
+      background: #fff;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    .input-group input:focus {
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.08);
+    }
+
+    .password-requirements {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: -4px;
+    }
+
+    .btn-submit {
+      height: 52px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 8px;
+    }
+
+    .btn-submit:hover { background: var(--navy-mid); transform: translateY(-1px); }
+    .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .error-msg {
+      display: none;
+      padding: 14px 16px;
+      background: #fff0f0;
+      border: 1.5px solid #f5c0c0;
+      border-radius: 8px;
+      font-size: 13.5px;
+      color: #b03030;
+      line-height: 1.5;
+    }
+
+    .error-msg.visible { display: block; }
+
+    /* Success state */
+    .success-state {
+      display: none;
+      text-align: center;
+    }
+
+    .success-state.visible { display: block; }
+
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: var(--mint);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .success-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: var(--navy);
+      stroke-width: 2.5;
+      fill: none;
+    }
+
+    .success-headline {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 22px;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .success-body {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--muted);
+      margin-bottom: 24px;
+    }
+
+    .btn-continue {
+      display: inline-block;
+      padding: 14px 32px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-continue:hover { background: var(--navy-mid); transform: translateY(-1px); }
+
+    /* Loading state */
+    .loading-state {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      padding: 32px 0;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(17,21,75,0.1);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    /* Invalid link state */
+    .invalid-state {
+      display: none;
+      text-align: center;
+    }
+
+    .invalid-state.visible { display: block; }
+
+    .invalid-icon {
+      width: 64px;
+      height: 64px;
+      background: #fff0f0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 24px;
+    }
+
+    .invalid-icon svg {
+      width: 32px;
+      height: 32px;
+      stroke: #b03030;
+      stroke-width: 2;
+      fill: none;
+    }
+
+    .btn-back {
+      display: inline-block;
+      padding: 14px 32px;
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--navy);
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-back:hover { background: rgba(17,21,75,0.05); }
+
+    .footer {
+      margin-top: 32px;
+      text-align: center;
+      font-size: 12px;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+<div class="card">
+  <div class="logo">
+    <span class="logo-text">eLearningU</span>
+  </div>
+
+  <!-- Loading state (shown while verifying session) -->
+  <div class="loading-state" id="loadingState">
+    <div class="spinner"></div>
+    <p class="loading-text">Verifying your link...</p>
+  </div>
+
+  <!-- Password form (shown after session verified) -->
+  <div id="formContainer" style="display: none;">
+    <h1 class="headline">Set Your Password</h1>
+    <p class="subhead">Create a password for your account. You can use this to sign in instead of email links.</p>
+
+    <form class="form" id="passwordForm" novalidate>
+      <div class="input-group">
+        <label for="newPassword">New Password</label>
+        <input
+          type="password"
+          id="newPassword"
+          name="password"
+          placeholder="Enter a strong password"
+          autocomplete="new-password"
+          required
+          minlength="8"
+        >
+        <p class="password-requirements">At least 8 characters</p>
+      </div>
+
+      <div class="input-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          placeholder="Enter the password again"
+          autocomplete="new-password"
+          required
+        >
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+
+      <button type="submit" class="btn-submit" id="submitBtn">Set Password</button>
+    </form>
+  </div>
+
+  <!-- Success state -->
+  <div class="success-state" id="successState">
+    <div class="success-icon">
+      <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <p class="success-headline">Password Set!</p>
+    <p class="success-body">Your password has been saved. You can now sign in with your email and password.</p>
+    <a href="/login" class="btn-continue">Continue to Login</a>
+  </div>
+
+  <!-- Invalid link state -->
+  <div class="invalid-state" id="invalidState">
+    <div class="invalid-icon">
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10"></circle>
+        <line x1="15" y1="9" x2="9" y2="15"></line>
+        <line x1="9" y1="9" x2="15" y2="15"></line>
+      </svg>
+    </div>
+    <p class="success-headline">Link Expired</p>
+    <p class="success-body">This password reset link is invalid or has expired. Please request a new one.</p>
+    <a href="/login" class="btn-back">Back to Login</a>
+  </div>
+
+  <div class="footer" id="footer">
+    <img src="/assets/elearningu-logo.png" alt="eLearningU" style="height:14px;width:auto;vertical-align:middle;opacity:0.45;"> &nbsp;·&nbsp; Accelerator Dashboard
+  </div>
+</div>
+
+<script src="/shared/supabase-client.js"></script>
+<script>
+  const loadingState   = document.getElementById('loadingState');
+  const formContainer  = document.getElementById('formContainer');
+  const passwordForm   = document.getElementById('passwordForm');
+  const newPassword    = document.getElementById('newPassword');
+  const confirmPassword = document.getElementById('confirmPassword');
+  const errorMsg       = document.getElementById('errorMsg');
+  const submitBtn      = document.getElementById('submitBtn');
+  const successState   = document.getElementById('successState');
+  const invalidState   = document.getElementById('invalidState');
+  const footer         = document.getElementById('footer');
+
+  let sessionVerified = false;
+
+  // ══════════════════════════════════════════════════════════════
+  // VERIFY SESSION FROM URL
+  // ══════════════════════════════════════════════════════════════
+  async function verifySession() {
+    // Supabase will automatically handle the token in the URL hash
+    // We need to wait for the auth state to be updated
+
+    const { data: { session }, error } = await supabaseClient.auth.getSession();
+
+    if (error || !session) {
+      // Try to exchange the token from URL
+      const hashParams = new URLSearchParams(window.location.hash.substring(1));
+      const accessToken = hashParams.get('access_token');
+      const refreshToken = hashParams.get('refresh_token');
+
+      if (accessToken && refreshToken) {
+        const { data, error: setError } = await supabaseClient.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        });
+
+        if (setError || !data.session) {
+          showInvalidState();
+          return;
+        }
+
+        sessionVerified = true;
+        showForm();
+        return;
+      }
+
+      // No session and no tokens - invalid link
+      showInvalidState();
+      return;
+    }
+
+    // Session exists
+    sessionVerified = true;
+    showForm();
+  }
+
+  function showForm() {
+    loadingState.style.display = 'none';
+    formContainer.style.display = 'block';
+  }
+
+  function showInvalidState() {
+    loadingState.style.display = 'none';
+    invalidState.classList.add('visible');
+    footer.style.display = 'none';
+  }
+
+  // ══════════════════════════════════════════════════════════════
+  // HANDLE FORM SUBMIT
+  // ══════════════════════════════════════════════════════════════
+  passwordForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const password = newPassword.value;
+    const confirm = confirmPassword.value;
+
+    // Validate
+    if (password.length < 8) {
+      errorMsg.textContent = 'Password must be at least 8 characters.';
+      errorMsg.classList.add('visible');
+      return;
+    }
+
+    if (password !== confirm) {
+      errorMsg.textContent = 'Passwords do not match.';
+      errorMsg.classList.add('visible');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Saving...';
+    errorMsg.classList.remove('visible');
+
+    try {
+      const { error } = await supabaseClient.auth.updateUser({
+        password: password
+      });
+
+      if (error) throw error;
+
+      // Success - show success state
+      formContainer.style.display = 'none';
+      successState.classList.add('visible');
+      footer.style.display = 'none';
+
+    } catch (err) {
+      console.error('Password update error:', err);
+      errorMsg.textContent = err.message || 'Could not update password. Please try again.';
+      errorMsg.classList.add('visible');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Set Password';
+    }
+  });
+
+  // ══════════════════════════════════════════════════════════════
+  // LISTEN FOR AUTH STATE CHANGES
+  // ══════════════════════════════════════════════════════════════
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    if (event === 'PASSWORD_RECOVERY' && session) {
+      sessionVerified = true;
+      showForm();
+    }
+  });
+
+  // Start verification
+  verifySession();
+</script>
+
+</body>
+</html>
