@@ -2,8 +2,14 @@
 // It exposes window.__authReady — a promise that resolves with { email, role }
 // once the user is verified. Pages await this before doing their own data work.
 //
+// Roles:
+//   admin  → access to all projects, can manage users
+//   psm    → access to all clients (read-only), can view dashboard
+//   coach  → access to assigned projects only
+//   client → access to their own project only
+//
 // Two page contexts are handled:
-//   data-page="my-clients"  → verify coach or admin; redirect clients to their plan
+//   data-page="my-clients"  → verify admin/psm/coach; redirect clients to their plan
 //   data-client-slug="..."  → verify access to that specific client plan
 
 window.__authReady = (async function () {
@@ -24,7 +30,7 @@ window.__authReady = (async function () {
 
   // ==================================================================
   // MY-CLIENTS PAGE
-  // Verify the user is a coach or admin. Redirect clients to their plan.
+  // Verify the user is admin, psm, or coach. Redirect clients to their plan.
   // ==================================================================
   if (page === 'my-clients') {
 
@@ -40,10 +46,11 @@ window.__authReady = (async function () {
     }
 
     const adminRow  = rows.find(r => r.role === 'admin');
+    const psmRow    = rows.find(r => r.role === 'psm');
     const coachRow  = rows.find(r => r.role === 'coach');
     const clientRow = rows.find(r => r.role === 'client');
 
-    if (!adminRow && !coachRow) {
+    if (!adminRow && !psmRow && !coachRow) {
       // Pure client — send them to their own plan
       if (clientRow) {
         window.location.replace('/' + clientRow.client_slug + '/');
@@ -53,7 +60,9 @@ window.__authReady = (async function () {
       return new Promise(() => {});
     }
 
-    return { email: userEmail, role: adminRow ? 'admin' : 'coach' };
+    // Return highest priority role
+    const role = adminRow ? 'admin' : (psmRow ? 'psm' : 'coach');
+    return { email: userEmail, role: role };
   }
 
   // ==================================================================
@@ -79,19 +88,22 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 3. If no direct match, check for a wildcard admin row (client_slug = '*')
-    //    Admins can access any client page via the '*' row
+    // 3. If no direct match, check for a wildcard row (client_slug = '*')
+    //    Admins and PSMs can access any client page via the '*' row
     // ------------------------------------------------------------------
     if (!matchedRole) {
-      const { data: adminRows } = await supabaseClient
+      const { data: wildcardRows } = await supabaseClient
         .from('user_plans')
         .select('role, active')
         .eq('email', userEmail)
         .eq('client_slug', '*')
         .eq('active', true);
 
-      if (adminRows && adminRows.length > 0 && adminRows[0].role === 'admin') {
-        matchedRole = 'admin';
+      if (wildcardRows && wildcardRows.length > 0) {
+        const role = wildcardRows[0].role;
+        if (role === 'admin' || role === 'psm') {
+          matchedRole = role;
+        }
       }
     }
 
@@ -104,10 +116,10 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 5. Coaches and admins get read-only mode — disable all interactions
-    //    and show a banner at the top of the page
+    // 5. Coaches, PSMs, and admins get read-only mode — disable all
+    //    interactions and show a banner at the top of the page
     // ------------------------------------------------------------------
-    if (matchedRole === 'coach' || matchedRole === 'admin') {
+    if (matchedRole === 'coach' || matchedRole === 'psm' || matchedRole === 'admin') {
       document.body.setAttribute('data-readonly', 'true');
 
       const banner = document.createElement('div');

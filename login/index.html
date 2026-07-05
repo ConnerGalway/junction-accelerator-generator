@@ -619,13 +619,14 @@
       return;
     }
 
-    // Prioritize roles: admin > coach > client
+    // Prioritize roles: admin > psm > coach > client
     const adminRow  = rows.find(r => r.role === 'admin');
+    const psmRow    = rows.find(r => r.role === 'psm');
     const coachRow  = rows.find(r => r.role === 'coach');
     const clientRow = rows.find(r => r.role === 'client');
 
-    if (adminRow || coachRow) {
-      // Admin or coach goes to dashboard
+    if (adminRow || psmRow || coachRow) {
+      // Admin, PSM, or coach goes to dashboard
       window.location.replace('/my-clients/');
     } else if (clientRow) {
       // Client goes to their plan
