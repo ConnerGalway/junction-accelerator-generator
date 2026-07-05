@@ -619,15 +619,17 @@
       return;
     }
 
-    const nonWildcard = rows.filter(r => r.client_slug !== '*');
-    const wildcard    = rows.find(r => r.client_slug === '*');
-    const primaryRow  = nonWildcard.length > 0 ? nonWildcard[0] : wildcard;
-    const role        = primaryRow.role;
+    // Prioritize roles: admin > coach > client
+    const adminRow  = rows.find(r => r.role === 'admin');
+    const coachRow  = rows.find(r => r.role === 'coach');
+    const clientRow = rows.find(r => r.role === 'client');
 
-    if (role === 'client') {
-      window.location.replace('/' + primaryRow.client_slug + '/');
-    } else if (role === 'coach' || role === 'admin') {
+    if (adminRow || coachRow) {
+      // Admin or coach goes to dashboard
       window.location.replace('/my-clients/');
+    } else if (clientRow) {
+      // Client goes to their plan
+      window.location.replace('/' + clientRow.client_slug + '/');
     } else {
       window.location.replace('/login?error=access_denied');
     }
