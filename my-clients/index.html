@@ -1021,7 +1021,7 @@
     <div class="topbar__logo">eLearningU</div>
     <div class="topbar__right">
       <span class="topbar__email" id="topbarEmail"></span>
-      <button class="topbar__signout" id="signOutBtn">Sign out</button>
+      <div class="user-menu-container" id="userMenuContainer"></div>
     </div>
   </header>
 
@@ -1170,6 +1170,7 @@
 
   <script src="/shared/supabase-client.js"></script>
   <script src="/shared/auth.js"></script>
+  <script src="/shared/user-menu.js"></script>
   <script>
     // ══════════════════════════════════════════════════════════════
     // STATE
@@ -1207,11 +1208,8 @@
       // Show email in top bar
       document.getElementById('topbarEmail').textContent = user.email;
 
-      // Sign-out handler
-      document.getElementById('signOutBtn').addEventListener('click', async () => {
-        await supabaseClient.auth.signOut();
-        window.location.replace('/login');
-      });
+      // Initialize user menu
+      window.initUserMenu('#userMenuContainer', user.email, user.role);
 
       // Load dashboard data
       await loadDashboardData();

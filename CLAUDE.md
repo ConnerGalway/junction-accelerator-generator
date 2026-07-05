@@ -11,7 +11,8 @@ a polished, fully-functional HTML accelerator page for a client by reading their
 Command pattern:
 > "Generate an accelerator page for [Client Name] using clients/[client-slug]/plan.md
 > Coach email: [coach@email.com]
-> Cohort start date: [YYYY-MM-DD]"
+> Cohort start date: [YYYY-MM-DD]
+> Assessment date: [YYYY-MM-DD]"
 
 ### Step 1 — Read both files
 - Read `clients/[slug]/plan.md`
@@ -68,16 +69,76 @@ See the full list in the template header comment.
 | Placeholder | How to derive it |
 |---|---|
 | `{{CLIENT_SLUG}}` | Lowercase, hyphens, no special chars. e.g. `alberni-adventure-gear` |
+| `{{CLIENT_NAME}}` | Title-cased client name. e.g. `Alberni Adventure Gear` |
 | `{{TOTAL_TASKS}}` | Count every checklist item across all roadmap weeks |
 | `{{TACTIC_N_TOTAL}}` | Count checklist items assigned to that tactic in the roadmap |
 | `{{TACTIC_N_NAV_LABEL}}` | Short 2-4 word label for the sidebar. Derive from tactic title. |
 | `{{WM_SUBLINE}}` | 1-2 sentences of warm encouragement that acknowledges where the client is and frames the plan as the next step. Keep it specific to them, not generic. |
 | `{{PAGE_SUBTITLE}}` | 1-sentence version of the goal — tighter than the goal paragraph |
+| `{{GOAL_TEXT}}` | The full goal paragraph from the plan — used in Strategy page and print header |
+| `{{STRATEGIC_POSITIONING}}` | The strategic positioning statement from the plan |
+| `{{ASSESSMENT_DATE}}` | Date of the client's assessment (from command or plan). Format: `Month DD, YYYY` |
+| `{{COHORT_START_DATE}}` | Cohort start date from the command. Format: `Month DD, YYYY` |
+| `{{COACH_EMAIL}}` | Coach email from the command — used in print footer |
+| `{{OBJECTIVE_N_TITLE}}` | Short title for objective N (1-3). From the Objectives section of the plan. |
+| `{{OBJECTIVE_N_DESCRIPTION}}` | 1-2 sentence description for objective N. |
+| `{{OBJECTIVE_N_TACTIC_PILL}}` | Tactic pill text, e.g. `Tactic 1 · Weeks 1–4` |
 
 ### Step 3 — Handle optional blocks
 - `<!-- IF:GRANT_BUDGET -->` — include only if plan has a grant budget. Remove the IF markers if keeping, remove the whole block if not.
 - `<!-- IF:TARGET_MILESTONE -->` — include only if plan has a specific target event/milestone.
 - `<!-- IF:GBP_QUICK_WINS -->` — include only if plan has a GBP Quick Wins section. Also show/hide the GBP nav item accordingly.
+
+### Step 3.5 — Build the Assessment page
+
+The Assessment page displays the client's digital marketing audit results. Rebuild the entire `<section id="page-assessment">` content based on the client's assessment data.
+
+**Required sections:**
+1. **Assessment Hero** — Title, assessment date, and "Complete" badge
+2. **Summary Section** — Overall grade with breakdown:
+   - Overall grade badge (A/B/C/D/F)
+   - Grade breakdown metrics (e.g., Website: B+, SEO: C, Social: A-)
+   - Key summary points as bullet list
+3. **Recommendations Section** — Priority recommendations:
+   - Use `.recommendation-card` for each recommendation
+   - Include priority level, category, and description
+4. **Audit Sections** — Detailed findings per category:
+   - Website Performance (with metrics grid)
+   - SEO Analysis (with keyword data if available)
+   - Social Media Analysis (with platform-specific cards)
+   - Google Business Profile (if applicable)
+
+**Assessment content sources:**
+- Assessment date from command parameter or plan meta
+- Grades and metrics from the client's audit data
+- Recommendations prioritized by impact
+
+### Step 3.6 — Build the Strategy page
+
+The Strategy page presents the 90-day plan overview. Fill in the following sections:
+
+**1. Goal Section** (`.strategy-goal`)
+- Copy the full `{{GOAL_TEXT}}` from the plan's Goal section
+
+**2. Strategic Positioning** (`.strategy-positioning`)
+- Copy `{{STRATEGIC_POSITIONING}}` from the plan
+
+**3. Objectives Cards** (`.strategy-objectives`)
+Build 3 objective cards, one per objective from the plan:
+```html
+<div class="objective-card">
+  <div class="objective-number">1</div>
+  <h3 class="objective-title">{{OBJECTIVE_1_TITLE}}</h3>
+  <p class="objective-description">{{OBJECTIVE_1_DESCRIPTION}}</p>
+  <span class="objective-tactic-pill">{{OBJECTIVE_1_TACTIC_PILL}}</span>
+</div>
+```
+
+**4. Tactics Overview** (`.tactics-overview`)
+Build 3 tactic overview cards showing:
+- Tactic number and title
+- Tactic subtitle/description
+- Phase label (e.g., "Foundation", "Growth", "Scale")
 
 ### Step 4 — Rebuild the tactic pages
 Each tactic page needs full content. For each of the 3 tactics, rebuild:
@@ -107,6 +168,15 @@ For each of the 12 weeks (or however many the plan has):
 For each annotated item, add a `<button class="howto-link" onclick="howToLink('tacticN','step-tN-N')">how to</button>` on the **corresponding action bullet** in "This Week's Actions" (not on the checklist item).
 
 Match action bullets to checklist items semantically — the action that produces the checklist outcome gets the "how to" link.
+
+**PDF Download feature** — The roadmap header includes a "Download PDF" button that triggers `printRoadmap()`. The template includes print-only content that appears when printing:
+- Print header with logo, title, client name, and cohort start date
+- "About this document" section
+- "How to use this roadmap" section
+- Goal summary
+- Print footer with coach email
+
+All interactive elements (nav, buttons, checkboxes) are hidden in print via `.no-print` class and `@media print` styles. The print layout is optimized for A4/Letter paper.
 
 ### Step 6 — Update JavaScript arrays
 Find these three JS arrays/objects and update them to match the new checklist IDs:
@@ -200,6 +270,9 @@ Write a second output file to `clients/[slug]/plan.json`. This file powers the w
 - [ ] Optional sections correctly included or excluded per the plan
 - [ ] Tour step descriptions feel specific to this client, not generic
 - [ ] localStorage keys use `{{CLIENT_SLUG}}` (not `aag_`)
+- [ ] Assessment page has all required sections filled with client audit data
+- [ ] Strategy page has goal, positioning, and all 3 objectives filled
+- [ ] Print-only content has correct client name, goal, and coach email
 
 ---
 
