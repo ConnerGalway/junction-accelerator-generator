@@ -60,17 +60,21 @@
     }
 
     /* Opens downward (for top-positioned menus like topbar) */
-    .user-menu--down .user-menu__dropdown {
-      bottom: auto;
-      top: calc(100% + 8px);
-      right: 0;
-      left: auto;
+    .user-menu.user-menu--down .user-menu__dropdown {
+      bottom: auto !important;
+      top: calc(100% + 8px) !important;
+      right: 0 !important;
+      left: auto !important;
       transform: translateY(-8px);
     }
 
     .user-menu.open .user-menu__dropdown {
       opacity: 1;
       visibility: visible;
+      transform: translateY(0);
+    }
+
+    .user-menu.user-menu--down.open .user-menu__dropdown {
       transform: translateY(0);
     }
 
