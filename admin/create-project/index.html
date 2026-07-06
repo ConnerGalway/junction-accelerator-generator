@@ -381,6 +381,292 @@
       .form-row { grid-template-columns: 1fr; }
       .topbar__email { display: none; }
     }
+
+    /* ══════════════════════════════════════════════════════════════
+       ONBOARDING TOUR STYLES
+       ══════════════════════════════════════════════════════════════ */
+
+    .tour-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,21,75,0.7);
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .tour-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .tour-highlight {
+      position: relative;
+      z-index: 1001;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 0 4px var(--mint), 0 0 0 9999px rgba(17,21,75,0.7);
+      animation: pulseHighlight 2s ease-in-out infinite;
+    }
+
+    @keyframes pulseHighlight {
+      0%, 100% { box-shadow: 0 0 0 4px var(--mint), 0 0 0 9999px rgba(17,21,75,0.7); }
+      50% { box-shadow: 0 0 0 8px rgba(170,218,182,0.6), 0 0 0 9999px rgba(17,21,75,0.7); }
+    }
+
+    .tour-tooltip {
+      position: fixed;
+      z-index: 1002;
+      width: 340px;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(17,21,75,0.25);
+      padding: 24px;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s, transform 0.3s;
+    }
+
+    .tour-tooltip.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .tour-tooltip__step {
+      display: inline-block;
+      background: var(--mint);
+      color: var(--navy);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+    }
+
+    .tour-tooltip__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .tour-tooltip__desc {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .tour-tooltip__actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tour-tooltip__skip {
+      background: none;
+      border: none;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      color: var(--muted);
+      cursor: pointer;
+      padding: 8px 0;
+      transition: color 0.2s;
+    }
+
+    .tour-tooltip__skip:hover {
+      color: var(--navy);
+    }
+
+    .tour-tooltip__nav {
+      display: flex;
+      gap: 8px;
+    }
+
+    .tour-tooltip__btn {
+      height: 38px;
+      padding: 0 18px;
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tour-tooltip__btn--secondary {
+      background: var(--cream);
+      border: none;
+      color: var(--navy);
+    }
+
+    .tour-tooltip__btn--secondary:hover {
+      background: var(--cream-mid);
+    }
+
+    .tour-tooltip__btn--primary {
+      background: var(--navy);
+      border: none;
+      color: var(--mint);
+    }
+
+    .tour-tooltip__btn--primary:hover {
+      background: var(--navy-mid);
+    }
+
+    .tour-tooltip__progress {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 16px;
+    }
+
+    .tour-tooltip__dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--cream-mid);
+      transition: background 0.2s;
+    }
+
+    .tour-tooltip__dot.active {
+      background: var(--mint-dark);
+    }
+
+    /* Welcome modal (first step - centered) */
+    .tour-welcome {
+      position: fixed;
+      z-index: 1002;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 420px;
+      max-width: calc(100vw - 40px);
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(17,21,75,0.3);
+      padding: 40px;
+      text-align: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .tour-welcome.visible {
+      opacity: 1;
+      visibility: visible;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .tour-welcome__icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tour-welcome__icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--navy);
+    }
+
+    .tour-welcome__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .tour-welcome__desc {
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--muted);
+      margin-bottom: 28px;
+    }
+
+    .tour-welcome__actions {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .tour-welcome__btn {
+      height: 48px;
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .tour-welcome__btn--primary {
+      background: var(--navy);
+      border: none;
+      color: var(--mint);
+    }
+
+    .tour-welcome__btn--primary:hover {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .tour-welcome__btn--secondary {
+      background: transparent;
+      border: 1.5px solid var(--border);
+      color: var(--muted);
+    }
+
+    .tour-welcome__btn--secondary:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    /* Pointer arrow */
+    .tour-tooltip::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      background: #fff;
+      transform: rotate(45deg);
+    }
+
+    .tour-tooltip.arrow-top::before {
+      top: -8px;
+      left: 30px;
+    }
+
+    .tour-tooltip.arrow-bottom::before {
+      bottom: -8px;
+      left: 30px;
+    }
+
+    .tour-tooltip.arrow-left::before {
+      left: -8px;
+      top: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .tour-tooltip {
+        width: calc(100vw - 32px);
+        left: 16px !important;
+        right: 16px !important;
+      }
+
+      .tour-welcome {
+        padding: 32px 24px;
+      }
+    }
   </style>
 </head>
 <body data-page="admin-create-project">
@@ -481,6 +767,50 @@
 
   <footer class="footer">eLearningU &nbsp;&middot;&nbsp; &copy; 2026</footer>
 
+  <!-- ══ ONBOARDING TOUR ═══════════════════════════════════════ -->
+  <div class="tour-overlay" id="tourOverlay"></div>
+
+  <!-- Welcome Modal -->
+  <div class="tour-welcome" id="tourWelcome">
+    <div class="tour-welcome__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+        <polyline points="14 2 14 8 20 8"></polyline>
+        <line x1="16" y1="13" x2="8" y2="13"></line>
+        <line x1="16" y1="17" x2="8" y2="17"></line>
+        <polyline points="10 9 9 9 8 9"></polyline>
+      </svg>
+    </div>
+    <h2 class="tour-welcome__title">Welcome to Project Creation</h2>
+    <p class="tour-welcome__desc">
+      This tool lets you create new accelerator projects by uploading a plan.md file.
+      Let's walk through the process together.
+    </p>
+    <div class="tour-welcome__actions">
+      <button class="tour-welcome__btn tour-welcome__btn--primary" onclick="startTour()">
+        Take the Tour
+      </button>
+      <button class="tour-welcome__btn tour-welcome__btn--secondary" onclick="skipTour()">
+        Skip, I know what I'm doing
+      </button>
+    </div>
+  </div>
+
+  <!-- Tour Tooltip (positioned dynamically) -->
+  <div class="tour-tooltip" id="tourTooltip">
+    <span class="tour-tooltip__step" id="tourStepLabel">Step 1 of 5</span>
+    <h3 class="tour-tooltip__title" id="tourTitle">Step Title</h3>
+    <p class="tour-tooltip__desc" id="tourDesc">Step description goes here.</p>
+    <div class="tour-tooltip__actions">
+      <button class="tour-tooltip__skip" onclick="skipTour()">Skip tour</button>
+      <div class="tour-tooltip__nav">
+        <button class="tour-tooltip__btn tour-tooltip__btn--secondary" id="tourPrevBtn" onclick="prevStep()">Back</button>
+        <button class="tour-tooltip__btn tour-tooltip__btn--primary" id="tourNextBtn" onclick="nextStep()">Next</button>
+      </div>
+    </div>
+    <div class="tour-tooltip__progress" id="tourProgress"></div>
+  </div>
+
   <script src="/shared/supabase-client.js"></script>
   <script src="/shared/auth.js"></script>
   <script src="/shared/user-menu.js?v=2"></script>
@@ -509,6 +839,9 @@
 
       await loadCoaches();
       setupEventListeners();
+
+      // Show onboarding tour for first-time users
+      checkShowTour();
     })();
 
     // ══════════════════════════════════════════════════════════════
@@ -736,6 +1069,198 @@
       el.classList.add('visible');
       document.getElementById('errorMessage').classList.remove('visible');
     }
+
+    // ══════════════════════════════════════════════════════════════
+    // ONBOARDING TOUR
+    // ══════════════════════════════════════════════════════════════
+
+    const TOUR_STORAGE_KEY = 'createProject_tourCompleted';
+    let currentTourStep = 0;
+    let highlightedElement = null;
+
+    const TOUR_STEPS = [
+      {
+        target: '#clientName',
+        title: 'Client Name',
+        desc: 'Enter the full business name exactly as you want it to appear on their accelerator page. This will be displayed in the header and throughout the project.',
+        position: 'bottom'
+      },
+      {
+        target: '#slug',
+        title: 'URL Slug',
+        desc: 'This is automatically generated from the client name. It becomes the URL path (e.g., accelerator.elearningu.com/alberni-adventure-gear). You can edit it if needed.',
+        position: 'bottom'
+      },
+      {
+        target: '#coach',
+        title: 'Assigned Coach',
+        desc: 'Select the coach who will be responsible for this client. They will receive access to view and manage the project from their dashboard.',
+        position: 'bottom'
+      },
+      {
+        target: '.form-row',
+        title: 'Important Dates',
+        desc: 'Set the cohort start date (when the 12-week program begins) and the assessment date (when the initial audit was completed). These dates appear on the client\'s accelerator page.',
+        position: 'bottom'
+      },
+      {
+        target: '#fileUpload',
+        title: 'Upload Plan File',
+        desc: 'This is the most important step! Upload the plan.md file that contains all the client\'s goals, tactics, and weekly roadmap. The system will parse this file to generate their complete accelerator page.',
+        position: 'top'
+      }
+    ];
+
+    function checkShowTour() {
+      // Check if tour was already completed
+      if (localStorage.getItem(TOUR_STORAGE_KEY) === 'true') {
+        return;
+      }
+
+      // Show welcome modal after a brief delay
+      setTimeout(() => {
+        document.getElementById('tourOverlay').classList.add('active');
+        document.getElementById('tourWelcome').classList.add('visible');
+      }, 500);
+    }
+
+    function startTour() {
+      // Hide welcome modal
+      document.getElementById('tourWelcome').classList.remove('visible');
+
+      // Start tour steps
+      currentTourStep = 0;
+      showTourStep(currentTourStep);
+    }
+
+    function skipTour() {
+      // Mark tour as completed
+      localStorage.setItem(TOUR_STORAGE_KEY, 'true');
+
+      // Clean up
+      endTour();
+    }
+
+    function endTour() {
+      // Hide overlay and tooltip
+      document.getElementById('tourOverlay').classList.remove('active');
+      document.getElementById('tourWelcome').classList.remove('visible');
+      document.getElementById('tourTooltip').classList.remove('visible');
+
+      // Remove highlight from any element
+      if (highlightedElement) {
+        highlightedElement.classList.remove('tour-highlight');
+        highlightedElement = null;
+      }
+
+      // Mark as completed
+      localStorage.setItem(TOUR_STORAGE_KEY, 'true');
+    }
+
+    function showTourStep(stepIndex) {
+      const step = TOUR_STEPS[stepIndex];
+      const tooltip = document.getElementById('tourTooltip');
+      const target = document.querySelector(step.target);
+
+      if (!target) {
+        nextStep();
+        return;
+      }
+
+      // Remove previous highlight
+      if (highlightedElement) {
+        highlightedElement.classList.remove('tour-highlight');
+      }
+
+      // Add highlight to new target
+      highlightedElement = target.closest('.form-group') || target;
+      highlightedElement.classList.add('tour-highlight');
+
+      // Scroll element into view
+      highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      // Update tooltip content
+      document.getElementById('tourStepLabel').textContent = `Step ${stepIndex + 1} of ${TOUR_STEPS.length}`;
+      document.getElementById('tourTitle').textContent = step.title;
+      document.getElementById('tourDesc').textContent = step.desc;
+
+      // Update progress dots
+      const progressHtml = TOUR_STEPS.map((_, i) =>
+        `<span class="tour-tooltip__dot ${i === stepIndex ? 'active' : ''}"></span>`
+      ).join('');
+      document.getElementById('tourProgress').innerHTML = progressHtml;
+
+      // Update buttons
+      document.getElementById('tourPrevBtn').style.display = stepIndex === 0 ? 'none' : 'block';
+      document.getElementById('tourNextBtn').textContent = stepIndex === TOUR_STEPS.length - 1 ? 'Finish' : 'Next';
+
+      // Position tooltip
+      setTimeout(() => {
+        positionTooltip(target, step.position);
+        tooltip.classList.add('visible');
+      }, 100);
+    }
+
+    function positionTooltip(target, position) {
+      const tooltip = document.getElementById('tourTooltip');
+      const targetRect = target.getBoundingClientRect();
+      const tooltipRect = tooltip.getBoundingClientRect();
+
+      // Remove arrow classes
+      tooltip.classList.remove('arrow-top', 'arrow-bottom', 'arrow-left');
+
+      let top, left;
+
+      if (position === 'bottom') {
+        top = targetRect.bottom + 16;
+        left = targetRect.left;
+        tooltip.classList.add('arrow-top');
+      } else if (position === 'top') {
+        top = targetRect.top - tooltipRect.height - 16;
+        left = targetRect.left;
+        tooltip.classList.add('arrow-bottom');
+      }
+
+      // Keep tooltip on screen
+      const maxLeft = window.innerWidth - tooltipRect.width - 16;
+      left = Math.max(16, Math.min(left, maxLeft));
+
+      // Adjust for top overflow
+      if (top < 80) {
+        top = targetRect.bottom + 16;
+        tooltip.classList.remove('arrow-bottom');
+        tooltip.classList.add('arrow-top');
+      }
+
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+    }
+
+    function nextStep() {
+      if (currentTourStep < TOUR_STEPS.length - 1) {
+        currentTourStep++;
+        document.getElementById('tourTooltip').classList.remove('visible');
+        setTimeout(() => showTourStep(currentTourStep), 200);
+      } else {
+        // Tour complete
+        endTour();
+      }
+    }
+
+    function prevStep() {
+      if (currentTourStep > 0) {
+        currentTourStep--;
+        document.getElementById('tourTooltip').classList.remove('visible');
+        setTimeout(() => showTourStep(currentTourStep), 200);
+      }
+    }
+
+    // Allow restarting tour from console: restartTour()
+    window.restartTour = function() {
+      localStorage.removeItem(TOUR_STORAGE_KEY);
+      document.getElementById('tourOverlay').classList.add('active');
+      document.getElementById('tourWelcome').classList.add('visible');
+    };
   </script>
 </body>
 </html>
