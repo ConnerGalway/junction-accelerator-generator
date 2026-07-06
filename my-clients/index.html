@@ -100,6 +100,42 @@
       color: var(--muted);
     }
 
+    .page-header__row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .btn-create {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-create:hover {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .btn-create svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* ── Project gallery ────────────────────────────────── */
     .project-gallery {
       display: grid;
@@ -276,9 +312,20 @@
   <main class="main">
 
     <div class="page-header">
-      <p class="page-header__eyebrow">Dashboard</p>
-      <h1 class="page-header__title">Accelerator Projects</h1>
-      <p class="page-header__sub" id="projectCount"></p>
+      <div class="page-header__row">
+        <div>
+          <p class="page-header__eyebrow">Dashboard</p>
+          <h1 class="page-header__title">Accelerator Projects</h1>
+          <p class="page-header__sub" id="projectCount"></p>
+        </div>
+        <a href="/admin/create-project/" class="btn-create" id="createProjectBtn" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create Project
+        </a>
+      </div>
     </div>
 
     <div class="project-gallery" id="projectGallery">
@@ -323,6 +370,11 @@
 
       document.getElementById('topbarEmail').textContent = user.email;
       window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
+
+      // Show create button for admin/psm users
+      if (user.role === 'admin' || user.role === 'psm') {
+        document.getElementById('createProjectBtn').style.display = 'inline-flex';
+      }
 
       await loadProjects();
     })();
