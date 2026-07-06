@@ -3332,6 +3332,16 @@ body:not(.has-plan) .plan-content{display:none}
     <div class="page-header-eyebrow">eLearningU · Accelerator Program</div>
     <h1>Welcome to Your Accelerator</h1>
     <p>Build a sustainable content-to-ads marketing system that tells your story and fills tables</p>
+    <button class="share-btn no-print" onclick="openShareModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      <span>Share Access</span>
+    </button>
   </div>
   <div class="content-area">
 
@@ -4713,6 +4723,7 @@ function howToLink(page, stepId) {
 <script src="/shared/auth.js"></script>
 <script src="/shared/user-menu.js"></script>
 <script src="/shared/progress.js"></script>
+<script src="/shared/share-modal.js"></script>
 <script>
 // Initialize user menu when auth is ready
 if (window.__authReady) {
