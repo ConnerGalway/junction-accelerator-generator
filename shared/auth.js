@@ -8,8 +8,9 @@
 //   coach  → access to assigned projects only
 //   client → access to their own project only
 //
-// Two page contexts are handled:
+// Page contexts handled:
 //   data-page="my-clients"  → verify admin/psm/coach; redirect clients to their plan
+//   data-page="admin-*"     → verify admin/psm only; redirect others to my-clients
 //   data-client-slug="..."  → verify access to that specific client plan
 
 window.__authReady = (async function () {
@@ -62,6 +63,36 @@ window.__authReady = (async function () {
 
     // Return highest priority role
     const role = adminRow ? 'admin' : (psmRow ? 'psm' : 'coach');
+    return { email: userEmail, role: role };
+  }
+
+  // ==================================================================
+  // ADMIN PAGES (data-page starts with "admin-")
+  // Verify the user is admin or psm. Redirect others to my-clients.
+  // ==================================================================
+  if (page && page.startsWith('admin-')) {
+
+    const { data: rows } = await supabaseClient
+      .from('user_plans')
+      .select('role, client_slug')
+      .eq('email', userEmail)
+      .eq('active', true);
+
+    if (!rows || rows.length === 0) {
+      window.location.replace('/login');
+      return new Promise(() => {});
+    }
+
+    const adminRow = rows.find(r => r.role === 'admin');
+    const psmRow   = rows.find(r => r.role === 'psm');
+
+    if (!adminRow && !psmRow) {
+      // Not admin/psm — redirect to dashboard
+      window.location.replace('/my-clients/');
+      return new Promise(() => {});
+    }
+
+    const role = adminRow ? 'admin' : 'psm';
     return { email: userEmail, role: role };
   }
 
