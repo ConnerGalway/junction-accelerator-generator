@@ -150,23 +150,48 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 8. CREATE SUPABASE ENTRY
+    // 8. CREATE OR UPDATE SUPABASE ENTRY (upsert logic)
     // ─────────────────────────────────────────────────────────────────────────
-    const { error: dbError } = await supabaseAdmin
+    // Check if coach already has an entry for this project
+    const { data: existingCoach } = await supabaseAdmin
       .from('user_plans')
-      .insert({
-        email: coachEmail,
-        role: 'coach',
-        client_slug: slug,
-        coach_email: coachEmail,
-        cohort_start_date: cohortStartDate,
-        active: true
-      });
+      .select('id')
+      .eq('email', coachEmail)
+      .eq('client_slug', slug);
 
-    if (dbError) {
-      console.error('Supabase error:', dbError);
-      // Don't fail the whole request - files are already committed
-      // Log for manual recovery
+    if (existingCoach && existingCoach.length > 0) {
+      // Update existing record
+      const { error: updateError } = await supabaseAdmin
+        .from('user_plans')
+        .update({
+          role: 'coach',
+          coach_email: coachEmail,
+          cohort_start_date: cohortStartDate,
+          active: true
+        })
+        .eq('id', existingCoach[0].id);
+
+      if (updateError) {
+        console.error('Supabase update error:', updateError);
+      }
+    } else {
+      // Insert new record
+      const { error: dbError } = await supabaseAdmin
+        .from('user_plans')
+        .insert({
+          email: coachEmail,
+          role: 'coach',
+          client_slug: slug,
+          coach_email: coachEmail,
+          cohort_start_date: cohortStartDate,
+          active: true
+        });
+
+      if (dbError) {
+        console.error('Supabase insert error:', dbError);
+        // Don't fail the whole request - files are already committed
+        // Log for manual recovery
+      }
     }
 
     // ─────────────────────────────────────────────────────────────────────────

@@ -91,46 +91,65 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 3. CHECK IF EMAIL ALREADY HAS ACCESS
+    // 3. CHECK IF EMAIL ALREADY HAS ACCESS (active or inactive)
     // ─────────────────────────────────────────────────────────────────────────
     const { data: existingAccess } = await supabaseAdmin
       .from('user_plans')
-      .select('id')
+      .select('id, active')
       .eq('email', email.toLowerCase())
-      .eq('client_slug', clientSlug)
-      .eq('active', true);
+      .eq('client_slug', clientSlug);
 
     if (existingAccess && existingAccess.length > 0) {
-      return {
-        statusCode: 200,
-        headers,
-        body: JSON.stringify({
-          success: true,
-          message: 'This email already has access to this dashboard',
-          alreadyExists: true
-        })
-      };
-    }
+      const existingRow = existingAccess[0];
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 4. CREATE USER_PLANS ENTRY
-    // ─────────────────────────────────────────────────────────────────────────
-    const { error: insertError } = await supabaseAdmin
-      .from('user_plans')
-      .insert({
-        email: email.toLowerCase(),
-        role: 'client',
-        client_slug: clientSlug,
-        active: true
-      });
+      if (existingRow.active) {
+        // Already has active access
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: 'This email already has access to this dashboard',
+            alreadyExists: true
+          })
+        };
+      } else {
+        // Reactivate existing inactive record
+        const { error: updateError } = await supabaseAdmin
+          .from('user_plans')
+          .update({ active: true })
+          .eq('id', existingRow.id);
 
-    if (insertError) {
-      console.error('Supabase insert error:', insertError);
-      return {
-        statusCode: 500,
-        headers,
-        body: JSON.stringify({ error: 'Failed to grant access. Please try again.' })
-      };
+        if (updateError) {
+          console.error('Supabase update error:', updateError);
+          return {
+            statusCode: 500,
+            headers,
+            body: JSON.stringify({ error: 'Failed to grant access. Please try again.' })
+          };
+        }
+      }
+    } else {
+      // ─────────────────────────────────────────────────────────────────────────
+      // 4. CREATE NEW USER_PLANS ENTRY
+      // ─────────────────────────────────────────────────────────────────────────
+      const { error: insertError } = await supabaseAdmin
+        .from('user_plans')
+        .insert({
+          email: email.toLowerCase(),
+          role: 'client',
+          client_slug: clientSlug,
+          active: true
+        });
+
+      if (insertError) {
+        console.error('Supabase insert error:', insertError);
+        return {
+          statusCode: 500,
+          headers,
+          body: JSON.stringify({ error: 'Failed to grant access. Please try again.' })
+        };
+      }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
