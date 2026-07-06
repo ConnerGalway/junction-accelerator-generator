@@ -1107,7 +1107,7 @@
         target: '#fileUpload',
         title: 'Upload Plan File',
         desc: 'This is the most important step! Upload the plan.md file that contains all the client\'s goals, tactics, and weekly roadmap. The system will parse this file to generate their complete accelerator page.',
-        position: 'top'
+        position: 'bottom'
       }
     ];
 
@@ -1176,7 +1176,7 @@
       highlightedElement = target.closest('.form-group') || target;
       highlightedElement.classList.add('tour-highlight');
 
-      // Scroll element into view
+      // Scroll element into view with room for tooltip
       highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
       // Update tooltip content
@@ -1205,6 +1205,7 @@
       const tooltip = document.getElementById('tourTooltip');
       const targetRect = target.getBoundingClientRect();
       const tooltipRect = tooltip.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
 
       // Remove arrow classes
       tooltip.classList.remove('arrow-top', 'arrow-bottom', 'arrow-left');
@@ -1221,15 +1222,30 @@
         tooltip.classList.add('arrow-bottom');
       }
 
-      // Keep tooltip on screen
+      // Keep tooltip on screen horizontally
       const maxLeft = window.innerWidth - tooltipRect.width - 16;
       left = Math.max(16, Math.min(left, maxLeft));
 
-      // Adjust for top overflow
+      // Adjust for top overflow - flip to bottom
       if (top < 80) {
         top = targetRect.bottom + 16;
         tooltip.classList.remove('arrow-bottom');
         tooltip.classList.add('arrow-top');
+      }
+
+      // Adjust for bottom overflow - flip to top or constrain
+      const tooltipBottom = top + tooltipRect.height;
+      if (tooltipBottom > viewportHeight - 16) {
+        // Try placing above the element
+        const topPosition = targetRect.top - tooltipRect.height - 16;
+        if (topPosition >= 80) {
+          top = topPosition;
+          tooltip.classList.remove('arrow-top');
+          tooltip.classList.add('arrow-bottom');
+        } else {
+          // Constrain to viewport if neither position works
+          top = viewportHeight - tooltipRect.height - 16;
+        }
       }
 
       tooltip.style.top = `${top}px`;
