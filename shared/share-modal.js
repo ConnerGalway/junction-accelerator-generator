@@ -1,6 +1,6 @@
 // share-modal.js
 // Provides share dashboard functionality for client project pages
-// Injects modal HTML/CSS and handles form submission
+// Injects a fixed top-right Share button and modal
 
 (function() {
   'use strict';
@@ -10,30 +10,42 @@
   // ══════════════════════════════════════════════════════════════════════════
 
   const styles = `
-    /* Share button */
-    .share-btn {
+    /* Fixed Share button - top right of main content */
+    .share-btn-fixed {
       display: none; /* Hidden by default, shown via JS for clients */
+      position: fixed;
+      top: 12px;
+      right: 16px;
+      z-index: 99;
       align-items: center;
-      gap: 8px;
-      padding: 10px 18px;
-      background: var(--mint);
-      color: var(--navy);
+      gap: 6px;
+      padding: 6px 12px;
+      background: var(--navy, #11154b);
+      color: var(--mint, #aadab6);
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       font-family: 'Open Sans', sans-serif;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 600;
       cursor: pointer;
-      transition: transform 0.15s, box-shadow 0.15s;
-      margin-top: 16px;
+      transition: background 0.15s, transform 0.15s;
+      box-shadow: 0 2px 8px rgba(17,21,75,0.15);
     }
-    .share-btn:hover {
+    .share-btn-fixed:hover {
+      background: var(--navy-light, #1a1f6b);
       transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(17,21,75,0.15);
     }
-    .share-btn svg {
-      width: 16px;
-      height: 16px;
+    .share-btn-fixed svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Desktop: position relative to main content area */
+    @media (min-width: 901px) {
+      .share-btn-fixed {
+        top: 16px;
+        right: 24px;
+      }
     }
 
     /* Share modal overlay */
@@ -182,11 +194,18 @@
       .share-modal {
         padding: 24px;
       }
-      .share-btn span {
+      .share-btn-fixed span {
         display: none;
       }
-      .share-btn {
-        padding: 10px 12px;
+      .share-btn-fixed {
+        padding: 8px;
+      }
+    }
+
+    /* Hide in print */
+    @media print {
+      .share-btn-fixed {
+        display: none !important;
       }
     }
   `;
@@ -197,8 +216,21 @@
   document.head.appendChild(styleEl);
 
   // ══════════════════════════════════════════════════════════════════════════
-  // INJECT MODAL HTML
+  // INJECT BUTTON AND MODAL HTML
   // ══════════════════════════════════════════════════════════════════════════
+
+  const buttonHtml = `
+    <button class="share-btn-fixed" id="shareButtonFixed" onclick="window.openShareModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      <span>Share</span>
+    </button>
+  `;
 
   const modalHtml = `
     <div class="share-modal-overlay" id="shareModalOverlay">
@@ -215,8 +247,9 @@
     </div>
   `;
 
-  // Inject modal into body
+  // Inject into body
   document.addEventListener('DOMContentLoaded', function() {
+    document.body.insertAdjacentHTML('beforeend', buttonHtml);
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
     // Attach form handler
@@ -237,7 +270,7 @@
 
     // Close on Escape key
     document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape' && overlay.classList.contains('active')) {
+      if (e.key === 'Escape' && overlay && overlay.classList.contains('active')) {
         window.closeShareModal();
       }
     });
@@ -256,7 +289,7 @@
       return;
     }
 
-    const shareBtn = document.querySelector('.share-btn');
+    const shareBtn = document.getElementById('shareButtonFixed');
     if (shareBtn) {
       shareBtn.style.display = 'inline-flex';
     }
