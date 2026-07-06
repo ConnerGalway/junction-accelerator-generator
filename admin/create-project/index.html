@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Project — eLearningU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --cream-mid: #f5ede0;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+      --border:    rgba(17,21,75,0.1);
+      --danger:    #b03030;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── Top bar ────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      box-shadow: 0 2px 16px rgba(17,21,75,0.18);
+    }
+
+    .topbar__logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--mint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar__email {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.01em;
+    }
+
+    .topbar__back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .topbar__back:hover {
+      color: #fff;
+    }
+
+    .topbar__back svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Main content ───────────────────────────────────── */
+    .main {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ── Page header ────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .page-header__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint-dark);
+      margin-bottom: 10px;
+    }
+
+    .page-header__title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .page-header__sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── Form card ──────────────────────────────────────── */
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 32px;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.08);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── File upload ────────────────────────────────────── */
+    .file-upload {
+      border: 2px dashed var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+    }
+
+    .file-upload:hover {
+      border-color: var(--navy);
+      background: rgba(17,21,75,0.02);
+    }
+
+    .file-upload.dragover {
+      border-color: var(--mint-dark);
+      background: rgba(170,218,182,0.1);
+    }
+
+    .file-upload.has-file {
+      border-color: var(--mint-dark);
+      border-style: solid;
+      background: rgba(170,218,182,0.08);
+    }
+
+    .file-upload__icon {
+      width: 48px;
+      height: 48px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .file-upload.has-file .file-upload__icon {
+      color: var(--mint-dark);
+    }
+
+    .file-upload__text {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .file-upload__text strong {
+      color: var(--navy);
+    }
+
+    .file-upload__filename {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-top: 8px;
+    }
+
+    .file-upload input[type="file"] {
+      display: none;
+    }
+
+    /* ── Preview panel ──────────────────────────────────── */
+    .preview-panel {
+      margin-top: 24px;
+      padding: 20px;
+      background: var(--cream);
+      border-radius: 10px;
+      display: none;
+    }
+
+    .preview-panel.visible {
+      display: block;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .preview-panel__title {
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .preview-panel__item {
+      margin-bottom: 12px;
+    }
+
+    .preview-panel__item:last-child {
+      margin-bottom: 0;
+    }
+
+    .preview-panel__label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+
+    .preview-panel__value {
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    /* ── Submit button ──────────────────────────────────── */
+    .btn-submit {
+      width: 100%;
+      height: 50px;
+      margin-top: 32px;
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn-submit.loading {
+      position: relative;
+      color: transparent;
+    }
+
+    .btn-submit.loading::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      top: 50%;
+      left: 50%;
+      margin: -10px 0 0 -10px;
+      border: 2px solid var(--mint);
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Error/Success messages ─────────────────────────── */
+    .message {
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .message.visible {
+      display: block;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .message--error {
+      background: rgba(176,48,48,0.1);
+      border: 1px solid rgba(176,48,48,0.2);
+      color: var(--danger);
+    }
+
+    .message--success {
+      background: rgba(170,218,182,0.2);
+      border: 1px solid rgba(127,191,142,0.3);
+      color: #2d6a3e;
+    }
+
+    .message a {
+      color: inherit;
+      font-weight: 600;
+    }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Animations ─────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 20px; }
+      .main { padding: 32px 20px 60px; }
+      .form-card { padding: 24px; }
+      .form-row { grid-template-columns: 1fr; }
+      .topbar__email { display: none; }
+    }
+  </style>
+</head>
+<body data-page="admin-create-project">
+
+  <!-- ══ TOP BAR ═══════════════════════════════════════════ -->
+  <header class="topbar">
+    <div class="topbar__logo">eLearningU</div>
+    <div class="topbar__right">
+      <a href="/my-clients/" class="topbar__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to Projects
+      </a>
+      <span class="topbar__email" id="topbarEmail"></span>
+      <div id="userMenuContainer"></div>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ══════════════════════════════════════════════ -->
+  <main class="main">
+
+    <div class="page-header">
+      <p class="page-header__eyebrow">Admin</p>
+      <h1 class="page-header__title">Create New Project</h1>
+      <p class="page-header__sub">Upload a plan.md file to generate a new accelerator page</p>
+    </div>
+
+    <div id="errorMessage" class="message message--error"></div>
+    <div id="successMessage" class="message message--success"></div>
+
+    <div class="form-card">
+      <form id="createProjectForm">
+        <div class="form-group">
+          <label class="form-label" for="clientName">Client Name</label>
+          <input type="text" class="form-input" id="clientName" placeholder="e.g., Alberni Adventure Gear" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="slug">URL Slug</label>
+          <input type="text" class="form-input" id="slug" placeholder="e.g., alberni-adventure-gear" required>
+          <p class="form-hint">Auto-generated from client name. Lowercase, hyphens only.</p>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="coach">Assigned Coach</label>
+          <select class="form-input" id="coach" required>
+            <option value="">Select a coach...</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label" for="cohortStartDate">Cohort Start Date</label>
+            <input type="date" class="form-input" id="cohortStartDate" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="assessmentDate">Assessment Date</label>
+            <input type="date" class="form-input" id="assessmentDate" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Plan File</label>
+          <div class="file-upload" id="fileUpload">
+            <svg class="file-upload__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+              <line x1="12" y1="18" x2="12" y2="12"></line>
+              <line x1="9" y1="15" x2="15" y2="15"></line>
+            </svg>
+            <p class="file-upload__text">
+              <strong>Click to upload</strong> or drag and drop<br>
+              plan.md file (max 500KB)
+            </p>
+            <p class="file-upload__filename" id="fileName"></p>
+            <input type="file" id="planFile" accept=".md">
+          </div>
+        </div>
+
+        <div class="preview-panel" id="previewPanel">
+          <p class="preview-panel__title">Plan Preview</p>
+          <div class="preview-panel__item">
+            <p class="preview-panel__label">Goal</p>
+            <p class="preview-panel__value" id="previewGoal"></p>
+          </div>
+          <div class="preview-panel__item">
+            <p class="preview-panel__label">Tactics</p>
+            <p class="preview-panel__value" id="previewTactics"></p>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Create Project</button>
+      </form>
+    </div>
+
+  </main>
+
+  <footer class="footer">eLearningU &nbsp;&middot;&nbsp; &copy; 2026</footer>
+
+  <script src="/shared/supabase-client.js"></script>
+  <script src="/shared/auth.js"></script>
+  <script src="/shared/user-menu.js?v=2"></script>
+  <script>
+    // ══════════════════════════════════════════════════════════════
+    // STATE
+    // ══════════════════════════════════════════════════════════════
+    let currentUser = null;
+    let planMdContent = null;
+
+    // ══════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ══════════════════════════════════════════════════════════════
+    (async function init() {
+      const user = await window.__authReady;
+      currentUser = user;
+
+      // Check admin/psm role
+      if (user.role !== 'admin' && user.role !== 'psm') {
+        window.location.replace('/my-clients/');
+        return;
+      }
+
+      document.getElementById('topbarEmail').textContent = user.email;
+      window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
+
+      await loadCoaches();
+      setupEventListeners();
+    })();
+
+    // ══════════════════════════════════════════════════════════════
+    // LOAD COACHES FOR DROPDOWN
+    // ══════════════════════════════════════════════════════════════
+    async function loadCoaches() {
+      const { data: coaches } = await supabaseClient
+        .from('user_plans')
+        .select('email')
+        .in('role', ['coach', 'admin'])
+        .eq('active', true);
+
+      const uniqueEmails = [...new Set((coaches || []).map(c => c.email))].sort();
+      const select = document.getElementById('coach');
+
+      uniqueEmails.forEach(email => {
+        const option = document.createElement('option');
+        option.value = email;
+        option.textContent = email;
+        select.appendChild(option);
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // EVENT LISTENERS
+    // ══════════════════════════════════════════════════════════════
+    function setupEventListeners() {
+      const clientNameInput = document.getElementById('clientName');
+      const slugInput = document.getElementById('slug');
+      const fileUpload = document.getElementById('fileUpload');
+      const fileInput = document.getElementById('planFile');
+      const form = document.getElementById('createProjectForm');
+
+      // Auto-generate slug from client name
+      clientNameInput.addEventListener('input', () => {
+        const slug = clientNameInput.value
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+        slugInput.value = slug;
+      });
+
+      // File upload click
+      fileUpload.addEventListener('click', () => fileInput.click());
+
+      // Drag and drop
+      fileUpload.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        fileUpload.classList.add('dragover');
+      });
+
+      fileUpload.addEventListener('dragleave', () => {
+        fileUpload.classList.remove('dragover');
+      });
+
+      fileUpload.addEventListener('drop', (e) => {
+        e.preventDefault();
+        fileUpload.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+          fileInput.files = e.dataTransfer.files;
+          handleFileSelect(e.dataTransfer.files[0]);
+        }
+      });
+
+      // File input change
+      fileInput.addEventListener('change', () => {
+        if (fileInput.files.length) {
+          handleFileSelect(fileInput.files[0]);
+        }
+      });
+
+      // Form submission
+      form.addEventListener('submit', handleSubmit);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // FILE HANDLING
+    // ══════════════════════════════════════════════════════════════
+    async function handleFileSelect(file) {
+      const fileUpload = document.getElementById('fileUpload');
+      const fileName = document.getElementById('fileName');
+      const previewPanel = document.getElementById('previewPanel');
+
+      // Validate file type
+      if (!file.name.endsWith('.md')) {
+        showError('Please upload a .md file');
+        return;
+      }
+
+      // Validate file size (500KB)
+      if (file.size > 500 * 1024) {
+        showError('File must be under 500KB');
+        return;
+      }
+
+      // Read file content
+      const content = await file.text();
+      planMdContent = content;
+
+      // Update UI
+      fileUpload.classList.add('has-file');
+      fileName.textContent = file.name;
+
+      // Parse and show preview
+      const parsed = parsePlanPreview(content);
+      if (parsed) {
+        document.getElementById('previewGoal').textContent = parsed.goal || 'Not found';
+        document.getElementById('previewTactics').textContent = parsed.tactics.join(', ') || 'Not found';
+        previewPanel.classList.add('visible');
+      }
+
+      hideError();
+    }
+
+    function parsePlanPreview(content) {
+      try {
+        // Extract goal
+        const goalMatch = content.match(/## Goal\n([\s\S]*?)(?=\n---|\n## )/);
+        const goal = goalMatch ? goalMatch[1].trim().slice(0, 150) + '...' : null;
+
+        // Extract tactic titles
+        const tacticMatches = content.matchAll(/## Tactic \d+:\s*(.+)/g);
+        const tactics = [...tacticMatches].map(m => m[1].trim());
+
+        return { goal, tactics };
+      } catch (e) {
+        return null;
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // FORM SUBMISSION
+    // ══════════════════════════════════════════════════════════════
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const clientName = document.getElementById('clientName').value.trim();
+      const slug = document.getElementById('slug').value.trim();
+      const coachEmail = document.getElementById('coach').value;
+      const cohortStartDate = document.getElementById('cohortStartDate').value;
+      const assessmentDate = document.getElementById('assessmentDate').value;
+
+      // Validate
+      if (!planMdContent) {
+        showError('Please upload a plan.md file');
+        return;
+      }
+
+      if (!slug.match(/^[a-z0-9-]+$/)) {
+        showError('Slug can only contain lowercase letters, numbers, and hyphens');
+        return;
+      }
+
+      // Show loading
+      submitBtn.disabled = true;
+      submitBtn.classList.add('loading');
+      hideError();
+
+      try {
+        // Get auth token
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        // Call Netlify Function
+        const response = await fetch('/.netlify/functions/create-project', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            clientName,
+            slug,
+            coachEmail,
+            cohortStartDate,
+            assessmentDate,
+            planMd: planMdContent
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to create project');
+        }
+
+        // Success
+        showSuccess(`Project created successfully! <a href="/${slug}/">View project</a>`);
+        document.getElementById('createProjectForm').reset();
+        document.getElementById('fileUpload').classList.remove('has-file');
+        document.getElementById('fileName').textContent = '';
+        document.getElementById('previewPanel').classList.remove('visible');
+        planMdContent = null;
+
+      } catch (err) {
+        showError(err.message);
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // MESSAGES
+    // ══════════════════════════════════════════════════════════════
+    function showError(message) {
+      const el = document.getElementById('errorMessage');
+      el.textContent = message;
+      el.classList.add('visible');
+      document.getElementById('successMessage').classList.remove('visible');
+    }
+
+    function hideError() {
+      document.getElementById('errorMessage').classList.remove('visible');
+    }
+
+    function showSuccess(message) {
+      const el = document.getElementById('successMessage');
+      el.innerHTML = message;
+      el.classList.add('visible');
+      document.getElementById('errorMessage').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>
