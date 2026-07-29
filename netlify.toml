@@ -2,6 +2,12 @@
   publish = "."
   functions = "netlify/functions"
 
+[build.environment]
+  # Exclude non-sensitive values from secrets scanning
+  # SUPABASE_URL, GITHUB_OWNER, GITHUB_REPO are public values that appear in client code
+  # GITHUB_TOKEN and SUPABASE_SERVICE_ROLE_KEY remain protected
+  SECRETS_SCAN_OMIT_KEYS = "GITHUB_OWNER,GITHUB_REPO,SUPABASE_URL"
+
 [functions]
   node_bundler = "esbuild"
 
