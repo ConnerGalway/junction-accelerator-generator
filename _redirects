@@ -16,6 +16,7 @@
 /assets/*       /assets/:splat  200
 /account/*      /account/:splat 200
 /admin/*        /admin/:splat   200
+/my-clients/*   /my-clients/:splat  200
 
 # Client plan pages
 # Files live at clients/[slug]/index.html but are served at /[slug]/
