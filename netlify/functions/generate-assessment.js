@@ -9,15 +9,19 @@ import { createClient } from '@supabase/supabase-js';
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function handler(event, context) {
+  console.log('[STEP 0] Function invoked');
+
   // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
   try {
+    console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
     const { businessName, slug, websiteUrl, location, social } = body;
+    console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
 
     // Validate required fields
     if (!businessName || !slug || !websiteUrl) {
@@ -77,6 +81,7 @@ export async function handler(event, context) {
       return { statusCode: 403, body: JSON.stringify({ error: 'Admin or PSM role required' }) };
     }
 
+    console.log('[STEP 2] Auth verified, checking if project exists');
     // ─────────────────────────────────────────────────────────────────────────
     // 2. CHECK IF PROJECT/ASSESSMENT EXISTS
     // ─────────────────────────────────────────────────────────────────────────
@@ -109,6 +114,7 @@ export async function handler(event, context) {
       };
     }
 
+    console.log('[STEP 3] Creating assessment record in Supabase');
     // ─────────────────────────────────────────────────────────────────────────
     // 3. CREATE PENDING ASSESSMENT RECORD
     // ─────────────────────────────────────────────────────────────────────────
@@ -138,6 +144,7 @@ export async function handler(event, context) {
       };
     }
 
+    console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
     // 4. FETCH SEOPTIMER DATA (REQUIRED)
     // ─────────────────────────────────────────────────────────────────────────
@@ -165,9 +172,11 @@ export async function handler(event, context) {
       };
     }
 
+    console.log('[STEP 4] SEOptimer data received');
     // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
+    console.log('[STEP 5] Generating assessment with Claude');
     const assessmentData = await generateAssessmentWithClaude({
       businessName,
       websiteUrl,
@@ -176,9 +185,11 @@ export async function handler(event, context) {
       seoptData
     });
 
+    console.log('[STEP 5] Claude assessment generated');
     // ─────────────────────────────────────────────────────────────────────────
     // 6. UPDATE ASSESSMENT RECORD WITH DATA
     // ─────────────────────────────────────────────────────────────────────────
+    console.log('[STEP 6] Updating Supabase with assessment data');
     const { error: updateError } = await supabaseAdmin
       .from('client_assessments')
       .update({
@@ -194,6 +205,7 @@ export async function handler(event, context) {
       console.error('Failed to update assessment:', updateError);
     }
 
+    console.log('[STEP 7] Fetching template from GitHub');
     // ─────────────────────────────────────────────────────────────────────────
     // 7. FETCH TEMPLATE AND GENERATE HTML
     // ─────────────────────────────────────────────────────────────────────────
@@ -226,6 +238,7 @@ export async function handler(event, context) {
       });
     }
 
+    console.log('[STEP 8] Committing to GitHub');
     // ─────────────────────────────────────────────────────────────────────────
     // 8. COMMIT TO GITHUB
     // ─────────────────────────────────────────────────────────────────────────
@@ -283,6 +296,8 @@ export async function handler(event, context) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function fetchSEOptimerReport(websiteUrl) {
+  console.log('[SEOptimer] Starting report creation for:', websiteUrl);
+
   if (!process.env.SEOPTIMER_API_KEY) {
     throw new Error('SEOPTIMER_API_KEY not configured');
   }
@@ -293,6 +308,7 @@ async function fetchSEOptimerReport(websiteUrl) {
   };
 
   // Step 1: Create the report
+  console.log('[SEOptimer] Calling create endpoint');
   const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
     method: 'POST',
     headers,
@@ -314,12 +330,14 @@ async function fetchSEOptimerReport(websiteUrl) {
   }
 
   const reportId = createResult.data.id;
+  console.log('[SEOptimer] Report created with ID:', reportId);
 
   // Step 2: Poll for the report results (may take a few seconds to process)
   const maxAttempts = 20;  // Max 20 attempts
   const pollInterval = 1500;  // 1.5 seconds between attempts (30 seconds max)
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    console.log(`[SEOptimer] Polling attempt ${attempt + 1}/${maxAttempts}`);
     await new Promise(resolve => setTimeout(resolve, pollInterval));
 
     const getResponse = await fetch(`https://api.seoptimer.com/v1/report/get/${reportId}`, {
