@@ -247,13 +247,25 @@ export async function handler(event, context) {
     });
     await updateProgress('Claude assessment complete');
 
-    console.log('[STEP 5] Claude assessment generated');
+    console.log('[STEP 5] Claude assessment generated, data:', JSON.stringify(assessmentData).substring(0, 200));
+
+    // Verify we have valid assessment data before saving
+    if (!assessmentData || !assessmentData.overall) {
+      console.error('[STEP 5] Invalid assessment data from Claude:', assessmentData);
+      await markFailed('Claude returned invalid assessment data');
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Assessment generation failed - invalid data returned' })
+      };
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     // 6. UPDATE ASSESSMENT RECORD WITH DATA
     // ─────────────────────────────────────────────────────────────────────────
     console.log('[STEP 6] Updating Supabase with assessment data');
     await updateProgress('Saving assessment to database');
-    const { error: updateError } = await supabaseAdmin
+
+    const { data: savedData, error: updateError } = await supabaseAdmin
       .from('client_assessments')
       .update({
         assessment_data: assessmentData,
@@ -264,11 +276,19 @@ export async function handler(event, context) {
         status: 'completed',
         error_message: null
       })
-      .eq('client_slug', slug);
+      .eq('client_slug', slug)
+      .select();
 
     if (updateError) {
-      console.error('Failed to update assessment:', updateError);
+      console.error('[STEP 6] Failed to update assessment:', updateError);
+      await markFailed('Failed to save assessment: ' + updateError.message);
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'Failed to save assessment data' })
+      };
     }
+
+    console.log('[STEP 6] Assessment saved successfully, rows affected:', savedData?.length || 0);
 
     // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
     // and should not block the assessment from being marked complete.
