@@ -794,9 +794,21 @@
         });
 
         // Background function returns 202 Accepted
-        if (response.status !== 202) {
-          const result = await response.json();
-          throw new Error(result.error || 'Failed to start assessment generation');
+        // If not 202, try to get error message
+        if (response.status !== 202 && response.status !== 200) {
+          let errorMsg = `Server returned ${response.status}`;
+          try {
+            const text = await response.text();
+            if (text.startsWith('{')) {
+              const result = JSON.parse(text);
+              errorMsg = result.error || errorMsg;
+            } else {
+              console.error('Non-JSON response:', text.substring(0, 200));
+            }
+          } catch (e) {
+            console.error('Failed to parse error response');
+          }
+          throw new Error(errorMsg);
         }
 
         // Poll Supabase for completion status
