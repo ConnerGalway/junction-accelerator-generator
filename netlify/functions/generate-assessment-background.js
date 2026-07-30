@@ -404,61 +404,22 @@ async function generateAssessmentWithClaude(data) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5',  // Using Haiku for speed (Sonnet times out)
-      max_tokens: 6000,
-      messages: [{
-        role: 'user',
-        content: `You are a world-class tourism digital marketing consultant. Analyze this business and generate a comprehensive digital marketing assessment.
+      model: 'claude-haiku-4-5',
+      max_tokens: 8000,
+      messages: [
+        {
+          role: 'user',
+          content: `Analyze this business and generate a digital marketing assessment. Return ONLY valid JSON - no markdown, no explanation, just the JSON object.
 
 ${context}
 
-Generate a detailed assessment covering ALL 8 categories. For each category, provide:
-- A letter grade (A, B, C, D, or F)
-- A score (0-100)
-- A 2-3 sentence summary
-- 3-5 specific metrics with values and status (good/warning/critical)
-- 2-4 findings (mix of positive and negative)
-- 2-4 prioritized recommendations
+Return a JSON object with this EXACT structure (fill in real data based on the business info above):
 
-Return your assessment as a JSON object with this exact structure:
-{
-  "overall": {
-    "grade": "B+",
-    "score": 78,
-    "summary": "Overall assessment summary..."
-  },
-  "categories": {
-    "website_technical": {
-      "grade": "B",
-      "score": 72,
-      "title": "Website & Technical Foundation",
-      "summary": "...",
-      "metrics": [
-        { "label": "Page Speed", "value": "2.3s", "status": "warning", "tooltip": "Optimal is under 2s" }
-      ],
-      "findings": [
-        { "type": "positive", "text": "SSL certificate is valid and properly configured" },
-        { "type": "negative", "text": "Missing H1 tag on homepage" }
-      ],
-      "recommendations": [
-        { "priority": "high", "text": "Add descriptive H1 tag to homepage" }
+{"overall":{"grade":"B","score":72,"summary":"Brief overall assessment"},"categories":{"website_technical":{"grade":"B","score":70,"title":"Website & Technical Foundation","summary":"Assessment of website","metrics":[{"label":"Metric Name","value":"Value","status":"good","tooltip":"Explanation"}],"findings":[{"type":"positive","text":"Good finding"},{"type":"negative","text":"Issue found"}],"recommendations":[{"priority":"high","text":"Recommendation"}]},"ai_search_readiness":{"grade":"C","score":55,"title":"AI Search Readiness","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"online_booking":{"grade":"B","score":65,"title":"Online Booking Analysis","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"review_ecosystem":{"grade":"B","score":70,"title":"Review Ecosystem","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"social_media_health":{"grade":"C","score":60,"title":"Social Media Health","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"local_seo":{"grade":"B","score":68,"title":"Local SEO & Visibility","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"email_marketing":{"grade":"C","score":50,"title":"Email Marketing Readiness","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"competitive_positioning":{"grade":"B","score":65,"title":"Competitive Positioning","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]}},"priority_recommendations":[{"category":"SEO","priority":"high","text":"Top recommendation","impact":"high","effort":"low"}]}
+
+IMPORTANT: Output ONLY the JSON object. No text before or after. Each category must have at least 2 metrics, 2 findings, and 2 recommendations with real, specific analysis based on the business data provided.`
+        }
       ]
-    },
-    "ai_search_readiness": { ... },
-    "online_booking": { ... },
-    "review_ecosystem": { ... },
-    "social_media_health": { ... },
-    "local_seo": { ... },
-    "email_marketing": { ... },
-    "competitive_positioning": { ... }
-  },
-  "priority_recommendations": [
-    { "category": "SEO", "priority": "high", "text": "...", "impact": "high", "effort": "low" }
-  ]
-}
-
-Be specific and actionable. Base your assessment on the data provided and reasonable inferences for a tourism business. If certain data is not available, make informed estimates based on typical patterns for similar businesses.`
-      }]
     })
   });
 
@@ -470,18 +431,35 @@ Be specific and actionable. Base your assessment on the data provided and reason
   }
 
   const result = await response.json();
+  console.log('[Claude] Response received, content length:', result.content?.[0]?.text?.length || 0);
 
   // Parse the response
   try {
     const content = result.content[0].text;
+    console.log('[Claude] First 500 chars:', content.substring(0, 500));
+
     // Extract JSON from response (handle markdown code blocks)
     const jsonMatch = content.match(/```json\n?([\s\S]*?)\n?```/) || content.match(/\{[\s\S]*\}/);
-    const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : content;
-    return JSON.parse(jsonStr);
+    if (!jsonMatch) {
+      console.error('[Claude] No JSON found in response');
+      // Return response with raw content for debugging
+      const defaultAssessment = getDefaultAssessment();
+      defaultAssessment._debug_raw_response = content.substring(0, 2000);
+      return defaultAssessment;
+    }
+
+    const jsonStr = jsonMatch[1] || jsonMatch[0];
+    console.log('[Claude] Extracted JSON length:', jsonStr.length);
+
+    const parsed = JSON.parse(jsonStr);
+    console.log('[Claude] Successfully parsed assessment');
+    return parsed;
   } catch (parseError) {
-    console.error('Failed to parse Claude response:', parseError);
-    // Return a default structure
-    return getDefaultAssessment();
+    console.error('[Claude] Failed to parse response:', parseError.message);
+    const defaultAssessment = getDefaultAssessment();
+    defaultAssessment._debug_error = parseError.message;
+    defaultAssessment._debug_raw_response = result.content?.[0]?.text?.substring(0, 2000) || 'No content';
+    return defaultAssessment;
   }
 }
 
