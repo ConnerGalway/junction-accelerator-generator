@@ -167,20 +167,16 @@ export async function handler(event, context) {
       };
     }
 
-    let seoptData;
+    let seoptData = null;
     try {
       seoptData = await fetchSEOptimerReport(websiteUrl);
     } catch (err) {
-      console.error('SEOptimer error:', err.message);
-      // Update status to failed
-      await supabaseAdmin
-        .from('client_assessments')
-        .update({ status: 'failed', error_message: `SEOptimer API error: ${err.message}` })
-        .eq('client_slug', slug);
-
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: `SEOptimer API error: ${err.message}` })
+      console.error('SEOptimer error (non-fatal):', err.message);
+      // SEOptimer failure is non-fatal - continue without SEO data
+      // The assessment will still be generated with available information
+      seoptData = {
+        _error: err.message,
+        _note: 'SEOptimer data unavailable - assessment generated with limited technical SEO data'
       };
     }
 
@@ -354,9 +350,9 @@ async function fetchSEOptimerReport(websiteUrl) {
   const reportId = createResult.data.id;
   console.log('[SEOptimer] Report created with ID:', reportId);
 
-  // Step 2: Poll for the report results (may take a few seconds to process)
-  const maxAttempts = 20;  // Max 20 attempts
-  const pollInterval = 1500;  // 1.5 seconds between attempts (30 seconds max)
+  // Step 2: Poll for the report results (may take a while for complex sites)
+  const maxAttempts = 40;  // Max 40 attempts
+  const pollInterval = 2000;  // 2 seconds between attempts (80 seconds max)
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     console.log(`[SEOptimer] Polling attempt ${attempt + 1}/${maxAttempts}`);
