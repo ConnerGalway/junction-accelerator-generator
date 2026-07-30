@@ -316,8 +316,11 @@ async function fetchSEOptimerReport(websiteUrl) {
 
   const headers = {
     'Content-Type': 'application/json',
+    'Accept': 'application/json',
     'x-api-key': process.env.SEOPTIMER_API_KEY
   };
+
+  console.log('[SEOptimer] Using API key starting with:', process.env.SEOPTIMER_API_KEY?.substring(0, 8) + '...');
 
   // Step 1: Create the report
   console.log('[SEOptimer] Calling create endpoint');
