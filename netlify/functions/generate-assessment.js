@@ -9,12 +9,24 @@ import { createClient } from '@supabase/supabase-js';
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function handler(event, context) {
-  console.log('[STEP 0] Function invoked');
+  // Debug: Log immediately
+  console.log('[DEBUG] Function invoked, method:', event.httpMethod);
+
+  // Debug: Add test mode to verify function works
+  const url = new URL(event.rawUrl || `https://x.com${event.path}`);
+  if (url.searchParams.get('test') === '1') {
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ test: true, message: 'Function is working!' })
+    };
+  }
 
   // Only allow POST
   if (event.httpMethod !== 'POST') {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
+
+  console.log('[STEP 0] POST request received');
 
   try {
     console.log('[STEP 1] Parsing request body');
