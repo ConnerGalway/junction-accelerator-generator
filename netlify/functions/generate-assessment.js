@@ -308,7 +308,12 @@ export async function handler(event, context) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function fetchSEOptimerReport(websiteUrl) {
-  console.log('[SEOptimer] Starting report creation for:', websiteUrl);
+  // Strip protocol and trailing slashes - SEOptimer expects just the domain
+  let cleanUrl = websiteUrl
+    .replace(/^https?:\/\//, '')  // Remove http:// or https://
+    .replace(/\/+$/, '');          // Remove trailing slashes
+
+  console.log('[SEOptimer] Starting report creation for:', cleanUrl, '(original:', websiteUrl, ')');
 
   if (!process.env.SEOPTIMER_API_KEY) {
     throw new Error('SEOPTIMER_API_KEY not configured');
@@ -323,12 +328,12 @@ async function fetchSEOptimerReport(websiteUrl) {
   console.log('[SEOptimer] Using API key starting with:', process.env.SEOPTIMER_API_KEY?.substring(0, 8) + '...');
 
   // Step 1: Create the report
-  console.log('[SEOptimer] Calling create endpoint');
+  console.log('[SEOptimer] Calling create endpoint with URL:', cleanUrl);
   const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
     method: 'POST',
     headers,
     body: JSON.stringify({
-      url: websiteUrl,
+      url: cleanUrl,
       pdf: 0  // Don't need PDF
     })
   });
