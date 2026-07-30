@@ -800,6 +800,36 @@
     </div>
   </div>
 
+  <!-- ══ REGENERATE PROGRESS MODAL ════════════════════════════ -->
+  <div class="modal-overlay" id="regenerateModal">
+    <div class="modal" style="text-align: center;">
+      <div class="regenerate-spinner"></div>
+      <h3 class="modal__title" style="margin-top: 20px;">Regenerating Assessment</h3>
+      <p class="modal__text" id="regenerateModalText">Please wait while we generate a fresh assessment...</p>
+      <p class="regenerate-status" id="regenerateStatus">Starting...</p>
+    </div>
+  </div>
+
+  <style>
+    .regenerate-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--cream-mid);
+      border-top-color: var(--navy);
+      border-radius: 50%;
+      margin: 0 auto;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .regenerate-status {
+      font-size: 13px;
+      color: var(--mint-dark);
+      margin-top: 8px;
+    }
+  </style>
+
   <footer class="footer">eLearningU &nbsp;&middot;&nbsp; &copy; 2026</footer>
 
   <script src="/shared/supabase-client.js"></script>
@@ -1215,16 +1245,95 @@
       const assessment = assessments.find(a => a.client_slug === slug);
       if (!assessment) return;
 
-      // Redirect to generate page with pre-filled data
-      const params = new URLSearchParams({
-        regenerate: slug,
-        business_name: assessment.business_name,
-        website_url: assessment.website_url
-      });
+      // Show progress modal
+      document.getElementById('regenerateModal').classList.add('modal-overlay--visible');
+      document.getElementById('regenerateModalText').textContent =
+        `Regenerating assessment for ${assessment.business_name}...`;
+      document.getElementById('regenerateStatus').textContent = 'Preparing...';
 
-      if (assessment.location) params.set('location', assessment.location);
+      try {
+        // Get auth token
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
 
-      window.location.href = `/admin/generate-assessment/?${params.toString()}`;
+        // Build request with existing assessment data
+        const requestBody = {
+          businessName: assessment.business_name,
+          slug: assessment.client_slug,
+          websiteUrl: assessment.website_url,
+          location: assessment.location || '',
+          social: {
+            instagram: assessment.social_instagram || '',
+            facebook: assessment.social_facebook || '',
+            tiktok: assessment.social_tiktok || '',
+            youtube: assessment.social_youtube || '',
+            pinterest: assessment.social_pinterest || '',
+            twitter: assessment.social_twitter || '',
+            linkedin: assessment.social_linkedin || ''
+          },
+          regenerate: true  // Flag to indicate this is a regeneration
+        };
+
+        document.getElementById('regenerateStatus').textContent = 'Calling assessment API...';
+
+        // Call the regenerate endpoint
+        const response = await fetch('/.netlify/functions/regenerate-assessment-background', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || 'Failed to start regeneration');
+        }
+
+        document.getElementById('regenerateStatus').textContent = 'Assessment started, polling for completion...';
+
+        // Poll for completion
+        const maxPolls = 180; // 6 minutes
+        for (let i = 0; i < maxPolls; i++) {
+          await new Promise(r => setTimeout(r, 2000));
+
+          const { data: updated } = await supabaseClient
+            .from('client_assessments')
+            .select('status, overall_grade')
+            .eq('client_slug', slug)
+            .single();
+
+          if (updated?.status === 'completed') {
+            document.getElementById('regenerateStatus').textContent = 'Complete! Refreshing...';
+            await new Promise(r => setTimeout(r, 1000));
+            window.location.reload();
+            return;
+          } else if (updated?.status === 'failed') {
+            throw new Error('Assessment generation failed');
+          }
+
+          // Update status message
+          const phrases = [
+            'Analyzing website performance...',
+            'Checking Google reviews...',
+            'Evaluating SEO factors...',
+            'Assessing social presence...',
+            'Generating recommendations...',
+            'Almost there...'
+          ];
+          document.getElementById('regenerateStatus').textContent = phrases[i % phrases.length];
+        }
+
+        throw new Error('Assessment timed out');
+
+      } catch (err) {
+        console.error('Regenerate error:', err);
+        alert('Failed to regenerate assessment: ' + err.message);
+        document.getElementById('regenerateModal').classList.remove('modal-overlay--visible');
+      }
     }
 
     // ══════════════════════════════════════════════════════════════
