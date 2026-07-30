@@ -431,6 +431,190 @@
       color: var(--muted);
     }
 
+    /* ── Success Modal ───────────────────────────────────── */
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,21,75,0.92);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .success-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .success-modal__card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px;
+      max-width: 520px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+
+    .success-modal.active .success-modal__card {
+      transform: scale(1);
+    }
+
+    .success-modal__icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .success-modal__icon svg {
+      width: 40px;
+      height: 40px;
+      color: var(--navy);
+    }
+
+    .success-modal__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 12px;
+    }
+
+    .success-modal__subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 28px;
+      line-height: 1.5;
+    }
+
+    .success-modal__link-box {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .success-modal__link-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .success-modal__link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .success-modal__link input {
+      flex: 1;
+      height: 44px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--navy);
+      background: #fff;
+    }
+
+    .success-modal__link input:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+
+    .success-modal__copy-btn {
+      height: 44px;
+      padding: 0 16px;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s;
+    }
+
+    .success-modal__copy-btn:hover {
+      background: var(--navy-mid);
+    }
+
+    .success-modal__copy-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .success-modal__copy-btn.copied {
+      background: var(--mint-dark);
+      color: var(--navy);
+    }
+
+    .success-modal__actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+    }
+
+    .success-modal__btn {
+      height: 48px;
+      padding: 0 28px;
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .success-modal__btn--primary {
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+    }
+
+    .success-modal__btn--primary:hover {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .success-modal__btn--secondary {
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--border);
+    }
+
+    .success-modal__btn--secondary:hover {
+      background: var(--cream);
+      border-color: var(--navy);
+    }
+
+    .success-modal__btn svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* ── Footer ─────────────────────────────────────────── */
     .footer {
       text-align: center;
@@ -491,7 +675,6 @@
     </div>
 
     <div id="errorMessage" class="message message--error"></div>
-    <div id="successMessage" class="message message--success"></div>
 
     <div class="form-card">
       <form id="assessmentForm">
@@ -674,6 +857,49 @@
     </div>
   </div>
 
+  <!-- ══ SUCCESS MODAL ═════════════════════════════════════ -->
+  <div class="success-modal" id="successModal">
+    <div class="success-modal__card">
+      <div class="success-modal__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="success-modal__title">Assessment Complete!</h2>
+      <p class="success-modal__subtitle">
+        The digital marketing assessment has been generated and is ready to share with your client.
+      </p>
+
+      <div class="success-modal__link-box">
+        <p class="success-modal__link-label">Assessment Link</p>
+        <div class="success-modal__link">
+          <input type="text" id="assessmentLinkInput" readonly>
+          <button class="success-modal__copy-btn" id="copyLinkBtn" onclick="copyAssessmentLink()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            <span>Copy</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="success-modal__actions">
+        <button class="success-modal__btn success-modal__btn--secondary" onclick="closeSuccessModal()">
+          Create Another
+        </button>
+        <a href="#" class="success-modal__btn success-modal__btn--primary" id="viewAssessmentBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+            <polyline points="15 3 21 3 21 9"></polyline>
+            <line x1="10" y1="14" x2="21" y2="3"></line>
+          </svg>
+          View Assessment
+        </a>
+      </div>
+    </div>
+  </div>
+
   <script src="/shared/supabase-client.js"></script>
   <script src="/shared/auth.js?v=2"></script>
   <script src="/shared/user-menu.js?v=2"></script>
@@ -831,7 +1057,7 @@
 
           if (assessment.status === 'completed') {
             hideProgress();
-            showSuccess(`Assessment generated successfully! <a href="/${slug}/">View assessment</a>`);
+            showSuccessModal(slug);
             document.getElementById('assessmentForm').reset();
             return;
           }
@@ -907,18 +1133,66 @@
       const el = document.getElementById('errorMessage');
       el.textContent = message;
       el.classList.add('visible');
-      document.getElementById('successMessage').classList.remove('visible');
     }
 
     function hideError() {
       document.getElementById('errorMessage').classList.remove('visible');
     }
 
-    function showSuccess(message) {
-      const el = document.getElementById('successMessage');
-      el.innerHTML = message;
-      el.classList.add('visible');
-      document.getElementById('errorMessage').classList.remove('visible');
+    // ══════════════════════════════════════════════════════════════
+    // SUCCESS MODAL
+    // ══════════════════════════════════════════════════════════════
+    function showSuccessModal(slug) {
+      const baseUrl = window.location.origin;
+      const assessmentUrl = `${baseUrl}/${slug}/`;
+
+      // Set the link in the input
+      document.getElementById('assessmentLinkInput').value = assessmentUrl;
+
+      // Set the view button href
+      document.getElementById('viewAssessmentBtn').href = assessmentUrl;
+
+      // Show the modal
+      document.getElementById('successModal').classList.add('active');
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.remove('active');
+      // Reset the copy button state
+      const copyBtn = document.getElementById('copyLinkBtn');
+      copyBtn.classList.remove('copied');
+      copyBtn.querySelector('span').textContent = 'Copy';
+    }
+
+    function copyAssessmentLink() {
+      const input = document.getElementById('assessmentLinkInput');
+      const copyBtn = document.getElementById('copyLinkBtn');
+
+      // Select and copy the text
+      input.select();
+      input.setSelectionRange(0, 99999); // For mobile
+
+      navigator.clipboard.writeText(input.value).then(() => {
+        // Show copied state
+        copyBtn.classList.add('copied');
+        copyBtn.querySelector('span').textContent = 'Copied!';
+
+        // Reset after 2 seconds
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.querySelector('span').textContent = 'Copy';
+        }, 2000);
+      }).catch(() => {
+        // Fallback for older browsers
+        document.execCommand('copy');
+        copyBtn.classList.add('copied');
+        copyBtn.querySelector('span').textContent = 'Copied!';
+
+        setTimeout(() => {
+          copyBtn.classList.remove('copied');
+          copyBtn.querySelector('span').textContent = 'Copy';
+        }, 2000);
+      });
     }
   </script>
 </body>
