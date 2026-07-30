@@ -281,26 +281,70 @@ export async function handler(event, context) {
 // SEOPTIMER API INTEGRATION
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function fetchSEOptimerReport(url) {
+async function fetchSEOptimerReport(websiteUrl) {
   if (!process.env.SEOPTIMER_API_KEY) {
     throw new Error('SEOPTIMER_API_KEY not configured');
   }
 
-  const response = await fetch('https://api.seoptimer.com/v2/report', {
+  const headers = {
+    'Content-Type': 'application/json',
+    'x-api-key': process.env.SEOPTIMER_API_KEY
+  };
+
+  // Step 1: Create the report
+  const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
     method: 'POST',
-    headers: {
-      'Authorization': `Bearer ${process.env.SEOPTIMER_API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ url })
+    headers,
+    body: JSON.stringify({
+      url: websiteUrl,
+      pdf: 0  // Don't need PDF
+    })
   });
 
-  if (!response.ok) {
-    const text = await response.text();
-    throw new Error(`SEOptimer API error: ${response.status} - ${text}`);
+  if (!createResponse.ok) {
+    const text = await createResponse.text();
+    throw new Error(`SEOptimer create report failed: ${createResponse.status} - ${text}`);
   }
 
-  return response.json();
+  const createResult = await createResponse.json();
+
+  if (!createResult.success || !createResult.data?.id) {
+    throw new Error(`SEOptimer create report failed: ${JSON.stringify(createResult)}`);
+  }
+
+  const reportId = createResult.data.id;
+
+  // Step 2: Poll for the report results (may take a few seconds to process)
+  const maxAttempts = 30;  // Max 30 attempts (60 seconds total)
+  const pollInterval = 2000;  // 2 seconds between attempts
+
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    await new Promise(resolve => setTimeout(resolve, pollInterval));
+
+    const getResponse = await fetch(`https://api.seoptimer.com/v1/report/get/${reportId}`, {
+      method: 'GET',
+      headers
+    });
+
+    if (!getResponse.ok) {
+      const text = await getResponse.text();
+      throw new Error(`SEOptimer get report failed: ${getResponse.status} - ${text}`);
+    }
+
+    const reportData = await getResponse.json();
+
+    // Check if report is ready
+    if (reportData.success && reportData.data) {
+      return reportData.data;
+    }
+
+    // If not ready yet, continue polling
+    if (reportData.success === false && reportData.message?.includes('processing')) {
+      continue;
+    }
+  }
+
+  throw new Error('SEOptimer report timed out - took too long to generate');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
