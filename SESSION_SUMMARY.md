@@ -76,39 +76,52 @@ ALTER TABLE client_assessments ENABLE ROW LEVEL SECURITY;
 - Background function with 15-minute timeout
 - Frontend polling for completion status
 - Progress indicator UI
+- Assessment generation with real data
 
-### Issue to Resolve
-**Claude AI response not being parsed correctly**
+### Quality Overhaul Applied (July 29, 2026)
 
-The assessment is generating but returning default/placeholder data instead of real analysis.
+**Major changes to make assessments tourism-industry focused:**
 
-**Diagnosis:**
-- Claude's response may not be pure JSON (text before/after)
-- Parsing regex may not be matching correctly
+1. **Model upgraded**: `claude-haiku-4-5` → `claude-sonnet-4-5` (better at complex instructions)
+2. **Tokens increased**: 8,000 → 12,000 (more comprehensive output)
 
-**Fix applied (needs testing):**
-- Simplified prompt to demand JSON-only output
-- Added `_debug_raw_response` field to capture what Claude returns
-- Check Supabase `client_assessments.assessment_data` for debug info
+3. **New Sections Added:**
+   - **Executive Summary**: Headline, key strengths (3), critical gaps (3), bottom line
+   - **Quick Wins**: 5 tasks fixable this week with time estimates
+   - **Tourism Context**: Visitor profile, discovery journey, seasonal considerations, trip integration, competitive landscape
 
-## Next Steps to Complete
+4. **Category Changes:**
+   - Replaced "AI Search Readiness" → "Visitor Discovery & Trip Integration"
+   - Added new "Digital Guest Experience" category
+   - Renamed "Social Media Health" → "Social Media & Visual Content"
+   - Renamed "Email Marketing" → "Email & Guest Communication"
 
-1. **Test the latest changes**
-   - Hard refresh the generate-assessment page
-   - Create a new assessment with a fresh slug
-   - Check if real data appears
+5. **Data Quality Improvements:**
+   - All metrics now include benchmarks (e.g., "85/100 - tourism average: 65")
+   - All recommendations now include time estimates (e.g., "2-3 hours")
+   - Priority recommendations include expected results
+   - Tourism consultant persona in prompt
+   - Specific references to business name, location, features required
 
-2. **If still showing defaults, check Supabase**
-   - Query `client_assessments` table
-   - Look at `assessment_data` column for the test slug
-   - Check for `_debug_raw_response` field to see what Claude returned
+6. **PDF Download Feature:**
+   - "Download PDF" button in assessment hero section
+   - Beautiful print-optimized styles for high-quality PDF output
+   - Print header with eLearningU branding
+   - Print footer with coach email credit and eLearningU.com attribution
+   - Confidentiality disclaimer
+   - Page breaks at logical sections (categories, priority recommendations)
+   - Two-column layout for category cards in print
+   - All colors and backgrounds preserved in print
 
-3. **Potential fixes if JSON parsing still fails**
-   - Try `claude-sonnet-4-5` model (better at following instructions but slower)
-   - Add explicit JSON mode if Claude API supports it
-   - Pre-process response to strip markdown/text before parsing
+## Next Steps
 
-4. **Polish items**
+1. **Test the new assessment format**
+   - Generate a fresh assessment with a new slug
+   - Verify all new sections appear (Executive Summary, Quick Wins, Tourism Context)
+   - Check metrics have benchmarks
+   - Check recommendations have time estimates
+
+2. **Polish items**
    - Test mobile responsiveness
    - Add re-assessment functionality
    - Error recovery for failed assessments
@@ -119,8 +132,9 @@ The assessment is generating but returning default/placeholder data instead of r
 |----------|--------|
 | Background function | Regular functions timeout at 60s; SEOptimer + Claude takes longer |
 | Frontend polling | Background functions return 202 immediately; poll Supabase for status |
-| `claude-haiku-4-5` model | Faster than Sonnet; needed to fit in timeout window |
+| `claude-sonnet-4-5` model | Better at following complex tourism-focused prompt with structured output |
 | SEOptimer required | User specified it must be part of every assessment |
+| 12,000 max_tokens | Ensures comprehensive output with all 8 categories fully populated |
 
 ## Useful Commands
 

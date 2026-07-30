@@ -238,7 +238,8 @@ export async function handler(event, context) {
         slug,
         websiteUrl,
         location,
-        assessmentData
+        assessmentData,
+        coachEmail: user.email
       });
     } else {
       // Generate basic HTML if template not found
@@ -404,20 +405,150 @@ async function generateAssessmentWithClaude(data) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-haiku-4-5',
-      max_tokens: 8000,
+      model: 'claude-sonnet-4-5',
+      max_tokens: 12000,
       messages: [
         {
           role: 'user',
-          content: `Analyze this business and generate a digital marketing assessment. Return ONLY valid JSON - no markdown, no explanation, just the JSON object.
+          content: `You are a senior tourism and hospitality digital marketing consultant with 15+ years of experience. Analyze this tourism/hospitality business and generate a comprehensive digital marketing assessment from a TOURISM INDUSTRY perspective.
 
 ${context}
 
-Return a JSON object with this EXACT structure (fill in real data based on the business info above):
+CRITICAL INSTRUCTIONS:
+1. Analyze through the lens of VISITOR/TOURIST discovery and experience, not just generic SEO
+2. Consider: How do tourists find this place? What's their journey from discovery to visit?
+3. Every metric needs a BENCHMARK (e.g., "85/100 - industry average is 65")
+4. Recommendations need TIME ESTIMATES (e.g., "30 minutes", "2-3 hours", "1 week")
+5. Be specific to THIS business - reference their actual location, offerings, unique features
 
-{"overall":{"grade":"B","score":72,"summary":"Brief overall assessment"},"categories":{"website_technical":{"grade":"B","score":70,"title":"Website & Technical Foundation","summary":"Assessment of website","metrics":[{"label":"Metric Name","value":"Value","status":"good","tooltip":"Explanation"}],"findings":[{"type":"positive","text":"Good finding"},{"type":"negative","text":"Issue found"}],"recommendations":[{"priority":"high","text":"Recommendation"}]},"ai_search_readiness":{"grade":"C","score":55,"title":"AI Search Readiness","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"online_booking":{"grade":"B","score":65,"title":"Online Booking Analysis","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"review_ecosystem":{"grade":"B","score":70,"title":"Review Ecosystem","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"social_media_health":{"grade":"C","score":60,"title":"Social Media Health","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"local_seo":{"grade":"B","score":68,"title":"Local SEO & Visibility","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"email_marketing":{"grade":"C","score":50,"title":"Email Marketing Readiness","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]},"competitive_positioning":{"grade":"B","score":65,"title":"Competitive Positioning","summary":"Assessment","metrics":[],"findings":[],"recommendations":[]}},"priority_recommendations":[{"category":"SEO","priority":"high","text":"Top recommendation","impact":"high","effort":"low"}]}
+Return ONLY valid JSON with this structure:
 
-IMPORTANT: Output ONLY the JSON object. No text before or after. Each category must have at least 2 metrics, 2 findings, and 2 recommendations with real, specific analysis based on the business data provided.`
+{
+  "executive_summary": {
+    "headline": "One sentence overall verdict",
+    "key_strengths": ["Strength 1", "Strength 2", "Strength 3"],
+    "critical_gaps": ["Gap 1", "Gap 2", "Gap 3"],
+    "bottom_line": "What this means for their business in 1-2 sentences"
+  },
+  "quick_wins": [
+    {"task": "Specific task description", "time_estimate": "30 minutes", "impact": "Description of expected impact"},
+    {"task": "Task 2", "time_estimate": "1 hour", "impact": "Impact"},
+    {"task": "Task 3", "time_estimate": "15 minutes", "impact": "Impact"},
+    {"task": "Task 4", "time_estimate": "2 hours", "impact": "Impact"},
+    {"task": "Task 5", "time_estimate": "1 hour", "impact": "Impact"}
+  ],
+  "tourism_context": {
+    "visitor_profile": "Description of likely visitors (tourists vs locals, demographics, travel patterns)",
+    "discovery_journey": "How tourists typically find and decide to visit this type of business",
+    "seasonal_considerations": "How seasonality affects their digital strategy",
+    "trip_integration": "How this business fits into a larger trip/itinerary",
+    "competitive_landscape": "Who they're competing against for tourist attention"
+  },
+  "overall": {
+    "grade": "B+",
+    "score": 76,
+    "summary": "2-3 sentence assessment from tourism consultant perspective"
+  },
+  "categories": {
+    "website_technical": {
+      "grade": "B",
+      "score": 72,
+      "title": "Website & Technical Foundation",
+      "summary": "Assessment focusing on visitor experience, not just technical metrics",
+      "metrics": [
+        {"label": "Mobile Speed", "value": "65/100", "benchmark": "Tourism average: 55", "status": "good", "tooltip": "Why this matters for tourists"},
+        {"label": "Metric 2", "value": "Value", "benchmark": "Benchmark", "status": "warning", "tooltip": "Context"}
+      ],
+      "findings": [
+        {"type": "positive", "text": "Specific positive finding with context"},
+        {"type": "negative", "text": "Specific issue with tourism impact explained"}
+      ],
+      "recommendations": [
+        {"text": "Specific recommendation", "time_estimate": "2 hours", "impact": "Expected result"}
+      ]
+    },
+    "visitor_discovery": {
+      "grade": "C",
+      "score": 58,
+      "title": "Visitor Discovery & Trip Integration",
+      "summary": "How easily tourists can find and learn about this business during trip planning",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "online_booking": {
+      "grade": "B",
+      "score": 68,
+      "title": "Online Booking & Reservations",
+      "summary": "Assessment of booking friction and conversion optimization",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "review_ecosystem": {
+      "grade": "B",
+      "score": 75,
+      "title": "Reviews & Reputation",
+      "summary": "Assessment of review presence, quality, and management",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "social_media": {
+      "grade": "C",
+      "score": 60,
+      "title": "Social Media & Visual Content",
+      "summary": "Assessment of social presence and content quality for tourism marketing",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "local_seo": {
+      "grade": "B",
+      "score": 70,
+      "title": "Local SEO & Maps Visibility",
+      "summary": "How visible they are when tourists search locally",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "guest_experience": {
+      "grade": "C",
+      "score": 55,
+      "title": "Digital Guest Experience",
+      "summary": "Pre-visit digital experience: Can visitors easily find hours, menus, parking, accessibility info?",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    },
+    "competitive_positioning": {
+      "grade": "B",
+      "score": 65,
+      "title": "Competitive Positioning",
+      "summary": "Assessment relative to local competitors with realistic benchmarks",
+      "metrics": [],
+      "findings": [],
+      "recommendations": []
+    }
+  },
+  "priority_recommendations": [
+    {"category": "Category Name", "text": "Detailed recommendation", "time_estimate": "3-4 hours", "impact": "high", "expected_result": "What will improve"},
+    {"category": "Category 2", "text": "Recommendation 2", "time_estimate": "1 week", "impact": "high", "expected_result": "Result"},
+    {"category": "Category 3", "text": "Recommendation 3", "time_estimate": "2 hours", "impact": "medium", "expected_result": "Result"},
+    {"category": "Category 4", "text": "Recommendation 4", "time_estimate": "30 minutes", "impact": "medium", "expected_result": "Result"},
+    {"category": "Category 5", "text": "Recommendation 5", "time_estimate": "4-6 hours", "impact": "medium", "expected_result": "Result"}
+  ]
+}
+
+REQUIREMENTS:
+- Each category MUST have 3-4 metrics with benchmarks, 3-4 findings, and 3-4 recommendations with time estimates
+- Reference the ACTUAL business name, location, and features from the data provided
+- Frame everything from a TOURIST'S perspective - how does this help visitors?
+- Include specific, actionable tasks - not generic advice
+- Time estimates should be realistic for a small business owner to DIY
+- Benchmarks should compare to similar tourism/hospitality businesses
+
+Output ONLY the JSON object. No markdown, no explanation.`
         }
       ]
     })
@@ -538,7 +669,8 @@ function processAssessmentTemplate(template, data) {
     '{{ASSESSMENT_DATE}}': formatDateLong(new Date().toISOString()),
     '{{OVERALL_GRADE}}': data.assessmentData.overall?.grade || 'N/A',
     '{{OVERALL_SCORE}}': data.assessmentData.overall?.score || 0,
-    '{{OVERALL_SUMMARY}}': data.assessmentData.overall?.summary || ''
+    '{{OVERALL_SUMMARY}}': data.assessmentData.overall?.summary || '',
+    '{{COACH_EMAIL}}': data.coachEmail || 'Your Coach'
   };
 
   for (const [placeholder, value] of Object.entries(placeholders)) {
