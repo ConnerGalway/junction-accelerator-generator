@@ -138,14 +138,30 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 4. FETCH SEOPTIMER DATA
+    // 4. FETCH SEOPTIMER DATA (REQUIRED)
     // ─────────────────────────────────────────────────────────────────────────
-    let seoptData = null;
+    if (!process.env.SEOPTIMER_API_KEY) {
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: 'SEOPTIMER_API_KEY is not configured. Add it to Netlify environment variables.' })
+      };
+    }
+
+    let seoptData;
     try {
       seoptData = await fetchSEOptimerReport(websiteUrl);
     } catch (err) {
       console.error('SEOptimer error:', err.message);
-      // Continue without SEOptimer data - we'll use Claude for analysis
+      // Update status to failed
+      await supabaseAdmin
+        .from('client_assessments')
+        .update({ status: 'failed', error_message: `SEOptimer API error: ${err.message}` })
+        .eq('client_slug', slug);
+
+      return {
+        statusCode: 500,
+        body: JSON.stringify({ error: `SEOptimer API error: ${err.message}` })
+      };
     }
 
     // ─────────────────────────────────────────────────────────────────────────
