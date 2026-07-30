@@ -818,7 +818,7 @@
         for (let i = 0; i < maxPolls; i++) {
           await new Promise(r => setTimeout(r, pollInterval));
 
-          const { data: assessment, error } = await window.supabase
+          const { data: assessment, error } = await supabaseClient
             .from('client_assessments')
             .select('status, error_message')
             .eq('client_slug', slug)
