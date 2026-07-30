@@ -280,6 +280,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 10. SUCCESS
     // ─────────────────────────────────────────────────────────────────────────
+    console.log('[STEP 9] SUCCESS! Assessment complete for:', slug);
     return {
       statusCode: 200,
       body: JSON.stringify({
@@ -642,20 +643,34 @@ async function commitToGitHub(files, message) {
   const repo = process.env.GITHUB_REPO;
   const branch = process.env.GITHUB_BRANCH || 'main';
 
+  console.log('[GitHub] Starting commit to', owner, '/', repo, 'branch:', branch);
+
+  // Helper to handle GitHub API responses
+  async function handleResponse(res, step) {
+    if (!res.ok) {
+      const text = await res.text();
+      console.error(`[GitHub] ${step} failed:`, res.status, text.substring(0, 200));
+      throw new Error(`${step}: ${res.status}`);
+    }
+    return res.json();
+  }
+
   try {
     // 1. Get latest commit SHA
+    console.log('[GitHub] Step 1: Getting branch ref');
     const refRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`, { headers });
-    if (!refRes.ok) throw new Error('Failed to get branch ref');
-    const refData = await refRes.json();
+    const refData = await handleResponse(refRes, 'Get branch ref');
     const latestCommitSha = refData.object.sha;
+    console.log('[GitHub] Latest commit:', latestCommitSha.substring(0, 7));
 
     // 2. Get tree of latest commit
+    console.log('[GitHub] Step 2: Getting commit tree');
     const commitRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits/${latestCommitSha}`, { headers });
-    if (!commitRes.ok) throw new Error('Failed to get commit');
-    const commitData = await commitRes.json();
+    const commitData = await handleResponse(commitRes, 'Get commit');
     const baseTreeSha = commitData.tree.sha;
 
     // 3. Create new tree
+    console.log('[GitHub] Step 3: Creating new tree');
     const treeRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/trees`, {
       method: 'POST',
       headers: { ...headers, 'Content-Type': 'application/json' },
@@ -669,10 +684,11 @@ async function commitToGitHub(files, message) {
         }))
       })
     });
-    if (!treeRes.ok) throw new Error('Failed to create tree');
-    const treeData = await treeRes.json();
+    const treeData = await handleResponse(treeRes, 'Create tree');
+    console.log('[GitHub] New tree created:', treeData.sha.substring(0, 7));
 
     // 4. Create commit
+    console.log('[GitHub] Step 4: Creating commit');
     const newCommitRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits`, {
       method: 'POST',
       headers: { ...headers, 'Content-Type': 'application/json' },
@@ -682,20 +698,23 @@ async function commitToGitHub(files, message) {
         parents: [latestCommitSha]
       })
     });
-    if (!newCommitRes.ok) throw new Error('Failed to create commit');
-    const newCommitData = await newCommitRes.json();
+    const newCommitData = await handleResponse(newCommitRes, 'Create commit');
+    console.log('[GitHub] Commit created:', newCommitData.sha.substring(0, 7));
 
     // 5. Update branch reference
+    console.log('[GitHub] Step 5: Updating branch ref');
     const updateRefRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`, {
       method: 'PATCH',
       headers: { ...headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ sha: newCommitData.sha })
     });
-    if (!updateRefRes.ok) throw new Error('Failed to update branch');
+    await handleResponse(updateRefRes, 'Update branch');
 
+    console.log('[GitHub] Commit complete:', newCommitData.html_url);
     return { commitUrl: newCommitData.html_url };
 
   } catch (err) {
+    console.error('[GitHub] Error:', err.message);
     return { error: err.message };
   }
 }
