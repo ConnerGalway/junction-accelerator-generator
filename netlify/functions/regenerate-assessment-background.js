@@ -80,11 +80,19 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 3. UPDATE STATUS TO PROCESSING
     // ─────────────────────────────────────────────────────────────────────────
+    // Helper to update progress (for debugging)
+    const updateProgress = async (step) => {
+      await supabaseAdmin
+        .from('client_assessments')
+        .update({ error_message: `Progress: ${step}` })
+        .eq('client_slug', slug);
+    };
+
     await supabaseAdmin
       .from('client_assessments')
       .update({
         status: 'processing',
-        error_message: null,
+        error_message: 'Progress: Starting regeneration',
         reassessment_date: new Date().toISOString()
       })
       .eq('client_slug', slug);
@@ -92,30 +100,39 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 4. FETCH SEOPTIMER DATA
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Fetching SEOptimer data');
     let seoptData = null;
     try {
       seoptData = await fetchSEOptimerReport(websiteUrl);
+      await updateProgress('SEOptimer complete');
     } catch (err) {
       console.error('SEOptimer error (non-fatal):', err.message);
       seoptData = { _error: err.message };
+      await updateProgress('SEOptimer failed (non-fatal)');
     }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 4b. FETCH GOOGLE PLACES DATA
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Fetching Google Places data');
     let googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_API_KEY) {
       try {
         googlePlacesData = await fetchGooglePlacesData(businessName, location);
+        await updateProgress('Google Places complete');
       } catch (err) {
         console.error('Google Places error (non-fatal):', err.message);
         googlePlacesData = { _error: err.message };
+        await updateProgress('Google Places failed (non-fatal)');
       }
+    } else {
+      await updateProgress('Google Places skipped (no API key)');
     }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Generating assessment with Claude');
     const assessmentData = await generateAssessmentWithClaude({
       businessName,
       websiteUrl,
@@ -124,10 +141,12 @@ export async function handler(event, context) {
       seoptData,
       googlePlacesData
     });
+    await updateProgress('Claude assessment complete');
 
     // ─────────────────────────────────────────────────────────────────────────
     // 6. UPDATE ASSESSMENT RECORD
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Saving to database');
     const { error: updateError } = await supabaseAdmin
       .from('client_assessments')
       .update({
@@ -136,7 +155,8 @@ export async function handler(event, context) {
         google_places_raw: googlePlacesData,
         overall_score: assessmentData.overall?.score || null,
         overall_grade: assessmentData.overall?.grade || null,
-        status: 'completed'
+        status: 'completed',
+        error_message: null
       })
       .eq('client_slug', slug);
 
@@ -147,6 +167,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 7. UPDATE GITHUB HTML
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Fetching template from GitHub');
     const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
     const templateRes = await fetch(templateUrl, {
       headers: {
@@ -172,6 +193,7 @@ export async function handler(event, context) {
     }
 
     // Commit to GitHub (update existing file)
+    await updateProgress('Committing to GitHub');
     await commitToGitHub([
       { path: `clients/${slug}/index.html`, content: html }
     ], `Regenerate assessment: ${businessName}`);

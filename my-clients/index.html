@@ -1321,16 +1321,27 @@
             throw new Error(failedRecord?.error_message || 'Assessment generation failed');
           }
 
-          // Update status message
-          const phrases = [
-            'Analyzing website performance...',
-            'Checking Google reviews...',
-            'Evaluating SEO factors...',
-            'Assessing social presence...',
-            'Generating recommendations...',
-            'Almost there...'
-          ];
-          document.getElementById('regenerateStatus').textContent = phrases[i % phrases.length];
+          // Show actual progress from database if available
+          const { data: progressCheck } = await supabaseClient
+            .from('client_assessments')
+            .select('error_message')
+            .eq('client_slug', slug)
+            .single();
+
+          if (progressCheck?.error_message?.startsWith('Progress:')) {
+            document.getElementById('regenerateStatus').textContent = progressCheck.error_message.replace('Progress: ', '');
+          } else {
+            // Fallback to generic messages
+            const phrases = [
+              'Analyzing website performance...',
+              'Checking Google reviews...',
+              'Evaluating SEO factors...',
+              'Assessing social presence...',
+              'Generating recommendations...',
+              'Almost there...'
+            ];
+            document.getElementById('regenerateStatus').textContent = phrases[i % phrases.length];
+          }
         }
 
         throw new Error('Assessment timed out');
