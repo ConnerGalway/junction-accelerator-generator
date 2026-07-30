@@ -130,6 +130,19 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 3. CREATE PENDING ASSESSMENT RECORD
     // ─────────────────────────────────────────────────────────────────────────
+
+    // Helper to update progress (for debugging)
+    const updateProgress = async (step) => {
+      try {
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({ error_message: `Progress: ${step}` })
+          .eq('client_slug', slug);
+      } catch (e) {
+        console.error('Failed to update progress:', e);
+      }
+    };
+
     const { error: insertError } = await supabaseAdmin
       .from('client_assessments')
       .insert({
@@ -145,6 +158,7 @@ export async function handler(event, context) {
         social_twitter: social?.twitter || null,
         social_linkedin: social?.linkedin || null,
         status: 'processing',
+        error_message: 'Progress: Starting assessment generation',
         created_by: user.email
       });
 
@@ -161,17 +175,24 @@ export async function handler(event, context) {
     // 4. FETCH SEOPTIMER DATA (REQUIRED)
     // ─────────────────────────────────────────────────────────────────────────
     if (!process.env.SEOPTIMER_API_KEY) {
+      await supabaseAdmin
+        .from('client_assessments')
+        .update({ status: 'failed', error_message: 'SEOPTIMER_API_KEY not configured' })
+        .eq('client_slug', slug);
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'SEOPTIMER_API_KEY is not configured. Add it to Netlify environment variables.' })
       };
     }
 
+    await updateProgress('Fetching SEOptimer data (this may take 1-2 minutes)');
     let seoptData = null;
     try {
       seoptData = await fetchSEOptimerReport(websiteUrl);
+      await updateProgress('SEOptimer complete');
     } catch (err) {
       console.error('SEOptimer error (non-fatal):', err.message);
+      await updateProgress('SEOptimer failed (non-fatal), continuing...');
       // SEOptimer failure is non-fatal - continue without SEO data
       // The assessment will still be generated with available information
       seoptData = {
@@ -185,14 +206,17 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 4b. FETCH GOOGLE PLACES DATA (REVIEWS)
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Fetching Google Places data');
     let googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_API_KEY) {
       console.log('[STEP 4b] Fetching Google Places data');
       try {
         googlePlacesData = await fetchGooglePlacesData(businessName, location);
         console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
+        await updateProgress('Google Places complete');
       } catch (err) {
         console.error('Google Places error (non-fatal):', err.message);
+        await updateProgress('Google Places failed (non-fatal)');
         googlePlacesData = {
           _error: err.message,
           _note: 'Google Places data unavailable'
@@ -200,11 +224,13 @@ export async function handler(event, context) {
       }
     } else {
       console.log('[STEP 4b] GOOGLE_PLACES_API_KEY not configured, skipping');
+      await updateProgress('Google Places skipped (no API key)');
     }
     // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
     console.log('[STEP 5] Generating assessment with Claude');
+    await updateProgress('Generating assessment with Claude (this may take 30-60 seconds)');
     const assessmentData = await generateAssessmentWithClaude({
       businessName,
       websiteUrl,
@@ -213,12 +239,14 @@ export async function handler(event, context) {
       seoptData,
       googlePlacesData
     });
+    await updateProgress('Claude assessment complete');
 
     console.log('[STEP 5] Claude assessment generated');
     // ─────────────────────────────────────────────────────────────────────────
     // 6. UPDATE ASSESSMENT RECORD WITH DATA
     // ─────────────────────────────────────────────────────────────────────────
     console.log('[STEP 6] Updating Supabase with assessment data');
+    await updateProgress('Saving assessment to database');
     const { error: updateError } = await supabaseAdmin
       .from('client_assessments')
       .update({
@@ -227,7 +255,8 @@ export async function handler(event, context) {
         google_places_raw: googlePlacesData,
         overall_score: assessmentData.overall?.score || null,
         overall_grade: assessmentData.overall?.grade || null,
-        status: 'completed'
+        status: 'completed',
+        error_message: null
       })
       .eq('client_slug', slug);
 
@@ -239,6 +268,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 7. FETCH TEMPLATE AND GENERATE HTML
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Fetching template from GitHub');
     const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
     const templateRes = await fetch(templateUrl, {
       headers: {
@@ -273,6 +303,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 8. COMMIT TO GITHUB
     // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Committing to GitHub');
     const commitResult = await commitToGitHub([
       { path: `clients/${slug}/index.html`, content: html }
     ], `Add assessment: ${businessName}`);
@@ -316,6 +347,27 @@ export async function handler(event, context) {
 
   } catch (err) {
     console.error('Unexpected error:', err);
+
+    // Update Supabase status to 'failed' so frontend stops polling
+    try {
+      const body = JSON.parse(event.body || '{}');
+      if (body.slug) {
+        const supabaseAdmin = createClient(
+          process.env.SUPABASE_URL,
+          process.env.SUPABASE_SERVICE_ROLE_KEY
+        );
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({
+            status: 'failed',
+            error_message: err.message || 'Unknown error'
+          })
+          .eq('client_slug', body.slug);
+      }
+    } catch (updateErr) {
+      console.error('Failed to update error status:', updateErr);
+    }
+
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message || 'Internal server error' })
