@@ -2,7 +2,6 @@
 // Analyzes a business's digital marketing presence and generates an assessment dashboard
 
 import { createClient } from '@supabase/supabase-js';
-import Anthropic from '@anthropic-ai/sdk';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
@@ -293,20 +292,23 @@ async function fetchSEOptimerReport(url) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function generateAssessmentWithClaude(data) {
-  const anthropic = new Anthropic({
-    apiKey: process.env.ANTHROPIC_API_KEY
-  });
-
   // Build context from available data
   const context = buildAssessmentContext(data);
 
-  // Generate comprehensive assessment in a single call for efficiency
-  const response = await anthropic.messages.create({
-    model: 'claude-3-5-sonnet-latest',
-    max_tokens: 8000,
-    messages: [{
-      role: 'user',
-      content: `You are a world-class tourism digital marketing consultant. Analyze this business and generate a comprehensive digital marketing assessment.
+  // Use REST API directly for better compatibility
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': process.env.ANTHROPIC_API_KEY,
+      'anthropic-version': '2023-06-01'
+    },
+    body: JSON.stringify({
+      model: 'claude-3-haiku-20240307',
+      max_tokens: 8000,
+      messages: [{
+        role: 'user',
+        content: `You are a world-class tourism digital marketing consultant. Analyze this business and generate a comprehensive digital marketing assessment.
 
 ${context}
 
@@ -356,12 +358,22 @@ Return your assessment as a JSON object with this exact structure:
 }
 
 Be specific and actionable. Base your assessment on the data provided and reasonable inferences for a tourism business. If certain data is not available, make informed estimates based on typical patterns for similar businesses.`
-    }]
+      }]
+    })
   });
+
+  // Check for errors
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error('Claude API error:', response.status, errorText);
+    throw new Error(`Claude API error: ${response.status} ${errorText}`);
+  }
+
+  const result = await response.json();
 
   // Parse the response
   try {
-    const content = response.content[0].text;
+    const content = result.content[0].text;
     // Extract JSON from response (handle markdown code blocks)
     const jsonMatch = content.match(/```json\n?([\s\S]*?)\n?```/) || content.match(/\{[\s\S]*\}/);
     const jsonStr = jsonMatch ? (jsonMatch[1] || jsonMatch[0]) : content;
