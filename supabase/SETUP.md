@@ -175,3 +175,101 @@ WITH CHECK (
 - The wildcard admin entry (`client_slug = '*'`) grants admin access to all projects
 - Coaches can only see and modify users assigned to projects they coach
 - No DELETE policy is defined - use the `active` flag to soft-delete users instead
+
+---
+
+## client_assessments Table
+
+This table stores assessment data for client businesses.
+
+### Create Table
+
+```sql
+CREATE TABLE client_assessments (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  client_slug TEXT NOT NULL UNIQUE,
+  business_name TEXT NOT NULL,
+  website_url TEXT NOT NULL,
+  location TEXT,
+  social_instagram TEXT,
+  social_facebook TEXT,
+  social_tiktok TEXT,
+  social_youtube TEXT,
+  social_pinterest TEXT,
+  social_twitter TEXT,
+  social_linkedin TEXT,
+  assessment_data JSONB NOT NULL DEFAULT '{}',
+  seoptimer_raw JSONB,
+  overall_score INTEGER,
+  overall_grade TEXT,
+  status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),
+  error_message TEXT,
+  assessment_date TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  reassessment_date TIMESTAMPTZ,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  created_by TEXT NOT NULL
+);
+
+CREATE INDEX idx_client_assessments_slug ON client_assessments(client_slug);
+CREATE INDEX idx_client_assessments_status ON client_assessments(status);
+```
+
+### Modify user_plans Table
+
+```sql
+ALTER TABLE user_plans ADD COLUMN IF NOT EXISTS dashboard_state TEXT DEFAULT 'full';
+```
+
+### RLS Policies for client_assessments
+
+```sql
+-- Enable RLS
+ALTER TABLE client_assessments ENABLE ROW LEVEL SECURITY;
+
+-- Admins/PSMs can read and write all assessments
+CREATE POLICY "assessments_admin_all" ON client_assessments
+FOR ALL TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM user_plans up
+    WHERE up.email = auth.jwt() ->> 'email'
+      AND up.role IN ('admin', 'psm')
+      AND up.client_slug = '*'
+      AND up.active = true
+  )
+)
+WITH CHECK (
+  EXISTS (
+    SELECT 1 FROM user_plans up
+    WHERE up.email = auth.jwt() ->> 'email'
+      AND up.role IN ('admin', 'psm')
+      AND up.client_slug = '*'
+      AND up.active = true
+  )
+);
+
+-- Coaches can read assessments for their assigned clients
+CREATE POLICY "assessments_coach_read" ON client_assessments
+FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM user_plans up
+    WHERE up.email = auth.jwt() ->> 'email'
+      AND up.role = 'coach'
+      AND up.client_slug = client_assessments.client_slug
+      AND up.active = true
+  )
+);
+
+-- Clients can read their own assessment
+CREATE POLICY "assessments_client_read" ON client_assessments
+FOR SELECT TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM user_plans up
+    WHERE up.email = auth.jwt() ->> 'email'
+      AND up.client_slug = client_assessments.client_slug
+      AND up.active = true
+  )
+);
+```

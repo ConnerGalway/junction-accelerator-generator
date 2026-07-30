@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generate Assessment — eLearningU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --cream-mid: #f5ede0;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+      --border:    rgba(17,21,75,0.1);
+      --danger:    #b03030;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── Top bar ────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      box-shadow: 0 2px 16px rgba(17,21,75,0.18);
+    }
+
+    .topbar__logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--mint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar__email {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.01em;
+    }
+
+    .topbar__back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .topbar__back:hover {
+      color: #fff;
+    }
+
+    .topbar__back svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Main content ───────────────────────────────────── */
+    .main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 56px 40px 80px;
+    }
+
+    /* ── Page header ────────────────────────────────────── */
+    .page-header {
+      margin-bottom: 40px;
+      animation: fadeUp 0.5s ease both;
+    }
+
+    .page-header__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint-dark);
+      margin-bottom: 10px;
+    }
+
+    .page-header__title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 32px;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .page-header__sub {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    /* ── Form card ──────────────────────────────────────── */
+    .form-card {
+      background: #fff;
+      border-radius: 16px;
+      border: 1.5px solid var(--border);
+      padding: 32px;
+      animation: fadeUp 0.5s ease 0.1s both;
+    }
+
+    .form-section {
+      margin-bottom: 32px;
+      padding-bottom: 32px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .form-section:last-of-type {
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .form-section__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .form-section__desc {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .form-label--optional {
+      font-weight: 400;
+      color: var(--muted);
+    }
+
+    .form-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.08);
+    }
+
+    .form-input::placeholder {
+      color: var(--muted);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .form-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* ── Social media grid ──────────────────────────────── */
+    .social-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .social-input-wrap {
+      position: relative;
+    }
+
+    .social-input-wrap .form-input {
+      padding-left: 40px;
+    }
+
+    .social-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      color: var(--muted);
+    }
+
+    /* ── Submit button ──────────────────────────────────── */
+    .btn-submit {
+      width: 100%;
+      height: 50px;
+      margin-top: 32px;
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* ── Error/Success messages ─────────────────────────── */
+    .message {
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 24px;
+      font-size: 14px;
+      display: none;
+    }
+
+    .message.visible {
+      display: block;
+      animation: fadeUp 0.3s ease both;
+    }
+
+    .message--error {
+      background: rgba(176,48,48,0.1);
+      border: 1px solid rgba(176,48,48,0.2);
+      color: var(--danger);
+    }
+
+    .message--success {
+      background: rgba(170,218,182,0.2);
+      border: 1px solid rgba(127,191,142,0.3);
+      color: #2d6a3e;
+    }
+
+    .message a {
+      color: inherit;
+      font-weight: 600;
+    }
+
+    /* ── Progress Overlay ───────────────────────────────── */
+    .progress-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,21,75,0.92);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .progress-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .progress-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 48px;
+      max-width: 480px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+
+    .progress-overlay.active .progress-card {
+      transform: scale(1);
+    }
+
+    .progress-icon {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 24px;
+      background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .progress-icon svg {
+      width: 36px;
+      height: 36px;
+      color: var(--navy);
+      animation: spin 3s linear infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(170,218,182,0.4); }
+      50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(170,218,182,0); }
+    }
+
+    .progress-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .progress-subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 32px;
+    }
+
+    .progress-steps {
+      text-align: left;
+      margin-bottom: 24px;
+    }
+
+    .progress-step {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      opacity: 0.4;
+      transition: opacity 0.3s;
+    }
+
+    .progress-step:last-child {
+      border-bottom: none;
+    }
+
+    .progress-step.active {
+      opacity: 1;
+    }
+
+    .progress-step.complete {
+      opacity: 0.7;
+    }
+
+    .progress-step__icon {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--cream);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .progress-step.active .progress-step__icon {
+      background: var(--mint);
+    }
+
+    .progress-step.complete .progress-step__icon {
+      background: var(--mint-dark);
+    }
+
+    .progress-step__icon svg {
+      width: 14px;
+      height: 14px;
+      color: var(--navy);
+    }
+
+    .progress-step__text {
+      font-size: 14px;
+      color: var(--navy);
+    }
+
+    .progress-step.active .progress-step__text {
+      font-weight: 600;
+    }
+
+    .progress-time {
+      font-size: 13px;
+      color: var(--muted);
+    }
+
+    /* ── Footer ─────────────────────────────────────────── */
+    .footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 12px;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    /* ── Animations ─────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ── Responsive ─────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .topbar { padding: 0 20px; }
+      .main { padding: 32px 20px 60px; }
+      .form-card { padding: 24px; }
+      .form-row, .social-grid { grid-template-columns: 1fr; }
+      .topbar__email { display: none; }
+      .progress-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body data-page="admin-generate-assessment">
+
+  <!-- ══ TOP BAR ═══════════════════════════════════════════ -->
+  <header class="topbar">
+    <div class="topbar__logo">eLearningU</div>
+    <div class="topbar__right">
+      <a href="/my-clients/" class="topbar__back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="15 18 9 12 15 6"></polyline>
+        </svg>
+        Back to Projects
+      </a>
+      <span class="topbar__email" id="topbarEmail"></span>
+      <div id="userMenuContainer"></div>
+    </div>
+  </header>
+
+  <!-- ══ MAIN ══════════════════════════════════════════════ -->
+  <main class="main">
+
+    <div class="page-header">
+      <p class="page-header__eyebrow">Admin</p>
+      <h1 class="page-header__title">Generate Assessment</h1>
+      <p class="page-header__sub">
+        Create a digital marketing assessment for a client business. The assessment will analyze their website,
+        social media presence, reviews, and more to provide actionable recommendations.
+      </p>
+    </div>
+
+    <div id="errorMessage" class="message message--error"></div>
+    <div id="successMessage" class="message message--success"></div>
+
+    <div class="form-card">
+      <form id="assessmentForm">
+
+        <!-- Business Information -->
+        <div class="form-section">
+          <h2 class="form-section__title">Business Information</h2>
+          <p class="form-section__desc">Enter the client's basic business details</p>
+
+          <div class="form-group">
+            <label class="form-label" for="businessName">Business Name</label>
+            <input type="text" class="form-input" id="businessName" placeholder="e.g., Pacific Northwest Raptors" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="slug">URL Slug</label>
+            <input type="text" class="form-input" id="slug" placeholder="e.g., pacific-northwest-raptors" required>
+            <p class="form-hint">Auto-generated from business name. Lowercase, hyphens only.</p>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="websiteUrl">Website URL</label>
+              <input type="url" class="form-input" id="websiteUrl" placeholder="https://example.com" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="location">Location <span class="form-label--optional">(optional)</span></label>
+              <input type="text" class="form-input" id="location" placeholder="e.g., Victoria, BC">
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media Accounts -->
+        <div class="form-section">
+          <h2 class="form-section__title">Social Media Accounts</h2>
+          <p class="form-section__desc">Add all active social media accounts to include in the assessment</p>
+
+          <div class="social-grid">
+            <div class="form-group">
+              <label class="form-label" for="socialInstagram">Instagram <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+                <input type="url" class="form-input" id="socialInstagram" placeholder="https://instagram.com/...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialFacebook">Facebook <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                </svg>
+                <input type="url" class="form-input" id="socialFacebook" placeholder="https://facebook.com/...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialTiktok">TikTok <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z"/>
+                </svg>
+                <input type="url" class="form-input" id="socialTiktok" placeholder="https://tiktok.com/@...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialYoutube">YouTube <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path>
+                  <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                </svg>
+                <input type="url" class="form-input" id="socialYoutube" placeholder="https://youtube.com/...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialPinterest">Pinterest <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0a12 12 0 0 0-4.37 23.17c-.1-.94-.2-2.4.04-3.43l1.4-5.93s-.35-.7-.35-1.74c0-1.63.95-2.84 2.12-2.84 1 0 1.48.75 1.48 1.65 0 1-.64 2.5-.97 3.9-.28 1.16.58 2.1 1.73 2.1 2.07 0 3.67-2.18 3.67-5.33 0-2.79-2-4.74-4.87-4.74-3.32 0-5.27 2.49-5.27 5.06 0 1 .38 2.08.87 2.66a.35.35 0 0 1 .08.33c-.1.37-.3 1.16-.34 1.32-.05.22-.18.27-.42.16-1.55-.73-2.52-3-2.52-4.83 0-3.93 2.86-7.55 8.24-7.55 4.33 0 7.69 3.08 7.69 7.2 0 4.3-2.71 7.75-6.47 7.75-1.27 0-2.46-.66-2.86-1.43l-.78 2.96c-.28 1.1-1.05 2.47-1.56 3.31A12 12 0 1 0 12 0z"/>
+                </svg>
+                <input type="url" class="form-input" id="socialPinterest" placeholder="https://pinterest.com/...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialTwitter">X / Twitter <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                </svg>
+                <input type="url" class="form-input" id="socialTwitter" placeholder="https://x.com/...">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="socialLinkedin">LinkedIn <span class="form-label--optional">(optional)</span></label>
+              <div class="social-input-wrap">
+                <svg class="social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                  <rect x="2" y="9" width="4" height="12"></rect>
+                  <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+                <input type="url" class="form-input" id="socialLinkedin" placeholder="https://linkedin.com/company/...">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">Generate Assessment</button>
+      </form>
+    </div>
+
+  </main>
+
+  <footer class="footer">eLearningU &nbsp;&middot;&nbsp; &copy; 2026</footer>
+
+  <!-- ══ PROGRESS OVERLAY ═══════════════════════════════════ -->
+  <div class="progress-overlay" id="progressOverlay">
+    <div class="progress-card">
+      <div class="progress-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M12 6v6l4 2"></path>
+        </svg>
+      </div>
+      <h2 class="progress-title">Generating Assessment</h2>
+      <p class="progress-subtitle">Analyzing digital marketing presence...</p>
+
+      <div class="progress-steps">
+        <div class="progress-step" id="step1">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Analyzing website & technical SEO</span>
+        </div>
+        <div class="progress-step" id="step2">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Evaluating social media presence</span>
+        </div>
+        <div class="progress-step" id="step3">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Checking reviews & local visibility</span>
+        </div>
+        <div class="progress-step" id="step4">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Analyzing booking & conversion paths</span>
+        </div>
+        <div class="progress-step" id="step5">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Generating recommendations</span>
+        </div>
+      </div>
+
+      <p class="progress-time">This typically takes 30-60 seconds</p>
+    </div>
+  </div>
+
+  <script src="/shared/supabase-client.js"></script>
+  <script src="/shared/auth.js?v=2"></script>
+  <script src="/shared/user-menu.js?v=2"></script>
+  <script>
+    // ══════════════════════════════════════════════════════════════
+    // STATE
+    // ══════════════════════════════════════════════════════════════
+    let currentUser = null;
+
+    // ══════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ══════════════════════════════════════════════════════════════
+    (async function init() {
+      const user = await window.__authReady;
+      currentUser = user;
+
+      // Check admin/psm role
+      if (user.role !== 'admin' && user.role !== 'psm') {
+        window.location.replace('/my-clients/');
+        return;
+      }
+
+      document.getElementById('topbarEmail').textContent = user.email;
+      window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
+
+      setupEventListeners();
+    })();
+
+    // ══════════════════════════════════════════════════════════════
+    // EVENT LISTENERS
+    // ══════════════════════════════════════════════════════════════
+    function setupEventListeners() {
+      const businessNameInput = document.getElementById('businessName');
+      const slugInput = document.getElementById('slug');
+      const form = document.getElementById('assessmentForm');
+
+      // Auto-generate slug from business name
+      businessNameInput.addEventListener('input', () => {
+        const slug = businessNameInput.value
+          .toLowerCase()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+        slugInput.value = slug;
+      });
+
+      // Form submission
+      form.addEventListener('submit', handleSubmit);
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // FORM SUBMISSION
+    // ══════════════════════════════════════════════════════════════
+    async function handleSubmit(e) {
+      e.preventDefault();
+
+      const submitBtn = document.getElementById('submitBtn');
+      const businessName = document.getElementById('businessName').value.trim();
+      const slug = document.getElementById('slug').value.trim();
+      const websiteUrl = document.getElementById('websiteUrl').value.trim();
+      const location = document.getElementById('location').value.trim();
+
+      // Collect social media URLs
+      const social = {
+        instagram: document.getElementById('socialInstagram').value.trim() || null,
+        facebook: document.getElementById('socialFacebook').value.trim() || null,
+        tiktok: document.getElementById('socialTiktok').value.trim() || null,
+        youtube: document.getElementById('socialYoutube').value.trim() || null,
+        pinterest: document.getElementById('socialPinterest').value.trim() || null,
+        twitter: document.getElementById('socialTwitter').value.trim() || null,
+        linkedin: document.getElementById('socialLinkedin').value.trim() || null
+      };
+
+      // Validate
+      if (!slug.match(/^[a-z0-9-]+$/)) {
+        showError('Slug can only contain lowercase letters, numbers, and hyphens');
+        return;
+      }
+
+      // Validate URL format
+      try {
+        new URL(websiteUrl);
+      } catch {
+        showError('Please enter a valid website URL');
+        return;
+      }
+
+      // Show progress overlay
+      showProgress();
+      submitBtn.disabled = true;
+      hideError();
+
+      try {
+        // Get auth token
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        // Simulate progress steps (actual progress will come from SSE in future)
+        simulateProgress();
+
+        // Call Netlify Function
+        const response = await fetch('/.netlify/functions/generate-assessment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            businessName,
+            slug,
+            websiteUrl,
+            location: location || null,
+            social
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.error || 'Failed to generate assessment');
+        }
+
+        // Hide progress and show success
+        hideProgress();
+        showSuccess(`Assessment generated successfully! <a href="/${slug}/">View assessment</a>`);
+        document.getElementById('assessmentForm').reset();
+
+      } catch (err) {
+        hideProgress();
+        showError(err.message);
+      } finally {
+        submitBtn.disabled = false;
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // PROGRESS OVERLAY
+    // ══════════════════════════════════════════════════════════════
+    function showProgress() {
+      document.getElementById('progressOverlay').classList.add('active');
+      // Reset all steps
+      for (let i = 1; i <= 5; i++) {
+        const step = document.getElementById(`step${i}`);
+        step.classList.remove('active', 'complete');
+      }
+    }
+
+    function hideProgress() {
+      document.getElementById('progressOverlay').classList.remove('active');
+    }
+
+    function simulateProgress() {
+      const steps = [1, 2, 3, 4, 5];
+      const delays = [0, 8000, 16000, 24000, 35000]; // Approximate timing
+
+      steps.forEach((stepNum, index) => {
+        setTimeout(() => {
+          // Mark previous steps complete
+          for (let i = 1; i < stepNum; i++) {
+            document.getElementById(`step${i}`).classList.remove('active');
+            document.getElementById(`step${i}`).classList.add('complete');
+          }
+          // Mark current step active
+          document.getElementById(`step${stepNum}`).classList.add('active');
+        }, delays[index]);
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // MESSAGES
+    // ══════════════════════════════════════════════════════════════
+    function showError(message) {
+      const el = document.getElementById('errorMessage');
+      el.textContent = message;
+      el.classList.add('visible');
+      document.getElementById('successMessage').classList.remove('visible');
+    }
+
+    function hideError() {
+      document.getElementById('errorMessage').classList.remove('visible');
+    }
+
+    function showSuccess(message) {
+      const el = document.getElementById('successMessage');
+      el.innerHTML = message;
+      el.classList.add('visible');
+      document.getElementById('errorMessage').classList.remove('visible');
+    }
+  </script>
+</body>
+</html>
