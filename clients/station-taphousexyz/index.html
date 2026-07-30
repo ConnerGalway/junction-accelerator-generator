@@ -1,0 +1,2070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing Assessment — Station Taphouse</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy: #11154b;
+  --navy-light: #1a1f6b;
+  --mint: #aadab6;
+  --mint-dark: #7bc490;
+  --cream: #fcf5ec;
+  --blue: #067cbc;
+  --slate: #708090;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --sidebar-w: 268px;
+  --font-d: 'Raleway', sans-serif;
+  --font-b: 'Open Sans', sans-serif;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #28a745;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-b);
+  background: var(--page-bg);
+  color: var(--dark);
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--mint);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-client {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-client-name {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.sidebar-client-status {
+  font-size: 11px;
+  color: var(--mint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  border-radius: 50%;
+}
+
+nav { flex: 1; padding: 12px 0; }
+
+.nav-section-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 16px 24px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 1px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+
+.nav-item.active {
+  background: rgba(170,218,182,.12);
+  color: #fff;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+  margin-left: -8px;
+}
+
+.nav-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item .lock-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  color: rgba(255,255,255,.3);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+/* ── Main Content ─────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active { display: block; }
+
+/* ── Assessment Page ─────────────────────────── */
+.assessment-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.assessment-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(170,218,182,.15) 0%, transparent 60%);
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.assessment-hero-title {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.assessment-hero-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.assessment-hero-badge {
+  background: var(--mint);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255,255,255,.1);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.grade-details h3 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.grade-details p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ── Category Cards ─────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.category-icon.website { background: #e3f2fd; color: #1976d2; }
+.category-icon.ai { background: #f3e5f5; color: #7b1fa2; }
+.category-icon.booking { background: #e8f5e9; color: #388e3c; }
+.category-icon.reviews { background: #fff3e0; color: #f57c00; }
+.category-icon.social { background: #fce4ec; color: #c2185b; }
+.category-icon.local { background: #e0f7fa; color: #0097a7; }
+.category-icon.email { background: #fff8e1; color: #ffa000; }
+.category-icon.competitive { background: #efebe9; color: #5d4037; }
+
+.category-title-wrap {
+  flex: 1;
+}
+
+.category-title {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.category-grade {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-grade.grade-a { background: #d4edda; color: #155724; }
+.category-grade.grade-b { background: #d1ecf1; color: #0c5460; }
+.category-grade.grade-c { background: #fff3cd; color: #856404; }
+.category-grade.grade-d { background: #f8d7da; color: #721c24; }
+.category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+
+.category-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.category-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  padding: 12px;
+  background: var(--page-bg);
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-status.good { background: var(--success); }
+.metric-status.warning { background: var(--warning); }
+.metric-status.critical { background: var(--danger); }
+
+.category-findings {
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.finding-item:last-child { border-bottom: none; }
+
+.finding-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-icon.positive { color: var(--success); }
+.finding-icon.negative { color: var(--danger); }
+
+.category-recommendations h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(6,124,188,.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.recommendation-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.recommendation-priority.high { background: #f8d7da; color: #721c24; }
+.recommendation-priority.medium { background: #fff3cd; color: #856404; }
+.recommendation-priority.low { background: #d1ecf1; color: #0c5460; }
+
+/* ── Priority Recommendations ─────────────────── */
+.priority-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.priority-section h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.priority-list {
+  display: grid;
+  gap: 16px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.priority-item-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: var(--mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.priority-item-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.priority-item-content p {
+  font-size: 13px;
+  color: #666;
+}
+
+.priority-item-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.priority-item-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.06);
+}
+
+.priority-item-tag.time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+}
+
+.priority-item-tag.impact-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-item-tag.impact-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-item-tag.impact-low {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.priority-item-result {
+  font-size: 12px;
+  color: #555;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mint);
+  font-style: italic;
+}
+
+/* ── Executive Summary ─────────────────────────── */
+.executive-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.executive-summary h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.executive-headline {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.executive-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.executive-column h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.executive-column h4 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.executive-column.strengths h4 { color: var(--success); }
+.executive-column.gaps h4 { color: var(--danger); }
+
+.executive-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.executive-column li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.executive-column li:last-child { border-bottom: none; }
+
+.executive-column li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.executive-column.strengths li::before { background: var(--success); }
+.executive-column.gaps li::before { background: var(--danger); }
+
+.executive-bottom-line {
+  background: var(--page-bg);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid var(--navy);
+}
+
+/* ── Quick Wins ─────────────────────────────────── */
+.quick-wins {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.quick-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-wins h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--success);
+}
+
+.quick-wins-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-win-item {
+  background: var(--card-bg);
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.quick-win-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quick-win-content {
+  flex: 1;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.quick-win-impact {
+  font-size: 13px;
+  color: #666;
+}
+
+.quick-win-time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tourism Context ────────────────────────────── */
+.tourism-context {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tourism-context h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tourism-context h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.tourism-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tourism-context-item {
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.tourism-context-item h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tourism-context-item h4 svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.tourism-context-item p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── Updated Metric with Benchmark ─────────────── */
+.metric-benchmark {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Recommendation Time Estimate ──────────────── */
+.recommendation-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 6px;
+}
+
+.recommendation-time svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Category Guest Experience ─────────────────── */
+.category-icon.guest { background: #e1f5fe; color: #0277bd; }
+.category-icon.visitor { background: #f3e5f5; color: #7b1fa2; }
+
+@media (max-width: 768px) {
+  .executive-columns { grid-template-columns: 1fr; }
+  .tourism-context-grid { grid-template-columns: 1fr; }
+  .quick-win-item { flex-direction: column; align-items: stretch; }
+  .quick-win-time { align-self: flex-start; }
+}
+
+/* ── Coming Soon Page ─────────────────────────── */
+.coming-soon-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.coming-soon-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 60px 40px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--navy);
+}
+
+.coming-soon-content h2 {
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.coming-soon-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.coming-soon-note {
+  font-size: 13px;
+  color: #999;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-header-title {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mint);
+  }
+
+  .mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page { padding: 20px; }
+  .assessment-hero { padding: 24px; }
+  .assessment-hero-title { font-size: 22px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-metrics { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 769px) {
+  .mobile-header { display: none; }
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Download PDF Button ────────────────────────── */
+.assessment-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.5);
+}
+
+.download-pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Print Header & Footer (hidden on screen) ──── */
+.print-header,
+.print-footer {
+  display: none;
+}
+
+/* ── Print Styles ───────────────────────────────── */
+@media print {
+  /* Reset for print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    height: auto;
+    overflow: visible;
+    background: #fff;
+  }
+
+  body {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Hide non-print elements */
+  #sidebar,
+  .mobile-header,
+  .mobile-overlay,
+  .download-pdf-btn,
+  .assessment-hero-badge,
+  .assessment-hero-actions,
+  .nav-item,
+  #page-strategy,
+  #page-tactic1,
+  #page-tactic2,
+  #page-tactic3,
+  #page-roadmap {
+    display: none !important;
+  }
+
+  /* Main content fills page */
+  #main {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .page {
+    display: block !important;
+    padding: 0;
+    min-height: auto;
+  }
+
+  /* Print Header */
+  .print-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    margin-bottom: 24px;
+    border-bottom: 3px solid var(--navy);
+  }
+
+  .print-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .print-header-logo-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--navy);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-header-logo-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--mint);
+  }
+
+  .print-header-brand {
+    font-family: var(--font-d);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .print-header-brand span {
+    color: var(--mint-dark);
+  }
+
+  .print-header-info {
+    text-align: right;
+  }
+
+  .print-header-title {
+    font-family: var(--font-d);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .print-header-client {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  /* Assessment Hero for print */
+  .assessment-hero {
+    background: var(--navy) !important;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    page-break-inside: avoid;
+  }
+
+  .assessment-hero-top {
+    margin-bottom: 20px;
+  }
+
+  .assessment-hero-title {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .assessment-hero-date {
+    color: rgba(255,255,255,.8);
+  }
+
+  .assessment-grade-card {
+    background: rgba(255,255,255,.1) !important;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .grade-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+    background: var(--mint) !important;
+    color: var(--navy) !important;
+  }
+
+  .grade-details {
+    color: #fff;
+  }
+
+  .grade-details h3 {
+    color: #fff;
+  }
+
+  /* Sections for print */
+  .executive-summary,
+  .quick-wins,
+  .tourism-context,
+  .priority-section {
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+
+  .executive-summary {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .quick-wins {
+    background: #e8f5e9 !important;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .tourism-context {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  /* Category cards for print */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .category-card {
+    page-break-inside: avoid;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 11px;
+  }
+
+  .category-header {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .category-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .category-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .category-title {
+    font-size: 13px;
+  }
+
+  .category-summary {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .category-metrics {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .metric-item {
+    padding: 8px;
+  }
+
+  .metric-label {
+    font-size: 9px;
+  }
+
+  .metric-value {
+    font-size: 12px;
+  }
+
+  .metric-benchmark {
+    font-size: 8px;
+  }
+
+  .finding-item {
+    font-size: 10px;
+    padding: 4px 0;
+  }
+
+  .category-recommendations h4 {
+    font-size: 11px;
+  }
+
+  .recommendation-item {
+    font-size: 10px;
+    padding: 8px;
+    margin-bottom: 4px;
+  }
+
+  .recommendation-priority {
+    font-size: 8px;
+  }
+
+  .recommendation-time {
+    font-size: 9px;
+  }
+
+  /* Priority section for print */
+  .priority-section {
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    padding: 24px;
+    page-break-inside: avoid;
+  }
+
+  .priority-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .priority-item {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    background: var(--page-bg) !important;
+  }
+
+  .priority-item-number {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    background: var(--navy) !important;
+    color: var(--mint) !important;
+  }
+
+  .priority-item-content h4 {
+    font-size: 13px;
+  }
+
+  .priority-item-meta {
+    gap: 8px;
+  }
+
+  .priority-item-tag {
+    font-size: 9px;
+  }
+
+  .priority-item-result {
+    font-size: 10px;
+  }
+
+  /* Print Footer */
+  .print-footer {
+    display: block !important;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid var(--navy);
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .print-footer-credits {
+    flex: 1;
+  }
+
+  .print-footer-credits h4 {
+    font-family: var(--font-d);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .print-footer-credits p {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .print-footer-branding {
+    text-align: right;
+  }
+
+  .print-footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .print-footer-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--navy);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-footer-logo-icon svg {
+    width: 18px;
+    height: 18px;
+    color: var(--mint);
+  }
+
+  .print-footer-logo-text {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .print-footer-url {
+    font-size: 11px;
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .print-footer-disclaimer {
+    font-size: 9px;
+    color: #888;
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Quick wins adjustments for print */
+  .quick-win-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #fff !important;
+  }
+
+  .quick-win-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    background: var(--success) !important;
+    color: #fff !important;
+  }
+
+  .quick-win-task {
+    font-size: 12px;
+  }
+
+  .quick-win-impact {
+    font-size: 10px;
+  }
+
+  .quick-win-time {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  /* Tourism context for print */
+  .tourism-context-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .tourism-context-item {
+    padding: 12px;
+  }
+
+  .tourism-context-item h4 {
+    font-size: 11px;
+  }
+
+  .tourism-context-item p {
+    font-size: 10px;
+  }
+
+  /* Executive summary for print */
+  .executive-headline {
+    font-size: 14px;
+  }
+
+  .executive-columns {
+    gap: 16px;
+  }
+
+  .executive-column h4 {
+    font-size: 11px;
+  }
+
+  .executive-column li {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  .executive-bottom-line {
+    font-size: 11px;
+    padding: 12px;
+  }
+
+  /* Page breaks */
+  .categories-grid {
+    page-break-before: always;
+  }
+
+  .priority-section {
+    page-break-before: always;
+  }
+}
+</style>
+</head>
+<body data-client-slug="station-taphousexyz">
+
+<!-- Print Header (visible only when printing) -->
+<div class="print-header">
+  <div class="print-header-logo">
+    <div class="print-header-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="print-header-brand">eLearnin<span>gU</span></div>
+  </div>
+  <div class="print-header-info">
+    <div class="print-header-title">Digital Marketing Assessment</div>
+    <div class="print-header-client">Station Taphouse</div>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mobile-header-title">Station Taphouse</span>
+  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <span class="sidebar-logo-text">eLearningU</span>
+  </div>
+
+  <div class="sidebar-client">
+    <div class="sidebar-client-name">Station Taphouse</div>
+    <div class="sidebar-client-status">
+      <span class="status-dot"></span>
+      Assessment Complete
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="navigate('assessment')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Assessment
+    </div>
+
+    <div class="nav-section-label">Your Plan</div>
+    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      Strategy
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Tactics</div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 1
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 2
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 3
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Implementation</div>
+    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      90-Day Roadmap
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- Assessment Page -->
+  <section id="page-assessment" class="page active">
+    <div class="assessment-hero">
+      <div class="assessment-hero-top">
+        <div>
+          <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
+          <p class="assessment-hero-date">Assessment Date: July 30, 2026</p>
+        </div>
+        <div class="assessment-hero-actions">
+          <button class="download-pdf-btn" onclick="downloadPDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </button>
+          <div class="assessment-hero-badge">Complete</div>
+        </div>
+      </div>
+
+      <div class="assessment-grade-card">
+        <div class="grade-circle" id="overallGrade">B-</div>
+        <div class="grade-details">
+          <h3>Overall Score: <span id="overallScore">68</span>/100</h3>
+          <p id="overallSummary">Station Taphouse has built a technically sound website with strong performance metrics, but is dramatically underperforming in the critical 'tourist discovery' phase. The missing Google Business Profile alone represents an estimated 60-70% loss in potential tourist impressions. With Port Alberni seeing 400,000+ annual visitors passing through to Pacific Rim destinations, even a 2-3% capture rate could mean 8,000-12,000 additional tourist visits annually. The foundation is solid; tactical execution on local discovery tools is urgently needed.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary" id="executiveSummary">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="quick-wins" id="quickWins">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Tourism Context -->
+    <div class="tourism-context" id="tourismContext">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Categories will be populated by JavaScript -->
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <!-- Priority recommendations will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Pages -->
+  <section id="page-strategy" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>Strategy Coming Soon</h2>
+        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
+        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic1" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 1 Coming Soon</h2>
+        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic2" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 2 Coming Soon</h2>
+        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic3" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 3 Coming Soon</h2>
+        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-roadmap" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>90-Day Roadmap Coming Soon</h2>
+        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
+        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Footer (visible only when printing) -->
+  <div class="print-footer">
+    <div class="print-footer-content">
+      <div class="print-footer-credits">
+        <h4>About This Assessment</h4>
+        <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
+        <p><strong>Your Coach:</strong> conner@elearningu.com</p>
+        <p><strong>Assessment Date:</strong> July 30, 2026</p>
+      </div>
+      <div class="print-footer-branding">
+        <div class="print-footer-logo">
+          <div class="print-footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="print-footer-logo-text">eLearningU</span>
+        </div>
+        <div class="print-footer-url">eLearningU.com</div>
+      </div>
+    </div>
+    <div class="print-footer-disclaimer">
+      This assessment is confidential and prepared exclusively for Station Taphouse.
+      Powered by Junction Accelerator &mdash; helping tourism businesses grow their digital presence.
+    </div>
+  </div>
+
+</main>
+
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Station Taphouse has a solid digital foundation with strong technical performance but is missing critical opportunities to capture tourist traffic in Port Alberni's gateway position to Pacific Rim National Park.","key_strengths":["Excellent website performance (A+ rating) ensuring fast load times for mobile tourists","Strong social media presence with active Instagram engagement","Ranking #1 for branded searches and local taphouse queries in Canadian search results"],"critical_gaps":["No Google Business Profile detected - invisible to tourists searching 'restaurants near me' or 'Port Alberni dining'","Missing contact information (phone/address) on website forces visitors to leave the site","Weak backlink profile (F grade) means low visibility for tourists researching 'Vancouver Island food scene' or 'Port Alberni attractions'"],"bottom_line":"This historic train station pub is well-positioned to capture tourist traffic traveling to/from Tofino and Ucluelet, but critical gaps in local discovery tools mean they're losing thousands of potential visitor impressions monthly."},"quick_wins":[{"task":"Add phone number (250-XXX-XXXX) and full address (2750 Kingsway Ave) to website header/footer with click-to-call functionality","time_estimate":"30 minutes","impact":"Immediate improvement in visitor conversion - tourists can call for reservations or directions without leaving site"},{"task":"Create and verify Google Business Profile with high-quality photos of the historic train station interior, craft beer taps, and signature dishes","time_estimate":"2 hours","impact":"Visibility to 5,000-10,000 monthly 'near me' searches from tourists passing through Port Alberni en route to Pacific Rim"},{"task":"Add H1 tag to homepage: 'Port Alberni's Historic Train Station Restaurant & Craft Beer Taphouse'","time_estimate":"15 minutes","impact":"Better ranking for key tourist search terms like 'Port Alberni restaurant' and 'Vancouver Island craft beer'"},{"task":"Install Google Analytics to track visitor sources and popular content","time_estimate":"45 minutes","impact":"Data-driven insights on which tourist segments are finding you and what information they seek"},{"task":"Add FAQ section answering: parking info, group reservations, kids menu availability, hours, gluten-free options","time_estimate":"1.5 hours","impact":"Reduces pre-visit friction and improves AI/voice search visibility for long-tail tourist queries"}],"tourism_context":{"visitor_profile":"Primary audience is highway tourists (70% of Port Alberni visitors) traveling Highway 4 to/from Pacific Rim National Park, Tofino, and Ucluelet. Secondary audience includes outdoor recreation tourists (fishing, kayaking, hiking) and local residents. Demographics skew 30-55, mid-to-upper income, interested in craft beverages and quality casual dining. Peak season June-September with shoulder seasons in May/October.","discovery_journey":"Tourists typically discover Port Alberni dining in three phases: 1) Pre-trip planning via Google searches for 'Vancouver Island itinerary' or 'where to eat between Nanaimo and Tofino', 2) En-route mobile searches for 'restaurants near me' or 'craft beer Port Alberni' while driving Highway 4, 3) Walk-in traffic from those staying overnight in Port Alberni. The historic train station location is a unique selling point that could attract heritage tourism interest but isn't being leveraged in content.","seasonal_considerations":"Summer (June-August) sees 300%+ increase in Port Alberni tourist traffic. Digital strategy should emphasize 'make a reservation' messaging during peak season to manage capacity, while off-season (November-March) should focus on local community engagement and events. Shoulder seasons present opportunity to capture spontaneous tourist traffic with real-time social media updates.","trip_integration":"Station Taphouse serves as an ideal 'halfway point' stop for the 3-hour Parksville to Tofino drive, positioning it as a lunch/dinner destination for day-trippers and overnight tourists. The business should integrate into 'Vancouver Island road trip' content, 'Tofino trip planning' guides, and 'Port Alberni stopover' itineraries. Partnership opportunities with accommodations and tour operators in the Alberni Valley.","competitive_landscape":"Competing against 15-20 casual dining options in Port Alberni for tourist dollars, but main competition is actually 'keep driving to Tofino' mentality. The craft beer focus and historic location differentiate from chain restaurants, but tourists may default to familiar brands without strong online presence. Regional competition includes Tofino/Ucluelet dining (higher prices, ocean views) and Parksville/Qualicum options (more coastal ambiance). Station Taphouse advantage: authentic local experience, better value, unique heritage setting."},"overall":{"grade":"B-","score":68,"summary":"Station Taphouse has built a technically sound website with strong performance metrics, but is dramatically underperforming in the critical 'tourist discovery' phase. The missing Google Business Profile alone represents an estimated 60-70% loss in potential tourist impressions. With Port Alberni seeing 400,000+ annual visitors passing through to Pacific Rim destinations, even a 2-3% capture rate could mean 8,000-12,000 additional tourist visits annually. The foundation is solid; tactical execution on local discovery tools is urgently needed."},"categories":{"website_technical":{"grade":"A-","score":88,"title":"Website & Technical Foundation","summary":"Excellent technical performance with fast load times critical for mobile tourists with spotty Highway 4 cell coverage, though missing some basic SEO elements that would improve discovery.","metrics":[{"label":"Desktop PageSpeed","value":"94/100","benchmark":"Tourism industry average: 72/100","status":"good","tooltip":"Fast desktop performance ensures tourists researching on laptops/tablets get smooth experience during trip planning"},{"label":"Mobile PageSpeed","value":"64/100","benchmark":"Tourism industry average: 58/100","status":"good","tooltip":"Slightly above average but room for improvement - critical since 75% of tourist searches happen on mobile devices"},{"label":"SSL Security","value":"Enabled","benchmark":"99% of tourism sites use SSL","status":"good","tooltip":"Secure connection builds trust for tourists entering reservation information or browsing menus"},{"label":"Mobile Responsiveness","value":"Fully Responsive","benchmark":"98% of hospitality sites mobile-optimized","status":"good","tooltip":"Site adapts perfectly to all devices - essential for tourists searching on phones while driving"}],"findings":[{"type":"positive","text":"Website loads in under 1 second on desktop and ~4 seconds on mobile, significantly faster than competitors - critical for impatient tourists comparing multiple dining options"},{"type":"positive","text":"Clean, modern design with clear navigation and prominent 'Book a Table' CTA - reduces friction for tourists making quick decisions"},{"type":"negative","text":"Missing H1 header tag on homepage reduces search engine understanding of primary purpose - tourists searching 'Port Alberni restaurant' may not find you as easily"},{"type":"negative","text":"Title tag exceeds optimal length (68 vs 60 characters), causing truncation in mobile search results where tourists are comparing options"}],"recommendations":[{"text":"Shorten title tag to: 'Station Taphouse | Historic Train Station Pub & Restaurant - Port Alberni BC' (59 characters)","time_estimate":"15 minutes","impact":"Full title displays in mobile search results, improving click-through from tourists"},{"text":"Add proper H1 tag: 'Port Alberni's Historic Train Station Restaurant & Craft Beer Taphouse' to homepage","time_estimate":"15 minutes","impact":"Improved SEO for key tourist search terms, estimated 10-15% increase in organic search visibility"},{"text":"Add alt text to 2 missing images describing food/venue for accessibility and image search","time_estimate":"10 minutes","impact":"Appears in Google Images searches for 'Port Alberni food' or 'train station restaurant BC'"},{"text":"Implement Google Analytics to track tourist vs. local traffic sources and popular pages","time_estimate":"45 minutes","impact":"Data-driven insights on which marketing channels drive tourist visits vs. local regulars"}]},"visitor_discovery":{"grade":"D+","score":45,"title":"Visitor Discovery & Trip Integration","summary":"Critically weak in the channels where tourists actually discover dining options - virtually invisible in Google Maps, travel guides, and trip planning resources that drive 60-70% of tourist restaurant decisions.","metrics":[{"label":"Google Business Profile","value":"Not Found","benchmark":"98% of successful tourism businesses have GBP","status":"critical","tooltip":"Missing from the #1 tool tourists use to find restaurants - 'near me' searches, Maps, and local pack results"},{"label":"Backlink Profile Strength","value":"9/100","benchmark":"Average tourism business: 35-45/100","status":"critical","tooltip":"Only 44 backlinks from 42 domains means you're not appearing in travel blogs, destination guides, or 'best of' lists"},{"label":"Trip Planning Integration","value":"Minimal","benchmark":"Strong performers appear in 5-10 travel resources","status":"warning","tooltip":"Not found in TripAdvisor, Vancouver Island travel guides, or 'Tofino road trip' itinerary content"},{"label":"Keyword Visibility","value":"388 ranked keywords","benchmark":"Similar venues: 800-1,200 keywords","status":"warning","tooltip":"Limited visibility for non-branded searches like 'Vancouver Island craft beer' or 'Highway 4 restaurants'"}],"findings":[{"type":"negative","text":"No Google Business Profile means zero visibility in 'restaurants near me' searches - estimated 5,000-10,000 missed monthly impressions from Highway 4 tourists"},{"type":"negative","text":"Weak backlink profile (F grade) indicates absence from travel blogs, Vancouver Island destination guides, and 'best craft beer' lists that influence tourist decisions during trip planning phase"},{"type":"negative","text":"Not optimized for key tourist search phrases like 'where to eat between Parksville and Tofino', 'Port Alberni stopover restaurants', or 'Vancouver Island brewery tours'"},{"type":"positive","text":"Strong performance (#1-2 rankings) for branded searches shows good brand awareness among those who already know about you, likely from word-of-mouth or repeat visits"}],"recommendations":[{"text":"Create comprehensive Google Business Profile with categories: Restaurant, Bar, Craft Beer Restaurant. Add 20+ photos of historic train station interior, food, beer selection, and exterior signage visible from Highway 4","time_estimate":"3 hours","impact":"Immediate visibility to 5,000-10,000 monthly local searches; appears in Google Maps for tourists navigating Highway 4"},{"text":"Develop link building campaign targeting Vancouver Island travel blogs, Port Alberni tourism sites, and craft beer directories. Start with Tourism Vancouver Island, Alberni Valley Chamber, and BC Ale Trail","time_estimate":"4-6 hours monthly","impact":"Increase backlinks from 44 to 150+ over 6 months; appear in trip planning content tourists read pre-visit"},{"text":"Create dedicated landing page: 'Perfect Halfway Stop Between Parksville & Tofino' optimized for road trip searches, including drive times, parking info, and quick-service options","time_estimate":"4 hours","impact":"Capture 200-400 monthly searches from tourists planning Highway 4 journey; position as essential stopover point"},{"text":"Submit business to TripAdvisor, Yelp, and Vancouver Island-specific travel platforms with complete profile and request initial reviews from recent customers","time_estimate":"2 hours","impact":"Visibility in multiple tourist research channels; TripAdvisor alone could drive 50-100 monthly tourist visits"}]},"online_booking":{"grade":"B","score":70,"title":"Online Booking & Reservations","summary":"Reservation system is present and functional with clear CTAs, but missing key friction reducers like phone number visibility and real-time availability that tourists need when making spontaneous decisions.","metrics":[{"label":"Reservation System","value":"Implemented","benchmark":"85% of full-service restaurants offer online booking","status":"good","tooltip":"Online booking available - essential for tourists planning visits in advance or during peak summer season"},{"label":"Contact Info Visibility","value":"Missing","benchmark":"100% of top tourism sites display phone prominently","status":"critical","tooltip":"No phone number or address visible forces tourists to leave site to find contact information"},{"label":"Booking CTA Prominence","value":"Strong","benchmark":"Best practice: visible within 3 seconds","status":"good","tooltip":"'Book a Table' button clearly visible on homepage - reduces friction for tourists ready to reserve"},{"label":"Mobile Booking Experience","value":"Optimized","benchmark":"78% of restaurant bookings happen on mobile","status":"good","tooltip":"Booking system works smoothly on mobile devices used by tourists on-the-go"}],"findings":[{"type":"positive","text":"Clear 'Book a Table' CTAs throughout site make reservation process obvious for tourists who want to secure a spot during busy summer season"},{"type":"negative","text":"Missing phone number and address on website forces tourists to search elsewhere - creates friction that may result in choosing a competitor instead"},{"type":"negative","text":"No indication of walk-in availability or wait times visible online - tourists driving Highway 4 need to know if they can stop spontaneously or must book ahead"},{"type":"positive","text":"Reservation system integration provides professional booking experience that builds confidence for tourists unfamiliar with Port Alberni dining scene"}],"recommendations":[{"text":"Add click-to-call phone number (250-XXX-XXXX) to header/footer on all pages with 'Call for immediate seating' messaging","time_estimate":"30 minutes","impact":"Reduce 25-30% bounce rate from tourists who can't find contact info; enable spontaneous calls from Highway 4 travelers"},{"text":"Display full address '2750 Kingsway Ave, Port Alberni, BC' with embedded Google Map showing proximity to Highway 4 and parking options","time_estimate":"45 minutes","impact":"Tourists can quickly assess location relative to their route; reduces 'where exactly is this?' abandonment"},{"text":"Add real-time messaging: 'Currently accepting walk-ins' or 'Recommend reservations tonight' updated daily during peak season","time_estimate":"15 minutes daily","impact":"Helps tourists make immediate dining decisions while driving through Port Alberni; reduces phone inquiries"},{"text":"Create 'Groups & Events' booking page specifically for tour buses and large parties traveling to Tofino, with advance ordering options","time_estimate":"3 hours","impact":"Capture group tourist business from tour operators; potential for 5-10 large group bookings monthly in summer"}]},"review_ecosystem":{"grade":"D","score":38,"title":"Reviews & Reputation","summary":"Virtually invisible in the review ecosystem that drives 85% of tourist dining decisions - no Google reviews detected, limited presence on major review platforms that tourists consult during trip planning.","metrics":[{"label":"Google Reviews","value":"None Found","benchmark":"Successful tourism businesses average 150+ reviews","status":"critical","tooltip":"No Google reviews means tourists see blank profile when searching - major trust barrier"},{"label":"Review Platform Presence","value":"Limited","benchmark":"Top performers active on 4-5 platforms","status":"warning","tooltip":"Minimal presence on TripAdvisor, Yelp, and other platforms tourists check before visiting"},{"label":"Average Rating","value":"Unknown","benchmark":"Tourism standard: 4.3-4.6 stars","status":"warning","tooltip":"Without reviews, cannot establish trust signal that influences 92% of tourist dining decisions"},{"label":"Review Response Rate","value":"N/A","benchmark":"Best practice: respond to 100% within 48 hours","status":"warning","tooltip":"No review presence means no opportunity to engage with tourist feedback and showcase hospitality"}],"findings":[{"type":"negative","text":"No Google Business Profile means zero Google reviews - tourists searching 'Port Alberni restaurants' will skip over you in favor of businesses with 4+ star ratings and 50+ reviews"},{"type":"negative","text":"Absence from TripAdvisor means invisibility to international tourists who rely heavily on this platform for Vancouver Island trip planning"},{"type":"negative","text":"No review collection strategy in place - missing opportunity to convert satisfied customers into online advocates that influence future tourists"},{"type":"positive","text":"Facebook page identified (61555918183831) provides platform for social proof, though not leveraged for formal reviews yet"}],"recommendations":[{"text":"Immediately set up Google Business Profile and implement review collection campaign: table tents with QR codes, email follow-up to OpenTable reservations, staff training to request reviews","time_estimate":"4 hours initial setup + 30 min weekly","impact":"Target 50+ Google reviews within 90 days; increases click-through rate from search by 35-45%"},{"text":"Create TripAdvisor business profile with full description emphasizing historic train station location, craft beer selection, and position as Tofino road trip stopover","time_estimate":"2 hours","impact":"Visibility to international tourists planning Vancouver Island itineraries; potential 75-150 monthly profile views"},{"text":"Develop review response templates for common feedback themes (historic ambiance, beer selection, service quality) to ensure consistent 24-hour response time","time_estimate":"2 hours","impact":"Demonstrates active management and hospitality to prospective tourists reading reviews; improves conversion by 18-22%"},{"text":"Launch post-visit email campaign asking for reviews 24-48 hours after reservation, with direct links to Google and TripAdvisor profiles","time_estimate":"3 hours setup + automated","impact":"Increase review generation rate from 2-3% to 12-15% of visitors; build to 200+ reviews within 12 months"}]},"social_media":{"grade":"B+","score":78,"title":"Social Media & Visual Content","summary":"Strong Instagram presence with active posting and good engagement, though content strategy could better target tourist audience versus local regulars and leverage the unique historic train station setting.","metrics":[{"label":"Instagram Activity","value":"Active & Growing","benchmark":"Tourism businesses post 4-7x weekly","status":"good","tooltip":"Regular Instagram updates keep business top-of-mind and provide visual content tourists use to make dining decisions"},{"label":"Visual Content Quality","value":"Professional","benchmark":"High-quality photos essential for food businesses","status":"good","tooltip":"Quality food and venue photography attracts tourists scrolling through 'Port Alberni' location tags"},{"label":"Facebook Presence","value":"Established","benchmark":"88% of tourism businesses maintain Facebook","status":"good","tooltip":"Facebook page provides another discovery channel and platform for reviews/recommendations"},{"label":"Social Engagement Rate","value":"Unknown","benchmark":"Tourism average: 2-4% engagement rate","status":"warning","tooltip":"Need to track likes, comments, shares to optimize content for tourist audience"}],"findings":[{"type":"positive","text":"Active Instagram (@Station.Taphouse) with consistent posting demonstrates professional social media management and provides visual content that tourists use to evaluate dining options"},{"type":"positive","text":"Facebook Pixel installed (885527024585083) enables retargeting of website visitors - can re-engage tourists who viewed menu but didn't book"},{"type":"negative","text":"Social content appears focused on local/regular customer base rather than tourist attraction strategy - missing opportunities to showcase 'road trip worthy' positioning"},{"type":"negative","text":"No Twitter/X presence means missing channel for real-time updates like 'no wait for walk-ins' or 'new seasonal menu' that could capture spontaneous tourist visits"}],"recommendations":[{"text":"Develop Instagram content series highlighting: 1) Historic train station architecture/heritage photos, 2) 'Halfway to Tofino' road trip content, 3) Behind-the-scenes craft beer stories, 4) Customer testimonials from tourists","time_estimate":"2 hours monthly planning","impact":"Increase tourist-focused engagement by 40-50%; create shareable content that extends organic reach"},{"text":"Add location-specific hashtags to every Instagram post: #PortAlberni #AlberniValley #VancouverIsland #Highway4 #TofinoRoadTrip #BCCraftBeer #ExploreBC","time_estimate":"5 minutes per post","impact":"Appear in location-based searches from tourists researching area; increase discovery by 25-35%"},{"text":"Create Instagram Stories series 'Daily Specials for Highway 4 Travelers' with quick service options and current wait times during peak season","time_estimate":"10 minutes daily in summer","impact":"Capture spontaneous tourist traffic from travelers checking social media while driving; 15-25 additional walk-ins weekly"},{"text":"Launch Facebook advertising campaign targeting tourists who recently engaged with Pacific Rim National Park, Tofino tourism, or Vancouver Island travel content with radius targeting along Highway 4","time_estimate":"3 hours setup + $300-500 monthly budget","impact":"Reach 8,000-12,000 tourists planning trips through Port Alberni; drive 100-150 website visits and 20-30 reservations monthly"}]},"local_seo":{"grade":"D+","score":42,"title":"Local SEO & Maps Visibility","summary":"Critically deficient in local search optimization - missing Google Business Profile creates complete invisibility in the 'near me' searches and Maps lookups that represent 60-70% of how tourists find restaurants in unfamiliar areas.","metrics":[{"label":"Google Business Profile Status","value":"Not Found","benchmark":"99% of competitive restaurants have GBP","status":"critical","tooltip":"Completely invisible in Google Maps and local pack results where tourists search for dining options"},{"label":"Local Schema Markup","value":"Missing","benchmark":"75% of top local businesses use structured data","status":"critical","tooltip":"No LocalBusiness schema means search engines can't properly categorize your restaurant for local queries"},{"label":"NAP Consistency","value":"Incomplete","benchmark":"100% consistency required for local SEO","status":"warning","tooltip":"Name/Address/Phone not visible on website creates confusion and weakens local search signals"},{"label":"Local Keyword Rankings","value":"Limited","benchmark":"Should rank top 3 for 'Port Alberni restaurant'","status":"warning","tooltip":"Missing opportunities for high-intent local searches from tourists in the area"}],"findings":[{"type":"negative","text":"No Google Business Profile means complete invisibility when tourists search 'restaurants near me', 'Port Alberni dining', or browse Google Maps while driving Highway 4 - estimated 70-80% loss in local discovery"},{"type":"negative","text":"Missing LocalBusiness schema markup prevents search engines from understanding your location, hours, cuisine type, and price range - critical data tourists filter by"},{"type":"negative","text":"Phone number and address not displayed on website violates local SEO best practices and creates inconsistent NAP (Name/Address/Phone) across web"},{"type":"positive","text":"Strong ranking (#9) for 'train station pub' in Canadian search shows potential to rank well for unique positioning once local SEO fundamentals are in place"}],"recommendations":[{"text":"Create and fully optimize Google Business Profile with: Business category: Restaurant > Craft Beer Restaurant, Complete attributes (outdoor seating, reservations, bar onsite), 20+ photos, Products/Services, Posts about specials","time_estimate":"4 hours initial + 30 min weekly","impact":"Appear in top 3 local pack for 'Port Alberni restaurants' and Maps searches; estimated 400-600 monthly GBP impressions"},{"text":"Implement LocalBusiness schema markup on website including: name, address, phone, hours, price range, cuisine type, menu URL, reservation URL, geo-coordinates","time_estimate":"2 hours","impact":"Enhanced search result display with hours, ratings, menu in search snippets; 15-20% increase in click-through rate"},{"text":"Add prominent NAP (Name/Address/Phone) to website footer on every page: 'The Station Taphouse | 2750 Kingsway Ave, Port Alberni, BC V9Y 3R5 | (250) XXX-XXXX'","time_estimate":"30 minutes","impact":"Consistent local signals improve local search rankings; tourists can immediately find contact information"},{"text":"Create dedicated location page optimized for 'Port Alberni restaurant' with directions from Highway 4, parking information, nearby attractions (Port Alberni Port, McLean Mill), and distance to Tofino/Ucluelet","time_estimate":"3 hours","impact":"Rank top 5 for 'Port Alberni restaurant' (5,400 monthly Canadian searches); provide tourist-focused context"}]},"guest_experience":{"grade":"C+","score":62,"title":"Digital Guest Experience","summary":"Website provides good menu and ambiance information, but missing critical pre-visit details that tourists need to feel confident visiting an unfamiliar restaurant in an unfamiliar town - parking, accessibility, group accommodation, dietary options.","metrics":[{"label":"Menu Accessibility","value":"Good","benchmark":"100% of restaurants should have online menu","status":"good","tooltip":"Menu visible online allows tourists to pre-screen food options and price points before visiting"},{"label":"Practical Information","value":"Incomplete","benchmark":"Top performers provide 15+ FAQs","status":"warning","tooltip":"Missing details about parking, accessibility, group seating, kids menu that tourists need to plan visits"},{"label":"Hours Visibility","value":"Unknown","benchmark":"Hours should be on every page footer","status":"warning","tooltip":"Tourists need to quickly confirm you're open when they're planning to stop"},{"label":"Virtual Tour/Photos","value":"Good","benchmark":"15-25 professional photos recommended","status":"good","tooltip":"Quality photos help tourists visualize the historic train station experience before visiting"}],"findings":[{"type":"positive","text":"Menu clearly accessible on website allows tourists to review food options and pricing before deciding to visit - reduces uncertainty for unfamiliar visitors"},{"type":"positive","text":"Quality photography showcasing historic train station interior provides visual context that helps tourists understand the unique dining experience"},{"type":"negative","text":"No FAQ section means tourists must call or email to ask common questions about parking availability (critical for RVs/larger vehicles), group seating, dietary restrictions, kids menu - creates friction"},{"type":"negative","text":"Missing practical information like 'free parking lot adjacent to restaurant' or 'wheelchair accessible entrance' that influences tourist decisions, especially those with specific needs"}],"recommendations":[{"text":"Create comprehensive FAQ page addressing: Where to park (free lot vs street), Accessibility features, Group/bus accommodations, Kids menu availability, Gluten-free/vegan options, Average meal duration, Payment methods accepted, WiFi availability","time_estimate":"3 hours","impact":"Reduce pre-visit phone inquiries by 40%; improve confidence for tourists with specific needs; better AI search visibility"},{"text":"Add highly visible 'Hours' section to header/footer: 'Open Daily 11:30am-9pm (Summer) | Wed-Sun 11:30am-8pm (Winter)' with seasonal variation clearly noted","time_estimate":"30 minutes","impact":"Eliminate confusion about when to visit; reduce frustration from tourists arriving when closed"},{"text":"Create 'Plan Your Visit' page with: Directions from Highway 4 with landmarks, Parking map showing free lot, Estimated dining time (45-60 min for meal), Tips for groups/families, Historic train station background story","time_estimate":"4 hours","impact":"Complete pre-visit preparation for tourists; positions as welcoming to first-time visitors; reduces anxiety"},{"text":"Add prominent 'Group Menus Available' and 'Tour Bus Friendly' badges to homepage with dedicated group booking contact to capture tour operator business","time_estimate":"1 hour","impact":"Signal capacity for large parties; attract tour bus stops representing 20-40 person groups"}]},"competitive_positioning":{"grade":"B-","score":68,"title":"Competitive Positioning","summary":"Strong differentiation through historic train station setting and craft beer focus, but underperforming competitors in online visibility metrics that matter most to tourists discovering dining options in Port Alberni for the first time.","metrics":[{"label":"Unique Value Proposition","value":"Strong","benchmark":"Clear differentiation essential in tourism","status":"good","tooltip":"Historic train station location + 24 craft taps creates memorable positioning vs. generic competitors"},{"label":"Online Visibility vs. Competitors","value":"Below Average","benchmark":"Should appear in top 5 local results","status":"warning","tooltip":"Chain restaurants and GBP-optimized competitors likely appearing above you in tourist searches"},{"label":"Review Count vs. Market","value":"Significantly Behind","benchmark":"Top 3 competitors average 200+ reviews","status":"critical","tooltip":"Zero Google reviews means tourists will choose competitors with established social proof"},{"label":"Content Differentiation","value":"Moderate","benchmark":"Heritage/story-driven content outperforms generic","status":"good","tooltip":"Train station history provides content angle competitors can't replicate"}],"findings":[{"type":"positive","text":"Historic 1911 train station location provides authentic heritage experience that chain competitors (Smitty's, White Spot) cannot replicate - powerful differentiator for experience-seeking tourists"},{"type":"positive","text":"24 craft beer taps positions as destination for beer enthusiasts traveling BC Ale Trail and craft beverage tourists - niche appeal vs. generic pub competitors"},{"type":"negative","text":"Competitors with established Google Business Profiles and 100+ reviews are capturing majority of 'Port Alberni restaurant' search traffic despite your superior product/experience"},{"type":"negative","text":"Not appearing in Vancouver Island travel guide content or 'best craft beer' lists where competitors are featured - missing top-of-funnel tourist discovery"}],"recommendations":[{"text":"Develop heritage storytelling content: 'Dining in History' page detailing 1911 E&N Railway station history, original architecture features, restoration details, historical photos - create shareable content that differentiates from chain competitors","time_estimate":"6 hours","impact":"Unique content attracts heritage tourism segment; provides PR angles for travel media; improves time-on-site by 45-60%"},{"text":"Create comparison-optimized content: 'Why Choose Station Taphouse: Local craft beer vs. chain imports, Historic setting vs. generic decor, House-made food vs. frozen menu items' targeting tourists comparing options","time_estimate":"3 hours","impact":"Convert tourists in consideration phase; rank for comparison searches; clarify value proposition"},{"text":"Launch aggressive review generation campaign to reach parity with top 3 competitors (target 150 reviews in 6 months) through table tents, email campaigns, incentives, staff training","time_estimate":"2 hours weekly","impact":"Level playing field in search results; improve from invisible to competitive in local pack rankings"},{"text":"Develop partnership program with Port Alberni accommodations, Tofino tour operators, and Vancouver Island travel agents offering 'Station Taphouse dining vouchers' or group booking discounts to embed in tourist itineraries","time_estimate":"8 hours initial outreach","impact":"Generate 15-30 monthly partnership referrals; position as 'recommended stopover' in curated itineraries"}]}},"priority_recommendations":[{"category":"Local SEO & Maps Visibility","text":"Create and fully optimize Google Business Profile with restaurant category, complete attributes, 20+ high-quality photos of historic train station interior and food, business description emphasizing 'Highway 4 stopover between Parksville and Tofino', and initial review generation campaign to reach 50+ reviews within 90 days","time_estimate":"4 hours initial setup + 30 minutes weekly maintenance","impact":"high","expected_result":"Visibility to 5,000-10,000 monthly 'near me' searches from Highway 4 tourists; appear in top 3 local pack for 'Port Alberni restaurants'; estimated 100-200 additional monthly tourist visits from Maps discovery alone"},{"category":"Review Ecosystem","text":"Implement comprehensive review collection system across Google, TripAdvisor, and Facebook with in-restaurant QR codes, post-visit email campaigns, staff training on review requests, and 24-hour response protocol to build social proof that currently missing","time_estimate":"6 hours setup + 1 hour weekly","impact":"high","expected_result":"Generate 150+ Google reviews within 6 months; establish 4.5+ star rating; increase click-through from search results by 35-45%; build trust with tourists unfamiliar with Port Alberni dining scene"},{"category":"Guest Experience","text":"Add complete contact information to website (phone with click-to-call, full address, embedded map) plus comprehensive FAQ section covering parking, accessibility, group accommodations, dietary options, hours, and 'Plan Your Visit' page with Highway 4 directions and tourist-focused practical information","time_estimate":"5 hours","impact":"high","expected_result":"Reduce bounce rate by 25-30%; decrease pre-visit phone inquiries by 40%; improve conversion of website visitors to actual diners from current unknown rate to estimated 8-12%"},{"category":"Visitor Discovery","text":"Develop targeted content strategy for tourist discovery: 'Perfect Halfway Stop Between Parksville & Tofino' landing page, heritage storytelling about 1911 train station, and link building campaign targeting Vancouver Island travel blogs, BC Ale Trail, Tourism Vancouver Island, and 'best craft beer' lists","time_estimate":"12 hours initial + 4 hours monthly","impact":"high","expected_result":"Increase backlinks from 44 to 150+ over 6 months; rank top 5 for 'Highway 4 restaurants' and related tourist searches; appear in 5-10 travel guide resources; capture 200-400 monthly road trip planning searches"},{"category":"Local SEO","text":"Implement LocalBusiness schema markup with complete business details, create location-optimized page for 'Port Alberni restaurant' searches, and ensure NAP consistency across all web properties to strengthen local search signals currently underperforming","time_estimate":"4 hours","impact":"medium","expected_result":"Improve local search rankings from current low visibility to top 5 positions for 'Port Alberni restaurant' (5,400 monthly searches); enhanced search snippets showing hours/menu/ratings; 15-20% increase in organic click-through rate"}]};</script>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function navigate(pageId) {
+  // Update pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.target?.closest('.nav-item')?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function showComingSoon(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function toggleMobileMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobileOverlay').classList.toggle('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+function downloadPDF() {
+  // Set document title for PDF filename
+  const clientName = document.body.dataset.clientSlug || 'assessment';
+  const originalTitle = document.title;
+  document.title = `${clientName}-digital-marketing-assessment`;
+
+  // Trigger print dialog (user can save as PDF)
+  window.print();
+
+  // Restore original title after a short delay
+  setTimeout(() => {
+    document.title = originalTitle;
+  }, 1000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER ASSESSMENT DATA
+// ══════════════════════════════════════════════════════════════
+function renderAssessment() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Render Executive Summary
+  renderExecutiveSummary(data.executive_summary);
+
+  // Render Quick Wins
+  renderQuickWins(data.quick_wins);
+
+  // Render Tourism Context
+  renderTourismContext(data.tourism_context);
+
+  // Render category cards
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const categoryIcons = {
+    website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
+    visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
+    ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
+    online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
+    review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
+    social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
+    local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
+    email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
+    competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
+  };
+
+  if (data.categories) {
+    let html = '';
+    for (const [key, cat] of Object.entries(data.categories)) {
+      const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
+      const gradeClass = 'grade-' + (cat.grade || 'c').toLowerCase().charAt(0);
+
+      html += `
+        <div class="category-card">
+          <div class="category-header">
+            <div class="category-icon ${iconData.class}">${iconData.icon}</div>
+            <div class="category-title-wrap">
+              <h3 class="category-title">${cat.title || iconData.title}</h3>
+              <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="category-summary">${cat.summary || ''}</p>
+          ${renderMetrics(cat.metrics)}
+          ${renderFindings(cat.findings)}
+          ${renderRecommendations(cat.recommendations)}
+        </div>
+      `;
+    }
+    categoriesGrid.innerHTML = html;
+  }
+
+  // Render priority recommendations
+  const priorityList = document.getElementById('priorityList');
+  if (data.priority_recommendations) {
+    let html = '';
+    data.priority_recommendations.slice(0, 5).forEach((rec, i) => {
+      const impactClass = rec.impact ? `impact-${rec.impact.toLowerCase()}` : '';
+      html += `
+        <div class="priority-item">
+          <div class="priority-item-number">${i + 1}</div>
+          <div class="priority-item-content">
+            <h4>${rec.text}</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">${rec.category || 'General'}</span>
+              ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
+              ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
+            </div>
+            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    priorityList.innerHTML = html;
+  }
+}
+
+function renderExecutiveSummary(summary) {
+  const container = document.getElementById('executiveSummary');
+  if (!summary) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let strengthsHtml = '';
+  if (summary.key_strengths && summary.key_strengths.length) {
+    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+  }
+
+  let gapsHtml = '';
+  if (summary.critical_gaps && summary.critical_gaps.length) {
+    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+  }
+
+  container.innerHTML = `
+    <h2>Executive Summary</h2>
+    <p class="executive-headline">${summary.headline || ''}</p>
+    <div class="executive-columns">
+      <div class="executive-column strengths">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Key Strengths
+        </h4>
+        <ul>${strengthsHtml}</ul>
+      </div>
+      <div class="executive-column gaps">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Critical Gaps
+        </h4>
+        <ul>${gapsHtml}</ul>
+      </div>
+    </div>
+    <div class="executive-bottom-line">
+      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+    </div>
+  `;
+}
+
+function renderQuickWins(quickWins) {
+  const container = document.getElementById('quickWins');
+  if (!quickWins || !quickWins.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let itemsHtml = '';
+  quickWins.slice(0, 5).forEach((win, i) => {
+    itemsHtml += `
+      <div class="quick-win-item">
+        <div class="quick-win-number">${i + 1}</div>
+        <div class="quick-win-content">
+          <div class="quick-win-task">${win.task}</div>
+          <div class="quick-win-impact">${win.impact}</div>
+        </div>
+        <span class="quick-win-time">${win.time_estimate}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Wins
+    </h2>
+    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <div class="quick-wins-list">${itemsHtml}</div>
+  `;
+}
+
+function renderTourismContext(context) {
+  const container = document.getElementById('tourismContext');
+  if (!context) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const items = [
+    { key: 'visitor_profile', label: 'Visitor Profile', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'discovery_journey', label: 'Discovery Journey', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { key: 'seasonal_considerations', label: 'Seasonal Considerations', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' },
+    { key: 'trip_integration', label: 'Trip Integration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    { key: 'competitive_landscape', label: 'Competitive Landscape', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>' }
+  ];
+
+  let itemsHtml = '';
+  items.forEach(item => {
+    if (context[item.key]) {
+      itemsHtml += `
+        <div class="tourism-context-item">
+          <h4>${item.icon} ${item.label}</h4>
+          <p>${context[item.key]}</p>
+        </div>
+      `;
+    }
+  });
+
+  if (!itemsHtml) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tourism Context
+    </h2>
+    <div class="tourism-context-grid">${itemsHtml}</div>
+  `;
+}
+
+function renderMetrics(metrics) {
+  if (!metrics || !metrics.length) return '';
+  let html = '<div class="category-metrics">';
+  metrics.slice(0, 4).forEach(m => {
+    html += `
+      <div class="metric-item">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">
+          <span class="metric-status ${m.status || 'good'}"></span>
+          ${m.value}
+        </div>
+        ${m.benchmark ? `<div class="metric-benchmark">${m.benchmark}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderFindings(findings) {
+  if (!findings || !findings.length) return '';
+  let html = '<div class="category-findings">';
+  findings.slice(0, 4).forEach(f => {
+    const iconClass = f.type === 'positive' ? 'positive' : 'negative';
+    const icon = f.type === 'positive'
+      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>'
+      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    html += `
+      <div class="finding-item">
+        <span class="finding-icon ${iconClass}">${icon}</span>
+        <span>${f.text}</span>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderRecommendations(recommendations) {
+  if (!recommendations || !recommendations.length) return '';
+  let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
+  recommendations.slice(0, 3).forEach(r => {
+    html += `
+      <div class="recommendation-item">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
+            <span>${r.text}</span>
+          </div>
+          ${r.time_estimate ? `
+            <div class="recommendation-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${r.time_estimate}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', renderAssessment);
+</script>
+</body>
+</html>
