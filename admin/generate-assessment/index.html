@@ -363,6 +363,31 @@
       font-size: 14px;
       color: var(--muted);
       margin-bottom: 32px;
+      min-height: 21px;
+    }
+
+    .progress-subtitle .phrase {
+      display: inline;
+      transition: opacity 0.3s;
+    }
+
+    .progress-subtitle .ellipsis {
+      display: inline-block;
+      width: 24px;
+      text-align: left;
+    }
+
+    .progress-subtitle .ellipsis::after {
+      content: '';
+      animation: ellipsis 1.5s infinite;
+    }
+
+    @keyframes ellipsis {
+      0% { content: ''; }
+      25% { content: '.'; }
+      50% { content: '..'; }
+      75% { content: '...'; }
+      100% { content: ''; }
     }
 
     .progress-steps {
@@ -808,7 +833,7 @@
         </svg>
       </div>
       <h2 class="progress-title">Generating Assessment</h2>
-      <p class="progress-subtitle">Analyzing digital marketing presence...</p>
+      <p class="progress-subtitle" id="progressSubtitle"><span class="phrase">Analyzing digital marketing presence</span><span class="ellipsis"></span></p>
 
       <div class="progress-steps">
         <div class="progress-step" id="step1">
@@ -1046,7 +1071,7 @@
         }
 
         // Poll Supabase for completion status
-        const maxPolls = 120;  // 2 minutes max
+        const maxPolls = 180;  // 6 minutes max (assessment can take a while with Sonnet model)
         const pollInterval = 2000;  // 2 seconds
 
         for (let i = 0; i < maxPolls; i++) {
@@ -1107,6 +1132,37 @@
     // ══════════════════════════════════════════════════════════════
     // PROGRESS OVERLAY
     // ══════════════════════════════════════════════════════════════
+    const travelPhrases = [
+      "Analyzing digital marketing presence",
+      "Paddling down the river",
+      "Upgrading to first class",
+      "Checking the trail map",
+      "Packing the hiking boots",
+      "Scanning the horizon",
+      "Booking the scenic route",
+      "Polishing the binoculars",
+      "Unfurling the sails",
+      "Checking in at the lodge",
+      "Mapping the adventure",
+      "Tuning the compass",
+      "Dusting off the passport",
+      "Warming up the tour bus",
+      "Consulting the travel guide",
+      "Inflating the kayak",
+      "Charging the camera batteries",
+      "Reviewing the guest book",
+      "Scouting the best views",
+      "Preparing the welcome mat",
+      "Adjusting the altitude",
+      "Plotting the coordinates",
+      "Sharpening the skis",
+      "Testing the zip line",
+      "Brewing the campfire coffee"
+    ];
+
+    let phraseInterval = null;
+    let currentPhraseIndex = 0;
+
     function showProgress() {
       document.getElementById('progressOverlay').classList.add('active');
       // Reset all steps
@@ -1115,11 +1171,35 @@
         step.classList.remove('active', 'complete');
       }
       // Reset progress time text
-      document.getElementById('progressTime').textContent = 'This typically takes 30-60 seconds';
+      document.getElementById('progressTime').textContent = 'This typically takes 60-90 seconds';
+
+      // Start phrase rotation
+      currentPhraseIndex = 0;
+      updatePhrase();
+      phraseInterval = setInterval(() => {
+        currentPhraseIndex = (currentPhraseIndex + 1) % travelPhrases.length;
+        updatePhrase();
+      }, 5000 + Math.random() * 2000); // 5-7 seconds
     }
 
     function hideProgress() {
       document.getElementById('progressOverlay').classList.remove('active');
+      // Stop phrase rotation
+      if (phraseInterval) {
+        clearInterval(phraseInterval);
+        phraseInterval = null;
+      }
+    }
+
+    function updatePhrase() {
+      const phraseEl = document.querySelector('#progressSubtitle .phrase');
+      if (phraseEl) {
+        phraseEl.style.opacity = '0';
+        setTimeout(() => {
+          phraseEl.textContent = travelPhrases[currentPhraseIndex];
+          phraseEl.style.opacity = '1';
+        }, 300);
+      }
     }
 
     function simulateProgress() {
