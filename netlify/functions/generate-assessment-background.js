@@ -264,11 +264,14 @@ export async function handler(event, context) {
       console.error('Failed to update assessment:', updateError);
     }
 
+    // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
+    // and should not block the assessment from being marked complete.
+
     console.log('[STEP 7] Fetching template from GitHub');
     // ─────────────────────────────────────────────────────────────────────────
     // 7. FETCH TEMPLATE AND GENERATE HTML
     // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Fetching template from GitHub');
+    await updateProgress('Publishing to web (fetching template)');
     const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
     const templateRes = await fetch(templateUrl, {
       headers: {
@@ -301,24 +304,21 @@ export async function handler(event, context) {
 
     console.log('[STEP 8] Committing to GitHub');
     // ─────────────────────────────────────────────────────────────────────────
-    // 8. COMMIT TO GITHUB
+    // 8. COMMIT TO GITHUB (non-fatal - assessment is already saved)
     // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Committing to GitHub');
-    const commitResult = await commitToGitHub([
-      { path: `clients/${slug}/index.html`, content: html }
-    ], `Add assessment: ${businessName}`);
+    await updateProgress('Publishing to web (committing)');
+    let commitResult = { commitUrl: null };
+    try {
+      commitResult = await commitToGitHub([
+        { path: `clients/${slug}/index.html`, content: html }
+      ], `Add assessment: ${businessName}`);
 
-    if (commitResult.error) {
-      // Update status to failed
-      await supabaseAdmin
-        .from('client_assessments')
-        .update({ status: 'failed', error_message: commitResult.error })
-        .eq('client_slug', slug);
-
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: commitResult.error })
-      };
+      if (commitResult.error) {
+        console.error('[STEP 8] GitHub commit error (non-fatal):', commitResult.error);
+      }
+    } catch (gitErr) {
+      console.error('[STEP 8] GitHub commit exception (non-fatal):', gitErr.message);
+      // Don't fail the assessment - it's already saved in database
     }
 
     // ─────────────────────────────────────────────────────────────────────────

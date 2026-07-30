@@ -164,39 +164,47 @@ export async function handler(event, context) {
       console.error('Failed to update assessment:', updateError);
     }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 7. UPDATE GITHUB HTML
-    // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Fetching template from GitHub');
-    const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
-    const templateRes = await fetch(templateUrl, {
-      headers: {
-        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
+    // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
+    // and should not block the assessment from being marked complete.
 
-    let html;
-    if (templateRes.ok) {
-      const templateData = await templateRes.json();
-      const templateContent = Buffer.from(templateData.content, 'base64').toString('utf-8');
-      html = processAssessmentTemplate(templateContent, {
-        businessName,
-        slug,
-        websiteUrl,
-        location,
-        assessmentData,
-        coachEmail: user.email
+    // ─────────────────────────────────────────────────────────────────────────
+    // 7. UPDATE GITHUB HTML (non-fatal - assessment already saved)
+    // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Publishing to web (fetching template)');
+    try {
+      const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
+      const templateRes = await fetch(templateUrl, {
+        headers: {
+          'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
       });
-    } else {
-      html = generateBasicAssessmentHtml({ businessName, slug, websiteUrl, assessmentData });
-    }
 
-    // Commit to GitHub (update existing file)
-    await updateProgress('Committing to GitHub');
-    await commitToGitHub([
-      { path: `clients/${slug}/index.html`, content: html }
-    ], `Regenerate assessment: ${businessName}`);
+      let html;
+      if (templateRes.ok) {
+        const templateData = await templateRes.json();
+        const templateContent = Buffer.from(templateData.content, 'base64').toString('utf-8');
+        html = processAssessmentTemplate(templateContent, {
+          businessName,
+          slug,
+          websiteUrl,
+          location,
+          assessmentData,
+          coachEmail: user.email
+        });
+      } else {
+        html = generateBasicAssessmentHtml({ businessName, slug, websiteUrl, assessmentData });
+      }
+
+      // Commit to GitHub (update existing file)
+      await updateProgress('Publishing to web (committing)');
+      await commitToGitHub([
+        { path: `clients/${slug}/index.html`, content: html }
+      ], `Regenerate assessment: ${businessName}`);
+    } catch (gitErr) {
+      console.error('GitHub publish error (non-fatal):', gitErr.message);
+      // Don't fail - assessment is already saved in database
+    }
 
     return {
       statusCode: 200,
