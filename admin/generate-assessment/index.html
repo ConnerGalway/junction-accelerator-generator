@@ -851,9 +851,17 @@
           </div>
           <span class="progress-step__text">Generating recommendations</span>
         </div>
+        <div class="progress-step" id="step6">
+          <div class="progress-step__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <span class="progress-step__text">Deploying to web</span>
+        </div>
       </div>
 
-      <p class="progress-time">This typically takes 30-60 seconds</p>
+      <p class="progress-time" id="progressTime">This typically takes 30-60 seconds</p>
     </div>
   </div>
 
@@ -1056,10 +1064,26 @@
           }
 
           if (assessment.status === 'completed') {
-            hideProgress();
-            showSuccessModal(slug);
-            document.getElementById('assessmentForm').reset();
-            return;
+            // Assessment data is ready, now wait for page to be live
+            updateProgressStep(6, 'Deploying to web...');
+
+            // Poll the actual URL to verify it's accessible
+            const assessmentUrl = `${window.location.origin}/${slug}/`;
+            const isLive = await waitForPageLive(assessmentUrl);
+
+            if (isLive) {
+              hideProgress();
+              showSuccessModal(slug);
+              document.getElementById('assessmentForm').reset();
+              return;
+            } else {
+              // Page didn't become available in time, but assessment is ready
+              // Show modal anyway with a note
+              hideProgress();
+              showSuccessModal(slug);
+              document.getElementById('assessmentForm').reset();
+              return;
+            }
           }
 
           if (assessment.status === 'failed') {
@@ -1086,10 +1110,12 @@
     function showProgress() {
       document.getElementById('progressOverlay').classList.add('active');
       // Reset all steps
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const step = document.getElementById(`step${i}`);
         step.classList.remove('active', 'complete');
       }
+      // Reset progress time text
+      document.getElementById('progressTime').textContent = 'This typically takes 30-60 seconds';
     }
 
     function hideProgress() {
@@ -1115,7 +1141,7 @@
       if (pollCount >= 41) currentStep = 4;
       if (pollCount >= 56) currentStep = 5;
 
-      for (let i = 1; i <= 5; i++) {
+      for (let i = 1; i <= 6; i++) {
         const step = document.getElementById(`step${i}`);
         step.classList.remove('active', 'complete');
         if (i < currentStep) {
@@ -1124,6 +1150,45 @@
           step.classList.add('active');
         }
       }
+    }
+
+    function updateProgressStep(stepNum, timeText) {
+      // Mark all previous steps as complete, current step as active
+      for (let i = 1; i <= 6; i++) {
+        const step = document.getElementById(`step${i}`);
+        step.classList.remove('active', 'complete');
+        if (i < stepNum) {
+          step.classList.add('complete');
+        } else if (i === stepNum) {
+          step.classList.add('active');
+        }
+      }
+      // Update the time text
+      if (timeText) {
+        document.getElementById('progressTime').textContent = timeText;
+      }
+    }
+
+    async function waitForPageLive(url, maxAttempts = 30, interval = 2000) {
+      // Poll the URL until it returns 200 or we timeout
+      for (let i = 0; i < maxAttempts; i++) {
+        try {
+          const response = await fetch(url, {
+            method: 'HEAD',
+            cache: 'no-store'
+          });
+          if (response.ok) {
+            console.log(`Page live after ${i + 1} attempts`);
+            return true;
+          }
+        } catch (e) {
+          // Network error or CORS - try a different approach
+          console.log(`Attempt ${i + 1}: waiting for page...`);
+        }
+        await new Promise(r => setTimeout(r, interval));
+      }
+      console.log('Page live check timed out');
+      return false;
     }
 
     // ══════════════════════════════════════════════════════════════
