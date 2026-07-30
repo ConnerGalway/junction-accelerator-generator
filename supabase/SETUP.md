@@ -200,6 +200,7 @@ CREATE TABLE client_assessments (
   social_linkedin TEXT,
   assessment_data JSONB NOT NULL DEFAULT '{}',
   seoptimer_raw JSONB,
+  google_places_raw JSONB,
   overall_score INTEGER,
   overall_grade TEXT,
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),

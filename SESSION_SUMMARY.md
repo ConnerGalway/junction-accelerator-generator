@@ -26,13 +26,14 @@ An **Assessment Generator** for the Junction Accelerator that:
 ## Environment Variables Required (Netlify)
 
 ```
-SEOPTIMER_API_KEY     - From https://www.seoptimer.com/api-settings
-ANTHROPIC_API_KEY     - From https://platform.claude.com/settings/workspaces/default/keys
-SUPABASE_URL          - Already configured
+SEOPTIMER_API_KEY       - From https://www.seoptimer.com/api-settings
+ANTHROPIC_API_KEY       - From https://platform.claude.com/settings/workspaces/default/keys
+GOOGLE_PLACES_API_KEY   - From Google Cloud Console (enables real review data)
+SUPABASE_URL            - Already configured
 SUPABASE_SERVICE_ROLE_KEY - Already configured
-GITHUB_TOKEN          - Already configured
-GITHUB_OWNER          - Already configured
-GITHUB_REPO           - Already configured
+GITHUB_TOKEN            - Already configured
+GITHUB_OWNER            - Already configured
+GITHUB_REPO             - Already configured
 ```
 
 ## Database Setup Required

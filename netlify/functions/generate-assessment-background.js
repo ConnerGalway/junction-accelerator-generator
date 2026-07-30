@@ -181,6 +181,26 @@ export async function handler(event, context) {
     }
 
     console.log('[STEP 4] SEOptimer data received');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4b. FETCH GOOGLE PLACES DATA (REVIEWS)
+    // ─────────────────────────────────────────────────────────────────────────
+    let googlePlacesData = null;
+    if (process.env.GOOGLE_PLACES_API_KEY) {
+      console.log('[STEP 4b] Fetching Google Places data');
+      try {
+        googlePlacesData = await fetchGooglePlacesData(businessName, location);
+        console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
+      } catch (err) {
+        console.error('Google Places error (non-fatal):', err.message);
+        googlePlacesData = {
+          _error: err.message,
+          _note: 'Google Places data unavailable'
+        };
+      }
+    } else {
+      console.log('[STEP 4b] GOOGLE_PLACES_API_KEY not configured, skipping');
+    }
     // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
@@ -190,7 +210,8 @@ export async function handler(event, context) {
       websiteUrl,
       location,
       social,
-      seoptData
+      seoptData,
+      googlePlacesData
     });
 
     console.log('[STEP 5] Claude assessment generated');
@@ -203,6 +224,7 @@ export async function handler(event, context) {
       .update({
         assessment_data: assessmentData,
         seoptimer_raw: seoptData,
+        google_places_raw: googlePlacesData,
         overall_score: assessmentData.overall?.score || null,
         overall_grade: assessmentData.overall?.grade || null,
         status: 'completed'
@@ -385,6 +407,94 @@ async function fetchSEOptimerReport(websiteUrl) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// GOOGLE PLACES API INTEGRATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function fetchGooglePlacesData(businessName, location) {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+  }
+
+  // Build search query
+  const searchQuery = location
+    ? `${businessName} ${location}`
+    : businessName;
+
+  console.log('[Google Places] Searching for:', searchQuery);
+
+  // Step 1: Find Place from Text
+  const findPlaceUrl = new URL('https://maps.googleapis.com/maps/api/place/findplacefromtext/json');
+  findPlaceUrl.searchParams.set('input', searchQuery);
+  findPlaceUrl.searchParams.set('inputtype', 'textquery');
+  findPlaceUrl.searchParams.set('fields', 'place_id,name,formatted_address');
+  findPlaceUrl.searchParams.set('key', apiKey);
+
+  const findResponse = await fetch(findPlaceUrl.toString());
+  if (!findResponse.ok) {
+    throw new Error(`Google Places Find failed: ${findResponse.status}`);
+  }
+
+  const findResult = await findResponse.json();
+
+  if (findResult.status !== 'OK' || !findResult.candidates || findResult.candidates.length === 0) {
+    console.log('[Google Places] No results found for:', searchQuery);
+    return null;
+  }
+
+  const placeId = findResult.candidates[0].place_id;
+  console.log('[Google Places] Found place_id:', placeId);
+
+  // Step 2: Get Place Details (including reviews)
+  const detailsUrl = new URL('https://maps.googleapis.com/maps/api/place/details/json');
+  detailsUrl.searchParams.set('place_id', placeId);
+  detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types');
+  detailsUrl.searchParams.set('key', apiKey);
+
+  const detailsResponse = await fetch(detailsUrl.toString());
+  if (!detailsResponse.ok) {
+    throw new Error(`Google Places Details failed: ${detailsResponse.status}`);
+  }
+
+  const detailsResult = await detailsResponse.json();
+
+  if (detailsResult.status !== 'OK' || !detailsResult.result) {
+    console.log('[Google Places] Could not get details for place_id:', placeId);
+    return null;
+  }
+
+  const place = detailsResult.result;
+
+  // Extract and format the data we need
+  const placesData = {
+    name: place.name,
+    rating: place.rating || null,
+    totalReviews: place.user_ratings_total || 0,
+    priceLevel: place.price_level || null,
+    website: place.website || null,
+    phone: place.formatted_phone_number || null,
+    businessTypes: place.types || [],
+    isOpen: place.opening_hours?.open_now || null,
+    // Get up to 5 recent reviews (Google API provides up to 5)
+    recentReviews: (place.reviews || []).slice(0, 5).map(r => ({
+      rating: r.rating,
+      text: r.text?.substring(0, 300) || '', // Truncate long reviews
+      relativeTime: r.relative_time_description,
+      authorName: r.author_name
+    }))
+  };
+
+  console.log('[Google Places] Data extracted:', {
+    name: placesData.name,
+    rating: placesData.rating,
+    totalReviews: placesData.totalReviews,
+    reviewCount: placesData.recentReviews.length
+  });
+
+  return placesData;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // CLAUDE ASSESSMENT GENERATION
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -417,13 +527,13 @@ CRITICAL INSTRUCTIONS:
 4. Recommendations need TIME ESTIMATES (e.g., "30 minutes", "2-3 hours", "1 week")
 5. Be specific to THIS business - reference their actual location, offerings, unique features
 
-DATA LIMITATIONS - CRITICAL:
-- You have SEOptimer technical data (website speed, SEO, etc.) but NOT Google review data
-- You do NOT have access to: Google review counts, review ratings, TripAdvisor reviews, or social media follower counts
-- For review_ecosystem category: DO NOT claim specific numbers like "0 reviews" or "no reviews detected"
-- Instead, provide recommendations for review strategy WITHOUT making false claims about current review status
-- For any data you don't have, say "Unable to assess - manual verification recommended" or focus on general best practices
-- NEVER fabricate or guess statistics you don't have - this damages credibility
+DATA ACCURACY - CRITICAL:
+- If "Google Business Profile Data (VERIFIED)" section is present above, use those EXACT numbers for reviews/rating
+- DO NOT fabricate any statistics you don't have data for
+- For TripAdvisor, Yelp, or other review platforms: say "Manual verification recommended" (we don't have this data)
+- For social media follower counts: say "Manual verification recommended" (we don't have this data)
+- If Google data is NOT available, say "Manual verification recommended" for review metrics
+- NEVER guess or invent statistics - this damages credibility
 
 Return ONLY valid JSON with this structure:
 
@@ -490,21 +600,21 @@ Return ONLY valid JSON with this structure:
       "recommendations": []
     },
     "review_ecosystem": {
-      "grade": "N/A",
-      "score": null,
+      "grade": "B+",
+      "score": 78,
       "title": "Reviews & Reputation",
-      "summary": "Review data not available in automated scan - manual verification of Google, TripAdvisor, and Yelp recommended",
+      "summary": "Use REAL data from Google Business Profile section if available. If not, say 'Manual verification recommended'",
       "metrics": [
-        {"label": "Google Reviews", "value": "Manual check required", "benchmark": "Tourism businesses should aim for 100+ reviews", "status": "info", "tooltip": "We cannot automatically access Google review data"},
-        {"label": "Review Response Rate", "value": "Manual check required", "benchmark": "Best practice: respond to 90%+ of reviews", "status": "info", "tooltip": "Check Google Business Profile for response status"}
+        {"label": "Google Reviews", "value": "USE EXACT NUMBER FROM DATA or 'Manual check required'", "benchmark": "Tourism businesses should aim for 100+ reviews", "status": "good/warning/critical based on count", "tooltip": "Based on Google Business Profile"},
+        {"label": "Google Rating", "value": "USE EXACT RATING FROM DATA or 'Manual check required'", "benchmark": "Tourism average: 4.2 stars", "status": "good if 4.5+, warning if 4.0-4.4, critical if below 4.0", "tooltip": "Based on Google Business Profile"},
+        {"label": "TripAdvisor", "value": "Manual check required", "benchmark": "Should be claimed and active", "status": "info", "tooltip": "TripAdvisor data not available in automated scan"}
       ],
       "findings": [
-        {"type": "info", "text": "Review counts and ratings require manual verification on Google Maps, TripAdvisor, and Yelp"}
+        {"type": "positive/negative based on data", "text": "Reference actual review count and rating from Google data"},
+        {"type": "info", "text": "TripAdvisor and Yelp presence requires manual verification"}
       ],
       "recommendations": [
-        {"text": "Verify your Google Business Profile review count and average rating", "time_estimate": "10 minutes", "impact": "Essential baseline data"},
-        {"text": "Set up Google review alerts and establish a response workflow", "time_estimate": "30 minutes", "impact": "Improve reputation management"},
-        {"text": "Create a post-visit review request process for satisfied guests", "time_estimate": "2 hours", "impact": "Increase review volume over time"}
+        {"text": "Specific recommendation based on actual review data", "time_estimate": "30 minutes", "impact": "Improve reputation management"}
       ]
     },
     "social_media": {
@@ -628,7 +738,30 @@ function buildAssessmentContext(data) {
     context += '\n- None provided';
   }
 
-  if (data.seoptData) {
+  // Add Google Places data (reviews, rating)
+  if (data.googlePlacesData && !data.googlePlacesData._error) {
+    const gp = data.googlePlacesData;
+    context += `\n\n## Google Business Profile Data (VERIFIED - USE THESE EXACT NUMBERS)
+- Google Rating: ${gp.rating || 'N/A'} out of 5 stars
+- Total Google Reviews: ${gp.totalReviews}
+- Business Types: ${gp.businessTypes?.join(', ') || 'N/A'}
+- Price Level: ${gp.priceLevel ? '$'.repeat(gp.priceLevel) : 'N/A'}
+- Phone: ${gp.phone || 'N/A'}`;
+
+    if (gp.recentReviews && gp.recentReviews.length > 0) {
+      context += `\n\n### Recent Google Reviews (${gp.recentReviews.length} samples):`;
+      gp.recentReviews.forEach((review, i) => {
+        context += `\n\n**Review ${i + 1}** (${review.rating}/5 stars, ${review.relativeTime}):
+"${review.text}"`;
+      });
+    }
+  } else {
+    context += `\n\n## Google Business Profile Data
+- Not available (Google Places API not configured or business not found)
+- For review_ecosystem category, recommend manual verification`;
+  }
+
+  if (data.seoptData && !data.seoptData._error) {
     context += `\n\n## SEOptimer Technical Data
 ${JSON.stringify(data.seoptData, null, 2)}`;
   }
