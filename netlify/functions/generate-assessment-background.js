@@ -28,11 +28,20 @@ export async function handler(event, context) {
 
   console.log('[STEP 0] POST request received');
 
+  // Initialize Supabase client early for error tracking
+  const supabaseAdmin = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SERVICE_ROLE_KEY
+  );
+
+  let slug = null; // Track slug for error recording
+
   try {
     console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, slug, websiteUrl, location, social } = body;
+    const { businessName, websiteUrl, location, social } = body;
+    slug = body.slug;
     console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
 
     // Validate required fields
@@ -62,87 +71,11 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 1. VERIFY AUTH
+    // 1. CREATE RECORD IMMEDIATELY (for error tracking)
     // ─────────────────────────────────────────────────────────────────────────
-    const authHeader = event.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Authentication required' }) };
-    }
+    console.log('[STEP 1b] Creating initial record for tracking');
 
-    const token = authHeader.replace('Bearer ', '');
-    const supabaseAdmin = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    );
-
-    // Verify token and get user
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
-    if (authError || !user) {
-      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
-    }
-
-    // Check user role (admin or psm required)
-    const { data: roleRows } = await supabaseAdmin
-      .from('user_plans')
-      .select('role')
-      .eq('email', user.email)
-      .eq('active', true)
-      .in('role', ['admin', 'psm']);
-
-    if (!roleRows || roleRows.length === 0) {
-      return { statusCode: 403, body: JSON.stringify({ error: 'Admin or PSM role required' }) };
-    }
-
-    console.log('[STEP 2] Auth verified, checking if project exists');
-    // ─────────────────────────────────────────────────────────────────────────
-    // 2. CHECK IF PROJECT/ASSESSMENT EXISTS
-    // ─────────────────────────────────────────────────────────────────────────
-    const { data: existingAssessment } = await supabaseAdmin
-      .from('client_assessments')
-      .select('id')
-      .eq('client_slug', slug)
-      .single();
-
-    if (existingAssessment) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({ error: 'An assessment with this slug already exists' })
-      };
-    }
-
-    // Also check GitHub for existing project
-    const checkUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/clients/${slug}`;
-    const checkRes = await fetch(checkUrl, {
-      headers: {
-        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
-
-    if (checkRes.status === 200) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({ error: 'A project with this slug already exists in GitHub' })
-      };
-    }
-
-    console.log('[STEP 3] Creating assessment record in Supabase');
-    // ─────────────────────────────────────────────────────────────────────────
-    // 3. CREATE PENDING ASSESSMENT RECORD
-    // ─────────────────────────────────────────────────────────────────────────
-
-    // Helper to update progress (for debugging)
-    const updateProgress = async (step) => {
-      try {
-        await supabaseAdmin
-          .from('client_assessments')
-          .update({ error_message: `Progress: ${step}` })
-          .eq('client_slug', slug);
-      } catch (e) {
-        console.error('Failed to update progress:', e);
-      }
-    };
-
+    // Try to create record - this will fail if slug exists (which is fine)
     const { error: insertError } = await supabaseAdmin
       .from('client_assessments')
       .insert({
@@ -158,17 +91,90 @@ export async function handler(event, context) {
         social_twitter: social?.twitter || null,
         social_linkedin: social?.linkedin || null,
         status: 'processing',
-        error_message: 'Progress: Starting assessment generation',
-        created_by: user.email
+        error_message: 'Progress: Validating request',
+        created_by: 'pending-auth'
       });
 
     if (insertError) {
+      // Check if it's a duplicate key error
+      if (insertError.code === '23505' || insertError.message?.includes('duplicate')) {
+        return {
+          statusCode: 409,
+          body: JSON.stringify({ error: 'An assessment with this slug already exists' })
+        };
+      }
       console.error('Failed to create assessment record:', insertError);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to create assessment record' })
+        body: JSON.stringify({ error: 'Failed to create assessment record: ' + insertError.message })
       };
     }
+
+    // Helper to update progress (for debugging)
+    const updateProgress = async (step) => {
+      try {
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({ error_message: `Progress: ${step}` })
+          .eq('client_slug', slug);
+      } catch (e) {
+        console.error('Failed to update progress:', e);
+      }
+    };
+
+    // Helper to mark as failed
+    const markFailed = async (errorMsg) => {
+      try {
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({ status: 'failed', error_message: errorMsg })
+          .eq('client_slug', slug);
+      } catch (e) {
+        console.error('Failed to mark as failed:', e);
+      }
+    };
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. VERIFY AUTH
+    // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Verifying authentication');
+    const authHeader = event.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      await markFailed('Authentication required');
+      return { statusCode: 401, body: JSON.stringify({ error: 'Authentication required' }) };
+    }
+
+    const token = authHeader.replace('Bearer ', '');
+
+    // Verify token and get user
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+    if (authError || !user) {
+      await markFailed('Invalid token');
+      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
+    }
+
+    // Update the created_by field with actual user
+    await supabaseAdmin
+      .from('client_assessments')
+      .update({ created_by: user.email })
+      .eq('client_slug', slug);
+
+    // Check user role (admin or psm required)
+    await updateProgress('Checking permissions');
+    const { data: roleRows } = await supabaseAdmin
+      .from('user_plans')
+      .select('role')
+      .eq('email', user.email)
+      .eq('active', true)
+      .in('role', ['admin', 'psm']);
+
+    if (!roleRows || roleRows.length === 0) {
+      await markFailed('Admin or PSM role required');
+      return { statusCode: 403, body: JSON.stringify({ error: 'Admin or PSM role required' }) };
+    }
+
+    console.log('[STEP 2] Auth verified');
+    await updateProgress('Authentication verified')
 
     console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
@@ -349,23 +355,18 @@ export async function handler(event, context) {
     console.error('Unexpected error:', err);
 
     // Update Supabase status to 'failed' so frontend stops polling
-    try {
-      const body = JSON.parse(event.body || '{}');
-      if (body.slug) {
-        const supabaseAdmin = createClient(
-          process.env.SUPABASE_URL,
-          process.env.SUPABASE_SERVICE_ROLE_KEY
-        );
+    if (slug) {
+      try {
         await supabaseAdmin
           .from('client_assessments')
           .update({
             status: 'failed',
-            error_message: err.message || 'Unknown error'
+            error_message: `Error: ${err.message || 'Unknown error'}`
           })
-          .eq('client_slug', body.slug);
+          .eq('client_slug', slug);
+      } catch (updateErr) {
+        console.error('Failed to update error status:', updateErr);
       }
-    } catch (updateErr) {
-      console.error('Failed to update error status:', updateErr);
     }
 
     return {
