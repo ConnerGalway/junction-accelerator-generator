@@ -3,10 +3,6 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Configure function timeout (requires Netlify Pro or higher)
-export const config = {
-  maxDuration: 60
-};
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
