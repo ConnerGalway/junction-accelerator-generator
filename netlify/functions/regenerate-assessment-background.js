@@ -183,6 +183,27 @@ export async function handler(event, context) {
 
   } catch (err) {
     console.error('Regenerate error:', err);
+
+    // Update Supabase status to 'failed' so frontend stops polling
+    try {
+      const supabaseAdmin = createClient(
+        process.env.SUPABASE_URL,
+        process.env.SUPABASE_SERVICE_ROLE_KEY
+      );
+      const body = JSON.parse(event.body || '{}');
+      if (body.slug) {
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({
+            status: 'failed',
+            error_message: err.message || 'Unknown error'
+          })
+          .eq('client_slug', body.slug);
+      }
+    } catch (updateErr) {
+      console.error('Failed to update error status:', updateErr);
+    }
+
     return {
       statusCode: 500,
       body: JSON.stringify({ error: err.message || 'Internal server error' })

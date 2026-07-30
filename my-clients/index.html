@@ -1312,7 +1312,13 @@
             window.location.reload();
             return;
           } else if (updated?.status === 'failed') {
-            throw new Error('Assessment generation failed');
+            // Get the error message from the database
+            const { data: failedRecord } = await supabaseClient
+              .from('client_assessments')
+              .select('error_message')
+              .eq('client_slug', slug)
+              .single();
+            throw new Error(failedRecord?.error_message || 'Assessment generation failed');
           }
 
           // Update status message

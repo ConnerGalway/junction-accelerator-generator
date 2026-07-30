@@ -12,8 +12,12 @@
   node_bundler = "esbuild"
 
 # Extend timeout for assessment generation (makes multiple API calls)
-[functions."generate-assessment"]
-  timeout = 60
+# Background functions get 15 minute timeout automatically
+[functions."generate-assessment-background"]
+  external_node_modules = ["@anthropic-ai/sdk"]
+
+[functions."regenerate-assessment-background"]
+  external_node_modules = ["@anthropic-ai/sdk"]
 
 [[headers]]
   for = "/admin/*"
