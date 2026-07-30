@@ -404,8 +404,8 @@ async function generateAssessmentWithClaude(data) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-sonnet-4-5',
-      max_tokens: 8000,
+      model: 'claude-haiku-4-5',  // Using Haiku for speed (Sonnet times out)
+      max_tokens: 6000,
       messages: [{
         role: 'user',
         content: `You are a world-class tourism digital marketing consultant. Analyze this business and generate a comprehensive digital marketing assessment.
