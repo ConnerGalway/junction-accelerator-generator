@@ -417,6 +417,14 @@ CRITICAL INSTRUCTIONS:
 4. Recommendations need TIME ESTIMATES (e.g., "30 minutes", "2-3 hours", "1 week")
 5. Be specific to THIS business - reference their actual location, offerings, unique features
 
+DATA LIMITATIONS - CRITICAL:
+- You have SEOptimer technical data (website speed, SEO, etc.) but NOT Google review data
+- You do NOT have access to: Google review counts, review ratings, TripAdvisor reviews, or social media follower counts
+- For review_ecosystem category: DO NOT claim specific numbers like "0 reviews" or "no reviews detected"
+- Instead, provide recommendations for review strategy WITHOUT making false claims about current review status
+- For any data you don't have, say "Unable to assess - manual verification recommended" or focus on general best practices
+- NEVER fabricate or guess statistics you don't have - this damages credibility
+
 Return ONLY valid JSON with this structure:
 
 {
@@ -482,20 +490,32 @@ Return ONLY valid JSON with this structure:
       "recommendations": []
     },
     "review_ecosystem": {
-      "grade": "B",
-      "score": 75,
+      "grade": "N/A",
+      "score": null,
       "title": "Reviews & Reputation",
-      "summary": "Assessment of review presence, quality, and management",
-      "metrics": [],
-      "findings": [],
-      "recommendations": []
+      "summary": "Review data not available in automated scan - manual verification of Google, TripAdvisor, and Yelp recommended",
+      "metrics": [
+        {"label": "Google Reviews", "value": "Manual check required", "benchmark": "Tourism businesses should aim for 100+ reviews", "status": "info", "tooltip": "We cannot automatically access Google review data"},
+        {"label": "Review Response Rate", "value": "Manual check required", "benchmark": "Best practice: respond to 90%+ of reviews", "status": "info", "tooltip": "Check Google Business Profile for response status"}
+      ],
+      "findings": [
+        {"type": "info", "text": "Review counts and ratings require manual verification on Google Maps, TripAdvisor, and Yelp"}
+      ],
+      "recommendations": [
+        {"text": "Verify your Google Business Profile review count and average rating", "time_estimate": "10 minutes", "impact": "Essential baseline data"},
+        {"text": "Set up Google review alerts and establish a response workflow", "time_estimate": "30 minutes", "impact": "Improve reputation management"},
+        {"text": "Create a post-visit review request process for satisfied guests", "time_estimate": "2 hours", "impact": "Increase review volume over time"}
+      ]
     },
     "social_media": {
       "grade": "C",
       "score": 60,
       "title": "Social Media & Visual Content",
-      "summary": "Assessment of social presence and content quality for tourism marketing",
-      "metrics": [],
+      "summary": "Assessment based on provided social URLs - follower counts and engagement metrics require manual verification",
+      "metrics": [
+        {"label": "Platform Presence", "value": "Based on provided URLs", "benchmark": "Tourism businesses should be on Instagram, Facebook, and TikTok minimum", "status": "info", "tooltip": "We assess based on URLs you provided"},
+        {"label": "Follower Count", "value": "Manual check required", "benchmark": "Varies by market size", "status": "info", "tooltip": "We cannot access private follower data"}
+      ],
       "findings": [],
       "recommendations": []
     },

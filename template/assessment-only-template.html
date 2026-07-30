@@ -337,6 +337,7 @@ nav { flex: 1; padding: 12px 0; }
 .category-grade.grade-c { background: #fff3cd; color: #856404; }
 .category-grade.grade-d { background: #f8d7da; color: #721c24; }
 .category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+.category-grade.grade-na { background: #e9ecef; color: #6b6b8a; }
 
 .category-summary {
   font-size: 14px;
@@ -385,6 +386,7 @@ nav { flex: 1; padding: 12px 0; }
 .metric-status.good { background: var(--success); }
 .metric-status.warning { background: var(--warning); }
 .metric-status.critical { background: var(--danger); }
+.metric-status.info { background: #6b6b8a; }
 
 .category-findings {
   margin-bottom: 16px;
@@ -410,6 +412,7 @@ nav { flex: 1; padding: 12px 0; }
 
 .finding-icon.positive { color: var(--success); }
 .finding-icon.negative { color: var(--danger); }
+.finding-icon.info { color: #6b6b8a; }
 
 .category-recommendations h4 {
   font-family: var(--font-d);
@@ -1840,7 +1843,8 @@ function renderAssessment() {
     let html = '';
     for (const [key, cat] of Object.entries(data.categories)) {
       const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
-      const gradeClass = 'grade-' + (cat.grade || 'c').toLowerCase().charAt(0);
+      const grade = cat.grade || 'N/A';
+      const gradeClass = grade === 'N/A' ? 'grade-na' : 'grade-' + grade.toLowerCase().charAt(0);
 
       html += `
         <div class="category-card">
@@ -2023,10 +2027,17 @@ function renderFindings(findings) {
   if (!findings || !findings.length) return '';
   let html = '<div class="category-findings">';
   findings.slice(0, 4).forEach(f => {
-    const iconClass = f.type === 'positive' ? 'positive' : 'negative';
-    const icon = f.type === 'positive'
-      ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>'
-      : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    let iconClass, icon;
+    if (f.type === 'positive') {
+      iconClass = 'positive';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if (f.type === 'info') {
+      iconClass = 'info';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    } else {
+      iconClass = 'negative';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    }
     html += `
       <div class="finding-item">
         <span class="finding-icon ${iconClass}">${icon}</span>
