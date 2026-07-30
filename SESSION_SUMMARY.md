@@ -113,18 +113,40 @@ ALTER TABLE client_assessments ENABLE ROW LEVEL SECURITY;
    - Two-column layout for category cards in print
    - All colors and backgrounds preserved in print
 
+7. **Client Dashboard Redesign (v3):**
+   - Split into two sections: **Assessments** and **Accelerator Projects**
+   - **Assessments section features:**
+     - Shows all assessments from `client_assessments` table
+     - Card displays: business name, website, grade badge, status, date
+     - "Has Plan" badge for assessments that have implementation plans
+     - **View** button to open assessment dashboard
+     - **Add Plan** button (only for completed assessments without plans)
+     - **Actions menu** with Regenerate and Delete options
+     - Status badges: Completed, Processing, Pending, Failed
+   - **Accelerator Projects section:**
+     - Shows projects with implementation plans from `user_plans`
+     - Progress tracking (Week X of 12, percentage complete)
+   - **Linked workflow:**
+     - "Add Plan" button passes `?from=client-slug` to create-project page
+     - Create-project page pre-fills client name and slug when `from` param present
+     - Locks name/slug fields to prevent mismatches
+     - Shows info banner "Linked to assessment for [Business Name]"
+     - Submit button changes to "Add Implementation Plan"
+
 ## Next Steps
 
-1. **Test the new assessment format**
-   - Generate a fresh assessment with a new slug
-   - Verify all new sections appear (Executive Summary, Quick Wins, Tourism Context)
-   - Check metrics have benchmarks
-   - Check recommendations have time estimates
+1. **Test the full workflow**
+   - Generate an assessment
+   - Click "Add Plan" on the assessment card
+   - Verify form pre-fills correctly
+   - Upload a plan.md and create the project
+   - Verify both assessment and project appear correctly
 
 2. **Polish items**
    - Test mobile responsiveness
-   - Add re-assessment functionality
+   - Add re-assessment functionality (regenerate uses existing slug)
    - Error recovery for failed assessments
+   - Consider: delete GitHub files when deleting assessment
 
 ## Key Technical Decisions
 

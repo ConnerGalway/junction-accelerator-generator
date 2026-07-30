@@ -353,9 +353,24 @@
       color: #2d6a3e;
     }
 
+    .message--info {
+      background: rgba(59,130,246,0.1);
+      border: 1px solid rgba(59,130,246,0.2);
+      color: #1d4ed8;
+      display: flex;
+      align-items: center;
+    }
+
     .message a {
       color: inherit;
       font-weight: 600;
+    }
+
+    /* Locked field style */
+    .form-input--locked {
+      background: var(--cream);
+      color: var(--muted);
+      cursor: not-allowed;
     }
 
     /* ── Footer ─────────────────────────────────────────── */
@@ -691,8 +706,18 @@
 
     <div class="page-header">
       <p class="page-header__eyebrow">Admin</p>
-      <h1 class="page-header__title">Create New Project</h1>
-      <p class="page-header__sub">Upload a plan.md file to generate a new accelerator page</p>
+      <h1 class="page-header__title" id="pageTitle">Create New Project</h1>
+      <p class="page-header__sub" id="pageSub">Upload a plan.md file to generate a new accelerator page</p>
+    </div>
+
+    <!-- Assessment link banner (shown when creating from assessment) -->
+    <div class="message message--info" id="assessmentBanner" style="display:none">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;vertical-align:middle;margin-right:8px;">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      <span id="assessmentBannerText">Linked to assessment for <strong></strong></span>
     </div>
 
     <div id="errorMessage" class="message message--error"></div>
@@ -820,6 +845,7 @@
     // ══════════════════════════════════════════════════════════════
     let currentUser = null;
     let planMdContent = null;
+    let linkedAssessment = null; // Assessment we're adding a plan to
 
     // ══════════════════════════════════════════════════════════════
     // INITIALIZATION
@@ -840,9 +866,69 @@
       await loadCoaches();
       setupEventListeners();
 
-      // Show onboarding tour for first-time users
-      checkShowTour();
+      // Check for `from` parameter (linking to existing assessment)
+      const params = new URLSearchParams(window.location.search);
+      const fromSlug = params.get('from');
+      if (fromSlug) {
+        await loadLinkedAssessment(fromSlug);
+      }
+
+      // Show onboarding tour for first-time users (only if not linking)
+      if (!fromSlug) {
+        checkShowTour();
+      }
     })();
+
+    // ══════════════════════════════════════════════════════════════
+    // LOAD LINKED ASSESSMENT
+    // ══════════════════════════════════════════════════════════════
+    async function loadLinkedAssessment(slug) {
+      try {
+        // Fetch assessment data
+        const { data: assessment, error } = await supabaseClient
+          .from('client_assessments')
+          .select('*')
+          .eq('client_slug', slug)
+          .single();
+
+        if (error || !assessment) {
+          showError(`Assessment not found: ${slug}`);
+          return;
+        }
+
+        linkedAssessment = assessment;
+
+        // Update page header
+        document.getElementById('pageTitle').textContent = 'Add Implementation Plan';
+        document.getElementById('pageSub').textContent = 'Create a 90-day accelerator plan for this client';
+
+        // Show assessment banner
+        const banner = document.getElementById('assessmentBanner');
+        banner.style.display = 'flex';
+        banner.querySelector('strong').textContent = assessment.business_name;
+
+        // Pre-fill form fields
+        document.getElementById('clientName').value = assessment.business_name;
+        document.getElementById('slug').value = assessment.client_slug;
+
+        // Lock the slug field
+        const slugInput = document.getElementById('slug');
+        slugInput.readOnly = true;
+        slugInput.classList.add('form-input--locked');
+
+        // Also lock the client name since it should match
+        const clientNameInput = document.getElementById('clientName');
+        clientNameInput.readOnly = true;
+        clientNameInput.classList.add('form-input--locked');
+
+        // Update submit button text
+        document.getElementById('submitBtn').textContent = 'Add Implementation Plan';
+
+      } catch (err) {
+        console.error('Error loading assessment:', err);
+        showError('Failed to load assessment data');
+      }
+    }
 
     // ══════════════════════════════════════════════════════════════
     // LOAD COACHES FOR DROPDOWN
@@ -1010,6 +1096,22 @@
           throw new Error('Not authenticated');
         }
 
+        // Build request body
+        const requestBody = {
+          clientName,
+          slug,
+          coachEmail,
+          cohortStartDate,
+          assessmentDate,
+          planMd: planMdContent
+        };
+
+        // Include assessment data if linking to existing assessment
+        if (linkedAssessment) {
+          requestBody.assessmentId = linkedAssessment.id;
+          requestBody.assessmentData = linkedAssessment.assessment_data;
+        }
+
         // Call Netlify Function
         const response = await fetch('/.netlify/functions/create-project', {
           method: 'POST',
@@ -1017,14 +1119,7 @@
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${session.access_token}`
           },
-          body: JSON.stringify({
-            clientName,
-            slug,
-            coachEmail,
-            cohortStartDate,
-            assessmentDate,
-            planMd: planMdContent
-          })
+          body: JSON.stringify(requestBody)
         });
 
         const result = await response.json();
