@@ -11,6 +11,10 @@
 [functions]
   node_bundler = "esbuild"
 
+# Extend timeout for assessment generation (makes multiple API calls)
+[functions."generate-assessment"]
+  timeout = 60
+
 [[headers]]
   for = "/admin/*"
   [headers.values]
