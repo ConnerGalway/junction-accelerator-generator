@@ -3,6 +3,11 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+// Configure function timeout (requires Netlify Pro or higher)
+export const config = {
+  maxDuration: 60
+};
+
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════════════════════════════
@@ -315,8 +320,8 @@ async function fetchSEOptimerReport(websiteUrl) {
   const reportId = createResult.data.id;
 
   // Step 2: Poll for the report results (may take a few seconds to process)
-  const maxAttempts = 30;  // Max 30 attempts (60 seconds total)
-  const pollInterval = 2000;  // 2 seconds between attempts
+  const maxAttempts = 20;  // Max 20 attempts
+  const pollInterval = 1500;  // 1.5 seconds between attempts (30 seconds max)
 
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
     await new Promise(resolve => setTimeout(resolve, pollInterval));
