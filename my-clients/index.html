@@ -137,6 +137,41 @@
       height: 18px;
     }
 
+    .btn-group {
+      display: flex;
+      gap: 12px;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      height: 44px;
+      padding: 0 20px;
+      background: transparent;
+      color: var(--navy);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(17,21,75,0.04);
+      border-color: var(--navy);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary svg {
+      width: 18px;
+      height: 18px;
+    }
+
     /* ── Project gallery ────────────────────────────────── */
     .project-gallery {
       display: grid;
@@ -319,13 +354,23 @@
           <h1 class="page-header__title">Accelerator Projects</h1>
           <p class="page-header__sub" id="projectCount"></p>
         </div>
-        <a href="/admin/create-project/" class="btn-create" id="createProjectBtn" style="display:none">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <line x1="12" y1="5" x2="12" y2="19"></line>
-            <line x1="5" y1="12" x2="19" y2="12"></line>
-          </svg>
-          Create Project
-        </a>
+        <div class="btn-group" id="adminButtons" style="display:none">
+          <a href="/admin/generate-assessment/" class="btn-secondary" id="generateAssessmentBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+              <rect x="9" y="3" width="6" height="4" rx="1"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            Generate Assessment
+          </a>
+          <a href="/admin/create-project/" class="btn-create" id="createProjectBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Create Project
+          </a>
+        </div>
       </div>
     </div>
 
@@ -372,9 +417,9 @@
       document.getElementById('topbarEmail').textContent = user.email;
       window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
 
-      // Show create button for admin/psm users
+      // Show admin buttons for admin/psm users
       if (user.role === 'admin' || user.role === 'psm') {
-        document.getElementById('createProjectBtn').style.display = 'inline-flex';
+        document.getElementById('adminButtons').style.display = 'flex';
       }
 
       await loadProjects();
