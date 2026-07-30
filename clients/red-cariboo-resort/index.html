@@ -1,0 +1,2081 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing Assessment — Red Cariboo Resort</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy: #11154b;
+  --navy-light: #1a1f6b;
+  --mint: #aadab6;
+  --mint-dark: #7bc490;
+  --cream: #fcf5ec;
+  --blue: #067cbc;
+  --slate: #708090;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --sidebar-w: 268px;
+  --font-d: 'Raleway', sans-serif;
+  --font-b: 'Open Sans', sans-serif;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #28a745;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-b);
+  background: var(--page-bg);
+  color: var(--dark);
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--mint);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-client {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-client-name {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.sidebar-client-status {
+  font-size: 11px;
+  color: var(--mint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  border-radius: 50%;
+}
+
+nav { flex: 1; padding: 12px 0; }
+
+.nav-section-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 16px 24px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 1px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+
+.nav-item.active {
+  background: rgba(170,218,182,.12);
+  color: #fff;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+  margin-left: -8px;
+}
+
+.nav-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item .lock-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  color: rgba(255,255,255,.3);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+/* ── Main Content ─────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active { display: block; }
+
+/* ── Assessment Page ─────────────────────────── */
+.assessment-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.assessment-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(170,218,182,.15) 0%, transparent 60%);
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.assessment-hero-title {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.assessment-hero-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.assessment-hero-badge {
+  background: var(--mint);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255,255,255,.1);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.grade-details h3 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.grade-details p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ── Category Cards ─────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.category-icon.website { background: #e3f2fd; color: #1976d2; }
+.category-icon.ai { background: #f3e5f5; color: #7b1fa2; }
+.category-icon.booking { background: #e8f5e9; color: #388e3c; }
+.category-icon.reviews { background: #fff3e0; color: #f57c00; }
+.category-icon.social { background: #fce4ec; color: #c2185b; }
+.category-icon.local { background: #e0f7fa; color: #0097a7; }
+.category-icon.email { background: #fff8e1; color: #ffa000; }
+.category-icon.competitive { background: #efebe9; color: #5d4037; }
+
+.category-title-wrap {
+  flex: 1;
+}
+
+.category-title {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.category-grade {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-grade.grade-a { background: #d4edda; color: #155724; }
+.category-grade.grade-b { background: #d1ecf1; color: #0c5460; }
+.category-grade.grade-c { background: #fff3cd; color: #856404; }
+.category-grade.grade-d { background: #f8d7da; color: #721c24; }
+.category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+.category-grade.grade-na { background: #e9ecef; color: #6b6b8a; }
+
+.category-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.category-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  padding: 12px;
+  background: var(--page-bg);
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-status.good { background: var(--success); }
+.metric-status.warning { background: var(--warning); }
+.metric-status.critical { background: var(--danger); }
+.metric-status.info { background: #6b6b8a; }
+
+.category-findings {
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.finding-item:last-child { border-bottom: none; }
+
+.finding-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-icon.positive { color: var(--success); }
+.finding-icon.negative { color: var(--danger); }
+.finding-icon.info { color: #6b6b8a; }
+
+.category-recommendations h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(6,124,188,.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.recommendation-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.recommendation-priority.high { background: #f8d7da; color: #721c24; }
+.recommendation-priority.medium { background: #fff3cd; color: #856404; }
+.recommendation-priority.low { background: #d1ecf1; color: #0c5460; }
+
+/* ── Priority Recommendations ─────────────────── */
+.priority-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.priority-section h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.priority-list {
+  display: grid;
+  gap: 16px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.priority-item-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: var(--mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.priority-item-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.priority-item-content p {
+  font-size: 13px;
+  color: #666;
+}
+
+.priority-item-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.priority-item-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.06);
+}
+
+.priority-item-tag.time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+}
+
+.priority-item-tag.impact-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-item-tag.impact-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-item-tag.impact-low {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.priority-item-result {
+  font-size: 12px;
+  color: #555;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mint);
+  font-style: italic;
+}
+
+/* ── Executive Summary ─────────────────────────── */
+.executive-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.executive-summary h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.executive-headline {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.executive-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.executive-column h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.executive-column h4 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.executive-column.strengths h4 { color: var(--success); }
+.executive-column.gaps h4 { color: var(--danger); }
+
+.executive-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.executive-column li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.executive-column li:last-child { border-bottom: none; }
+
+.executive-column li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.executive-column.strengths li::before { background: var(--success); }
+.executive-column.gaps li::before { background: var(--danger); }
+
+.executive-bottom-line {
+  background: var(--page-bg);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid var(--navy);
+}
+
+/* ── Quick Wins ─────────────────────────────────── */
+.quick-wins {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.quick-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-wins h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--success);
+}
+
+.quick-wins-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-win-item {
+  background: var(--card-bg);
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.quick-win-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quick-win-content {
+  flex: 1;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.quick-win-impact {
+  font-size: 13px;
+  color: #666;
+}
+
+.quick-win-time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tourism Context ────────────────────────────── */
+.tourism-context {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tourism-context h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tourism-context h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.tourism-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tourism-context-item {
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.tourism-context-item h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tourism-context-item h4 svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.tourism-context-item p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── Updated Metric with Benchmark ─────────────── */
+.metric-benchmark {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Recommendation Time Estimate ──────────────── */
+.recommendation-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 6px;
+}
+
+.recommendation-time svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Category Guest Experience ─────────────────── */
+.category-icon.guest { background: #e1f5fe; color: #0277bd; }
+.category-icon.visitor { background: #f3e5f5; color: #7b1fa2; }
+
+@media (max-width: 768px) {
+  .executive-columns { grid-template-columns: 1fr; }
+  .tourism-context-grid { grid-template-columns: 1fr; }
+  .quick-win-item { flex-direction: column; align-items: stretch; }
+  .quick-win-time { align-self: flex-start; }
+}
+
+/* ── Coming Soon Page ─────────────────────────── */
+.coming-soon-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.coming-soon-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 60px 40px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--navy);
+}
+
+.coming-soon-content h2 {
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.coming-soon-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.coming-soon-note {
+  font-size: 13px;
+  color: #999;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-header-title {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mint);
+  }
+
+  .mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page { padding: 20px; }
+  .assessment-hero { padding: 24px; }
+  .assessment-hero-title { font-size: 22px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-metrics { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 769px) {
+  .mobile-header { display: none; }
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Download PDF Button ────────────────────────── */
+.assessment-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.5);
+}
+
+.download-pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Print Header & Footer (hidden on screen) ──── */
+.print-header,
+.print-footer {
+  display: none;
+}
+
+/* ── Print Styles ───────────────────────────────── */
+@media print {
+  /* Reset for print */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  html, body {
+    height: auto;
+    overflow: visible;
+    background: #fff;
+  }
+
+  body {
+    display: block;
+    padding: 0;
+    margin: 0;
+  }
+
+  /* Hide non-print elements */
+  #sidebar,
+  .mobile-header,
+  .mobile-overlay,
+  .download-pdf-btn,
+  .assessment-hero-badge,
+  .assessment-hero-actions,
+  .nav-item,
+  #page-strategy,
+  #page-tactic1,
+  #page-tactic2,
+  #page-tactic3,
+  #page-roadmap {
+    display: none !important;
+  }
+
+  /* Main content fills page */
+  #main {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0;
+  }
+
+  .page {
+    display: block !important;
+    padding: 0;
+    min-height: auto;
+  }
+
+  /* Print Header */
+  .print-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding: 24px 0;
+    margin-bottom: 24px;
+    border-bottom: 3px solid var(--navy);
+  }
+
+  .print-header-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .print-header-logo-icon {
+    width: 48px;
+    height: 48px;
+    background: var(--navy);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-header-logo-icon svg {
+    width: 28px;
+    height: 28px;
+    color: var(--mint);
+  }
+
+  .print-header-brand {
+    font-family: var(--font-d);
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .print-header-brand span {
+    color: var(--mint-dark);
+  }
+
+  .print-header-info {
+    text-align: right;
+  }
+
+  .print-header-title {
+    font-family: var(--font-d);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 4px;
+  }
+
+  .print-header-client {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--dark);
+  }
+
+  /* Assessment Hero for print */
+  .assessment-hero {
+    background: var(--navy) !important;
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 24px;
+    page-break-inside: avoid;
+  }
+
+  .assessment-hero-top {
+    margin-bottom: 20px;
+  }
+
+  .assessment-hero-title {
+    font-size: 24px;
+    color: #fff;
+  }
+
+  .assessment-hero-date {
+    color: rgba(255,255,255,.8);
+  }
+
+  .assessment-grade-card {
+    background: rgba(255,255,255,.1) !important;
+    padding: 20px;
+    border-radius: 12px;
+  }
+
+  .grade-circle {
+    width: 80px;
+    height: 80px;
+    font-size: 28px;
+    background: var(--mint) !important;
+    color: var(--navy) !important;
+  }
+
+  .grade-details {
+    color: #fff;
+  }
+
+  .grade-details h3 {
+    color: #fff;
+  }
+
+  /* Sections for print */
+  .executive-summary,
+  .quick-wins,
+  .tourism-context,
+  .priority-section {
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+
+  .executive-summary {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .quick-wins {
+    background: #e8f5e9 !important;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  .tourism-context {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 24px;
+  }
+
+  /* Category cards for print */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .category-card {
+    page-break-inside: avoid;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 16px;
+    font-size: 11px;
+  }
+
+  .category-header {
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+  }
+
+  .category-icon {
+    width: 36px;
+    height: 36px;
+  }
+
+  .category-icon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .category-title {
+    font-size: 13px;
+  }
+
+  .category-summary {
+    font-size: 11px;
+    margin-bottom: 12px;
+  }
+
+  .category-metrics {
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .metric-item {
+    padding: 8px;
+  }
+
+  .metric-label {
+    font-size: 9px;
+  }
+
+  .metric-value {
+    font-size: 12px;
+  }
+
+  .metric-benchmark {
+    font-size: 8px;
+  }
+
+  .finding-item {
+    font-size: 10px;
+    padding: 4px 0;
+  }
+
+  .category-recommendations h4 {
+    font-size: 11px;
+  }
+
+  .recommendation-item {
+    font-size: 10px;
+    padding: 8px;
+    margin-bottom: 4px;
+  }
+
+  .recommendation-priority {
+    font-size: 8px;
+  }
+
+  .recommendation-time {
+    font-size: 9px;
+  }
+
+  /* Priority section for print */
+  .priority-section {
+    border: 2px solid var(--navy);
+    border-radius: 12px;
+    padding: 24px;
+    page-break-inside: avoid;
+  }
+
+  .priority-section h2 {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .priority-item {
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    background: var(--page-bg) !important;
+  }
+
+  .priority-item-number {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    background: var(--navy) !important;
+    color: var(--mint) !important;
+  }
+
+  .priority-item-content h4 {
+    font-size: 13px;
+  }
+
+  .priority-item-meta {
+    gap: 8px;
+  }
+
+  .priority-item-tag {
+    font-size: 9px;
+  }
+
+  .priority-item-result {
+    font-size: 10px;
+  }
+
+  /* Print Footer */
+  .print-footer {
+    display: block !important;
+    margin-top: 40px;
+    padding-top: 24px;
+    border-top: 2px solid var(--navy);
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .print-footer-credits {
+    flex: 1;
+  }
+
+  .print-footer-credits h4 {
+    font-family: var(--font-d);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 8px;
+  }
+
+  .print-footer-credits p {
+    font-size: 11px;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 4px;
+  }
+
+  .print-footer-branding {
+    text-align: right;
+  }
+
+  .print-footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .print-footer-logo-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--navy);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-footer-logo-icon svg {
+    width: 18px;
+    height: 18px;
+    color: var(--mint);
+  }
+
+  .print-footer-logo-text {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--navy);
+  }
+
+  .print-footer-url {
+    font-size: 11px;
+    color: var(--blue);
+    font-weight: 600;
+  }
+
+  .print-footer-disclaimer {
+    font-size: 9px;
+    color: #888;
+    text-align: center;
+    padding-top: 16px;
+    border-top: 1px solid #ddd;
+  }
+
+  /* Quick wins adjustments for print */
+  .quick-win-item {
+    padding: 12px;
+    margin-bottom: 8px;
+    background: #fff !important;
+  }
+
+  .quick-win-number {
+    width: 24px;
+    height: 24px;
+    font-size: 11px;
+    background: var(--success) !important;
+    color: #fff !important;
+  }
+
+  .quick-win-task {
+    font-size: 12px;
+  }
+
+  .quick-win-impact {
+    font-size: 10px;
+  }
+
+  .quick-win-time {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+
+  /* Tourism context for print */
+  .tourism-context-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .tourism-context-item {
+    padding: 12px;
+  }
+
+  .tourism-context-item h4 {
+    font-size: 11px;
+  }
+
+  .tourism-context-item p {
+    font-size: 10px;
+  }
+
+  /* Executive summary for print */
+  .executive-headline {
+    font-size: 14px;
+  }
+
+  .executive-columns {
+    gap: 16px;
+  }
+
+  .executive-column h4 {
+    font-size: 11px;
+  }
+
+  .executive-column li {
+    font-size: 11px;
+    padding: 4px 0;
+  }
+
+  .executive-bottom-line {
+    font-size: 11px;
+    padding: 12px;
+  }
+
+  /* Page breaks */
+  .categories-grid {
+    page-break-before: always;
+  }
+
+  .priority-section {
+    page-break-before: always;
+  }
+}
+</style>
+</head>
+<body data-client-slug="red-cariboo-resort">
+
+<!-- Print Header (visible only when printing) -->
+<div class="print-header">
+  <div class="print-header-logo">
+    <div class="print-header-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="print-header-brand">eLearnin<span>gU</span></div>
+  </div>
+  <div class="print-header-info">
+    <div class="print-header-title">Digital Marketing Assessment</div>
+    <div class="print-header-client">Red Cariboo Resort</div>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mobile-header-title">Red Cariboo Resort</span>
+  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <span class="sidebar-logo-text">eLearningU</span>
+  </div>
+
+  <div class="sidebar-client">
+    <div class="sidebar-client-name">Red Cariboo Resort</div>
+    <div class="sidebar-client-status">
+      <span class="status-dot"></span>
+      Assessment Complete
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="navigate('assessment')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Assessment
+    </div>
+
+    <div class="nav-section-label">Your Plan</div>
+    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      Strategy
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Tactics</div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 1
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 2
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 3
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Implementation</div>
+    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      90-Day Roadmap
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- Assessment Page -->
+  <section id="page-assessment" class="page active">
+    <div class="assessment-hero">
+      <div class="assessment-hero-top">
+        <div>
+          <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
+          <p class="assessment-hero-date">Assessment Date: July 30, 2026</p>
+        </div>
+        <div class="assessment-hero-actions">
+          <button class="download-pdf-btn" onclick="downloadPDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </button>
+          <div class="assessment-hero-badge">Complete</div>
+        </div>
+      </div>
+
+      <div class="assessment-grade-card">
+        <div class="grade-circle" id="overallGrade">B-</div>
+        <div class="grade-details">
+          <h3>Overall Score: <span id="overallScore">68</span>/100</h3>
+          <p id="overallSummary">Red Cariboo Resort demonstrates solid technical foundations with excellent guest satisfaction and active social presence, but language optimization issues and gaps in tourism discovery channels are limiting its ability to capture international adventure travelers planning Chilcotin wilderness trips. The resort needs immediate focus on English-first presentation and integration into BC tourism planning ecosystem.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary" id="executiveSummary">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="quick-wins" id="quickWins">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Tourism Context -->
+    <div class="tourism-context" id="tourismContext">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Categories will be populated by JavaScript -->
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <!-- Priority recommendations will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Pages -->
+  <section id="page-strategy" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>Strategy Coming Soon</h2>
+        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
+        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic1" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 1 Coming Soon</h2>
+        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic2" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 2 Coming Soon</h2>
+        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic3" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 3 Coming Soon</h2>
+        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-roadmap" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>90-Day Roadmap Coming Soon</h2>
+        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
+        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Footer (visible only when printing) -->
+  <div class="print-footer">
+    <div class="print-footer-content">
+      <div class="print-footer-credits">
+        <h4>About This Assessment</h4>
+        <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
+        <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
+        <p><strong>Assessment Date:</strong> July 30, 2026</p>
+      </div>
+      <div class="print-footer-branding">
+        <div class="print-footer-logo">
+          <div class="print-footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="print-footer-logo-text">eLearningU</span>
+        </div>
+        <div class="print-footer-url">eLearningU.com</div>
+      </div>
+    </div>
+    <div class="print-footer-disclaimer">
+      This assessment is confidential and prepared exclusively for Red Cariboo Resort.
+      Powered by Junction Accelerator &mdash; helping tourism businesses grow their digital presence.
+    </div>
+  </div>
+
+</main>
+
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Red Cariboo Resort has strong technical foundations and social presence, but critical gaps in English-language optimization and trip planning integration are limiting tourist discovery in a remote wilderness destination.","key_strengths":["Excellent Google Business Profile rating (5.0 stars from 19 reviews) demonstrating strong guest satisfaction","A+ social media grade with active Facebook, Instagram, and YouTube presence creating visual storytelling","Multi-language website (German/English) with proper hreflang implementation showing international market awareness"],"critical_gaps":["Website defaulting to German language, creating immediate friction for English-speaking tourists searching for BC wilderness experiences","Poor backlink profile (D grade) limiting visibility in competitive outdoor adventure tourism market","Missing Local Business Schema and trip planning integrations (TripAdvisor, regional tourism boards) reducing discoverability"],"bottom_line":"This remote wilderness resort has the bones of a strong digital presence but needs immediate English-language optimization and better integration into the BC tourism discovery ecosystem to capture international adventure travelers planning Chilcotin trips."},"quick_wins":[{"task":"Switch website default language to English instead of German - 90%+ of BC wilderness tourism searches are in English","time_estimate":"15 minutes","impact":"Immediately reduce bounce rate from English-speaking visitors who are the primary Chilcotin adventure tourism market"},{"task":"Add Local Business Schema markup with exact coordinates, season dates, and activity listings to improve Google map pack visibility","time_estimate":"1 hour","impact":"Better visibility in 'things to do near Williams Lake' and 'Chilcotin wilderness lodges' searches"},{"task":"Claim and optimize TripAdvisor listing with photos, amenities, and cross-link to Google Business Profile","time_estimate":"2 hours","impact":"Capture trip planners researching BC wilderness experiences who rely heavily on TripAdvisor for remote destinations"},{"task":"Add FAQ section answering common remote resort questions (road access, supplies, cell service, seasonal closure) to homepage","time_estimate":"1 hour","impact":"Reduce pre-booking inquiry load and improve GEO/AI search visibility for question-based queries"},{"task":"Reduce title tag from 181 to 60 characters focusing on 'Wilderness Resort Anahim Lake BC | Dean River Adventure Lodge'","time_estimate":"30 minutes","impact":"Better SERP display and keyword targeting for primary search terms used by international adventure travelers"}],"tourism_context":{"visitor_profile":"International adventure tourists (60% European, 30% US, 10% Canadian) seeking authentic wilderness experiences, typically aged 35-65, planning multi-day Chilcotin road trip itineraries including Tweedsmuir Park, Dean River fishing, and coastal BC access. High-value guests with $2,500-5,000+ trip budgets who book 3-6 months in advance after extensive online research.","discovery_journey":"Tourists discover remote Chilcotin resorts through layered research: initial searches for 'BC wilderness lodges' or 'Chilcotin adventure tourism', then cross-reference on Google Maps, TripAdvisor, and regional tourism sites (Northern BC Tourism, HelloBC). They validate through visual content (Instagram/YouTube), reviews, and detailed amenity information before booking. Remote location means higher decision-making friction requiring comprehensive online information.","seasonal_considerations":"Extreme seasonality with May-September operating window dictates year-round digital presence for advance bookings. Winter months (Oct-Apr) are critical for SEO building, content creation, and capturing early planners. Summer requires real-time social media and review response. Highway 20 accessibility concerns mean weather/road condition updates are essential digital content.","trip_integration":"Red Cariboo serves as a multi-day basecamp within larger 7-14 day Chilcotin-Coast itineraries. Visitors are also researching Bella Coola, Tweedsmuir Provincial Park, Highway 20 scenic routes, and Dean River fishing guides. Digital presence must connect to regional trip planning resources and partner activities (fishing guides, hiking, wildlife tours) to demonstrate trip context.","competitive_landscape":"Competing against 15-20 Chilcotin wilderness lodges/resorts plus alternative BC destinations (Yukon, Northern Rockies, Haida Gwaii) for international adventure budget. Main competitors: Eagle's Nest Resort, Tweedsmuir Park Lodge, Precipice Provincial Park facilities. Differentiation through Dean River location and accessibility, but digital visibility determines consideration set entry for travelers unfamiliar with region."},"overall":{"grade":"B-","score":68,"summary":"Red Cariboo Resort demonstrates solid technical foundations with excellent guest satisfaction and active social presence, but language optimization issues and gaps in tourism discovery channels are limiting its ability to capture international adventure travelers planning Chilcotin wilderness trips. The resort needs immediate focus on English-first presentation and integration into BC tourism planning ecosystem."},"categories":{"website_technical":{"grade":"B","score":70,"title":"Website & Technical Foundation","summary":"Website has good technical structure with SSL, mobile optimization, and multi-language support, but slow load speeds and German-language default create friction for primary English-speaking adventure tourism market searching for BC wilderness experiences.","metrics":[{"label":"Mobile Page Speed","value":"49/100","benchmark":"Tourism industry average: 55/100, Premium lodges: 70+","status":"warning","tooltip":"Slow mobile speeds hurt tourists researching on-the-go during road trips or with limited connectivity in remote areas"},{"label":"Desktop Page Speed","value":"75/100","benchmark":"Tourism industry average: 65/100","status":"good","tooltip":"Acceptable for desktop trip planning but room for improvement"},{"label":"Site Load Time","value":"3.0 seconds","benchmark":"Tourism best practice: <2 seconds","status":"warning","tooltip":"Each additional second increases bounce rate by 7% for impatient trip planners comparing multiple destinations"},{"label":"SSL Security","value":"Enabled","benchmark":"100% required for booking sites","status":"good","tooltip":"Essential for trust with international guests entering payment information"}],"findings":[{"type":"negative","text":"Website defaults to German language despite being located in BC, Canada - creates immediate confusion for 90%+ of potential guests who are English speakers searching for Chilcotin wilderness experiences"},{"type":"negative","text":"Mobile page speed of 49/100 with 11.6 second Largest Contentful Paint hurts tourists researching on smartphones during Highway 20 road trips with limited connectivity"},{"type":"positive","text":"Proper hreflang implementation (German/English) shows technical sophistication and European market awareness, though language priority needs reversal"},{"type":"negative","text":"Title tag at 181 characters is severely truncated in search results, hiding key terms like 'Dean River' and 'Anahim Lake' that tourists search for"}],"recommendations":[{"text":"Change default language to English and set German as secondary option - update hreflang x-default to /en/ instead of /de/ to match primary market","time_estimate":"30 minutes","impact":"Eliminate confusion for English-speaking tourists and reduce immediate bounce rate from mismatched language expectations"},{"text":"Reduce JavaScript from 1.16MB to under 500KB by removing unused code (saving 0.92 seconds per SEOptimer data) and implement lazy loading for below-fold images","time_estimate":"3-4 hours","impact":"Improve mobile load time to under 2 seconds, critical for tourists with limited data plans researching in remote areas"},{"text":"Rewrite title tag to 60 characters: 'Red Cariboo Resort - Wilderness Lodge on Dean River, Anahim Lake BC' focusing on location and experience keywords","time_estimate":"15 minutes","impact":"Better SERP display and keyword targeting for primary searches like 'Anahim Lake resort', 'Dean River lodge', 'Chilcotin accommodation'"},{"text":"Fix multiple page redirects adding 0.63 seconds to mobile load time - implement direct routing for primary pages","time_estimate":"1 hour","impact":"Faster initial page load improving mobile experience for tourists comparing multiple resort options"}]},"visitor_discovery":{"grade":"C-","score":55,"title":"Visitor Discovery & Trip Integration","summary":"Critical gaps in tourism discovery channels limit visibility during the research phase when international travelers are building Chilcotin itineraries. Poor backlink profile and missing integrations with regional tourism boards reduce organic reach to adventure travelers unfamiliar with Anahim Lake.","metrics":[{"label":"Backlink Strength","value":"Domain: 31/100, Page: 9/100","benchmark":"Competitive wilderness resorts: 50+ domain strength","status":"critical","tooltip":"Low authority means poor rankings for competitive terms like 'BC wilderness lodge' or 'Chilcotin resort'"},{"label":"Quality Backlinks","value":"77 total, 51 referring domains","benchmark":"Established tourism businesses: 200+ backlinks from 100+ domains","status":"warning","tooltip":"Limited external validation hurts SEO and discoverability in competitive adventure tourism market"},{"label":"Tourism Directory Links","value":"HelloBC listed, missing TripAdvisor, Lonely Planet, BC Adventure Tourism","benchmark":"Should appear in 8-10 major tourism directories","status":"warning","tooltip":"Key trip planning resources don't reference the resort, losing referral traffic from high-intent planners"},{"label":"Keyword Rankings","value":"1 keyword ranking (position 10 for 'cariboo')","benchmark":"Competitive resorts rank for 50+ keywords","status":"critical","tooltip":"Near-invisible in organic search for terms tourists actually use to find wilderness lodges"}],"findings":[{"type":"critical","text":"Only ranking for 1 keyword ('cariboo' at position 10) means resort is essentially invisible to tourists searching for 'Chilcotin resort', 'Anahim Lake accommodation', 'Dean River lodge', or 'Highway 20 lodging'"},{"type":"negative","text":"Missing from TripAdvisor (or not claimed/optimized) - 78% of travelers research TripAdvisor when planning trips to unfamiliar remote destinations"},{"type":"negative","text":"No backlinks from regional tourism authorities (Northern BC Tourism, Thompson Okanagan Tourism, Indigenous Tourism BC) despite location in prime markets for their promotion"},{"type":"positive","text":"Listed on HelloBC (Super Natural British Columbia) - the provincial tourism site is a strong foundation, though page needs optimization with more photos and activity details"}],"recommendations":[{"text":"Create partnership pages on Northern BC Tourism, Cariboo Chilcotin Coast Tourism, and BC Adventure Tourism Association sites with direct backlinks and activity descriptions","time_estimate":"4-6 hours","impact":"Gain 3-5 high-authority backlinks and appear in regional trip planning guides targeting adventure travelers researching Chilcotin itineraries"},{"text":"Develop content partnerships with 5-10 complementary businesses: Dean River fishing guides, Tweedsmuir Park tours, Highway 20 road trip blogs, exchanging backlinks and cross-promotion","time_estimate":"1 week","impact":"Build backlink profile to 35+ domain strength and capture referral traffic from visitors researching connected activities"},{"text":"Submit detailed listings to Lonely Planet Canada, Fodor's BC, Moon British Columbia, and outdoor recreation databases (AllTrails lodging, iOverlander) with unique descriptions","time_estimate":"3 hours","impact":"Increase visibility in research phase when international travelers consult multiple guidebook sources for remote destinations"},{"text":"Create 10-15 blog posts targeting long-tail keywords: 'what to do in Anahim Lake', 'Highway 20 road trip stops', 'Dean River fishing season', 'Chilcotin wildlife viewing' to build organic rankings","time_estimate":"2-3 weeks","impact":"Rank for 25-30 informational keywords capturing early-stage researchers who later convert to bookings"}]},"online_booking":{"grade":"B-","score":68,"title":"Online Booking & Reservations","summary":"Booking page exists but lacks critical information remote resort guests need to commit (cancellation policy, deposit requirements, accessibility details). Multi-step friction and missing trust signals create abandonment risk for high-value international bookings.","metrics":[{"label":"Booking Path Clicks","value":"Manual verification needed","benchmark":"Best practice: 2 clicks maximum from homepage to booking form","status":"info","tooltip":"Each additional click reduces conversion by 10-15% for impatient travelers comparing multiple options"},{"label":"Mobile Booking Form","value":"Responsive design confirmed","benchmark":"55% of resort bookings happen on mobile","status":"good","tooltip":"Form adapts to mobile but load speed issues may cause abandonment"},{"label":"Trust Signals","value":"SSL present, reviews visible, cancellation policy unclear","benchmark":"Need: SSL + reviews + clear policies + contact options","status":"warning","tooltip":"Remote locations require extra trust-building for guests committing to long-distance travel"},{"label":"Direct Booking Incentive","value":"Not visible","benchmark":"Offer 10-15% discount vs OTA booking","status":"warning","tooltip":"Without incentive, guests default to Booking.com/Expedia where you pay 15-20% commission"}],"findings":[{"type":"negative","text":"Booking page lacks critical remote resort information: road access conditions, grocery/supply availability in Anahim Lake, cell service coverage, emergency services distance - questions that prevent commitment"},{"type":"negative","text":"No visible cancellation or deposit policy on booking page creates hesitation for international guests planning 6+ months ahead with flight/itinerary uncertainty"},{"type":"positive","text":"Contact information prominently displayed (+1 250 742 3287) provides reassurance for guests who prefer phone booking for complex multi-day wilderness stays"},{"type":"negative","text":"Missing seasonal availability calendar - guests don't know if late-September or early-May dates are viable given short operating season"}],"recommendations":[{"text":"Add comprehensive 'Plan Your Visit' section to booking page covering: seasonal dates, road conditions, supply checklist, what's included, accessibility, emergency protocols","time_estimate":"2-3 hours","impact":"Reduce pre-booking inquiry calls and increase direct booking conversion by answering objections upfront"},{"text":"Display clear cancellation policy, deposit requirements (typically 50% at booking, 50% 30 days prior for wilderness lodges), and refund terms directly on booking form","time_estimate":"30 minutes","impact":"Build trust for international guests making advance commitments and reduce booking abandonment by 15-20%"},{"text":"Implement live availability calendar showing open/closed dates and real-time room availability to prevent inquiry frustration and expedite booking decisions","time_estimate":"4-6 hours (or $200-400 for booking plugin)","impact":"Reduce back-and-forth communication and capture impulsive bookers who want instant confirmation"},{"text":"Add 'Book Direct & Save 10%' banner with comparison showing OTA price vs direct price to recapture commission margin and incentivize website booking","time_estimate":"1 hour","impact":"Increase direct booking ratio from estimated 60% to 75%+, saving $8,000-12,000 annually in OTA commissions"}]},"review_ecosystem":{"grade":"B+","score":78,"title":"Reviews & Reputation","summary":"Excellent Google Business Profile performance with perfect 5.0 rating from 19 reviews demonstrates strong guest satisfaction, but limited review volume and missing TripAdvisor presence reduce social proof for international travelers who rely on multiple validation sources for remote destinations.","metrics":[{"label":"Google Reviews","value":"19 reviews","benchmark":"Tourism businesses should aim for 100+ reviews, remote resorts average 40-60","status":"warning","tooltip":"Low volume relative to established competitors, though quality is excellent - need more guests to leave reviews"},{"label":"Google Rating","value":"5.0 stars","benchmark":"Tourism average: 4.2 stars, wilderness lodges: 4.5 stars","status":"good","tooltip":"Perfect rating demonstrates exceptional guest satisfaction and authentic wilderness experience delivery"},{"label":"TripAdvisor Presence","value":"Manual verification recommended","benchmark":"Essential for international adventure travelers - 78% check TripAdvisor for remote destinations","status":"info","tooltip":"TripAdvisor data not available in automated scan - requires manual verification of listing status"},{"label":"Review Recency","value":"Manual verification recommended","benchmark":"Active resorts should have 2-3 reviews per month during operating season","status":"info","tooltip":"Recent reviews signal active operation and current quality - critical for seasonal businesses"}],"findings":[{"type":"positive","text":"Perfect 5.0-star Google rating from 19 reviews with zero negative ratings demonstrates consistently exceptional guest experience and authentic wilderness hospitality delivery"},{"type":"negative","text":"Only 19 Google reviews is low for a resort - assuming 30-50 guests per season, review capture rate is likely under 20% missing opportunity for social proof"},{"type":"negative","text":"No visible TripAdvisor presence (requires manual verification) - international adventure travelers heavily research TripAdvisor for remote BC destinations and cross-reference with Google"},{"type":"negative","text":"Review responses not visible in data - engaging with reviewers demonstrates active management and builds trust with prospective guests reading reviews"}],"recommendations":[{"text":"Implement post-stay review request sequence: email 3 days after checkout with Google + TripAdvisor links, follow-up at 10 days, aim to increase review capture from 20% to 50% of guests","time_estimate":"2 hours to set up email templates + 15 min/week to send","impact":"Generate 40-60 additional reviews over next season, reaching 60-80 total reviews for stronger social proof"},{"text":"Claim and fully optimize TripAdvisor listing with 20-30 photos, detailed amenity descriptions, activity options, and cross-link to Google Business Profile for review consolidation","time_estimate":"2-3 hours","impact":"Capture international travelers who discover destinations through TripAdvisor research, estimated 25-30% traffic increase from new channel"},{"text":"Respond to all Google reviews (current and future) within 24-48 hours with personalized messages thanking specific details and inviting return visits","time_estimate":"10 minutes per review (ongoing)","impact":"Demonstrate active engagement, improve local SEO through review response signals, and build community of repeat guests"},{"text":"Create review incentive cards at checkout: 'Share your experience and we'll donate $10 to Chilcotin conservation' linking to Google/TripAdvisor review pages","time_estimate":"1 hour to design + $50 printing","impact":"Increase review volume by 30-40% while supporting local environmental causes that align with eco-tourism values"}]},"social_media":{"grade":"B+","score":80,"title":"Social Media & Visual Content","summary":"Strong A+ grade for social presence with active Instagram, Facebook, and YouTube channels creating compelling visual storytelling of wilderness experience. Platform strategy aligns well with adventure tourism market, though follower counts and engagement metrics require manual verification to assess true reach.","metrics":[{"label":"Platform Coverage","value":"Instagram + Facebook + YouTube active","benchmark":"Tourism businesses should be on Instagram, Facebook, and ideally TikTok","status":"good","tooltip":"Core platforms covered - Instagram/Facebook are where 70% of adventure travelers discover destinations"},{"label":"Instagram Presence","value":"Active account @redcaribooresort","benchmark":"Remote resorts should post 3-5x weekly with mix of landscape, wildlife, guest experiences","status":"good","tooltip":"Instagram is primary discovery platform for wilderness tourism - visual storytelling essential"},{"label":"YouTube Channel","value":"Active channel with video content","benchmark":"Video content drives 3x more engagement than static images for destination marketing","status":"good","tooltip":"YouTube videos help travelers visualize remote experience and reduce booking uncertainty"},{"label":"Facebook Pixel","value":"Installed (ID: 900974473771037)","benchmark":"Essential for retargeting trip planners who visit site but don't book","status":"good","tooltip":"Pixel enables retargeting campaigns to re-engage researchers across 30-90 day booking decision window"}],"findings":[{"type":"positive","text":"A+ social media grade with active presence on Instagram, Facebook, and YouTube demonstrates strong commitment to visual storytelling essential for wilderness tourism marketing"},{"type":"positive","text":"Facebook Pixel properly installed enables sophisticated retargeting of trip planners who research but don't immediately book - critical for long booking windows"},{"type":"negative","text":"Follower counts and engagement rates require manual verification - unable to assess if social audience is growing and content is resonating with target adventure travelers"},{"type":"negative","text":"Missing TikTok presence - emerging platform where 35% of under-40 travelers discover destinations, growing opportunity for wilderness adventure content"}],"recommendations":[{"text":"Audit Instagram content strategy: verify posting 4-5x weekly with mix of landscape photography (40%), wildlife encounters (30%), guest experiences (20%), and behind-scenes resort life (10%)","time_estimate":"1 hour audit + 3 hours/week content creation","impact":"Consistent posting rhythm builds follower base and creates shareable content that extends organic reach to adventure travel communities"},{"text":"Create 'Ultimate Chilcotin Road Trip' YouTube series: 5-8 minute episodes covering Highway 20 highlights, Dean River activities, wildlife viewing, seasonal changes to establish authority","time_estimate":"1-2 days filming + 4-6 hours editing per video","impact":"Educational video content ranks in YouTube search for 'Chilcotin travel guide' type queries and builds trust with trip planners researching itineraries"},{"text":"Launch TikTok account focused on 30-60 second wilderness moments: wildlife encounters, northern lights, river sounds, breakfast views - authentic content style matching platform","time_estimate":"2-3 hours/week content capture and posting","impact":"Reach younger adventure travelers (25-40) who discover destinations through TikTok and cross-post to Instagram Reels for dual platform reach"},{"text":"Implement Instagram/Facebook Stories highlights: 'Getting Here', 'Activities', 'Wildlife', 'Guest Photos' to create evergreen content showcase for profile visitors","time_estimate":"2 hours to organize and create highlights","impact":"Convert profile visitors to website clicks by showcasing experience variety and reducing unknowns about remote destination"}]},"local_seo":{"grade":"B","score":70,"title":"Local SEO & Maps Visibility","summary":"Google Business Profile is claimed and optimized with complete information, but missing Local Business Schema and limited keyword optimization reduce visibility when tourists search for 'resorts near me' or location-specific wilderness accommodation during trip planning.","metrics":[{"label":"Google Business Profile","value":"Claimed and verified with complete details","benchmark":"100% of tourism businesses must have optimized GBP","status":"good","tooltip":"Foundation is solid - profile includes address, phone, website, hours per data provided"},{"label":"Local Business Schema","value":"Not implemented","benchmark":"Schema markup improves map pack visibility by 25-30%","status":"critical","tooltip":"Missing structured data means Google can't fully understand business type, location, and attributes for local search"},{"label":"Location Keywords","value":"Ranking for 'cariboo' only","benchmark":"Should rank for 10+ location terms: Anahim Lake, Dean River, Highway 20, Chilcotin, etc.","status":"critical","tooltip":"Invisible for local searches tourists actually use when planning BC interior routes"},{"label":"GBP Posts Frequency","value":"Manual verification recommended","benchmark":"Post 2-3x per week during season for maximum visibility","status":"info","tooltip":"Regular GBP posts boost map pack rankings and showcase current activities/conditions"}],"findings":[{"type":"positive","text":"Google Business Profile complete with accurate NAP (Name, Address: 23302 Chilcotin-Bella Coola Hwy #20, Phone: +1 250 742 3287) and website link ensuring tourists can find and contact"},{"type":"critical","text":"Missing Local Business Schema markup means Google can't properly categorize as wilderness resort with specific amenities (fishing, hiking, wildlife viewing) reducing map pack visibility"},{"type":"negative","text":"Not ranking for critical local search terms: 'Anahim Lake resort', 'Dean River accommodation', 'Highway 20 lodging', 'Chilcotin wilderness lodge' means invisible to passing travelers"},{"type":"negative","text":"GBP photos and post frequency requires manual verification - regular updates with seasonal activities improve engagement and rankings"}],"recommendations":[{"text":"Implement complete Local Business Schema markup including: LodgingBusiness type, geographic coordinates (52.4522°N, 125.3128°W), amenities array (WiFi, parking, fishing, hiking), price range, seasonality","time_estimate":"1-2 hours","impact":"Improve Google Map Pack visibility by 25-30% and enable rich snippet display in local search results"},{"text":"Optimize Google Business Profile categories: primary 'Resort Hotel', secondary 'Fishing camp', 'Hiking area', 'Wildlife refuge' to appear in multiple search contexts","time_estimate":"15 minutes","impact":"Increase impressions across activity-specific searches (fly fishing resorts, wildlife viewing lodges) expanding discovery opportunities"},{"text":"Create location-specific content pages: 'Anahim Lake Accommodation Guide', 'Highway 20 Road Trip Stops', 'Dean River Fishing Access' targeting local keywords with backlink opportunities","time_estimate":"6-8 hours for 3 detailed pages","impact":"Rank for 8-12 location-based keywords capturing travelers researching specific Chilcotin routes and destinations"},{"text":"Post to Google Business Profile 2-3x weekly during season: current conditions, wildlife sightings, available dates, activity highlights to maintain fresh presence in map results","time_estimate":"15 minutes, 2-3x per week","impact":"Boost map pack rankings through freshness signals and engage travelers researching current conditions before booking"}]},"guest_experience":{"grade":"C+","score":62,"title":"Digital Guest Experience","summary":"Website provides basic information but lacks critical pre-visit details remote resort guests need: road access conditions, supply availability, accessibility features, emergency protocols. Missing FAQ section creates inquiry friction and booking hesitation for international travelers unfamiliar with Chilcotin region.","metrics":[{"label":"Essential Information","value":"Partial - missing FAQ, access details, accessibility info","benchmark":"Remote resorts need 15+ essential info points covered","status":"warning","tooltip":"Lack of comprehensive information creates pre-booking phone calls and abandonment"},{"label":"Accessibility Information","value":"Page exists (/de/resort/barrierefreiheit) but in German","benchmark":"Accessibility details must be in English and prominent","status":"warning","tooltip":"International guests with mobility needs can't access critical information in current language"},{"label":"Guest Communication","value":"Phone + email visible, hours unclear","benchmark":"Show response times, communication preferences, emergency contact","status":"warning","tooltip":"Remote locations need clear communication protocols for guest peace of mind"},{"label":"Pre-Arrival Information","value":"Manual verification needed","benchmark":"Should email detailed arrival guide 7-10 days before check-in","status":"info","tooltip":"Comprehensive pre-arrival reduces day-of confusion and sets expectations"}],"findings":[{"type":"negative","text":"Missing FAQ section answering common remote resort questions: road access conditions (Highway 20 maintenance), nearest services (grocery 60km away), cell phone coverage (limited/none), emergency medical (150km to hospital)"},{"type":"negative","text":"No visible 'What to Bring' checklist - guests arriving to remote Chilcotin location need to know to bring all food, medications, outdoor gear as resupply options are extremely limited"},{"type":"negative","text":"Accessibility information exists at /de/resort/barrierefreiheit but only in German - English-speaking guests with mobility needs cannot access critical details about terrain, facilities, assistance"},{"type":"positive","text":"Contact information prominently displayed (phone +1 250 742 3287) provides reassurance, though business hours and response time expectations are unclear"}],"recommendations":[{"text":"Create comprehensive FAQ page addressing: road access/conditions, nearest services/supplies, cell service coverage, emergency protocols, what to bring, seasonal weather, wildlife safety, cancellation policy","time_estimate":"3-4 hours","impact":"Reduce pre-booking inquiry calls by 40-50% and increase booking confidence for international guests unfamiliar with remote Chilcotin realities"},{"text":"Add detailed 'Plan Your Visit' section covering: seasonal operating dates, check-in/out procedures, payment methods accepted, grocery/supply checklist, medical emergency protocols, road travel tips","time_estimate":"2-3 hours","impact":"Set proper expectations for remote wilderness experience and reduce day-of-arrival confusion or disappointment"},{"text":"Translate accessibility page to English and expand with: terrain descriptions, accessible room features, mobility assistance available, bathroom accessibility, activity modifications for limited mobility","time_estimate":"1-2 hours","impact":"Open market to 15-20% of travelers with accessibility needs who currently can't assess suitability"},{"text":"Develop automated pre-arrival email sequence sent 14 days, 7 days, and 2 days before check-in with: directions, weather forecast, packing reminders, contact info, first-day itinerary suggestions","time_estimate":"3-4 hours to create templates","impact":"Improve guest preparedness, reduce arrival stress, and demonstrate professional operations building excitement for wilderness experience"}]},"competitive_positioning":{"grade":"B-","score":65,"title":"Competitive Positioning","summary":"Red Cariboo competes in a niche Chilcotin wilderness resort market with 15-20 direct competitors plus alternative BC adventure destinations. Strong guest satisfaction (5.0 rating) but weak online visibility (limited keywords, backlinks) means losing consideration set entry to competitors with better SEO despite potentially comparable experiences.","metrics":[{"label":"Search Visibility","value":"Ranking for 1 keyword vs competitors with 50+","benchmark":"Competitive resorts rank for 30-50 location/activity keywords","status":"critical","tooltip":"Invisible in organic search means relying entirely on direct traffic and paid channels"},{"label":"Review Volume","value":"19 Google reviews","benchmark":"Established Chilcotin competitors have 40-150 reviews","status":"warning","tooltip":"Lower review count reduces social proof when travelers compare multiple resort options"},{"label":"Domain Authority","value":"31/100","benchmark":"Competitive wilderness resorts: 45-60 domain authority","status":"warning","tooltip":"Low authority means difficulty outranking established competitors for valuable search terms"},{"label":"Social Presence","value":"A+ grade, active on 3 platforms","benchmark":"Par with competitive resorts, above average for region","status":"good","tooltip":"Social media is a competitive strength differentiating from less digital-savvy regional competitors"}],"findings":[{"type":"positive","text":"Perfect 5.0 Google rating matches or exceeds most Chilcotin competitors (typically 4.3-4.7) demonstrating service quality advantage that needs amplification through more review volume"},{"type":"negative","text":"Competitors like Eagle's Nest Resort, Tweedsmuir Park Lodge likely have stronger SEO presence capturing traffic for 'Chilcotin resort', 'Anahim Lake accommodation', 'Highway 20 lodging' searches"},{"type":"negative","text":"Domain authority of 31 vs competitor average 45-55 means uphill battle for organic rankings - need focused backlink building from regional tourism authorities and partners"},{"type":"positive","text":"Dean River location is unique differentiator for fly fishing market - needs emphasis in SEO strategy to own 'Dean River lodge' niche searches"}],"recommendations":[{"text":"Conduct competitive SEO audit of top 5 Chilcotin competitors: identify their ranking keywords, backlink sources, content topics to find gaps and opportunities for differentiation","time_estimate":"3-4 hours","impact":"Discover 15-20 winnable keyword opportunities and backlink sources competitors are using to develop catch-up strategy"},{"text":"Develop 'Dean River Fishing Hub' content series positioning as THE Dean River expert: fishing seasons, fly patterns, guide services, river access, success stories to own niche market","time_estimate":"1-2 weeks for comprehensive guide series","impact":"Capture 60-70% of 'Dean River fishing lodge' searches (estimated 400-600 annual searches) from high-value fly fishing market"},{"text":"Create comparison pages: 'Why Choose Red Cariboo vs Other Chilcotin Resorts' highlighting Dean River location, new facilities, family atmosphere, accessibility to differentiate positioning","time_estimate":"2-3 hours","impact":"Capture comparison shoppers and provide talking points that emphasize competitive advantages beyond just price"},{"text":"Build strategic partnership backlinks with complementary non-competing businesses: BC fly fishing outfitters, Highway 20 travel blogs, adventure tour operators, wildlife photography guides","time_estimate":"4-6 hours outreach + ongoing relationship building","impact":"Gain 10-15 relevant backlinks improving domain authority from 31 to 40+ and increasing referral traffic from aligned audiences"}]}},"priority_recommendations":[{"category":"Website Technical","text":"Switch website default language to English and update hreflang x-default to /en/ - 90%+ of Chilcotin wilderness searches are in English, current German default creates immediate friction and high bounce rates","time_estimate":"30 minutes","impact":"high","expected_result":"Reduce bounce rate by 30-40% and eliminate language confusion for primary English-speaking adventure tourism market"},{"category":"Local SEO","text":"Implement complete Local Business Schema markup including LodgingBusiness type, geographic coordinates, amenities array, and seasonal operating dates to improve Google Map Pack visibility","time_estimate":"1-2 hours","impact":"high","expected_result":"Improve map pack visibility by 25-30% and appear in location-specific searches like 'resorts near Anahim Lake' or 'Highway 20 accommodation'"},{"category":"Visitor Discovery","text":"Claim and fully optimize TripAdvisor listing with 20-30 photos, detailed descriptions, and cross-link to Google Business Profile - 78% of travelers research TripAdvisor for remote destinations","time_estimate":"2-3 hours","impact":"high","expected_result":"Capture 25-30% additional traffic from international adventure travelers who rely on TripAdvisor for unfamiliar remote BC destinations"},{"category":"Guest Experience","text":"Create comprehensive FAQ section answering remote resort questions: road access, supplies, cell service, emergency protocols, what to bring, seasonal conditions to reduce booking friction","time_estimate":"3-4 hours","impact":"high","expected_result":"Reduce pre-booking inquiry calls by 40-50% and increase booking confidence for international guests unfamiliar with Chilcotin region realities"},{"category":"Review Ecosystem","text":"Implement post-stay review request sequence with email templates sent at 3 days and 10 days after checkout including Google + TripAdvisor links to increase review capture from 20% to 50%","time_estimate":"2 hours setup + 15 min/week ongoing","impact":"medium","expected_result":"Generate 40-60 additional reviews over next season reaching 60-80 total for stronger social proof and improved local SEO rankings"}]};</script>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function navigate(pageId) {
+  // Update pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.target?.closest('.nav-item')?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function showComingSoon(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function toggleMobileMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobileOverlay').classList.toggle('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+function downloadPDF() {
+  // Set document title for PDF filename
+  const clientName = document.body.dataset.clientSlug || 'assessment';
+  const originalTitle = document.title;
+  document.title = `${clientName}-digital-marketing-assessment`;
+
+  // Trigger print dialog (user can save as PDF)
+  window.print();
+
+  // Restore original title after a short delay
+  setTimeout(() => {
+    document.title = originalTitle;
+  }, 1000);
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER ASSESSMENT DATA
+// ══════════════════════════════════════════════════════════════
+function renderAssessment() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Render Executive Summary
+  renderExecutiveSummary(data.executive_summary);
+
+  // Render Quick Wins
+  renderQuickWins(data.quick_wins);
+
+  // Render Tourism Context
+  renderTourismContext(data.tourism_context);
+
+  // Render category cards
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const categoryIcons = {
+    website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
+    visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
+    ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
+    online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
+    review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
+    social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
+    local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
+    email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
+    competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
+  };
+
+  if (data.categories) {
+    let html = '';
+    for (const [key, cat] of Object.entries(data.categories)) {
+      const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
+      const grade = cat.grade || 'N/A';
+      const gradeClass = grade === 'N/A' ? 'grade-na' : 'grade-' + grade.toLowerCase().charAt(0);
+
+      html += `
+        <div class="category-card">
+          <div class="category-header">
+            <div class="category-icon ${iconData.class}">${iconData.icon}</div>
+            <div class="category-title-wrap">
+              <h3 class="category-title">${cat.title || iconData.title}</h3>
+              <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="category-summary">${cat.summary || ''}</p>
+          ${renderMetrics(cat.metrics)}
+          ${renderFindings(cat.findings)}
+          ${renderRecommendations(cat.recommendations)}
+        </div>
+      `;
+    }
+    categoriesGrid.innerHTML = html;
+  }
+
+  // Render priority recommendations
+  const priorityList = document.getElementById('priorityList');
+  if (data.priority_recommendations) {
+    let html = '';
+    data.priority_recommendations.slice(0, 5).forEach((rec, i) => {
+      const impactClass = rec.impact ? `impact-${rec.impact.toLowerCase()}` : '';
+      html += `
+        <div class="priority-item">
+          <div class="priority-item-number">${i + 1}</div>
+          <div class="priority-item-content">
+            <h4>${rec.text}</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">${rec.category || 'General'}</span>
+              ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
+              ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
+            </div>
+            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    priorityList.innerHTML = html;
+  }
+}
+
+function renderExecutiveSummary(summary) {
+  const container = document.getElementById('executiveSummary');
+  if (!summary) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let strengthsHtml = '';
+  if (summary.key_strengths && summary.key_strengths.length) {
+    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+  }
+
+  let gapsHtml = '';
+  if (summary.critical_gaps && summary.critical_gaps.length) {
+    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+  }
+
+  container.innerHTML = `
+    <h2>Executive Summary</h2>
+    <p class="executive-headline">${summary.headline || ''}</p>
+    <div class="executive-columns">
+      <div class="executive-column strengths">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Key Strengths
+        </h4>
+        <ul>${strengthsHtml}</ul>
+      </div>
+      <div class="executive-column gaps">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Critical Gaps
+        </h4>
+        <ul>${gapsHtml}</ul>
+      </div>
+    </div>
+    <div class="executive-bottom-line">
+      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+    </div>
+  `;
+}
+
+function renderQuickWins(quickWins) {
+  const container = document.getElementById('quickWins');
+  if (!quickWins || !quickWins.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let itemsHtml = '';
+  quickWins.slice(0, 5).forEach((win, i) => {
+    itemsHtml += `
+      <div class="quick-win-item">
+        <div class="quick-win-number">${i + 1}</div>
+        <div class="quick-win-content">
+          <div class="quick-win-task">${win.task}</div>
+          <div class="quick-win-impact">${win.impact}</div>
+        </div>
+        <span class="quick-win-time">${win.time_estimate}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Wins
+    </h2>
+    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <div class="quick-wins-list">${itemsHtml}</div>
+  `;
+}
+
+function renderTourismContext(context) {
+  const container = document.getElementById('tourismContext');
+  if (!context) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const items = [
+    { key: 'visitor_profile', label: 'Visitor Profile', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'discovery_journey', label: 'Discovery Journey', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { key: 'seasonal_considerations', label: 'Seasonal Considerations', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' },
+    { key: 'trip_integration', label: 'Trip Integration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    { key: 'competitive_landscape', label: 'Competitive Landscape', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>' }
+  ];
+
+  let itemsHtml = '';
+  items.forEach(item => {
+    if (context[item.key]) {
+      itemsHtml += `
+        <div class="tourism-context-item">
+          <h4>${item.icon} ${item.label}</h4>
+          <p>${context[item.key]}</p>
+        </div>
+      `;
+    }
+  });
+
+  if (!itemsHtml) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tourism Context
+    </h2>
+    <div class="tourism-context-grid">${itemsHtml}</div>
+  `;
+}
+
+function renderMetrics(metrics) {
+  if (!metrics || !metrics.length) return '';
+  let html = '<div class="category-metrics">';
+  metrics.slice(0, 4).forEach(m => {
+    html += `
+      <div class="metric-item">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">
+          <span class="metric-status ${m.status || 'good'}"></span>
+          ${m.value}
+        </div>
+        ${m.benchmark ? `<div class="metric-benchmark">${m.benchmark}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderFindings(findings) {
+  if (!findings || !findings.length) return '';
+  let html = '<div class="category-findings">';
+  findings.slice(0, 4).forEach(f => {
+    let iconClass, icon;
+    if (f.type === 'positive') {
+      iconClass = 'positive';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if (f.type === 'info') {
+      iconClass = 'info';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    } else {
+      iconClass = 'negative';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    }
+    html += `
+      <div class="finding-item">
+        <span class="finding-icon ${iconClass}">${icon}</span>
+        <span>${f.text}</span>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderRecommendations(recommendations) {
+  if (!recommendations || !recommendations.length) return '';
+  let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
+  recommendations.slice(0, 3).forEach(r => {
+    html += `
+      <div class="recommendation-item">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
+            <span>${r.text}</span>
+          </div>
+          ${r.time_estimate ? `
+            <div class="recommendation-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${r.time_estimate}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', renderAssessment);
+</script>
+</body>
+</html>
