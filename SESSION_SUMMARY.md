@@ -133,20 +133,38 @@ ALTER TABLE client_assessments ENABLE ROW LEVEL SECURITY;
      - Shows info banner "Linked to assessment for [Business Name]"
      - Submit button changes to "Add Implementation Plan"
 
+8. **Fix: Prevent False Review/Social Claims (July 29, 2026):**
+
+   **Problem:** Assessment claimed Station Taphouse had "no Google reviews" when they actually have 125 reviews.
+
+   **Root Cause:**
+   - SEOptimer only provides website technical data (speed, meta tags, etc.)
+   - NO Google review data, TripAdvisor data, or social follower counts
+   - Claude was "hallucinating" review statistics without actual data
+
+   **Fix Applied:**
+   - Added explicit DATA LIMITATIONS section to Claude prompt
+   - Instructed Claude to NEVER fabricate statistics it doesn't have
+   - Updated review_ecosystem example to show "Manual check required"
+   - Updated social_media example similarly
+   - Added UI support for "info" status type (gray indicators)
+   - Added "N/A" grade styling for categories without data
+
+   **Future Improvement:** Consider adding Google Places API for real review data
+
 ## Next Steps
 
 1. **Test the full workflow**
-   - Generate an assessment
-   - Click "Add Plan" on the assessment card
-   - Verify form pre-fills correctly
-   - Upload a plan.md and create the project
-   - Verify both assessment and project appear correctly
+   - Generate a fresh assessment to verify new prompt works
+   - Check that review section shows "Manual check required" not fake numbers
+   - Test "Add Plan" workflow from assessment card
 
 2. **Polish items**
    - Test mobile responsiveness
    - Add re-assessment functionality (regenerate uses existing slug)
    - Error recovery for failed assessments
    - Consider: delete GitHub files when deleting assessment
+   - Consider: Add Google Places API for real review data
 
 ## Key Technical Decisions
 
