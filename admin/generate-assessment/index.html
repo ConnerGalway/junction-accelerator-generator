@@ -774,11 +774,11 @@
           throw new Error('Not authenticated');
         }
 
-        // Simulate progress steps (actual progress will come from SSE in future)
+        // Start progress display
         simulateProgress();
 
-        // Call Netlify Function
-        const response = await fetch('/.netlify/functions/generate-assessment', {
+        // Call Background Function (returns 202 immediately)
+        const response = await fetch('/.netlify/functions/generate-assessment-background', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -793,16 +793,46 @@
           })
         });
 
-        const result = await response.json();
-
-        if (!response.ok) {
-          throw new Error(result.error || 'Failed to generate assessment');
+        // Background function returns 202 Accepted
+        if (response.status !== 202) {
+          const result = await response.json();
+          throw new Error(result.error || 'Failed to start assessment generation');
         }
 
-        // Hide progress and show success
-        hideProgress();
-        showSuccess(`Assessment generated successfully! <a href="/${slug}/">View assessment</a>`);
-        document.getElementById('assessmentForm').reset();
+        // Poll Supabase for completion status
+        const maxPolls = 120;  // 2 minutes max
+        const pollInterval = 2000;  // 2 seconds
+
+        for (let i = 0; i < maxPolls; i++) {
+          await new Promise(r => setTimeout(r, pollInterval));
+
+          const { data: assessment, error } = await window.supabase
+            .from('client_assessments')
+            .select('status, error_message')
+            .eq('client_slug', slug)
+            .single();
+
+          if (error) {
+            console.log('Polling - no record yet, attempt:', i + 1);
+            continue;
+          }
+
+          if (assessment.status === 'completed') {
+            hideProgress();
+            showSuccess(`Assessment generated successfully! <a href="/${slug}/">View assessment</a>`);
+            document.getElementById('assessmentForm').reset();
+            return;
+          }
+
+          if (assessment.status === 'failed') {
+            throw new Error(assessment.error_message || 'Assessment generation failed');
+          }
+
+          // Update progress based on polling
+          updateProgressFromStatus(i);
+        }
+
+        throw new Error('Assessment generation timed out. Please check the project status.');
 
       } catch (err) {
         hideProgress();
@@ -829,20 +859,33 @@
     }
 
     function simulateProgress() {
-      const steps = [1, 2, 3, 4, 5];
-      const delays = [0, 8000, 16000, 24000, 35000]; // Approximate timing
+      // Initial step activation
+      document.getElementById('step1').classList.add('active');
+    }
 
-      steps.forEach((stepNum, index) => {
-        setTimeout(() => {
-          // Mark previous steps complete
-          for (let i = 1; i < stepNum; i++) {
-            document.getElementById(`step${i}`).classList.remove('active');
-            document.getElementById(`step${i}`).classList.add('complete');
-          }
-          // Mark current step active
-          document.getElementById(`step${stepNum}`).classList.add('active');
-        }, delays[index]);
-      });
+    function updateProgressFromStatus(pollCount) {
+      // Progress through steps based on poll count
+      // Step 1: Analyzing website (polls 0-5)
+      // Step 2: SEO audit (polls 6-15)
+      // Step 3: AI analysis (polls 16-40)
+      // Step 4: Building dashboard (polls 41-55)
+      // Step 5: Finalizing (polls 56+)
+
+      let currentStep = 1;
+      if (pollCount >= 6) currentStep = 2;
+      if (pollCount >= 16) currentStep = 3;
+      if (pollCount >= 41) currentStep = 4;
+      if (pollCount >= 56) currentStep = 5;
+
+      for (let i = 1; i <= 5; i++) {
+        const step = document.getElementById(`step${i}`);
+        step.classList.remove('active', 'complete');
+        if (i < currentStep) {
+          step.classList.add('complete');
+        } else if (i === currentStep) {
+          step.classList.add('active');
+        }
+      }
     }
 
     // ══════════════════════════════════════════════════════════════
