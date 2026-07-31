@@ -16,7 +16,7 @@ Command pattern:
 
 ### Step 1 — Read both files
 - Read `clients/[slug]/plan.md`
-- Read `template/accelerator-template.html`
+- Read `template/accelerator-dashboard-template.html`
 - Read `brand/elearningu-brand.md`
 
 ### Step 1.5 — Supabase integration additions (required for every page)
@@ -280,7 +280,7 @@ Write a second output file to `clients/[slug]/plan.json`. This file powers the w
 
 | File | Purpose |
 |---|---|
-| `template/accelerator-template.html` | Source template — never edit directly for a client |
+| `template/accelerator-dashboard-template.html` | Source template — never edit directly for a client |
 | `clients/[slug]/plan.md` | Client implementation plan (input) |
 | `clients/[slug]/index.html` | Generated page (output) |
 | `brand/elearningu-brand.md` | Brand colours, fonts, logo rules |
