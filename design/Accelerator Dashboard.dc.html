@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/tokens/fonts.css">
+<link rel="stylesheet" href="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/tokens/colors.css">
+<link rel="stylesheet" href="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/tokens/typography.css">
+<link rel="stylesheet" href="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/styles.css">
+<script src="_ds/elearningu-design-system-665fdf36-552c-43b7-b666-1cadf48beec4/_ds_bundle.js"></script>
+<style>
+body{margin:0;background:#e7e2d8;font-family:var(--font-body);color:var(--navy-800)}
+a{color:var(--link-blue);text-decoration:none}
+a:hover{color:var(--fg-link-hover)}
+*{box-sizing:border-box}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes popIn{0%{opacity:0;transform:scale(.88) translateY(16px)}60%{transform:scale(1.02) translateY(0)}100%{opacity:1;transform:scale(1) translateY(0)}}
+@keyframes ringDraw{from{stroke-dashoffset:327}to{stroke-dashoffset:0}}
+@keyframes checkDraw{from{stroke-dashoffset:64}to{stroke-dashoffset:0}}
+@keyframes haloPulse{0%{opacity:.55;transform:scale(.7)}70%{opacity:0;transform:scale(1.5)}100%{opacity:0;transform:scale(1.5)}}
+@keyframes riseIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes fly{0%{opacity:0;transform:translateY(0) scale(.4)}18%{opacity:1}100%{opacity:0;transform:translateY(-190px) scale(1.05)}}
+</style>
+</helmet>
+
+<div style="padding:44px 40px 80px">
+<sc-for list="{{ frames }}" as="f" hint-placeholder-count="2">
+<div style="width:1440px;margin:0 auto 56px">
+  <div style="display:flex;align-items:baseline;gap:10px;margin:0 0 12px 2px">
+    <span style="font:600 11px/1 ui-monospace,Menlo,monospace;padding:5px 8px;background:var(--navy-900);color:#fff;border-radius:5px;letter-spacing:.04em">{{ f.id }}</span>
+    <span style="font-family:var(--font-display);font-weight:600;font-size:14px;color:var(--navy-900)">{{ f.name }}</span>
+    <span style="font-size:12.5px;color:var(--slate-600)">{{ f.note }}</span>
+  </div>
+
+  <div style="{{ f.frameStyle }}">
+
+    <nav style="{{ f.sidebarStyle }}">
+      <sc-if value="{{ f.collapsed }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;height:100%;min-height:0;padding:22px 0 20px;gap:16px;overflow:visible">
+          <img src="assets/logo-icon-white.png" alt="eLearningU" style="width:30px;height:30px;object-fit:contain">
+          <div style="position:relative;width:44px;height:44px;display:grid;place-items:center">
+            <svg width="44" height="44" viewBox="0 0 44 44" style="position:absolute;inset:0;transform:rotate(-90deg)">
+              <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,.16)" strokeWidth="4"></circle>
+              <circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" strokeWidth="4" strokeLinecap="round" strokeDasharray="113.1" strokeDashoffset="{{ f.ringRail }}"></circle>
+            </svg>
+            <span style="font-family:var(--font-display);font-weight:700;font-size:11px;color:#fff">{{ f.pctLabel }}</span>
+          </div>
+          <div style="height:1px;width:34px;background:rgba(255,255,255,.14)"></div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.dashboard.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.dashboard.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><rect x="3" y="3" width="7" height="8" rx="1.5"></rect><rect x="14" y="3" width="7" height="5" rx="1.5"></rect><rect x="3" y="14" width="7" height="7" rx="1.5"></rect><rect x="14" y="11" width="7" height="10" rx="1.5"></rect></svg>
+            </button>
+            <sc-if value="{{ f.rail.dashboard.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Dashboard</span></sc-if>
+          </div>
+          <div style="height:1px;width:34px;background:rgba(255,255,255,.14)"></div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.assessment.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.assessment.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M9 4h6v2.5H9z"></path><path d="M7 6h10a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path><path d="M9 12h6M9 16h4"></path></svg>
+            </button>
+            <sc-if value="{{ f.rail.assessment.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Assessment</span></sc-if>
+          </div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.strategy.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.strategy.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="8.5"></circle><path d="M15.5 8.5l-2.2 5.3-5.3 2.2 2.2-5.3z"></path></svg>
+            </button>
+            <sc-if value="{{ f.rail.strategy.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Strategy</span></sc-if>
+          </div>
+          <div style="height:1px;width:34px;background:rgba(255,255,255,.14)"></div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.content.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.content.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><rect x="2.5" y="6" width="14" height="12" rx="2.5"></rect><path d="M16.5 11l5-3v8l-5-3z"></path></svg>
+            </button>
+            <sc-if value="{{ f.rail.content.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Content System</span></sc-if>
+          </div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.meta.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.meta.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><circle cx="12" cy="12" r="8.5"></circle><circle cx="12" cy="12" r="4"></circle><circle cx="12" cy="12" r="1" fill="currentColor"></circle></svg>
+            </button>
+            <sc-if value="{{ f.rail.meta.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Meta Ads</span></sc-if>
+          </div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.google.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.google.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"></path></svg>
+            </button>
+            <sc-if value="{{ f.rail.google.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Google &amp; Reviews</span></sc-if>
+          </div>
+          <div style="height:1px;width:34px;background:rgba(255,255,255,.14)"></div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.roadmap.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.roadmap.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round"><rect x="3" y="4.5" width="18" height="16" rx="2.5"></rect><path d="M3 9.5h18M8 3v3M16 3v3M7.5 14h4M7.5 17.5h7"></path></svg>
+            </button>
+            <sc-if value="{{ f.rail.roadmap.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">90-Day Roadmap</span></sc-if>
+          </div>
+          <div style="position:relative;display:flex" onMouseEnter="{{ f.rail.quick.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button style="{{ f.rail.quick.style }}" style-hover="background:rgba(255,255,255,.12)">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"></path><circle cx="12" cy="10" r="2.6"></circle></svg>
+            </button>
+            <sc-if value="{{ f.rail.quick.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">GBP Quick Wins</span></sc-if>
+          </div>
+          <div style="margin-top:auto;position:relative;display:flex" onMouseEnter="{{ f.rail.expand.enter }}" onMouseLeave="{{ f.rail.leave }}">
+            <button onClick="{{ f.toggleSidebar }}" style="width:40px;height:40px;border-radius:var(--radius-pill);border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.06);box-shadow:var(--shadow-sm);color:#fff;cursor:pointer;display:grid;place-items:center;font-size:14px;font-weight:600;font-family:var(--font-body)" style-hover="background:rgba(255,255,255,.14)">»</button>
+            <sc-if value="{{ f.rail.expand.flyout }}" hint-placeholder-val="{{ false }}"><span style="{{ flyoutStyle }}">Expand sidebar</span></sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ f.expanded }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;height:100%;min-height:0;padding:22px 18px 18px;gap:20px;overflow-y:auto;overflow-x:hidden">
+          <img src="assets/logo-wordmark-white.png" alt="eLearningU" style="height:26px;width:auto;object-fit:contain;object-position:left;align-self:flex-start;margin-left:6px">
+
+          <div style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.13);border-radius:var(--radius-md);padding:16px;display:flex;flex-direction:column;gap:13px">
+            <div style="display:flex;align-items:center;gap:14px">
+              <svg width="56" height="56" viewBox="0 0 56 56" style="flex:none;transform:rotate(-90deg)">
+                <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,.16)" strokeWidth="5"></circle>
+                <circle cx="28" cy="28" r="24" fill="none" stroke="var(--mint-500)" strokeWidth="5" strokeLinecap="round" strokeDasharray="150.8" strokeDashoffset="{{ f.ringSide }}" style="transition:stroke-dashoffset .45s ease"></circle>
+              </svg>
+              <div>
+                <div style="font-family:var(--font-display);font-weight:700;font-size:19px;color:#fff;letter-spacing:-.01em">{{ f.doneLabel }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:2px">tasks checked off</div>
+              </div>
+            </div>
+            <div style="font-size:11.5px;color:rgba(255,255,255,.62)">Day 15 of 90 · week 3 of setup</div>
+          </div>
+
+          <sc-for list="{{ f.navGroups }}" as="g" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:3px">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.42);padding:0 10px 7px">{{ g.label }}</div>
+              <sc-for list="{{ g.items }}" as="item" hint-placeholder-count="2">
+                <button style="{{ item.style }}" style-hover="background:rgba(255,255,255,.1)">
+                  <span style="display:flex;align-items:center;gap:10px;min-width:0">
+                    <sc-if value="{{ item.hasDot }}" hint-placeholder-val="{{ false }}"><span style="{{ item.dotStyle }}"></span></sc-if>
+                    <span>{{ item.label }}</span>
+                  </span>
+                  <sc-if value="{{ item.meta }}" hint-placeholder-val="{{ false }}"><span style="{{ item.metaStyle }}">{{ item.meta }}</span></sc-if>
+                </button>
+              </sc-for>
+            </div>
+          </sc-for>
+
+          <div style="margin-top:auto;padding-top:16px;border-top:1px solid rgba(255,255,255,.12);display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.55);font-size:13px">
+            <span style="width:22px;height:22px;border-radius:50%;border:1.5px solid rgba(255,255,255,.35);display:grid;place-items:center;font-size:11px;font-weight:700">?</span>
+            Replay welcome tour
+          </div>
+        </div>
+      </sc-if>
+    </nav>
+
+    <main style="flex:1;min-width:0;display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden">
+
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 40px 0;flex:none">
+        <button onClick="{{ f.toggleSidebar }}" title="Toggle sidebar" style="width:34px;height:34px;flex:none;display:grid;place-items:center;border-radius:var(--radius-pill);border:1px solid var(--border-subtle);background:var(--white);color:var(--navy-900);cursor:pointer;font-size:13px;font-weight:600;font-family:var(--font-body);box-shadow:var(--shadow-sm)" style-hover="background:var(--surface-sunken)">{{ f.toggleGlyph }}</button>
+        <span style="display:inline-flex;align-items:center;gap:9px;background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:7px 16px;font-size:13px;color:var(--slate-600)">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round"><path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path><circle cx="12" cy="12" r="2.6"></circle></svg>
+          Read-only view · shared by your accelerator team
+        </span>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:12px">
+          <span style="display:inline-flex;align-items:center;gap:7px;background:#eef7f1;border:1px solid var(--mint-500);border-radius:var(--radius-pill);padding:7px 14px;font-size:12.5px;font-weight:600;color:var(--navy-900)"><span style="width:7px;height:7px;border-radius:50%;background:var(--state-success)"></span>6-day streak</span>
+          <span style="width:36px;height:36px;border-radius:50%;background:var(--navy-900);color:#fff;font-family:var(--font-display);font-weight:700;font-size:13px;display:grid;place-items:center" title="Station Taphouse">ST</span>
+        </div>
+      </div>
+
+      <sc-if value="{{ f.isTacticScreen }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:18px 40px 44px">
+          <div style="background:var(--navy-900);border-radius:var(--radius-lg) var(--radius-lg) 0 0;padding:30px 34px 0">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:32px">
+              <div style="min-width:0">
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+                  <span style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:rgba(255,255,255,.55)">{{ f.tactic.eyebrow }}</span>
+                  <span style="{{ f.tactic.statusStyle }}">{{ f.tactic.status }}</span>
+                </div>
+                <h1 style="margin:0 0 10px;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.08;letter-spacing:-.025em;color:#fff">{{ f.tactic.title }}</h1>
+                <p style="margin:0;font-size:16px;line-height:1.55;color:rgba(255,255,255,.72);max-width:52ch">{{ f.tactic.desc }}</p>
+              </div>
+              <div style="flex:none;display:flex;align-items:center;gap:16px;padding-top:6px">
+                <svg width="76" height="76" viewBox="0 0 76 76" style="transform:rotate(-90deg)">
+                  <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,.16)" strokeWidth="7"></circle>
+                  <circle cx="38" cy="38" r="31" fill="none" stroke="var(--mint-500)" strokeWidth="7" strokeLinecap="round" strokeDasharray="194.8" strokeDashoffset="{{ f.tactic.ring }}" style="transition:stroke-dashoffset .4s ease"></circle>
+                </svg>
+                <div>
+                  <div style="font-family:var(--font-display);font-weight:700;font-size:26px;color:#fff;letter-spacing:-.02em">{{ f.tactic.pct }}</div>
+                  <div style="font-size:12.5px;color:rgba(255,255,255,.6)">of this tactic</div>
+                </div>
+              </div>
+            </div>
+            <div style="display:flex;gap:4px;margin-top:26px">
+              <sc-for list="{{ f.tabs }}" as="tb" hint-placeholder-count="4">
+                <button onClick="{{ tb.go }}" style="{{ tb.style }}">{{ tb.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="background:var(--cream-100);padding:28px 28px 32px">
+
+            <sc-if value="{{ f.tabOverview }}" hint-placeholder-val="{{ true }}">
+              <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start">
+                <div style="display:flex;flex-direction:column;gap:18px">
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">WHAT THIS IS</div>
+                    <p style="margin:0;font-size:15.5px;line-height:1.65;color:var(--navy-800);text-wrap:pretty;font-weight:500">{{ f.tactic.whatThisIs }}</p>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:16px">THE FOUR PILLARS</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                      <sc-for list="{{ f.tactic.pillars }}" as="pl" hint-placeholder-count="4">
+                        <div style="background:var(--surface-sunken);border-radius:var(--radius-sm);padding:16px 18px">
+                          <div style="font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--navy-900);margin-bottom:5px">{{ pl.name }}</div>
+                          <div style="font-size:13px;line-height:1.5;color:var(--slate-600)">{{ pl.detail }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:18px">
+                  <div style="background:var(--navy-900);border-radius:var(--radius-md);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--mint-500);margin-bottom:12px">WHAT WE HEARD FROM YOU</div>
+                    <p style="margin:0;font-size:15px;line-height:1.65;color:rgba(255,255,255,.85);font-weight:500">{{ f.tactic.heard }}</p>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">WHY IT MATTERS</div>
+                    <p style="margin:0;font-size:15px;line-height:1.65;color:var(--navy-800);font-weight:500">{{ f.tactic.why }}</p>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">TIME COMMITMENT</div>
+                    <div style="display:flex;align-items:baseline;gap:10px">
+                      <span style="font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:-.02em;color:var(--navy-900)">1 hr</span>
+                      <span style="font-size:15px;color:var(--slate-600)">filming, per week</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ f.tabSteps }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;flex-direction:column;gap:14px;max-width:1000px">
+                <sc-for list="{{ f.parts }}" as="pt" hint-placeholder-count="3">
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden">
+                    <button onClick="{{ pt.toggle }}" style="width:100%;display:flex;align-items:center;gap:18px;padding:18px 24px;background:none;border:none;cursor:pointer;font-family:var(--font-body);text-align:left">
+                      <span style="flex:none;background:var(--surface-sunken);color:var(--navy-900);border-radius:var(--radius-pill);padding:5px 13px;font-size:10.5px;font-weight:600;letter-spacing:.12em">{{ pt.tag }}</span>
+                      <span style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);letter-spacing:-.01em">{{ pt.title }}</span>
+                      <span style="margin-left:auto;font-size:12.5px;color:var(--slate-600);flex:none">{{ pt.meta }}</span>
+                    </button>
+                    <div style="{{ pt.bodyStyle }}">
+                      <sc-for list="{{ pt.steps }}" as="st" hint-placeholder-count="2">
+                        <div style="display:flex;gap:16px;padding:18px 0;border-top:1px solid var(--border-subtle)">
+                          <span style="flex:none;width:28px;height:28px;border-radius:50%;background:var(--navy-900);color:#fff;display:grid;place-items:center;font-size:13px;font-weight:700">{{ st.n }}</span>
+                          <div style="min-width:0">
+                            <div style="font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--navy-900);margin-bottom:10px">{{ st.title }}</div>
+                            <div style="display:flex;flex-direction:column;gap:7px">
+                              <sc-for list="{{ st.bullets }}" as="b" hint-placeholder-count="3">
+                                <div style="display:flex;gap:12px;font-size:14.5px;line-height:1.55;color:var(--navy-800)"><span style="color:var(--mint-500);font-weight:700">—</span><span>{{ b }}</span></div>
+                              </sc-for>
+                            </div>
+                          </div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ f.tabMetrics }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:18px;align-items:start">
+                <div style="display:flex;flex-direction:column;gap:18px">
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:16px">WHAT GOOD LOOKS LIKE</div>
+                    <sc-for list="{{ f.tactic.metrics }}" as="m" hint-placeholder-count="4">
+                      <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;padding:13px 0;border-bottom:1px solid var(--border-subtle)">
+                        <div>
+                          <div style="font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--navy-900);margin-bottom:3px">{{ m.name }}</div>
+                          <div style="font-size:12.5px;color:var(--slate-600)">Check in {{ m.where }}</div>
+                        </div>
+                        <div style="text-align:right">
+                          <div style="font-family:var(--font-display);font-weight:700;font-size:20px;color:var(--navy-900);letter-spacing:-.01em">{{ m.target }}</div>
+                          <div style="font-size:11.5px;color:var(--slate-600)">{{ m.window }}</div>
+                        </div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:16px">THE CHECKPOINTS</div>
+                    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+                      <sc-for list="{{ f.tactic.checkpoints }}" as="cp" hint-placeholder-count="3">
+                        <div style="background:var(--surface-sunken);border-radius:var(--radius-sm);padding:16px 18px">
+                          <div style="font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--navy-900);margin-bottom:5px">{{ cp.day }}</div>
+                          <div style="font-size:13px;line-height:1.5;color:var(--slate-600)">{{ cp.goal }}</div>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:18px">
+                  <div style="background:var(--navy-900);border-radius:var(--radius-md);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--mint-500);margin-bottom:12px">MEASURE THIS, NOT THAT</div>
+                    <p style="margin:0;font-size:15px;line-height:1.65;color:rgba(255,255,255,.85);font-weight:500">{{ f.tactic.metricNote }}</p>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">REVIEW RHYTHM</div>
+                    <p style="margin:0;font-size:15px;line-height:1.65;color:var(--navy-800);font-weight:500">{{ f.tactic.reviewRhythm }}</p>
+                  </div>
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">TIME COMMITMENT</div>
+                    <div style="display:flex;align-items:baseline;gap:10px">
+                      <span style="font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:-.02em;color:var(--navy-900)">15 min</span>
+                      <span style="font-size:15px;color:var(--slate-600)">reviewing, per week</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+
+            <sc-if value="{{ f.tabTips }}" hint-placeholder-val="{{ false }}">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+                <sc-for list="{{ f.tactic.tips }}" as="tip" hint-placeholder-count="4">
+                  <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden;display:flex;flex-direction:column">
+                    <div style="{{ tip.mediaStyle }}">
+                      <span style="{{ tip.mediaBadgeStyle }}">{{ tip.mediaKind }}</span>
+                      <span style="font-size:12px;color:var(--slate-600)">{{ tip.mediaNote }}</span>
+                    </div>
+                    <div style="padding:20px 22px 22px;display:flex;gap:14px;align-items:flex-start">
+                      <span style="flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background:var(--surface-sunken);border:1px dashed var(--border-subtle);display:grid;place-items:center;font-size:9px;font-weight:700;letter-spacing:.06em;color:var(--slate-600)">ICON</span>
+                      <div style="min-width:0">
+                        <div style="font-family:var(--font-display);font-weight:600;font-size:17.5px;color:var(--navy-900);margin-bottom:7px;line-height:1.3">{{ tip.title }}</div>
+                        <p style="margin:0;font-size:14.5px;line-height:1.6;color:var(--navy-800);text-wrap:pretty;font-weight:500">{{ tip.body }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </sc-for>
+                <div style="grid-column:1 / -1;border:1px dashed var(--border-subtle);border-radius:var(--radius-md);background:var(--surface-sunken);padding:20px 24px;display:flex;align-items:center;gap:16px">
+                  <span style="flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background:var(--white);border:1px dashed var(--border-subtle);display:grid;place-items:center;font-size:9px;font-weight:700;color:var(--slate-600)">ICON</span>
+                  <div>
+                    <div style="font-family:var(--font-display);font-weight:600;font-size:16px;color:var(--navy-900);margin-bottom:3px">More arrives here as your coach adds it</div>
+                    <div style="font-size:13.5px;color:var(--slate-600)">Walkthrough videos, shot references and templates drop into this grid — same card, media on top.</div>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══ DASHBOARD ══ -->
+      <sc-if value="{{ f.isDashboard }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:22px 40px 44px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px">
+            <div>
+              <div style="font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px">DAY 15 OF 90</div>
+              <h1 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-.02em;color:var(--navy-900)">Good to see you, Station Taphouse</h1>
+            </div>
+            <span style="flex:none;background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:10px 20px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--navy-900);box-shadow:var(--shadow-sm)">75 days to go</span>
+          </div>
+
+          <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:30px 34px;display:grid;grid-template-columns:230px 1fr;gap:40px;align-items:center;margin-bottom:20px">
+            <div style="position:relative;width:200px;height:200px;justify-self:center">
+              <svg width="200" height="200" viewBox="0 0 200 200" style="transform:rotate(-90deg)">
+                <circle cx="100" cy="100" r="85" fill="none" stroke="var(--surface-sunken)" strokeWidth="17"></circle>
+                <circle cx="100" cy="100" r="85" fill="none" stroke="var(--mint-500)" strokeWidth="17" strokeLinecap="round" strokeDasharray="534.1" strokeDashoffset="{{ f.ringBig }}" style="transition:stroke-dashoffset .5s ease"></circle>
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                <div style="font-family:var(--font-display);font-weight:700;font-size:48px;line-height:1;letter-spacing:-.03em;color:var(--navy-900)">{{ f.pctLabel }}</div>
+                <div style="font-size:13px;color:var(--slate-600);margin-top:4px">{{ f.doneLabel }} tasks</div>
+              </div>
+            </div>
+            <div style="min-width:0">
+              <h2 style="margin:0 0 8px;font-family:var(--font-display);font-weight:600;font-size:26px;letter-spacing:-.01em;color:var(--navy-900)">The rhythm is holding.</h2>
+              <p style="margin:0 0 24px;font-size:15px;line-height:1.6;color:var(--navy-800);max-width:52ch;text-wrap:pretty;font-weight:500">Keep checking things off — every tick moves the ring and the tactic it belongs to.</p>
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">THE 90 DAYS</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--surface-sunken)">
+                <sc-for list="{{ f.phases }}" as="p" hint-placeholder-count="4">
+                  <div style="{{ p.wrapStyle }}">
+                    <div style="font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--slate-600);margin-bottom:7px">{{ p.range }}</div>
+                    <div style="{{ p.nameStyle }}">{{ p.name }}</div>
+                    <div style="font-size:12.5px;color:var(--slate-600);line-height:1.45">{{ p.detail }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 262px;background:var(--navy-900);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:20px">
+            <div style="padding:30px 34px 28px;min-width:0">
+              <div style="font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--mint-500);margin-bottom:14px">YOUR NEXT STEP &nbsp;·&nbsp; WEEK 1 OF 4 · SET UP FOUNDATIONS</div>
+              <h2 style="margin:0 0 22px;font-family:var(--font-display);font-weight:600;font-size:32px;line-height:1.14;letter-spacing:-.02em;color:#fff;max-width:24ch">Set up Meta Business Suite and connect Instagram</h2>
+              <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:24px">
+                <sc-for list="{{ f.nextTasks }}" as="t" hint-placeholder-count="3">
+                  <div onClick="{{ t.toggle }}" style="{{ t.rowStyle }}">
+                    <span style="{{ t.boxStyle }}"><sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg></sc-if></span>
+                    <span style="{{ t.textStyle }}">{{ t.text }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;gap:22px;flex-wrap:wrap">
+                <button onClick="{{ f.markNextStepDone }}" style="background:var(--mint-500);color:var(--navy-900);border:none;border-radius:var(--radius-md);padding:14px 26px;font-family:var(--font-body);font-weight:700;font-size:15px;cursor:pointer" style-hover="background:#9bd0a9">Mark step complete</button>
+                <span style="color:#fff;font-weight:600;font-size:15px;cursor:pointer" style-hover="color:var(--mint-500)">Open the full guide for this tactic →</span>
+              </div>
+            </div>
+            <div style="border-left:1px solid rgba(255,255,255,.14);padding:30px 26px;display:flex;flex-direction:column;gap:22px">
+              <div>
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.5);margin-bottom:6px">TACTIC</div>
+                <div style="font-size:14.5px;font-weight:600;color:#fff;line-height:1.4">Social Media Content System</div>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.5);margin-bottom:6px">TIME NEEDED</div>
+                <div style="font-size:14.5px;font-weight:600;color:#fff">40 min</div>
+              </div>
+              <div>
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.5);margin-bottom:6px">WHO</div>
+                <div style="font-size:14.5px;font-weight:600;color:#fff">You + Corey</div>
+              </div>
+              <div style="margin-top:auto">
+                <div style="display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.62);margin-bottom:8px"><span>Week 1 tasks</span><span>{{ f.w1Label }}</span></div>
+                <div style="height:5px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden"><div style="width: {{ f.w1Pct }}; height:100%;border-radius:999px;background:var(--mint-500);transition:width .4s ease"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px">
+            <sc-for list="{{ f.tacticPills }}" as="tp" hint-placeholder-count="4">
+              <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:18px 20px;display:flex;flex-direction:column;gap:14px">
+                <svg width="44" height="44" viewBox="0 0 44 44" style="transform:rotate(-90deg)">
+                  <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" strokeWidth="5"></circle>
+                  <circle cx="22" cy="22" r="18" fill="none" stroke="{{ tp.stroke }}" strokeWidth="5" strokeLinecap="round" strokeDasharray="113.1" strokeDashoffset="{{ tp.offset }}" style="transition:stroke-dashoffset .4s ease"></circle>
+                </svg>
+                <div>
+                  <div style="font-family:var(--font-display);font-weight:600;font-size:15.5px;color:var(--navy-900);line-height:1.3;margin-bottom:4px">{{ tp.name }}</div>
+                  <div style="font-size:12.5px;color:var(--slate-600)">{{ tp.label }}</div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══ ASSESSMENT ══ -->
+      <sc-if value="{{ f.isAssessment }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:22px 40px 48px;max-width:1160px">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px">YOUR ASSESSMENT · MARCH 2026</div>
+
+          <div style="background:var(--navy-900);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);padding:32px 36px;display:grid;grid-template-columns:190px 1fr;gap:36px;align-items:center;margin-bottom:20px">
+            <div style="position:relative;width:170px;height:170px;justify-self:center">
+              <svg width="170" height="170" viewBox="0 0 170 170" style="transform:rotate(-90deg)">
+                <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,.14)" strokeWidth="14"></circle>
+                <circle cx="85" cy="85" r="72" fill="none" stroke="{{ assessment.scoreColor }}" strokeWidth="14" strokeLinecap="round" strokeDasharray="452.4" strokeDashoffset="{{ assessment.ringOff }}"></circle>
+              </svg>
+              <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center">
+                <div style="font-family:var(--font-display);font-weight:700;font-size:38px;line-height:1;letter-spacing:-.02em;color:#fff">{{ assessment.score }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:4px">out of 100</div>
+                <div style="{{ assessment.gradePillStyle }}">{{ assessment.grade }}</div>
+              </div>
+            </div>
+            <div style="min-width:0">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;margin-bottom:10px">
+                <h1 style="margin:0;font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.16;letter-spacing:-.02em;color:#fff">Where you're starting from</h1>
+                <div style="flex:none;display:flex;align-items:center;gap:10px">
+                  <button style="display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:var(--radius-pill);padding:9px 16px;font-family:var(--font-body);font-weight:600;font-size:13px;color:#fff;cursor:pointer" style-hover="background:rgba(255,255,255,.16)">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path></svg>
+                    Download PDF
+                  </button>
+                  <span style="background:var(--mint-500);color:var(--navy-900);border-radius:var(--radius-pill);padding:8px 16px;font-family:var(--font-body);font-weight:700;font-size:13px">Complete</span>
+                </div>
+              </div>
+              <p style="margin:0;font-size:15px;line-height:1.65;color:rgba(255,255,255,.78);text-wrap:pretty">{{ assessment.summary }}</p>
+            </div>
+          </div>
+
+          <div style="background:var(--white);border:1px solid var(--link-blue);border-left:5px solid var(--link-blue);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:26px 28px;margin-bottom:26px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+              <span style="flex:none;width:26px;height:26px;border-radius:50%;background:var(--link-blue);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:13px">1</span>
+              <span style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600)">THE #1 PRIORITY</span>
+            </div>
+            <p style="margin:0;font-family:var(--font-display);font-weight:600;font-size:19px;line-height:1.4;letter-spacing:-.01em;color:var(--navy-900);text-wrap:pretty">{{ assessment.topPriority.text }}</p>
+            <div style="margin:14px 0 22px">
+              <span style="border-radius:var(--radius-pill);padding:5px 14px;font-size:11.5px;font-weight:600;background:#fbe6e6;color:var(--state-danger)">{{ assessment.topPriority.tagLine }}</span>
+            </div>
+
+            <div style="height:1px;background:var(--border-subtle);margin-bottom:22px"></div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:26px">
+              <div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+                  <span style="width:28px;height:28px;border-radius:var(--radius-sm);background:var(--mint-500);color:var(--navy-900);display:grid;place-items:center">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg>
+                  </span>
+                  <span style="font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--navy-900);letter-spacing:-.01em">Key strengths</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:11px">
+                  <sc-for list="{{ working }}" as="b" hint-placeholder-count="3">
+                    <div style="display:flex;gap:11px;font-size:14px;line-height:1.55;color:var(--navy-800);font-weight:500"><span style="color:var(--state-success);font-weight:700">·</span><span>{{ b }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+              <div>
+                <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+                  <span style="width:28px;height:28px;border-radius:var(--radius-sm);background:#fbf0de;color:var(--state-warning);display:grid;place-items:center;font-weight:700;font-size:15px">!</span>
+                  <span style="font-family:var(--font-display);font-weight:600;font-size:17px;color:var(--navy-900);letter-spacing:-.01em">Critical gaps</span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:11px">
+                  <sc-for list="{{ leaking }}" as="b" hint-placeholder-count="3">
+                    <div style="display:flex;gap:11px;font-size:14px;line-height:1.55;color:var(--navy-800);font-weight:500"><span style="color:var(--state-warning);font-weight:700">·</span><span>{{ b }}</span></div>
+                  </sc-for>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:#e3f3e6;border-radius:var(--radius-lg);padding:26px 28px;margin-bottom:30px">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--state-success)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"></path></svg>
+              <span style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);letter-spacing:-.01em">Quick wins</span>
+            </div>
+            <p style="margin:0 0 16px;font-size:13.5px;color:var(--slate-600)">Five things worth fixing this week — these land on your plan the moment it unlocks.</p>
+            <div style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ assessment.quickWins }}" as="q" hint-placeholder-count="5">
+                <div style="display:flex;align-items:flex-start;gap:14px;padding:15px 18px;border-radius:var(--radius-md);background:var(--white);box-shadow:var(--shadow-sm)">
+                  <span style="flex:none;width:24px;height:24px;border-radius:50%;background:var(--state-success);color:#fff;display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:12px;margin-top:1px">{{ q.n }}</span>
+                  <div style="min-width:0;flex:1">
+                    <div style="font-size:14.5px;font-weight:600;color:var(--navy-900);line-height:1.5">{{ q.text }}</div>
+                    <div style="font-size:13px;color:var(--slate-600);margin-top:3px">{{ q.desc }}</div>
+                  </div>
+                  <span style="flex:none;font-size:12px;color:var(--slate-600);padding-top:2px">{{ q.time }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+
+          <div style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);margin-bottom:14px;letter-spacing:-.01em">The eight categories</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:30px">
+            <sc-for list="{{ assessment.categories }}" as="cat" hint-placeholder-count="8">
+              <div style="{{ cat.cardStyle }}">
+                <button onClick="{{ cat.toggle }}" style="width:100%;display:flex;flex-direction:column;gap:14px;padding:20px;background:none;border:none;cursor:pointer;font-family:var(--font-body);text-align:left">
+                  <div style="display:flex;align-items:center;justify-content:space-between">
+                    <span style="{{ cat.badgeStyle }}">{{ cat.grade }}</span>
+                    <span style="flex:none;font-size:13px;color:var(--slate-600);transform:{{ cat.chevronRotate }};transition:transform .2s ease">⌄</span>
+                  </div>
+                  <div style="min-width:0">
+                    <div style="font-family:var(--font-display);font-weight:600;font-size:15.5px;color:var(--navy-900);letter-spacing:-.005em;line-height:1.3;margin-bottom:4px">{{ cat.name }}</div>
+                    <sc-if value="{{ cat.collapsedNote }}" hint-placeholder-val="{{ true }}"><div style="font-size:12.5px;color:var(--slate-600);line-height:1.4">{{ cat.oneLiner }}</div></sc-if>
+                  </div>
+                </button>
+                <div style="{{ cat.bodyStyle }}">
+                  <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:var(--navy-800);font-weight:500;max-width:80ch">{{ cat.body }}</p>
+                  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px">
+                    <sc-for list="{{ cat.stats }}" as="st" hint-placeholder-count="4">
+                      <div style="background:var(--surface-sunken);border-radius:var(--radius-sm);padding:12px 14px">
+                        <div style="font-size:10px;font-weight:600;letter-spacing:.08em;color:var(--slate-600);margin-bottom:5px">{{ st.label }}</div>
+                        <div style="{{ st.valueStyle }}">{{ st.value }}</div>
+                      </div>
+                    </sc-for>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+                    <div>
+                      <div style="font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--slate-600);margin-bottom:10px">FINDINGS</div>
+                      <div style="display:flex;flex-direction:column;gap:9px">
+                        <sc-for list="{{ cat.findings }}" as="fi" hint-placeholder-count="3">
+                          <div style="display:flex;gap:10px;font-size:13.5px;line-height:1.55;color:var(--navy-800)"><span style="{{ fi.dotStyle }}"></span><span>{{ fi.text }}</span></div>
+                        </sc-for>
+                      </div>
+                    </div>
+                    <div>
+                      <div style="font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--slate-600);margin-bottom:10px">RECOMMENDATIONS</div>
+                      <div style="display:flex;flex-direction:column;gap:9px">
+                        <sc-for list="{{ cat.recs }}" as="rc" hint-placeholder-count="2">
+                          <div style="background:var(--surface-sunken);border-radius:var(--radius-sm);padding:10px 13px;font-size:13.5px;line-height:1.5;color:var(--navy-800)">{{ rc }}</div>
+                        </sc-for>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);margin-bottom:14px;letter-spacing:-.01em">Priority recommendations</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
+            <sc-for list="{{ assessment.priorities }}" as="p" hint-placeholder-count="4">
+              <div style="background:rgba(6,124,188,.7);border-radius:var(--radius-md);padding:20px 22px;display:flex;gap:16px">
+                <span style="flex:none;width:28px;height:28px;border-radius:50%;background:#fff;color:var(--link-blue);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:13px">{{ p.n }}</span>
+                <div style="min-width:0">
+                  <div style="font-size:14.5px;line-height:1.55;color:#fff;font-weight:500;margin-bottom:10px">{{ p.text }}</div>
+                  <span style="{{ p.impactStyle }}">{{ p.impact }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══ STRATEGY ══ -->
+      <sc-if value="{{ f.isStrategy }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:22px 40px 44px">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px">YOUR STRATEGY</div>
+          <h1 style="margin:0 0 24px;font-family:var(--font-display);font-weight:600;font-size:40px;line-height:1.08;letter-spacing:-.025em;color:var(--navy-900)">The 90-day thesis</h1>
+
+          <div style="background:var(--white);border:1px solid var(--border-subtle);border-left:5px solid var(--mint-500);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:28px 32px;margin-bottom:20px">
+            <div style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px">THE GOAL</div>
+            <p style="margin:0;font-family:var(--font-display);font-weight:600;font-size:27px;line-height:1.25;letter-spacing:-.015em;color:var(--navy-900);max-width:44ch;text-wrap:pretty">Fill Tuesday-to-Thursday tables by making The Station the taphouse people in Twin City already feel they know.</p>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:26px">
+            <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:26px 28px">
+              <div style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);margin-bottom:12px">Positioning</div>
+              <p style="margin:0;font-size:15px;line-height:1.65;color:var(--navy-800);font-weight:500">The 24-tap wall and the kitchen are the draw, but the reason people come back is the room and the people in it. Lead with atmosphere and staff; let the beer list be the proof, not the pitch.</p>
+            </div>
+            <div style="background:var(--surface-sunken);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:26px 28px">
+              <div style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);margin-bottom:12px">What we're not doing</div>
+              <p style="margin:0;font-size:15px;line-height:1.65;color:var(--navy-800);font-weight:500">No new channels, no website rebuild, no daily posting. Three posts a week done for twelve straight weeks beats a burst of ten and a month of silence.</p>
+            </div>
+          </div>
+
+          <div style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);margin-bottom:14px">Three objectives</div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px">
+            <sc-for list="{{ objectives }}" as="o" hint-placeholder-count="3">
+              <div style="{{ o.cardStyle }}">
+                <span style="position:absolute;top:12px;right:20px;font-family:var(--font-display);font-weight:700;font-size:56px;line-height:1;color:var(--surface-sunken)">{{ o.n }}</span>
+                <div style="position:relative;font-family:var(--font-display);font-weight:600;font-size:18px;color:var(--navy-900);margin-bottom:10px;max-width:16ch;line-height:1.3">{{ o.title }}</div>
+                <p style="margin:0 0 16px;font-size:14.5px;line-height:1.6;color:var(--slate-600);font-weight:500">{{ o.body }}</p>
+                <div style="border-top:1px dashed var(--border-subtle);padding-top:12px;font-size:13px;color:var(--navy-800)"><strong>Measured by</strong> · {{ o.measure }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══ ROADMAP ══ -->
+      <sc-if value="{{ f.isRoadmap }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:22px 40px 44px;max-width:1340px;width:100%">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:24px;margin-bottom:26px">
+            <div>
+              <div style="font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px">4-WEEK ACCELERATOR · YOUR ACTION PLAN</div>
+              <h1 style="margin:0 0 8px;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-.02em;color:var(--navy-900)">Week by week</h1>
+              <p style="margin:0;font-size:15px;color:var(--slate-600)">Check things off as you go. Everything saves itself.</p>
+            </div>
+            <div style="flex:none;text-align:right">
+              <div style="font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:-.02em;color:var(--navy-900);line-height:1">{{ f.roadmapDone }}<span style="font-size:20px;color:var(--slate-600)">/24</span></div>
+              <div style="font-size:12px;color:var(--slate-600);margin-top:2px">roadmap tasks done</div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <sc-for list="{{ f.weeks }}" as="w" hint-placeholder-count="4">
+                <div style="{{ w.cardStyle }}">
+                  <button onClick="{{ w.toggleOpen }}" style="width:100%;display:flex;align-items:center;gap:16px;background:none;border:none;padding:18px 22px;cursor:pointer;font-family:var(--font-body);text-align:left">
+                    <span style="{{ w.badgeStyle }}">{{ w.label }}</span>
+                    <span style="font-family:var(--font-display);font-weight:600;font-size:19px;color:var(--navy-900);letter-spacing:-.01em">{{ w.title }}</span>
+                    <span style="margin-left:auto;display:flex;align-items:center;gap:12px;flex:none">
+                      <span style="font-size:12.5px;color:var(--slate-600);font-variant-numeric:tabular-nums">{{ w.countLabel }}</span>
+                      <span style="width:104px;height:5px;border-radius:999px;background:var(--surface-sunken);overflow:hidden;display:block"><span style="display:block;width: {{ w.pct }}; height:100%;border-radius:999px;background: {{ w.barColor }}; transition:width .4s ease"></span></span>
+                    </span>
+                  </button>
+                  <div style="{{ w.bodyStyle }}">
+                    <sc-for list="{{ w.tasks }}" as="t" hint-placeholder-count="6">
+                      <div onClick="{{ t.toggle }}" style="{{ t.rowStyle }}">
+                        <span style="{{ t.boxStyle }}"><sc-if value="{{ t.done }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg></sc-if></span>
+                        <span style="{{ t.textStyle }}">{{ t.text }}</span>
+                      </div>
+                    </sc-for>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="background:var(--navy-900);border-radius:var(--radius-md);padding:22px 24px">
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--mint-500);margin-bottom:10px">RIGHT NOW</div>
+                <div style="font-family:var(--font-display);font-weight:600;font-size:18px;color:#fff;line-height:1.3;margin-bottom:8px">{{ f.currentWeek.title }}</div>
+                <div style="height:5px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden;margin-bottom:10px"><div style="width: {{ f.currentWeek.pct }};height:100%;border-radius:999px;background:var(--mint-500)"></div></div>
+                <div style="font-size:12.5px;color:rgba(255,255,255,.65)">{{ f.currentWeek.countLabel }} tasks done</div>
+              </div>
+              <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:22px 24px">
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:14px">THE 90 DAYS</div>
+                <sc-for list="{{ f.phases }}" as="p" hint-placeholder-count="4">
+                  <div style="padding:10px 0;border-top:1px solid var(--border-subtle)">
+                    <div style="font-size:10px;font-weight:600;letter-spacing:.1em;color:var(--slate-600);margin-bottom:3px">{{ p.range }}</div>
+                    <div style="font-family:var(--font-display);font-weight:600;font-size:14.5px;color:var(--navy-900)">{{ p.name }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:22px 24px">
+                <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:10px">WHY THE STREAK MATTERS</div>
+                <p style="margin:0;font-size:13.5px;line-height:1.6;color:var(--navy-800)">A full week checked off is the whole system compounding at once — content, ads and reviews all moving the same week. That's the moment worth celebrating.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <!-- ══ GBP QUICK WINS ══ -->
+      <sc-if value="{{ f.isQuick }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:22px 40px 44px;max-width:1180px;width:100%">
+          <div style="font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:8px">QUICK-HIT RECOMMENDATION</div>
+          <h1 style="margin:0 0 22px;font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.14;letter-spacing:-.02em;color:var(--navy-900)">Google Business Profile polish</h1>
+
+          <div style="display:grid;grid-template-columns:1fr 300px;gap:24px;align-items:start">
+          <div>
+          <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:22px 26px;display:grid;grid-template-columns:118px 1fr;gap:26px;align-items:center;margin-bottom:26px">
+            <div>
+              <div style="font-family:var(--font-display);font-weight:700;font-size:34px;line-height:1;letter-spacing:-.03em;color:var(--navy-900)">{{ f.strengthPct }}</div>
+              <div style="font-size:12px;color:var(--slate-600);margin-top:4px">profile strength</div>
+            </div>
+            <div>
+              <div style="height:8px;border-radius:999px;background:var(--surface-sunken);overflow:hidden;margin-bottom:14px"><div style="width: {{ f.strengthPct }}; height:100%;border-radius:999px;background:var(--mint-500);transition:width .45s ease"></div></div>
+              <p style="margin:0;font-size:14.5px;line-height:1.55;color:var(--navy-800)">Each item you tick moves this — and moves how Google ranks you for "taphouse near Twin City".</p>
+            </div>
+          </div>
+
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px">
+            <span style="font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600)">FIVE ITEMS</span>
+            <span style="font-size:13px;font-weight:600;color:var(--navy-900)">{{ f.quickLabel }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <sc-for list="{{ f.quickTasks }}" as="q" hint-placeholder-count="5">
+              <div onClick="{{ q.toggle }}" style="{{ q.rowStyle }}">
+                <span style="{{ q.boxStyle }}"><sc-if value="{{ q.done }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg></sc-if></span>
+                <div style="min-width:0">
+                  <div style="{{ q.titleStyle }}">{{ q.text }}</div>
+                  <p style="{{ q.descStyle }}">{{ q.desc }}</p>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <div style="background:var(--navy-900);border-radius:var(--radius-md);padding:22px 24px">
+              <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--mint-500);margin-bottom:10px">WHY THESE FIRST</div>
+              <p style="margin:0;font-size:13.5px;line-height:1.6;color:rgba(255,255,255,.82)">People searching "brewery near me" see your profile before they see any post or ad. Every field you fill is a reason for Google to show you higher.</p>
+            </div>
+            <div style="background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:22px 24px">
+              <div style="font-size:10px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:10px">WHERE THIS FITS</div>
+              <p style="margin:0 0 14px;font-size:13.5px;line-height:1.6;color:var(--navy-800)">These sit outside the weekly rhythm — a one-time cleanup, not part of the recurring plan.</p>
+              <div style="font-size:13px;font-weight:600;color:var(--link-blue)">Part of Google &amp; Reviews →</div>
+            </div>
+          </div>
+          </div>
+          </div>
+        </div>
+      </sc-if>
+
+    </main>
+
+    <sc-if value="{{ f.celebrate }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;inset:0;background:rgba(17,21,75,.55);display:grid;place-items:center;z-index:40;animation:fadeIn .2s ease">
+        <div style="position:relative;background:var(--navy-900);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg);padding:44px 52px 40px;width:540px;text-align:center;animation:popIn .4s cubic-bezier(.2,.9,.3,1);overflow:hidden">
+          <div style="position:absolute;left:50%;top:36%;width:0;height:0;pointer-events:none">
+            <span style="position:absolute;transform:rotate(0deg)"><span style="display:block;width:9px;height:9px;border-radius:2px;background:var(--mint-500);animation:fly 1s ease-out .05s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(30deg)"><span style="display:block;width:7px;height:7px;border-radius:50%;background:#fff;animation:fly 1.1s ease-out .12s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(60deg)"><span style="display:block;width:10px;height:5px;border-radius:2px;background:var(--mint-500);animation:fly .95s ease-out .18s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(95deg)"><span style="display:block;width:8px;height:8px;border-radius:2px;background:var(--link-blue);animation:fly 1.15s ease-out .08s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(130deg)"><span style="display:block;width:7px;height:7px;border-radius:50%;background:var(--mint-500);animation:fly 1.05s ease-out .22s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(160deg)"><span style="display:block;width:9px;height:5px;border-radius:2px;background:#fff;animation:fly 1.2s ease-out .15s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(200deg)"><span style="display:block;width:8px;height:8px;border-radius:2px;background:var(--mint-500);animation:fly 1s ease-out .1s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(230deg)"><span style="display:block;width:7px;height:7px;border-radius:50%;background:var(--link-blue);animation:fly 1.1s ease-out .25s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(265deg)"><span style="display:block;width:10px;height:5px;border-radius:2px;background:var(--mint-500);animation:fly .9s ease-out .2s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(300deg)"><span style="display:block;width:8px;height:8px;border-radius:2px;background:#fff;animation:fly 1.15s ease-out .06s forwards;opacity:0"></span></span>
+            <span style="position:absolute;transform:rotate(330deg)"><span style="display:block;width:7px;height:7px;border-radius:50%;background:var(--mint-500);animation:fly 1.05s ease-out .28s forwards;opacity:0"></span></span>
+          </div>
+
+          <div style="position:relative;width:112px;height:112px;margin:0 auto 24px">
+            <span style="position:absolute;inset:0;border-radius:50%;border:2px solid var(--mint-500);animation:haloPulse 1.4s ease-out .15s"></span>
+            <svg width="112" height="112" viewBox="0 0 112 112" style="position:absolute;inset:0">
+              <circle cx="56" cy="56" r="52" fill="none" stroke="var(--mint-500)" strokeWidth="3" strokeDasharray="327" style="animation:ringDraw .7s cubic-bezier(.4,0,.2,1) forwards;transform:rotate(-90deg);transform-origin:56px 56px"></circle>
+              <path d="M36 57 L50 71 L77 44" fill="none" stroke="var(--mint-500)" strokeWidth="5" strokeLinecap="round" strokeLinejoin="round" strokeDasharray="64" style="animation:checkDraw .35s ease-out .55s forwards;stroke-dashoffset:64"></path>
+            </svg>
+          </div>
+          <div style="font-size:10.5px;font-weight:600;letter-spacing:.18em;color:var(--mint-500);margin-bottom:14px;animation:riseIn .4s ease .3s both">{{ f.celebrate.tag }}</div>
+          <h2 style="margin:0 0 12px;font-family:var(--font-display);font-weight:600;font-size:30px;line-height:1.15;letter-spacing:-.02em;color:#fff;animation:riseIn .45s ease .38s both">{{ f.celebrate.headline }}</h2>
+          <p style="margin:0 auto 28px;font-size:15px;line-height:1.6;color:rgba(255,255,255,.75);max-width:38ch;animation:riseIn .45s ease .46s both">{{ f.celebrate.body }}</p>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(255,255,255,.15);border-bottom:1px solid rgba(255,255,255,.15);padding:20px 0;margin-bottom:26px;animation:riseIn .45s ease .54s both">
+            <sc-for list="{{ f.celebrate.stats }}" as="s" hint-placeholder-count="3">
+              <div style="border-right:1px solid rgba(255,255,255,.12)">
+                <div style="font-family:var(--font-display);font-weight:700;font-size:26px;color:#fff;letter-spacing:-.02em">{{ s.value }}</div>
+                <div style="font-size:12px;color:rgba(255,255,255,.6);margin-top:3px">{{ s.label }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ f.dismissCelebrate }}" style="background:var(--mint-500);color:var(--navy-900);border:none;border-radius:var(--radius-md);padding:14px 34px;font-family:var(--font-body);font-weight:700;font-size:15px;cursor:pointer;animation:riseIn .45s ease .62s both" style-hover="background:#9bd0a9">Keep going</button>
+        </div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+</sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;celebrateOnWeekComplete&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Behaviour&quot;},&quot;startCollapsed&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Shell&quot;}}">
+class Component extends DCLogic {
+  weeks = [
+    { id: 'w1', label: 'W1', title: 'Set Up Foundations', tasks: [
+      { id: 't101', text: 'Define your four content pillars and write them down', tactic: 'content', done: true },
+      { id: 't102', text: 'Build a content calendar with pillar rotation', tactic: 'content' },
+      { id: 't103', text: 'Set up Meta Business Suite and connect Instagram', tactic: 'meta', done: true },
+      { id: 't104', text: 'Claim and verify the ad account payment method', tactic: 'meta', done: true },
+      { id: 't105', text: 'Photograph the 24-tap wall and entrance sequence', tactic: 'content' },
+      { id: 't106', text: 'Book the first Tuesday capture session with Aaron', tactic: 'content', done: true } ] },
+    { id: 'w2', label: 'W2', title: 'Launch the Weekly Content Rhythm', tasks: [
+      { id: 't201', text: 'Run the first Tuesday capture session', tactic: 'content', done: true },
+      { id: 't202', text: 'Post three times using the pillar rotation', tactic: 'content' },
+      { id: 't203', text: 'Reply to every comment within 24 hours', tactic: 'content' },
+      { id: 't204', text: 'Log what each post earned in reach', tactic: 'content' },
+      { id: 't205', text: 'Write ad copy for the first Meta campaign', tactic: 'meta' },
+      { id: 't206', text: 'Ask five regulars for a Google review this week', tactic: 'google' } ] },
+    { id: 'w3', label: 'W3', title: 'Launch Meta Ad Campaign 1', tasks: [
+      { id: 't301', text: 'Pick the two best-performing organic reels as creative', tactic: 'meta', done: true },
+      { id: 't302', text: 'Build the awareness campaign with a 15km radius', tactic: 'meta', done: true },
+      { id: 't303', text: 'Set the daily budget and schedule', tactic: 'meta' },
+      { id: 't304', text: 'Install and verify the Meta pixel on the site', tactic: 'meta' },
+      { id: 't305', text: 'Launch and check delivery after 24 hours', tactic: 'meta' },
+      { id: 't306', text: 'Note baseline cost per thousand reached', tactic: 'meta' } ] },
+    { id: 'w4', label: 'W4', title: 'Launch Brand Awareness and Refine', tasks: [
+      { id: 't401', text: 'Refresh creative with week-three footage', tactic: 'content' },
+      { id: 't402', text: 'Ask three regulars for a Google review', tactic: 'google' },
+      { id: 't403', text: 'Answer every open question in the GBP Q&A', tactic: 'google' },
+      { id: 't404', text: 'Reply to all new Google reviews within 48 hours', tactic: 'google' },
+      { id: 't405', text: 'Review Google Insights against the 30-day metrics', tactic: 'google' },
+      { id: 't406', text: "Lock the rhythm into next month's calendar", tactic: 'content' } ] }
+  ];
+
+  quickWins = [
+    { id: 'q1', text: 'Replace the old logo on the Profile.', desc: 'Your Profile still shows the green logo. Edit Profile → Photos → Logo and upload the current version.' },
+    { id: 'q2', text: 'Change business hours to Flexible.', desc: 'Walk-up traffic is not your model, and 9–6 discourages enquiries outside those windows.' },
+    { id: 'q3', text: 'Fill in every remaining field.', desc: 'The gaps are accessibility attributes, additional categories, and service area boundaries.' },
+    { id: 'q4', text: 'Check the Q&A section twice a month.', desc: 'Questions stay unanswered unless you respond — and strangers will answer them for you.' },
+    { id: 'q5', text: 'Set a goal of 100 reviews by end of summer 2026.', desc: 'You are at 30. Around 100 is where Google starts treating your Profile as a regional authority.' }
+  ];
+
+  nextSteps = [
+    { id: 'ns1', text: 'Photograph the 24-tap wall and entrance sequence' },
+    { id: 'ns2', text: 'Edit and post three pieces from that session' },
+    { id: 'ns3', text: 'Write captions using the pillar prompts' }
+  ];
+
+  channels = [
+    { name: 'Social content', score: 48, tag: 'BIGGEST LEVER', tone: 'warning', note: 'Equipment and talent in place; no rhythm or calendar.' },
+    { name: 'Google Profile', score: 70, tag: 'QUICK WINS', tone: 'info', note: 'Claimed and active, four fields short of complete.' },
+    { name: 'Website', score: 62, tag: 'GOOD ENOUGH', tone: 'success', note: 'Loads fast, reads well. Not a priority this quarter.' },
+    { name: 'Paid ads', score: 15, tag: 'NOT STARTED', tone: 'muted', note: 'No pixel, no audiences, occasional boosted posts.' }
+  ];
+
+  working = [
+    'Professional cameras and lighting already owned — no kit to buy.',
+    "Aaron and Corey are comfortable on camera once there's a plan.",
+    'The 24-tap wall and the room are genuinely distinctive assets.',
+    'Website loads fast and reads clearly on a phone.'
+  ];
+
+  leaking = [
+    'No posting rhythm — bursts of five posts, then three weeks quiet.',
+    'Google Profile 30% incomplete, with the old logo still showing.',
+    "Nobody asks for reviews, so 30 is where you've stalled.",
+    'No pixel, so every pound of past ad spend is unmeasurable.'
+  ];
+
+  toneColor = { success: 'var(--state-success)', warning: 'var(--state-warning)', danger: 'var(--state-danger)', info: 'var(--link-blue)' };
+  gradeScale = { 'A+': 1, A: .95, 'A-': .9, 'B+': .82, B: .75, 'B-': .68, 'C+': .58, C: .5, 'C-': .42, 'D+': .32, D: .24, 'D-': .16, F: .05 };
+  lerpColor(hexLo, hexHi, t) {
+    const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+    const [r1, g1, b1] = p(hexLo), [r2, g2, b2] = p(hexHi);
+    const mix = (a, b) => Math.round(a + (b - a) * t);
+    return 'rgb(' + mix(r1, r2) + ',' + mix(g1, g2) + ',' + mix(b1, b2) + ')';
+  }
+  gradeMeta(grade) {
+    const t = grade.startsWith('A') ? 'success' : grade.startsWith('B') ? 'info' : grade.startsWith('C') ? 'warning' : 'danger';
+    const score = this.gradeScale[grade] ?? .5;
+    const brandColor = this.lerpColor('#067cbc', '#aadab6', score);
+    const brandText = score > 0.55 ? 'var(--navy-900)' : '#fff';
+    return { tone: t, color: this.toneColor[t], brandColor, brandText };
+  }
+
+  assessmentQuickWins = [
+    { text: 'Fix the mobile menu — three taps to find hours today', desc: 'Move hours and phone number above the fold on mobile.', time: '20 min' },
+    { text: 'Turn on Instagram Shopping tags for the food posts', desc: 'Free, and it lets people tap straight from a photo to the menu.', time: '15 min' },
+    { text: 'Add the booking link to the Instagram bio', desc: "It's currently buried in a linktree with four other links.", time: '5 min' },
+    { text: 'Reply to the three unanswered Google reviews', desc: 'All from the last 60 days — a fast reply now still reads as timely.', time: '20 min' },
+    { text: 'Add alt text to the ten most-viewed website photos', desc: 'Small SEO lift, and it is accessibility work either way.', time: '30 min' }
+  ];
+
+  assessmentCategories = [
+    { key: 'website', name: 'Website & Technical Foundation', grade: 'D+', oneLiner: 'Loads slowly on mobile and buries the booking link three menus deep.',
+      body: 'The site reads well on desktop but mobile performance and navigation actively lose bookings — most guests are deciding from their phone in the parking lot or on the way over.',
+      stats: [{ label: 'MOBILE PAGESPEED', value: '41/100', tone: 'danger' }, { label: 'DESKTOP PAGESPEED', value: '68/100', tone: 'warning' }, { label: 'BOOKING LINK DEPTH', value: '3 taps', tone: 'danger' }, { label: 'SSL & SECURITY', value: 'Passing', tone: 'success' }],
+      findings: [{ text: 'Hero image alone is 4.2MB and blocks first paint on mobile', positive: false }, { text: 'Booking link is not in the main nav — buried under "More"', positive: false }, { text: 'HTTPS and basic security headers are correctly configured', positive: true }],
+      recs: ['Compress and lazy-load the hero and menu photography', 'Move "Book a Table" into the primary nav and the sticky header'] },
+    { key: 'local', name: 'Local SEO & Maps Visibility', grade: 'C', oneLiner: 'Profile is claimed and complete, but light on the schema Google rewards.',
+      body: 'The Google Business Profile fundamentals are in place, but structured data and citation consistency are the difference between showing up for "taphouse near me" and not.',
+      stats: [{ label: 'GBP CLAIMED', value: 'Yes', tone: 'success' }, { label: 'LOCAL SCHEMA', value: 'Missing', tone: 'danger' }, { label: 'CITATION COUNT', value: '9', tone: 'warning' }, { label: 'NAP CONSISTENCY', value: 'Mostly', tone: 'warning' }],
+      findings: [{ text: 'No LocalBusiness schema markup on the homepage', positive: false }, { text: 'Address format differs slightly between GBP and the footer', positive: false }, { text: 'Categories and attributes are fully filled in', positive: true }],
+      recs: ['Add LocalBusiness schema with full NAP, hours and menu link', 'Standardize the address format across GBP, footer and directories'] },
+    { key: 'reviews', name: 'Reviews & Reputation', grade: 'B-', oneLiner: 'Strong rating, thin volume — the ask is missing, not the satisfaction.',
+      body: 'Guests leave happy but almost nobody is asked to say so. Volume, not sentiment, is the gap holding this category back.',
+      stats: [{ label: 'AVG RATING', value: '4.7', tone: 'success' }, { label: 'TOTAL REVIEWS', value: '34', tone: 'warning' }, { label: 'REPLY RATE', value: '40%', tone: 'danger' }, { label: 'REVIEWS / MONTH', value: '2', tone: 'warning' }],
+      findings: [{ text: 'Rating is strong and consistent across the last year', positive: true }, { text: 'No systematic ask — reviews arrive only when guests remember', positive: false }, { text: '60% of reviews carry no owner reply', positive: false }],
+      recs: ['Ask at the compliment, table-side, with a one-tap link', 'Reply to every review within 48 hours, good or bad'] },
+    { key: 'social', name: 'Social Media & Visual Content', grade: 'B+', oneLiner: 'Active and well-shot; missing only a repeatable weekly rhythm.',
+      body: 'Content quality is the strongest asset in the whole assessment. The gap is cadence — bursts of activity followed by quiet weeks.',
+      stats: [{ label: 'PLATFORMS ACTIVE', value: '3', tone: 'success' }, { label: 'POSTS / WEEK (AVG)', value: '1.2', tone: 'warning' }, { label: 'ENGAGEMENT RATE', value: '3.1%', tone: 'success' }, { label: 'FOLLOWER GROWTH', value: '+2%/mo', tone: 'warning' }],
+      findings: [{ text: 'Engagement rate beats the industry average when content goes up', positive: true }, { text: 'Posting is bursty — five posts one week, none the next three', positive: false }],
+      recs: ['Lock a weekly capture session so the rhythm survives busy weeks', 'Build a four-pillar content calendar to remove the guessing'] },
+    { key: 'ads', name: 'Paid Advertising', grade: 'F', oneLiner: 'No structured campaigns running — only occasional boosted posts.',
+      body: 'There is no measurable paid program. Past spend has gone to post boosts with no audience structure, tracking pixel, or clear objective.',
+      stats: [{ label: 'PIXEL INSTALLED', value: 'No', tone: 'danger' }, { label: 'ACTIVE CAMPAIGNS', value: '0', tone: 'danger' }, { label: 'AUDIENCES BUILT', value: '0', tone: 'danger' }, { label: 'PAST SPEND TRACKED', value: 'No', tone: 'danger' }],
+      findings: [{ text: 'No Meta pixel on the site — no way to retarget or measure', positive: false }, { text: 'Historical spend was all post-boosts with no audience targeting', positive: false }],
+      recs: ['Install the Meta pixel before any further ad spend', 'Launch one small always-on local-radius campaign behind proven content'] },
+    { key: 'booking', name: 'Online Ordering & Booking', grade: 'C+', oneLiner: 'A booking page exists but is not linked from anywhere obvious.',
+      body: 'The infrastructure is there — the discoverability is not. Guests who want to book are not finding the path in under two taps.',
+      stats: [{ label: 'BOOKING SYSTEM', value: 'Live', tone: 'success' }, { label: 'NAV VISIBILITY', value: 'Low', tone: 'danger' }, { label: 'MOBILE UX', value: '52/100', tone: 'warning' }, { label: 'CONFIRMATION EMAIL', value: 'Yes', tone: 'success' }],
+      findings: [{ text: 'Booking system itself works cleanly once found', positive: true }, { text: 'Not in the primary nav or the Instagram bio', positive: false }],
+      recs: ['Surface booking in the main nav, sticky header and bio link', 'Shorten the mobile booking flow to three steps or fewer'] },
+    { key: 'email', name: 'Email & Guest CRM', grade: 'D', oneLiner: 'No list, no capture point — repeat-visit reminders are not possible yet.',
+      body: 'There is currently no owned channel to reach past guests directly. Every touch depends on them remembering to check social or search again.',
+      stats: [{ label: 'EMAIL LIST SIZE', value: '0', tone: 'danger' }, { label: 'CAPTURE POINTS', value: '0', tone: 'danger' }, { label: 'AUTOMATED FLOWS', value: '0', tone: 'danger' }, { label: 'SMS OPT-IN', value: 'No', tone: 'danger' }],
+      findings: [{ text: 'No signup point on the site, at the table, or at checkout', positive: false }, { text: 'No mechanism exists yet to bring past guests back on a schedule', positive: false }],
+      recs: ['Add a simple email capture at the booking confirmation step', 'Start with one monthly note — new taps, events, nothing salesy'] },
+    { key: 'competitive', name: 'Competitive Positioning', grade: 'C+', oneLiner: 'Product quality leads the set; visibility and volume trail it.',
+      body: 'The room, the food and the tap list hold up well against anyone in Twin City. The gap is entirely in how discoverable and referenceable that quality is online.',
+      stats: [{ label: 'RATING VS SET', value: '+0.3', tone: 'success' }, { label: 'REVIEW VOLUME VS SET', value: '-60%', tone: 'danger' }, { label: 'POSTING FREQUENCY', value: 'Behind', tone: 'warning' }, { label: 'AD PRESENCE', value: 'Behind', tone: 'danger' }],
+      findings: [{ text: 'Rating edges out every direct competitor in the set', positive: true }, { text: 'Review volume and posting frequency both trail the set noticeably', positive: false }],
+      recs: ['Close the review-volume gap before chasing anything else', 'Match competitor posting frequency with the weekly rhythm system'] }
+  ];
+
+  assessmentPriorities = [
+    { text: 'Move the booking link into the primary nav, sticky header, and Instagram bio — right now it takes three taps to find on a site that otherwise reads well.', impact: 'high Impact', tone: 'danger' },
+    { text: 'Start asking for reviews at the table, right after a compliment, with a one-tap link — rating is already excellent, volume is the only thing holding it back.', impact: 'high Impact', tone: 'danger' },
+    { text: 'Lock a weekly content capture session so posting stops being bursty — content quality already beats the competitive set when it goes up.', impact: 'medium Impact', tone: 'warning' },
+    { text: 'Install the Meta pixel before any further ad spend so future campaigns are measurable from day one.', impact: 'medium Impact', tone: 'warning' }
+  ];
+
+  objectives = [
+    { n: '1', title: 'A rhythm that survives a busy week', body: 'Three posts a week for twelve weeks, filmed in one hour, from four rotating pillars.', measure: 'no missed weeks by day 60', accent: '#aadab6' },
+    { n: '2', title: 'Paid reach behind proven content', body: 'A small permanent local budget behind creative that already earned attention organically.', measure: 'stable cost per reach by day 90', accent: '#067cbc' },
+    { n: '3', title: 'Local trust that compounds', body: 'A complete Google Profile and a team habit of asking, so reviews accumulate without effort.', measure: '80+ reviews and rising', accent: '#708090' }
+  ];
+
+  detail = {
+    key: 'content', eyebrow: 'TACTIC 1 · FOUNDATION', title: 'Social Media Content System',
+    desc: 'A weekly filming and posting rhythm that shows the whole Station experience, not just the food.',
+    whatThisIs: 'A repeatable weekly content rhythm using the gear you already own. One Tuesday session yields 3–4 reels plus static content for the whole week — the system removes the decision fatigue.',
+    pillars: [
+      { name: 'The Station Experience', detail: 'Room pans, service moments, golden hour' },
+      { name: 'The Food', detail: 'Plating process, not just the finished plate' },
+      { name: 'The People', detail: 'Chef, GM, bartenders — short talking heads' },
+      { name: 'Brewing & Community', detail: 'New taps, the 24-tap wall, local partnerships' } ],
+    heard: '"The equipment is ready. The talent is in-house." The gap is workflow structure and consistency — not capability.',
+    why: 'Consistent content builds organic reach beyond existing followers and gives paid ads warm, proven creative to spend behind.',
+    parts: [
+      { tag: 'PART A', title: 'Define Your Content Pillars', meta: '2 steps · ~40 min', steps: [
+        { title: 'Define four content pillars and document them', bullets: [
+          'The Station Experience — dining room pans, place settings, service moments, golden hour',
+          'The Food — pair dish visuals with a brief voiceover; include the plating process',
+          'The People — short talking heads with chef, GM, front-of-house and bartenders',
+          'Twin City Brewing & Community — new taps, brewery features, the 24-tap wall' ] },
+        { title: 'Create a content calendar with pillar rotation', bullets: [
+          'Three weekly posts means each pillar resurfaces every 9–10 days',
+          'A simple spreadsheet or Later / Meta Business Suite is enough',
+          'Make the calendar visible to the team so everyone knows what is coming' ] } ] },
+      { tag: 'PART B', title: 'Weekly Capture Session', meta: '3 steps · ~1 hr weekly', steps: [
+        { title: 'Block one hour every Tuesday', bullets: [
+          'Same slot each week — before service, while light still comes through the front windows',
+          'Aaron shoots, Corey wrangles staff and props' ] },
+        { title: 'Shoot against the shot list, not the mood', bullets: [
+          'Two pillars per session gives variety without a long shoot',
+          'Capture 20–30 short clips; you only need 12 good ones' ] },
+        { title: 'Dump and label the footage the same day', bullets: [
+          'One folder per week, filenames prefixed with the pillar',
+          'Footage not labelled on Tuesday is footage nobody edits on Thursday' ] } ] },
+      { tag: 'PART C', title: 'Edit, Post & Optimise', meta: '2 steps · ~2 hrs weekly', steps: [
+        { title: 'Edit three posts in one sitting', bullets: [
+          'Hook in the first 1.5 seconds, caption in the first line, no intro cards',
+          'Keep a reusable caption skeleton per pillar' ] },
+        { title: 'Post, reply, then log what happened', bullets: [
+          'Reply to every comment within 24 hours — reach follows engagement',
+          'Note reach and saves against each post so week four has real data to read' ] } ] } ],
+    metrics: [
+      { name: 'Posts published', target: '3 / wk', window: 'every week', where: 'your calendar' },
+      { name: 'Reels reach', target: '+40%', window: 'by day 60', where: 'Instagram Insights' },
+      { name: 'Saves and shares per post', target: '12+', window: 'rolling avg', where: 'Instagram Insights' },
+      { name: 'Follower growth', target: '+250', window: 'over 90 days', where: 'Instagram Insights' } ],
+    checkpoints: [
+      { day: 'Day 30', goal: 'Rhythm exists — four weeks of posts, no gaps' },
+      { day: 'Day 60', goal: 'Reach climbing and two clear winning formats' },
+      { day: 'Day 90', goal: 'Team runs the session without you in the room' } ],
+    metricNote: 'Follower count is the vanity number. Watch saves, shares and reach on non-followers — those three predict bookings.',
+    reviewRhythm: 'Fifteen minutes every Friday against the numbers above, then one longer read at day 30, 60 and 90.',
+    tips: [
+      { title: 'One hour beats one perfect reel', body: 'If the choice is a rough post today or a polished one next week, post today. The algorithm rewards the rhythm more than the finish.', mediaKind: 'VIDEO', mediaNote: 'Coach walkthrough · 4 min' },
+      { title: 'Film in daylight where you can', body: 'Golden hour through the front windows does more for the room than any lighting rig you own.', mediaKind: 'IMAGE', mediaNote: 'Shot reference · before / after' },
+      { title: 'Keep a shot-list whiteboard', body: 'Ideas arrive during service, not during filming. Give the team somewhere to put them.', mediaKind: 'IMAGE', mediaNote: 'Example from another venue' },
+      { title: 'Reuse ruthlessly', body: 'A strong reel is a Google post, an ad creative and a story. Cut once, place four times.', mediaKind: 'VIDEO', mediaNote: 'Coach walkthrough · 6 min' } ]
+  };
+
+  frameDefs = [
+    { id: '1a', name: 'Dashboard', note: 'ring anchor · phase overview · single next step', screen: 'dashboard', nav: 'dashboard', height: 1100 },
+    { id: '1b', name: 'Assessment', note: 'the thinking · where you are starting from', screen: 'assessment', nav: 'assessment', height: 2500 },
+    { id: '1c', name: 'Strategy', note: 'the thinking · the 90-day thesis', screen: 'strategy', nav: 'strategy', height: 860 },
+    { id: '1d', name: '90-Day Roadmap', note: 'check a full week to trigger the celebration', screen: 'roadmap', nav: 'roadmap', height: 1360 },
+    { id: '1e', name: 'Tactic Detail · Content System', note: 'all four tabs work', screen: 'tactic', nav: 'content', height: 700 },
+    { id: '1f', name: 'GBP Quick Wins', note: 'one-off recommendation · its own treatment', screen: 'quick', nav: 'quick', height: 880 }
+  ];
+
+  seedDone() {
+    const d = {};
+    this.weeks.forEach(w => w.tasks.forEach(t => { d[t.id] = !!t.done; }));
+    this.quickWins.forEach(q => { d[q.id] = false; });
+    this.nextSteps.forEach(n => { d[n.id] = false; });
+    return d;
+  }
+
+  state = {
+    f: Object.fromEntries(this.frameDefs.map(fd => [fd.id, {
+      collapsed: !!this.props.startCollapsed, railHover: null, tab: 'overview', openPart: 'PART A',
+      openWeeks: { w1: true, w3: true }, celebrate: null, done: this.seedDone(), catOpen: { website: true }
+    }]))
+  };
+
+  fset(id, patch) {
+    this.setState(s => ({ f: Object.assign({}, s.f, { [id]: Object.assign({}, s.f[id], typeof patch === 'function' ? patch(s.f[id]) : patch) }) }));
+  }
+
+  off(circ, pct) { return String(circ * (1 - pct)); }
+  allTasks() { return this.weeks.flatMap(w => w.tasks); }
+
+  toggle(fid, tid) {
+    const week = this.weeks.find(w => w.tasks.some(t => t.id === tid));
+    this.fset(fid, fs => {
+      const done = Object.assign({}, fs.done, { [tid]: !fs.done[tid] });
+      let celebrate = fs.celebrate;
+      if (week && (this.props.celebrateOnWeekComplete ?? true) && !fs.done[tid] && week.tasks.every(t => done[t.id])) {
+        const ledger = this.allTasks().concat(this.quickWins);
+        const n = ledger.filter(t => done[t.id]).length;
+        celebrate = {
+          tag: week.label + ' COMPLETE',
+          headline: week.title + ' — done.',
+          body: 'Every task in ' + week.label + ' is checked off. This is the week most people never finish — you did.',
+          stats: [
+            { value: Math.round((n / ledger.length) * 100) + '%', label: 'plan complete' },
+            { value: String(n), label: 'tasks checked off' },
+            { value: '3', label: 'weeks in motion' } ]
+        };
+      }
+      return { done, celebrate };
+    });
+  }
+
+  row(fid, fs, t, opts) {
+    const dark = opts && opts.dark;
+    const done = !!fs.done[t.id];
+    const boxed = !done;
+    return {
+      text: t.text, done,
+      toggle: () => this.toggle(fid, t.id),
+      rowStyle: 'display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:var(--radius-md);cursor:pointer;transition:background .15s ease,box-shadow .15s ease;background:' + (boxed && !dark ? 'var(--white)' : 'transparent') + ';border:1px solid ' + (boxed && !dark ? 'var(--border-subtle)' : 'transparent') + ';box-shadow:' + (boxed && !dark ? 'var(--shadow-sm)' : 'none'),
+      boxStyle: 'flex:none;width:24px;height:24px;border-radius:6px;display:grid;place-items:center;color:' + (dark ? 'var(--navy-900)' : '#fff') + ';background:' + (done ? 'var(--mint-500)' : 'transparent') + ';border:2px solid ' + (done ? 'var(--mint-500)' : (dark ? 'rgba(255,255,255,.35)' : 'var(--border-strong)')),
+      textStyle: 'flex:1;min-width:0;font-size:14.5px;line-height:1.6;font-weight:400;color:' + (dark ? (done ? 'rgba(255,255,255,.55)' : '#fff') : (done ? 'var(--slate-600)' : 'var(--navy-900)'))
+    };
+  }
+
+  navGroupsFor(activeKey) {
+    const pctMeta = this.pctMetaCache;
+    const item = (key, label, meta, dot) => {
+      const active = key === activeKey;
+      return {
+        label, meta: meta || '', hasDot: !!dot,
+        style: 'display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;text-align:left;padding:11px 12px;border:none;border-radius:var(--radius-sm);cursor:pointer;font-family:var(--font-body);font-size:14.5px;font-weight:' + (active ? '700' : '500') + ';color:' + (active ? 'var(--navy-900)' : 'rgba(255,255,255,.72)') + ';background:' + (active ? 'var(--cream-100)' : 'transparent'),
+        metaStyle: 'flex:none;font-size:11px;font-weight:700;border-radius:var(--radius-pill);padding:2px 8px;background:' + (active ? 'rgba(17,21,75,.08)' : 'rgba(255,255,255,.12)') + ';color:' + (active ? 'var(--navy-900)' : 'rgba(255,255,255,.7)'),
+        dotStyle: 'width:7px;height:7px;border-radius:50%;flex:none;background:' + (active ? 'var(--navy-900)' : 'var(--link-blue)')
+      };
+    };
+    return [
+      { label: 'OVERVIEW', items: [item('dashboard', 'Dashboard')] },
+      { label: 'THE THINKING', items: [item('assessment', 'Assessment'), item('strategy', 'Strategy')] },
+      { label: 'THE TACTICS', items: [item('content', 'Content System', '', true), item('meta', 'Meta Ads', '', true), item('google', 'Google & Reviews', '', true)] },
+      { label: 'YOUR PLAN', items: [item('roadmap', '90-Day Roadmap', pctMeta, true), item('quick', 'GBP Quick Wins', '', true)] }
+    ];
+  }
+
+  renderVals() {
+    const toneMap = {
+      warning: 'var(--state-warning)', info: 'var(--link-blue)',
+      success: 'var(--state-success)', muted: 'var(--border-strong)'
+    };
+    const tagBg = { warning: '#fbf0de', info: '#e3f2fa', success: '#e6f4ea', muted: 'var(--surface-sunken)' };
+
+    const frames = this.frameDefs.map(fd => {
+      const fs = this.state.f[fd.id];
+      const all = this.allTasks();
+      const ledger = all.concat(this.quickWins);
+      const doneAll = ledger.filter(t => fs.done[t.id]).length;
+      const pct = doneAll / ledger.length;
+      this.pctMetaCache = Math.round(pct * 100) + '%';
+
+      const tstat = k => {
+        const list = all.filter(t => t.tactic === k);
+        const d = list.filter(t => fs.done[t.id]).length;
+        return { done: d, total: list.length, pct: list.length ? d / list.length : 0 };
+      };
+      const cs = tstat('content'), ms = tstat('meta'), gs = tstat('google');
+      const qd = this.quickWins.filter(q => fs.done[q.id]).length;
+      const w1done = this.weeks[0].tasks.filter(t => fs.done[t.id]).length;
+
+      const railItem = k => ({
+        enter: () => this.fset(fd.id, { railHover: k }),
+        flyout: fs.railHover === k,
+        style: 'width:40px;height:40px;flex:none;border-radius:var(--radius-sm);border:none;cursor:pointer;display:grid;place-items:center;background:' + (fd.nav === k ? 'rgba(255,255,255,.16)' : 'transparent') + ';color:' + (fd.nav === k ? '#fff' : 'rgba(255,255,255,.62)')
+      });
+
+      return {
+        id: fd.id, name: fd.name, note: fd.note,
+        frameStyle: 'position:relative;width:1440px;height:' + fd.height + 'px;display:flex;overflow:hidden;background:var(--cream-100);border:1px solid rgba(17,21,75,.10);border-radius:var(--radius-lg);box-shadow:var(--shadow-lg)',
+        sidebarStyle: 'flex:none;width:' + (fs.collapsed ? '76px' : '268px') + ';background:var(--navy-900);transition:width .28s cubic-bezier(.4,0,.2,1);height:100%;overflow:visible;z-index:20',
+        collapsed: fs.collapsed, expanded: !fs.collapsed,
+        toggleSidebar: () => this.fset(fd.id, { collapsed: !fs.collapsed, railHover: null }),
+        toggleGlyph: fs.collapsed ? '»' : '«',
+        rail: Object.assign(
+          { leave: () => this.fset(fd.id, { railHover: null }), expand: { enter: () => this.fset(fd.id, { railHover: 'expand' }), flyout: fs.railHover === 'expand' } },
+          Object.fromEntries(['dashboard', 'assessment', 'strategy', 'content', 'meta', 'google', 'roadmap', 'quick'].map(k => [k, railItem(k)]))
+        ),
+        navGroups: this.navGroupsFor(fd.nav),
+
+        pctLabel: Math.round(pct * 100) + '%',
+        doneLabel: doneAll + ' of ' + ledger.length,
+        ringBig: this.off(534.1, pct), ringSide: this.off(150.8, pct), ringRail: this.off(113.1, pct),
+
+        isDashboard: fd.screen === 'dashboard', isAssessment: fd.screen === 'assessment',
+        isStrategy: fd.screen === 'strategy', isRoadmap: fd.screen === 'roadmap',
+        isQuick: fd.screen === 'quick', isTacticScreen: fd.screen === 'tactic',
+
+        phases: [
+          { range: 'WEEKS 1–4', name: 'Setup & Launch', detail: doneAll + ' of ' + ledger.length + ' tasks', active: true },
+          { range: 'WEEKS 5–8', name: 'Rhythm', detail: 'Content + ads running', active: false },
+          { range: 'WEEKS 9–12', name: 'Refine', detail: 'Optimise on real data', active: false },
+          { range: 'AFTER', name: 'Sustained', detail: 'Habit, not project', active: false }
+        ].map(p => ({
+          range: p.range, name: p.name, detail: p.detail,
+          wrapStyle: 'padding:14px 16px 4px 0;border-top:2px solid ' + (p.active ? 'var(--link-blue)' : 'transparent') + ';margin-top:-2px',
+          nameStyle: 'font-family:var(--font-display);font-weight:600;font-size:17px;letter-spacing:-.01em;margin-bottom:5px;color:' + (p.active ? 'var(--link-blue)' : 'var(--slate-600)')
+        })),
+
+        nextTasks: this.nextSteps.map(t => this.row(fd.id, fs, t, { dark: true })),
+        markNextStepDone: () => this.fset(fd.id, { done: Object.assign({}, fs.done, { ns1: true, ns2: true, ns3: true }) }),
+        w1Label: w1done + ' of 6 done',
+        w1Pct: Math.round((w1done / 6) * 100) + '%',
+
+        tacticPills: [
+          { name: 'Social Media Content System', st: cs },
+          { name: 'Meta Ads', st: ms },
+          { name: 'Google & Reviews', st: gs },
+          { name: 'GBP Quick Wins', st: { done: qd, total: 5, pct: qd / 5 } }
+        ].map(t => ({
+          name: t.name, label: t.st.done + ' of ' + t.st.total + ' done',
+          offset: this.off(113.1, t.st.pct),
+          stroke: t.st.pct === 0 ? 'var(--border-subtle)' : t.st.pct === 1 ? 'var(--state-success)' : 'var(--mint-500)'
+        })),
+
+        roadmapDone: String(all.filter(t => fs.done[t.id]).length),
+        currentWeek: (() => {
+          const cw = this.weeks.find(w => w.tasks.some(t => !fs.done[t.id])) || this.weeks[this.weeks.length - 1];
+          const d = cw.tasks.filter(t => fs.done[t.id]).length;
+          return { title: cw.label + ' · ' + cw.title, pct: Math.round((d / cw.tasks.length) * 100) + '%', countLabel: d + '/' + cw.tasks.length };
+        })(),
+        weeks: this.weeks.map(w => {
+          const d = w.tasks.filter(t => fs.done[t.id]).length;
+          const complete = d === w.tasks.length;
+          return {
+            label: w.label, title: w.title, open: !!fs.openWeeks[w.id],
+            countLabel: d + ' / ' + w.tasks.length,
+            pct: Math.round((d / w.tasks.length) * 100) + '%',
+            barColor: complete ? 'var(--state-success)' : d ? 'var(--navy-900)' : 'var(--surface-sunken)',
+            cardStyle: 'background:' + (complete ? '#f0f7f2' : 'var(--white)') + ';border:1px solid ' + (complete ? 'var(--mint-500)' : 'var(--border-subtle)') + ';border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden',
+            badgeStyle: 'flex:none;width:38px;height:38px;border-radius:var(--radius-sm);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:13.5px;color:' + (complete ? 'var(--navy-900)' : '#fff') + ';background:' + (complete ? 'var(--mint-500)' : 'var(--navy-900)'),
+            toggleOpen: () => this.fset(fd.id, { openWeeks: Object.assign({}, fs.openWeeks, { [w.id]: !fs.openWeeks[w.id] }) }),
+            bodyStyle: (!!fs.openWeeks[w.id] ? 'display:flex' : 'display:none') + ';padding:0 22px 18px;flex-direction:column;gap:6px',
+            tasks: w.tasks.map(t => this.row(fd.id, fs, t))
+          };
+        }),
+
+        strengthPct: Math.round(50 + (qd / 5) * 45) + '%',
+        quickLabel: qd + ' of 5 done',
+        quickTasks: this.quickWins.map(q => {
+          const r = this.row(fd.id, fs, q);
+          r.desc = q.desc;
+          r.rowStyle = 'display:flex;align-items:flex-start;gap:14px;padding:16px 18px;border-radius:var(--radius-md);cursor:pointer;transition:background .15s ease,box-shadow .15s ease;background:' + (r.done ? 'transparent' : 'var(--white)') + ';border:1px solid ' + (r.done ? 'transparent' : 'var(--border-subtle)') + ';box-shadow:' + (r.done ? 'none' : 'var(--shadow-sm)');
+          r.boxStyle += ';margin-top:2px';
+          r.titleStyle = 'font-family:var(--font-body);font-weight:700;font-size:14.5px;margin-bottom:5px;color:' + (r.done ? 'var(--slate-600)' : 'var(--navy-900)');
+          r.descStyle = 'margin:0;font-size:13.5px;line-height:1.55;color:var(--slate-600)';
+          return r;
+        }),
+
+        tabs: [
+          { key: 'overview', label: 'Overview' }, { key: 'steps', label: 'Implementation Steps' },
+          { key: 'metrics', label: 'Success Metrics' }, { key: 'tips', label: 'Tips & Resources' }
+        ].map(t => ({
+          label: t.label, go: () => this.fset(fd.id, { tab: t.key }),
+          style: 'border:none;cursor:pointer;font-family:var(--font-body);font-size:14.5px;font-weight:600;padding:14px 22px;border-radius:var(--radius-sm) var(--radius-sm) 0 0;background:' + (fs.tab === t.key ? 'var(--cream-100)' : 'rgba(255,255,255,.08)') + ';color:' + (fs.tab === t.key ? 'var(--navy-900)' : 'rgba(255,255,255,.7)')
+        })),
+        tabOverview: fs.tab === 'overview', tabSteps: fs.tab === 'steps',
+        tabMetrics: fs.tab === 'metrics', tabTips: fs.tab === 'tips',
+        tactic: Object.assign({}, this.detail, {
+          ring: this.off(194.8, cs.pct), pct: Math.round(cs.pct * 100) + '%',
+          status: cs.pct === 1 ? 'Complete' : cs.done ? 'In progress' : 'Not started',
+          statusStyle: 'display:inline-flex;align-items:center;border-radius:var(--radius-pill);padding:4px 12px;font-size:11.5px;font-weight:700;background:' + (cs.done ? 'var(--mint-500)' : 'rgba(255,255,255,.12)') + ';color:' + (cs.done ? 'var(--navy-900)' : 'rgba(255,255,255,.8)'),
+          tips: this.detail.tips.map(tp => ({
+            title: tp.title, body: tp.body, mediaKind: tp.mediaKind, mediaNote: tp.mediaNote,
+            mediaStyle: 'height:128px;background:var(--surface-sunken);border-bottom:1px solid var(--border-subtle);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px',
+            mediaBadgeStyle: 'border-radius:var(--radius-pill);padding:4px 12px;font-size:10px;font-weight:600;letter-spacing:.12em;background:' + (tp.mediaKind === 'VIDEO' ? 'var(--navy-900)' : 'var(--white)') + ';color:' + (tp.mediaKind === 'VIDEO' ? '#fff' : 'var(--slate-600)') + ';border:1px solid ' + (tp.mediaKind === 'VIDEO' ? 'var(--navy-900)' : 'var(--border-subtle)')
+          }))
+        }),
+        parts: this.detail.parts.map(p => ({
+          tag: p.tag, title: p.title, meta: p.meta, open: fs.openPart === p.tag,
+          toggle: () => this.fset(fd.id, { openPart: fs.openPart === p.tag ? null : p.tag }),
+          bodyStyle: (fs.openPart === p.tag ? 'display:block' : 'display:none') + ';padding:0 24px 6px',
+          steps: p.steps.map((st, i) => ({ n: String(i + 1), title: st.title, bullets: st.bullets }))
+        })),
+
+        celebrate: fs.celebrate,
+        dismissCelebrate: () => this.fset(fd.id, { celebrate: null })
+      };
+    });
+
+    return {
+      frames,
+      flyoutStyle: 'position:absolute;left:52px;top:50%;transform:translateY(-50%);white-space:nowrap;background:var(--navy-800);color:#fff;border:1px solid rgba(255,255,255,.16);border-radius:var(--radius-sm);padding:7px 12px;font-size:12.5px;font-weight:600;box-shadow:var(--shadow-md);pointer-events:none;z-index:30;animation:fadeIn .12s ease',
+      channels: this.channels.map(c => ({
+        name: c.name, score: String(c.score), tag: c.tag, note: c.note,
+        pct: c.score + '%', color: toneMap[c.tone],
+        cardStyle: 'background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:22px 24px',
+        tagStyle: 'flex:none;border-radius:var(--radius-pill);padding:4px 10px;font-size:9.5px;font-weight:700;letter-spacing:.1em;background:' + tagBg[c.tone] + ';color:' + (c.tone === 'muted' ? 'var(--slate-600)' : toneMap[c.tone])
+      })),
+      working: this.working,
+      leaking: this.leaking,
+      objectives: this.objectives.map(o => Object.assign({}, o, {
+        cardStyle: 'position:relative;background:var(--white);border:1px solid var(--border-subtle);border-left:4px solid ' + o.accent + ';border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:24px 26px 24px 22px;overflow:hidden'
+      })),
+      assessment: (() => {
+        const fs0 = this.state.f[this.frameDefs.find(f => f.screen === 'assessment').id];
+        const scorePct = 0.64;
+        return {
+          score: '64', grade: 'C+', scoreColor: this.gradeMeta('C+').brandColor,
+          gradePillStyle: 'margin-top:6px;background:' + this.gradeMeta('C+').brandColor + ';color:' + this.gradeMeta('C+').brandText + ';border-radius:var(--radius-pill);padding:2px 10px;font-size:11px;font-weight:700',
+          ringOff: this.off(452.4, scorePct),
+          summary: 'Strong reviews, strong food, and content that already outperforms the competitive set — undercut by a booking link nobody can find and a review-ask that never happens.',
+          topPriority: { text: this.assessmentPriorities[0].text, tagLine: 'Website Technical · 20 min · high Impact' },
+          quickWins: this.assessmentQuickWins.map((q, i) => Object.assign({ n: String(i + 1) }, q)),
+          categories: this.assessmentCategories.map(c => {
+            const gm = this.gradeMeta(c.grade);
+            const open = !!fs0.catOpen[c.key];
+            return {
+              name: c.name, grade: c.grade, oneLiner: c.oneLiner, body: c.body, open, collapsedNote: !open,
+              chevronRotate: open ? 'rotate(180deg)' : 'none',
+              toggle: () => this.fset(this.frameDefs.find(f => f.screen === 'assessment').id, { catOpen: Object.assign({}, fs0.catOpen, { [c.key]: !open }) }),
+              cardStyle: 'background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);overflow:hidden;grid-column:' + (open ? '1 / -1' : 'auto'),
+              bodyStyle: (open ? 'display:block' : 'display:none') + ';padding:0 20px 20px',
+              badgeStyle: 'flex:none;width:40px;height:40px;border-radius:var(--radius-sm);display:grid;place-items:center;font-family:var(--font-display);font-weight:700;font-size:15px;background:' + gm.brandColor + ';color:' + gm.brandText,
+              stats: c.stats.map(s => ({ label: s.label, value: s.value, valueStyle: 'font-family:var(--font-display);font-weight:600;font-size:16px;color:' + (this.toneColor[s.tone] || 'var(--navy-900)') })),
+              findings: c.findings.map(f => ({ text: f.text, dotStyle: 'flex:none;width:6px;height:6px;border-radius:50%;margin-top:7px;background:' + (f.positive ? 'var(--state-success)' : 'var(--state-danger)') })),
+              recs: c.recs
+            };
+          }),
+          priorities: this.assessmentPriorities.map((p, i) => ({
+            n: String(i + 1), text: p.text, impact: p.impact,
+            impactStyle: 'border-radius:var(--radius-pill);padding:4px 11px;font-size:11.5px;font-weight:600;background:' + (p.tone === 'danger' ? '#fbe6e6' : '#fbf0de') + ';color:' + (p.tone === 'danger' ? 'var(--state-danger)' : 'var(--state-warning)')
+          }))
+        };
+      })()
+    };
+  }
+}
+</script>
+</body>
+</html>

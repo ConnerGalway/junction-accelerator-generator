@@ -1,0 +1,3957 @@
+<!--
+  JUNCTION ACCELERATOR DASHBOARD v2.0
+  Based on Claude Design: Accelerator Dashboard.dc.html
+  Design System: eLearningU
+
+  This template implements the client-facing accelerator dashboard with:
+  - Collapsible sidebar navigation
+  - Dashboard view (progress ring, phases, next step)
+  - Assessment view (score, categories, recommendations)
+  - Strategy view (goal, positioning, objectives)
+  - Tactic detail pages (overview, steps, metrics, tips)
+  - 90-Day Roadmap (weekly tasks with checkboxes)
+  - GBP Quick Wins (optional)
+  - Celebration modal for milestones
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>90-Day Accelerator — {{CLIENT_NAME}}</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<!-- Supabase -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+/* ══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS — eLearningU Design System
+   ══════════════════════════════════════════════════════════════════════════ */
+:root {
+  /* Colors */
+  --navy-900: #11154b;
+  --navy-800: #181c2d;
+  --slate-600: #708090;
+  --link-blue: #067cbc;
+  --mint-500: #aadab6;
+  --cream-100: #fcf5ec;
+  --white: #ffffff;
+  --black: #000000;
+
+  /* Semantic Colors */
+  --fg-1: var(--navy-800);
+  --fg-2: var(--slate-600);
+  --fg-inverse: var(--white);
+  --fg-link: var(--link-blue);
+  --fg-link-hover: #055f92;
+  --surface-page: var(--cream-100);
+  --surface-card: var(--white);
+  --surface-brand: var(--navy-900);
+  --surface-sunken: #f3ede2;
+  --border-subtle: #e3d9c8;
+  --border-strong: var(--slate-600);
+  --accent-primary: var(--navy-900);
+  --accent-secondary: var(--mint-500);
+  --accent-info: var(--link-blue);
+  --state-success: #3f9a5c;
+  --state-warning: #c8862b;
+  --state-danger: #c0392b;
+  --focus-ring: var(--link-blue);
+
+  /* Spacing */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 96px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(17,21,75,0.08);
+  --shadow-md: 0 4px 12px rgba(17,21,75,0.10);
+  --shadow-lg: 0 12px 32px rgba(17,21,75,0.14);
+
+  /* Typography */
+  --font-display: 'Raleway', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --weight-body: 400;
+  --weight-medium: 600;
+  --weight-bold: 700;
+
+  /* Layout */
+  --sidebar-collapsed: 72px;
+  --sidebar-expanded: 280px;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   BASE STYLES
+   ══════════════════════════════════════════════════════════════════════════ */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: var(--font-body);
+  background: var(--surface-page);
+  color: var(--fg-1);
+}
+
+a {
+  color: var(--fg-link);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--fg-link-hover);
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LAYOUT — Shell
+   ══════════════════════════════════════════════════════════════════════════ */
+.app-shell {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   SIDEBAR — Navigation
+   ══════════════════════════════════════════════════════════════════════════ */
+.sidebar {
+  flex: none;
+  width: var(--sidebar-expanded);
+  background: var(--surface-brand);
+  display: flex;
+  flex-direction: column;
+  transition: width 0.3s ease;
+  overflow: hidden;
+}
+
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed);
+}
+
+/* Collapsed Rail */
+.sidebar-rail {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  min-height: 0;
+  padding: 22px 0 20px;
+  gap: 16px;
+  overflow: visible;
+}
+
+.sidebar.collapsed .sidebar-rail {
+  display: flex;
+}
+
+.sidebar.collapsed .sidebar-expanded {
+  display: none;
+}
+
+.sidebar-rail__logo {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.sidebar-rail__progress {
+  position: relative;
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-rail__progress svg {
+  position: absolute;
+  inset: 0;
+  transform: rotate(-90deg);
+}
+
+.sidebar-rail__progress-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 11px;
+  color: #fff;
+}
+
+.sidebar-rail__divider {
+  height: 1px;
+  width: 34px;
+  background: rgba(255,255,255,0.14);
+}
+
+.sidebar-rail__btn {
+  position: relative;
+  display: flex;
+}
+
+.sidebar-rail__btn button {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: rgba(255,255,255,0.55);
+  display: grid;
+  place-items: center;
+  transition: background 0.15s, color 0.15s;
+}
+
+.sidebar-rail__btn button:hover {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.sidebar-rail__btn button.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.sidebar-rail__btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.sidebar-rail__flyout {
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 12px;
+  padding: 6px 12px;
+  background: var(--navy-800);
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.15s, visibility 0.15s;
+  pointer-events: none;
+  z-index: 100;
+}
+
+.sidebar-rail__btn:hover .sidebar-rail__flyout {
+  opacity: 1;
+  visibility: visible;
+}
+
+.sidebar-rail__expand {
+  margin-top: auto;
+}
+
+.sidebar-rail__expand button {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.06);
+  box-shadow: var(--shadow-sm);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  display: grid;
+  place-items: center;
+}
+
+.sidebar-rail__expand button:hover {
+  background: rgba(255,255,255,0.14);
+}
+
+/* Expanded Sidebar */
+.sidebar-expanded {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  padding: 22px 18px 18px;
+  gap: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.sidebar-expanded__logo {
+  height: 26px;
+  width: auto;
+  object-fit: contain;
+  object-position: left;
+  align-self: flex-start;
+  margin-left: 6px;
+}
+
+.sidebar-expanded__progress {
+  background: rgba(255,255,255,0.07);
+  border: 1px solid rgba(255,255,255,0.13);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 13px;
+}
+
+.sidebar-expanded__progress-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.sidebar-expanded__progress svg {
+  flex: none;
+  transform: rotate(-90deg);
+}
+
+.sidebar-expanded__progress-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-expanded__progress-done {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 19px;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-expanded__progress-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 2px;
+}
+
+.sidebar-expanded__progress-day {
+  font-size: 11.5px;
+  color: rgba(255,255,255,0.62);
+}
+
+/* Navigation Groups */
+.nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nav-group__label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.42);
+  padding: 0 10px 7px;
+}
+
+.nav-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.7);
+  text-align: left;
+  transition: background 0.15s, color 0.15s;
+}
+
+.nav-item:hover {
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+}
+
+.nav-item.active {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+}
+
+.nav-item__left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.nav-item__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+
+.nav-item__dot--mint { background: var(--mint-500); }
+.nav-item__dot--blue { background: var(--link-blue); }
+.nav-item__dot--slate { background: var(--slate-600); }
+
+.nav-item__meta {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+  flex: none;
+}
+
+/* Sidebar Footer */
+.sidebar-expanded__footer {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sidebar-expanded__collapse {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: rgba(255,255,255,0.55);
+  font-size: 13px;
+  padding: 8px 0;
+}
+
+.sidebar-expanded__collapse:hover {
+  color: rgba(255,255,255,0.8);
+}
+
+.sidebar-expanded__collapse-icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: grid;
+  place-items: center;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ══════════════════════════════════════════════════════════════════════════ */
+.main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* Top Bar */
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 40px 0;
+  flex: none;
+}
+
+.topbar__toggle {
+  width: 34px;
+  height: 34px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--border-subtle);
+  background: var(--white);
+  color: var(--navy-900);
+  font-size: 13px;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+.topbar__toggle:hover {
+  background: var(--surface-sunken);
+}
+
+.topbar__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 7px 16px;
+  font-size: 13px;
+  color: var(--slate-600);
+}
+
+.topbar__badge svg {
+  width: 15px;
+  height: 15px;
+}
+
+.topbar__right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topbar__streak {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: #eef7f1;
+  border: 1px solid var(--mint-500);
+  border-radius: var(--radius-pill);
+  padding: 7px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.topbar__streak-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--state-success);
+}
+
+.topbar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--navy-900);
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+  display: grid;
+  place-items: center;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   PAGE VIEWS — Container
+   ══════════════════════════════════════════════════════════════════════════ */
+.page-view {
+  display: none;
+  padding: 22px 40px 44px;
+}
+
+.page-view.active {
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   DASHBOARD VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.dashboard__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.dashboard__header-eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate-600);
+  margin-bottom: 10px;
+}
+
+.dashboard__header-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+}
+
+.dashboard__header-countdown {
+  flex: none;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-pill);
+  padding: 10px 20px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--navy-900);
+  box-shadow: var(--shadow-sm);
+}
+
+/* Progress Card */
+.dashboard__progress-card {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 30px 34px;
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.dashboard__ring-container {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  justify-self: center;
+}
+
+.dashboard__ring-container svg {
+  transform: rotate(-90deg);
+}
+
+.dashboard__ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard__ring-pct {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--navy-900);
+}
+
+.dashboard__ring-tasks {
+  font-size: 13px;
+  color: var(--slate-600);
+  margin-top: 4px;
+}
+
+.dashboard__progress-text h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--navy-900);
+}
+
+.dashboard__progress-text p {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--navy-800);
+  max-width: 52ch;
+  font-weight: 500;
+}
+
+.dashboard__phases-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate-600);
+  margin-bottom: 12px;
+}
+
+.dashboard__phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 2px solid var(--surface-sunken);
+}
+
+.dashboard__phase {
+  padding: 16px 16px 0 0;
+  border-left: 3px solid transparent;
+}
+
+.dashboard__phase.current {
+  border-left-color: var(--mint-500);
+  padding-left: 13px;
+}
+
+.dashboard__phase-range {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--slate-600);
+  margin-bottom: 7px;
+}
+
+.dashboard__phase-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--navy-900);
+  margin-bottom: 4px;
+}
+
+.dashboard__phase.current .dashboard__phase-name {
+  color: var(--state-success);
+}
+
+.dashboard__phase-detail {
+  font-size: 12.5px;
+  color: var(--slate-600);
+  line-height: 1.45;
+}
+
+/* Next Step Card */
+.dashboard__next-step {
+  display: grid;
+  grid-template-columns: 1fr 262px;
+  background: var(--navy-900);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.dashboard__next-step-main {
+  padding: 30px 34px 28px;
+  min-width: 0;
+}
+
+.dashboard__next-step-eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--mint-500);
+  margin-bottom: 14px;
+}
+
+.dashboard__next-step-title {
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: #fff;
+  max-width: 24ch;
+}
+
+.dashboard__next-step-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 24px;
+}
+
+.dashboard__task-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dashboard__task-row:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dashboard__task-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid rgba(255,255,255,0.35);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.dashboard__task-row.done .dashboard__task-checkbox {
+  background: var(--mint-500);
+  border-color: var(--mint-500);
+}
+
+.dashboard__task-checkbox svg {
+  display: none;
+  color: var(--navy-900);
+}
+
+.dashboard__task-row.done .dashboard__task-checkbox svg {
+  display: block;
+}
+
+.dashboard__task-text {
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+}
+
+.dashboard__task-row.done .dashboard__task-text {
+  text-decoration: line-through;
+  color: rgba(255,255,255,0.45);
+}
+
+.dashboard__next-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  background: var(--mint-500);
+  color: var(--navy-900);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 26px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn-primary:hover {
+  background: #9bd0a9;
+}
+
+.dashboard__next-step-link {
+  color: #fff;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.dashboard__next-step-link:hover {
+  color: var(--mint-500);
+}
+
+.dashboard__next-step-sidebar {
+  border-left: 1px solid rgba(255,255,255,0.14);
+  padding: 30px 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.dashboard__next-step-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.dashboard__next-step-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+}
+
+.dashboard__next-step-meta-value {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.dashboard__next-step-progress {
+  margin-top: auto;
+}
+
+.dashboard__next-step-progress-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: rgba(255,255,255,0.62);
+  margin-bottom: 8px;
+}
+
+.dashboard__next-step-progress-bar {
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.16);
+  overflow: hidden;
+}
+
+.dashboard__next-step-progress-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--mint-500);
+  transition: width 0.4s ease;
+}
+
+/* Tactic Pills Grid */
+.dashboard__tactics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.dashboard__tactic-pill {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  cursor: pointer;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.dashboard__tactic-pill:hover {
+  border-color: var(--navy-900);
+  box-shadow: var(--shadow-md);
+}
+
+.dashboard__tactic-pill svg {
+  transform: rotate(-90deg);
+}
+
+.dashboard__tactic-pill-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15.5px;
+  color: var(--navy-900);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.dashboard__tactic-pill-label {
+  font-size: 12.5px;
+  color: var(--slate-600);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ASSESSMENT VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.assessment__eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate-600);
+  margin-bottom: 10px;
+}
+
+.assessment__hero {
+  background: var(--navy-900);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 32px 36px;
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 36px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.assessment__ring {
+  position: relative;
+  width: 170px;
+  height: 170px;
+  justify-self: center;
+}
+
+.assessment__ring svg {
+  transform: rotate(-90deg);
+}
+
+.assessment__ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.assessment__ring-score {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.assessment__ring-max {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 4px;
+}
+
+.assessment__ring-grade {
+  margin-top: 8px;
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.assessment__hero-content {
+  min-width: 0;
+}
+
+.assessment__hero-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 10px;
+}
+
+.assessment__hero-title {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.assessment__hero-actions {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.22);
+  border-radius: var(--radius-pill);
+  padding: 9px 16px;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+}
+
+.btn-outline:hover {
+  background: rgba(255,255,255,0.16);
+}
+
+.btn-outline svg {
+  width: 14px;
+  height: 14px;
+}
+
+.assessment__complete-badge {
+  background: var(--mint-500);
+  color: var(--navy-900);
+  border-radius: var(--radius-pill);
+  padding: 8px 16px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.assessment__hero-summary {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.78);
+}
+
+/* Priority Card */
+.assessment__priority {
+  background: var(--white);
+  border: 1px solid var(--link-blue);
+  border-left: 5px solid var(--link-blue);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 26px 28px;
+  margin-bottom: 26px;
+}
+
+.assessment__priority-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.assessment__priority-num {
+  flex: none;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--link-blue);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.assessment__priority-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate-600);
+}
+
+.assessment__priority-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+  color: var(--navy-900);
+}
+
+.assessment__priority-tag {
+  display: inline-block;
+  margin: 14px 0 22px;
+  border-radius: var(--radius-pill);
+  padding: 5px 14px;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.assessment__priority-tag--danger {
+  background: #fbe6e6;
+  color: var(--state-danger);
+}
+
+.assessment__priority-divider {
+  height: 1px;
+  background: var(--border-subtle);
+  margin-bottom: 22px;
+}
+
+.assessment__findings-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+
+.assessment__findings-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.assessment__findings-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+}
+
+.assessment__findings-icon--success {
+  background: var(--mint-500);
+  color: var(--navy-900);
+}
+
+.assessment__findings-icon--warning {
+  background: #fbf0de;
+  color: var(--state-warning);
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.assessment__findings-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+}
+
+.assessment__findings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.assessment__finding-item {
+  display: flex;
+  gap: 11px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--navy-800);
+  font-weight: 500;
+}
+
+.assessment__finding-dot {
+  font-weight: 700;
+}
+
+.assessment__finding-dot--success { color: var(--state-success); }
+.assessment__finding-dot--warning { color: var(--state-warning); }
+
+/* Quick Wins */
+.assessment__quick-wins {
+  background: #e3f3e6;
+  border-radius: var(--radius-lg);
+  padding: 26px 28px;
+  margin-bottom: 30px;
+}
+
+.assessment__quick-wins-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.assessment__quick-wins-header svg {
+  color: var(--state-success);
+}
+
+.assessment__quick-wins-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+}
+
+.assessment__quick-wins-desc {
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  color: var(--slate-600);
+}
+
+.assessment__quick-wins-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.assessment__quick-win {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 15px 18px;
+  border-radius: var(--radius-md);
+  background: var(--white);
+  box-shadow: var(--shadow-sm);
+}
+
+.assessment__quick-win-num {
+  flex: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--state-success);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+  margin-top: 1px;
+}
+
+.assessment__quick-win-content {
+  min-width: 0;
+  flex: 1;
+}
+
+.assessment__quick-win-text {
+  font-size: 14.5px;
+  font-weight: 600;
+  color: var(--navy-900);
+  line-height: 1.5;
+}
+
+.assessment__quick-win-desc {
+  font-size: 13px;
+  color: var(--slate-600);
+  margin-top: 3px;
+}
+
+.assessment__quick-win-time {
+  flex: none;
+  font-size: 12px;
+  color: var(--slate-600);
+  padding-top: 2px;
+}
+
+/* Categories */
+.assessment__section-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+}
+
+.assessment__categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 30px;
+}
+
+.assessment__category {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.assessment__category:hover {
+  border-color: var(--navy-900);
+}
+
+.assessment__category-header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 20px;
+  text-align: left;
+}
+
+.assessment__category-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.assessment__category-grade {
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.assessment__category-chevron {
+  font-size: 13px;
+  color: var(--slate-600);
+  transition: transform 0.2s ease;
+}
+
+.assessment__category.open .assessment__category-chevron {
+  transform: rotate(180deg);
+}
+
+.assessment__category-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15.5px;
+  color: var(--navy-900);
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.assessment__category-oneliner {
+  font-size: 12.5px;
+  color: var(--slate-600);
+  line-height: 1.4;
+}
+
+.assessment__category-body {
+  display: none;
+  padding: 0 20px 20px;
+}
+
+.assessment__category.open .assessment__category-body {
+  display: block;
+}
+
+/* Priorities */
+.assessment__priorities {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.assessment__priority-rec {
+  background: rgba(6,124,188,0.7);
+  border-radius: var(--radius-md);
+  padding: 20px 22px;
+  display: flex;
+  gap: 16px;
+}
+
+.assessment__priority-rec-num {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #fff;
+  color: var(--link-blue);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.assessment__priority-rec-content {
+  min-width: 0;
+}
+
+.assessment__priority-rec-text {
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.assessment__priority-rec-impact {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.assessment__priority-rec-impact--high {
+  background: rgba(192,57,43,0.9);
+  color: #fff;
+}
+
+.assessment__priority-rec-impact--medium {
+  background: rgba(200,134,43,0.9);
+  color: #fff;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   STRATEGY VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.strategy__eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate-600);
+  margin-bottom: 10px;
+}
+
+.strategy__title {
+  margin: 0 0 24px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 40px;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: var(--navy-900);
+}
+
+.strategy__goal {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-left: 5px solid var(--mint-500);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 28px 32px;
+  margin-bottom: 20px;
+}
+
+.strategy__goal-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate-600);
+  margin-bottom: 12px;
+}
+
+.strategy__goal-text {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 27px;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--navy-900);
+  max-width: 44ch;
+}
+
+.strategy__cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 26px;
+}
+
+.strategy__card {
+  border-radius: var(--radius-md);
+  padding: 26px 28px;
+}
+
+.strategy__card--white {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.strategy__card--sunken {
+  background: var(--surface-sunken);
+  border: 1px solid var(--border-subtle);
+}
+
+.strategy__card-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  margin-bottom: 12px;
+}
+
+.strategy__card-text {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--navy-800);
+  font-weight: 500;
+}
+
+.strategy__objectives-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  margin-bottom: 14px;
+}
+
+.strategy__objectives {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.strategy__objective {
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  overflow: hidden;
+}
+
+.strategy__objective-num {
+  position: absolute;
+  top: 12px;
+  right: 20px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 56px;
+  line-height: 1;
+  color: var(--surface-sunken);
+}
+
+.strategy__objective-title {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: var(--navy-900);
+  margin-bottom: 10px;
+  max-width: 16ch;
+  line-height: 1.3;
+}
+
+.strategy__objective-body {
+  margin: 0 0 16px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--slate-600);
+  font-weight: 500;
+}
+
+.strategy__objective-measure {
+  border-top: 1px dashed var(--border-subtle);
+  padding-top: 12px;
+  font-size: 13px;
+  color: var(--navy-800);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ROADMAP VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.roadmap__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 26px;
+}
+
+.roadmap__eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate-600);
+  margin-bottom: 10px;
+}
+
+.roadmap__title {
+  margin: 0 0 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+}
+
+.roadmap__subtitle {
+  margin: 0;
+  font-size: 15px;
+  color: var(--slate-600);
+}
+
+.roadmap__count {
+  flex: none;
+  text-align: right;
+}
+
+.roadmap__count-num {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+  line-height: 1;
+}
+
+.roadmap__count-num span {
+  font-size: 20px;
+  color: var(--slate-600);
+}
+
+.roadmap__count-label {
+  font-size: 12px;
+  color: var(--slate-600);
+  margin-top: 2px;
+}
+
+.roadmap__grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.roadmap__weeks {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.roadmap__week {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.roadmap__week-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  text-align: left;
+}
+
+.roadmap__week-badge {
+  flex: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.roadmap__week-badge--current {
+  background: var(--mint-500);
+  color: var(--navy-900);
+}
+
+.roadmap__week-badge--complete {
+  background: var(--state-success);
+  color: #fff;
+}
+
+.roadmap__week-badge--future {
+  background: var(--surface-sunken);
+  color: var(--slate-600);
+}
+
+.roadmap__week-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+}
+
+.roadmap__week-meta {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: none;
+}
+
+.roadmap__week-count {
+  font-size: 12.5px;
+  color: var(--slate-600);
+  font-variant-numeric: tabular-nums;
+}
+
+.roadmap__week-bar {
+  width: 104px;
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  overflow: hidden;
+}
+
+.roadmap__week-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  transition: width 0.4s ease;
+}
+
+.roadmap__week-body {
+  display: none;
+  padding: 0 22px 22px;
+}
+
+.roadmap__week.open .roadmap__week-body {
+  display: block;
+}
+
+.roadmap__task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.roadmap__task:hover {
+  background: var(--surface-sunken);
+}
+
+.roadmap__task-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid var(--border-subtle);
+  display: grid;
+  place-items: center;
+  flex: none;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.roadmap__task.done .roadmap__task-checkbox {
+  background: var(--state-success);
+  border-color: var(--state-success);
+}
+
+.roadmap__task-checkbox svg {
+  display: none;
+  color: #fff;
+}
+
+.roadmap__task.done .roadmap__task-checkbox svg {
+  display: block;
+}
+
+.roadmap__task-text {
+  font-size: 14.5px;
+  color: var(--navy-800);
+  line-height: 1.4;
+}
+
+.roadmap__task.done .roadmap__task-text {
+  text-decoration: line-through;
+  color: var(--slate-600);
+}
+
+/* Roadmap Sidebar */
+.roadmap__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.roadmap__sidebar-card {
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+}
+
+.roadmap__sidebar-card--dark {
+  background: var(--navy-900);
+}
+
+.roadmap__sidebar-card--white {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.roadmap__sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+}
+
+.roadmap__sidebar-label--mint {
+  color: var(--mint-500);
+}
+
+.roadmap__sidebar-label--slate {
+  color: var(--slate-600);
+}
+
+.roadmap__sidebar-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 18px;
+  color: #fff;
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+
+.roadmap__sidebar-bar {
+  height: 5px;
+  border-radius: var(--radius-pill);
+  background: rgba(255,255,255,0.16);
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.roadmap__sidebar-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--mint-500);
+}
+
+.roadmap__sidebar-count {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.65);
+}
+
+.roadmap__sidebar-text {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--navy-800);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   TACTIC DETAIL VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.tactic__header {
+  background: var(--navy-900);
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  padding: 30px 34px 0;
+}
+
+.tactic__header-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.tactic__eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.tactic__eyebrow-text {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: rgba(255,255,255,0.55);
+}
+
+.tactic__status {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.tactic__status--active {
+  background: var(--mint-500);
+  color: var(--navy-900);
+}
+
+.tactic__status--upcoming {
+  background: rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.7);
+}
+
+.tactic__title {
+  margin: 0 0 10px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.08;
+  letter-spacing: -0.025em;
+  color: #fff;
+}
+
+.tactic__desc {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.72);
+  max-width: 52ch;
+}
+
+.tactic__progress {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding-top: 6px;
+}
+
+.tactic__progress svg {
+  transform: rotate(-90deg);
+}
+
+.tactic__progress-text {
+  text-align: left;
+}
+
+.tactic__progress-pct {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.tactic__progress-label {
+  font-size: 12.5px;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Tactic Tabs */
+.tactic__tabs {
+  display: flex;
+  gap: 4px;
+  margin-top: 26px;
+}
+
+.tactic__tab {
+  padding: 12px 20px;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  color: rgba(255,255,255,0.55);
+  transition: background 0.15s, color 0.15s;
+}
+
+.tactic__tab:hover {
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.8);
+}
+
+.tactic__tab.active {
+  background: var(--cream-100);
+  color: var(--navy-900);
+}
+
+/* Tactic Body */
+.tactic__body {
+  background: var(--cream-100);
+  padding: 28px 28px 32px;
+}
+
+.tactic__tab-content {
+  display: none;
+}
+
+.tactic__tab-content.active {
+  display: block;
+}
+
+/* Overview Tab */
+.tactic__overview-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.tactic__overview-col {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.tactic__card {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 24px 26px;
+}
+
+.tactic__card--dark {
+  background: var(--navy-900);
+  border-color: transparent;
+}
+
+.tactic__card-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate-600);
+  margin-bottom: 12px;
+}
+
+.tactic__card-label--mint {
+  color: var(--mint-500);
+}
+
+.tactic__card-text {
+  margin: 0;
+  font-size: 15.5px;
+  line-height: 1.65;
+  color: var(--navy-800);
+  font-weight: 500;
+}
+
+.tactic__card--dark .tactic__card-text {
+  color: rgba(255,255,255,0.85);
+  font-size: 15px;
+}
+
+/* Pillars Grid */
+.tactic__pillars {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.tactic__pillar {
+  background: var(--surface-sunken);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+
+.tactic__pillar-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--navy-900);
+  margin-bottom: 5px;
+}
+
+.tactic__pillar-detail {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--slate-600);
+}
+
+/* Time Commitment */
+.tactic__time {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.tactic__time-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+}
+
+.tactic__time-label {
+  font-size: 15px;
+  color: var(--slate-600);
+}
+
+/* Steps Tab */
+.tactic__parts {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  max-width: 1000px;
+}
+
+.tactic__part {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+}
+
+.tactic__part-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 18px 24px;
+  text-align: left;
+}
+
+.tactic__part-tag {
+  flex: none;
+  background: var(--surface-sunken);
+  color: var(--navy-900);
+  border-radius: var(--radius-pill);
+  padding: 5px 13px;
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+}
+
+.tactic__part-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 19px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+}
+
+.tactic__part-meta {
+  margin-left: auto;
+  font-size: 12.5px;
+  color: var(--slate-600);
+  flex: none;
+}
+
+.tactic__part-body {
+  display: none;
+  padding: 0 24px 24px;
+}
+
+.tactic__part.open .tactic__part-body {
+  display: block;
+}
+
+.tactic__step {
+  display: flex;
+  gap: 16px;
+  padding: 18px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tactic__step-num {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--navy-900);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.tactic__step-content {
+  min-width: 0;
+}
+
+.tactic__step-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--navy-900);
+  margin-bottom: 10px;
+}
+
+.tactic__step-bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.tactic__step-bullet {
+  display: flex;
+  gap: 12px;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--navy-800);
+}
+
+.tactic__step-bullet-dash {
+  color: var(--mint-500);
+  font-weight: 700;
+}
+
+/* Metrics Tab */
+.tactic__metrics-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.tactic__metric-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: center;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tactic__metric-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--navy-900);
+  margin-bottom: 3px;
+}
+
+.tactic__metric-where {
+  font-size: 12.5px;
+  color: var(--slate-600);
+}
+
+.tactic__metric-target {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--navy-900);
+  letter-spacing: -0.01em;
+  text-align: right;
+}
+
+.tactic__metric-window {
+  font-size: 11.5px;
+  color: var(--slate-600);
+  text-align: right;
+}
+
+.tactic__checkpoints {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.tactic__checkpoint {
+  background: var(--surface-sunken);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
+}
+
+.tactic__checkpoint-day {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--navy-900);
+  margin-bottom: 5px;
+}
+
+.tactic__checkpoint-goal {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--slate-600);
+}
+
+/* Tips Tab */
+.tactic__tips-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.tactic__tip {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.tactic__tip-media {
+  padding: 14px 18px;
+  background: var(--surface-sunken);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tactic__tip-media-badge {
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: var(--navy-900);
+  color: #fff;
+}
+
+.tactic__tip-media-note {
+  font-size: 12px;
+  color: var(--slate-600);
+}
+
+.tactic__tip-content {
+  padding: 20px 22px 22px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.tactic__tip-icon {
+  flex: none;
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-sm);
+  background: var(--surface-sunken);
+  border: 1px dashed var(--border-subtle);
+  display: grid;
+  place-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--slate-600);
+}
+
+.tactic__tip-text {
+  min-width: 0;
+}
+
+.tactic__tip-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17.5px;
+  color: var(--navy-900);
+  margin-bottom: 7px;
+  line-height: 1.3;
+}
+
+.tactic__tip-body {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--navy-800);
+  font-weight: 500;
+}
+
+.tactic__tips-placeholder {
+  grid-column: 1 / -1;
+  border: 1px dashed var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-sunken);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.tactic__tips-placeholder-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--navy-900);
+  margin-bottom: 3px;
+}
+
+.tactic__tips-placeholder-desc {
+  font-size: 13.5px;
+  color: var(--slate-600);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   GBP QUICK WINS VIEW
+   ══════════════════════════════════════════════════════════════════════════ */
+.gbp__eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate-600);
+  margin-bottom: 8px;
+}
+
+.gbp__title {
+  margin: 0 0 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: var(--navy-900);
+}
+
+.gbp__grid {
+  display: grid;
+  grid-template-columns: 1fr 300px;
+  gap: 24px;
+  align-items: start;
+}
+
+.gbp__strength {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  padding: 22px 26px;
+  display: grid;
+  grid-template-columns: 118px 1fr;
+  gap: 26px;
+  align-items: center;
+  margin-bottom: 26px;
+}
+
+.gbp__strength-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--navy-900);
+}
+
+.gbp__strength-label {
+  font-size: 12px;
+  color: var(--slate-600);
+  margin-top: 4px;
+}
+
+.gbp__strength-bar {
+  height: 8px;
+  border-radius: var(--radius-pill);
+  background: var(--surface-sunken);
+  overflow: hidden;
+  margin-bottom: 14px;
+}
+
+.gbp__strength-bar-fill {
+  height: 100%;
+  border-radius: var(--radius-pill);
+  background: var(--mint-500);
+  transition: width 0.45s ease;
+}
+
+.gbp__strength-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--navy-800);
+}
+
+.gbp__tasks-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.gbp__tasks-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate-600);
+}
+
+.gbp__tasks-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+.gbp__tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.gbp__task {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.gbp__task:hover {
+  border-color: var(--navy-900);
+}
+
+.gbp__task.done {
+  background: var(--surface-sunken);
+}
+
+.gbp__task-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid var(--border-subtle);
+  display: grid;
+  place-items: center;
+  flex: none;
+  margin-top: 2px;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.gbp__task.done .gbp__task-checkbox {
+  background: var(--state-success);
+  border-color: var(--state-success);
+}
+
+.gbp__task-checkbox svg {
+  display: none;
+  color: #fff;
+}
+
+.gbp__task.done .gbp__task-checkbox svg {
+  display: block;
+}
+
+.gbp__task-content {
+  min-width: 0;
+}
+
+.gbp__task-text {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy-900);
+  line-height: 1.4;
+  margin-bottom: 4px;
+}
+
+.gbp__task.done .gbp__task-text {
+  text-decoration: line-through;
+  color: var(--slate-600);
+}
+
+.gbp__task-desc {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--slate-600);
+}
+
+.gbp__task.done .gbp__task-desc {
+  display: none;
+}
+
+.gbp__sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gbp__sidebar-card {
+  border-radius: var(--radius-md);
+  padding: 22px 24px;
+}
+
+.gbp__sidebar-card--dark {
+  background: var(--navy-900);
+}
+
+.gbp__sidebar-card--white {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+.gbp__sidebar-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  margin-bottom: 10px;
+}
+
+.gbp__sidebar-label--mint {
+  color: var(--mint-500);
+}
+
+.gbp__sidebar-label--slate {
+  color: var(--slate-600);
+}
+
+.gbp__sidebar-text {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+.gbp__sidebar-text--light {
+  color: rgba(255,255,255,0.82);
+}
+
+.gbp__sidebar-text--dark {
+  color: var(--navy-800);
+}
+
+.gbp__sidebar-link {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--link-blue);
+  margin-top: 14px;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ANIMATIONS
+   ══════════════════════════════════════════════════════════════════════════ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.88) translateY(16px); }
+  60% { transform: scale(1.02) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes ringDraw {
+  from { stroke-dashoffset: 327; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes checkDraw {
+  from { stroke-dashoffset: 64; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes haloPulse {
+  0% { opacity: 0.55; transform: scale(0.7); }
+  70% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   CELEBRATION MODAL
+   ══════════════════════════════════════════════════════════════════════════ */
+.celebrate-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17,21,75,0.55);
+  display: none;
+  place-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.celebrate-overlay.visible {
+  display: grid;
+}
+
+.celebrate-modal {
+  position: relative;
+  background: var(--navy-900);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 44px 52px 40px;
+  width: 540px;
+  text-align: center;
+  animation: popIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+  overflow: hidden;
+}
+
+.celebrate-ring {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 24px;
+}
+
+.celebrate-ring__halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--mint-500);
+  animation: haloPulse 1.4s ease-out 0.15s;
+}
+
+.celebrate-ring svg circle {
+  animation: ringDraw 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform: rotate(-90deg);
+  transform-origin: 56px 56px;
+}
+
+.celebrate-ring svg path {
+  animation: checkDraw 0.35s ease-out 0.55s forwards;
+  stroke-dashoffset: 64;
+}
+
+.celebrate-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--mint-500);
+  margin-bottom: 14px;
+  animation: riseIn 0.4s ease 0.3s both;
+}
+
+.celebrate-headline {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+  animation: riseIn 0.45s ease 0.38s both;
+}
+
+.celebrate-body {
+  margin: 0 auto 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  max-width: 38ch;
+  animation: riseIn 0.45s ease 0.46s both;
+}
+
+.celebrate-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 20px 0;
+  margin-bottom: 26px;
+  animation: riseIn 0.45s ease 0.54s both;
+}
+
+.celebrate-stat {
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+
+.celebrate-stat:last-child {
+  border-right: none;
+}
+
+.celebrate-stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.celebrate-stat-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+}
+
+.celebrate-btn {
+  background: var(--mint-500);
+  color: var(--navy-900);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 34px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  animation: riseIn 0.45s ease 0.62s both;
+}
+
+.celebrate-btn:hover {
+  background: #9bd0a9;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 1200px) {
+  .dashboard__tactics {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .assessment__categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .strategy__objectives {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap__sidebar {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.mobile-open {
+    transform: translateX(0);
+  }
+
+  .sidebar.collapsed {
+    width: var(--sidebar-expanded);
+  }
+
+  .main-content {
+    width: 100%;
+  }
+
+  .topbar {
+    padding: 16px 20px 0;
+  }
+
+  .page-view {
+    padding: 22px 20px 44px;
+  }
+
+  .dashboard__progress-card {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__next-step {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard__next-step-sidebar {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .dashboard__tactics {
+    grid-template-columns: 1fr;
+  }
+
+  .assessment__hero {
+    grid-template-columns: 1fr;
+  }
+
+  .assessment__categories {
+    grid-template-columns: 1fr;
+  }
+
+  .assessment__priorities {
+    grid-template-columns: 1fr;
+  }
+
+  .strategy__cards {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap__sidebar {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+<body data-client-slug="{{CLIENT_SLUG}}">
+
+<div class="app-shell">
+  <!-- ══════════════════════════════════════════════════════════════════════
+       SIDEBAR
+       ══════════════════════════════════════════════════════════════════════ -->
+  <nav class="sidebar" id="sidebar">
+    <!-- Collapsed Rail -->
+    <div class="sidebar-rail">
+      <img src="/assets/logo-icon-white.png" alt="eLearningU" class="sidebar-rail__logo">
+
+      <div class="sidebar-rail__progress">
+        <svg width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="4"></circle>
+          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="4" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="85" id="railProgressRing"></circle>
+        </svg>
+        <span class="sidebar-rail__progress-label" id="railProgressLabel">25%</span>
+      </div>
+
+      <div class="sidebar-rail__divider"></div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="dashboard" class="active">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <rect x="3" y="3" width="7" height="8" rx="1.5"></rect>
+            <rect x="14" y="3" width="7" height="5" rx="1.5"></rect>
+            <rect x="3" y="14" width="7" height="7" rx="1.5"></rect>
+            <rect x="14" y="11" width="7" height="10" rx="1.5"></rect>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">Dashboard</span>
+      </div>
+
+      <div class="sidebar-rail__divider"></div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="assessment">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 4h6v2.5H9z"></path>
+            <path d="M7 6h10a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2z"></path>
+            <path d="M9 12h6M9 16h4"></path>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">Assessment</span>
+      </div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="strategy">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <path d="M15.5 8.5l-2.2 5.3-5.3 2.2 2.2-5.3z"></path>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">Strategy</span>
+      </div>
+
+      <div class="sidebar-rail__divider"></div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="tactic-1">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2.5" y="6" width="14" height="12" rx="2.5"></rect>
+            <path d="M16.5 11l5-3v8l-5-3z"></path>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">{{TACTIC_1_NAV_LABEL}}</span>
+      </div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="tactic-2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <circle cx="12" cy="12" r="8.5"></circle>
+            <circle cx="12" cy="12" r="4"></circle>
+            <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">{{TACTIC_2_NAV_LABEL}}</span>
+      </div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="tactic-3">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"></path>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">{{TACTIC_3_NAV_LABEL}}</span>
+      </div>
+
+      <div class="sidebar-rail__divider"></div>
+
+      <div class="sidebar-rail__btn">
+        <button data-nav="roadmap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+            <rect x="3" y="4.5" width="18" height="16" rx="2.5"></rect>
+            <path d="M3 9.5h18M8 3v3M16 3v3M7.5 14h4M7.5 17.5h7"></path>
+          </svg>
+        </button>
+        <span class="sidebar-rail__flyout">90-Day Roadmap</span>
+      </div>
+
+      <div class="sidebar-rail__expand">
+        <button id="expandSidebar">»</button>
+      </div>
+    </div>
+
+    <!-- Expanded Sidebar -->
+    <div class="sidebar-expanded">
+      <img src="/assets/logo-wordmark-white.png" alt="eLearningU" class="sidebar-expanded__logo">
+
+      <div class="sidebar-expanded__progress">
+        <div class="sidebar-expanded__progress-row">
+          <svg width="56" height="56" viewBox="0 0 56 56">
+            <circle cx="28" cy="28" r="24" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="5"></circle>
+            <circle cx="28" cy="28" r="24" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="113" id="sideProgressRing"></circle>
+          </svg>
+          <div class="sidebar-expanded__progress-text">
+            <div class="sidebar-expanded__progress-done" id="sideProgressDone">{{TASKS_DONE}} / {{TOTAL_TASKS}}</div>
+            <div class="sidebar-expanded__progress-sub">tasks checked off</div>
+          </div>
+        </div>
+        <div class="sidebar-expanded__progress-day" id="sideProgressDay">Day {{CURRENT_DAY}} of 90 · week {{CURRENT_WEEK}} of {{CURRENT_PHASE_NAME}}</div>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">OVERVIEW</div>
+        <button class="nav-item active" data-nav="dashboard">
+          <span class="nav-item__left">Dashboard</span>
+        </button>
+        <button class="nav-item" data-nav="assessment">
+          <span class="nav-item__left">Assessment</span>
+          <span class="nav-item__meta">Complete</span>
+        </button>
+        <button class="nav-item" data-nav="strategy">
+          <span class="nav-item__left">Strategy</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">TACTICS</div>
+        <button class="nav-item" data-nav="tactic-1">
+          <span class="nav-item__left">
+            <span class="nav-item__dot nav-item__dot--mint"></span>
+            <span>{{TACTIC_1_NAV_LABEL}}</span>
+          </span>
+          <span class="nav-item__meta">{{TACTIC_1_PROGRESS}}</span>
+        </button>
+        <button class="nav-item" data-nav="tactic-2">
+          <span class="nav-item__left">
+            <span class="nav-item__dot nav-item__dot--blue"></span>
+            <span>{{TACTIC_2_NAV_LABEL}}</span>
+          </span>
+          <span class="nav-item__meta">{{TACTIC_2_PROGRESS}}</span>
+        </button>
+        <button class="nav-item" data-nav="tactic-3">
+          <span class="nav-item__left">
+            <span class="nav-item__dot nav-item__dot--slate"></span>
+            <span>{{TACTIC_3_NAV_LABEL}}</span>
+          </span>
+          <span class="nav-item__meta">{{TACTIC_3_PROGRESS}}</span>
+        </button>
+      </div>
+
+      <div class="nav-group">
+        <div class="nav-group__label">ACTION PLAN</div>
+        <button class="nav-item" data-nav="roadmap">
+          <span class="nav-item__left">90-Day Roadmap</span>
+        </button>
+      </div>
+
+      <div class="sidebar-expanded__footer">
+        <button class="sidebar-expanded__collapse" id="collapseSidebar">
+          <span class="sidebar-expanded__collapse-icon">«</span>
+          Collapse sidebar
+        </button>
+        <button class="sidebar-expanded__collapse" id="replayTour">
+          <span class="sidebar-expanded__collapse-icon">?</span>
+          Replay welcome tour
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ══════════════════════════════════════════════════════════════════════ -->
+  <main class="main-content">
+    <!-- Top Bar -->
+    <div class="topbar">
+      <button class="topbar__toggle" id="toggleSidebar">☰</button>
+      <span class="topbar__badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+          <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
+          <circle cx="12" cy="12" r="2.6"></circle>
+        </svg>
+        Read-only view · shared by your accelerator team
+      </span>
+      <div class="topbar__right">
+        <span class="topbar__streak">
+          <span class="topbar__streak-dot"></span>
+          <span id="streakLabel">{{STREAK_DAYS}}-day streak</span>
+        </span>
+        <span class="topbar__avatar" title="{{CLIENT_NAME}}" id="clientAvatar">{{CLIENT_INITIALS}}</span>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         DASHBOARD VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view active" id="view-dashboard">
+      <div class="dashboard__header">
+        <div>
+          <div class="dashboard__header-eyebrow" id="dashboardDay">DAY {{CURRENT_DAY}} OF 90</div>
+          <h1 class="dashboard__header-title">Good to see you, {{CLIENT_NAME}}</h1>
+        </div>
+        <span class="dashboard__header-countdown" id="dashboardCountdown">{{DAYS_REMAINING}} days to go</span>
+      </div>
+
+      <div class="dashboard__progress-card">
+        <div class="dashboard__ring-container">
+          <svg width="200" height="200" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="85" fill="none" stroke="var(--surface-sunken)" stroke-width="17"></circle>
+            <circle cx="100" cy="100" r="85" fill="none" stroke="var(--mint-500)" stroke-width="17" stroke-linecap="round" stroke-dasharray="534.1" stroke-dashoffset="400" id="dashboardRing"></circle>
+          </svg>
+          <div class="dashboard__ring-center">
+            <div class="dashboard__ring-pct" id="dashboardPct">{{PROGRESS_PCT}}</div>
+            <div class="dashboard__ring-tasks" id="dashboardTasks">{{TASKS_DONE}} / {{TOTAL_TASKS}} tasks</div>
+          </div>
+        </div>
+        <div class="dashboard__progress-text">
+          <h2>The rhythm is holding.</h2>
+          <p>Keep checking things off — every tick moves the ring and the tactic it belongs to.</p>
+          <div class="dashboard__phases-label">THE 90 DAYS</div>
+          <div class="dashboard__phases">
+            <div class="dashboard__phase current">
+              <div class="dashboard__phase-range">WEEKS 1–4</div>
+              <div class="dashboard__phase-name">Foundation</div>
+              <div class="dashboard__phase-detail">Set up systems</div>
+            </div>
+            <div class="dashboard__phase">
+              <div class="dashboard__phase-range">WEEKS 5–8</div>
+              <div class="dashboard__phase-name">Rhythm</div>
+              <div class="dashboard__phase-detail">Build habits</div>
+            </div>
+            <div class="dashboard__phase">
+              <div class="dashboard__phase-range">WEEKS 9–12</div>
+              <div class="dashboard__phase-name">Scale</div>
+              <div class="dashboard__phase-detail">Amplify results</div>
+            </div>
+            <div class="dashboard__phase">
+              <div class="dashboard__phase-range">ONGOING</div>
+              <div class="dashboard__phase-name">Sustain</div>
+              <div class="dashboard__phase-detail">Maintain momentum</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard__next-step">
+        <div class="dashboard__next-step-main">
+          <div class="dashboard__next-step-eyebrow">YOUR NEXT STEP · WEEK {{CURRENT_WEEK}} OF {{TOTAL_WEEKS}} · {{CURRENT_WEEK_TITLE}}</div>
+          <h2 class="dashboard__next-step-title" id="nextStepTitle">{{NEXT_STEP_TITLE}}</h2>
+          <div class="dashboard__next-step-tasks" id="nextStepTasks">
+            {{NEXT_STEPS}}
+          </div>
+          <div class="dashboard__next-step-actions">
+            <button class="btn-primary" id="markStepComplete">Mark step complete</button>
+            <a href="#" class="dashboard__next-step-link" id="openTacticGuide" data-nav="{{NEXT_STEP_TACTIC_NAV}}">Open the full guide for this tactic →</a>
+          </div>
+        </div>
+        <div class="dashboard__next-step-sidebar">
+          <div class="dashboard__next-step-meta">
+            <div class="dashboard__next-step-meta-label">TACTIC</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepTactic">{{NEXT_STEP_TACTIC}}</div>
+          </div>
+          <div class="dashboard__next-step-meta">
+            <div class="dashboard__next-step-meta-label">TIME NEEDED</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepTime">{{NEXT_STEP_TIME}}</div>
+          </div>
+          <div class="dashboard__next-step-meta">
+            <div class="dashboard__next-step-meta-label">WHO</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepWho">{{NEXT_STEP_WHO}}</div>
+          </div>
+          <div class="dashboard__next-step-progress">
+            <div class="dashboard__next-step-progress-header">
+              <span>Week {{CURRENT_WEEK}} tasks</span>
+              <span id="currentWeekProgress">{{CURRENT_WEEK_DONE}} / {{CURRENT_WEEK_TOTAL}}</span>
+            </div>
+            <div class="dashboard__next-step-progress-bar">
+              <div class="dashboard__next-step-progress-fill" style="width: {{CURRENT_WEEK_PCT}}" id="currentWeekProgressBar"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard__tactics" id="tacticPills">
+        {{TACTIC_PILLS}}
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         ASSESSMENT VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-assessment">
+      <div class="assessment__eyebrow">YOUR ASSESSMENT · {{ASSESSMENT_DATE}}</div>
+
+      <div class="assessment__hero">
+        <div class="assessment__ring">
+          <svg width="170" height="170" viewBox="0 0 170 170">
+            <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="14"></circle>
+            <circle cx="85" cy="85" r="72" fill="none" stroke="{{SCORE_COLOR}}" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="{{SCORE_RING_OFFSET}}" id="assessmentRing"></circle>
+          </svg>
+          <div class="assessment__ring-center">
+            <div class="assessment__ring-score">{{OVERALL_SCORE}}</div>
+            <div class="assessment__ring-max">out of 100</div>
+            <div class="assessment__ring-grade" style="background: {{GRADE_BG}}; color: {{GRADE_TEXT}}">{{OVERALL_GRADE}}</div>
+          </div>
+        </div>
+        <div class="assessment__hero-content">
+          <div class="assessment__hero-header">
+            <h1 class="assessment__hero-title">Where you're starting from</h1>
+            <div class="assessment__hero-actions">
+              <button class="btn-outline">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path>
+                </svg>
+                Download PDF
+              </button>
+              <span class="assessment__complete-badge">Complete</span>
+            </div>
+          </div>
+          <p class="assessment__hero-summary">{{ASSESSMENT_SUMMARY}}</p>
+        </div>
+      </div>
+
+      <!-- Top Priority -->
+      <div class="assessment__priority">
+        <div class="assessment__priority-header">
+          <span class="assessment__priority-num">1</span>
+          <span class="assessment__priority-label">TOP PRIORITY</span>
+        </div>
+        <p class="assessment__priority-text">{{ASSESSMENT_TOP_PRIORITY}}</p>
+        <span class="assessment__priority-tag assessment__priority-tag--danger">{{ASSESSMENT_TOP_PRIORITY_IMPACT}}</span>
+        <div class="assessment__priority-divider"></div>
+        <div class="assessment__findings-grid">
+          <div>
+            <div class="assessment__findings-header">
+              <span class="assessment__findings-icon assessment__findings-icon--success">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M5 12l5 5L20 7"></path></svg>
+              </span>
+              <span class="assessment__findings-title">What's working</span>
+            </div>
+            <div class="assessment__findings-list">
+              {{ASSESSMENT_WORKING}}
+            </div>
+          </div>
+          <div>
+            <div class="assessment__findings-header">
+              <span class="assessment__findings-icon assessment__findings-icon--warning">!</span>
+              <span class="assessment__findings-title">Critical gaps</span>
+            </div>
+            <div class="assessment__findings-list">
+              {{ASSESSMENT_LEAKING}}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Wins -->
+      <div class="assessment__quick-wins">
+        <div class="assessment__quick-wins-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"></path></svg>
+          <span class="assessment__quick-wins-title">Quick wins</span>
+        </div>
+        <p class="assessment__quick-wins-desc">Five things worth fixing this week — these land on your plan the moment it unlocks.</p>
+        <div class="assessment__quick-wins-list">
+          {{ASSESSMENT_QUICK_WINS}}
+        </div>
+      </div>
+
+      <!-- Categories -->
+      <div class="assessment__section-title">The eight categories</div>
+      <div class="assessment__categories">
+        {{ASSESSMENT_CATEGORIES}}
+      </div>
+
+      <!-- Priority Recommendations -->
+      <div class="assessment__section-title">Priority recommendations</div>
+      <div class="assessment__priorities">
+        {{ASSESSMENT_PRIORITIES}}
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         STRATEGY VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-strategy">
+      <div class="strategy__eyebrow">YOUR STRATEGY</div>
+      <h1 class="strategy__title">The 90-day thesis</h1>
+
+      <div class="strategy__goal">
+        <div class="strategy__goal-label">THE GOAL</div>
+        <p class="strategy__goal-text">{{GOAL_TEXT}}</p>
+      </div>
+
+      <div class="strategy__cards">
+        <div class="strategy__card strategy__card--white">
+          <h3 class="strategy__card-title">Positioning</h3>
+          <p class="strategy__card-text">{{STRATEGIC_POSITIONING}}</p>
+        </div>
+        <div class="strategy__card strategy__card--sunken">
+          <h3 class="strategy__card-title">What we're not doing</h3>
+          <p class="strategy__card-text">{{NOT_DOING_TEXT}}</p>
+        </div>
+      </div>
+
+      <div class="strategy__objectives-title">Three objectives</div>
+      <div class="strategy__objectives">
+        <div class="strategy__objective">
+          <span class="strategy__objective-num">1</span>
+          <h3 class="strategy__objective-title">{{OBJECTIVE_1_TITLE}}</h3>
+          <p class="strategy__objective-body">{{OBJECTIVE_1_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_1_MEASURE}}</div>
+        </div>
+        <div class="strategy__objective">
+          <span class="strategy__objective-num">2</span>
+          <h3 class="strategy__objective-title">{{OBJECTIVE_2_TITLE}}</h3>
+          <p class="strategy__objective-body">{{OBJECTIVE_2_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_2_MEASURE}}</div>
+        </div>
+        <div class="strategy__objective">
+          <span class="strategy__objective-num">3</span>
+          <h3 class="strategy__objective-title">{{OBJECTIVE_3_TITLE}}</h3>
+          <p class="strategy__objective-body">{{OBJECTIVE_3_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_3_MEASURE}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         ROADMAP VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-roadmap">
+      <div class="roadmap__header">
+        <div>
+          <div class="roadmap__eyebrow">{{TOTAL_WEEKS}}-WEEK ACCELERATOR · YOUR ACTION PLAN</div>
+          <h1 class="roadmap__title">Week by week</h1>
+          <p class="roadmap__subtitle">Check things off as you go. Everything saves itself.</p>
+        </div>
+        <div class="roadmap__count">
+          <div class="roadmap__count-num"><span id="roadmapDone">{{TASKS_DONE}}</span><span>/{{TOTAL_TASKS}}</span></div>
+          <div class="roadmap__count-label">roadmap tasks done</div>
+        </div>
+      </div>
+
+      <div class="roadmap__grid">
+        <div class="roadmap__weeks" id="roadmapWeeks">
+          {{ROADMAP_WEEKS}}
+        </div>
+
+        <div class="roadmap__sidebar">
+          <div class="roadmap__sidebar-card roadmap__sidebar-card--dark">
+            <div class="roadmap__sidebar-label roadmap__sidebar-label--mint">RIGHT NOW</div>
+            <div class="roadmap__sidebar-title" id="currentWeekTitle">Week {{CURRENT_WEEK}} — {{CURRENT_WEEK_TITLE}}</div>
+            <div class="roadmap__sidebar-bar">
+              <div class="roadmap__sidebar-bar-fill" style="width: {{CURRENT_WEEK_PCT}}" id="currentWeekBar"></div>
+            </div>
+            <div class="roadmap__sidebar-count" id="currentWeekCount">{{CURRENT_WEEK_DONE}} / {{CURRENT_WEEK_TOTAL}} tasks done</div>
+          </div>
+
+          <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
+            <div class="roadmap__sidebar-label roadmap__sidebar-label--slate">THE 90 DAYS</div>
+            {{ROADMAP_PHASES}}
+          </div>
+
+          <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
+            <div class="roadmap__sidebar-label roadmap__sidebar-label--slate">WHY THE STREAK MATTERS</div>
+            <p class="roadmap__sidebar-text">A full week checked off is the whole system compounding at once — content, ads and reviews all moving the same week. That's the moment worth celebrating.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         TACTIC 1 VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-tactic-1">
+      <div style="padding: 18px 40px 44px;">
+        <div class="tactic__header">
+          <div class="tactic__header-top">
+            <div>
+              <div class="tactic__eyebrow">
+                <span class="tactic__eyebrow-text">TACTIC 1 · {{TACTIC_1_PHASE}}</span>
+                <span class="tactic__status tactic__status--active">Active</span>
+              </div>
+              <h1 class="tactic__title">{{TACTIC_1_TITLE}}</h1>
+              <p class="tactic__desc">{{TACTIC_1_SUBTITLE}}</p>
+            </div>
+            <div class="tactic__progress">
+              <svg width="76" height="76" viewBox="0 0 76 76">
+                <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--mint-500)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_1_RING_OFFSET}}" id="tactic1Ring"></circle>
+              </svg>
+              <div class="tactic__progress-text">
+                <div class="tactic__progress-pct" id="tactic1Pct">{{TACTIC_1_PCT}}</div>
+                <div class="tactic__progress-label">of this tactic</div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tabs">
+            <button class="tactic__tab active" data-tactic-tab="1" data-tab="overview">Overview</button>
+            <button class="tactic__tab" data-tactic-tab="1" data-tab="steps">Implementation Steps</button>
+            <button class="tactic__tab" data-tactic-tab="1" data-tab="metrics">Success Metrics</button>
+            <button class="tactic__tab" data-tactic-tab="1" data-tab="tips">Tips & Resources</button>
+          </div>
+        </div>
+
+        <div class="tactic__body">
+          <!-- Overview Tab -->
+          <div class="tactic__tab-content active" data-tactic-content="1" data-content="overview">
+            <div class="tactic__overview-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT THIS IS</div>
+                  <p class="tactic__card-text">{{TACTIC_1_WHAT_THIS_IS}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">THE FOUR PILLARS</div>
+                  <div class="tactic__pillars">
+                    {{TACTIC_1_PILLARS}}
+                  </div>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
+                  <p class="tactic__card-text">{{TACTIC_1_HEARD}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHY IT MATTERS</div>
+                  <p class="tactic__card-text">{{TACTIC_1_WHY}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">TIME COMMITMENT</div>
+                  <div class="tactic__time">
+                    <span class="tactic__time-value">{{TACTIC_1_TIME}}</span>
+                    <span class="tactic__time-label">{{TACTIC_1_TIME_LABEL}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Steps Tab -->
+          <div class="tactic__tab-content" data-tactic-content="1" data-content="steps">
+            <div class="tactic__parts" id="tactic1Parts">
+              {{TACTIC_1_PARTS}}
+            </div>
+          </div>
+
+          <!-- Metrics Tab -->
+          <div class="tactic__tab-content" data-tactic-content="1" data-content="metrics">
+            <div class="tactic__metrics-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
+                  {{TACTIC_1_METRICS}}
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">THE CHECKPOINTS</div>
+                  <div class="tactic__checkpoints">
+                    {{TACTIC_1_CHECKPOINTS}}
+                  </div>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
+                  <p class="tactic__card-text">{{TACTIC_1_METRIC_NOTE}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">REVIEW RHYTHM</div>
+                  <p class="tactic__card-text">{{TACTIC_1_REVIEW_RHYTHM}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tips Tab -->
+          <div class="tactic__tab-content" data-tactic-content="1" data-content="tips">
+            <div class="tactic__tips-grid">
+              {{TACTIC_1_TIPS}}
+              <div class="tactic__tips-placeholder">
+                <span class="tactic__tip-icon">ICON</span>
+                <div>
+                  <div class="tactic__tips-placeholder-title">More arrives here as your coach adds it</div>
+                  <div class="tactic__tips-placeholder-desc">Walkthrough videos, shot references and templates drop into this grid.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         TACTIC 2 VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-tactic-2">
+      <div style="padding: 18px 40px 44px;">
+        <div class="tactic__header">
+          <div class="tactic__header-top">
+            <div>
+              <div class="tactic__eyebrow">
+                <span class="tactic__eyebrow-text">TACTIC 2 · {{TACTIC_2_PHASE}}</span>
+                <span class="tactic__status tactic__status--upcoming">Upcoming</span>
+              </div>
+              <h1 class="tactic__title">{{TACTIC_2_TITLE}}</h1>
+              <p class="tactic__desc">{{TACTIC_2_SUBTITLE}}</p>
+            </div>
+            <div class="tactic__progress">
+              <svg width="76" height="76" viewBox="0 0 76 76">
+                <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--link-blue)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_2_RING_OFFSET}}" id="tactic2Ring"></circle>
+              </svg>
+              <div class="tactic__progress-text">
+                <div class="tactic__progress-pct" id="tactic2Pct">{{TACTIC_2_PCT}}</div>
+                <div class="tactic__progress-label">of this tactic</div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tabs">
+            <button class="tactic__tab active" data-tactic-tab="2" data-tab="overview">Overview</button>
+            <button class="tactic__tab" data-tactic-tab="2" data-tab="steps">Implementation Steps</button>
+            <button class="tactic__tab" data-tactic-tab="2" data-tab="metrics">Success Metrics</button>
+            <button class="tactic__tab" data-tactic-tab="2" data-tab="tips">Tips & Resources</button>
+          </div>
+        </div>
+
+        <div class="tactic__body">
+          <div class="tactic__tab-content active" data-tactic-content="2" data-content="overview">
+            <div class="tactic__overview-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT THIS IS</div>
+                  <p class="tactic__card-text">{{TACTIC_2_WHAT_THIS_IS}}</p>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
+                  <p class="tactic__card-text">{{TACTIC_2_HEARD}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHY IT MATTERS</div>
+                  <p class="tactic__card-text">{{TACTIC_2_WHY}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">TIME COMMITMENT</div>
+                  <div class="tactic__time">
+                    <span class="tactic__time-value">{{TACTIC_2_TIME}}</span>
+                    <span class="tactic__time-label">{{TACTIC_2_TIME_LABEL}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="2" data-content="steps">
+            <div class="tactic__parts" id="tactic2Parts">{{TACTIC_2_PARTS}}</div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="2" data-content="metrics">
+            <div class="tactic__metrics-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
+                  {{TACTIC_2_METRICS}}
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">THE CHECKPOINTS</div>
+                  <div class="tactic__checkpoints">
+                    {{TACTIC_2_CHECKPOINTS}}
+                  </div>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
+                  <p class="tactic__card-text">{{TACTIC_2_METRIC_NOTE}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">REVIEW RHYTHM</div>
+                  <p class="tactic__card-text">{{TACTIC_2_REVIEW_RHYTHM}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="2" data-content="tips">
+            <div class="tactic__tips-grid">
+              {{TACTIC_2_TIPS}}
+              <div class="tactic__tips-placeholder">
+                <span class="tactic__tip-icon">ICON</span>
+                <div>
+                  <div class="tactic__tips-placeholder-title">More arrives here as your coach adds it</div>
+                  <div class="tactic__tips-placeholder-desc">Walkthrough videos, shot references and templates drop into this grid.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         TACTIC 3 VIEW
+         ════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-tactic-3">
+      <div style="padding: 18px 40px 44px;">
+        <div class="tactic__header">
+          <div class="tactic__header-top">
+            <div>
+              <div class="tactic__eyebrow">
+                <span class="tactic__eyebrow-text">TACTIC 3 · {{TACTIC_3_PHASE}}</span>
+                <span class="tactic__status tactic__status--upcoming">Upcoming</span>
+              </div>
+              <h1 class="tactic__title">{{TACTIC_3_TITLE}}</h1>
+              <p class="tactic__desc">{{TACTIC_3_SUBTITLE}}</p>
+            </div>
+            <div class="tactic__progress">
+              <svg width="76" height="76" viewBox="0 0 76 76">
+                <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--slate-600)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_3_RING_OFFSET}}" id="tactic3Ring"></circle>
+              </svg>
+              <div class="tactic__progress-text">
+                <div class="tactic__progress-pct" id="tactic3Pct">{{TACTIC_3_PCT}}</div>
+                <div class="tactic__progress-label">of this tactic</div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tabs">
+            <button class="tactic__tab active" data-tactic-tab="3" data-tab="overview">Overview</button>
+            <button class="tactic__tab" data-tactic-tab="3" data-tab="steps">Implementation Steps</button>
+            <button class="tactic__tab" data-tactic-tab="3" data-tab="metrics">Success Metrics</button>
+            <button class="tactic__tab" data-tactic-tab="3" data-tab="tips">Tips & Resources</button>
+          </div>
+        </div>
+
+        <div class="tactic__body">
+          <div class="tactic__tab-content active" data-tactic-content="3" data-content="overview">
+            <div class="tactic__overview-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT THIS IS</div>
+                  <p class="tactic__card-text">{{TACTIC_3_WHAT_THIS_IS}}</p>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
+                  <p class="tactic__card-text">{{TACTIC_3_HEARD}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHY IT MATTERS</div>
+                  <p class="tactic__card-text">{{TACTIC_3_WHY}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">TIME COMMITMENT</div>
+                  <div class="tactic__time">
+                    <span class="tactic__time-value">{{TACTIC_3_TIME}}</span>
+                    <span class="tactic__time-label">{{TACTIC_3_TIME_LABEL}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="3" data-content="steps">
+            <div class="tactic__parts" id="tactic3Parts">{{TACTIC_3_PARTS}}</div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="3" data-content="metrics">
+            <div class="tactic__metrics-grid">
+              <div class="tactic__overview-col">
+                <div class="tactic__card">
+                  <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
+                  {{TACTIC_3_METRICS}}
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">THE CHECKPOINTS</div>
+                  <div class="tactic__checkpoints">
+                    {{TACTIC_3_CHECKPOINTS}}
+                  </div>
+                </div>
+              </div>
+              <div class="tactic__overview-col">
+                <div class="tactic__card tactic__card--dark">
+                  <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
+                  <p class="tactic__card-text">{{TACTIC_3_METRIC_NOTE}}</p>
+                </div>
+                <div class="tactic__card">
+                  <div class="tactic__card-label">REVIEW RHYTHM</div>
+                  <p class="tactic__card-text">{{TACTIC_3_REVIEW_RHYTHM}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="tactic__tab-content" data-tactic-content="3" data-content="tips">
+            <div class="tactic__tips-grid">
+              {{TACTIC_3_TIPS}}
+              <div class="tactic__tips-placeholder">
+                <span class="tactic__tip-icon">ICON</span>
+                <div>
+                  <div class="tactic__tips-placeholder-title">More arrives here as your coach adds it</div>
+                  <div class="tactic__tips-placeholder-desc">Walkthrough videos, shot references and templates drop into this grid.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════════════════════════════════
+         GBP QUICK WINS VIEW (Optional)
+         ════════════════════════════════════════════════════════════════════ -->
+    <!-- IF:GBP_QUICK_WINS -->
+    <div class="page-view" id="view-gbp">
+      <div class="gbp__eyebrow">QUICK-HIT RECOMMENDATION</div>
+      <h1 class="gbp__title">Google Business Profile polish</h1>
+
+      <div class="gbp__grid">
+        <div>
+          <div class="gbp__strength">
+            <div>
+              <div class="gbp__strength-value" id="gbpStrengthPct">{{GBP_STRENGTH_PCT}}</div>
+              <div class="gbp__strength-label">profile strength</div>
+            </div>
+            <div>
+              <div class="gbp__strength-bar">
+                <div class="gbp__strength-bar-fill" style="width: {{GBP_STRENGTH_PCT}}" id="gbpStrengthBar"></div>
+              </div>
+              <p class="gbp__strength-text">Each item you tick moves this — and moves how Google ranks you for local searches.</p>
+            </div>
+          </div>
+
+          <div class="gbp__tasks-header">
+            <span class="gbp__tasks-label">FIVE ITEMS</span>
+            <span class="gbp__tasks-count" id="gbpTasksCount">0 / 5</span>
+          </div>
+          <div class="gbp__tasks" id="gbpTasks">
+            {{GBP_TASKS}}
+          </div>
+        </div>
+
+        <div class="gbp__sidebar">
+          <div class="gbp__sidebar-card gbp__sidebar-card--dark">
+            <div class="gbp__sidebar-label gbp__sidebar-label--mint">WHY THESE FIRST</div>
+            <p class="gbp__sidebar-text gbp__sidebar-text--light">People searching "{{SEARCH_TERM}} near me" see your profile before they see any post or ad. Every field you fill is a reason for Google to show you higher.</p>
+          </div>
+          <div class="gbp__sidebar-card gbp__sidebar-card--white">
+            <div class="gbp__sidebar-label gbp__sidebar-label--slate">WHERE THIS FITS</div>
+            <p class="gbp__sidebar-text gbp__sidebar-text--dark">These sit outside the weekly rhythm — a one-time cleanup, not part of the recurring plan.</p>
+            <a href="#" class="gbp__sidebar-link" data-nav="tactic-3">Part of Google & Reviews →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- /IF:GBP_QUICK_WINS -->
+
+  </main>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     CELEBRATION MODAL
+     ══════════════════════════════════════════════════════════════════════════ -->
+<div class="celebrate-overlay" id="celebrateOverlay">
+  <div class="celebrate-modal">
+    <div class="celebrate-ring">
+      <span class="celebrate-ring__halo"></span>
+      <svg width="112" height="112" viewBox="0 0 112 112">
+        <circle cx="56" cy="56" r="52" fill="none" stroke="var(--mint-500)" stroke-width="3" stroke-dasharray="327"></circle>
+        <path d="M36 57 L50 71 L77 44" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="64"></path>
+      </svg>
+    </div>
+    <div class="celebrate-tag" id="celebrateTag">WEEK 1 COMPLETE</div>
+    <h2 class="celebrate-headline" id="celebrateHeadline">Foundation locked in.</h2>
+    <p class="celebrate-body" id="celebrateBody">Every system you set up this week makes next week's rhythm easier to hold.</p>
+    <div class="celebrate-stats" id="celebrateStats">
+      <!-- Stats populated by JS -->
+    </div>
+    <button class="celebrate-btn" id="celebrateDismiss">Keep going</button>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     SCRIPTS
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script src="/shared/progress.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════════════════════
+// ACCELERATOR DASHBOARD LOGIC
+// ══════════════════════════════════════════════════════════════════════════════
+
+(function() {
+  'use strict';
+
+  const CLIENT_SLUG = document.body.dataset.clientSlug;
+
+  // ── State ─────────────────────────────────────────────────────────────────
+  let currentView = 'dashboard';
+  let sidebarCollapsed = false;
+
+  // ── Navigation ────────────────────────────────────────────────────────────
+  function navigateTo(viewId) {
+    // Update view visibility
+    document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+    const targetView = document.getElementById(`view-${viewId}`);
+    if (targetView) {
+      targetView.classList.add('active');
+    }
+
+    // Update nav active states
+    document.querySelectorAll('[data-nav]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.nav === viewId);
+    });
+
+    currentView = viewId;
+  }
+
+  // ── Sidebar Toggle ────────────────────────────────────────────────────────
+  function toggleSidebar() {
+    const sidebar = document.getElementById('sidebar');
+    sidebarCollapsed = !sidebarCollapsed;
+    sidebar.classList.toggle('collapsed', sidebarCollapsed);
+    localStorage.setItem(`${CLIENT_SLUG}_sidebar`, sidebarCollapsed ? 'collapsed' : 'expanded');
+  }
+
+  // ── Initialize ────────────────────────────────────────────────────────────
+  function init() {
+    // Restore sidebar state
+    const savedSidebar = localStorage.getItem(`${CLIENT_SLUG}_sidebar`);
+    if (savedSidebar === 'collapsed') {
+      document.getElementById('sidebar').classList.add('collapsed');
+      sidebarCollapsed = true;
+    }
+
+    // Navigation click handlers
+    document.querySelectorAll('[data-nav]').forEach(btn => {
+      btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
+    });
+
+    // Sidebar toggle handlers
+    document.getElementById('expandSidebar')?.addEventListener('click', toggleSidebar);
+    document.getElementById('collapseSidebar')?.addEventListener('click', toggleSidebar);
+    document.getElementById('toggleSidebar')?.addEventListener('click', () => {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.classList.toggle('mobile-open');
+    });
+
+    // Celebration dismiss
+    document.getElementById('celebrateDismiss')?.addEventListener('click', () => {
+      document.getElementById('celebrateOverlay').classList.remove('visible');
+    });
+
+    // Tactic tab switching
+    document.querySelectorAll('[data-tactic-tab]').forEach(tab => {
+      tab.addEventListener('click', () => {
+        const tacticNum = tab.dataset.tacticTab;
+        const tabName = tab.dataset.tab;
+
+        // Update tab active states
+        document.querySelectorAll(`[data-tactic-tab="${tacticNum}"]`).forEach(t => {
+          t.classList.toggle('active', t.dataset.tab === tabName);
+        });
+
+        // Update content visibility
+        document.querySelectorAll(`[data-tactic-content="${tacticNum}"]`).forEach(content => {
+          content.classList.toggle('active', content.dataset.content === tabName);
+        });
+      });
+    });
+
+    // Part accordion (implementation steps)
+    document.querySelectorAll('.tactic__part-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.closest('.tactic__part').classList.toggle('open');
+      });
+    });
+
+    // Roadmap week accordion
+    document.querySelectorAll('.roadmap__week-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.closest('.roadmap__week').classList.toggle('open');
+      });
+    });
+
+    // Assessment category accordion
+    document.querySelectorAll('.assessment__category-header').forEach(header => {
+      header.addEventListener('click', () => {
+        header.closest('.assessment__category').classList.toggle('open');
+      });
+    });
+
+    // GBP task toggle
+    document.querySelectorAll('.gbp__task').forEach(task => {
+      task.addEventListener('click', () => {
+        task.classList.toggle('done');
+        updateGbpProgress();
+      });
+    });
+
+    // Roadmap task toggle
+    document.querySelectorAll('.roadmap__task').forEach(task => {
+      task.addEventListener('click', () => {
+        task.classList.toggle('done');
+        updateRoadmapProgress();
+      });
+    });
+  }
+
+  // ── Progress Updates ────────────────────────────────────────────────────
+  function updateGbpProgress() {
+    const tasks = document.querySelectorAll('.gbp__task');
+    const done = document.querySelectorAll('.gbp__task.done').length;
+    const total = tasks.length;
+    const pct = Math.round((done / total) * 100) + '%';
+
+    const countEl = document.getElementById('gbpTasksCount');
+    const barEl = document.getElementById('gbpStrengthBar');
+    const pctEl = document.getElementById('gbpStrengthPct');
+
+    if (countEl) countEl.textContent = `${done} / ${total}`;
+    if (barEl) barEl.style.width = pct;
+    if (pctEl) pctEl.textContent = pct;
+  }
+
+  function updateRoadmapProgress() {
+    const tasks = document.querySelectorAll('.roadmap__task');
+    const done = document.querySelectorAll('.roadmap__task.done').length;
+    document.getElementById('roadmapDone').textContent = done;
+  }
+
+  // Run on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+:root{
+--font-display:'Raleway',sans-serif;
+--font-body:'Open Sans',sans-serif;
+--weight-body:400;
+--weight-medium:600;
+--weight-bold:700;
+--text-title:42pt;
+--text-heading:32pt;
+--text-subheading:22pt;
+--text-body:16pt;
+--text-detail:13pt;
+--text-caption:11pt;
+--leading-tight:1;
+--leading-normal:1.5;
+--leading-relaxed:1.7;
+}
