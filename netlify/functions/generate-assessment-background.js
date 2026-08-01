@@ -1422,6 +1422,12 @@ async function generateAssessmentWithClaude(data) {
   // Build context from available data
   const context = buildAssessmentContext(data);
 
+  // Debug: Check API key
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  console.log('[Claude] API key present:', !!apiKey);
+  console.log('[Claude] API key length:', apiKey?.length || 0);
+  console.log('[Claude] API key prefix:', apiKey?.substring(0, 10) || 'MISSING');
+
   // Use REST API directly for better compatibility
   const response = await fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
@@ -1431,7 +1437,7 @@ async function generateAssessmentWithClaude(data) {
       'anthropic-version': '2023-06-01'
     },
     body: JSON.stringify({
-      model: 'claude-3-5-sonnet-20241022',
+      model: 'claude-3-haiku-20240307',
       max_tokens: 12000,
       messages: [
         {
