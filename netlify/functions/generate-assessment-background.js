@@ -965,12 +965,16 @@ async function fetchInstagramData(url, headers) {
   }
 
   const user = profileData.data?.data?.user || profileData.data?.user || {};
+  const followers = user.edge_followed_by?.count || user.follower_count || 0;
 
-  // Fetch recent posts for engagement calculation
+  // Fetch recent posts for engagement calculation (up to 12 for better analysis)
   let posts = [];
   let avgLikes = 0;
   let avgComments = 0;
   let engagementRate = 0;
+  let contentMix = { images: 0, carousels: 0, reels: 0 };
+  let postingFrequency = 0;
+  let bestContent = [];
 
   try {
     const postsRes = await fetch(
@@ -980,7 +984,7 @@ async function fetchInstagramData(url, headers) {
 
     if (postsRes.ok) {
       const postsData = await postsRes.json();
-      posts = postsData.data?.items || [];
+      posts = (postsData.data?.items || []).slice(0, 12); // Analyze up to 12 posts
 
       if (posts.length > 0) {
         const totalLikes = posts.reduce((sum, p) => sum + (p.like_count || 0), 0);
@@ -988,10 +992,57 @@ async function fetchInstagramData(url, headers) {
         avgLikes = Math.round(totalLikes / posts.length);
         avgComments = Math.round(totalComments / posts.length);
 
-        const followers = user.edge_followed_by?.count || user.follower_count || 0;
         if (followers > 0) {
           engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
         }
+
+        // Calculate content mix
+        posts.forEach(p => {
+          const mediaType = p.media_type;
+          if (mediaType === 2 || p.product_type === 'clips') {
+            contentMix.reels++;
+          } else if (mediaType === 8) {
+            contentMix.carousels++;
+          } else {
+            contentMix.images++;
+          }
+        });
+
+        // Calculate posting frequency (posts per week)
+        const timestamps = posts.map(p => p.taken_at).filter(t => t).sort((a, b) => b - a);
+        if (timestamps.length >= 2) {
+          const newest = timestamps[0];
+          const oldest = timestamps[timestamps.length - 1];
+          const daySpan = (newest - oldest) / (60 * 60 * 24);
+          if (daySpan > 0) {
+            postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10; // Posts per week
+          }
+        }
+
+        // Identify best performing content (top 3 by engagement rate)
+        const postsWithEngagement = posts.map(p => {
+          const postEngagement = (p.like_count || 0) + (p.comment_count || 0);
+          const postEngagementRate = followers > 0 ? (postEngagement / followers * 100) : 0;
+          return {
+            id: p.id || p.code,
+            type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
+                  (p.media_type === 8 ? 'carousel' : 'image'),
+            likes: p.like_count || 0,
+            comments: p.comment_count || 0,
+            views: p.play_count || null,
+            engagement: postEngagement,
+            engagementRate: Math.round(postEngagementRate * 100) / 100,
+            timestamp: p.taken_at,
+            caption: p.caption?.text?.substring(0, 150) || '',
+            performanceVsAverage: avgLikes > 0 ? Math.round((p.like_count || 0) / avgLikes * 100) / 100 : 1
+          };
+        });
+
+        // Sort by engagement rate and take top 3
+        bestContent = postsWithEngagement
+          .sort((a, b) => b.engagementRate - a.engagementRate)
+          .slice(0, 3)
+          .map(p => ({ ...p, isTopPerformer: true }));
       }
     }
   } catch (postsErr) {
@@ -1003,7 +1054,7 @@ async function fetchInstagramData(url, headers) {
     handle: user.username || handle,
     displayName: user.full_name || '',
     bio: user.biography || '',
-    followers: user.edge_followed_by?.count || user.follower_count || 0,
+    followers,
     following: user.edge_follow?.count || user.following_count || 0,
     postCount: user.edge_owner_to_timeline_media?.count || user.media_count || 0,
     verified: user.is_verified || false,
@@ -1012,11 +1063,15 @@ async function fetchInstagramData(url, headers) {
     metrics: {
       avgLikes,
       avgComments,
-      engagementRate: parseFloat(engagementRate) || 0
+      engagementRate: parseFloat(engagementRate) || 0,
+      postingFrequency, // NEW: posts per week
     },
+    contentMix, // NEW: breakdown of content types
+    bestContent, // NEW: top 3 performing posts
     recentPosts: posts.slice(0, 5).map(p => ({
       id: p.id || p.code,
-      type: p.media_type === 2 ? 'video' : (p.media_type === 8 ? 'carousel' : 'image'),
+      type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
+            (p.media_type === 8 ? 'carousel' : 'image'),
       likes: p.like_count || 0,
       comments: p.comment_count || 0,
       views: p.play_count || null,
@@ -1050,13 +1105,18 @@ async function fetchTikTokData(url, headers) {
 
   const user = profileData.data?.user || {};
   const stats = profileData.data?.stats || {};
-  const videos = profileData.data?.itemList || [];
+  const allVideos = profileData.data?.itemList || [];
+  const videos = allVideos.slice(0, 12); // Analyze up to 12 videos
+  const followers = stats.followerCount || 0;
 
   // Calculate engagement from recent videos
   let avgViews = 0;
   let avgLikes = 0;
   let avgComments = 0;
   let engagementRate = 0;
+  let postingFrequency = 0;
+  let viralContent = [];
+  let bestContent = [];
 
   if (videos.length > 0) {
     const totalViews = videos.reduce((sum, v) => sum + (v.stats?.playCount || 0), 0);
@@ -1070,6 +1130,110 @@ async function fetchTikTokData(url, headers) {
     if (avgViews > 0) {
       engagementRate = ((avgLikes + avgComments) / avgViews * 100).toFixed(2);
     }
+
+    // Calculate posting frequency (videos per week)
+    const timestamps = videos.map(v => v.createTime).filter(t => t).sort((a, b) => b - a);
+    if (timestamps.length >= 2) {
+      const newest = timestamps[0];
+      const oldest = timestamps[timestamps.length - 1];
+      const daySpan = (newest - oldest) / (60 * 60 * 24);
+      if (daySpan > 0) {
+        postingFrequency = Math.round((videos.length / daySpan) * 7 * 10) / 10;
+      }
+    }
+
+    // Identify viral content (10x+ average views) and best content
+    const videosWithMetrics = videos.map(v => {
+      const views = v.stats?.playCount || 0;
+      const likes = v.stats?.diggCount || 0;
+      const comments = v.stats?.commentCount || 0;
+      const shares = v.stats?.shareCount || 0;
+      const engagement = likes + comments + shares;
+      const videoEngagementRate = views > 0 ? (engagement / views * 100) : 0;
+      const performanceVsAverage = avgViews > 0 ? views / avgViews : 1;
+
+      return {
+        id: v.id,
+        views,
+        likes,
+        comments,
+        shares,
+        engagement,
+        engagementRate: Math.round(videoEngagementRate * 100) / 100,
+        caption: v.desc?.substring(0, 150) || '',
+        timestamp: v.createTime,
+        performanceVsAverage: Math.round(performanceVsAverage * 100) / 100,
+        isViral: performanceVsAverage >= 10
+      };
+    });
+
+    // Viral videos (10x+ average views)
+    viralContent = videosWithMetrics
+      .filter(v => v.isViral)
+      .map(v => ({ ...v, isTopPerformer: true }));
+
+    // Best performing (top 3 by engagement rate)
+    bestContent = videosWithMetrics
+      .sort((a, b) => b.engagementRate - a.engagementRate)
+      .slice(0, 3)
+      .map(v => ({ ...v, isTopPerformer: true }));
+  }
+
+  // NEW: Search TikTok Ad Library for potential ads from this business
+  let advertising = {
+    isAdvertising: false,
+    adsFound: 0,
+    topAds: []
+  };
+  let creditsUsed = 1;
+
+  try {
+    const businessName = user.nickname || handle;
+    if (businessName) {
+      console.log('[SociaVault] Searching TikTok Ad Library for:', businessName);
+
+      const adSearchRes = await fetch(
+        `https://api.sociavault.com/v1/scrape/tiktok-ad-library/search?keyword=${encodeURIComponent(businessName)}`,
+        { headers }
+      );
+
+      if (adSearchRes.ok) {
+        const adSearchData = await adSearchRes.json();
+        creditsUsed++;
+
+        if (adSearchData.success && adSearchData.data?.ads?.length > 0) {
+          const ads = adSearchData.data.ads;
+          advertising.adsFound = ads.length;
+
+          // Check if any ads closely match the business name
+          const matchingAds = ads.filter(ad => {
+            const adText = `${ad.brandName || ''} ${ad.displayName || ''} ${ad.title || ''}`.toLowerCase();
+            return adText.includes(businessName.toLowerCase()) ||
+                   businessName.toLowerCase().includes(ad.brandName?.toLowerCase() || '');
+          });
+
+          advertising.isAdvertising = matchingAds.length > 0;
+
+          // Get top performing ads (up to 3)
+          advertising.topAds = (matchingAds.length > 0 ? matchingAds : ads).slice(0, 3).map(ad => ({
+            id: ad.adId || ad.id || '',
+            brandName: ad.brandName || '',
+            title: ad.title?.substring(0, 100) || '',
+            objective: ad.objective || '',
+            likes: ad.likes || 0,
+            comments: ad.comments || 0,
+            shares: ad.shares || 0,
+            reach: ad.reach || 0,
+            ctr: ad.ctr || 0
+          }));
+
+          console.log(`[SociaVault] TikTok ad search found ${ads.length} ads, ${matchingAds.length} matching`);
+        }
+      }
+    }
+  } catch (adError) {
+    console.log('[SociaVault] TikTok Ad Library error:', adError.message);
+    // Continue without ad data
   }
 
   return {
@@ -1077,7 +1241,7 @@ async function fetchTikTokData(url, headers) {
     handle: user.uniqueId || handle,
     displayName: user.nickname || '',
     bio: user.signature || '',
-    followers: stats.followerCount || 0,
+    followers,
     following: stats.followingCount || 0,
     totalLikes: stats.heartCount || stats.heart || 0,
     videoCount: stats.videoCount || 0,
@@ -1088,8 +1252,12 @@ async function fetchTikTokData(url, headers) {
       avgViews,
       avgLikes,
       avgComments,
-      engagementRate: parseFloat(engagementRate) || 0
+      engagementRate: parseFloat(engagementRate) || 0,
+      postingFrequency, // NEW: videos per week
     },
+    viralContent, // NEW: videos with 10x+ average views
+    bestContent, // NEW: top 3 performing videos
+    advertising, // NEW: TikTok ad library data
     recentVideos: videos.slice(0, 5).map(v => ({
       id: v.id,
       views: v.stats?.playCount || 0,
@@ -1098,7 +1266,7 @@ async function fetchTikTokData(url, headers) {
       shares: v.stats?.shareCount || 0,
       caption: v.desc?.substring(0, 150) || ''
     })),
-    _creditsUsed: 1
+    _creditsUsed: creditsUsed
   };
 }
 
@@ -1129,13 +1297,99 @@ async function fetchYouTubeData(url, headers) {
   }
 
   const data = channelData.data || {};
+  const subscribers = data.subscriberCount || 0;
+  let creditsUsed = 1;
+
+  // NEW: Fetch video-level data for detailed analysis
+  let videos = [];
+  let bestContent = [];
+  let postingFrequency = 0;
+  let viewToSubRatio = 0;
+
+  try {
+    console.log('[SociaVault] Fetching YouTube channel videos...');
+    const videosRes = await fetch(
+      `https://api.sociavault.com/v1/scrape/youtube/channel/videos?${queryParam}`,
+      { headers }
+    );
+
+    if (videosRes.ok) {
+      const videosData = await videosRes.json();
+      creditsUsed++; // Additional credit for videos fetch
+
+      if (videosData.success && videosData.data?.items) {
+        // Analyze up to 12 recent videos
+        videos = (videosData.data.items || []).slice(0, 12);
+        console.log(`[SociaVault] Found ${videos.length} YouTube videos to analyze`);
+
+        // Calculate metrics for each video
+        const videosWithMetrics = videos.map(v => {
+          const views = v.viewCount || v.views || 0;
+          const likes = v.likeCount || v.likes || 0;
+          const comments = v.commentCount || v.comments || 0;
+          // YouTube engagement rate: (likes + comments) / views * 100
+          const engagementRate = views > 0 ? ((likes + comments) / views) * 100 : 0;
+          // View to subscriber ratio (performance indicator)
+          const viewSubRatio = subscribers > 0 ? views / subscribers : 0;
+
+          return {
+            id: v.videoId || v.id || '',
+            title: v.title?.substring(0, 100) || '',
+            views,
+            likes,
+            comments,
+            engagementRate: Math.round(engagementRate * 100) / 100,
+            viewSubRatio: Math.round(viewSubRatio * 100) / 100,
+            duration: v.lengthText || v.duration || '',
+            publishedAt: v.publishedTimeText || v.publishedAt || '',
+            thumbnail: v.thumbnail?.[0]?.url || v.thumbnailUrl || '',
+            isShort: v.isShort || (v.lengthText && v.lengthText.includes(':') && parseInt(v.lengthText) < 1) || false
+          };
+        });
+
+        // Calculate average view-to-subscriber ratio
+        if (videosWithMetrics.length > 0 && subscribers > 0) {
+          const totalViews = videosWithMetrics.reduce((sum, v) => sum + v.views, 0);
+          viewToSubRatio = Math.round((totalViews / videosWithMetrics.length / subscribers) * 100) / 100;
+        }
+
+        // Calculate posting frequency (videos per month)
+        // YouTube timestamps are relative text like "2 weeks ago", so estimate based on count
+        if (videos.length >= 2) {
+          // Rough estimate: if 12 videos, assume ~3 months of content
+          postingFrequency = Math.round((videos.length / 3) * 10) / 10; // videos per month
+        }
+
+        // Identify best performing content (top 3 by view-to-subscriber ratio)
+        bestContent = [...videosWithMetrics]
+          .sort((a, b) => b.viewSubRatio - a.viewSubRatio)
+          .slice(0, 3)
+          .map(v => ({
+            ...v,
+            isTopPerformer: true,
+            performanceVsAverage: viewToSubRatio > 0 ? Math.round((v.viewSubRatio / viewToSubRatio) * 10) / 10 : 0
+          }));
+      }
+    } else {
+      console.log('[SociaVault] Could not fetch YouTube videos, continuing with channel data only');
+    }
+  } catch (videosError) {
+    console.log('[SociaVault] YouTube videos fetch error:', videosError.message);
+    // Continue with channel data only
+  }
+
+  // Calculate content mix (videos vs shorts)
+  const contentMix = {
+    videos: videos.filter(v => !v.isShort).length,
+    shorts: videos.filter(v => v.isShort).length
+  };
 
   return {
     platform: 'youtube',
     handle: data.handle || '',
     displayName: data.name || '',
     description: data.description?.substring(0, 300) || '',
-    subscribers: data.subscriberCount || 0,
+    subscribers: subscribers,
     subscriberText: data.subscriberCountText || '',
     totalViews: data.viewCount || 0,
     videoCount: data.videoCount || 0,
@@ -1145,9 +1399,22 @@ async function fetchYouTubeData(url, headers) {
     links: data.links || {},
     tags: data.tags || '',
     metrics: {
-      avgViewsPerVideo: data.videoCount > 0 ? Math.round(data.viewCount / data.videoCount) : 0
+      avgViewsPerVideo: data.videoCount > 0 ? Math.round(data.viewCount / data.videoCount) : 0,
+      viewToSubRatio, // NEW: average views per video relative to subscriber count
+      postingFrequency, // NEW: estimated videos per month
     },
-    _creditsUsed: 1
+    contentMix, // NEW: videos vs shorts breakdown
+    bestContent, // NEW: top 3 performing videos
+    recentVideos: videos.slice(0, 5).map(v => ({
+      id: v.videoId || v.id || '',
+      title: v.title?.substring(0, 100) || '',
+      views: v.viewCount || v.views || 0,
+      likes: v.likeCount || v.likes || 0,
+      comments: v.commentCount || v.comments || 0,
+      duration: v.lengthText || v.duration || '',
+      isShort: v.isShort || false
+    })),
+    _creditsUsed: creditsUsed
   };
 }
 
@@ -1170,6 +1437,85 @@ async function fetchFacebookData(url, headers) {
   }
 
   const data = fbData.data || {};
+  let creditsUsed = 1;
+
+  // NEW: Fetch ads from Facebook Ad Library
+  let advertising = {
+    isAdvertising: false,
+    activeAds: 0,
+    adTypes: [],
+    recentAds: []
+  };
+
+  try {
+    const pageName = data.name;
+    if (pageName) {
+      console.log('[SociaVault] Searching Facebook Ad Library for:', pageName);
+
+      // Search for the company in the ad library
+      const searchRes = await fetch(
+        `https://api.sociavault.com/v1/scrape/facebook/ads/search-companies?query=${encodeURIComponent(pageName)}`,
+        { headers }
+      );
+
+      if (searchRes.ok) {
+        const searchData = await searchRes.json();
+        creditsUsed++;
+
+        if (searchData.success && searchData.data?.companies?.length > 0) {
+          // Find the best matching company (exact match or first result)
+          const company = searchData.data.companies.find(c =>
+            c.name?.toLowerCase() === pageName.toLowerCase()
+          ) || searchData.data.companies[0];
+
+          if (company?.pageId) {
+            console.log('[SociaVault] Found ad library page ID:', company.pageId);
+
+            // Fetch ads for this company
+            const adsRes = await fetch(
+              `https://api.sociavault.com/v1/scrape/facebook/ads/company?pageId=${encodeURIComponent(company.pageId)}`,
+              { headers }
+            );
+
+            if (adsRes.ok) {
+              const adsData = await adsRes.json();
+              creditsUsed++;
+
+              if (adsData.success && adsData.data?.ads) {
+                const ads = adsData.data.ads || [];
+                advertising.isAdvertising = ads.length > 0;
+                advertising.activeAds = ads.length;
+
+                // Categorize ad types
+                const adTypeSet = new Set();
+                ads.forEach(ad => {
+                  if (ad.adType) adTypeSet.add(ad.adType);
+                  else if (ad.mediaType) adTypeSet.add(ad.mediaType);
+                });
+                advertising.adTypes = Array.from(adTypeSet);
+
+                // Get sample of recent ads (up to 5)
+                advertising.recentAds = ads.slice(0, 5).map(ad => ({
+                  id: ad.adId || ad.id || '',
+                  headline: ad.title || ad.headline || '',
+                  body: ad.body?.substring(0, 200) || '',
+                  type: ad.adType || ad.mediaType || 'unknown',
+                  startDate: ad.startDate || '',
+                  platforms: ad.platforms || [],
+                  isActive: ad.isActive !== false
+                }));
+
+                console.log(`[SociaVault] Found ${advertising.activeAds} Facebook ads`);
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (adsError) {
+    console.log('[SociaVault] Facebook Ad Library error:', adsError.message);
+    // Continue without ad data
+  }
 
   return {
     platform: 'facebook',
@@ -1183,7 +1529,8 @@ async function fetchFacebookData(url, headers) {
     phone: data.phone || '',
     address: data.address || '',
     adStatus: data.adLibrary?.adStatus || null,
-    _creditsUsed: 1
+    advertising, // NEW: detailed ad library data
+    _creditsUsed: creditsUsed
   };
 }
 
@@ -1646,8 +1993,8 @@ Return ONLY valid JSON:
       "score": 75,
       "weight": 0.20,
       "title": "Social Media & Content",
-      "summary": "Social presence and content engagement across platforms",
-      "data_sources": ["SociaVault API"],
+      "summary": "Social presence, content strategy, engagement, and advertising across platforms",
+      "data_sources": ["SociaVault API", "Facebook Ad Library", "TikTok Ad Library"],
       "metrics": [
         {
           "label": "Total Followers",
@@ -1668,6 +2015,33 @@ Return ONLY valid JSON:
           "tooltip": "(Avg likes + comments) / followers × 100"
         },
         {
+          "label": "Posting Consistency",
+          "value": "USE postingFrequency data - e.g., '2.5 posts/week on Instagram, 1 video/week on TikTok'",
+          "benchmark": "Tourism: 3-5 posts/week on Instagram, 2-3 videos/week on TikTok recommended",
+          "status": "good if consistent, warning if sporadic",
+          "confidence": "high",
+          "source": "SociaVault API",
+          "tooltip": "Posting frequency based on recent content timestamps"
+        },
+        {
+          "label": "Content Mix",
+          "value": "Describe the balance of content types (images, carousels, reels, videos, shorts)",
+          "benchmark": "Tourism: Reels/short-form video should be 30-50% of content for best reach",
+          "status": "based on content type distribution",
+          "confidence": "high",
+          "source": "SociaVault API",
+          "tooltip": "Analysis of content format distribution"
+        },
+        {
+          "label": "Best Performing Content",
+          "value": "Describe the top-performing posts/videos and what made them successful",
+          "benchmark": "Top content should have 2-5x average engagement",
+          "status": "info",
+          "confidence": "high",
+          "source": "SociaVault API",
+          "tooltip": "Top 3 posts by engagement rate per platform"
+        },
+        {
           "label": "Active Platforms",
           "value": "List platforms with verified presence",
           "benchmark": "Tourism businesses should be on 2-3 platforms minimum",
@@ -1677,21 +2051,34 @@ Return ONLY valid JSON:
           "tooltip": "Platforms with active accounts"
         },
         {
-          "label": "Top Content Performance",
-          "value": "Describe highest-engagement recent content",
-          "benchmark": "Recent content should show consistent engagement",
-          "status": "info",
+          "label": "Paid Advertising Status",
+          "value": "USE advertising data - 'Running X ads on Facebook/Instagram' or 'No active paid campaigns detected'",
+          "benchmark": "Tourism businesses with ad budgets see 3-5x faster follower growth",
+          "status": "info if no ads, good if running targeted campaigns",
           "confidence": "high",
-          "source": "SociaVault API",
-          "tooltip": "Based on recent posts/videos"
+          "source": "Facebook/TikTok Ad Libraries",
+          "tooltip": "Based on public ad library data"
         }
       ],
+      "content_strategy_analysis": {
+        "strengths": ["List content strategy strengths based on data"],
+        "gaps": ["List content gaps - missing formats, inconsistent posting, etc."],
+        "top_content_themes": ["What topics/themes perform best for this business"],
+        "recommendations": ["Specific content strategy improvements"]
+      },
+      "advertising_analysis": {
+        "is_advertising": "true/false based on ad library data",
+        "platforms_with_ads": ["facebook", "instagram", "tiktok"],
+        "ad_count": "Number of active ads detected",
+        "ad_effectiveness_notes": "If ads found, comment on ad creative quality based on available data",
+        "recommendations": "Advertising recommendations based on findings"
+      },
       "findings": [
-        {"type": "positive/negative", "text": "Specific finding about social performance", "confidence": "high", "source": "SociaVault"}
+        {"type": "positive/negative", "text": "Specific finding about social performance, content strategy, or advertising", "confidence": "high", "source": "SociaVault/Ad Library"}
       ],
       "recommendations": [
         {
-          "text": "Specific social media improvement",
+          "text": "Specific social media, content strategy, or advertising improvement",
           "time_estimate": "Time required",
           "impact": "Expected result",
           "priority": "high/medium/low"
@@ -2028,8 +2415,31 @@ ${JSON.stringify(seo, null, 2)}`;
 - Engagement Rate: ${ig.metrics?.engagementRate || 0}%
 - Avg Likes per Post: ${ig.metrics?.avgLikes?.toLocaleString() || 0}
 - Avg Comments per Post: ${ig.metrics?.avgComments || 0}
+- Posting Frequency: ${ig.metrics?.postingFrequency || 0} posts/week
 - Bio: "${ig.bio?.substring(0, 150) || 'N/A'}"
 - External Link: ${ig.externalUrl || 'None'}`;
+
+      // Content Mix Analysis
+      if (ig.contentMix) {
+        context += `\n\n#### Content Mix:
+- Images: ${ig.contentMix.images || 0}
+- Carousels: ${ig.contentMix.carousels || 0}
+- Reels: ${ig.contentMix.reels || 0}`;
+      }
+
+      // Best Performing Content
+      if (ig.bestContent?.length > 0) {
+        context += `\n\n#### Best Performing Content (Top 3 by engagement rate):`;
+        ig.bestContent.forEach((post, i) => {
+          context += `\n${i + 1}. ${post.engagementRate?.toFixed(2) || 0}% engagement - ${post.likes?.toLocaleString() || 0} likes, ${post.comments || 0} comments`;
+          if (post.performanceVsAverage) {
+            context += ` (${post.performanceVsAverage}x average)`;
+          }
+          if (post.caption) {
+            context += `\n   Caption: "${post.caption.substring(0, 80)}..."`;
+          }
+        });
+      }
 
       if (ig.recentPosts?.length > 0) {
         context += `\n\n#### Recent Posts Performance:`;
@@ -2050,8 +2460,41 @@ ${JSON.stringify(seo, null, 2)}`;
 - Engagement Rate: ${tt.metrics?.engagementRate || 0}%
 - Avg Views per Video: ${tt.metrics?.avgViews?.toLocaleString() || 0}
 - Avg Likes per Video: ${tt.metrics?.avgLikes?.toLocaleString() || 0}
+- Posting Frequency: ${tt.metrics?.postingFrequency || 0} videos/week
 - Bio: "${tt.bio?.substring(0, 150) || 'N/A'}"
 - Bio Link: ${tt.bioLink || 'None'}`;
+
+      // Viral Content Detection
+      if (tt.viralContent?.length > 0) {
+        context += `\n\n#### Viral Content (10x+ average views):`;
+        tt.viralContent.forEach((video, i) => {
+          context += `\n${i + 1}. ${video.views?.toLocaleString() || 0} views (${video.performanceVsAverage}x average) - ${video.likes?.toLocaleString() || 0} likes`;
+        });
+      }
+
+      // Best Performing Content
+      if (tt.bestContent?.length > 0) {
+        context += `\n\n#### Best Performing Content (Top 3 by engagement rate):`;
+        tt.bestContent.forEach((video, i) => {
+          context += `\n${i + 1}. ${video.engagementRate?.toFixed(2) || 0}% engagement - ${video.views?.toLocaleString() || 0} views, ${video.likes?.toLocaleString() || 0} likes`;
+          if (video.caption) {
+            context += `\n   Caption: "${video.caption.substring(0, 80)}..."`;
+          }
+        });
+      }
+
+      // TikTok Advertising
+      if (tt.advertising) {
+        context += `\n\n#### TikTok Advertising Status:
+- Running TikTok Ads: ${tt.advertising.isAdvertising ? 'YES' : 'NO'}
+- Ads Found in Search: ${tt.advertising.adsFound || 0}`;
+        if (tt.advertising.topAds?.length > 0) {
+          context += `\n- Top Ad Performance:`;
+          tt.advertising.topAds.forEach((ad, i) => {
+            context += `\n  ${i + 1}. "${ad.title?.substring(0, 50) || 'Untitled'}" - ${ad.likes || 0} likes, ${ad.shares || 0} shares`;
+          });
+        }
+      }
 
       if (tt.recentVideos?.length > 0) {
         context += `\n\n#### Recent Videos Performance:`;
@@ -2069,8 +2512,36 @@ ${JSON.stringify(seo, null, 2)}`;
 - Total Views: ${yt.totalViews?.toLocaleString() || 0}
 - Videos: ${yt.videoCount || 0}
 - Avg Views per Video: ${yt.metrics?.avgViewsPerVideo?.toLocaleString() || 0}
+- View-to-Subscriber Ratio: ${yt.metrics?.viewToSubRatio || 0}
+- Posting Frequency: ~${yt.metrics?.postingFrequency || 0} videos/month
 - Joined: ${yt.joinedDate || 'Unknown'}
 - Country: ${yt.country || 'Unknown'}`;
+
+      // Content Mix
+      if (yt.contentMix) {
+        context += `\n\n#### Content Mix:
+- Regular Videos: ${yt.contentMix.videos || 0}
+- Shorts: ${yt.contentMix.shorts || 0}`;
+      }
+
+      // Best Performing Videos
+      if (yt.bestContent?.length > 0) {
+        context += `\n\n#### Best Performing Videos (by view-to-subscriber ratio):`;
+        yt.bestContent.forEach((video, i) => {
+          context += `\n${i + 1}. "${video.title?.substring(0, 50) || 'Untitled'}..." - ${video.views?.toLocaleString() || 0} views`;
+          if (video.performanceVsAverage) {
+            context += ` (${video.performanceVsAverage}x average)`;
+          }
+        });
+      }
+
+      // Recent Videos
+      if (yt.recentVideos?.length > 0) {
+        context += `\n\n#### Recent Videos:`;
+        yt.recentVideos.slice(0, 3).forEach((video, i) => {
+          context += `\n- Video ${i + 1}: "${video.title?.substring(0, 40) || 'Untitled'}..." - ${video.views?.toLocaleString() || 0} views, ${video.likes?.toLocaleString() || 0} likes`;
+        });
+      }
     }
 
     // Facebook
@@ -2080,7 +2551,27 @@ ${JSON.stringify(seo, null, 2)}`;
 - Followers: ${fb.followers?.toLocaleString() || 0}
 - Page Likes: ${fb.likes?.toLocaleString() || 0}
 - Category: ${fb.category || 'Unknown'}
-- Running Ads: ${fb.adStatus ? 'YES' : 'NO'}`;
+- Basic Ad Status: ${fb.adStatus ? 'YES - Running Ads' : 'NO or Unknown'}`;
+
+      // Facebook Advertising Details
+      if (fb.advertising) {
+        context += `\n\n#### Facebook Advertising Analysis:
+- Running Facebook/Instagram Ads: ${fb.advertising.isAdvertising ? 'YES' : 'NO'}
+- Active Ads Found: ${fb.advertising.activeAds || 0}
+- Ad Types: ${fb.advertising.adTypes?.join(', ') || 'None detected'}`;
+        if (fb.advertising.recentAds?.length > 0) {
+          context += `\n\n#### Recent Ad Creatives:`;
+          fb.advertising.recentAds.forEach((ad, i) => {
+            context += `\n${i + 1}. "${ad.headline?.substring(0, 50) || 'No headline'}" (${ad.type})`;
+            if (ad.body) {
+              context += `\n   Body: "${ad.body.substring(0, 100)}..."`;
+            }
+            if (ad.platforms?.length > 0) {
+              context += `\n   Platforms: ${ad.platforms.join(', ')}`;
+            }
+          });
+        }
+      }
     }
 
     // Top performing content
@@ -2089,6 +2580,25 @@ ${JSON.stringify(seo, null, 2)}`;
       sm.topContent.slice(0, 3).forEach((content, i) => {
         context += `\n${i + 1}. [${content.platform}] ${content.engagement?.toLocaleString() || 0} engagements - "${content.caption?.substring(0, 50) || 'No caption'}..."`;
       });
+    }
+
+    // Advertising Summary
+    context += `\n\n### Advertising Summary`;
+    const fbAds = sm.platforms?.facebook?.advertising;
+    const ttAds = sm.platforms?.tiktok?.advertising;
+    const hasAnyAds = fbAds?.isAdvertising || ttAds?.isAdvertising;
+
+    if (hasAnyAds) {
+      context += `\n- PAID ADVERTISING DETECTED`;
+      if (fbAds?.isAdvertising) {
+        context += `\n- Facebook/Instagram: ${fbAds.activeAds || 0} active ads`;
+      }
+      if (ttAds?.isAdvertising) {
+        context += `\n- TikTok: Ads found matching business name`;
+      }
+    } else {
+      context += `\n- NO PAID ADVERTISING DETECTED on Facebook or TikTok`;
+      context += `\n- Consider: Paid social advertising could accelerate growth`;
     }
 
   } else if (data.socialMediaData?._error) {
