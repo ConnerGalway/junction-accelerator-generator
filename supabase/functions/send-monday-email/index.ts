@@ -54,9 +54,14 @@ async function processClient(
   client: { email: string; client_slug: string; cohort_start_date: string; timezone: string; coach_email: string | null }
 ): Promise<{ status: string; reason?: string }> {
 
-  // Calculate current cohort week
+  // Calculate current cohort week using UTC dates to avoid DST issues
   const cohortStart = new Date(client.cohort_start_date)
-  const daysDiff    = Math.floor((Date.now() - cohortStart.getTime()) / 86400000)
+  const now = new Date()
+
+  // Use UTC to calculate days difference (avoids DST edge cases)
+  const cohortStartUTC = Date.UTC(cohortStart.getFullYear(), cohortStart.getMonth(), cohortStart.getDate())
+  const nowUTC = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate())
+  const daysDiff = Math.floor((nowUTC - cohortStartUTC) / 86400000)
   const currentWeek = Math.floor(daysDiff / 7) + 1
 
   if (currentWeek > 12) return { status: 'skipped', reason: 'programme complete' }

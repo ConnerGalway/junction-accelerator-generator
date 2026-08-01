@@ -629,8 +629,13 @@
       // Admin, PSM, or coach goes to dashboard
       window.location.replace('/my-clients/');
     } else if (clientRow) {
-      // Client goes to their plan
-      window.location.replace('/' + clientRow.client_slug + '/');
+      // Client goes to their plan - validate slug format first
+      const slug = clientRow.client_slug;
+      if (/^[a-z0-9-]+$/.test(slug)) {
+        window.location.replace('/clients/' + slug + '/');
+      } else {
+        window.location.replace('/login?error=invalid_project');
+      }
     } else {
       window.location.replace('/login?error=access_denied');
     }

@@ -6,6 +6,17 @@
   'use strict';
 
   // ══════════════════════════════════════════════════════════════════════════
+  // UTILITIES
+  // ══════════════════════════════════════════════════════════════════════════
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
   // INJECT STYLES
   // ══════════════════════════════════════════════════════════════════════════
 
@@ -345,19 +356,21 @@
       return;
     }
 
-    // Get current user email
-    let inviterEmail = 'unknown';
+    // Get current session once (fix duplicate session fetch)
+    let session;
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
+      const result = await supabaseClient.auth.getSession();
+      session = result.data.session;
       if (!session) {
         showMessage('error', 'Please log in to share access.');
         return;
       }
-      inviterEmail = session.user.email;
     } catch (err) {
       showMessage('error', 'Authentication error. Please refresh and try again.');
       return;
     }
+
+    const inviterEmail = session.user.email;
 
     // Show loading state
     submitBtn.disabled = true;
@@ -366,8 +379,6 @@
     messageEl.className = 'share-modal__message';
 
     try {
-      const { data: { session } } = await supabaseClient.auth.getSession();
-
       const response = await fetch('/.netlify/functions/invite-client', {
         method: 'POST',
         headers: {

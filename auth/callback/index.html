@@ -104,8 +104,14 @@
       const role        = primaryRow.role;
 
       if (role === 'client') {
-        window.location.replace('/' + primaryRow.client_slug + '/');
-      } else if (role === 'coach' || role === 'admin') {
+        // Validate slug format before redirect to prevent path traversal
+        const slug = primaryRow.client_slug;
+        if (/^[a-z0-9-]+$/.test(slug)) {
+          window.location.replace('/clients/' + slug + '/');
+        } else {
+          window.location.replace('/login?error=invalid_project');
+        }
+      } else if (role === 'coach' || role === 'admin' || role === 'psm') {
         window.location.replace('/my-clients/');
       } else {
         window.location.replace('/login?error=access_denied');

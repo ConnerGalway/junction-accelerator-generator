@@ -188,6 +188,17 @@
   `;
 
   // ══════════════════════════════════════════════════════════════
+  // UTILITIES
+  // ══════════════════════════════════════════════════════════════
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ══════════════════════════════════════════════════════════════
   // ICONS
   // ══════════════════════════════════════════════════════════════
   const ICONS = {
@@ -214,6 +225,8 @@
   // ══════════════════════════════════════════════════════════════
   function createMenuHTML(userEmail, userRole, direction) {
     const dirClass = direction === 'down' ? ' user-menu--down' : '';
+    const safeEmail = escapeHtml(userEmail);
+    const safeRole = escapeHtml(userRole);
     return `
       <div class="user-menu${dirClass}" id="userMenu">
         <div class="user-menu__backdrop" onclick="window.closeUserMenu()"></div>
@@ -222,8 +235,8 @@
         </button>
         <div class="user-menu__dropdown">
           <div class="user-menu__header">
-            <div class="user-menu__email">${userEmail}</div>
-            <div class="user-menu__role">${userRole}</div>
+            <div class="user-menu__email">${safeEmail}</div>
+            <div class="user-menu__role">${safeRole}</div>
           </div>
           <button class="user-menu__item" onclick="window.userMenuResetPassword()">
             ${ICONS.key}
@@ -294,7 +307,12 @@
 
   window.userMenuLogOut = async function() {
     window.closeUserMenu();
-    await supabaseClient.auth.signOut();
+    try {
+      await supabaseClient.auth.signOut();
+    } catch (err) {
+      console.error('Sign out error:', err);
+      // Continue with redirect even if signOut fails - clear local state
+    }
     window.location.replace('/login');
   };
 

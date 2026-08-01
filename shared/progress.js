@@ -1,5 +1,22 @@
 (async function () {
 
+  // ──────────────────────────────────────────────────────────────────────────
+  // UTILITIES
+  // ──────────────────────────────────────────────────────────────────────────
+
+  // Check if sessionStorage is available (fails in some private browsing modes)
+  function isStorageAvailable() {
+    try {
+      const test = '__storage_test__';
+      sessionStorage.setItem(test, test);
+      sessionStorage.removeItem(test);
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  const storageAvailable = isStorageAvailable();
   const clientSlug = document.body.getAttribute('data-client-slug');
   const isReadonly = document.body.getAttribute('data-readonly') === 'true';
 
@@ -28,7 +45,7 @@
   // ------------------------------------------------------------------
   // 3. Retry any pending offline saves from a previous failed attempt
   // ------------------------------------------------------------------
-  await flushPendingQueue();
+  await flushPendingQueueToServer();
 
   // ------------------------------------------------------------------
   // 4. Load saved progress from Supabase and apply to checkboxes
@@ -86,19 +103,46 @@
 
   // ------------------------------------------------------------------
   // Offline queue — stored in sessionStorage as a JSON array
+  // Uses debouncing to prevent race conditions
   // ------------------------------------------------------------------
 
   const QUEUE_KEY = `progress_queue_${clientSlug}`;
 
+  // In-memory pending writes to prevent race conditions
+  const pendingWrites = new Map();
+  let flushTimer = null;
+
   function queuePendingChange(record) {
-    const queue = getPendingQueue();
-    // Replace any existing queued entry for the same item_key
-    const filtered = queue.filter(r => r.item_key !== record.item_key);
-    filtered.push(record);
-    sessionStorage.setItem(QUEUE_KEY, JSON.stringify(filtered));
+    if (!storageAvailable) {
+      console.warn('sessionStorage not available - offline queue disabled');
+      return;
+    }
+
+    // Store in memory first (atomic)
+    pendingWrites.set(record.item_key, record);
+
+    // Debounce the storage write
+    clearTimeout(flushTimer);
+    flushTimer = setTimeout(flushToStorage, 100);
+  }
+
+  function flushToStorage() {
+    if (!storageAvailable || pendingWrites.size === 0) return;
+
+    try {
+      const existing = getPendingQueue();
+      // Merge existing queue with pending writes
+      const merged = new Map(existing.map(r => [r.item_key, r]));
+      pendingWrites.forEach((value, key) => merged.set(key, value));
+      sessionStorage.setItem(QUEUE_KEY, JSON.stringify([...merged.values()]));
+      pendingWrites.clear();
+    } catch (e) {
+      console.error('Failed to write to sessionStorage:', e);
+    }
   }
 
   function getPendingQueue() {
+    if (!storageAvailable) return [];
     try {
       return JSON.parse(sessionStorage.getItem(QUEUE_KEY) || '[]');
     } catch {
@@ -106,7 +150,7 @@
     }
   }
 
-  async function flushPendingQueue() {
+  async function flushPendingQueueToServer() {
     const queue = getPendingQueue();
     if (queue.length === 0) return;
 
@@ -123,6 +167,8 @@
     }
 
     // Keep only the ones that still failed
+    if (!storageAvailable) return;
+
     if (stillFailing.length > 0) {
       sessionStorage.setItem(QUEUE_KEY, JSON.stringify(stillFailing));
     } else {

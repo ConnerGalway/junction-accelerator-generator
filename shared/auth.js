@@ -14,6 +14,7 @@
 //   data-client-slug="..."  → verify access to that specific client plan
 
 window.__authReady = (async function () {
+  try {
 
   // ------------------------------------------------------------------
   // 1. Check for an active session — redirect to /login if none exists
@@ -54,7 +55,13 @@ window.__authReady = (async function () {
     if (!adminRow && !psmRow && !coachRow) {
       // Pure client — send them to their own plan
       if (clientRow) {
-        window.location.replace('/' + clientRow.client_slug + '/');
+        // Validate slug format before redirect to prevent path traversal
+        const slug = clientRow.client_slug;
+        if (/^[a-z0-9-]+$/.test(slug)) {
+          window.location.replace('/clients/' + slug + '/');
+        } else {
+          window.location.replace('/login?error=invalid_project');
+        }
       } else {
         window.location.replace('/login');
       }
@@ -180,4 +187,10 @@ window.__authReady = (async function () {
   // Unknown page context — allow through
   return { email: userEmail, role: null };
 
+  } catch (err) {
+    console.error('Auth initialization failed:', err);
+    // Redirect to login on any auth error
+    window.location.replace('/login?error=auth_failed');
+    return new Promise(() => {}); // never resolve
+  }
 })();

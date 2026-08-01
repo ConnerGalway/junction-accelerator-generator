@@ -3,16 +3,49 @@
 
 import { createClient } from '@supabase/supabase-js';
 
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════════════════
+
+function escapeHtml(str) {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 export async function handler(event, context) {
-  // Only allow POST
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
+  // CORS headers - restrict to production domain only
+  const allowedOrigins = [
+    'https://accelerator.elearningu.com',
+    'https://junction-accelerator-generator.netlify.app'
+  ];
+  const origin = event.headers.origin || event.headers.Origin || '';
+  const corsOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': corsOrigin,
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Credentials': 'true'
+  };
+
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return { statusCode: 204, headers: corsHeaders, body: '' };
   }
 
-  // CORS headers
+  // Only allow POST
+  if (event.httpMethod !== 'POST') {
+    return { statusCode: 405, headers: corsHeaders, body: JSON.stringify({ error: 'Method not allowed' }) };
+  }
+
+  // Response headers (includes CORS + content type)
   const headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    ...corsHeaders,
     'Content-Type': 'application/json'
   };
 
@@ -155,7 +188,11 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 5. SEND INVITATION EMAIL VIA RESEND
     // ─────────────────────────────────────────────────────────────────────────
-    const projectUrl = `https://accelerator.elearningu.com/${clientSlug}/`;
+    const projectUrl = `https://accelerator.elearningu.com/${encodeURIComponent(clientSlug)}/`;
+
+    // Escape user-provided content for HTML safety
+    const safeInviterEmail = escapeHtml(inviterEmail);
+    const safeClientName = escapeHtml(clientName);
 
     const emailHtml = `
 <!DOCTYPE html>
@@ -180,7 +217,7 @@ export async function handler(event, context) {
             <td style="padding: 40px 32px;">
               <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 700; color: #11154b;">You've Been Invited!</h1>
               <p style="margin: 0 0 24px; font-size: 15px; line-height: 1.6; color: #6b6b8a;">
-                <strong style="color: #11154b;">${inviterEmail}</strong> has shared access to the <strong style="color: #11154b;">${clientName}</strong> accelerator dashboard with you.
+                <strong style="color: #11154b;">${safeInviterEmail}</strong> has shared access to the <strong style="color: #11154b;">${safeClientName}</strong> accelerator dashboard with you.
               </p>
               <p style="margin: 0 0 32px; font-size: 15px; line-height: 1.6; color: #6b6b8a;">
                 Click the button below to view your dashboard and track your 90-day marketing plan progress.
@@ -229,7 +266,7 @@ export async function handler(event, context) {
           body: JSON.stringify({
             from: 'eLearningU <noreply@elearningu.com>',
             to: [email],
-            subject: `You've been invited to ${clientName} Dashboard`,
+            subject: `You've been invited to ${safeClientName} Dashboard`,
             html: emailHtml
           })
         });

@@ -9,8 +9,7 @@ import { createClient } from '@supabase/supabase-js';
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function handler(event, context) {
-  // Debug: Log immediately
-  console.log('[DEBUG] Function invoked, method:', event.httpMethod);
+  const DEBUG = process.env.DEBUG === 'true';
 
   // Debug: Add test mode to verify function works
   const url = new URL(event.rawUrl || `https://x.com${event.path}`);
@@ -26,7 +25,7 @@ export async function handler(event, context) {
     return { statusCode: 405, body: JSON.stringify({ error: 'Method not allowed' }) };
   }
 
-  console.log('[STEP 0] POST request received');
+  if (DEBUG) console.log('[STEP 0] POST request received');
 
   // Initialize Supabase client early for error tracking
   const supabaseAdmin = createClient(
@@ -37,12 +36,12 @@ export async function handler(event, context) {
   let slug = null; // Track slug for error recording
 
   try {
-    console.log('[STEP 1] Parsing request body');
+    if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
     const { businessName, websiteUrl, location, social } = body;
     slug = body.slug;
-    console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
+    if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
 
     // Validate required fields
     if (!businessName || !slug || !websiteUrl) {
@@ -71,11 +70,40 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 1. CREATE RECORD IMMEDIATELY (for error tracking)
+    // 1. VERIFY AUTH FIRST (before creating any database records)
     // ─────────────────────────────────────────────────────────────────────────
-    console.log('[STEP 1b] Creating initial record for tracking');
+    const authHeader = event.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return { statusCode: 401, body: JSON.stringify({ error: 'Authentication required' }) };
+    }
 
-    // Try to create record - this will fail if slug exists (which is fine)
+    const token = authHeader.replace('Bearer ', '');
+
+    // Verify token and get user
+    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+    if (authError || !user) {
+      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
+    }
+
+    // Check user role (admin or psm required)
+    const { data: roleRows } = await supabaseAdmin
+      .from('user_plans')
+      .select('role')
+      .eq('email', user.email)
+      .eq('active', true)
+      .in('role', ['admin', 'psm']);
+
+    if (!roleRows || roleRows.length === 0) {
+      return { statusCode: 403, body: JSON.stringify({ error: 'Admin or PSM role required' }) };
+    }
+
+    if (DEBUG) console.log('[STEP 1] Auth verified for:', user.email);
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2. CREATE RECORD (now that auth is verified)
+    // ─────────────────────────────────────────────────────────────────────────
+    if (DEBUG) console.log('[STEP 2] Creating assessment record for:', slug);
+
     const { error: insertError } = await supabaseAdmin
       .from('client_assessments')
       .insert({
@@ -91,8 +119,8 @@ export async function handler(event, context) {
         social_twitter: social?.twitter || null,
         social_linkedin: social?.linkedin || null,
         status: 'processing',
-        error_message: 'Progress: Validating request',
-        created_by: 'pending-auth'
+        error_message: 'Progress: Starting assessment',
+        created_by: user.email
       });
 
     if (insertError) {
@@ -134,49 +162,9 @@ export async function handler(event, context) {
       }
     };
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 2. VERIFY AUTH
-    // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Verifying authentication');
-    const authHeader = event.headers.authorization;
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      await markFailed('Authentication required');
-      return { statusCode: 401, body: JSON.stringify({ error: 'Authentication required' }) };
-    }
+    if (DEBUG) console.log('[STEP 2] Record created, proceeding with assessment');
 
-    const token = authHeader.replace('Bearer ', '');
-
-    // Verify token and get user
-    const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
-    if (authError || !user) {
-      await markFailed('Invalid token');
-      return { statusCode: 401, body: JSON.stringify({ error: 'Invalid token' }) };
-    }
-
-    // Update the created_by field with actual user
-    await supabaseAdmin
-      .from('client_assessments')
-      .update({ created_by: user.email })
-      .eq('client_slug', slug);
-
-    // Check user role (admin or psm required)
-    await updateProgress('Checking permissions');
-    const { data: roleRows } = await supabaseAdmin
-      .from('user_plans')
-      .select('role')
-      .eq('email', user.email)
-      .eq('active', true)
-      .in('role', ['admin', 'psm']);
-
-    if (!roleRows || roleRows.length === 0) {
-      await markFailed('Admin or PSM role required');
-      return { statusCode: 403, body: JSON.stringify({ error: 'Admin or PSM role required' }) };
-    }
-
-    console.log('[STEP 2] Auth verified');
-    await updateProgress('Authentication verified')
-
-    console.log('[STEP 4] Fetching SEOptimer data');
+    if (DEBUG) console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
     // 4. FETCH SEOPTIMER DATA (REQUIRED)
     // ─────────────────────────────────────────────────────────────────────────
@@ -207,7 +195,7 @@ export async function handler(event, context) {
       };
     }
 
-    console.log('[STEP 4] SEOptimer data received');
+    if (DEBUG) console.log('[STEP 4] SEOptimer data received');
 
     // ─────────────────────────────────────────────────────────────────────────
     // 4b. FETCH GOOGLE PLACES DATA (REVIEWS)
@@ -215,10 +203,10 @@ export async function handler(event, context) {
     await updateProgress('Fetching Google Places data');
     let googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_API_KEY) {
-      console.log('[STEP 4b] Fetching Google Places data');
+      if (DEBUG) console.log('[STEP 4b] Fetching Google Places data');
       try {
         googlePlacesData = await fetchGooglePlacesData(businessName, location);
-        console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
+        if (DEBUG) console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
         await updateProgress('Google Places complete');
       } catch (err) {
         console.error('Google Places error (non-fatal):', err.message);
@@ -229,7 +217,7 @@ export async function handler(event, context) {
         };
       }
     } else {
-      console.log('[STEP 4b] GOOGLE_PLACES_API_KEY not configured, skipping');
+      if (DEBUG) console.log('[STEP 4b] GOOGLE_PLACES_API_KEY not configured, skipping');
       await updateProgress('Google Places skipped (no API key)');
     }
     // ─────────────────────────────────────────────────────────────────────────
@@ -237,10 +225,10 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Analyzing website content');
     let websiteAnalysis = null;
-    console.log('[STEP 4c] Analyzing website content');
+    if (DEBUG) console.log('[STEP 4c] Analyzing website content');
     try {
       websiteAnalysis = await analyzeWebsiteContent(websiteUrl);
-      console.log('[STEP 4c] Website analysis complete');
+      if (DEBUG) console.log('[STEP 4c] Website analysis complete');
       await updateProgress('Website analysis complete');
     } catch (err) {
       console.error('Website analysis error (non-fatal):', err.message);
@@ -255,12 +243,12 @@ export async function handler(event, context) {
     // 4d. VERIFY AND FILTER GOOGLE PLACES DATA
     // ─────────────────────────────────────────────────────────────────────────
     if (googlePlacesData && !googlePlacesData._error) {
-      console.log('[STEP 4d] Verifying Google Places data');
+      if (DEBUG) console.log('[STEP 4d] Verifying Google Places data');
       googlePlacesData = verifyGooglePlacesMatch(googlePlacesData, websiteUrl);
       googlePlacesData = filterRecentReviews(googlePlacesData, 18);
 
       if (googlePlacesData._verification && !googlePlacesData._verification.verified) {
-        console.log('[STEP 4d] Warning: Google Places verification issues:', googlePlacesData._verification.warnings);
+        if (DEBUG) console.log('[STEP 4d] Warning: Google Places verification issues:', googlePlacesData._verification.warnings);
       }
     }
 
@@ -269,11 +257,11 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     let socialMediaData = null;
     if (social && Object.values(social).some(url => url)) {
-      console.log('[STEP 4e] Fetching social media data from SociaVault');
+      if (DEBUG) console.log('[STEP 4e] Fetching social media data from SociaVault');
       await updateProgress('Analyzing social media profiles');
       try {
         socialMediaData = await fetchSocialMediaData(social);
-        console.log('[STEP 4e] Social media analysis complete:', socialMediaData?.summary);
+        if (DEBUG) console.log('[STEP 4e] Social media analysis complete:', socialMediaData?.summary);
         await updateProgress('Social media analysis complete');
       } catch (err) {
         console.error('[STEP 4e] Social media fetch error (non-fatal):', err.message);
@@ -284,14 +272,14 @@ export async function handler(event, context) {
         };
       }
     } else {
-      console.log('[STEP 4e] No social media URLs provided, skipping');
+      if (DEBUG) console.log('[STEP 4e] No social media URLs provided, skipping');
       await updateProgress('No social media URLs provided');
     }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
-    console.log('[STEP 5] Generating assessment with Claude');
+    if (DEBUG) console.log('[STEP 5] Generating assessment with Claude');
     await updateProgress('Generating assessment with Claude (this may take 30-60 seconds)');
     const assessmentData = await generateAssessmentWithClaude({
       businessName,
@@ -325,7 +313,7 @@ export async function handler(event, context) {
     // Attach QA result to assessment
     assessmentData._qa = qaResult;
 
-    console.log('[STEP 5] Claude assessment generated, data:', JSON.stringify(assessmentData).substring(0, 200));
+    if (DEBUG) console.log('[STEP 5] Claude assessment generated');
 
     // Verify we have valid assessment data before saving
     if (!assessmentData || !assessmentData.overall) {
@@ -340,7 +328,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 6. UPDATE ASSESSMENT RECORD WITH DATA
     // ─────────────────────────────────────────────────────────────────────────
-    console.log('[STEP 6] Updating Supabase with assessment data');
+    if (DEBUG) console.log('[STEP 6] Updating Supabase with assessment data');
     await updateProgress('Saving assessment to database');
 
     const { data: savedData, error: updateError } = await supabaseAdmin
@@ -368,12 +356,12 @@ export async function handler(event, context) {
       };
     }
 
-    console.log('[STEP 6] Assessment saved successfully, rows affected:', savedData?.length || 0);
+    if (DEBUG) console.log('[STEP 6] Assessment saved successfully');
 
     // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
     // and should not block the assessment from being marked complete.
 
-    console.log('[STEP 7] Fetching template from GitHub');
+    if (DEBUG) console.log('[STEP 7] Fetching template from GitHub');
     // ─────────────────────────────────────────────────────────────────────────
     // 7. FETCH TEMPLATE AND GENERATE HTML
     // ─────────────────────────────────────────────────────────────────────────
@@ -408,7 +396,7 @@ export async function handler(event, context) {
       });
     }
 
-    console.log('[STEP 8] Committing to GitHub');
+    if (DEBUG) console.log('[STEP 8] Committing to GitHub');
     // ─────────────────────────────────────────────────────────────────────────
     // 8. COMMIT TO GITHUB (non-fatal - assessment is already saved)
     // ─────────────────────────────────────────────────────────────────────────
@@ -436,7 +424,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 10. SUCCESS
     // ─────────────────────────────────────────────────────────────────────────
-    console.log('[STEP 9] SUCCESS! Assessment complete for:', slug);
+    if (DEBUG) console.log('[STEP 9] SUCCESS! Assessment complete for:', slug);
     return {
       statusCode: 200,
       body: JSON.stringify({
