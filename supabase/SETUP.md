@@ -201,6 +201,7 @@ CREATE TABLE client_assessments (
   assessment_data JSONB NOT NULL DEFAULT '{}',
   seoptimer_raw JSONB,
   google_places_raw JSONB,
+  website_analysis_raw JSONB,
   overall_score INTEGER,
   overall_grade TEXT,
   status TEXT NOT NULL DEFAULT 'pending' CHECK (status IN ('pending', 'processing', 'completed', 'failed')),
@@ -219,6 +220,12 @@ CREATE INDEX idx_client_assessments_status ON client_assessments(status);
 
 ```sql
 ALTER TABLE user_plans ADD COLUMN IF NOT EXISTS dashboard_state TEXT DEFAULT 'full';
+```
+
+### Add website_analysis_raw Column (Migration for existing databases)
+
+```sql
+ALTER TABLE client_assessments ADD COLUMN IF NOT EXISTS website_analysis_raw JSONB;
 ```
 
 ### RLS Policies for client_assessments

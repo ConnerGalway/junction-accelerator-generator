@@ -233,6 +233,38 @@ export async function handler(event, context) {
       await updateProgress('Google Places skipped (no API key)');
     }
     // ─────────────────────────────────────────────────────────────────────────
+    // 4c. ANALYZE WEBSITE CONTENT (Tourism-specific signals)
+    // ─────────────────────────────────────────────────────────────────────────
+    await updateProgress('Analyzing website content');
+    let websiteAnalysis = null;
+    console.log('[STEP 4c] Analyzing website content');
+    try {
+      websiteAnalysis = await analyzeWebsiteContent(websiteUrl);
+      console.log('[STEP 4c] Website analysis complete');
+      await updateProgress('Website analysis complete');
+    } catch (err) {
+      console.error('Website analysis error (non-fatal):', err.message);
+      await updateProgress('Website analysis failed (non-fatal)');
+      websiteAnalysis = {
+        _error: err.message,
+        _note: 'Website content analysis unavailable'
+      };
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4d. VERIFY AND FILTER GOOGLE PLACES DATA
+    // ─────────────────────────────────────────────────────────────────────────
+    if (googlePlacesData && !googlePlacesData._error) {
+      console.log('[STEP 4d] Verifying Google Places data');
+      googlePlacesData = verifyGooglePlacesMatch(googlePlacesData, websiteUrl);
+      googlePlacesData = filterRecentReviews(googlePlacesData, 18);
+
+      if (googlePlacesData._verification && !googlePlacesData._verification.verified) {
+        console.log('[STEP 4d] Warning: Google Places verification issues:', googlePlacesData._verification.warnings);
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
     console.log('[STEP 5] Generating assessment with Claude');
@@ -243,9 +275,29 @@ export async function handler(event, context) {
       location,
       social,
       seoptData,
-      googlePlacesData
+      googlePlacesData,
+      websiteAnalysis
     });
     await updateProgress('Claude assessment complete');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5b. QUALITY ASSURANCE VALIDATION
+    // ─────────────────────────────────────────────────────────────────────────
+    const qaResult = validateAssessmentQuality(assessmentData, {
+      googlePlacesData,
+      seoptData,
+      websiteAnalysis
+    });
+
+    if (!qaResult.valid) {
+      console.warn('[STEP 5b] QA issues found:', qaResult.issues);
+    }
+    if (qaResult.warnings.length > 0) {
+      console.warn('[STEP 5b] QA warnings:', qaResult.warnings);
+    }
+
+    // Attach QA result to assessment
+    assessmentData._qa = qaResult;
 
     console.log('[STEP 5] Claude assessment generated, data:', JSON.stringify(assessmentData).substring(0, 200));
 
@@ -271,6 +323,7 @@ export async function handler(event, context) {
         assessment_data: assessmentData,
         seoptimer_raw: seoptData,
         google_places_raw: googlePlacesData,
+        website_analysis_raw: websiteAnalysis,
         overall_score: assessmentData.overall?.score || null,
         overall_grade: assessmentData.overall?.grade || null,
         status: 'completed',
@@ -568,6 +621,359 @@ async function fetchGooglePlacesData(businessName, location) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// WEBSITE CONTENT ANALYSIS
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function analyzeWebsiteContent(websiteUrl) {
+  console.log('[Website Analysis] Fetching:', websiteUrl);
+
+  try {
+    // Fetch the website HTML
+    const response = await fetch(websiteUrl, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; TourismAssessmentBot/1.0)',
+        'Accept': 'text/html,application/xhtml+xml'
+      },
+      timeout: 15000
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const html = await response.text();
+    const htmlLower = html.toLowerCase();
+
+    // Extract key tourism-relevant content signals
+    const analysis = {
+      // Booking/Reservation presence
+      hasBookingLink: detectBookingPresence(html, htmlLower),
+      bookingPlatforms: detectBookingPlatforms(htmlLower),
+
+      // Contact information
+      hasPhone: detectPhone(html),
+      hasEmail: detectEmail(html),
+      hasAddress: detectAddress(htmlLower),
+
+      // Hours/Availability
+      hasHours: detectHours(htmlLower),
+
+      // Pricing signals
+      hasPricing: detectPricing(html, htmlLower),
+
+      // Visual content
+      imageCount: countImages(html),
+      hasVideoEmbed: detectVideo(htmlLower),
+
+      // Navigation/UX signals
+      hasMobileViewport: html.includes('viewport'),
+      hasSSL: websiteUrl.startsWith('https'),
+
+      // Tourism-specific content
+      hasDirections: detectDirections(htmlLower),
+      hasParking: htmlLower.includes('parking'),
+      hasAccessibility: detectAccessibility(htmlLower),
+      hasMultiLanguage: detectMultiLanguage(html),
+
+      // Social links on site
+      socialLinksOnSite: detectSocialLinks(htmlLower),
+
+      // Page size (affects mobile experience)
+      pageSizeKB: Math.round(html.length / 1024),
+
+      _source: 'direct_scrape',
+      _timestamp: new Date().toISOString()
+    };
+
+    console.log('[Website Analysis] Complete:', {
+      hasBooking: analysis.hasBookingLink,
+      hasPhone: analysis.hasPhone,
+      hasHours: analysis.hasHours,
+      imageCount: analysis.imageCount
+    });
+
+    return analysis;
+
+  } catch (err) {
+    console.error('[Website Analysis] Error:', err.message);
+    return {
+      _error: err.message,
+      _note: 'Website content analysis failed - site may be blocking bots or unreachable'
+    };
+  }
+}
+
+function detectBookingPresence(html, htmlLower) {
+  const bookingKeywords = [
+    'book now', 'book online', 'reserve', 'reservation', 'make a booking',
+    'check availability', 'book a table', 'book a room', 'book your',
+    'schedule', 'appointment', 'buy tickets', 'purchase tickets',
+    'add to cart', 'book tour', 'reserve now'
+  ];
+
+  return bookingKeywords.some(kw => htmlLower.includes(kw));
+}
+
+function detectBookingPlatforms(htmlLower) {
+  const platforms = [];
+
+  if (htmlLower.includes('booking.com')) platforms.push('Booking.com');
+  if (htmlLower.includes('expedia')) platforms.push('Expedia');
+  if (htmlLower.includes('tripadvisor')) platforms.push('TripAdvisor');
+  if (htmlLower.includes('viator')) platforms.push('Viator');
+  if (htmlLower.includes('getyourguide')) platforms.push('GetYourGuide');
+  if (htmlLower.includes('airbnb')) platforms.push('Airbnb');
+  if (htmlLower.includes('opentable')) platforms.push('OpenTable');
+  if (htmlLower.includes('resy')) platforms.push('Resy');
+  if (htmlLower.includes('yelp.com/reservations')) platforms.push('Yelp Reservations');
+  if (htmlLower.includes('fareharbor')) platforms.push('FareHarbor');
+  if (htmlLower.includes('checkfront')) platforms.push('Checkfront');
+  if (htmlLower.includes('rezdy')) platforms.push('Rezdy');
+  if (htmlLower.includes('bookeo')) platforms.push('Bookeo');
+  if (htmlLower.includes('squareup') || htmlLower.includes('square appointments')) platforms.push('Square');
+  if (htmlLower.includes('calendly')) platforms.push('Calendly');
+
+  return platforms;
+}
+
+function detectPhone(html) {
+  // Look for phone patterns (various formats)
+  const phonePatterns = [
+    /tel:[\d\+\-\(\)\s]+/i,
+    /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/,
+    /\b\(\d{3}\)\s?\d{3}[-.\s]?\d{4}\b/,
+    /\+1[-.\s]?\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/
+  ];
+
+  return phonePatterns.some(pattern => pattern.test(html));
+}
+
+function detectEmail(html) {
+  const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+  return emailPattern.test(html);
+}
+
+function detectAddress(htmlLower) {
+  // Look for address indicators
+  const addressKeywords = ['street', 'avenue', 'road', 'drive', 'boulevard',
+    'suite', 'floor', 'address', 'located at', 'find us', 'visit us'];
+  return addressKeywords.some(kw => htmlLower.includes(kw));
+}
+
+function detectHours(htmlLower) {
+  const hoursKeywords = ['hours', 'open daily', 'monday', 'tuesday', 'wednesday',
+    'thursday', 'friday', 'saturday', 'sunday', 'am -', 'pm -', 'a.m.', 'p.m.',
+    'opening hours', 'business hours', 'we are open', 'open from'];
+  return hoursKeywords.some(kw => htmlLower.includes(kw));
+}
+
+function detectPricing(html, htmlLower) {
+  // Look for pricing signals
+  const pricePatterns = [
+    /\$\d+/,
+    /\d+\s?(CAD|USD|EUR|GBP)/i,
+    /price/i,
+    /rate/i,
+    /from \$/i,
+    /starting at/i,
+    /per person/i,
+    /per night/i
+  ];
+
+  const hasPricePattern = pricePatterns.some(p => p.test(html));
+  const hasPriceKeywords = ['pricing', 'rates', 'menu prices', 'admission', 'ticket price'].some(kw => htmlLower.includes(kw));
+
+  return hasPricePattern || hasPriceKeywords;
+}
+
+function countImages(html) {
+  const imgTags = (html.match(/<img/gi) || []).length;
+  const bgImages = (html.match(/background-image/gi) || []).length;
+  return imgTags + bgImages;
+}
+
+function detectVideo(htmlLower) {
+  return htmlLower.includes('youtube') ||
+         htmlLower.includes('vimeo') ||
+         htmlLower.includes('<video') ||
+         htmlLower.includes('wistia');
+}
+
+function detectDirections(htmlLower) {
+  return htmlLower.includes('direction') ||
+         htmlLower.includes('how to get') ||
+         htmlLower.includes('google.com/maps') ||
+         htmlLower.includes('maps.google') ||
+         htmlLower.includes('get directions');
+}
+
+function detectAccessibility(htmlLower) {
+  return htmlLower.includes('accessibility') ||
+         htmlLower.includes('wheelchair') ||
+         htmlLower.includes('accessible') ||
+         htmlLower.includes('ada compliant');
+}
+
+function detectMultiLanguage(html) {
+  // Check for language switchers or hreflang tags
+  const hasHreflang = html.includes('hreflang');
+  const hasLangSwitcher = /lang(uage)?[-_]?(switch|select|choose)/i.test(html);
+  const hasTranslateWidget = html.includes('translate.google') || html.includes('gtranslate');
+
+  return hasHreflang || hasLangSwitcher || hasTranslateWidget;
+}
+
+function detectSocialLinks(htmlLower) {
+  const socials = [];
+  if (htmlLower.includes('instagram.com') || htmlLower.includes('instagram')) socials.push('Instagram');
+  if (htmlLower.includes('facebook.com') || htmlLower.includes('fb.com')) socials.push('Facebook');
+  if (htmlLower.includes('twitter.com') || htmlLower.includes('x.com')) socials.push('Twitter/X');
+  if (htmlLower.includes('tiktok.com')) socials.push('TikTok');
+  if (htmlLower.includes('youtube.com')) socials.push('YouTube');
+  if (htmlLower.includes('linkedin.com')) socials.push('LinkedIn');
+  if (htmlLower.includes('pinterest.com')) socials.push('Pinterest');
+  return socials;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GOOGLE PLACES VERIFICATION & FILTERING
+// ═══════════════════════════════════════════════════════════════════════════
+
+function verifyGooglePlacesMatch(placesData, websiteUrl) {
+  if (!placesData || placesData._error) return placesData;
+
+  const warnings = [];
+
+  // Check if website matches
+  if (placesData.website && websiteUrl) {
+    try {
+      const providedDomain = new URL(websiteUrl).hostname.replace('www.', '');
+      const placesDomain = new URL(placesData.website).hostname.replace('www.', '');
+
+      if (!providedDomain.includes(placesDomain) && !placesDomain.includes(providedDomain)) {
+        warnings.push(`Website mismatch: provided "${providedDomain}" but Google shows "${placesDomain}"`);
+      }
+    } catch (e) {
+      // URL parsing failed, skip verification
+    }
+  }
+
+  placesData._verification = {
+    websiteMatch: warnings.length === 0,
+    warnings: warnings,
+    verified: warnings.length === 0
+  };
+
+  return placesData;
+}
+
+function filterRecentReviews(placesData, monthsThreshold = 18) {
+  if (!placesData || !placesData.recentReviews) return placesData;
+
+  const thresholdDate = new Date();
+  thresholdDate.setMonth(thresholdDate.getMonth() - monthsThreshold);
+
+  // Google reviews have relative_time_description but not exact timestamps
+  // We'll keep all reviews but flag the recency concern
+  const reviewAnalysis = {
+    totalProvided: placesData.recentReviews.length,
+    recentCount: 0,
+    oldestRelativeTime: null,
+    recencyWarning: false
+  };
+
+  // Check relative times for staleness indicators
+  const staleIndicators = ['year ago', 'years ago', '2 years', '3 years'];
+
+  placesData.recentReviews.forEach(review => {
+    const relTime = review.relativeTime?.toLowerCase() || '';
+
+    if (!staleIndicators.some(ind => relTime.includes(ind))) {
+      reviewAnalysis.recentCount++;
+    }
+
+    // Track oldest
+    if (!reviewAnalysis.oldestRelativeTime ||
+        relTime.includes('year')) {
+      reviewAnalysis.oldestRelativeTime = review.relativeTime;
+    }
+  });
+
+  // Flag if most reviews are old
+  if (reviewAnalysis.recentCount < reviewAnalysis.totalProvided / 2) {
+    reviewAnalysis.recencyWarning = true;
+  }
+
+  placesData._reviewAnalysis = reviewAnalysis;
+
+  return placesData;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// QUALITY ASSURANCE VALIDATION
+// ═══════════════════════════════════════════════════════════════════════════
+
+function validateAssessmentQuality(assessmentData, sourceData) {
+  const issues = [];
+  const warnings = [];
+
+  // Check for fabricated review data
+  if (assessmentData.categories?.review_ecosystem) {
+    const reviewCat = assessmentData.categories.review_ecosystem;
+    const hasGoogleData = sourceData.googlePlacesData && !sourceData.googlePlacesData._error;
+
+    reviewCat.metrics?.forEach(metric => {
+      if (metric.label.toLowerCase().includes('google') &&
+          !metric.value.includes('Manual') &&
+          !metric.value.includes('check') &&
+          !hasGoogleData) {
+        issues.push(`Review metric "${metric.label}" has value but no Google data source`);
+      }
+    });
+  }
+
+  // Check all recommendations have time estimates
+  assessmentData.priority_recommendations?.forEach((rec, i) => {
+    if (!rec.time_estimate) {
+      warnings.push(`Priority recommendation ${i + 1} missing time estimate`);
+    }
+  });
+
+  // Check overall score consistency with category scores
+  if (assessmentData.categories && assessmentData.overall?.score) {
+    const categoryScores = Object.values(assessmentData.categories)
+      .map(c => c.score)
+      .filter(s => typeof s === 'number');
+
+    if (categoryScores.length > 0) {
+      const avgScore = categoryScores.reduce((a, b) => a + b, 0) / categoryScores.length;
+      const scoreDiff = Math.abs(avgScore - assessmentData.overall.score);
+
+      if (scoreDiff > 20) {
+        warnings.push(`Overall score (${assessmentData.overall.score}) differs significantly from category average (${Math.round(avgScore)})`);
+      }
+    }
+  }
+
+  // Check for empty categories
+  Object.entries(assessmentData.categories || {}).forEach(([key, cat]) => {
+    if (!cat.metrics || cat.metrics.length === 0) {
+      warnings.push(`Category "${cat.title}" has no metrics`);
+    }
+    if (!cat.recommendations || cat.recommendations.length === 0) {
+      warnings.push(`Category "${cat.title}" has no recommendations`);
+    }
+  });
+
+  return {
+    valid: issues.length === 0,
+    issues,
+    warnings,
+    timestamp: new Date().toISOString()
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // CLAUDE ASSESSMENT GENERATION
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -589,165 +995,293 @@ async function generateAssessmentWithClaude(data) {
       messages: [
         {
           role: 'user',
-          content: `You are a senior tourism and hospitality digital marketing consultant with 15+ years of experience. Analyze this tourism/hospitality business and generate a comprehensive digital marketing assessment from a TOURISM INDUSTRY perspective.
+          content: `You are a senior tourism and hospitality digital marketing consultant with 15+ years of experience. Analyze this tourism/hospitality business and generate a comprehensive digital marketing assessment.
 
 ${context}
 
-CRITICAL INSTRUCTIONS:
-1. Analyze through the lens of VISITOR/TOURIST discovery and experience, not just generic SEO
-2. Consider: How do tourists find this place? What's their journey from discovery to visit?
-3. Every metric needs a BENCHMARK (e.g., "85/100 - industry average is 65")
-4. Recommendations need TIME ESTIMATES (e.g., "30 minutes", "2-3 hours", "1 week")
-5. Be specific to THIS business - reference their actual location, offerings, unique features
+═══════════════════════════════════════════════════════════════════════════════
+CRITICAL DATA ACCURACY RULES - FOLLOW EXACTLY
+═══════════════════════════════════════════════════════════════════════════════
 
-DATA ACCURACY - CRITICAL:
-- If "Google Business Profile Data (VERIFIED)" section is present above, use those EXACT numbers for reviews/rating
-- DO NOT fabricate any statistics you don't have data for
-- For TripAdvisor, Yelp, or other review platforms: say "Manual verification recommended" (we don't have this data)
-- For social media follower counts: say "Manual verification recommended" (we don't have this data)
-- If Google data is NOT available, say "Manual verification recommended" for review metrics
-- NEVER guess or invent statistics - this damages credibility
+1. ONLY USE DATA FROM SECTIONS MARKED "VERIFIED"
+   - Google Business Profile Data (VERIFIED): Use exact numbers
+   - Website Content Analysis (VERIFIED): Use exact findings
+   - SEOptimer Technical Data (VERIFIED): Use exact scores
 
-Return ONLY valid JSON with this structure:
+2. FOR ANY DATA NOT PROVIDED, USE THIS EXACT TEXT:
+   - "Manual verification recommended"
+   - DO NOT fabricate numbers for TripAdvisor, Yelp, social followers, etc.
+
+3. EVERY METRIC MUST INCLUDE:
+   - "confidence": "high" (from verified API data), "medium" (inferred from website), or "low" (requires manual check)
+   - "source": The specific data source (e.g., "Google Places API", "Website scrape", "SEOptimer")
+
+═══════════════════════════════════════════════════════════════════════════════
+ASSESSMENT STRUCTURE - 5 CATEGORIES ONLY
+═══════════════════════════════════════════════════════════════════════════════
+
+We assess ONLY these 5 categories (we have reliable data for these):
+
+1. WEBSITE & TECHNICAL FOUNDATION (Weight: 20%)
+   - Source: SEOptimer data + Website Content Analysis
+   - Focus: Speed, mobile experience, SSL, basic SEO
+
+2. REVIEWS & REPUTATION (Weight: 30%)
+   - Source: Google Places API data
+   - Focus: Google rating, review count, review recency, response patterns
+   - If no Google data: All metrics show "Manual verification recommended"
+
+3. ONLINE BOOKING & CONVERSION (Weight: 25%)
+   - Source: Website Content Analysis
+   - Focus: Booking capability, platform presence, contact visibility, pricing clarity
+
+4. DIGITAL GUEST EXPERIENCE (Weight: 15%)
+   - Source: Website Content Analysis
+   - Focus: Hours, directions, parking, accessibility info, visitor essentials
+
+5. LOCAL VISIBILITY (Weight: 10%)
+   - Source: SEOptimer + Google Places + Website Analysis
+   - Focus: Local SEO signals, map presence, NAP consistency
+
+TOTAL: 100%
+
+═══════════════════════════════════════════════════════════════════════════════
+SCORING CALCULATION
+═══════════════════════════════════════════════════════════════════════════════
+
+Calculate overall score using these exact weights:
+overall_score = (website_score × 0.20) + (reviews_score × 0.30) + (booking_score × 0.25) + (guest_exp_score × 0.15) + (local_score × 0.10)
+
+Grade scale:
+- A+ (95-100), A (90-94), A- (87-89)
+- B+ (83-86), B (80-82), B- (77-79)
+- C+ (73-76), C (70-72), C- (67-69)
+- D+ (63-66), D (60-62), D- (57-59)
+- F (below 57)
+
+═══════════════════════════════════════════════════════════════════════════════
+OUTPUT JSON STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+Return ONLY valid JSON:
 
 {
   "executive_summary": {
-    "headline": "One sentence overall verdict",
-    "key_strengths": ["Strength 1", "Strength 2", "Strength 3"],
-    "critical_gaps": ["Gap 1", "Gap 2", "Gap 3"],
-    "bottom_line": "What this means for their business in 1-2 sentences"
+    "headline": "One sentence verdict specific to this business",
+    "key_strengths": ["Strength 1 with specific detail", "Strength 2", "Strength 3"],
+    "critical_gaps": ["Gap 1 with specific impact", "Gap 2", "Gap 3"],
+    "bottom_line": "What this means for ${data.businessName} in terms of visitor discovery and bookings"
   },
   "quick_wins": [
-    {"task": "Specific task description", "time_estimate": "30 minutes", "impact": "Description of expected impact"},
-    {"task": "Task 2", "time_estimate": "1 hour", "impact": "Impact"},
-    {"task": "Task 3", "time_estimate": "15 minutes", "impact": "Impact"},
-    {"task": "Task 4", "time_estimate": "2 hours", "impact": "Impact"},
-    {"task": "Task 5", "time_estimate": "1 hour", "impact": "Impact"}
+    {
+      "task": "Very specific task (e.g., 'Add your phone number to the website header - currently not visible')",
+      "time_estimate": "15 minutes",
+      "impact": "Specific expected result",
+      "confidence": "high"
+    }
   ],
   "tourism_context": {
-    "visitor_profile": "Description of likely visitors (tourists vs locals, demographics, travel patterns)",
-    "discovery_journey": "How tourists typically find and decide to visit this type of business",
-    "seasonal_considerations": "How seasonality affects their digital strategy",
-    "trip_integration": "How this business fits into a larger trip/itinerary",
-    "competitive_landscape": "Who they're competing against for tourist attention"
+    "visitor_profile": "Who visits ${data.businessName} - tourists, locals, demographics",
+    "discovery_journey": "How people find businesses like this in ${data.location || 'this area'}",
+    "seasonal_considerations": "Seasonality impact on digital strategy",
+    "trip_integration": "How ${data.businessName} fits into visitor itineraries"
   },
   "overall": {
     "grade": "B+",
     "score": 76,
+    "score_breakdown": {
+      "website_technical": {"score": 72, "weight": 0.20, "contribution": 14.4},
+      "reviews_reputation": {"score": 85, "weight": 0.30, "contribution": 25.5},
+      "booking_conversion": {"score": 70, "weight": 0.25, "contribution": 17.5},
+      "guest_experience": {"score": 65, "weight": 0.15, "contribution": 9.75},
+      "local_visibility": {"score": 80, "weight": 0.10, "contribution": 8.0}
+    },
     "summary": "2-3 sentence assessment from tourism consultant perspective"
   },
   "categories": {
     "website_technical": {
       "grade": "B",
       "score": 72,
+      "weight": 0.20,
       "title": "Website & Technical Foundation",
-      "summary": "Assessment focusing on visitor experience, not just technical metrics",
+      "summary": "Assessment based on SEOptimer scan and website analysis",
+      "data_sources": ["SEOptimer API", "Website Content Analysis"],
       "metrics": [
-        {"label": "Mobile Speed", "value": "65/100", "benchmark": "Tourism average: 55", "status": "good", "tooltip": "Why this matters for tourists"},
-        {"label": "Metric 2", "value": "Value", "benchmark": "Benchmark", "status": "warning", "tooltip": "Context"}
+        {
+          "label": "Mobile Performance",
+          "value": "65/100",
+          "benchmark": "Tourism average: 50-60",
+          "status": "good",
+          "confidence": "high",
+          "source": "SEOptimer",
+          "tooltip": "Mobile speed matters - 53% of visitors abandon sites that take >3 seconds"
+        }
       ],
       "findings": [
-        {"type": "positive", "text": "Specific positive finding with context"},
-        {"type": "negative", "text": "Specific issue with tourism impact explained"}
+        {"type": "positive", "text": "Specific finding from the data", "confidence": "high", "source": "SEOptimer"},
+        {"type": "negative", "text": "Specific issue found", "confidence": "high", "source": "Website scrape"}
       ],
       "recommendations": [
-        {"text": "Specific recommendation", "time_estimate": "2 hours", "impact": "Expected result"}
+        {
+          "text": "Specific action to take",
+          "time_estimate": "2 hours (first time) / 15 min ongoing",
+          "impact": "Expected measurable result",
+          "priority": "high"
+        }
       ]
     },
-    "visitor_discovery": {
-      "grade": "C",
-      "score": 58,
-      "title": "Visitor Discovery & Trip Integration",
-      "summary": "How easily tourists can find and learn about this business during trip planning",
-      "metrics": [],
-      "findings": [],
-      "recommendations": []
-    },
-    "online_booking": {
-      "grade": "B",
-      "score": 68,
-      "title": "Online Booking & Reservations",
-      "summary": "Assessment of booking friction and conversion optimization",
-      "metrics": [],
-      "findings": [],
-      "recommendations": []
-    },
-    "review_ecosystem": {
+    "reviews_reputation": {
       "grade": "B+",
       "score": 78,
+      "weight": 0.30,
       "title": "Reviews & Reputation",
-      "summary": "Use REAL data from Google Business Profile section if available. If not, say 'Manual verification recommended'",
+      "summary": "Based on Google Business Profile data",
+      "data_sources": ["Google Places API"],
       "metrics": [
-        {"label": "Google Reviews", "value": "USE EXACT NUMBER FROM DATA or 'Manual check required'", "benchmark": "Tourism businesses should aim for 100+ reviews", "status": "good/warning/critical based on count", "tooltip": "Based on Google Business Profile"},
-        {"label": "Google Rating", "value": "USE EXACT RATING FROM DATA or 'Manual check required'", "benchmark": "Tourism average: 4.2 stars", "status": "good if 4.5+, warning if 4.0-4.4, critical if below 4.0", "tooltip": "Based on Google Business Profile"},
-        {"label": "TripAdvisor", "value": "Manual check required", "benchmark": "Should be claimed and active", "status": "info", "tooltip": "TripAdvisor data not available in automated scan"}
-      ],
-      "findings": [
-        {"type": "positive/negative based on data", "text": "Reference actual review count and rating from Google data"},
-        {"type": "info", "text": "TripAdvisor and Yelp presence requires manual verification"}
-      ],
-      "recommendations": [
-        {"text": "Specific recommendation based on actual review data", "time_estimate": "30 minutes", "impact": "Improve reputation management"}
-      ]
-    },
-    "social_media": {
-      "grade": "C",
-      "score": 60,
-      "title": "Social Media & Visual Content",
-      "summary": "Assessment based on provided social URLs - follower counts and engagement metrics require manual verification",
-      "metrics": [
-        {"label": "Platform Presence", "value": "Based on provided URLs", "benchmark": "Tourism businesses should be on Instagram, Facebook, and TikTok minimum", "status": "info", "tooltip": "We assess based on URLs you provided"},
-        {"label": "Follower Count", "value": "Manual check required", "benchmark": "Varies by market size", "status": "info", "tooltip": "We cannot access private follower data"}
+        {
+          "label": "Google Rating",
+          "value": "USE EXACT NUMBER FROM GOOGLE DATA or 'Manual verification recommended'",
+          "benchmark": "Tourism businesses: 4.0 acceptable, 4.5+ excellent",
+          "status": "good/warning/critical",
+          "confidence": "high if Google data present, otherwise low",
+          "source": "Google Places API",
+          "tooltip": "Based on verified Google Business Profile"
+        },
+        {
+          "label": "Review Volume",
+          "value": "USE EXACT NUMBER or 'Manual verification recommended'",
+          "benchmark": "100+ reviews builds trust, 200+ establishes authority",
+          "status": "based on count",
+          "confidence": "high if Google data present, otherwise low",
+          "source": "Google Places API",
+          "tooltip": "Review count from Google Business Profile"
+        },
+        {
+          "label": "TripAdvisor Presence",
+          "value": "Manual verification recommended",
+          "benchmark": "Should be claimed with 50+ reviews for tourism businesses",
+          "status": "info",
+          "confidence": "low",
+          "source": "Not scanned - requires manual check",
+          "tooltip": "TripAdvisor data not included in automated scan"
+        }
       ],
       "findings": [],
       "recommendations": []
     },
-    "local_seo": {
+    "booking_conversion": {
       "grade": "B",
       "score": 70,
-      "title": "Local SEO & Maps Visibility",
-      "summary": "How visible they are when tourists search locally",
-      "metrics": [],
+      "weight": 0.25,
+      "title": "Online Booking & Conversion",
+      "summary": "Can visitors easily book/reserve/purchase?",
+      "data_sources": ["Website Content Analysis"],
+      "metrics": [
+        {
+          "label": "Booking Capability",
+          "value": "USE hasBookingLink FROM WEBSITE ANALYSIS",
+          "benchmark": "Every tourism business needs clear booking path",
+          "status": "good if present, critical if not",
+          "confidence": "high",
+          "source": "Website scrape",
+          "tooltip": "Detected from homepage scan"
+        },
+        {
+          "label": "Phone Visibility",
+          "value": "USE hasPhone FROM WEBSITE ANALYSIS",
+          "benchmark": "Phone should be visible in header/footer",
+          "status": "good if present, warning if not",
+          "confidence": "high",
+          "source": "Website scrape",
+          "tooltip": "Phone number detection"
+        }
+      ],
       "findings": [],
       "recommendations": []
     },
     "guest_experience": {
-      "grade": "C",
-      "score": 55,
+      "grade": "C+",
+      "score": 68,
+      "weight": 0.15,
       "title": "Digital Guest Experience",
-      "summary": "Pre-visit digital experience: Can visitors easily find hours, menus, parking, accessibility info?",
-      "metrics": [],
+      "summary": "Can visitors find essential info before arriving?",
+      "data_sources": ["Website Content Analysis"],
+      "metrics": [
+        {
+          "label": "Hours Displayed",
+          "value": "USE hasHours FROM WEBSITE ANALYSIS",
+          "benchmark": "Hours must be easily findable",
+          "status": "good if YES, critical if NO",
+          "confidence": "high",
+          "source": "Website scrape",
+          "tooltip": "Hours information detection"
+        },
+        {
+          "label": "Directions Available",
+          "value": "USE hasDirections FROM WEBSITE ANALYSIS",
+          "benchmark": "Map embed or directions link expected",
+          "status": "good if YES, warning if NO",
+          "confidence": "high",
+          "source": "Website scrape",
+          "tooltip": "Directions/map detection"
+        },
+        {
+          "label": "Parking Info",
+          "value": "USE hasParking FROM WEBSITE ANALYSIS",
+          "benchmark": "Parking info reduces visitor friction",
+          "status": "good if YES, info if NO",
+          "confidence": "high",
+          "source": "Website scrape",
+          "tooltip": "Parking information detection"
+        }
+      ],
       "findings": [],
       "recommendations": []
     },
-    "competitive_positioning": {
+    "local_visibility": {
       "grade": "B",
-      "score": 65,
-      "title": "Competitive Positioning",
-      "summary": "Assessment relative to local competitors with realistic benchmarks",
+      "score": 75,
+      "weight": 0.10,
+      "title": "Local Visibility",
+      "summary": "How findable when searching locally",
+      "data_sources": ["SEOptimer", "Google Places API"],
       "metrics": [],
       "findings": [],
       "recommendations": []
     }
   },
   "priority_recommendations": [
-    {"category": "Category Name", "text": "Detailed recommendation", "time_estimate": "3-4 hours", "impact": "high", "expected_result": "What will improve"},
-    {"category": "Category 2", "text": "Recommendation 2", "time_estimate": "1 week", "impact": "high", "expected_result": "Result"},
-    {"category": "Category 3", "text": "Recommendation 3", "time_estimate": "2 hours", "impact": "medium", "expected_result": "Result"},
-    {"category": "Category 4", "text": "Recommendation 4", "time_estimate": "30 minutes", "impact": "medium", "expected_result": "Result"},
-    {"category": "Category 5", "text": "Recommendation 5", "time_estimate": "4-6 hours", "impact": "medium", "expected_result": "Result"}
-  ]
+    {
+      "priority": 1,
+      "category": "Category Name",
+      "text": "Most impactful action - be very specific",
+      "time_estimate": "X hours (first time) / Y minutes ongoing",
+      "impact": "high",
+      "expected_result": "Specific measurable outcome",
+      "confidence": "high"
+    }
+  ],
+  "data_quality_summary": {
+    "high_confidence_data": ["List data sources that provided verified data"],
+    "low_confidence_areas": ["List areas where manual verification needed"],
+    "recommendations_for_fuller_picture": ["What additional data would help"]
+  }
 }
 
-REQUIREMENTS:
-- Each category MUST have 3-4 metrics with benchmarks, 3-4 findings, and 3-4 recommendations with time estimates
-- Reference the ACTUAL business name, location, and features from the data provided
-- Frame everything from a TOURIST'S perspective - how does this help visitors?
-- Include specific, actionable tasks - not generic advice
-- Time estimates should be realistic for a small business owner to DIY
-- Benchmarks should compare to similar tourism/hospitality businesses
+═══════════════════════════════════════════════════════════════════════════════
+REQUIREMENTS CHECKLIST
+═══════════════════════════════════════════════════════════════════════════════
 
-Output ONLY the JSON object. No markdown, no explanation.`
+- [ ] Every metric has confidence level (high/medium/low)
+- [ ] Every metric has source attribution
+- [ ] No fabricated statistics - use "Manual verification recommended"
+- [ ] Overall score matches weighted category calculation
+- [ ] 5 quick wins with specific, actionable tasks
+- [ ] 5 priority recommendations with time estimates
+- [ ] All recommendations reference THIS specific business
+- [ ] Tourism/visitor perspective throughout
+
+Output ONLY the JSON object. No markdown code blocks, no explanation.`
         }
       ]
     })
@@ -799,27 +1333,42 @@ function buildAssessmentContext(data) {
 - Website: ${data.websiteUrl}
 - Location: ${data.location || 'Not specified'}
 
-## Social Media Accounts`;
+## Social Media Accounts (URLs provided - follower counts require manual verification)`;
 
   if (data.social) {
-    Object.entries(data.social).forEach(([platform, url]) => {
-      if (url) {
+    const providedSocials = Object.entries(data.social).filter(([_, url]) => url);
+    if (providedSocials.length > 0) {
+      providedSocials.forEach(([platform, url]) => {
         context += `\n- ${platform}: ${url}`;
-      }
-    });
+      });
+    } else {
+      context += '\n- None provided';
+    }
   } else {
     context += '\n- None provided';
   }
 
-  // Add Google Places data (reviews, rating)
+  // Add Google Places data (reviews, rating) with verification status
   if (data.googlePlacesData && !data.googlePlacesData._error) {
     const gp = data.googlePlacesData;
-    context += `\n\n## Google Business Profile Data (VERIFIED - USE THESE EXACT NUMBERS)
+    const verificationNote = gp._verification?.verified
+      ? 'VERIFIED - USE THESE EXACT NUMBERS'
+      : `CAUTION - ${gp._verification?.warnings?.join('; ') || 'Verification pending'}`;
+
+    context += `\n\n## Google Business Profile Data (${verificationNote})
 - Google Rating: ${gp.rating || 'N/A'} out of 5 stars
 - Total Google Reviews: ${gp.totalReviews}
 - Business Types: ${gp.businessTypes?.join(', ') || 'N/A'}
 - Price Level: ${gp.priceLevel ? '$'.repeat(gp.priceLevel) : 'N/A'}
 - Phone: ${gp.phone || 'N/A'}`;
+
+    // Add review recency analysis
+    if (gp._reviewAnalysis) {
+      context += `\n- Review Recency: ${gp._reviewAnalysis.recentCount} of ${gp._reviewAnalysis.totalProvided} reviews are from past 18 months`;
+      if (gp._reviewAnalysis.recencyWarning) {
+        context += ` (WARNING: Most reviews are old - may indicate declining activity)`;
+      }
+    }
 
     if (gp.recentReviews && gp.recentReviews.length > 0) {
       context += `\n\n### Recent Google Reviews (${gp.recentReviews.length} samples):`;
@@ -830,45 +1379,139 @@ function buildAssessmentContext(data) {
     }
   } else {
     context += `\n\n## Google Business Profile Data
-- Not available (Google Places API not configured or business not found)
-- For review_ecosystem category, recommend manual verification`;
+- NOT AVAILABLE (Google Places API not configured or business not found)
+- For Reviews & Reputation category: state "Manual verification recommended" for all review metrics
+- DO NOT fabricate any review numbers`;
   }
 
+  // Add Website Content Analysis
+  if (data.websiteAnalysis && !data.websiteAnalysis._error) {
+    const wa = data.websiteAnalysis;
+    context += `\n\n## Website Content Analysis (VERIFIED - FROM DIRECT SCRAPE)
+### Booking & Reservations
+- Has booking/reservation capability: ${wa.hasBookingLink ? 'YES' : 'NO'}
+- Booking platforms detected: ${wa.bookingPlatforms?.length > 0 ? wa.bookingPlatforms.join(', ') : 'None detected'}
+
+### Contact Information Visibility
+- Phone number visible: ${wa.hasPhone ? 'YES' : 'NO'}
+- Email visible: ${wa.hasEmail ? 'YES' : 'NO'}
+- Address visible: ${wa.hasAddress ? 'YES' : 'NO'}
+
+### Visitor Information
+- Hours displayed: ${wa.hasHours ? 'YES' : 'NO'}
+- Pricing information visible: ${wa.hasPricing ? 'YES' : 'NO'}
+- Directions/maps available: ${wa.hasDirections ? 'YES' : 'NO'}
+- Parking information: ${wa.hasParking ? 'YES' : 'NO'}
+- Accessibility information: ${wa.hasAccessibility ? 'YES' : 'NO'}
+
+### Technical & Visual
+- Mobile-optimized (viewport): ${wa.hasMobileViewport ? 'YES' : 'NO'}
+- SSL/HTTPS: ${wa.hasSSL ? 'YES' : 'NO'}
+- Image count on homepage: ${wa.imageCount}
+- Video content: ${wa.hasVideoEmbed ? 'YES' : 'NO'}
+- Multi-language support: ${wa.hasMultiLanguage ? 'YES' : 'NO'}
+
+### Social Links on Website
+- Platforms linked: ${wa.socialLinksOnSite?.length > 0 ? wa.socialLinksOnSite.join(', ') : 'None detected'}
+
+### Page Size
+- Homepage size: ${wa.pageSizeKB} KB`;
+  } else {
+    context += `\n\n## Website Content Analysis
+- NOT AVAILABLE (website could not be scraped)
+- For Digital Guest Experience category: note that website analysis was unavailable`;
+  }
+
+  // Add SEOptimer technical data
   if (data.seoptData && !data.seoptData._error) {
+    // Extract key metrics only (not full JSON dump)
+    const seo = data.seoptData;
+    context += `\n\n## SEOptimer Technical Data (VERIFIED - FROM API)`;
+
+    // Performance metrics if available
+    if (seo.performance) {
+      context += `\n### Performance
+- Desktop Score: ${seo.performance.desktop_score || 'N/A'}
+- Mobile Score: ${seo.performance.mobile_score || 'N/A'}
+- Load Time: ${seo.performance.load_time || 'N/A'}`;
+    }
+
+    // SEO metrics if available
+    if (seo.seo) {
+      context += `\n### SEO
+- SEO Score: ${seo.seo.score || 'N/A'}
+- Meta Title: ${seo.seo.title ? 'Present' : 'Missing'}
+- Meta Description: ${seo.seo.description ? 'Present' : 'Missing'}`;
+    }
+
+    // Mobile metrics if available
+    if (seo.mobile) {
+      context += `\n### Mobile
+- Mobile Friendly: ${seo.mobile.is_mobile_friendly ? 'YES' : 'NO'}
+- Viewport Configured: ${seo.mobile.has_viewport ? 'YES' : 'NO'}`;
+    }
+
+    // Security
+    if (seo.security) {
+      context += `\n### Security
+- HTTPS: ${seo.security.https ? 'YES' : 'NO'}`;
+    }
+
+    // Include full data for reference
+    context += `\n\n### Full SEOptimer Response (for detailed analysis):
+${JSON.stringify(seo, null, 2)}`;
+  } else {
     context += `\n\n## SEOptimer Technical Data
-${JSON.stringify(data.seoptData, null, 2)}`;
+- NOT AVAILABLE (SEOptimer scan failed or timed out)
+- For Website Technical Foundation category: note technical data was limited`;
   }
 
   return context;
 }
 
 function getDefaultAssessment() {
+  // 5 categories with explicit weights
   const categories = [
-    { key: 'website_technical', title: 'Website & Technical Foundation' },
-    { key: 'ai_search_readiness', title: 'AI Search Readiness' },
-    { key: 'online_booking', title: 'Online Booking Analysis' },
-    { key: 'review_ecosystem', title: 'Review Ecosystem' },
-    { key: 'social_media_health', title: 'Social Media Health' },
-    { key: 'local_seo', title: 'Local SEO & Visibility' },
-    { key: 'email_marketing', title: 'Email Marketing Readiness' },
-    { key: 'competitive_positioning', title: 'Competitive Positioning' }
+    { key: 'website_technical', title: 'Website & Technical Foundation', weight: 0.20 },
+    { key: 'reviews_reputation', title: 'Reviews & Reputation', weight: 0.30 },
+    { key: 'booking_conversion', title: 'Online Booking & Conversion', weight: 0.25 },
+    { key: 'guest_experience', title: 'Digital Guest Experience', weight: 0.15 },
+    { key: 'local_visibility', title: 'Local Visibility', weight: 0.10 }
   ];
 
   const result = {
-    overall: { grade: 'C', score: 50, summary: 'Assessment pending detailed analysis.' },
+    overall: {
+      grade: 'C',
+      score: 50,
+      summary: 'Assessment pending detailed analysis.',
+      score_breakdown: {}
+    },
     categories: {},
-    priority_recommendations: []
+    priority_recommendations: [],
+    data_quality_summary: {
+      high_confidence_data: [],
+      low_confidence_areas: ['Assessment data pending'],
+      recommendations_for_fuller_picture: []
+    }
   };
 
   categories.forEach(cat => {
     result.categories[cat.key] = {
       grade: 'C',
       score: 50,
+      weight: cat.weight,
       title: cat.title,
       summary: 'Detailed analysis pending.',
+      data_sources: [],
       metrics: [],
       findings: [],
       recommendations: []
+    };
+
+    result.overall.score_breakdown[cat.key] = {
+      score: 50,
+      weight: cat.weight,
+      contribution: 50 * cat.weight
     };
   });
 
