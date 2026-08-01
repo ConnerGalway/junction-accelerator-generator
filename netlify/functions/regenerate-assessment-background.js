@@ -1060,10 +1060,10 @@ async function generateAssessmentWithClaude(data) {
     headers: {
       'Content-Type': 'application/json',
       'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
+      'anthropic-version': '2024-10-22'
     },
     body: JSON.stringify({
-      model: 'claude-3-haiku-20240307',
+      model: 'claude-3-5-sonnet-latest',
       max_tokens: 12000,
       messages: [
         {
