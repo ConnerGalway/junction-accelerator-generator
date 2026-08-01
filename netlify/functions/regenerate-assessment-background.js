@@ -1310,10 +1310,59 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
 
   try {
     const jsonMatch = content.match(/```json\n?([\s\S]*?)\n?```/) || content.match(/\{[\s\S]*\}/);
-    const jsonStr = jsonMatch[1] || jsonMatch[0];
-    return JSON.parse(jsonStr);
+    if (!jsonMatch) {
+      console.error('[Claude] No JSON found in response');
+      return getDefaultAssessment();
+    }
+
+    let jsonStr = jsonMatch[1] || jsonMatch[0];
+    console.log('[Claude] Extracted JSON length:', jsonStr.length);
+
+    // Try to parse, with repair attempts if needed
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonStr);
+    } catch (firstError) {
+      console.log('[Claude] First parse failed, attempting repair:', firstError.message);
+
+      // Attempt to repair common JSON issues
+      let repairedJson = jsonStr;
+
+      // Remove trailing commas before ] or }
+      repairedJson = repairedJson.replace(/,(\s*[}\]])/g, '$1');
+
+      // Try to close unclosed brackets/braces if truncated
+      const openBraces = (repairedJson.match(/{/g) || []).length;
+      const closeBraces = (repairedJson.match(/}/g) || []).length;
+      const openBrackets = (repairedJson.match(/\[/g) || []).length;
+      const closeBrackets = (repairedJson.match(/]/g) || []).length;
+
+      // If truncated mid-string, try to close it
+      if (openBraces > closeBraces || openBrackets > closeBrackets) {
+        // Find last complete property and truncate there
+        const lastGoodPoint = repairedJson.lastIndexOf('",');
+        if (lastGoodPoint > repairedJson.length * 0.8) {
+          repairedJson = repairedJson.substring(0, lastGoodPoint + 1);
+        }
+
+        // Close any open structures
+        for (let i = 0; i < openBrackets - closeBrackets; i++) repairedJson += ']';
+        for (let i = 0; i < openBraces - closeBraces; i++) repairedJson += '}';
+      }
+
+      try {
+        parsed = JSON.parse(repairedJson);
+        console.log('[Claude] Repair successful');
+      } catch (repairError) {
+        console.error('[Claude] Repair failed:', repairError.message);
+        throw firstError; // Re-throw original error
+      }
+    }
+
+    console.log('[Claude] Successfully parsed assessment');
+    return parsed;
   } catch (e) {
-    console.error('Failed to parse Claude response');
+    console.error('Failed to parse Claude response:', e.message);
     return getDefaultAssessment();
   }
 }
