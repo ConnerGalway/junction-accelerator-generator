@@ -1828,6 +1828,10 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
 
     const parsed = JSON.parse(jsonStr);
     console.log('[Claude] Successfully parsed assessment');
+    console.log('[Claude] Parsed keys:', Object.keys(parsed));
+    console.log('[Claude] Has overall:', !!parsed.overall);
+    console.log('[Claude] Has categories:', !!parsed.categories);
+    console.log('[Claude] Overall score:', parsed.overall?.score);
     return parsed;
   } catch (parseError) {
     console.error('[Claude] Failed to parse response:', parseError.message);
