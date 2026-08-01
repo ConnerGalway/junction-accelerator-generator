@@ -228,6 +228,18 @@ ALTER TABLE user_plans ADD COLUMN IF NOT EXISTS dashboard_state TEXT DEFAULT 'fu
 ALTER TABLE client_assessments ADD COLUMN IF NOT EXISTS website_analysis_raw JSONB;
 ```
 
+### Add social_media_raw Column (Migration for existing databases)
+
+```sql
+ALTER TABLE client_assessments ADD COLUMN IF NOT EXISTS social_media_raw JSONB;
+```
+
+This column stores social media analytics data from SociaVault API including:
+- Instagram: followers, engagement rate, recent posts
+- TikTok: followers, video views, engagement
+- YouTube: subscribers, total views
+- Facebook: followers, page likes
+
 ### RLS Policies for client_assessments
 
 ```sql

@@ -161,6 +161,30 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault)
+    // ─────────────────────────────────────────────────────────────────────────
+    let socialMediaData = null;
+    if (social && Object.values(social).some(url => url)) {
+      console.log('[REGENERATE] Fetching social media data from SociaVault');
+      await updateProgress('Analyzing social media profiles');
+      try {
+        socialMediaData = await fetchSocialMediaData(social);
+        console.log('[REGENERATE] Social media analysis complete:', socialMediaData?.summary);
+        await updateProgress('Social media analysis complete');
+      } catch (err) {
+        console.error('[REGENERATE] Social media fetch error (non-fatal):', err.message);
+        await updateProgress('Social media analysis failed (non-fatal)');
+        socialMediaData = {
+          _error: err.message,
+          _note: 'Social media analysis unavailable'
+        };
+      }
+    } else {
+      console.log('[REGENERATE] No social media URLs provided, skipping');
+      await updateProgress('No social media URLs provided');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 5. GENERATE ASSESSMENT WITH CLAUDE
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Generating assessment with Claude');
@@ -171,7 +195,8 @@ export async function handler(event, context) {
       social,
       seoptData,
       googlePlacesData,
-      websiteAnalysis
+      websiteAnalysis,
+      socialMediaData
     });
     await updateProgress('Claude assessment complete');
 
@@ -181,7 +206,8 @@ export async function handler(event, context) {
     const qaResult = validateAssessmentQuality(assessmentData, {
       googlePlacesData,
       seoptData,
-      websiteAnalysis
+      websiteAnalysis,
+      socialMediaData
     });
 
     if (!qaResult.valid) {
@@ -205,6 +231,7 @@ export async function handler(event, context) {
         seoptimer_raw: seoptData,
         google_places_raw: googlePlacesData,
         website_analysis_raw: websiteAnalysis,
+        social_media_raw: socialMediaData,
         overall_score: assessmentData.overall?.score || null,
         overall_grade: assessmentData.overall?.grade || null,
         status: 'completed',
@@ -582,6 +609,318 @@ function detectSocialLinks(htmlLower) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
+// SOCIAVAULT API INTEGRATION (Social Media Analytics)
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function fetchSocialMediaData(socialUrls) {
+  if (!process.env.SOCIAVAULT_API_KEY) {
+    console.log('[SociaVault] API key not configured, skipping social media analysis');
+    return {
+      _error: 'SOCIAVAULT_API_KEY not configured',
+      _note: 'Social media analysis unavailable'
+    };
+  }
+
+  const results = {
+    platforms: {},
+    summary: {
+      totalFollowers: 0,
+      platformsFound: 0,
+      platformsAnalyzed: []
+    },
+    topContent: [],
+    _source: 'sociavault',
+    _timestamp: new Date().toISOString()
+  };
+
+  const headers = {
+    'X-API-Key': process.env.SOCIAVAULT_API_KEY,
+    'Content-Type': 'application/json'
+  };
+
+  const platformPromises = [];
+
+  if (socialUrls?.instagram) {
+    platformPromises.push(
+      fetchInstagramData(socialUrls.instagram, headers)
+        .then(data => { results.platforms.instagram = data; })
+        .catch(err => { results.platforms.instagram = { _error: err.message }; })
+    );
+  }
+
+  if (socialUrls?.tiktok) {
+    platformPromises.push(
+      fetchTikTokData(socialUrls.tiktok, headers)
+        .then(data => { results.platforms.tiktok = data; })
+        .catch(err => { results.platforms.tiktok = { _error: err.message }; })
+    );
+  }
+
+  if (socialUrls?.youtube) {
+    platformPromises.push(
+      fetchYouTubeData(socialUrls.youtube, headers)
+        .then(data => { results.platforms.youtube = data; })
+        .catch(err => { results.platforms.youtube = { _error: err.message }; })
+    );
+  }
+
+  if (socialUrls?.facebook) {
+    platformPromises.push(
+      fetchFacebookData(socialUrls.facebook, headers)
+        .then(data => { results.platforms.facebook = data; })
+        .catch(err => { results.platforms.facebook = { _error: err.message }; })
+    );
+  }
+
+  await Promise.all(platformPromises);
+
+  Object.entries(results.platforms).forEach(([platform, data]) => {
+    if (data && !data._error) {
+      results.summary.platformsAnalyzed.push(platform);
+      results.summary.platformsFound++;
+      results.summary.totalFollowers += data.followers || 0;
+    }
+  });
+
+  results.topContent = aggregateTopContent(results.platforms);
+
+  console.log('[SociaVault] Analysis complete:', {
+    platformsFound: results.summary.platformsFound,
+    totalFollowers: results.summary.totalFollowers
+  });
+
+  return results;
+}
+
+async function fetchInstagramData(url, headers) {
+  const handle = extractInstagramHandle(url);
+  if (!handle) throw new Error('Could not extract Instagram handle from URL');
+
+  const profileRes = await fetch(
+    `https://api.sociavault.com/v1/scrape/instagram/profile?handle=${encodeURIComponent(handle)}&trim=true`,
+    { headers }
+  );
+
+  if (!profileRes.ok) throw new Error(`Instagram profile fetch failed: ${profileRes.status}`);
+
+  const profileData = await profileRes.json();
+  if (!profileData.success) throw new Error('Instagram profile fetch unsuccessful');
+
+  const user = profileData.data?.data?.user || profileData.data?.user || {};
+
+  let posts = [], avgLikes = 0, avgComments = 0, engagementRate = 0;
+
+  try {
+    const postsRes = await fetch(
+      `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
+      { headers }
+    );
+    if (postsRes.ok) {
+      const postsData = await postsRes.json();
+      posts = postsData.data?.items || [];
+      if (posts.length > 0) {
+        const totalLikes = posts.reduce((sum, p) => sum + (p.like_count || 0), 0);
+        const totalComments = posts.reduce((sum, p) => sum + (p.comment_count || 0), 0);
+        avgLikes = Math.round(totalLikes / posts.length);
+        avgComments = Math.round(totalComments / posts.length);
+        const followers = user.edge_followed_by?.count || user.follower_count || 0;
+        if (followers > 0) engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
+      }
+    }
+  } catch (e) { /* non-fatal */ }
+
+  return {
+    platform: 'instagram',
+    handle: user.username || handle,
+    displayName: user.full_name || '',
+    bio: user.biography || '',
+    followers: user.edge_followed_by?.count || user.follower_count || 0,
+    following: user.edge_follow?.count || user.following_count || 0,
+    postCount: user.edge_owner_to_timeline_media?.count || user.media_count || 0,
+    verified: user.is_verified || false,
+    externalUrl: user.external_url || '',
+    metrics: { avgLikes, avgComments, engagementRate: parseFloat(engagementRate) || 0 },
+    recentPosts: posts.slice(0, 5).map(p => ({
+      id: p.id || p.code,
+      type: p.media_type === 2 ? 'video' : (p.media_type === 8 ? 'carousel' : 'image'),
+      likes: p.like_count || 0,
+      comments: p.comment_count || 0,
+      views: p.play_count || null,
+      caption: p.caption?.text?.substring(0, 150) || ''
+    }))
+  };
+}
+
+async function fetchTikTokData(url, headers) {
+  const handle = extractTikTokHandle(url);
+  if (!handle) throw new Error('Could not extract TikTok handle from URL');
+
+  const profileRes = await fetch(
+    `https://api.sociavault.com/v1/scrape/tiktok/profile?handle=${encodeURIComponent(handle)}`,
+    { headers }
+  );
+
+  if (!profileRes.ok) throw new Error(`TikTok profile fetch failed: ${profileRes.status}`);
+
+  const profileData = await profileRes.json();
+  if (!profileData.success) throw new Error('TikTok profile fetch unsuccessful');
+
+  const user = profileData.data?.user || {};
+  const stats = profileData.data?.stats || {};
+  const videos = profileData.data?.itemList || [];
+
+  let avgViews = 0, avgLikes = 0, avgComments = 0, engagementRate = 0;
+  if (videos.length > 0) {
+    const totalViews = videos.reduce((sum, v) => sum + (v.stats?.playCount || 0), 0);
+    const totalLikes = videos.reduce((sum, v) => sum + (v.stats?.diggCount || 0), 0);
+    const totalComments = videos.reduce((sum, v) => sum + (v.stats?.commentCount || 0), 0);
+    avgViews = Math.round(totalViews / videos.length);
+    avgLikes = Math.round(totalLikes / videos.length);
+    avgComments = Math.round(totalComments / videos.length);
+    if (avgViews > 0) engagementRate = ((avgLikes + avgComments) / avgViews * 100).toFixed(2);
+  }
+
+  return {
+    platform: 'tiktok',
+    handle: user.uniqueId || handle,
+    displayName: user.nickname || '',
+    bio: user.signature || '',
+    followers: stats.followerCount || 0,
+    following: stats.followingCount || 0,
+    totalLikes: stats.heartCount || stats.heart || 0,
+    videoCount: stats.videoCount || 0,
+    verified: user.verified || false,
+    bioLink: user.bioLink?.link || '',
+    metrics: { avgViews, avgLikes, avgComments, engagementRate: parseFloat(engagementRate) || 0 },
+    recentVideos: videos.slice(0, 5).map(v => ({
+      id: v.id,
+      views: v.stats?.playCount || 0,
+      likes: v.stats?.diggCount || 0,
+      comments: v.stats?.commentCount || 0,
+      shares: v.stats?.shareCount || 0,
+      caption: v.desc?.substring(0, 150) || ''
+    }))
+  };
+}
+
+async function fetchYouTubeData(url, headers) {
+  const channelInfo = extractYouTubeChannel(url);
+  if (!channelInfo) throw new Error('Could not extract YouTube channel from URL');
+
+  const queryParam = channelInfo.type === 'handle'
+    ? `handle=${encodeURIComponent(channelInfo.value)}`
+    : `channelId=${encodeURIComponent(channelInfo.value)}`;
+
+  const channelRes = await fetch(
+    `https://api.sociavault.com/v1/scrape/youtube/channel?${queryParam}`,
+    { headers }
+  );
+
+  if (!channelRes.ok) throw new Error(`YouTube channel fetch failed: ${channelRes.status}`);
+
+  const channelData = await channelRes.json();
+  if (!channelData.success) throw new Error('YouTube channel fetch unsuccessful');
+
+  const data = channelData.data || {};
+
+  return {
+    platform: 'youtube',
+    handle: data.handle || '',
+    displayName: data.name || '',
+    description: data.description?.substring(0, 300) || '',
+    subscribers: data.subscriberCount || 0,
+    subscriberText: data.subscriberCountText || '',
+    totalViews: data.viewCount || 0,
+    videoCount: data.videoCount || 0,
+    joinedDate: data.joinedDateText || '',
+    country: data.country || '',
+    metrics: { avgViewsPerVideo: data.videoCount > 0 ? Math.round(data.viewCount / data.videoCount) : 0 }
+  };
+}
+
+async function fetchFacebookData(url, headers) {
+  const fbRes = await fetch(
+    `https://api.sociavault.com/v1/scrape/facebook/profile?url=${encodeURIComponent(url)}`,
+    { headers }
+  );
+
+  if (!fbRes.ok) throw new Error(`Facebook profile fetch failed: ${fbRes.status}`);
+
+  const fbData = await fbRes.json();
+  if (!fbData.success) throw new Error('Facebook profile fetch unsuccessful');
+
+  const data = fbData.data || {};
+
+  return {
+    platform: 'facebook',
+    name: data.name || '',
+    category: data.category || '',
+    followers: data.followerCount || 0,
+    likes: data.likeCount || 0,
+    url: data.url || url,
+    website: data.website || '',
+    adStatus: data.adLibrary?.adStatus || null
+  };
+}
+
+function extractInstagramHandle(url) {
+  if (!url) return null;
+  const match = url.match(/instagram\.com\/([^\/\?]+)/i) || url.match(/^@?([a-zA-Z0-9._]+)$/);
+  return match ? match[1].replace('@', '') : null;
+}
+
+function extractTikTokHandle(url) {
+  if (!url) return null;
+  const match = url.match(/tiktok\.com\/@([^\/\?]+)/i) || url.match(/^@([a-zA-Z0-9._]+)$/);
+  return match ? match[1] : null;
+}
+
+function extractYouTubeChannel(url) {
+  if (!url) return null;
+  let match = url.match(/youtube\.com\/@([^\/\?]+)/i);
+  if (match) return { type: 'handle', value: match[1] };
+  match = url.match(/youtube\.com\/channel\/([^\/\?]+)/i);
+  if (match) return { type: 'channelId', value: match[1] };
+  match = url.match(/youtube\.com\/c\/([^\/\?]+)/i);
+  if (match) return { type: 'handle', value: match[1] };
+  match = url.match(/youtube\.com\/user\/([^\/\?]+)/i);
+  if (match) return { type: 'handle', value: match[1] };
+  return null;
+}
+
+function aggregateTopContent(platforms) {
+  const allContent = [];
+  if (platforms.instagram?.recentPosts) {
+    platforms.instagram.recentPosts.forEach(post => {
+      allContent.push({
+        platform: 'instagram',
+        engagement: (post.likes || 0) + (post.comments || 0),
+        likes: post.likes,
+        comments: post.comments,
+        views: post.views,
+        type: post.type,
+        caption: post.caption
+      });
+    });
+  }
+  if (platforms.tiktok?.recentVideos) {
+    platforms.tiktok.recentVideos.forEach(video => {
+      allContent.push({
+        platform: 'tiktok',
+        engagement: (video.likes || 0) + (video.comments || 0) + (video.shares || 0),
+        likes: video.likes,
+        comments: video.comments,
+        views: video.views,
+        shares: video.shares,
+        type: 'video',
+        caption: video.caption
+      });
+    });
+  }
+  return allContent.sort((a, b) => b.engagement - a.engagement).slice(0, 5);
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
 // GOOGLE PLACES VERIFICATION & FILTERING
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -751,29 +1090,35 @@ CRITICAL DATA ACCURACY RULES - FOLLOW EXACTLY
    - "source": The specific data source (e.g., "Google Places API", "Website scrape", "SEOptimer")
 
 ═══════════════════════════════════════════════════════════════════════════════
-ASSESSMENT STRUCTURE - 5 CATEGORIES ONLY
+ASSESSMENT STRUCTURE - 6 CATEGORIES
 ═══════════════════════════════════════════════════════════════════════════════
 
-We assess ONLY these 5 categories (we have reliable data for these):
+We assess these 6 categories (we have verified data for these):
 
-1. WEBSITE & TECHNICAL FOUNDATION (Weight: 20%)
+1. WEBSITE & TECHNICAL FOUNDATION (Weight: 15%)
    - Source: SEOptimer data + Website Content Analysis
    - Focus: Speed, mobile experience, SSL, basic SEO
 
-2. REVIEWS & REPUTATION (Weight: 30%)
+2. REVIEWS & REPUTATION (Weight: 25%)
    - Source: Google Places API data
    - Focus: Google rating, review count, review recency, response patterns
    - If no Google data: All metrics show "Manual verification recommended"
 
-3. ONLINE BOOKING & CONVERSION (Weight: 25%)
+3. ONLINE BOOKING & CONVERSION (Weight: 20%)
    - Source: Website Content Analysis
    - Focus: Booking capability, platform presence, contact visibility, pricing clarity
 
-4. DIGITAL GUEST EXPERIENCE (Weight: 15%)
+4. SOCIAL MEDIA & CONTENT (Weight: 20%)
+   - Source: SociaVault API (Instagram, TikTok, YouTube, Facebook)
+   - Focus: Follower counts, engagement rates, posting frequency, content performance
+   - Key metrics: Total followers, engagement rate per platform, top performing content
+   - If no social data: Note which platforms are missing and recommend setup
+
+5. DIGITAL GUEST EXPERIENCE (Weight: 10%)
    - Source: Website Content Analysis
    - Focus: Hours, directions, parking, accessibility info, visitor essentials
 
-5. LOCAL VISIBILITY (Weight: 10%)
+6. LOCAL VISIBILITY (Weight: 10%)
    - Source: SEOptimer + Google Places + Website Analysis
    - Focus: Local SEO signals, map presence, NAP consistency
 
@@ -784,7 +1129,7 @@ SCORING CALCULATION
 ═══════════════════════════════════════════════════════════════════════════════
 
 Calculate overall score using these exact weights:
-overall_score = (website_score × 0.20) + (reviews_score × 0.30) + (booking_score × 0.25) + (guest_exp_score × 0.15) + (local_score × 0.10)
+overall_score = (website_score × 0.15) + (reviews_score × 0.25) + (booking_score × 0.20) + (social_score × 0.20) + (guest_exp_score × 0.10) + (local_score × 0.10)
 
 Grade scale:
 - A+ (95-100), A (90-94), A- (87-89)
@@ -1106,16 +1451,69 @@ ${JSON.stringify(seo, null, 2)}`;
 - For Website Technical Foundation category: note technical data was limited`;
   }
 
+  // Add Social Media Data (from SociaVault)
+  if (data.socialMediaData && !data.socialMediaData._error) {
+    const sm = data.socialMediaData;
+    context += `\n\n## Social Media Analytics (VERIFIED - FROM SOCIAVAULT API)
+### Summary
+- Total Followers (all platforms): ${sm.summary?.totalFollowers?.toLocaleString() || 0}
+- Platforms Analyzed: ${sm.summary?.platformsAnalyzed?.join(', ') || 'None'}`;
+
+    if (sm.platforms?.instagram && !sm.platforms.instagram._error) {
+      const ig = sm.platforms.instagram;
+      context += `\n\n### Instagram (@${ig.handle})
+- Followers: ${ig.followers?.toLocaleString() || 0}
+- Engagement Rate: ${ig.metrics?.engagementRate || 0}%
+- Avg Likes: ${ig.metrics?.avgLikes?.toLocaleString() || 0}`;
+    }
+
+    if (sm.platforms?.tiktok && !sm.platforms.tiktok._error) {
+      const tt = sm.platforms.tiktok;
+      context += `\n\n### TikTok (@${tt.handle})
+- Followers: ${tt.followers?.toLocaleString() || 0}
+- Engagement Rate: ${tt.metrics?.engagementRate || 0}%
+- Avg Views: ${tt.metrics?.avgViews?.toLocaleString() || 0}`;
+    }
+
+    if (sm.platforms?.youtube && !sm.platforms.youtube._error) {
+      const yt = sm.platforms.youtube;
+      context += `\n\n### YouTube (${yt.handle ? '@' + yt.handle : yt.displayName})
+- Subscribers: ${yt.subscribers?.toLocaleString() || 0}
+- Total Views: ${yt.totalViews?.toLocaleString() || 0}`;
+    }
+
+    if (sm.platforms?.facebook && !sm.platforms.facebook._error) {
+      const fb = sm.platforms.facebook;
+      context += `\n\n### Facebook (${fb.name})
+- Followers: ${fb.followers?.toLocaleString() || 0}
+- Page Likes: ${fb.likes?.toLocaleString() || 0}`;
+    }
+
+    if (sm.topContent?.length > 0) {
+      context += `\n\n### Top Performing Content:`;
+      sm.topContent.slice(0, 3).forEach((content, i) => {
+        context += `\n${i + 1}. [${content.platform}] ${content.engagement?.toLocaleString() || 0} engagements`;
+      });
+    }
+  } else if (data.socialMediaData?._error) {
+    context += `\n\n## Social Media Analytics
+- NOT AVAILABLE: ${data.socialMediaData._error}`;
+  } else {
+    context += `\n\n## Social Media Analytics
+- NOT PROVIDED (no social media URLs submitted)`;
+  }
+
   return context;
 }
 
 function getDefaultAssessment() {
-  // 5 categories with explicit weights
+  // 6 categories with explicit weights (total = 100%)
   const categories = [
-    { key: 'website_technical', title: 'Website & Technical Foundation', weight: 0.20 },
-    { key: 'reviews_reputation', title: 'Reviews & Reputation', weight: 0.30 },
-    { key: 'booking_conversion', title: 'Online Booking & Conversion', weight: 0.25 },
-    { key: 'guest_experience', title: 'Digital Guest Experience', weight: 0.15 },
+    { key: 'website_technical', title: 'Website & Technical Foundation', weight: 0.15 },
+    { key: 'reviews_reputation', title: 'Reviews & Reputation', weight: 0.25 },
+    { key: 'booking_conversion', title: 'Online Booking & Conversion', weight: 0.20 },
+    { key: 'social_media', title: 'Social Media & Content', weight: 0.20 },
+    { key: 'guest_experience', title: 'Digital Guest Experience', weight: 0.10 },
     { key: 'local_visibility', title: 'Local Visibility', weight: 0.10 }
   ];
 
