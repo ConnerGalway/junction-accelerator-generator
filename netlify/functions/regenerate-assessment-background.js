@@ -3,8 +3,9 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Import shared functions from generate-assessment-background
-// Note: In production, these should be in a shared module
+// Import deterministic scoring engine
+import { calculateAllScores } from '../../shared/scoring-engine.js';
+import { SCORING_ENGINE_VERSION } from '../../shared/rubrics.js';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
@@ -118,7 +119,7 @@ export async function handler(event, context) {
     let googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_API_KEY) {
       try {
-        googlePlacesData = await fetchGooglePlacesData(businessName, location);
+        googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
         await updateProgress('Google Places complete');
       } catch (err) {
         console.error('Google Places error (non-fatal):', err.message);
@@ -161,15 +162,16 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault)
+    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault) with caching
     // ─────────────────────────────────────────────────────────────────────────
     let socialMediaData = null;
     if (social && Object.values(social).some(url => url)) {
-      console.log('[REGENERATE] Fetching social media data from SociaVault');
+      console.log('[REGENERATE] Fetching social media data from SociaVault (with cache)');
       await updateProgress('Analyzing social media profiles');
       try {
-        socialMediaData = await fetchSocialMediaData(social);
-        console.log('[REGENERATE] Social media analysis complete:', socialMediaData?.summary);
+        socialMediaData = await getSocialMediaDataWithCache(slug, social, supabaseAdmin);
+        const cacheStatus = socialMediaData?._cached ? '(cached)' : '(fresh)';
+        console.log('[REGENERATE] Social media analysis complete:', socialMediaData?.summary, cacheStatus);
         await updateProgress('Social media analysis complete');
       } catch (err) {
         console.error('[REGENERATE] Social media fetch error (non-fatal):', err.message);
@@ -185,8 +187,50 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 5. GENERATE ASSESSMENT WITH CLAUDE
+    // 5. CALCULATE DETERMINISTIC SCORES
     // ─────────────────────────────────────────────────────────────────────────
+    console.log('[REGENERATE] Calculating deterministic scores');
+    await updateProgress('Calculating assessment scores');
+
+    const scoringResult = calculateAllScores({
+      seoptData,
+      googlePlacesData,
+      websiteAnalysis,
+      socialMediaData
+    });
+
+    console.log('[REGENERATE] Scores calculated:', {
+      overall: scoringResult.overall.score,
+      grade: scoringResult.overall.grade,
+      confidence: scoringResult.overall.confidence
+    });
+
+    // Save scoring audit trail
+    try {
+      await supabaseAdmin.from('assessment_audit').insert({
+        client_slug: slug,
+        scoring_engine_version: SCORING_ENGINE_VERSION,
+        inputs_seoptimer: seoptData && !seoptData._error ? seoptData : null,
+        inputs_google_places: googlePlacesData && !googlePlacesData._error ? googlePlacesData : null,
+        inputs_website_analysis: websiteAnalysis && !websiteAnalysis._error ? websiteAnalysis : null,
+        inputs_sociavault: socialMediaData && !socialMediaData._error ? socialMediaData : null,
+        scores_breakdown: scoringResult,
+        overall_score: scoringResult.overall.score,
+        overall_grade: scoringResult.overall.grade,
+        confidence_level: scoringResult.overall.confidence,
+        missing_data_flags: scoringResult.missingDataFlags
+      });
+      console.log('[REGENERATE] Audit trail saved');
+    } catch (auditError) {
+      console.warn('[REGENERATE] Failed to save audit trail (non-fatal):', auditError.message);
+    }
+
+    await updateProgress('Scores calculated');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5b. GENERATE ANALYSIS WITH CLAUDE (using pre-calculated scores)
+    // ─────────────────────────────────────────────────────────────────────────
+    console.log('[REGENERATE] Generating analysis with Claude');
     await updateProgress('Generating assessment with Claude');
     const assessmentData = await generateAssessmentWithClaude({
       businessName,
@@ -196,7 +240,8 @@ export async function handler(event, context) {
       seoptData,
       googlePlacesData,
       websiteAnalysis,
-      socialMediaData
+      socialMediaData,
+      preCalculatedScores: scoringResult  // Pass pre-calculated scores
     });
     await updateProgress('Claude assessment complete');
 
@@ -224,16 +269,48 @@ export async function handler(event, context) {
     // 6. UPDATE ASSESSMENT RECORD
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Saving to database');
+
+    // Merge pre-calculated scores into assessment data
+    // Keep Claude's summaries/findings/recommendations but use deterministic scores
+    const mergedCategories = {};
+    for (const [key, scoringData] of Object.entries(scoringResult.categories)) {
+      const claudeData = assessmentData.categories?.[key] || {};
+      mergedCategories[key] = {
+        // Deterministic scores from scoring engine (these are authoritative)
+        score: scoringData.score,
+        grade: scoringData.grade,
+        weight: scoringData.weight,
+        confidence: scoringData.confidence,
+        breakdown: scoringData.breakdown,
+        dataSources: scoringData.dataSources,
+        // Claude's analysis (summaries, findings, recommendations)
+        title: scoringData.title || claudeData.title,
+        summary: claudeData.summary || 'Analysis pending.',
+        findings: claudeData.findings || [],
+        metrics: claudeData.metrics || [],
+        recommendations: claudeData.recommendations || [],
+        data_sources: claudeData.data_sources || scoringData.dataSources || []
+      };
+    }
+
+    const finalAssessmentData = {
+      ...assessmentData,
+      overall: scoringResult.overall,
+      categories: mergedCategories,
+      _scoringEngineVersion: SCORING_ENGINE_VERSION,
+      _scoredAt: new Date().toISOString()
+    };
+
     const { error: updateError } = await supabaseAdmin
       .from('client_assessments')
       .update({
-        assessment_data: assessmentData,
+        assessment_data: finalAssessmentData,
         seoptimer_raw: seoptData,
         google_places_raw: googlePlacesData,
         website_analysis_raw: websiteAnalysis,
         social_media_raw: socialMediaData,
-        overall_score: assessmentData.overall?.score || null,
-        overall_grade: assessmentData.overall?.grade || null,
+        overall_score: scoringResult.overall.score,
+        overall_grade: scoringResult.overall.grade,
         status: 'completed',
         error_message: null
       })
@@ -241,6 +318,24 @@ export async function handler(event, context) {
 
     if (updateError) {
       console.error('Failed to update assessment:', updateError);
+    }
+
+    console.log('[REGENERATE] Assessment saved successfully');
+
+    // Save to score_history for tracking
+    try {
+      await supabaseAdmin.from('score_history').insert({
+        client_slug: slug,
+        overall_score: scoringResult.overall.score,
+        overall_grade: scoringResult.overall.grade,
+        category_scores: Object.fromEntries(
+          Object.entries(scoringResult.categories).map(([key, cat]) => [key, cat.score])
+        ),
+        trigger: 'reassessment'
+      });
+      console.log('[REGENERATE] Score history saved');
+    } catch (historyError) {
+      console.warn('[REGENERATE] Failed to save score history (non-fatal):', historyError.message);
     }
 
     // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
@@ -371,15 +466,29 @@ async function fetchSEOptimerReport(websiteUrl) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// GOOGLE PLACES API
+// GOOGLE PLACES API (with Fuzzy Matching)
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function fetchGooglePlacesData(businessName, location) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
-  const searchQuery = location ? `${businessName} ${location}` : businessName;
+function extractDomain(url) {
+  if (!url) return null;
+  try {
+    const hostname = new URL(url).hostname.toLowerCase();
+    return hostname.replace(/^(www|m|mobile)\./, '');
+  } catch {
+    return null;
+  }
+}
 
+function doDomainsMatch(domain1, domain2) {
+  if (!domain1 || !domain2) return false;
+  if (domain1 === domain2) return true;
+  if (domain1.includes(domain2) || domain2.includes(domain1)) return true;
+  return false;
+}
+
+async function searchGooglePlaces(query, apiKey) {
   const findPlaceUrl = new URL('https://maps.googleapis.com/maps/api/place/findplacefromtext/json');
-  findPlaceUrl.searchParams.set('input', searchQuery);
+  findPlaceUrl.searchParams.set('input', query);
   findPlaceUrl.searchParams.set('inputtype', 'textquery');
   findPlaceUrl.searchParams.set('fields', 'place_id,name,formatted_address');
   findPlaceUrl.searchParams.set('key', apiKey);
@@ -390,9 +499,10 @@ async function fetchGooglePlacesData(businessName, location) {
   if (findResult.status !== 'OK' || !findResult.candidates?.length) {
     return null;
   }
+  return findResult.candidates;
+}
 
-  const placeId = findResult.candidates[0].place_id;
-
+async function getPlaceDetails(placeId, apiKey) {
   const detailsUrl = new URL('https://maps.googleapis.com/maps/api/place/details/json');
   detailsUrl.searchParams.set('place_id', placeId);
   detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types');
@@ -404,8 +514,10 @@ async function fetchGooglePlacesData(businessName, location) {
   if (detailsResult.status !== 'OK' || !detailsResult.result) {
     return null;
   }
+  return detailsResult.result;
+}
 
-  const place = detailsResult.result;
+function formatPlaceData(place, matchInfo = {}) {
   return {
     name: place.name,
     rating: place.rating || null,
@@ -420,8 +532,103 @@ async function fetchGooglePlacesData(businessName, location) {
       text: r.text?.substring(0, 300) || '',
       relativeTime: r.relative_time_description,
       authorName: r.author_name
-    }))
+    })),
+    _matchInfo: matchInfo
   };
+}
+
+async function fetchGooglePlacesData(businessName, location, websiteUrl = null) {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+  }
+
+  const targetDomain = extractDomain(websiteUrl);
+  console.log('[Google Places] Starting fuzzy search for:', businessName);
+
+  const searchStrategies = [
+    { name: 'exact_with_location', query: location ? `${businessName} ${location}` : businessName },
+    { name: 'business_name_only', query: businessName }
+  ];
+
+  if (targetDomain) {
+    const domainParts = targetDomain.split('.')[0].replace(/[-_]/g, ' ');
+    if (domainParts.length > 3 && domainParts.toLowerCase() !== businessName.toLowerCase()) {
+      searchStrategies.push({
+        name: 'domain_based',
+        query: location ? `${domainParts} ${location}` : domainParts
+      });
+    }
+  }
+
+  const allCandidates = [];
+  const seenPlaceIds = new Set();
+
+  for (const strategy of searchStrategies) {
+    try {
+      const candidates = await searchGooglePlaces(strategy.query, apiKey);
+      if (candidates) {
+        for (const candidate of candidates) {
+          if (!seenPlaceIds.has(candidate.place_id)) {
+            seenPlaceIds.add(candidate.place_id);
+            allCandidates.push({ ...candidate, strategy: strategy.name });
+          }
+        }
+      }
+    } catch (err) {
+      console.log(`[Google Places] Strategy "${strategy.name}" failed:`, err.message);
+    }
+  }
+
+  if (allCandidates.length === 0) {
+    return null;
+  }
+
+  let bestMatch = null;
+  let bestMatchScore = -1;
+
+  for (const candidate of allCandidates) {
+    const details = await getPlaceDetails(candidate.place_id, apiKey);
+    if (!details) continue;
+
+    let matchScore = 0;
+    const matchInfo = { strategy: candidate.strategy, domainMatch: false, nameMatch: false };
+
+    if (targetDomain && details.website) {
+      const placeDomain = extractDomain(details.website);
+      if (doDomainsMatch(targetDomain, placeDomain)) {
+        matchScore += 100;
+        matchInfo.domainMatch = true;
+      }
+    }
+
+    const normalizedBusinessName = businessName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const normalizedPlaceName = details.name.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (normalizedPlaceName.includes(normalizedBusinessName) ||
+        normalizedBusinessName.includes(normalizedPlaceName)) {
+      matchScore += 50;
+      matchInfo.nameMatch = true;
+    }
+
+    const strategyIndex = searchStrategies.findIndex(s => s.name === candidate.strategy);
+    matchScore += (searchStrategies.length - strategyIndex) * 10;
+
+    if (details.user_ratings_total > 0) {
+      matchScore += Math.min(details.user_ratings_total, 20);
+    }
+
+    if (matchScore > bestMatchScore) {
+      bestMatchScore = matchScore;
+      bestMatch = { details, matchInfo };
+      if (matchInfo.domainMatch) break;
+    }
+  }
+
+  if (!bestMatch) {
+    return null;
+  }
+
+  return formatPlaceData(bestMatch.details, bestMatch.matchInfo);
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -611,6 +818,51 @@ function detectSocialLinks(htmlLower) {
 // ═══════════════════════════════════════════════════════════════════════════
 // SOCIAVAULT API INTEGRATION (Social Media Analytics)
 // ═══════════════════════════════════════════════════════════════════════════
+
+async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClient) {
+  if (!socialUrls || !Object.values(socialUrls).some(url => url)) {
+    return null;
+  }
+
+  try {
+    const now = new Date().toISOString();
+    const { data: cached, error: cacheError } = await supabaseClient
+      .from('social_media_cache')
+      .select('payload, fetched_at, expires_at')
+      .eq('client_slug', clientSlug)
+      .single();
+
+    if (!cacheError && cached && cached.expires_at > now) {
+      console.log('[SociaVault] Cache hit for:', clientSlug);
+      return { ...cached.payload, _cached: true, _cachedAt: cached.fetched_at };
+    }
+  } catch (err) {
+    console.log('[SociaVault] Cache check failed:', err.message);
+  }
+
+  const freshData = await fetchSocialMediaData(socialUrls);
+
+  if (freshData && !freshData._error) {
+    const fetchedAt = new Date();
+    const expiresAt = new Date(fetchedAt.getTime() + 24 * 60 * 60 * 1000); // 24 hours
+    supabaseClient
+      .from('social_media_cache')
+      .upsert({
+        client_slug: clientSlug,
+        payload: freshData,
+        fetched_at: fetchedAt.toISOString(),
+        expires_at: expiresAt.toISOString(),
+        source_api: 'sociavault',
+        source_version: '1.0'
+      }, { onConflict: 'client_slug' })
+      .then(({ error }) => {
+        if (!error) console.log('[SociaVault] Cached data for:', clientSlug);
+      })
+      .catch(() => {});
+  }
+
+  return freshData;
+}
 
 async function fetchSocialMediaData(socialUrls) {
   if (!process.env.SOCIAVAULT_API_KEY) {
@@ -1465,7 +1717,7 @@ async function generateAssessmentWithClaude(data) {
     },
     body: JSON.stringify({
       model: 'claude-sonnet-4-5-20250929',
-      max_tokens: 12000,
+      max_tokens: 16000,
       messages: [
         {
           role: 'user',
@@ -1784,38 +2036,146 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
       parsed = JSON.parse(jsonStr);
     } catch (firstError) {
       console.log('[Claude] First parse failed, attempting repair:', firstError.message);
+      console.log('[Claude] Error position info:', firstError.message.match(/position (\d+)/)?.[1] || 'unknown');
 
       // Attempt to repair common JSON issues
       let repairedJson = jsonStr;
 
-      // Remove trailing commas before ] or }
+      // Step 1: Fix control characters that break JSON
+      repairedJson = repairedJson.replace(/[\x00-\x1F\x7F]/g, (char) => {
+        if (char === '\n') return '\\n';
+        if (char === '\r') return '\\r';
+        if (char === '\t') return '\\t';
+        return ''; // Remove other control chars
+      });
+
+      // Step 2: Remove trailing commas before ] or }
       repairedJson = repairedJson.replace(/,(\s*[}\]])/g, '$1');
 
-      // Try to close unclosed brackets/braces if truncated
-      const openBraces = (repairedJson.match(/{/g) || []).length;
-      const closeBraces = (repairedJson.match(/}/g) || []).length;
-      const openBrackets = (repairedJson.match(/\[/g) || []).length;
-      const closeBrackets = (repairedJson.match(/]/g) || []).length;
-
-      // If truncated mid-string, try to close it
-      if (openBraces > closeBraces || openBrackets > closeBrackets) {
-        // Find last complete property and truncate there
-        const lastGoodPoint = repairedJson.lastIndexOf('",');
-        if (lastGoodPoint > repairedJson.length * 0.8) {
-          repairedJson = repairedJson.substring(0, lastGoodPoint + 1);
+      // Step 3: Fix unescaped quotes inside strings (common LLM issue)
+      repairedJson = repairedJson.replace(/"([^"]*?)(?<!\\)"([^"]*?)"/g, (match, p1, p2) => {
+        if (p2 && !p2.startsWith(':') && !p2.startsWith(',') && !p2.startsWith('}') && !p2.startsWith(']')) {
+          return `"${p1}\\"${p2}"`;
         }
+        return match;
+      });
 
-        // Close any open structures
-        for (let i = 0; i < openBrackets - closeBrackets; i++) repairedJson += ']';
-        for (let i = 0; i < openBraces - closeBraces; i++) repairedJson += '}';
-      }
-
+      // Try first repair
       try {
         parsed = JSON.parse(repairedJson);
-        console.log('[Claude] Repair successful');
-      } catch (repairError) {
-        console.error('[Claude] Repair failed:', repairError.message);
-        throw firstError; // Re-throw original error
+        console.log('[Claude] Repair successful (step 1-3)');
+      } catch (secondError) {
+        console.log('[Claude] Basic repair failed, trying truncation:', secondError.message);
+
+        // Step 4: Aggressive truncation for truncated responses
+        // Find the last complete JSON value (string ending with ", or number/bool/null)
+
+        // Strategy: Find last occurrence of complete patterns and truncate there
+        const truncationPoints = [];
+
+        // Pattern 1: End of string value followed by comma or closing bracket
+        let match;
+        const stringEndPattern = /",?\s*(?=[}\]])/g;
+        while ((match = stringEndPattern.exec(repairedJson)) !== null) {
+          if (match.index > repairedJson.length * 0.5) {
+            truncationPoints.push(match.index + match[0].length);
+          }
+        }
+
+        // Pattern 2: End of array with ]
+        const arrayEndPattern = /\],?\s*(?=[}\]])/g;
+        while ((match = arrayEndPattern.exec(repairedJson)) !== null) {
+          if (match.index > repairedJson.length * 0.5) {
+            truncationPoints.push(match.index + match[0].length);
+          }
+        }
+
+        // Pattern 3: End of object with }
+        const objEndPattern = /},?\s*(?=[}\]])/g;
+        while ((match = objEndPattern.exec(repairedJson)) !== null) {
+          if (match.index > repairedJson.length * 0.5) {
+            truncationPoints.push(match.index + match[0].length);
+          }
+        }
+
+        // Also check for simple patterns
+        const simplePatterns = ['"}', '"]', 'true}', 'false}', 'null}', 'true]', 'false]', 'null]'];
+        for (const pattern of simplePatterns) {
+          let idx = repairedJson.lastIndexOf(pattern);
+          if (idx > repairedJson.length * 0.5) {
+            truncationPoints.push(idx + pattern.length);
+          }
+        }
+
+        if (truncationPoints.length > 0) {
+          // Use the latest good truncation point
+          const bestPoint = Math.max(...truncationPoints);
+          console.log('[Claude] Truncating at position:', bestPoint, 'of', repairedJson.length);
+          repairedJson = repairedJson.substring(0, bestPoint);
+
+          // Remove any trailing commas
+          repairedJson = repairedJson.replace(/,\s*$/, '');
+        }
+
+        // Close any remaining open structures
+        const newOpenBraces = (repairedJson.match(/{/g) || []).length;
+        const newCloseBraces = (repairedJson.match(/}/g) || []).length;
+        const newOpenBrackets = (repairedJson.match(/\[/g) || []).length;
+        const newCloseBrackets = (repairedJson.match(/]/g) || []).length;
+
+        console.log('[Claude] Bracket balance - braces:', newOpenBraces, '/', newCloseBraces, 'brackets:', newOpenBrackets, '/', newCloseBrackets);
+
+        for (let i = 0; i < newOpenBrackets - newCloseBrackets; i++) repairedJson += ']';
+        for (let i = 0; i < newOpenBraces - newCloseBraces; i++) repairedJson += '}';
+
+        try {
+          parsed = JSON.parse(repairedJson);
+          console.log('[Claude] Repair successful (with truncation)');
+        } catch (repairError) {
+          console.error('[Claude] Truncation repair failed:', repairError.message);
+
+          // Last resort: try to find ANY valid JSON object in the response
+          console.log('[Claude] Attempting last-resort extraction...');
+          const lastResortMatch = repairedJson.match(/\{[\s\S]*?"executive_summary"[\s\S]*?"categories"[\s\S]*?\}/);
+          if (lastResortMatch) {
+            try {
+              // Try increasingly aggressive truncation
+              let candidate = lastResortMatch[0];
+              for (let cutback = 0; cutback < 5000; cutback += 500) {
+                const truncated = candidate.substring(0, candidate.length - cutback);
+                const lastGood = truncated.lastIndexOf('"}');
+                if (lastGood > truncated.length * 0.8) {
+                  let attempt = truncated.substring(0, lastGood + 2);
+                  // Balance and close
+                  const ob = (attempt.match(/{/g) || []).length;
+                  const cb = (attempt.match(/}/g) || []).length;
+                  const oq = (attempt.match(/\[/g) || []).length;
+                  const cq = (attempt.match(/]/g) || []).length;
+                  for (let i = 0; i < oq - cq; i++) attempt += ']';
+                  for (let i = 0; i < ob - cb; i++) attempt += '}';
+                  try {
+                    parsed = JSON.parse(attempt);
+                    console.log('[Claude] Last-resort extraction successful at cutback:', cutback);
+                    break;
+                  } catch (e) {
+                    // Continue trying
+                  }
+                }
+              }
+            } catch (e) {
+              // Fall through to error
+            }
+          }
+
+          if (!parsed) {
+            console.error('[Claude] All repair attempts failed:', repairError.message);
+            const errorPos = parseInt(firstError.message.match(/position (\d+)/)?.[1] || '0');
+            if (errorPos > 0) {
+              console.error('[Claude] Content around error:', jsonStr.substring(Math.max(0, errorPos - 100), Math.min(jsonStr.length, errorPos + 100)));
+            }
+            throw firstError;
+          }
+        }
       }
     }
 
@@ -1823,12 +2183,48 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     return parsed;
   } catch (e) {
     console.error('Failed to parse Claude response:', e.message);
-    return getDefaultAssessment();
+    const defaultAssessment = getDefaultAssessment();
+    defaultAssessment._debug_error = e.message;
+    defaultAssessment._debug_raw_response = content?.substring(0, 2000) || 'No content available';
+    return defaultAssessment;
   }
 }
 
 function buildAssessmentContext(data) {
-  let context = `## Business Information
+  let context = '';
+
+  // Add pre-calculated scores section if available
+  if (data.preCalculatedScores) {
+    const scores = data.preCalculatedScores;
+    context += `═══════════════════════════════════════════════════════════════
+PRE-CALCULATED SCORES (DO NOT MODIFY - THESE ARE DETERMINISTIC)
+═══════════════════════════════════════════════════════════════
+IMPORTANT: These scores have been calculated algorithmically and are FINAL.
+Your task is to ANALYZE and EXPLAIN these scores, NOT to recalculate them.
+
+Overall Score: ${scores.overall.score}/100 (Grade: ${scores.overall.grade})
+Confidence Level: ${scores.overall.confidence}
+Scoring Engine Version: ${scores._version || 'unknown'}
+
+### Category Breakdown:
+`;
+    Object.entries(scores.categories).forEach(([key, cat]) => {
+      context += `- ${cat.title}: ${cat.score}/100 (${cat.grade}) [Weight: ${Math.round(cat.weight * 100)}%]\n`;
+    });
+
+    context += `
+═══════════════════════════════════════════════════════════════
+CRITICAL INSTRUCTIONS FOR CLAUDE:
+1. USE these exact scores in your output - do not recalculate
+2. Your job is to EXPLAIN why these scores are what they are
+3. Reference specific data points that justify each score
+4. Provide actionable recommendations to improve scores
+═══════════════════════════════════════════════════════════════
+
+`;
+  }
+
+  context += `## Business Information
 - Name: ${data.businessName}
 - Website: ${data.websiteUrl}
 - Location: ${data.location || 'Not specified'}
