@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Celebration Modal Demo</title>
+
+<!-- Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* Design Tokens */
+:root {
+  --navy-900: #11154b;
+  --navy-800: #181c2d;
+  --slate-600: #708090;
+  --link-blue: #067cbc;
+  --mint-500: #aadab6;
+  --cream-100: #fcf5ec;
+  --white: #ffffff;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --shadow-lg: 0 12px 32px rgba(17,21,75,0.14);
+  --font-display: 'Raleway', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream-100);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.replay-btn {
+  background: var(--navy-900);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 16px 32px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.replay-btn:hover {
+  transform: scale(1.02);
+}
+
+.replay-btn:active {
+  transform: scale(0.98);
+}
+
+.instructions {
+  color: var(--slate-600);
+  font-size: 14px;
+  text-align: center;
+  max-width: 400px;
+  line-height: 1.5;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.88) translateY(16px); }
+  60% { transform: scale(1.02) translateY(0); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@keyframes ringDraw {
+  from { stroke-dashoffset: 327; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes checkDraw {
+  from { stroke-dashoffset: 64; }
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes haloPulse {
+  0% { opacity: 0.55; transform: scale(0.7); }
+  70% { opacity: 0; transform: scale(1.5); }
+  100% { opacity: 0; transform: scale(1.5); }
+}
+
+@keyframes riseIn {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes fly {
+  0% { opacity: 0; transform: translateY(0) scale(0.4); }
+  18% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-190px) scale(1.05); }
+}
+
+/* Celebration Modal */
+.celebrate-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17,21,75,0.55);
+  display: none;
+  place-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s ease;
+}
+
+.celebrate-overlay.visible {
+  display: grid;
+}
+
+.celebrate-modal {
+  position: relative;
+  background: var(--navy-900);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 44px 52px 40px;
+  width: 540px;
+  max-width: 95vw;
+  text-align: center;
+  animation: popIn 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
+  overflow: hidden;
+}
+
+.celebrate-ring {
+  position: relative;
+  width: 112px;
+  height: 112px;
+  margin: 0 auto 24px;
+}
+
+.celebrate-ring__halo {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--mint-500);
+  animation: haloPulse 1.4s ease-out 0.15s;
+}
+
+.celebrate-ring svg circle {
+  animation: ringDraw 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  transform: rotate(-90deg);
+  transform-origin: 56px 56px;
+}
+
+.celebrate-ring svg path {
+  animation: checkDraw 0.35s ease-out 0.55s forwards;
+  stroke-dashoffset: 64;
+}
+
+.celebrate-tag {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  color: var(--mint-500);
+  margin-bottom: 14px;
+  animation: riseIn 0.4s ease 0.3s both;
+}
+
+.celebrate-headline {
+  margin: 0 0 12px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 30px;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  color: #fff;
+  animation: riseIn 0.45s ease 0.38s both;
+}
+
+.celebrate-body {
+  margin: 0 auto 28px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255,255,255,0.75);
+  max-width: 38ch;
+  animation: riseIn 0.45s ease 0.46s both;
+}
+
+.celebrate-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid rgba(255,255,255,0.15);
+  border-bottom: 1px solid rgba(255,255,255,0.15);
+  padding: 20px 0;
+  margin-bottom: 26px;
+  animation: riseIn 0.45s ease 0.54s both;
+}
+
+.celebrate-stat {
+  border-right: 1px solid rgba(255,255,255,0.12);
+}
+
+.celebrate-stat:last-child {
+  border-right: none;
+}
+
+.celebrate-stat-value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 26px;
+  color: #fff;
+  letter-spacing: -0.02em;
+}
+
+.celebrate-stat-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  margin-top: 3px;
+}
+
+.celebrate-btn {
+  background: var(--mint-500);
+  color: var(--navy-900);
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 14px 34px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 15px;
+  cursor: pointer;
+  animation: riseIn 0.45s ease 0.62s both;
+  transition: background 0.15s ease;
+}
+
+.celebrate-btn:hover {
+  background: #9bd0a9;
+}
+
+/* Confetti */
+.celebrate-confetti {
+  position: absolute;
+  left: 50%;
+  top: 36%;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.celebrate-confetti > span {
+  position: absolute;
+}
+
+.confetti-piece {
+  display: block;
+  opacity: 0;
+  animation: fly 1s ease-out forwards;
+}
+
+.confetti-piece--square { width: 9px; height: 9px; border-radius: 2px; }
+.confetti-piece--circle { width: 7px; height: 7px; border-radius: 50%; }
+.confetti-piece--rect { width: 10px; height: 5px; border-radius: 2px; }
+
+.confetti-piece--mint { background: var(--mint-500); }
+.confetti-piece--white { background: #fff; }
+.confetti-piece--blue { background: var(--link-blue); }
+</style>
+</head>
+<body>
+
+<button class="replay-btn" id="replayBtn">Replay Celebration</button>
+<p class="instructions">
+  Press Cmd+Shift+5 to start screen recording, then click the button above.<br>
+  Press Escape or click outside to dismiss.
+</p>
+
+<!-- Celebration Modal -->
+<div class="celebrate-overlay" id="celebrateOverlay" role="dialog" aria-modal="true" aria-labelledby="celebrateHeadline">
+  <div class="celebrate-modal">
+    <!-- Confetti particles -->
+    <div class="celebrate-confetti">
+      <span style="transform:rotate(0deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--square" style="animation-delay:.05s"></span></span>
+      <span style="transform:rotate(30deg)"><span class="confetti-piece confetti-piece--white confetti-piece--circle" style="animation-delay:.12s"></span></span>
+      <span style="transform:rotate(60deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--rect" style="animation-delay:.18s"></span></span>
+      <span style="transform:rotate(95deg)"><span class="confetti-piece confetti-piece--blue confetti-piece--square" style="animation-delay:.08s"></span></span>
+      <span style="transform:rotate(130deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--circle" style="animation-delay:.22s"></span></span>
+      <span style="transform:rotate(160deg)"><span class="confetti-piece confetti-piece--white confetti-piece--rect" style="animation-delay:.15s"></span></span>
+      <span style="transform:rotate(200deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--square" style="animation-delay:.1s"></span></span>
+      <span style="transform:rotate(230deg)"><span class="confetti-piece confetti-piece--blue confetti-piece--circle" style="animation-delay:.25s"></span></span>
+      <span style="transform:rotate(265deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--rect" style="animation-delay:.2s"></span></span>
+      <span style="transform:rotate(300deg)"><span class="confetti-piece confetti-piece--white confetti-piece--square" style="animation-delay:.06s"></span></span>
+      <span style="transform:rotate(330deg)"><span class="confetti-piece confetti-piece--mint confetti-piece--circle" style="animation-delay:.28s"></span></span>
+    </div>
+    <div class="celebrate-ring">
+      <span class="celebrate-ring__halo"></span>
+      <svg width="112" height="112" viewBox="0 0 112 112">
+        <circle cx="56" cy="56" r="52" fill="none" stroke="var(--mint-500)" stroke-width="3" stroke-dasharray="327"></circle>
+        <path d="M36 57 L50 71 L77 44" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="64"></path>
+      </svg>
+    </div>
+    <div class="celebrate-tag" id="celebrateTag">WEEK 1 COMPLETE</div>
+    <h2 class="celebrate-headline" id="celebrateHeadline">Foundation locked in.</h2>
+    <p class="celebrate-body" id="celebrateBody">Every system you set up this week makes next week's rhythm easier to hold.</p>
+    <div class="celebrate-stats" id="celebrateStats">
+      <div class="celebrate-stat">
+        <div class="celebrate-stat-value">5</div>
+        <div class="celebrate-stat-label">Tasks done</div>
+      </div>
+      <div class="celebrate-stat">
+        <div class="celebrate-stat-value">7</div>
+        <div class="celebrate-stat-label">Day streak</div>
+      </div>
+      <div class="celebrate-stat">
+        <div class="celebrate-stat-value">11%</div>
+        <div class="celebrate-stat-label">Progress</div>
+      </div>
+    </div>
+    <button class="celebrate-btn" id="celebrateDismiss">Keep going</button>
+  </div>
+</div>
+
+<script>
+const overlay = document.getElementById('celebrateOverlay');
+const modal = overlay.querySelector('.celebrate-modal');
+const dismissBtn = document.getElementById('celebrateDismiss');
+const replayBtn = document.getElementById('replayBtn');
+
+function showCelebration() {
+  // Reset animations by removing and re-adding the modal
+  const parent = modal.parentNode;
+  const clone = modal.cloneNode(true);
+  parent.removeChild(modal);
+  parent.appendChild(clone);
+
+  // Re-bind dismiss button
+  clone.querySelector('#celebrateDismiss').addEventListener('click', hideCelebration);
+
+  overlay.classList.add('visible');
+}
+
+function hideCelebration() {
+  overlay.classList.remove('visible');
+}
+
+// Show on load (after a brief delay for recording setup)
+setTimeout(showCelebration, 500);
+
+// Replay button
+replayBtn.addEventListener('click', showCelebration);
+
+// Dismiss handlers
+dismissBtn.addEventListener('click', hideCelebration);
+
+overlay.addEventListener('click', (e) => {
+  if (e.target === overlay) {
+    hideCelebration();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && overlay.classList.contains('visible')) {
+    hideCelebration();
+  }
+});
+</script>
+</body>
+</html>

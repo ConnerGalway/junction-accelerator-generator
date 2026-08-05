@@ -18,7 +18,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>90-Day Accelerator — {{CLIENT_NAME}}</title>
+<title>90-Day Accelerator — Conner's Cabins</title>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -3247,7 +3247,7 @@ button {
 }
 </style>
 </head>
-<body data-client-slug="{{CLIENT_SLUG}}">
+<body data-client-slug="conners-cabins">
 
 <div class="app-shell">
   <!-- ══════════════════════════════════════════════════════════════════════
@@ -3375,11 +3375,11 @@ button {
             <circle cx="28" cy="28" r="24" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-dasharray="150.8" stroke-dashoffset="113" id="sideProgressRing"></circle>
           </svg>
           <div class="sidebar-expanded__progress-text">
-            <div class="sidebar-expanded__progress-done" id="sideProgressDone">{{TASKS_DONE}} / {{TOTAL_TASKS}}</div>
+            <div class="sidebar-expanded__progress-done" id="sideProgressDone">12 / 48</div>
             <div class="sidebar-expanded__progress-sub">tasks checked off</div>
           </div>
         </div>
-        <div class="sidebar-expanded__progress-day" id="sideProgressDay">Day {{CURRENT_DAY}} of 90 · week {{CURRENT_WEEK}} of {{CURRENT_PHASE_NAME}}</div>
+        <div class="sidebar-expanded__progress-day" id="sideProgressDay">Day 21 of 90 · week 3 of Foundation</div>
       </div>
 
       <div class="nav-group">
@@ -3467,9 +3467,9 @@ button {
       <div class="topbar__right">
         <span class="topbar__streak">
           <span class="topbar__streak-dot"></span>
-          <span id="streakLabel">{{STREAK_DAYS}}-day streak</span>
+          <span id="streakLabel">7-day streak</span>
         </span>
-        <span class="topbar__avatar" title="{{CLIENT_NAME}}" id="clientAvatar">{{CLIENT_INITIALS}}</span>
+        <span class="topbar__avatar" title="Conner's Cabins" id="clientAvatar">CC</span>
       </div>
     </div>
 
@@ -3479,10 +3479,10 @@ button {
     <div class="page-view active" id="view-dashboard">
       <div class="dashboard__header">
         <div>
-          <div class="dashboard__header-eyebrow" id="dashboardDay">DAY {{CURRENT_DAY}} OF 90</div>
-          <h1 class="dashboard__header-title">Good to see you, {{CLIENT_NAME}}</h1>
+          <div class="dashboard__header-eyebrow" id="dashboardDay">DAY 21 OF 90</div>
+          <h1 class="dashboard__header-title">Good to see you, Conner's Cabins</h1>
         </div>
-        <span class="dashboard__header-countdown" id="dashboardCountdown">{{DAYS_REMAINING}} days to go</span>
+        <span class="dashboard__header-countdown" id="dashboardCountdown">69 days to go</span>
       </div>
 
       <div class="dashboard__progress-card">
@@ -3492,8 +3492,8 @@ button {
             <circle cx="100" cy="100" r="85" fill="none" stroke="var(--mint-500)" stroke-width="17" stroke-linecap="round" stroke-dasharray="534.1" stroke-dashoffset="400" id="dashboardRing"></circle>
           </svg>
           <div class="dashboard__ring-center">
-            <div class="dashboard__ring-pct" id="dashboardPct">{{PROGRESS_PCT}}</div>
-            <div class="dashboard__ring-tasks" id="dashboardTasks">{{TASKS_DONE}} / {{TOTAL_TASKS}} tasks</div>
+            <div class="dashboard__ring-pct" id="dashboardPct">25%</div>
+            <div class="dashboard__ring-tasks" id="dashboardTasks">12 / 48 tasks</div>
           </div>
         </div>
         <div class="dashboard__progress-text">
@@ -3527,43 +3527,43 @@ button {
 
       <div class="dashboard__next-step">
         <div class="dashboard__next-step-main">
-          <div class="dashboard__next-step-eyebrow">YOUR NEXT STEP · WEEK {{CURRENT_WEEK}} OF {{TOTAL_WEEKS}} · {{CURRENT_WEEK_TITLE}}</div>
-          <h2 class="dashboard__next-step-title" id="nextStepTitle">{{NEXT_STEP_TITLE}}</h2>
+          <div class="dashboard__next-step-eyebrow">YOUR NEXT STEP · WEEK 3 OF 12 · Getting Found on Google</div>
+          <h2 class="dashboard__next-step-title" id="nextStepTitle">Optimize your Google Business Profile</h2>
           <div class="dashboard__next-step-tasks" id="nextStepTasks">
-            {{NEXT_STEPS}}
+            <div class="dashboard__next-step-task"><input type="checkbox" class="dashboard__next-step-checkbox"><span>Add 10 more photos to your Google Business Profile</span></div><div class="dashboard__next-step-task"><input type="checkbox" class="dashboard__next-step-checkbox"><span>Post your first GBP update about seasonal availability</span></div>
           </div>
           <div class="dashboard__next-step-actions">
             <button class="btn-primary" id="markStepComplete">Mark step complete</button>
-            <a href="#" class="dashboard__next-step-link" id="openTacticGuide" data-nav="{{NEXT_STEP_TACTIC_NAV}}">Open the full guide for this tactic →</a>
+            <a href="#" class="dashboard__next-step-link" id="openTacticGuide" data-nav="tactic1">Open the full guide for this tactic →</a>
           </div>
         </div>
         <div class="dashboard__next-step-sidebar">
           <div class="dashboard__next-step-meta">
             <div class="dashboard__next-step-meta-label">TACTIC</div>
-            <div class="dashboard__next-step-meta-value" id="nextStepTactic">{{NEXT_STEP_TACTIC}}</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepTactic">Tactic 1 · Local SEO</div>
           </div>
           <div class="dashboard__next-step-meta">
             <div class="dashboard__next-step-meta-label">TIME NEEDED</div>
-            <div class="dashboard__next-step-meta-value" id="nextStepTime">{{NEXT_STEP_TIME}}</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepTime">45 min</div>
           </div>
           <div class="dashboard__next-step-meta">
             <div class="dashboard__next-step-meta-label">WHO</div>
-            <div class="dashboard__next-step-meta-value" id="nextStepWho">{{NEXT_STEP_WHO}}</div>
+            <div class="dashboard__next-step-meta-value" id="nextStepWho">You</div>
           </div>
           <div class="dashboard__next-step-progress">
             <div class="dashboard__next-step-progress-header">
-              <span>Week {{CURRENT_WEEK}} tasks</span>
-              <span id="currentWeekProgress">{{CURRENT_WEEK_DONE}} / {{CURRENT_WEEK_TOTAL}}</span>
+              <span>Week 3 tasks</span>
+              <span id="currentWeekProgress">2 / 4</span>
             </div>
             <div class="dashboard__next-step-progress-bar">
-              <div class="dashboard__next-step-progress-fill" style="width: {{CURRENT_WEEK_PCT}}" id="currentWeekProgressBar"></div>
+              <div class="dashboard__next-step-progress-fill" style="width: 50%" id="currentWeekProgressBar"></div>
             </div>
           </div>
         </div>
       </div>
 
       <div class="dashboard__tactics" id="tacticPills">
-        {{TACTIC_PILLS}}
+        <div class="dashboard__tactics"><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--state-success)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="0" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">100%</span></div><div class="dashboard__tactic-name">Local SEO</div><div class="dashboard__tactic-meta">Weeks 1–4</div></div><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="84.8" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">25%</span></div><div class="dashboard__tactic-name">Reviews</div><div class="dashboard__tactic-meta">Weeks 3–8</div></div><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--slate-600)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">0%</span></div><div class="dashboard__tactic-name">Social Media</div><div class="dashboard__tactic-meta">Weeks 5–12</div></div></div>
       </div>
     </div>
 
@@ -3571,18 +3571,18 @@ button {
          ASSESSMENT VIEW
          ════════════════════════════════════════════════════════════════════ -->
     <div class="page-view" id="view-assessment">
-      <div class="assessment__eyebrow">YOUR ASSESSMENT · {{ASSESSMENT_DATE}}</div>
+      <div class="assessment__eyebrow">YOUR ASSESSMENT · August 15, 2026</div>
 
       <div class="assessment__hero">
         <div class="assessment__ring">
           <svg width="170" height="170" viewBox="0 0 170 170">
             <circle cx="85" cy="85" r="72" fill="none" stroke="rgba(255,255,255,0.14)" stroke-width="14"></circle>
-            <circle cx="85" cy="85" r="72" fill="none" stroke="{{SCORE_COLOR}}" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="{{SCORE_RING_OFFSET}}" id="assessmentRing"></circle>
+            <circle cx="85" cy="85" r="72" fill="none" stroke="var(--link-blue)" stroke-width="14" stroke-linecap="round" stroke-dasharray="452.4" stroke-dashoffset="126.7" id="assessmentRing"></circle>
           </svg>
           <div class="assessment__ring-center">
-            <div class="assessment__ring-score">{{OVERALL_SCORE}}</div>
+            <div class="assessment__ring-score">72</div>
             <div class="assessment__ring-max">out of 100</div>
-            <div class="assessment__ring-grade" style="background: {{GRADE_BG}}; color: {{GRADE_TEXT}}">{{OVERALL_GRADE}}</div>
+            <div class="assessment__ring-grade" style="background: var(--link-blue); color: #fff">C+</div>
           </div>
         </div>
         <div class="assessment__hero-content">
@@ -3598,7 +3598,7 @@ button {
               <span class="assessment__complete-badge">Complete</span>
             </div>
           </div>
-          <p class="assessment__hero-summary">{{ASSESSMENT_SUMMARY}}</p>
+          <p class="assessment__hero-summary">Your website loads fast and looks inviting, but you're invisible on Google. With some focused work on local SEO and review generation, you could be capturing significantly more direct bookings from travelers searching for cabin rentals in your area.</p>
         </div>
       </div>
 
@@ -3608,8 +3608,8 @@ button {
           <span class="assessment__priority-num">1</span>
           <span class="assessment__priority-label">THE #1 PRIORITY</span>
         </div>
-        <p class="assessment__priority-text">{{ASSESSMENT_TOP_PRIORITY}}</p>
-        <span class="assessment__priority-tag assessment__priority-tag--danger">{{ASSESSMENT_TOP_PRIORITY_IMPACT}}</span>
+        <p class="assessment__priority-text">Claim and fully optimize your Google Business Profile — you're currently not showing up in "cabin rentals near me" searches, which is where most of your potential guests start their research.</p>
+        <span class="assessment__priority-tag assessment__priority-tag--danger">High impact</span>
         <div class="assessment__priority-divider"></div>
         <div class="assessment__findings-grid">
           <div>
@@ -3620,7 +3620,10 @@ button {
               <span class="assessment__findings-title">Key strengths</span>
             </div>
             <div class="assessment__findings-list">
-              {{ASSESSMENT_WORKING}}
+              <div class="assessment__findings-item">Beautiful cabin photography</div>
+              <div class="assessment__findings-item">Fast-loading website (2.1s)</div>
+              <div class="assessment__findings-item">Mobile-friendly booking flow</div>
+              <div class="assessment__findings-item">Clear pricing displayed</div>
             </div>
           </div>
           <div>
@@ -3629,7 +3632,10 @@ button {
               <span class="assessment__findings-title">Critical gaps</span>
             </div>
             <div class="assessment__findings-list">
-              {{ASSESSMENT_LEAKING}}
+              <div class="assessment__findings-item">No Google Business Profile claimed</div>
+              <div class="assessment__findings-item">Only 3 reviews (vs. 47 avg for competitors)</div>
+              <div class="assessment__findings-item">Not ranking for "cabins near [location]"</div>
+              <div class="assessment__findings-item">Social media inactive for 6+ months</div>
             </div>
           </div>
         </div>
@@ -3643,20 +3649,150 @@ button {
         </div>
         <p class="assessment__quick-wins-desc">Five things worth fixing this week — these land on your plan the moment it unlocks.</p>
         <div class="assessment__quick-wins-list">
-          {{ASSESSMENT_QUICK_WINS}}
+          <div class="assessment__quick-win">Claim your Google Business Profile</div>
+          <div class="assessment__quick-win">Add 20+ photos to your GBP listing</div>
+          <div class="assessment__quick-win">Set up a review request email template</div>
+          <div class="assessment__quick-win">Add location keywords to your homepage title</div>
+          <div class="assessment__quick-win">Create an Instagram account with your best cabin photos</div>
         </div>
       </div>
 
       <!-- Categories -->
       <div class="assessment__section-title">The eight categories</div>
       <div class="assessment__categories">
-        {{ASSESSMENT_CATEGORIES}}
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-success);color:#fff;">A</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Website Performance</div>
+            <div class="assessment__category-oneliner">Fast load times and mobile-friendly design</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>Your website loads in 2.1 seconds and scores well on mobile usability. The booking flow is intuitive and conversion-friendly.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-danger);color:#fff;">D</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Local SEO</div>
+            <div class="assessment__category-oneliner">Not visible in local search results</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>You're not appearing in "near me" searches. Claiming and optimizing your Google Business Profile is the highest-impact fix available.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-danger);color:#fff;">D</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Reviews & Reputation</div>
+            <div class="assessment__category-oneliner">Far below competitor average</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>Only 3 reviews vs. 47 average for competitors. A systematic review collection process could transform your booking rate.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-warning);color:#fff;">C</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Social Media</div>
+            <div class="assessment__category-oneliner">Accounts exist but inactive</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>You have Instagram and Facebook pages but haven't posted in 6+ months. Consistent posting would help build awareness and trust.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--link-blue);color:#fff;">B</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Content & Photography</div>
+            <div class="assessment__category-oneliner">Strong visuals, room to expand</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>Excellent cabin photography. Adding seasonal content and local area guides would improve SEO and give visitors more reasons to book.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-success);color:#fff;">A-</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Booking Experience</div>
+            <div class="assessment__category-oneliner">Smooth and straightforward</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>Clear pricing, easy calendar selection, and simple checkout. Minor improvements to mobile UX could boost conversions further.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--state-warning);color:#fff;">C+</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Email Marketing</div>
+            <div class="assessment__category-oneliner">Basic setup, needs automation</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>You collect emails but don't have automated sequences. Post-stay follow-ups and seasonal promotions could drive repeat bookings.</p>
+          </div>
+        </div>
+        <div class="assessment__category">
+          <div class="assessment__category-header">
+            <div class="assessment__category-top">
+              <span class="assessment__category-grade" style="background:var(--link-blue);color:#fff;">B-</span>
+              <span class="assessment__category-chevron">▼</span>
+            </div>
+            <div class="assessment__category-name">Competitive Position</div>
+            <div class="assessment__category-oneliner">Good product, weak visibility</div>
+          </div>
+          <div class="assessment__category-body">
+            <p>Your cabins and experience are competitive, but you're losing bookings to competitors who show up in search. Fixing discoverability is key.</p>
+          </div>
+        </div>
       </div>
 
       <!-- Priority Recommendations -->
       <div class="assessment__section-title">Priority recommendations</div>
       <div class="assessment__priorities">
-        {{ASSESSMENT_PRIORITIES}}
+        <div class="assessment__priority-rec">
+          <div class="assessment__priority-rec-num">1</div>
+          <div class="assessment__priority-rec-content">
+            <p class="assessment__priority-rec-text">Claim and fully optimize your Google Business Profile with photos, hours, and complete business information.</p>
+          </div>
+        </div>
+        <div class="assessment__priority-rec">
+          <div class="assessment__priority-rec-num">2</div>
+          <div class="assessment__priority-rec-content">
+            <p class="assessment__priority-rec-text">Implement a systematic review collection process to build your reputation and improve local search ranking.</p>
+          </div>
+        </div>
+        <div class="assessment__priority-rec">
+          <div class="assessment__priority-rec-num">3</div>
+          <div class="assessment__priority-rec-content">
+            <p class="assessment__priority-rec-text">Add location-specific keywords to your website's title tags, meta descriptions, and page content.</p>
+          </div>
+        </div>
+        <div class="assessment__priority-rec">
+          <div class="assessment__priority-rec-num">4</div>
+          <div class="assessment__priority-rec-content">
+            <p class="assessment__priority-rec-text">Restart social media with a consistent posting schedule showcasing your cabins and the local area.</p>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3669,17 +3805,17 @@ button {
 
       <div class="strategy__goal">
         <div class="strategy__goal-label">THE GOAL</div>
-        <p class="strategy__goal-text">{{GOAL_TEXT}}</p>
+        <p class="strategy__goal-text">Increase direct bookings by 40% within 90 days by becoming the most visible and trusted cabin rental option in the region — showing up first when travelers search, earning reviews that build confidence, and creating content that makes choosing your cabins an easy decision.</p>
       </div>
 
       <div class="strategy__cards">
         <div class="strategy__card strategy__card--white">
           <h3 class="strategy__card-title">Positioning</h3>
-          <p class="strategy__card-text">{{STRATEGIC_POSITIONING}}</p>
+          <p class="strategy__card-text">The authentic mountain escape for travelers who want more than a hotel room — cozy cabins with real character, surrounded by nature, run by people who actually live here and know the best local spots.</p>
         </div>
         <div class="strategy__card strategy__card--sunken">
           <h3 class="strategy__card-title">What we're not doing</h3>
-          <p class="strategy__card-text">{{NOT_DOING_TEXT}}</p>
+          <p class="strategy__card-text">We're not competing on price with budget motels or trying to be everything to everyone. No paid ads yet — first we build the organic foundation. No new booking platforms until we maximize direct bookings.</p>
         </div>
       </div>
 
@@ -3687,21 +3823,21 @@ button {
       <div class="strategy__objectives">
         <div class="strategy__objective">
           <span class="strategy__objective-num">1</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_1_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_1_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_1_MEASURE}}</div>
+          <h3 class="strategy__objective-title">Get Found Locally</h3>
+          <p class="strategy__objective-body">Dominate local search so when someone searches "cabin rentals near [your area]" you show up first — with a complete, compelling Google Business Profile and strong local SEO.</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · Top 3 ranking for "cabin rentals near me" searches</div>
         </div>
         <div class="strategy__objective">
           <span class="strategy__objective-num">2</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_2_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_2_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_2_MEASURE}}</div>
+          <h3 class="strategy__objective-title">Build Trust Through Reviews</h3>
+          <p class="strategy__objective-body">Create a systematic process to collect guest reviews, transforming happy stays into public proof that drives future bookings.</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · 25+ Google reviews with 4.8+ average rating</div>
         </div>
         <div class="strategy__objective">
           <span class="strategy__objective-num">3</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_3_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_3_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_3_MEASURE}}</div>
+          <h3 class="strategy__objective-title">Stay Top of Mind</h3>
+          <p class="strategy__objective-body">Build a consistent social media presence that showcases your cabins, shares local tips, and keeps past guests engaged for repeat bookings.</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · 500+ followers and 2+ posts per week</div>
         </div>
       </div>
     </div>
@@ -3714,14 +3850,14 @@ button {
       <div class="print-only print-header">
         <img src="/assets/logo-wordmark-navy.png" alt="eLearningU" class="print-header__logo">
         <div>
-          <div class="print-header__title">90-Day Action Plan · {{CLIENT_NAME}}</div>
-          <div class="print-header__meta">Cohort starts {{COHORT_START_DATE}}</div>
+          <div class="print-header__title">90-Day Action Plan · Conner's Cabins</div>
+          <div class="print-header__meta">Cohort starts September 1, 2026</div>
         </div>
       </div>
 
       <div class="print-only print-section">
         <h3 class="print-section__title">About this document</h3>
-        <p class="print-section__content">This is your personalized 90-day digital marketing action plan, created specifically for {{CLIENT_NAME}}. Each week includes specific tasks designed to build on the previous week's progress, creating momentum that compounds over the full program.</p>
+        <p class="print-section__content">This is your personalized 90-day digital marketing action plan, created specifically for Conner's Cabins. Each week includes specific tasks designed to build on the previous week's progress, creating momentum that compounds over the full program.</p>
       </div>
 
       <div class="print-only print-section">
@@ -3730,12 +3866,12 @@ button {
       </div>
 
       <div class="print-only print-goal">
-        <p class="print-goal__text">{{GOAL_TEXT}}</p>
+        <p class="print-goal__text">Increase direct bookings by 40% within 90 days by becoming the most visible and trusted cabin rental option in the region — showing up first when travelers search, earning reviews that build confidence, and creating content that makes choosing your cabins an easy decision.</p>
       </div>
 
       <div class="roadmap__header no-print">
         <div>
-          <div class="roadmap__eyebrow">{{TOTAL_WEEKS}}-WEEK ACCELERATOR · YOUR ACTION PLAN</div>
+          <div class="roadmap__eyebrow">12-WEEK ACCELERATOR · YOUR ACTION PLAN</div>
           <h1 class="roadmap__title">Week by week</h1>
           <p class="roadmap__subtitle">Check things off as you go. Everything saves itself.</p>
         </div>
@@ -3745,7 +3881,7 @@ button {
             Download PDF
           </button>
           <div class="roadmap__count">
-            <div class="roadmap__count-num"><span id="roadmapDone">{{TASKS_DONE}}</span><span>/{{TOTAL_TASKS}}</span></div>
+            <div class="roadmap__count-num"><span id="roadmapDone">12</span><span>/48</span></div>
             <div class="roadmap__count-label">roadmap tasks done</div>
           </div>
         </div>
@@ -3753,22 +3889,219 @@ button {
 
       <div class="roadmap__grid">
         <div class="roadmap__weeks" id="roadmapWeeks">
-          {{ROADMAP_WEEKS}}
+          <!-- Week 1 -->
+          <div class="roadmap__week open" id="week-1" data-week="1">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--complete">Week 1</span>
+              <span class="roadmap__week-title">Claiming Your Territory</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">4/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task done" data-key="week-1-check-1">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Claim your Google Business Profile</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-1-check-2">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Add business hours and contact info</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-1-check-3">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Upload 10 cabin photos to GBP</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-1-check-4">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Write your business description</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 2 -->
+          <div class="roadmap__week" id="week-2" data-week="2">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--complete">Week 2</span>
+              <span class="roadmap__week-title">Website Foundations</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">4/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task done" data-key="week-2-check-1">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Add location keywords to homepage title</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-2-check-2">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Update meta descriptions with local terms</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-2-check-3">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Add your address to the website footer</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-2-check-4">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Create a "Local Area" page</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 3 (Current) -->
+          <div class="roadmap__week open" id="week-3" data-week="3">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--current">Week 3</span>
+              <span class="roadmap__week-title">Getting Found on Google</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">2/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task done" data-key="week-3-check-1">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Add 10 more photos to Google Business Profile</span>
+              </div>
+              <div class="roadmap__task done" data-key="week-3-check-2">
+                <span class="roadmap__task-check">✓</span>
+                <span class="roadmap__task-text">Respond to any existing reviews</span>
+              </div>
+              <div class="roadmap__task" data-key="week-3-check-3">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Post your first GBP update</span>
+              </div>
+              <div class="roadmap__task" data-key="week-3-check-4">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Add Q&A to your GBP listing</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 4 -->
+          <div class="roadmap__week" id="week-4" data-week="4">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--future">Week 4</span>
+              <span class="roadmap__week-title">Review Generation Setup</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">0/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task" data-key="week-4-check-1">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Create a review request email template</span>
+              </div>
+              <div class="roadmap__task" data-key="week-4-check-2">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Set up post-checkout review reminder</span>
+              </div>
+              <div class="roadmap__task" data-key="week-4-check-3">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Create a review link shortcut</span>
+              </div>
+              <div class="roadmap__task" data-key="week-4-check-4">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Ask 3 past guests for reviews</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Week 5-12 collapsed -->
+          <div class="roadmap__week" id="week-5" data-week="5">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--future">Week 5</span>
+              <span class="roadmap__week-title">Social Media Launch</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">0/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task" data-key="week-5-check-1">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Set up or refresh Instagram profile</span>
+              </div>
+              <div class="roadmap__task" data-key="week-5-check-2">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Post your first 3 cabin photos</span>
+              </div>
+              <div class="roadmap__task" data-key="week-5-check-3">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Create a content calendar</span>
+              </div>
+              <div class="roadmap__task" data-key="week-5-check-4">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Follow 20 local tourism accounts</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap__week" id="week-6" data-week="6">
+            <div class="roadmap__week-header">
+              <span class="roadmap__week-badge roadmap__week-badge--future">Week 6</span>
+              <span class="roadmap__week-title">Content Creation</span>
+              <div class="roadmap__week-meta">
+                <span class="roadmap__week-count">0/4</span>
+                <span class="roadmap__week-chevron">▼</span>
+              </div>
+            </div>
+            <div class="roadmap__week-body">
+              <div class="roadmap__task" data-key="week-6-check-1">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Write a "Best Hikes Near Our Cabins" blog post</span>
+              </div>
+              <div class="roadmap__task" data-key="week-6-check-2">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Create a seasonal activities guide</span>
+              </div>
+              <div class="roadmap__task" data-key="week-6-check-3">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Post 4 times on Instagram this week</span>
+              </div>
+              <div class="roadmap__task" data-key="week-6-check-4">
+                <span class="roadmap__task-check"></span>
+                <span class="roadmap__task-text">Share a guest photo (with permission)</span>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="roadmap__sidebar">
           <div class="roadmap__sidebar-card roadmap__sidebar-card--dark">
             <div class="roadmap__sidebar-label roadmap__sidebar-label--mint">RIGHT NOW</div>
-            <div class="roadmap__sidebar-title" id="currentWeekTitle">Week {{CURRENT_WEEK}} — {{CURRENT_WEEK_TITLE}}</div>
+            <div class="roadmap__sidebar-title" id="currentWeekTitle">Week 3 — Getting Found on Google</div>
             <div class="roadmap__sidebar-bar">
-              <div class="roadmap__sidebar-bar-fill" style="width: {{CURRENT_WEEK_PCT}}" id="currentWeekBar"></div>
+              <div class="roadmap__sidebar-bar-fill" style="width: 50%" id="currentWeekBar"></div>
             </div>
-            <div class="roadmap__sidebar-count" id="currentWeekCount">{{CURRENT_WEEK_DONE}} / {{CURRENT_WEEK_TOTAL}} tasks done</div>
+            <div class="roadmap__sidebar-count" id="currentWeekCount">2 / 4 tasks done</div>
           </div>
 
           <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
             <div class="roadmap__sidebar-label roadmap__sidebar-label--slate">THE 90 DAYS</div>
-            {{ROADMAP_PHASES}}
+            <div class="roadmap__phase roadmap__phase--current">
+              <div class="roadmap__phase-marker"></div>
+              <div class="roadmap__phase-content">
+                <div class="roadmap__phase-name">Foundation</div>
+                <div class="roadmap__phase-weeks">Weeks 1–4</div>
+              </div>
+            </div>
+            <div class="roadmap__phase">
+              <div class="roadmap__phase-marker"></div>
+              <div class="roadmap__phase-content">
+                <div class="roadmap__phase-name">Growth</div>
+                <div class="roadmap__phase-weeks">Weeks 5–8</div>
+              </div>
+            </div>
+            <div class="roadmap__phase">
+              <div class="roadmap__phase-marker"></div>
+              <div class="roadmap__phase-content">
+                <div class="roadmap__phase-name">Scale</div>
+                <div class="roadmap__phase-weeks">Weeks 9–12</div>
+              </div>
+            </div>
           </div>
 
           <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
@@ -3780,7 +4113,7 @@ button {
 
       <!-- Print footer -->
       <div class="print-only print-footer">
-        <p>Need help? Contact your coach at {{COACH_EMAIL}}</p>
+        <p>Need help? Contact your coach at coach@elearningu.com</p>
         <p style="margin-top:4px;">Generated by eLearningU Accelerator Program</p>
       </div>
     </div>
@@ -3794,11 +4127,11 @@ button {
           <div class="tactic__header-top">
             <div>
               <div class="tactic__eyebrow">
-                <span class="tactic__eyebrow-text">TACTIC 1 · {{TACTIC_1_PHASE}}</span>
+                <span class="tactic__eyebrow-text">TACTIC 1 · WEEKS 1–4</span>
                 <span class="tactic__status tactic__status--active">Active</span>
               </div>
-              <h1 class="tactic__title">{{TACTIC_1_TITLE}}</h1>
-              <p class="tactic__desc">{{TACTIC_1_SUBTITLE}}</p>
+              <h1 class="tactic__title">Local SEO & Google Business</h1>
+              <p class="tactic__desc">Get found when travelers search for cabin rentals in your area</p>
             </div>
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
@@ -3916,11 +4249,11 @@ button {
           <div class="tactic__header-top">
             <div>
               <div class="tactic__eyebrow">
-                <span class="tactic__eyebrow-text">TACTIC 2 · {{TACTIC_2_PHASE}}</span>
+                <span class="tactic__eyebrow-text">TACTIC 2 · WEEKS 3–8</span>
                 <span class="tactic__status tactic__status--upcoming">Upcoming</span>
               </div>
-              <h1 class="tactic__title">{{TACTIC_2_TITLE}}</h1>
-              <p class="tactic__desc">{{TACTIC_2_SUBTITLE}}</p>
+              <h1 class="tactic__title">Review Generation</h1>
+              <p class="tactic__desc">Build trust through authentic guest reviews</p>
             </div>
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
@@ -4023,11 +4356,11 @@ button {
           <div class="tactic__header-top">
             <div>
               <div class="tactic__eyebrow">
-                <span class="tactic__eyebrow-text">TACTIC 3 · {{TACTIC_3_PHASE}}</span>
+                <span class="tactic__eyebrow-text">TACTIC 3 · WEEKS 5–12</span>
                 <span class="tactic__status tactic__status--upcoming">Upcoming</span>
               </div>
-              <h1 class="tactic__title">{{TACTIC_3_TITLE}}</h1>
-              <p class="tactic__desc">{{TACTIC_3_SUBTITLE}}</p>
+              <h1 class="tactic__title">Social Media Presence</h1>
+              <p class="tactic__desc">Stay top of mind with consistent, engaging content</p>
             </div>
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
@@ -4133,12 +4466,12 @@ button {
         <div>
           <div class="gbp__strength">
             <div>
-              <div class="gbp__strength-value" id="gbpStrengthPct">{{GBP_STRENGTH_PCT}}</div>
+              <div class="gbp__strength-value" id="gbpStrengthPct">40%</div>
               <div class="gbp__strength-label">profile strength</div>
             </div>
             <div>
               <div class="gbp__strength-bar">
-                <div class="gbp__strength-bar-fill" style="width: {{GBP_STRENGTH_PCT}}" id="gbpStrengthBar"></div>
+                <div class="gbp__strength-bar-fill" style="width: 40%" id="gbpStrengthBar"></div>
               </div>
               <p class="gbp__strength-text">Each item you tick moves this — and moves how Google ranks you for local searches.</p>
             </div>
@@ -4149,14 +4482,48 @@ button {
             <span class="gbp__tasks-count" id="gbpTasksCount">0 / 5</span>
           </div>
           <div class="gbp__tasks" id="gbpTasks">
-            {{GBP_TASKS}}
+            <div class="gbp__task">
+              <span class="gbp__task-check"></span>
+              <div class="gbp__task-content">
+                <div class="gbp__task-title">Add business hours</div>
+                <div class="gbp__task-desc">Include regular hours and holiday schedules</div>
+              </div>
+            </div>
+            <div class="gbp__task">
+              <span class="gbp__task-check"></span>
+              <div class="gbp__task-content">
+                <div class="gbp__task-title">Upload 20+ photos</div>
+                <div class="gbp__task-desc">Interior, exterior, and amenity shots of each cabin</div>
+              </div>
+            </div>
+            <div class="gbp__task done">
+              <span class="gbp__task-check">✓</span>
+              <div class="gbp__task-content">
+                <div class="gbp__task-title">Write business description</div>
+                <div class="gbp__task-desc">750 characters highlighting what makes you unique</div>
+              </div>
+            </div>
+            <div class="gbp__task done">
+              <span class="gbp__task-check">✓</span>
+              <div class="gbp__task-content">
+                <div class="gbp__task-title">Select all relevant categories</div>
+                <div class="gbp__task-desc">Cabin rental, vacation rental, lodging</div>
+              </div>
+            </div>
+            <div class="gbp__task">
+              <span class="gbp__task-check"></span>
+              <div class="gbp__task-content">
+                <div class="gbp__task-title">Add amenities and attributes</div>
+                <div class="gbp__task-desc">WiFi, pet-friendly, hot tub, fireplace, etc.</div>
+              </div>
+            </div>
           </div>
         </div>
 
         <div class="gbp__sidebar">
           <div class="gbp__sidebar-card gbp__sidebar-card--dark">
             <div class="gbp__sidebar-label gbp__sidebar-label--mint">WHY THESE FIRST</div>
-            <p class="gbp__sidebar-text gbp__sidebar-text--light">People searching "{{SEARCH_TERM}} near me" see your profile before they see any post or ad. Every field you fill is a reason for Google to show you higher.</p>
+            <p class="gbp__sidebar-text gbp__sidebar-text--light">People searching "cabin rentals near me" see your profile before they see any post or ad. Every field you fill is a reason for Google to show you higher.</p>
           </div>
           <div class="gbp__sidebar-card gbp__sidebar-card--white">
             <div class="gbp__sidebar-label gbp__sidebar-label--slate">WHERE THIS FITS</div>
