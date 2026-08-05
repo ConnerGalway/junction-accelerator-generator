@@ -3405,7 +3405,16 @@ button {
      ASSESSMENT PDF REPORT
      ═══════════════════════════════════════════════════════════════════════ */
 
-  /* Hide the web assessment UI when printing assessment report */
+  /* When printing assessment report, hide EVERYTHING except the report */
+  body.printing-assessment .page-view {
+    display: none !important;
+  }
+
+  body.printing-assessment #view-assessment {
+    display: block !important;
+  }
+
+  /* Hide the web assessment UI elements */
   body.printing-assessment .assessment__eyebrow,
   body.printing-assessment .assessment__hero,
   body.printing-assessment .assessment__priority,
