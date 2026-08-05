@@ -3649,7 +3649,7 @@ button {
           </div>
           <div class="dashboard__next-step-actions">
             <button class="btn-primary" id="markStepComplete">Mark step complete</button>
-            <a href="#" class="dashboard__next-step-link" id="openTacticGuide" data-nav="tactic1">Open the full guide for this tactic →</a>
+            <a href="#" class="dashboard__next-step-link" id="openTacticGuide" data-nav="tactic-1">Open the full guide for this tactic →</a>
           </div>
         </div>
         <div class="dashboard__next-step-sidebar">
@@ -3678,7 +3678,46 @@ button {
       </div>
 
       <div class="dashboard__tactics" id="tacticPills">
-        <div class="dashboard__tactics"><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--state-success)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="0" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">100%</span></div><div class="dashboard__tactic-name">Local SEO</div><div class="dashboard__tactic-meta">Weeks 1–4</div></div><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="84.8" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">25%</span></div><div class="dashboard__tactic-name">Reviews</div><div class="dashboard__tactic-meta">Weeks 3–8</div></div><div class="dashboard__tactic"><div class="dashboard__tactic-ring"><svg width="44" height="44" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle><circle cx="22" cy="22" r="18" fill="none" stroke="var(--slate-600)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transform:rotate(-90deg);transform-origin:22px 22px"></circle></svg><span class="dashboard__tactic-pct">0%</span></div><div class="dashboard__tactic-name">Social Media</div><div class="dashboard__tactic-meta">Weeks 5–12</div></div></div>
+        <div class="dashboard__tactic-pill" data-nav="tactic-1">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle>
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="28.3" class="tactic-ring-progress" data-tactic="1"></circle>
+          </svg>
+          <div>
+            <div class="dashboard__tactic-pill-name">Local SEO</div>
+            <div class="dashboard__tactic-pill-label"><span class="tactic-done" data-tactic="1">3</span> of <span class="tactic-total" data-tactic="1">4</span> done</div>
+          </div>
+        </div>
+        <div class="dashboard__tactic-pill" data-nav="tactic-2">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle>
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="84.8" class="tactic-ring-progress" data-tactic="2"></circle>
+          </svg>
+          <div>
+            <div class="dashboard__tactic-pill-name">Reviews</div>
+            <div class="dashboard__tactic-pill-label"><span class="tactic-done" data-tactic="2">1</span> of <span class="tactic-total" data-tactic="2">4</span> done</div>
+          </div>
+        </div>
+        <div class="dashboard__tactic-pill" data-nav="tactic-3">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle>
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--slate-600)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="113.1" class="tactic-ring-progress" data-tactic="3"></circle>
+          </svg>
+          <div>
+            <div class="dashboard__tactic-pill-name">Social Media</div>
+            <div class="dashboard__tactic-pill-label"><span class="tactic-done" data-tactic="3">0</span> of <span class="tactic-total" data-tactic="3">4</span> done</div>
+          </div>
+        </div>
+        <div class="dashboard__tactic-pill" data-nav="gbp">
+          <svg width="44" height="44" viewBox="0 0 44 44">
+            <circle cx="22" cy="22" r="18" fill="none" stroke="rgba(17,21,75,0.12)" stroke-width="4"></circle>
+            <circle cx="22" cy="22" r="18" fill="none" stroke="var(--slate-600)" stroke-width="4" stroke-dasharray="113.1" stroke-dashoffset="113.1" class="tactic-ring-progress" data-tactic="gbp"></circle>
+          </svg>
+          <div>
+            <div class="dashboard__tactic-pill-name">GBP Quick Wins</div>
+            <div class="dashboard__tactic-pill-label"><span class="tactic-done" data-tactic="gbp">0</span> of <span class="tactic-total" data-tactic="gbp">5</span> done</div>
+          </div>
+        </div>
       </div>
     </div>
 
