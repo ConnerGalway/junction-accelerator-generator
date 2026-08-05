@@ -18,7 +18,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>90-Day Accelerator — {{CLIENT_NAME}}</title>
+<title>90-Day Accelerator: {{CLIENT_NAME}}</title>
 
 <!-- Fonts -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -30,7 +30,7 @@
 
 <style>
 /* ══════════════════════════════════════════════════════════════════════════
-   DESIGN TOKENS — eLearningU Design System
+   DESIGN TOKENS - eLearningU Design System
    ══════════════════════════════════════════════════════════════════════════ */
 :root {
   /* Colors */
@@ -129,7 +129,7 @@ button {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   LAYOUT — Shell
+   LAYOUT - Shell
    ══════════════════════════════════════════════════════════════════════════ */
 .app-shell {
   display: flex;
@@ -138,7 +138,7 @@ button {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   SIDEBAR — Navigation
+   SIDEBAR - Navigation
    ══════════════════════════════════════════════════════════════════════════ */
 .sidebar {
   flex: none;
@@ -546,7 +546,7 @@ button {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
-   PAGE VIEWS — Container
+   PAGE VIEWS - Container
    ══════════════════════════════════════════════════════════════════════════ */
 .page-view {
   display: none;
@@ -3400,6 +3400,465 @@ button {
   .page-break {
     page-break-before: always;
   }
+
+  /* ═══════════════════════════════════════════════════════════════════════
+     ASSESSMENT PDF REPORT
+     ═══════════════════════════════════════════════════════════════════════ */
+
+  /* Hide the web assessment UI when printing assessment report */
+  body.printing-assessment .assessment__eyebrow,
+  body.printing-assessment .assessment__hero,
+  body.printing-assessment .assessment__priority,
+  body.printing-assessment .assessment__quick-wins,
+  body.printing-assessment .assessment__section-title,
+  body.printing-assessment .assessment__categories,
+  body.printing-assessment .assessment__priorities {
+    display: none !important;
+  }
+
+  /* Show assessment report */
+  body.printing-assessment .assessment-report {
+    display: block !important;
+  }
+
+  /* Cover Page */
+  .report-cover {
+    page-break-after: always;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60pt 40pt;
+    background: linear-gradient(180deg, #fcf5ec 0%, #f5ede0 100%) !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-cover__logo {
+    height: 36pt;
+    margin-bottom: 48pt;
+  }
+
+  .report-cover__title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 32pt;
+    color: #11154b;
+    letter-spacing: -0.02em;
+    margin-bottom: 12pt;
+  }
+
+  .report-cover__client {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 600;
+    font-size: 20pt;
+    color: #11154b;
+    margin-bottom: 8pt;
+  }
+
+  .report-cover__date {
+    font-size: 12pt;
+    color: #708090;
+    margin-bottom: 48pt;
+  }
+
+  .report-cover__score {
+    background: #11154b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-radius: 16pt;
+    padding: 32pt 48pt;
+    margin-bottom: 48pt;
+  }
+
+  .report-cover__score-value {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 800;
+    font-size: 72pt;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4pt;
+  }
+
+  .report-cover__score-label {
+    font-size: 11pt;
+    color: rgba(255,255,255,0.65);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-bottom: 12pt;
+  }
+
+  .report-cover__score-grade {
+    display: inline-block;
+    background: #067cbc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #fff;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 18pt;
+    padding: 6pt 20pt;
+    border-radius: 24pt;
+  }
+
+  .report-cover__footer {
+    font-size: 10pt;
+    color: #708090;
+    line-height: 1.8;
+  }
+
+  /* Report Pages */
+  .report-page {
+    page-break-after: always;
+    padding: 0;
+    position: relative;
+    min-height: 100vh;
+  }
+
+  .report-page:last-child {
+    page-break-after: auto;
+  }
+
+  /* Report Header */
+  .report-header {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14pt;
+    border-bottom: 2pt solid #11154b;
+    margin-bottom: 24pt;
+  }
+
+  .report-header__logo {
+    height: 24pt;
+  }
+
+  .report-header__meta {
+    font-size: 10pt;
+    color: #708090;
+  }
+
+  /* Report Footer */
+  .report-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex !important;
+    justify-content: space-between;
+    padding-top: 12pt;
+    border-top: 0.5pt solid #e3d9c8;
+    font-size: 9pt;
+    color: #708090;
+  }
+
+  /* Section Titles */
+  .report-section-title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 16pt;
+    color: #11154b;
+    margin: 0 0 12pt 0;
+    padding-bottom: 8pt;
+    border-bottom: 1pt solid #e3d9c8;
+  }
+
+  /* Body Text */
+  .report-body {
+    font-size: 11pt;
+    line-height: 1.65;
+    color: #181c2d;
+    margin: 0 0 20pt 0;
+  }
+
+  .report-body-sm {
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #708090;
+    margin: 0 0 8pt 0;
+  }
+
+  /* Two Column Layout */
+  .report-two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16pt;
+    margin-bottom: 24pt;
+  }
+
+  /* Boxes */
+  .report-box {
+    border-radius: 8pt;
+    padding: 16pt;
+    page-break-inside: avoid;
+  }
+
+  .report-box--success {
+    background: #e8f5eb !important;
+    border-left: 4pt solid #3f9a5c;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-box--warning {
+    background: #fef5e7 !important;
+    border-left: 4pt solid #e5a84b;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-box__title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    color: #11154b;
+    margin: 0 0 10pt 0;
+  }
+
+  /* Lists */
+  .report-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .report-list li {
+    font-size: 10pt;
+    line-height: 1.5;
+    color: #181c2d;
+    padding: 4pt 0 4pt 16pt;
+    position: relative;
+  }
+
+  .report-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10pt;
+    width: 6pt;
+    height: 6pt;
+    border-radius: 50%;
+    background: #11154b;
+  }
+
+  .report-box--success .report-list li::before {
+    background: #3f9a5c;
+  }
+
+  .report-box--warning .report-list li::before {
+    background: #e5a84b;
+  }
+
+  .report-numbered-list {
+    padding-left: 20pt;
+    margin: 0 0 24pt 0;
+  }
+
+  .report-numbered-list li {
+    font-size: 10pt;
+    line-height: 1.6;
+    color: #181c2d;
+    padding: 4pt 0;
+  }
+
+  /* Priority Box */
+  .report-priority {
+    background: #e8f2fc !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-left: 4pt solid #067cbc;
+    border-radius: 8pt;
+    padding: 16pt 18pt;
+    margin-bottom: 24pt;
+  }
+
+  .report-priority p {
+    font-size: 11pt;
+    line-height: 1.6;
+    color: #181c2d;
+    margin: 0;
+  }
+
+  /* Category Breakdown */
+  .report-categories {
+    display: flex;
+    flex-direction: column;
+    gap: 10pt;
+  }
+
+  .report-category {
+    display: flex;
+    align-items: flex-start;
+    gap: 14pt;
+    padding: 12pt 14pt;
+    background: #f9f6f1 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-radius: 8pt;
+    page-break-inside: avoid;
+  }
+
+  .report-category__grade {
+    flex-shrink: 0;
+    width: 36pt;
+    height: 36pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8pt;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 14pt;
+    color: #fff;
+  }
+
+  .report-category__grade--a {
+    background: #3f9a5c !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-category__grade--b {
+    background: #5bb5d5 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-category__grade--c {
+    background: #e5a84b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-category__grade--d {
+    background: #d97049 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-category__grade--f {
+    background: #c53d3d !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .report-category__content {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .report-category__name {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 11pt;
+    color: #11154b;
+    margin-bottom: 4pt;
+  }
+
+  .report-category__desc {
+    font-size: 9.5pt;
+    line-height: 1.5;
+    color: #4a4a5c;
+    margin: 0;
+  }
+
+  /* Recommendations */
+  .report-recommendations {
+    display: flex;
+    flex-direction: column;
+    gap: 14pt;
+    margin-bottom: 28pt;
+  }
+
+  .report-rec {
+    display: flex;
+    gap: 14pt;
+    page-break-inside: avoid;
+  }
+
+  .report-rec__num {
+    flex-shrink: 0;
+    width: 28pt;
+    height: 28pt;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #11154b !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color: #fff;
+    border-radius: 50%;
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+  }
+
+  .report-rec__content {
+    flex: 1;
+    padding-top: 2pt;
+  }
+
+  .report-rec__title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    color: #11154b;
+    margin-bottom: 4pt;
+  }
+
+  .report-rec__desc {
+    font-size: 10pt;
+    line-height: 1.55;
+    color: #4a4a5c;
+    margin: 0;
+  }
+
+  /* Next Steps Box */
+  .report-next-steps {
+    background: #f3ede2 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    border-radius: 10pt;
+    padding: 18pt 20pt;
+    margin-bottom: 20pt;
+    page-break-inside: avoid;
+  }
+
+  .report-next-steps__title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 13pt;
+    color: #11154b;
+    margin: 0 0 8pt 0;
+  }
+
+  .report-next-steps__text {
+    font-size: 10.5pt;
+    line-height: 1.6;
+    color: #181c2d;
+    margin: 0;
+  }
+
+  /* Contact Box */
+  .report-contact {
+    text-align: center;
+    padding: 14pt 0;
+  }
+
+  .report-contact__title {
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 12pt;
+    color: #11154b;
+    margin-bottom: 4pt;
+  }
+
+  .report-contact__text {
+    font-size: 10pt;
+    color: #708090;
+  }
 }
 </style>
 </head>
@@ -3654,7 +4113,7 @@ button {
         </div>
         <div class="dashboard__progress-text">
           <h2>The rhythm is holding.</h2>
-          <p>Keep checking things off — every tick moves the ring and the tactic it belongs to.</p>
+          <p>Keep checking things off. Every tick moves the ring and the tactic it belongs to.</p>
           <div class="dashboard__phases-label">THE 90 DAYS</div>
           <div class="dashboard__phases">
             <div class="dashboard__phase current">
@@ -3745,7 +4204,7 @@ button {
           <div class="assessment__hero-header">
             <h1 class="assessment__hero-title">Where you're starting from</h1>
             <div class="assessment__hero-actions">
-              <button class="btn-outline">
+              <button class="btn-outline" onclick="printAssessment()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path>
                 </svg>
@@ -3797,7 +4256,7 @@ button {
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 4 14h6l-1 8 9-12h-6z"></path></svg>
           <span class="assessment__quick-wins-title">Quick wins</span>
         </div>
-        <p class="assessment__quick-wins-desc">Five things worth fixing this week — these land on your plan the moment it unlocks.</p>
+        <p class="assessment__quick-wins-desc">Five things worth fixing this week. These land on your plan the moment it unlocks.</p>
         <div class="assessment__quick-wins-list">
           {{ASSESSMENT_QUICK_WINS}}
         </div>
@@ -3814,6 +4273,117 @@ button {
       <div class="assessment__priorities">
         {{ASSESSMENT_PRIORITIES}}
       </div>
+
+      <!-- ══════════ PRINT-ONLY ASSESSMENT REPORT ══════════ -->
+      <div class="assessment-report print-only" id="assessmentReport">
+        <!-- Cover Page -->
+        <div class="report-cover">
+          <img src="/assets/logo-wordmark-navy.png" alt="eLearningU" class="report-cover__logo">
+          <div class="report-cover__title">Digital Marketing Assessment</div>
+          <div class="report-cover__client">{{CLIENT_NAME}}</div>
+          <div class="report-cover__date">{{ASSESSMENT_DATE}}</div>
+          <div class="report-cover__score">
+            <div class="report-cover__score-value">{{OVERALL_SCORE}}</div>
+            <div class="report-cover__score-label">Overall Score</div>
+            <div class="report-cover__score-grade">{{OVERALL_GRADE}}</div>
+          </div>
+          <div class="report-cover__footer">
+            <div>Prepared by eLearningU</div>
+            <div>Junction Business Accelerator Program</div>
+          </div>
+        </div>
+
+        <!-- Executive Summary -->
+        <div class="report-page">
+          <div class="report-header">
+            <img src="/assets/logo-wordmark-navy.png" alt="eLearningU" class="report-header__logo">
+            <div class="report-header__meta">{{CLIENT_NAME}} · Assessment Report</div>
+          </div>
+
+          <h2 class="report-section-title">Executive Summary</h2>
+          <p class="report-body">{{ASSESSMENT_SUMMARY}}</p>
+
+          <div class="report-two-col">
+            <div class="report-box report-box--success">
+              <h3 class="report-box__title">Key Strengths</h3>
+              <ul class="report-list">
+                {{REPORT_STRENGTHS}}
+              </ul>
+            </div>
+            <div class="report-box report-box--warning">
+              <h3 class="report-box__title">Critical Gaps</h3>
+              <ul class="report-list">
+                {{REPORT_GAPS}}
+              </ul>
+            </div>
+          </div>
+
+          <h2 class="report-section-title">The #1 Priority</h2>
+          <div class="report-priority">
+            <p>{{PRIORITY_1_TEXT}}</p>
+          </div>
+
+          <h2 class="report-section-title">Quick Wins</h2>
+          <p class="report-body-sm">Five things worth fixing this week:</p>
+          <ol class="report-numbered-list">
+            {{REPORT_QUICK_WINS}}
+          </ol>
+
+          <div class="report-footer">
+            <div>Page 1 of 3</div>
+            <div>eLearningU · Junction Business Accelerator</div>
+          </div>
+        </div>
+
+        <!-- Category Breakdown -->
+        <div class="report-page">
+          <div class="report-header">
+            <img src="/assets/logo-wordmark-navy.png" alt="eLearningU" class="report-header__logo">
+            <div class="report-header__meta">{{CLIENT_NAME}} · Assessment Report</div>
+          </div>
+
+          <h2 class="report-section-title">Category Breakdown</h2>
+
+          <div class="report-categories">
+            {{REPORT_CATEGORIES}}
+          </div>
+
+          <div class="report-footer">
+            <div>Page 2 of 3</div>
+            <div>eLearningU · Junction Business Accelerator</div>
+          </div>
+        </div>
+
+        <!-- Recommendations -->
+        <div class="report-page">
+          <div class="report-header">
+            <img src="/assets/logo-wordmark-navy.png" alt="eLearningU" class="report-header__logo">
+            <div class="report-header__meta">{{CLIENT_NAME}} · Assessment Report</div>
+          </div>
+
+          <h2 class="report-section-title">Priority Recommendations</h2>
+
+          <div class="report-recommendations">
+            {{REPORT_RECOMMENDATIONS}}
+          </div>
+
+          <div class="report-next-steps">
+            <h3 class="report-next-steps__title">What Happens Next</h3>
+            <p class="report-next-steps__text">Your personalized 90-day action plan is ready. It breaks these recommendations into weekly tasks, starting with the highest-impact items and building systematically toward your goals. Log in to your dashboard to get started.</p>
+          </div>
+
+          <div class="report-contact">
+            <div class="report-contact__title">Questions?</div>
+            <div class="report-contact__text">Your coach is here to help. Reach out anytime at {{COACH_EMAIL}}</div>
+          </div>
+
+          <div class="report-footer">
+            <div>Page 3 of 3</div>
+            <div>eLearningU · Junction Business Accelerator</div>
+          </div>
+        </div>
+      </div>
+      <!-- ══════════ END PRINT-ONLY ASSESSMENT REPORT ══════════ -->
     </div>
 
     <!-- ════════════════════════════════════════════════════════════════════
@@ -3882,7 +4452,7 @@ button {
 
       <div class="print-only print-section">
         <h3 class="print-section__title">How to use this roadmap</h3>
-        <p class="print-section__content">Work through each week in order. Check off tasks as you complete them — the online version saves your progress automatically. Focus on completing all tasks within each week before moving to the next. If you get stuck, reach out to your coach.</p>
+        <p class="print-section__content">Work through each week in order. Check off tasks as you complete them. The online version saves your progress automatically. Focus on completing all tasks within each week before moving to the next. If you get stuck, reach out to your coach.</p>
       </div>
 
       <div class="print-only print-goal">
@@ -3915,7 +4485,7 @@ button {
         <div class="roadmap__sidebar">
           <div class="roadmap__sidebar-card roadmap__sidebar-card--dark">
             <div class="roadmap__sidebar-label roadmap__sidebar-label--mint">RIGHT NOW</div>
-            <div class="roadmap__sidebar-title" id="currentWeekTitle">Week {{CURRENT_WEEK}} — {{CURRENT_WEEK_TITLE}}</div>
+            <div class="roadmap__sidebar-title" id="currentWeekTitle">Week {{CURRENT_WEEK}}: {{CURRENT_WEEK_TITLE}}</div>
             <div class="roadmap__sidebar-bar">
               <div class="roadmap__sidebar-bar-fill" style="width: {{CURRENT_WEEK_PCT}}" id="currentWeekBar"></div>
             </div>
@@ -3929,7 +4499,7 @@ button {
 
           <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
             <div class="roadmap__sidebar-label roadmap__sidebar-label--slate">WHY THE STREAK MATTERS</div>
-            <p class="roadmap__sidebar-text">A full week checked off is the whole system compounding at once — content, ads and reviews all moving the same week. That's the moment worth celebrating.</p>
+            <p class="roadmap__sidebar-text">A full week checked off is the whole system compounding at once: content, ads and reviews all moving the same week. That's the moment worth celebrating.</p>
           </div>
         </div>
       </div>
@@ -4296,7 +4866,7 @@ button {
               <div class="gbp__strength-bar">
                 <div class="gbp__strength-bar-fill" style="width: {{GBP_STRENGTH_PCT}}" id="gbpStrengthBar"></div>
               </div>
-              <p class="gbp__strength-text">Each item you tick moves this — and moves how Google ranks you for local searches.</p>
+              <p class="gbp__strength-text">Each item you tick moves this, and moves how Google ranks you for local searches.</p>
             </div>
           </div>
 
@@ -4316,7 +4886,7 @@ button {
           </div>
           <div class="gbp__sidebar-card gbp__sidebar-card--white">
             <div class="gbp__sidebar-label gbp__sidebar-label--slate">WHERE THIS FITS</div>
-            <p class="gbp__sidebar-text gbp__sidebar-text--dark">These sit outside the weekly rhythm — a one-time cleanup, not part of the recurring plan.</p>
+            <p class="gbp__sidebar-text gbp__sidebar-text--dark">These sit outside the weekly rhythm. A one-time cleanup, not part of the recurring plan.</p>
             <a href="#" class="gbp__sidebar-link" data-nav="tactic-3">Part of Google & Reviews →</a>
           </div>
         </div>
@@ -4437,16 +5007,13 @@ function printAssessment() {
 
   // Store current state
   const previousActiveView = document.querySelector('.page-view.active');
-  const previouslyOpenCategories = Array.from(document.querySelectorAll('.assessment__category.open'));
 
   // Make assessment view active for printing
   document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
   assessmentView.classList.add('active');
 
-  // Open all category accordions for printing
-  document.querySelectorAll('.assessment__category').forEach(cat => {
-    cat.classList.add('open');
-  });
+  // Add class to trigger print-only report styles
+  document.body.classList.add('printing-assessment');
 
   // Small delay to let styles apply, then print
   setTimeout(() => {
@@ -4454,13 +5021,8 @@ function printAssessment() {
 
     // Restore state after print dialog closes
     setTimeout(() => {
-      // Restore category accordion states
-      document.querySelectorAll('.assessment__category').forEach(cat => {
-        cat.classList.remove('open');
-      });
-      previouslyOpenCategories.forEach(cat => {
-        cat.classList.add('open');
-      });
+      // Remove printing class
+      document.body.classList.remove('printing-assessment');
 
       // Restore previous view
       if (previousActiveView && previousActiveView !== assessmentView) {
@@ -4832,7 +5394,7 @@ function nextTourStep() {
   const CELEBRATION_MESSAGES = {
     1: { tag: 'WEEK 1 COMPLETE', headline: 'Foundation locked in.', body: 'Every system you set up this week makes next week\'s rhythm easier to hold.' },
     2: { tag: 'WEEK 2 COMPLETE', headline: 'Building momentum.', body: 'Two weeks down. You\'re establishing the habits that will carry you through.' },
-    3: { tag: 'WEEK 3 COMPLETE', headline: 'Finding your groove.', body: 'You\'re past the hardest part—starting. Keep this energy going.' },
+    3: { tag: 'WEEK 3 COMPLETE', headline: 'Finding your groove.', body: 'You\'re past the hardest part: starting. Keep this energy going.' },
     4: { tag: 'MONTH 1 COMPLETE', headline: 'First month done!', body: 'You\'ve built the foundation. Now it\'s time to grow.' },
     5: { tag: 'WEEK 5 COMPLETE', headline: 'New phase, same momentum.', body: 'You\'ve started the growth phase. Keep building.' },
     6: { tag: 'WEEK 6 COMPLETE', headline: 'Halfway to midpoint.', body: 'Consistency is your superpower. Keep showing up.' },
