@@ -1947,6 +1947,27 @@ button {
   color: var(--navy-800);
 }
 
+/* Roadmap 90-Days Phases */
+.roadmap__phase-item {
+  padding: 10px 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.roadmap__phase-range {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--slate-600);
+  margin-bottom: 3px;
+}
+
+.roadmap__phase-name {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--navy-900);
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    TACTIC DETAIL VIEW
    ══════════════════════════════════════════════════════════════════════════ */
@@ -4534,7 +4555,22 @@ button {
 
           <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
             <div class="roadmap__sidebar-label roadmap__sidebar-label--slate">THE 90 DAYS</div>
-            {{ROADMAP_PHASES}}
+            <div class="roadmap__phase-item">
+              <div class="roadmap__phase-range">WEEKS 1-4</div>
+              <div class="roadmap__phase-name">Setup & Launch</div>
+            </div>
+            <div class="roadmap__phase-item">
+              <div class="roadmap__phase-range">WEEKS 5-8</div>
+              <div class="roadmap__phase-name">Rhythm</div>
+            </div>
+            <div class="roadmap__phase-item">
+              <div class="roadmap__phase-range">WEEKS 9-12</div>
+              <div class="roadmap__phase-name">Refine</div>
+            </div>
+            <div class="roadmap__phase-item">
+              <div class="roadmap__phase-range">AFTER</div>
+              <div class="roadmap__phase-name">Sustained</div>
+            </div>
           </div>
 
           <div class="roadmap__sidebar-card roadmap__sidebar-card--white">
