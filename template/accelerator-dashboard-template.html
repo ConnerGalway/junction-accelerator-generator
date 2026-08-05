@@ -836,8 +836,8 @@ button {
 }
 
 .dashboard__task-row.done .dashboard__task-text {
-  text-decoration: line-through;
-  color: rgba(255,255,255,0.45);
+  color: rgba(255,255,255,0.55);
+  opacity: 0.7;
 }
 
 .dashboard__next-step-actions {
@@ -1599,10 +1599,23 @@ button {
   position: relative;
   background: var(--white);
   border: 1px solid var(--border-subtle);
+  border-left: 4px solid var(--border-subtle);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-sm);
-  padding: 24px;
+  padding: 24px 26px 24px 22px;
   overflow: hidden;
+}
+
+.strategy__objective--mint {
+  border-left-color: var(--mint-500);
+}
+
+.strategy__objective--blue {
+  border-left-color: var(--link-blue);
+}
+
+.strategy__objective--slate {
+  border-left-color: var(--slate-600);
 }
 
 .strategy__objective-num {
@@ -1858,8 +1871,8 @@ button {
 }
 
 .roadmap__task.done .roadmap__task-text {
-  text-decoration: line-through;
   color: var(--slate-600);
+  opacity: 0.7;
 }
 
 /* Roadmap Sidebar */
@@ -2698,8 +2711,8 @@ button {
 }
 
 .gbp__task.done .gbp__task-text {
-  text-decoration: line-through;
   color: var(--slate-600);
+  opacity: 0.7;
 }
 
 .gbp__task-desc {
@@ -3945,9 +3958,10 @@ button {
 
       <div class="sidebar-rail__btn">
         <button data-nav="tactic-1">
+          <!-- Map Pin icon (good for Local SEO, location-based tactics) -->
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2.5" y="6" width="14" height="12" rx="2.5"></rect>
-            <path d="M16.5 11l5-3v8l-5-3z"></path>
+            <path d="M12 21s7-5.4 7-11a7 7 0 1 0-14 0c0 5.6 7 11 7 11z"></path>
+            <circle cx="12" cy="10" r="2.5"></circle>
           </svg>
         </button>
         <span class="sidebar-rail__flyout">{{TACTIC_1_NAV_LABEL}}</span>
@@ -3955,10 +3969,9 @@ button {
 
       <div class="sidebar-rail__btn">
         <button data-nav="tactic-2">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
-            <circle cx="12" cy="12" r="8.5"></circle>
-            <circle cx="12" cy="12" r="4"></circle>
-            <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
+          <!-- Star icon (good for Reviews, ratings tactics) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"></path>
           </svg>
         </button>
         <span class="sidebar-rail__flyout">{{TACTIC_2_NAV_LABEL}}</span>
@@ -3966,8 +3979,12 @@ button {
 
       <div class="sidebar-rail__btn">
         <button data-nav="tactic-3">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"></path>
+          <!-- Share/Social icon (good for Social Media, outreach tactics) -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <path d="M8.59 13.51l6.83 3.98M15.41 6.51l-6.82 3.98"></path>
           </svg>
         </button>
         <span class="sidebar-rail__flyout">{{TACTIC_3_NAV_LABEL}}</span>
@@ -4434,19 +4451,19 @@ button {
 
       <div class="strategy__objectives-title">Three objectives</div>
       <div class="strategy__objectives">
-        <div class="strategy__objective">
+        <div class="strategy__objective strategy__objective--mint">
           <span class="strategy__objective-num">1</span>
           <h3 class="strategy__objective-title">{{OBJECTIVE_1_TITLE}}</h3>
           <p class="strategy__objective-body">{{OBJECTIVE_1_DESC}}</p>
           <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_1_MEASURE}}</div>
         </div>
-        <div class="strategy__objective">
+        <div class="strategy__objective strategy__objective--blue">
           <span class="strategy__objective-num">2</span>
           <h3 class="strategy__objective-title">{{OBJECTIVE_2_TITLE}}</h3>
           <p class="strategy__objective-body">{{OBJECTIVE_2_DESC}}</p>
           <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_2_MEASURE}}</div>
         </div>
-        <div class="strategy__objective">
+        <div class="strategy__objective strategy__objective--slate">
           <span class="strategy__objective-num">3</span>
           <h3 class="strategy__objective-title">{{OBJECTIVE_3_TITLE}}</h3>
           <p class="strategy__objective-body">{{OBJECTIVE_3_DESC}}</p>
@@ -5417,7 +5434,7 @@ function nextTourStep() {
       });
     });
 
-    // Assessment category accordion (exclusive - one at a time)
+    // Assessment category accordion (allows multiple open)
     document.querySelectorAll('.assessment__category-header').forEach(header => {
       header.setAttribute('tabindex', '0');
       header.setAttribute('role', 'button');
@@ -5425,20 +5442,9 @@ function nextTourStep() {
 
       const toggleCategory = () => {
         const category = header.closest('.assessment__category');
-        const wasOpen = category.classList.contains('open');
-
-        // Close all categories first and update their aria-expanded
-        document.querySelectorAll('.assessment__category').forEach(cat => {
-          cat.classList.remove('open');
-          const catHeader = cat.querySelector('.assessment__category-header');
-          if (catHeader) catHeader.setAttribute('aria-expanded', 'false');
-        });
-
-        // Open clicked one if it wasn't already open
-        if (!wasOpen) {
-          category.classList.add('open');
-          header.setAttribute('aria-expanded', 'true');
-        }
+        // Simply toggle this category without closing others
+        category.classList.toggle('open');
+        header.setAttribute('aria-expanded', category.classList.contains('open'));
       };
 
       header.addEventListener('click', toggleCategory);
@@ -5465,6 +5471,35 @@ function nextTourStep() {
         updateRoadmapProgress();
       });
     });
+
+    // Mark Step Complete button on Dashboard
+    const markStepBtn = document.getElementById('markStepComplete');
+    if (markStepBtn) {
+      markStepBtn.addEventListener('click', () => {
+        // Check all unchecked checkboxes in the next step section
+        const checkboxes = document.querySelectorAll('.dashboard__next-step-checkbox:not(:checked)');
+        checkboxes.forEach(cb => {
+          cb.checked = true;
+        });
+
+        // Also mark the corresponding roadmap tasks as done (find by matching text if possible)
+        const taskSpans = document.querySelectorAll('.dashboard__next-step-task span');
+        taskSpans.forEach(span => {
+          const taskText = span.textContent.trim();
+          // Find matching roadmap task by text
+          document.querySelectorAll('.roadmap__task-text').forEach(roadmapText => {
+            if (roadmapText.textContent.trim() === taskText) {
+              const roadmapTask = roadmapText.closest('.roadmap__task');
+              if (roadmapTask && !roadmapTask.classList.contains('done')) {
+                roadmapTask.classList.add('done');
+              }
+            }
+          });
+        });
+
+        updateRoadmapProgress();
+      });
+    }
 
     // Initial progress calculation on page load
     updateRoadmapProgress();
