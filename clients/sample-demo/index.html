@@ -3014,22 +3014,25 @@ button {
   position: fixed;
   inset: 0;
   background: rgba(17,21,75,0.6);
-  z-index: 2000;
+  z-index: 99998;
   display: none;
 }
 
 .tour-overlay.visible {
-  display: block;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .tour-tooltip {
-  position: absolute;
+  position: fixed;
   background: var(--white);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   padding: 20px 24px;
   width: 320px;
-  z-index: 2001;
+  max-width: calc(100vw - 40px);
+  z-index: 99999;
   animation: popIn 0.3s ease;
 }
 
@@ -3148,7 +3151,7 @@ button {
 
 .tour-highlight {
   position: relative;
-  z-index: 2001;
+  z-index: 99997;
   box-shadow: 0 0 0 4px var(--mint-500), 0 0 0 8px rgba(170,218,182,0.3);
   border-radius: var(--radius-md);
 }
