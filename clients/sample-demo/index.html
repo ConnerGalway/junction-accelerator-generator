@@ -758,6 +758,37 @@ button {
   margin-bottom: 24px;
 }
 
+.dashboard__next-step-task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dashboard__next-step-task:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dashboard__next-step-task span {
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+}
+
+.dashboard__next-step-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid rgba(255,255,255,0.35);
+  cursor: pointer;
+  flex: none;
+  accent-color: var(--mint-500);
+}
+
 .dashboard__task-row {
   display: flex;
   align-items: center;

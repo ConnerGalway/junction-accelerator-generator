@@ -758,6 +758,37 @@ button {
   margin-bottom: 24px;
 }
 
+.dashboard__next-step-task {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  background: rgba(255,255,255,0.06);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.dashboard__next-step-task:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dashboard__next-step-task span {
+  font-size: 14.5px;
+  color: rgba(255,255,255,0.85);
+  line-height: 1.4;
+}
+
+.dashboard__next-step-checkbox {
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  border: 2px solid rgba(255,255,255,0.35);
+  cursor: pointer;
+  flex: none;
+  accent-color: var(--mint-500);
+}
+
 .dashboard__task-row {
   display: flex;
   align-items: center;
@@ -1390,6 +1421,10 @@ button {
 .assessment__category-body {
   display: none;
   padding: 0 20px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-1);
 }
 
 .assessment__category.open .assessment__category-body {
@@ -2918,16 +2953,14 @@ button {
 
 .tour-step-num {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
   background: var(--mint-500);
   color: var(--navy-900);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12px;
-  text-align: center;
-  line-height: 24px;
+  font-size: 11px;
+  white-space: nowrap;
   margin-bottom: 12px;
 }
 
@@ -3103,9 +3136,11 @@ button {
   .sidebar,
   .topbar,
   .celebrate-overlay,
+  .tour-overlay,
   .btn-primary,
   .btn-outline,
   .roadmap__sidebar,
+  .roadmap__header,
   .no-print {
     display: none !important;
   }
@@ -3115,11 +3150,23 @@ button {
     display: block !important;
   }
 
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.75in 0.6in;
+  }
+
   /* Reset layout */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   body {
     background: #fff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1a1a2e;
   }
 
   .app-shell {
@@ -3132,6 +3179,7 @@ button {
     margin-left: 0;
     padding: 0;
     background: #fff;
+    overflow: visible;
   }
 
   .page-view {
@@ -3145,98 +3193,144 @@ button {
     display: flex !important;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0 20px;
-    border-bottom: 2px solid var(--navy-900);
-    margin-bottom: 24px;
+    padding: 0 0 16pt;
+    border-bottom: 2pt solid #11154b;
+    margin-bottom: 20pt;
   }
 
   .print-header__logo {
-    height: 32px;
+    height: 28pt;
   }
 
   .print-header__title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--navy-900);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 14pt;
+    color: #11154b;
     text-align: right;
   }
 
   .print-header__meta {
-    font-size: 12px;
-    color: var(--slate-600);
-    margin-top: 4px;
+    font-size: 9pt;
+    color: #708090;
+    margin-top: 3pt;
+    text-align: right;
   }
 
   /* Print sections */
   .print-section {
-    margin-bottom: 28px;
+    margin-bottom: 20pt;
     page-break-inside: avoid;
   }
 
   .print-section__title {
-    font-family: var(--font-display);
+    font-family: 'Raleway', sans-serif;
     font-weight: 600;
-    font-size: 16px;
-    color: var(--navy-900);
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border-subtle);
+    font-size: 12pt;
+    color: #11154b;
+    margin-bottom: 6pt;
+    padding-bottom: 4pt;
+    border-bottom: 0.5pt solid #e3d9c8;
   }
 
   .print-section__content {
-    font-size: 13px;
+    font-size: 10pt;
     line-height: 1.6;
-    color: var(--navy-800);
+    color: #181c2d;
   }
 
   .print-goal {
-    background: var(--surface-sunken) !important;
-    padding: 16px;
-    border-left: 4px solid var(--mint-500);
-    margin: 16px 0;
+    background: #f3ede2 !important;
+    padding: 12pt 14pt;
+    border-left: 3pt solid #aadab6;
+    margin: 14pt 0 20pt;
     page-break-inside: avoid;
   }
 
   .print-goal__text {
-    font-family: var(--font-display);
+    font-family: 'Raleway', sans-serif;
     font-weight: 600;
-    font-size: 15px;
-    color: var(--navy-900);
-    line-height: 1.4;
+    font-size: 11pt;
+    color: #11154b;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Roadmap grid - single column for print */
+  .roadmap__grid {
+    display: block !important;
+  }
+
+  .roadmap__weeks {
+    display: block !important;
   }
 
   /* Roadmap weeks */
   .roadmap__week {
     page-break-inside: avoid;
-    margin-bottom: 16px;
+    margin-bottom: 12pt;
     box-shadow: none !important;
-    border: 1px solid var(--border-subtle);
+    border: 1pt solid #e3d9c8;
+    border-radius: 6pt;
+    overflow: hidden;
+  }
+
+  .roadmap__week-header {
+    background: #f9f6f1 !important;
+    padding: 10pt 14pt !important;
+    border-bottom: 1pt solid #e3d9c8;
+  }
+
+  .roadmap__week-badge {
+    font-size: 9pt !important;
+    padding: 3pt 8pt !important;
+  }
+
+  .roadmap__week-title {
+    font-size: 11pt !important;
+    margin-top: 4pt !important;
   }
 
   .roadmap__week-body {
     display: block !important;
-    padding: 12px 18px 18px !important;
+    padding: 10pt 14pt 14pt !important;
+  }
+
+  .roadmap__task {
+    padding: 6pt 0 !important;
+    border-bottom: 0.5pt solid #f0ebe3;
+  }
+
+  .roadmap__task:last-child {
+    border-bottom: none;
   }
 
   .roadmap__task-checkbox {
-    border: 1.5px solid var(--border-subtle) !important;
+    width: 12pt !important;
+    height: 12pt !important;
+    border: 1pt solid #c4c4c4 !important;
+    border-radius: 2pt !important;
     background: #fff !important;
   }
 
   .roadmap__task.done .roadmap__task-checkbox {
-    background: var(--state-success) !important;
-    border-color: var(--state-success) !important;
+    background: #aadab6 !important;
+    border-color: #aadab6 !important;
+  }
+
+  .roadmap__task-text {
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
   }
 
   /* Print footer */
   .print-footer {
     display: block !important;
-    margin-top: 32px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-subtle);
-    font-size: 11px;
-    color: var(--slate-600);
+    margin-top: 24pt;
+    padding-top: 12pt;
+    border-top: 0.5pt solid #e3d9c8;
+    font-size: 9pt;
+    color: #708090;
     text-align: center;
   }
 
@@ -4277,9 +4371,9 @@ function printRoadmap() {
 // ══════════════════════════════════════════════════════════════════════════════
 const TOUR_STEPS = [
   {
-    target: '.sidebar-expanded__nav',
-    title: 'Your navigation',
-    desc: 'Use this sidebar to move between your dashboard, assessment, strategy, tactics, and weekly plan.',
+    target: '.sidebar-expanded__progress',
+    title: 'Your progress at a glance',
+    desc: 'This shows how many tasks you have completed and what day of the program you are on.',
     arrow: 'left'
   },
   {
@@ -4301,9 +4395,9 @@ const TOUR_STEPS = [
     arrow: 'top'
   },
   {
-    target: '.sidebar-rail__progress',
+    target: '.nav-group',
     title: "You're all set!",
-    desc: 'Watch this ring fill as you make progress. Ready to get started?',
+    desc: 'Use the sidebar to explore your assessment, strategy, and 90-day roadmap. Ready to get started?',
     arrow: 'left'
   }
 ];
