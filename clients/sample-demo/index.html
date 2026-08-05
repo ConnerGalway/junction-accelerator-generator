@@ -4136,6 +4136,10 @@ button {
           <span class="sidebar-expanded__collapse-icon">?</span>
           Replay welcome tour
         </button>
+        <button class="sidebar-expanded__collapse" id="testCelebration">
+          <span class="sidebar-expanded__collapse-icon">🎉</span>
+          Test celebration
+        </button>
       </div>
     </div>
   </nav>
@@ -5893,6 +5897,11 @@ function nextTourStep() {
     document.getElementById('tourSkip')?.addEventListener('click', endTour);
     document.getElementById('tourNext')?.addEventListener('click', nextTourStep);
     document.getElementById('replayTour')?.addEventListener('click', startTour);
+
+    // Test celebration button (for demo purposes)
+    document.getElementById('testCelebration')?.addEventListener('click', () => {
+      showCelebration(1);
+    });
 
     // Click outside tooltip to dismiss tour
     document.getElementById('tourOverlay')?.addEventListener('click', (e) => {
