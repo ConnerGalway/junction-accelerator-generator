@@ -5778,9 +5778,6 @@ function showTourStep() {
   target.classList.add('tour-highlight');
   tourHighlightEl = target;
 
-  // Scroll target into view (both mobile and desktop)
-  target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
-
   // Update tooltip content
   document.getElementById('tourStepNum').textContent = `${tourStep + 1} of ${steps.length}`;
   document.getElementById('tourTitle').textContent = step.title;
@@ -5789,47 +5786,58 @@ function showTourStep() {
   // Update arrow direction
   tooltip.className = 'tour-tooltip arrow-' + step.arrow;
 
-  // On mobile, CSS handles positioning (centered). On desktop, position dynamically.
+  // On mobile, CSS handles positioning (centered at bottom).
   if (mobile) {
     tooltip.style.top = '';
     tooltip.style.left = '';
     tooltip.style.position = '';
+    // Scroll target into view
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
   } else {
-    // Position tooltip dynamically based on target
-    const rect = target.getBoundingClientRect();
+    // Desktop: Use fixed positioning relative to viewport
     const tooltipWidth = 320;
+    const tooltipHeight = 180; // Approximate height
     const gap = 16;
     const viewportHeight = window.innerHeight;
     const viewportWidth = window.innerWidth;
+    const padding = 20; // Minimum distance from viewport edges
 
-    let top, left;
+    // First scroll target into view, then position tooltip
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-    if (step.arrow === 'left') {
-      top = rect.top + window.scrollY;
-      left = rect.right + gap;
-    } else if (step.arrow === 'right') {
-      top = rect.top + window.scrollY;
-      left = rect.left - tooltipWidth - gap;
-    } else if (step.arrow === 'top') {
-      top = rect.bottom + window.scrollY + gap;
-      left = rect.left;
-    } else if (step.arrow === 'bottom') {
-      top = rect.top + window.scrollY - 160 - gap;
-      left = rect.left;
-    }
-
-    // Clamp position to keep tooltip in viewport
-    // Ensure left is at least 16px from edge
-    left = Math.max(16, Math.min(left, viewportWidth - tooltipWidth - 16));
-
-    tooltip.style.top = `${top}px`;
-    tooltip.style.left = `${left}px`;
-    tooltip.style.position = 'absolute';
-
-    // After positioning, scroll tooltip into view if needed
+    // Wait for scroll to complete, then position tooltip
     setTimeout(() => {
-      tooltip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-    }, 100);
+      const rect = target.getBoundingClientRect();
+      let top, left;
+
+      if (step.arrow === 'left') {
+        // Tooltip to the right of target
+        top = rect.top + (rect.height / 2) - (tooltipHeight / 2);
+        left = rect.right + gap;
+      } else if (step.arrow === 'right') {
+        // Tooltip to the left of target
+        top = rect.top + (rect.height / 2) - (tooltipHeight / 2);
+        left = rect.left - tooltipWidth - gap;
+      } else if (step.arrow === 'top') {
+        // Tooltip below target
+        top = rect.bottom + gap;
+        left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+      } else if (step.arrow === 'bottom') {
+        // Tooltip above target
+        top = rect.top - tooltipHeight - gap;
+        left = rect.left + (rect.width / 2) - (tooltipWidth / 2);
+      }
+
+      // Clamp horizontal position
+      left = Math.max(padding, Math.min(left, viewportWidth - tooltipWidth - padding));
+
+      // Clamp vertical position
+      top = Math.max(padding, Math.min(top, viewportHeight - tooltipHeight - padding));
+
+      tooltip.style.position = 'fixed';
+      tooltip.style.top = `${top}px`;
+      tooltip.style.left = `${left}px`;
+    }, 350); // Wait for scroll animation
   }
 
   // Update button text on last step
