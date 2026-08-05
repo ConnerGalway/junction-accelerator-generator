@@ -3184,6 +3184,20 @@ button {
   .roadmap__sidebar {
     grid-template-columns: 1fr;
   }
+
+  /* Mobile tour tooltip: centered modal style */
+  .tour-tooltip {
+    position: fixed;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    width: calc(100% - 40px);
+    max-width: 340px;
+  }
+
+  .tour-tooltip::before {
+    display: none;
+  }
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
@@ -5045,7 +5059,9 @@ function printAssessment() {
 // ══════════════════════════════════════════════════════════════════════════════
 // ONBOARDING TOUR
 // ══════════════════════════════════════════════════════════════════════════════
-const TOUR_STEPS = [
+
+// Desktop tour steps: targets sidebar elements that are visible on larger screens
+const TOUR_STEPS_DESKTOP = [
   {
     target: '.sidebar-expanded__progress',
     title: 'Your progress at a glance',
@@ -5077,6 +5093,56 @@ const TOUR_STEPS = [
     arrow: 'left'
   }
 ];
+
+// Mobile tour steps: only targets elements visible when sidebar is hidden
+const TOUR_STEPS_MOBILE = [
+  {
+    target: '.dashboard__progress-card',
+    title: 'Welcome to your dashboard',
+    desc: 'This is your central hub for tracking progress through the 90-day program. The ring shows your overall completion.',
+    arrow: 'none'
+  },
+  {
+    target: '.dashboard__next-step',
+    title: 'Your next step',
+    desc: 'This card shows what to focus on right now. Check off the tasks to mark your progress.',
+    arrow: 'none'
+  },
+  {
+    target: '.dashboard__tactics',
+    title: 'Your three tactics',
+    desc: 'These pills show progress on each tactic. Tap any to see the full detail and implementation steps.',
+    arrow: 'none'
+  },
+  {
+    target: '.topbar__toggle',
+    title: 'Open the menu',
+    desc: 'Tap this button to open the sidebar menu. From there you can explore your assessment, strategy, and 90-day roadmap.',
+    arrow: 'none'
+  }
+];
+
+function isMobile() {
+  return window.innerWidth <= 768;
+}
+
+function getTourSteps() {
+  return isMobile() ? TOUR_STEPS_MOBILE : TOUR_STEPS_DESKTOP;
+}
+
+function isElementVisible(el) {
+  if (!el) return false;
+  const rect = el.getBoundingClientRect();
+  const style = window.getComputedStyle(el);
+  // Check if element is visible (not hidden, not zero size, on screen)
+  return (
+    style.display !== 'none' &&
+    style.visibility !== 'hidden' &&
+    style.opacity !== '0' &&
+    rect.width > 0 &&
+    rect.height > 0
+  );
+}
 
 let tourStep = 0;
 let tourHighlightEl = null;
@@ -5116,8 +5182,10 @@ function handleTourKeydown(e) {
 }
 
 function showTourStep() {
-  const step = TOUR_STEPS[tourStep];
+  const steps = getTourSteps();
+  const step = steps[tourStep];
   const tooltip = document.getElementById('tourTooltip');
+  const mobile = isMobile();
 
   // Remove previous highlight
   if (tourHighlightEl) {
@@ -5126,50 +5194,67 @@ function showTourStep() {
 
   // Find and highlight target
   const target = document.querySelector(step.target);
-  if (!target) {
-    // Skip to next step if target doesn't exist (e.g., optional sections)
-    nextTourStep();
+  if (!target || (mobile && !isElementVisible(target))) {
+    // Skip to next step if target doesn't exist or isn't visible
+    if (tourStep < steps.length - 1) {
+      tourStep++;
+      showTourStep();
+    } else {
+      endTour();
+    }
     return;
   }
 
   target.classList.add('tour-highlight');
   tourHighlightEl = target;
 
+  // Scroll target into view on mobile
+  if (mobile) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }
+
   // Update tooltip content
-  document.getElementById('tourStepNum').textContent = `${tourStep + 1} of ${TOUR_STEPS.length}`;
+  document.getElementById('tourStepNum').textContent = `${tourStep + 1} of ${steps.length}`;
   document.getElementById('tourTitle').textContent = step.title;
   document.getElementById('tourDesc').textContent = step.desc;
 
   // Update arrow direction
   tooltip.className = 'tour-tooltip arrow-' + step.arrow;
 
-  // Position tooltip dynamically based on target
-  const rect = target.getBoundingClientRect();
-  const tooltipWidth = 320;
-  const gap = 16;
+  // On mobile, CSS handles positioning (centered). On desktop, position dynamically.
+  if (mobile) {
+    tooltip.style.top = '';
+    tooltip.style.left = '';
+  } else {
+    // Position tooltip dynamically based on target
+    const rect = target.getBoundingClientRect();
+    const tooltipWidth = 320;
+    const gap = 16;
 
-  if (step.arrow === 'left') {
-    tooltip.style.top = `${rect.top + window.scrollY}px`;
-    tooltip.style.left = `${rect.right + gap}px`;
-  } else if (step.arrow === 'right') {
-    tooltip.style.top = `${rect.top + window.scrollY}px`;
-    tooltip.style.left = `${rect.left - tooltipWidth - gap}px`;
-  } else if (step.arrow === 'top') {
-    tooltip.style.top = `${rect.bottom + window.scrollY + gap}px`;
-    tooltip.style.left = `${rect.left}px`;
-  } else if (step.arrow === 'bottom') {
-    tooltip.style.top = `${rect.top + window.scrollY - 160 - gap}px`;
-    tooltip.style.left = `${rect.left}px`;
+    if (step.arrow === 'left') {
+      tooltip.style.top = `${rect.top + window.scrollY}px`;
+      tooltip.style.left = `${rect.right + gap}px`;
+    } else if (step.arrow === 'right') {
+      tooltip.style.top = `${rect.top + window.scrollY}px`;
+      tooltip.style.left = `${rect.left - tooltipWidth - gap}px`;
+    } else if (step.arrow === 'top') {
+      tooltip.style.top = `${rect.bottom + window.scrollY + gap}px`;
+      tooltip.style.left = `${rect.left}px`;
+    } else if (step.arrow === 'bottom') {
+      tooltip.style.top = `${rect.top + window.scrollY - 160 - gap}px`;
+      tooltip.style.left = `${rect.left}px`;
+    }
   }
 
   // Update button text on last step
   const nextBtn = document.getElementById('tourNext');
-  nextBtn.textContent = tourStep === TOUR_STEPS.length - 1 ? 'Get started' : 'Next';
+  nextBtn.textContent = tourStep === steps.length - 1 ? 'Get started' : 'Next';
 }
 
 function nextTourStep() {
+  const steps = getTourSteps();
   tourStep++;
-  if (tourStep >= TOUR_STEPS.length) {
+  if (tourStep >= steps.length) {
     endTour();
   } else {
     showTourStep();
