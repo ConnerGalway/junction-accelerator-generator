@@ -1390,6 +1390,10 @@ button {
 .assessment__category-body {
   display: none;
   padding: 0 20px 20px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--fg-1);
 }
 
 .assessment__category.open .assessment__category-body {
@@ -2918,16 +2922,14 @@ button {
 
 .tour-step-num {
   display: inline-block;
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
   background: var(--mint-500);
   color: var(--navy-900);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: 12px;
-  text-align: center;
-  line-height: 24px;
+  font-size: 11px;
+  white-space: nowrap;
   margin-bottom: 12px;
 }
 
@@ -3103,9 +3105,11 @@ button {
   .sidebar,
   .topbar,
   .celebrate-overlay,
+  .tour-overlay,
   .btn-primary,
   .btn-outline,
   .roadmap__sidebar,
+  .roadmap__header,
   .no-print {
     display: none !important;
   }
@@ -3115,11 +3119,23 @@ button {
     display: block !important;
   }
 
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 0.75in 0.6in;
+  }
+
   /* Reset layout */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   body {
     background: #fff !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #1a1a2e;
   }
 
   .app-shell {
@@ -3132,6 +3148,7 @@ button {
     margin-left: 0;
     padding: 0;
     background: #fff;
+    overflow: visible;
   }
 
   .page-view {
@@ -3145,99 +3162,166 @@ button {
     display: flex !important;
     align-items: center;
     justify-content: space-between;
-    padding: 24px 0 20px;
-    border-bottom: 2px solid var(--navy-900);
-    margin-bottom: 24px;
+    padding: 0 0 16pt;
+    border-bottom: 2pt solid #11154b;
+    margin-bottom: 20pt;
   }
 
   .print-header__logo {
-    height: 32px;
+    height: 28pt;
   }
 
   .print-header__title {
-    font-family: var(--font-display);
-    font-weight: 600;
-    font-size: 18px;
-    color: var(--navy-900);
+    font-family: 'Raleway', sans-serif;
+    font-weight: 700;
+    font-size: 14pt;
+    color: #11154b;
     text-align: right;
   }
 
   .print-header__meta {
-    font-size: 12px;
-    color: var(--slate-600);
-    margin-top: 4px;
+    font-size: 9pt;
+    color: #708090;
+    margin-top: 3pt;
+    text-align: right;
   }
 
   /* Print sections */
   .print-section {
-    margin-bottom: 28px;
+    margin-bottom: 20pt;
     page-break-inside: avoid;
   }
 
   .print-section__title {
-    font-family: var(--font-display);
+    font-family: 'Raleway', sans-serif;
     font-weight: 600;
-    font-size: 16px;
-    color: var(--navy-900);
-    margin-bottom: 8px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid var(--border-subtle);
+    font-size: 12pt;
+    color: #11154b;
+    margin-bottom: 6pt;
+    padding-bottom: 4pt;
+    border-bottom: 0.5pt solid #e3d9c8;
   }
 
   .print-section__content {
-    font-size: 13px;
+    font-size: 10pt;
     line-height: 1.6;
-    color: var(--navy-800);
+    color: #181c2d;
   }
 
   .print-goal {
-    background: var(--surface-sunken) !important;
-    padding: 16px;
-    border-left: 4px solid var(--mint-500);
-    margin: 16px 0;
+    background: #f3ede2 !important;
+    padding: 12pt 14pt;
+    border-left: 3pt solid #aadab6;
+    margin: 14pt 0 20pt;
     page-break-inside: avoid;
   }
 
   .print-goal__text {
-    font-family: var(--font-display);
+    font-family: 'Raleway', sans-serif;
     font-weight: 600;
-    font-size: 15px;
-    color: var(--navy-900);
-    line-height: 1.4;
+    font-size: 11pt;
+    color: #11154b;
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* Roadmap grid - single column for print */
+  .roadmap__grid {
+    display: block !important;
+  }
+
+  .roadmap__weeks {
+    display: block !important;
   }
 
   /* Roadmap weeks */
   .roadmap__week {
     page-break-inside: avoid;
-    margin-bottom: 16px;
+    margin-bottom: 12pt;
     box-shadow: none !important;
-    border: 1px solid var(--border-subtle);
+    border: 1pt solid #e3d9c8;
+    border-radius: 6pt;
+    overflow: hidden;
+  }
+
+  .roadmap__week-header {
+    background: #f9f6f1 !important;
+    padding: 10pt 14pt;
+    border-bottom: 0.5pt solid #e3d9c8;
+  }
+
+  .roadmap__week-badge {
+    font-size: 8pt;
+    padding: 3pt 8pt;
+  }
+
+  .roadmap__week-title {
+    font-size: 11pt;
+  }
+
+  .roadmap__week-meta {
+    display: none;
   }
 
   .roadmap__week-body {
     display: block !important;
-    padding: 12px 18px 18px !important;
+    padding: 10pt 14pt 14pt !important;
+  }
+
+  .roadmap__task {
+    padding: 6pt 0;
+    border-bottom: 0.5pt solid #f0ebe3;
+  }
+
+  .roadmap__task:last-child {
+    border-bottom: none;
   }
 
   .roadmap__task-checkbox {
-    border: 1.5px solid var(--border-subtle) !important;
+    width: 14pt !important;
+    height: 14pt !important;
+    border: 1pt solid #e3d9c8 !important;
     background: #fff !important;
+    border-radius: 3pt;
+    flex-shrink: 0;
   }
 
   .roadmap__task.done .roadmap__task-checkbox {
-    background: var(--state-success) !important;
-    border-color: var(--state-success) !important;
+    background: #3f9a5c !important;
+    border-color: #3f9a5c !important;
+  }
+
+  .roadmap__task-checkbox svg {
+    width: 10pt;
+    height: 10pt;
+  }
+
+  .roadmap__task-text {
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  .roadmap__task.done .roadmap__task-text {
+    text-decoration: line-through;
+    color: #708090;
   }
 
   /* Print footer */
   .print-footer {
     display: block !important;
-    margin-top: 32px;
-    padding-top: 16px;
-    border-top: 1px solid var(--border-subtle);
-    font-size: 11px;
-    color: var(--slate-600);
+    margin-top: 24pt;
+    padding-top: 12pt;
+    border-top: 0.5pt solid #e3d9c8;
+    font-size: 9pt;
+    color: #708090;
     text-align: center;
+    page-break-inside: avoid;
+  }
+
+  /* Force page break before footer if needed */
+  .print-footer p {
+    margin: 0;
+    padding: 2pt 0;
   }
 
   /* Page breaks */
@@ -3312,7 +3396,7 @@ button {
             <path d="M16.5 11l5-3v8l-5-3z"></path>
           </svg>
         </button>
-        <span class="sidebar-rail__flyout">{{TACTIC_1_NAV_LABEL}}</span>
+        <span class="sidebar-rail__flyout">Local SEO</span>
       </div>
 
       <div class="sidebar-rail__btn">
@@ -3323,7 +3407,7 @@ button {
             <circle cx="12" cy="12" r="1" fill="currentColor"></circle>
           </svg>
         </button>
-        <span class="sidebar-rail__flyout">{{TACTIC_2_NAV_LABEL}}</span>
+        <span class="sidebar-rail__flyout">Reviews</span>
       </div>
 
       <div class="sidebar-rail__btn">
@@ -3332,7 +3416,7 @@ button {
             <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8z"></path>
           </svg>
         </button>
-        <span class="sidebar-rail__flyout">{{TACTIC_3_NAV_LABEL}}</span>
+        <span class="sidebar-rail__flyout">Social Media</span>
       </div>
 
       <div class="sidebar-rail__divider"></div>
@@ -3405,23 +3489,23 @@ button {
         <button class="nav-item" data-nav="tactic-1">
           <span class="nav-item__left">
             <span class="nav-item__dot nav-item__dot--mint"></span>
-            <span>{{TACTIC_1_NAV_LABEL}}</span>
+            <span>Local SEO</span>
           </span>
-          <span class="nav-item__meta">{{TACTIC_1_PROGRESS}}</span>
+          <span class="nav-item__meta">100%</span>
         </button>
         <button class="nav-item" data-nav="tactic-2">
           <span class="nav-item__left">
             <span class="nav-item__dot nav-item__dot--blue"></span>
-            <span>{{TACTIC_2_NAV_LABEL}}</span>
+            <span>Reviews</span>
           </span>
-          <span class="nav-item__meta">{{TACTIC_2_PROGRESS}}</span>
+          <span class="nav-item__meta">25%</span>
         </button>
         <button class="nav-item" data-nav="tactic-3">
           <span class="nav-item__left">
             <span class="nav-item__dot nav-item__dot--slate"></span>
-            <span>{{TACTIC_3_NAV_LABEL}}</span>
+            <span>Social Media</span>
           </span>
-          <span class="nav-item__meta">{{TACTIC_3_PROGRESS}}</span>
+          <span class="nav-item__meta">0%</span>
         </button>
       </div>
 
@@ -3901,19 +3985,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task done" data-key="week-1-check-1">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Claim your Google Business Profile</span>
               </div>
               <div class="roadmap__task done" data-key="week-1-check-2">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Add business hours and contact info</span>
               </div>
               <div class="roadmap__task done" data-key="week-1-check-3">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Upload 10 cabin photos to GBP</span>
               </div>
               <div class="roadmap__task done" data-key="week-1-check-4">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Write your business description</span>
               </div>
             </div>
@@ -3931,19 +4015,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task done" data-key="week-2-check-1">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Add location keywords to homepage title</span>
               </div>
               <div class="roadmap__task done" data-key="week-2-check-2">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Update meta descriptions with local terms</span>
               </div>
               <div class="roadmap__task done" data-key="week-2-check-3">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Add your address to the website footer</span>
               </div>
               <div class="roadmap__task done" data-key="week-2-check-4">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Create a "Local Area" page</span>
               </div>
             </div>
@@ -3961,19 +4045,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task done" data-key="week-3-check-1">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Add 10 more photos to Google Business Profile</span>
               </div>
               <div class="roadmap__task done" data-key="week-3-check-2">
-                <span class="roadmap__task-check">✓</span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Respond to any existing reviews</span>
               </div>
               <div class="roadmap__task" data-key="week-3-check-3">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Post your first GBP update</span>
               </div>
               <div class="roadmap__task" data-key="week-3-check-4">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Add Q&A to your GBP listing</span>
               </div>
             </div>
@@ -3991,19 +4075,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task" data-key="week-4-check-1">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Create a review request email template</span>
               </div>
               <div class="roadmap__task" data-key="week-4-check-2">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Set up post-checkout review reminder</span>
               </div>
               <div class="roadmap__task" data-key="week-4-check-3">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Create a review link shortcut</span>
               </div>
               <div class="roadmap__task" data-key="week-4-check-4">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Ask 3 past guests for reviews</span>
               </div>
             </div>
@@ -4021,19 +4105,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task" data-key="week-5-check-1">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Set up or refresh Instagram profile</span>
               </div>
               <div class="roadmap__task" data-key="week-5-check-2">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Post your first 3 cabin photos</span>
               </div>
               <div class="roadmap__task" data-key="week-5-check-3">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Create a content calendar</span>
               </div>
               <div class="roadmap__task" data-key="week-5-check-4">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Follow 20 local tourism accounts</span>
               </div>
             </div>
@@ -4050,19 +4134,19 @@ button {
             </div>
             <div class="roadmap__week-body">
               <div class="roadmap__task" data-key="week-6-check-1">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Write a "Best Hikes Near Our Cabins" blog post</span>
               </div>
               <div class="roadmap__task" data-key="week-6-check-2">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Create a seasonal activities guide</span>
               </div>
               <div class="roadmap__task" data-key="week-6-check-3">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Post 4 times on Instagram this week</span>
               </div>
               <div class="roadmap__task" data-key="week-6-check-4">
-                <span class="roadmap__task-check"></span>
+                <div class="roadmap__task-checkbox"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"/></svg></div>
                 <span class="roadmap__task-text">Share a guest photo (with permission)</span>
               </div>
             </div>
@@ -4136,10 +4220,10 @@ button {
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
                 <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
-                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--mint-500)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_1_RING_OFFSET}}" id="tactic1Ring"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--mint-500)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="0" id="tactic1Ring"></circle>
               </svg>
               <div class="tactic__progress-text">
-                <div class="tactic__progress-pct" id="tactic1Pct">{{TACTIC_1_PCT}}</div>
+                <div class="tactic__progress-pct" id="tactic1Pct">100%</div>
                 <div class="tactic__progress-label">of this tactic</div>
               </div>
             </div>
@@ -4159,29 +4243,29 @@ button {
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_1_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text">Local SEO is about making sure your cabins show up when travelers search "cabin rentals near me" or "mountain cabins [your area]." It combines your Google Business Profile, website optimization, and local citations to build visibility in your specific region.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">THE FOUR PILLARS</div>
                   <div class="tactic__pillars">
-                    {{TACTIC_1_PILLARS}}
+                    <div class="tactic__pillar">Google Business Profile</div><div class="tactic__pillar">On-Page SEO</div><div class="tactic__pillar">Local Citations</div><div class="tactic__pillar">Content Strategy</div>
                   </div>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_1_HEARD}}</p>
+                  <p class="tactic__card-text">"We have beautiful cabins and great reviews from guests, but most of our bookings come from referrals or repeat visitors. We are not showing up when people search online."</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_1_WHY}}</p>
+                  <p class="tactic__card-text">73% of travelers start their accommodation search on Google. If you are not visible in local search results, you are invisible to most potential guests at the exact moment they are ready to book.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
                   <div class="tactic__time">
-                    <span class="tactic__time-value">{{TACTIC_1_TIME}}</span>
-                    <span class="tactic__time-label">{{TACTIC_1_TIME_LABEL}}</span>
+                    <span class="tactic__time-value">2-3</span>
+                    <span class="tactic__time-label">hours per week</span>
                   </div>
                 </div>
               </div>
@@ -4191,7 +4275,7 @@ button {
           <!-- Steps Tab -->
           <div class="tactic__tab-content" data-tactic-content="1" data-content="steps">
             <div class="tactic__parts" id="tactic1Parts">
-              {{TACTIC_1_PARTS}}
+              <div class="tactic__part open"><div class="tactic__part-header"><span class="tactic__part-tag">PART A</span><span class="tactic__part-title">Google Business Profile Setup</span><span class="tactic__part-meta">5 steps</span></div><div class="tactic__part-body"><div class="tactic__step"><span class="tactic__step-num">1</span><div class="tactic__step-content"><div class="tactic__step-title">Claim and verify your listing</div><div class="tactic__step-desc">Search for your business on Google Maps and claim ownership through the verification process.</div></div></div><div class="tactic__step"><span class="tactic__step-num">2</span><div class="tactic__step-content"><div class="tactic__step-title">Complete all business information</div><div class="tactic__step-desc">Add accurate hours, phone, website, and business description.</div></div></div></div></div>
             </div>
           </div>
 
@@ -4201,23 +4285,23 @@ button {
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
-                  {{TACTIC_1_METRICS}}
+                  <table class="tactic__metrics-table"><tr><th>Metric</th><th>Day 30</th><th>Day 60</th><th>Day 90</th></tr><tr><td>GBP views</td><td>500+</td><td>1,000+</td><td>2,000+</td></tr><tr><td>Search impressions</td><td>200+</td><td>500+</td><td>1,000+</td></tr><tr><td>Website clicks</td><td>50+</td><td>100+</td><td>200+</td></tr></table>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">THE CHECKPOINTS</div>
                   <div class="tactic__checkpoints">
-                    {{TACTIC_1_CHECKPOINTS}}
+                    <div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 30</span><span class="tactic__checkpoint-desc">GBP fully optimized with 20+ photos</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 60</span><span class="tactic__checkpoint-desc">Appearing in top 10 for local searches</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 90</span><span class="tactic__checkpoint-desc">Top 3 ranking for primary keywords</span></div>
                   </div>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
-                  <p class="tactic__card-text">{{TACTIC_1_METRIC_NOTE}}</p>
+                  <p class="tactic__card-text">Focus on search impressions and profile views, not vanity metrics. The goal is visibility to people actively searching for cabin rentals.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">REVIEW RHYTHM</div>
-                  <p class="tactic__card-text">{{TACTIC_1_REVIEW_RHYTHM}}</p>
+                  <p class="tactic__card-text">Check your GBP Insights weekly. Note which search terms bring the most views and optimize your content accordingly.</p>
                 </div>
               </div>
             </div>
@@ -4226,7 +4310,7 @@ button {
           <!-- Tips Tab -->
           <div class="tactic__tab-content" data-tactic-content="1" data-content="tips">
             <div class="tactic__tips-grid">
-              {{TACTIC_1_TIPS}}
+              <div class="tactic__tip"><div class="tactic__tip-badge">TIP</div><div class="tactic__tip-content"><div class="tactic__tip-title">Post weekly updates</div><p class="tactic__tip-text">Regular GBP posts signal to Google that your listing is active and well-maintained.</p></div></div>
               <div class="tactic__tips-placeholder">
                 <span class="tactic__tip-icon">ICON</span>
                 <div>
@@ -4258,10 +4342,10 @@ button {
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
                 <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
-                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--link-blue)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_2_RING_OFFSET}}" id="tactic2Ring"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--link-blue)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="146.1" id="tactic2Ring"></circle>
               </svg>
               <div class="tactic__progress-text">
-                <div class="tactic__progress-pct" id="tactic2Pct">{{TACTIC_2_PCT}}</div>
+                <div class="tactic__progress-pct" id="tactic2Pct">25%</div>
                 <div class="tactic__progress-label">of this tactic</div>
               </div>
             </div>
@@ -4280,60 +4364,60 @@ button {
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_2_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text">A systematic approach to collecting authentic guest reviews that build trust and improve your search ranking. Reviews are the social proof that turns browsers into bookers.</p>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_2_HEARD}}</p>
+                  <p class="tactic__card-text">"We know our guests love staying with us, but we only have a few online reviews. We have never really asked for them systematically."</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_2_WHY}}</p>
+                  <p class="tactic__card-text">Listings with 10+ reviews get 52% more clicks than those with fewer. Reviews also directly impact your Google ranking for local searches.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
                   <div class="tactic__time">
-                    <span class="tactic__time-value">{{TACTIC_2_TIME}}</span>
-                    <span class="tactic__time-label">{{TACTIC_2_TIME_LABEL}}</span>
+                    <span class="tactic__time-value">1-2</span>
+                    <span class="tactic__time-label">hours per week</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="2" data-content="steps">
-            <div class="tactic__parts" id="tactic2Parts">{{TACTIC_2_PARTS}}</div>
+            <div class="tactic__parts" id="tactic2Parts"><div class="tactic__part"><div class="tactic__part-header"><span class="tactic__part-tag">PART A</span><span class="tactic__part-title">Review Request System</span><span class="tactic__part-meta">4 steps</span></div><div class="tactic__part-body"><div class="tactic__step"><span class="tactic__step-num">1</span><div class="tactic__step-content"><div class="tactic__step-title">Create your review request template</div><div class="tactic__step-desc">Write a warm, personal email that makes leaving a review easy.</div></div></div></div></div></div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="2" data-content="metrics">
             <div class="tactic__metrics-grid">
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
-                  {{TACTIC_2_METRICS}}
+                  <table class="tactic__metrics-table"><tr><th>Metric</th><th>Day 30</th><th>Day 60</th><th>Day 90</th></tr><tr><td>Total reviews</td><td>8+</td><td>15+</td><td>25+</td></tr><tr><td>Average rating</td><td>4.5+</td><td>4.7+</td><td>4.8+</td></tr><tr><td>Review response rate</td><td>100%</td><td>100%</td><td>100%</td></tr></table>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">THE CHECKPOINTS</div>
                   <div class="tactic__checkpoints">
-                    {{TACTIC_2_CHECKPOINTS}}
+                    <div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 30</span><span class="tactic__checkpoint-desc">Review request system active</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 60</span><span class="tactic__checkpoint-desc">15+ reviews collected</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 90</span><span class="tactic__checkpoint-desc">25+ reviews, 4.8+ average</span></div>
                   </div>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
-                  <p class="tactic__card-text">{{TACTIC_2_METRIC_NOTE}}</p>
+                  <p class="tactic__card-text">Quality matters more than quantity. One detailed 5-star review with photos is worth more than five generic ones.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">REVIEW RHYTHM</div>
-                  <p class="tactic__card-text">{{TACTIC_2_REVIEW_RHYTHM}}</p>
+                  <p class="tactic__card-text">Check for new reviews daily. Respond within 24 hours to show future guests you are attentive.</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="2" data-content="tips">
             <div class="tactic__tips-grid">
-              {{TACTIC_2_TIPS}}
+              <div class="tactic__tip"><div class="tactic__tip-badge">TIP</div><div class="tactic__tip-content"><div class="tactic__tip-title">Time your ask right</div><p class="tactic__tip-text">Send your review request 2-3 days after checkout when the experience is still fresh.</p></div></div>
               <div class="tactic__tips-placeholder">
                 <span class="tactic__tip-icon">ICON</span>
                 <div>
@@ -4365,10 +4449,10 @@ button {
             <div class="tactic__progress">
               <svg width="76" height="76" viewBox="0 0 76 76">
                 <circle cx="38" cy="38" r="31" fill="none" stroke="rgba(255,255,255,0.16)" stroke-width="7"></circle>
-                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--slate-600)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="{{TACTIC_3_RING_OFFSET}}" id="tactic3Ring"></circle>
+                <circle cx="38" cy="38" r="31" fill="none" stroke="var(--slate-600)" stroke-width="7" stroke-linecap="round" stroke-dasharray="194.8" stroke-dashoffset="194.8" id="tactic3Ring"></circle>
               </svg>
               <div class="tactic__progress-text">
-                <div class="tactic__progress-pct" id="tactic3Pct">{{TACTIC_3_PCT}}</div>
+                <div class="tactic__progress-pct" id="tactic3Pct">0%</div>
                 <div class="tactic__progress-label">of this tactic</div>
               </div>
             </div>
@@ -4387,60 +4471,60 @@ button {
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_3_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text">Building a consistent social media presence that showcases your cabins, shares local experiences, and keeps past guests engaged for repeat bookings and referrals.</p>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_3_HEARD}}</p>
+                  <p class="tactic__card-text">"We set up Instagram and Facebook accounts but have not posted in months. We are not sure what to share or how often."</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_3_WHY}}</p>
+                  <p class="tactic__card-text">Social media keeps you top of mind with past guests and gives potential visitors a window into the experience. It is also where travelers go to validate their booking decision.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
                   <div class="tactic__time">
-                    <span class="tactic__time-value">{{TACTIC_3_TIME}}</span>
-                    <span class="tactic__time-label">{{TACTIC_3_TIME_LABEL}}</span>
+                    <span class="tactic__time-value">2-3</span>
+                    <span class="tactic__time-label">hours per week</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="3" data-content="steps">
-            <div class="tactic__parts" id="tactic3Parts">{{TACTIC_3_PARTS}}</div>
+            <div class="tactic__parts" id="tactic3Parts"><div class="tactic__part"><div class="tactic__part-header"><span class="tactic__part-tag">PART A</span><span class="tactic__part-title">Profile Setup and Content Calendar</span><span class="tactic__part-meta">5 steps</span></div><div class="tactic__part-body"><div class="tactic__step"><span class="tactic__step-num">1</span><div class="tactic__step-content"><div class="tactic__step-title">Optimize your Instagram profile</div><div class="tactic__step-desc">Update bio, add booking link, and create story highlights for each cabin.</div></div></div></div></div></div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="3" data-content="metrics">
             <div class="tactic__metrics-grid">
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT GOOD LOOKS LIKE</div>
-                  {{TACTIC_3_METRICS}}
+                  <table class="tactic__metrics-table"><tr><th>Metric</th><th>Day 30</th><th>Day 60</th><th>Day 90</th></tr><tr><td>Followers</td><td>200+</td><td>350+</td><td>500+</td></tr><tr><td>Posts per week</td><td>2+</td><td>3+</td><td>3+</td></tr><tr><td>Engagement rate</td><td>3%+</td><td>4%+</td><td>5%+</td></tr></table>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">THE CHECKPOINTS</div>
                   <div class="tactic__checkpoints">
-                    {{TACTIC_3_CHECKPOINTS}}
+                    <div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 30</span><span class="tactic__checkpoint-desc">Profile optimized, posting 2x weekly</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 60</span><span class="tactic__checkpoint-desc">350+ followers, consistent content</span></div><div class="tactic__checkpoint"><span class="tactic__checkpoint-day">Day 90</span><span class="tactic__checkpoint-desc">500+ followers, strong engagement</span></div>
                   </div>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">MEASURE THIS, NOT THAT</div>
-                  <p class="tactic__card-text">{{TACTIC_3_METRIC_NOTE}}</p>
+                  <p class="tactic__card-text">Engagement rate matters more than follower count. A small, engaged audience of travelers interested in cabin stays beats thousands of random followers.</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">REVIEW RHYTHM</div>
-                  <p class="tactic__card-text">{{TACTIC_3_REVIEW_RHYTHM}}</p>
+                  <p class="tactic__card-text">Batch create content weekly. Spend 2 hours on Sunday planning and scheduling the weeks posts.</p>
                 </div>
               </div>
             </div>
           </div>
           <div class="tactic__tab-content" data-tactic-content="3" data-content="tips">
             <div class="tactic__tips-grid">
-              {{TACTIC_3_TIPS}}
+              <div class="tactic__tip"><div class="tactic__tip-badge">TIP</div><div class="tactic__tip-content"><div class="tactic__tip-title">Show the experience, not just the cabin</div><p class="tactic__tip-text">Post about local hikes, cozy morning coffee, wildlife sightings. Sell the escape, not the accommodation.</p></div></div>
               <div class="tactic__tips-placeholder">
                 <span class="tactic__tip-icon">ICON</span>
                 <div>
@@ -4644,14 +4728,14 @@ function printRoadmap() {
 // ══════════════════════════════════════════════════════════════════════════════
 const TOUR_STEPS = [
   {
-    target: '.sidebar-expanded__nav',
-    title: 'Your navigation',
-    desc: 'Use this sidebar to move between your dashboard, assessment, strategy, tactics, and weekly plan.',
+    target: '.sidebar-expanded__progress',
+    title: 'Your progress at a glance',
+    desc: 'This shows how many tasks you have completed and what day of the program you are on.',
     arrow: 'left'
   },
   {
     target: '.dashboard__progress-card',
-    title: 'Your progress',
+    title: 'Track your journey',
     desc: 'This ring shows your overall completion. Every task you check off fills it a little more.',
     arrow: 'top'
   },
@@ -4663,14 +4747,14 @@ const TOUR_STEPS = [
   },
   {
     target: '.dashboard__tactics',
-    title: 'Your tactics',
-    desc: 'These pills show progress on each tactic. Click any to see the full detail.',
+    title: 'Your three tactics',
+    desc: 'These pills show progress on each tactic. Click any to see the full detail and implementation steps.',
     arrow: 'top'
   },
   {
-    target: '.sidebar-rail__progress',
+    target: '.nav-group',
     title: "You're all set!",
-    desc: 'Watch this ring fill as you make progress. Ready to get started?',
+    desc: 'Use the sidebar to explore your assessment, strategy, and 90-day roadmap. Ready to get started?',
     arrow: 'left'
   }
 ];
