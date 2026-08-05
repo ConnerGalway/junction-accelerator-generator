@@ -5902,10 +5902,17 @@ function nextTourStep() {
         dismissCelebration();
       }
     });
-    // Escape key to dismiss celebration
+    // Keyboard shortcuts
     document.addEventListener('keydown', (e) => {
+      // Escape to dismiss celebration
       if (e.key === 'Escape' && document.getElementById('celebrateOverlay')?.classList.contains('visible')) {
         dismissCelebration();
+      }
+      // Ctrl+Shift+C to test celebration (for demo purposes)
+      if (e.ctrlKey && e.shiftKey && e.key === 'C') {
+        e.preventDefault();
+        console.log('Triggering celebration modal...');
+        showCelebration(1);
       }
     });
 
@@ -6234,7 +6241,9 @@ function nextTourStep() {
   }
 
   function showCelebration(week) {
+    console.log('showCelebration called with week:', week);
     const msg = CELEBRATION_MESSAGES[week] || CELEBRATION_MESSAGES[1];
+    console.log('Celebration message:', msg);
 
     // Update celebration modal content
     const tagEl = document.getElementById('celebrateTag');
@@ -6270,8 +6279,12 @@ function nextTourStep() {
 
     // Show the modal
     const overlay = document.getElementById('celebrateOverlay');
+    console.log('Celebration overlay element:', overlay);
     if (overlay) {
       overlay.classList.add('visible');
+      console.log('Added visible class to overlay');
+    } else {
+      console.error('Could not find celebrateOverlay element!');
     }
   }
 
