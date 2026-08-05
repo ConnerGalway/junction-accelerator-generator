@@ -2293,7 +2293,55 @@ button {
   font-weight: 700;
 }
 
+.tactic__step-desc {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--navy-800);
+}
+
 /* Metrics Tab */
+.tactic__metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.tactic__metrics-table th,
+.tactic__metrics-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.tactic__metrics-table th {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.05em;
+  color: var(--slate-600);
+  background: var(--surface-sunken);
+}
+
+.tactic__metrics-table td {
+  color: var(--navy-900);
+}
+
+.tactic__metrics-table td:first-child {
+  font-weight: 600;
+}
+
+.tactic__metrics-table tr:last-child td {
+  border-bottom: none;
+}
+
+.tactic__checkpoint-desc {
+  display: block;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--slate-600);
+  margin-top: 4px;
+}
+
 .tactic__metrics-grid {
   display: grid;
   grid-template-columns: 1.15fr 1fr;
@@ -2427,8 +2475,22 @@ button {
   color: var(--slate-600);
 }
 
+.tactic__tip-badge {
+  flex: none;
+  padding: 6px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--mint-500);
+  color: var(--navy-900);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
 .tactic__tip-text {
-  min-width: 0;
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--navy-800);
 }
 
 .tactic__tip-title {
@@ -3743,7 +3805,7 @@ button {
           <div class="assessment__hero-header">
             <h1 class="assessment__hero-title">Where you're starting from</h1>
             <div class="assessment__hero-actions">
-              <button class="btn-outline">
+              <button class="btn-outline" onclick="printAssessment()">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M12 3v12M7 10l5 5 5-5M5 21h14"></path>
                 </svg>
@@ -4786,6 +4848,49 @@ function printRoadmap() {
 
       // Restore previous view
       if (previousActiveView && previousActiveView !== roadmapView) {
+        document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+        previousActiveView.classList.add('active');
+      }
+    }, 100);
+  }, 100);
+}
+
+// ══════════════════════════════════════════════════════════════════════════════
+// PRINT ASSESSMENT
+// ══════════════════════════════════════════════════════════════════════════════
+function printAssessment() {
+  const assessmentView = document.getElementById('view-assessment');
+  if (!assessmentView) return;
+
+  // Store current state
+  const previousActiveView = document.querySelector('.page-view.active');
+  const previouslyOpenCategories = Array.from(document.querySelectorAll('.assessment__category.open'));
+
+  // Make assessment view active for printing
+  document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
+  assessmentView.classList.add('active');
+
+  // Open all category accordions for printing
+  document.querySelectorAll('.assessment__category').forEach(cat => {
+    cat.classList.add('open');
+  });
+
+  // Small delay to let styles apply, then print
+  setTimeout(() => {
+    window.print();
+
+    // Restore state after print dialog closes
+    setTimeout(() => {
+      // Restore category accordion states
+      document.querySelectorAll('.assessment__category').forEach(cat => {
+        cat.classList.remove('open');
+      });
+      previouslyOpenCategories.forEach(cat => {
+        cat.classList.add('open');
+      });
+
+      // Restore previous view
+      if (previousActiveView && previousActiveView !== assessmentView) {
         document.querySelectorAll('.page-view').forEach(v => v.classList.remove('active'));
         previousActiveView.classList.add('active');
       }
