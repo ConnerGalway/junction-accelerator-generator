@@ -5261,10 +5261,8 @@ function showTourStep() {
   target.classList.add('tour-highlight');
   tourHighlightEl = target;
 
-  // Scroll target into view on mobile
-  if (mobile) {
-    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }
+  // Scroll target into view (both mobile and desktop)
+  target.scrollIntoView({ behavior: 'smooth', block: 'center', inline: 'nearest' });
 
   // Update tooltip content
   document.getElementById('tourStepNum').textContent = `${tourStep + 1} of ${steps.length}`;
@@ -5278,25 +5276,43 @@ function showTourStep() {
   if (mobile) {
     tooltip.style.top = '';
     tooltip.style.left = '';
+    tooltip.style.position = '';
   } else {
     // Position tooltip dynamically based on target
     const rect = target.getBoundingClientRect();
     const tooltipWidth = 320;
     const gap = 16;
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+
+    let top, left;
 
     if (step.arrow === 'left') {
-      tooltip.style.top = `${rect.top + window.scrollY}px`;
-      tooltip.style.left = `${rect.right + gap}px`;
+      top = rect.top + window.scrollY;
+      left = rect.right + gap;
     } else if (step.arrow === 'right') {
-      tooltip.style.top = `${rect.top + window.scrollY}px`;
-      tooltip.style.left = `${rect.left - tooltipWidth - gap}px`;
+      top = rect.top + window.scrollY;
+      left = rect.left - tooltipWidth - gap;
     } else if (step.arrow === 'top') {
-      tooltip.style.top = `${rect.bottom + window.scrollY + gap}px`;
-      tooltip.style.left = `${rect.left}px`;
+      top = rect.bottom + window.scrollY + gap;
+      left = rect.left;
     } else if (step.arrow === 'bottom') {
-      tooltip.style.top = `${rect.top + window.scrollY - 160 - gap}px`;
-      tooltip.style.left = `${rect.left}px`;
+      top = rect.top + window.scrollY - 160 - gap;
+      left = rect.left;
     }
+
+    // Clamp position to keep tooltip in viewport
+    // Ensure left is at least 16px from edge
+    left = Math.max(16, Math.min(left, viewportWidth - tooltipWidth - 16));
+
+    tooltip.style.top = `${top}px`;
+    tooltip.style.left = `${left}px`;
+    tooltip.style.position = 'absolute';
+
+    // After positioning, scroll tooltip into view if needed
+    setTimeout(() => {
+      tooltip.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }, 100);
   }
 
   // Update button text on last step
