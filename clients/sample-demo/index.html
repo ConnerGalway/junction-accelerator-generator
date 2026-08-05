@@ -5788,11 +5788,12 @@ function showTourStep() {
       tooltip.style.top = `${rect.top + window.scrollY}px`;
       tooltip.style.left = `${rect.left - tooltipWidth - gap}px`;
     } else if (step.arrow === 'top') {
-    tooltip.style.top = `${rect.bottom + window.scrollY + gap}px`;
-    tooltip.style.left = `${rect.left}px`;
-  } else if (step.arrow === 'bottom') {
-    tooltip.style.top = `${rect.top + window.scrollY - 160 - gap}px`;
-    tooltip.style.left = `${rect.left}px`;
+      tooltip.style.top = `${rect.bottom + window.scrollY + gap}px`;
+      tooltip.style.left = `${rect.left}px`;
+    } else if (step.arrow === 'bottom') {
+      tooltip.style.top = `${rect.top + window.scrollY - 160 - gap}px`;
+      tooltip.style.left = `${rect.left}px`;
+    }
   }
 
   // Update button text on last step
