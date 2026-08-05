@@ -4704,9 +4704,41 @@ function nextTourStep() {
         updateRoadmapProgress();
       });
     });
+
+    // Initial progress calculation on page load
+    updateRoadmapProgress();
+    updateGbpProgress();
   }
 
   // ── Progress Updates ────────────────────────────────────────────────────
+
+  // Track which weeks have been celebrated to avoid repeat celebrations
+  let celebratedWeeks = JSON.parse(localStorage.getItem(`${CLIENT_SLUG}_celebrated_weeks`) || '[]');
+
+  // Week to tactic mapping (which tactic each week belongs to)
+  // This should be customized per client based on their plan
+  const WEEK_TACTICS = {
+    1: 1, 2: 1, 3: 1, 4: 1,   // Weeks 1-4: Tactic 1
+    5: 2, 6: 2, 7: 2, 8: 2,   // Weeks 5-8: Tactic 2
+    9: 3, 10: 3, 11: 3, 12: 3 // Weeks 9-12: Tactic 3
+  };
+
+  // Celebration messages for each week
+  const CELEBRATION_MESSAGES = {
+    1: { tag: 'WEEK 1 COMPLETE', headline: 'Foundation locked in.', body: 'Every system you set up this week makes next week\'s rhythm easier to hold.' },
+    2: { tag: 'WEEK 2 COMPLETE', headline: 'Building momentum.', body: 'Two weeks down. You\'re establishing the habits that will carry you through.' },
+    3: { tag: 'WEEK 3 COMPLETE', headline: 'Finding your groove.', body: 'You\'re past the hardest part—starting. Keep this energy going.' },
+    4: { tag: 'MONTH 1 COMPLETE', headline: 'First month done!', body: 'You\'ve built the foundation. Now it\'s time to grow.' },
+    5: { tag: 'WEEK 5 COMPLETE', headline: 'New phase, same momentum.', body: 'You\'ve started the growth phase. Keep building.' },
+    6: { tag: 'WEEK 6 COMPLETE', headline: 'Halfway to midpoint.', body: 'Consistency is your superpower. Keep showing up.' },
+    7: { tag: 'WEEK 7 COMPLETE', headline: 'Seven down.', body: 'Your digital presence is stronger than when you started.' },
+    8: { tag: 'MONTH 2 COMPLETE', headline: 'Two-thirds there!', body: 'Two months of consistent effort. You should be proud.' },
+    9: { tag: 'WEEK 9 COMPLETE', headline: 'Final stretch begins.', body: 'You\'ve entered the scaling phase. Finish strong.' },
+    10: { tag: 'WEEK 10 COMPLETE', headline: 'Ten weeks in.', body: 'You\'re in the home stretch now. Don\'t slow down.' },
+    11: { tag: 'WEEK 11 COMPLETE', headline: 'Almost there.', body: 'One more week. You\'ve got this.' },
+    12: { tag: 'PROGRAM COMPLETE', headline: 'You did it!', body: 'Ninety days of growth. Your digital marketing is transformed.' }
+  };
+
   function updateGbpProgress() {
     const tasks = document.querySelectorAll('.gbp__task');
     const done = document.querySelectorAll('.gbp__task.done').length;
@@ -4723,9 +4755,171 @@ function nextTourStep() {
   }
 
   function updateRoadmapProgress() {
-    const tasks = document.querySelectorAll('.roadmap__task');
-    const done = document.querySelectorAll('.roadmap__task.done').length;
-    document.getElementById('roadmapDone').textContent = done;
+    // Count total tasks and completed tasks
+    const allTasks = document.querySelectorAll('.roadmap__task');
+    const doneTasks = document.querySelectorAll('.roadmap__task.done');
+    const totalCount = allTasks.length;
+    const doneCount = doneTasks.length;
+    const pct = totalCount > 0 ? doneCount / totalCount : 0;
+
+    // Update roadmap header count
+    const roadmapDoneEl = document.getElementById('roadmapDone');
+    if (roadmapDoneEl) roadmapDoneEl.textContent = doneCount;
+
+    // ── Update Progress Rings ──
+
+    // Rail (collapsed sidebar) - circumference 113.1
+    const railRing = document.getElementById('railProgressRing');
+    const railLabel = document.getElementById('railProgressLabel');
+    if (railRing) railRing.style.strokeDashoffset = 113.1 * (1 - pct);
+    if (railLabel) railLabel.textContent = Math.round(pct * 100) + '%';
+
+    // Sidebar expanded - circumference 150.8
+    const sideRing = document.getElementById('sideProgressRing');
+    const sideDone = document.getElementById('sideProgressDone');
+    if (sideRing) sideRing.style.strokeDashoffset = 150.8 * (1 - pct);
+    if (sideDone) sideDone.textContent = `${doneCount} / ${totalCount}`;
+
+    // Dashboard main ring - circumference 534.1
+    const dashRing = document.getElementById('dashboardRing');
+    if (dashRing) dashRing.style.strokeDashoffset = 534.1 * (1 - pct);
+
+    // ── Update Tactic Progress ──
+    updateTacticProgress();
+
+    // ── Update Week Progress Bars ──
+    updateWeekProgress();
+
+    // ── Check for Week Completion (Celebration) ──
+    checkWeekCompletion();
+  }
+
+  function updateTacticProgress() {
+    // Calculate progress for each tactic based on week tasks
+    const tacticStats = { 1: { done: 0, total: 0 }, 2: { done: 0, total: 0 }, 3: { done: 0, total: 0 } };
+
+    for (let week = 1; week <= 12; week++) {
+      const tactic = WEEK_TACTICS[week];
+      const weekTasks = document.querySelectorAll(`[data-key^="week-${week}-"]`);
+      const weekDone = document.querySelectorAll(`[data-key^="week-${week}-"].done`);
+      tacticStats[tactic].total += weekTasks.length;
+      tacticStats[tactic].done += weekDone.length;
+    }
+
+    // Update tactic pills on dashboard
+    for (let t = 1; t <= 3; t++) {
+      const { done, total } = tacticStats[t];
+      const pct = total > 0 ? done / total : 0;
+
+      // Update tactic pill ring (circumference 113.1)
+      const pillRing = document.querySelector(`.tactic-ring-progress[data-tactic="${t}"]`);
+      if (pillRing) {
+        pillRing.style.strokeDashoffset = 113.1 * (1 - pct);
+        // Change color based on progress
+        if (pct === 1) {
+          pillRing.style.stroke = 'var(--state-success)';
+        } else if (pct > 0) {
+          pillRing.style.stroke = 'var(--mint-500)';
+        } else {
+          pillRing.style.stroke = 'var(--slate-600)';
+        }
+      }
+
+      // Update tactic pill counts
+      const doneEl = document.querySelector(`.tactic-done[data-tactic="${t}"]`);
+      const totalEl = document.querySelector(`.tactic-total[data-tactic="${t}"]`);
+      if (doneEl) doneEl.textContent = done;
+      if (totalEl) totalEl.textContent = total;
+
+      // Update tactic detail page ring (circumference 194.8)
+      const detailRing = document.getElementById(`tactic${t}Ring`);
+      if (detailRing) {
+        detailRing.style.strokeDashoffset = 194.8 * (1 - pct);
+      }
+    }
+  }
+
+  function updateWeekProgress() {
+    // Update progress bar for current week in "Next Step" card
+    // Find current week (first week with incomplete tasks)
+    let currentWeek = 1;
+    for (let w = 1; w <= 12; w++) {
+      const weekTasks = document.querySelectorAll(`[data-key^="week-${w}-"]`);
+      const weekDone = document.querySelectorAll(`[data-key^="week-${w}-"].done`);
+      if (weekDone.length < weekTasks.length) {
+        currentWeek = w;
+        break;
+      }
+      currentWeek = w + 1; // All done, move to next
+    }
+
+    if (currentWeek <= 12) {
+      const weekTasks = document.querySelectorAll(`[data-key^="week-${currentWeek}-"]`);
+      const weekDone = document.querySelectorAll(`[data-key^="week-${currentWeek}-"].done`);
+      const progressEl = document.getElementById('currentWeekProgress');
+      const barEl = document.getElementById('currentWeekProgressBar');
+
+      if (progressEl) progressEl.textContent = `${weekDone.length} / ${weekTasks.length}`;
+      if (barEl) barEl.style.width = (weekTasks.length > 0 ? (weekDone.length / weekTasks.length) * 100 : 0) + '%';
+    }
+  }
+
+  function checkWeekCompletion() {
+    // Check each week for completion
+    for (let week = 1; week <= 12; week++) {
+      const weekTasks = document.querySelectorAll(`[data-key^="week-${week}-"]`);
+      const weekDone = document.querySelectorAll(`[data-key^="week-${week}-"].done`);
+
+      // If week is complete and we haven't celebrated yet
+      if (weekTasks.length > 0 && weekDone.length === weekTasks.length && !celebratedWeeks.includes(week)) {
+        celebratedWeeks.push(week);
+        localStorage.setItem(`${CLIENT_SLUG}_celebrated_weeks`, JSON.stringify(celebratedWeeks));
+        showCelebration(week);
+        break; // Only show one celebration at a time
+      }
+    }
+  }
+
+  function showCelebration(week) {
+    const msg = CELEBRATION_MESSAGES[week] || CELEBRATION_MESSAGES[1];
+
+    // Update celebration modal content
+    const tagEl = document.getElementById('celebrateTag');
+    const headlineEl = document.getElementById('celebrateHeadline');
+    const bodyEl = document.getElementById('celebrateBody');
+    const statsEl = document.getElementById('celebrateStats');
+
+    if (tagEl) tagEl.textContent = msg.tag;
+    if (headlineEl) headlineEl.textContent = msg.headline;
+    if (bodyEl) bodyEl.textContent = msg.body;
+
+    // Calculate stats
+    const totalDone = document.querySelectorAll('.roadmap__task.done').length;
+    const totalTasks = document.querySelectorAll('.roadmap__task').length;
+    const progressPct = Math.round((totalDone / totalTasks) * 100);
+
+    if (statsEl) {
+      statsEl.innerHTML = `
+        <div class="celebrate-stat">
+          <div class="celebrate-stat-value">${totalDone}</div>
+          <div class="celebrate-stat-label">Tasks done</div>
+        </div>
+        <div class="celebrate-stat">
+          <div class="celebrate-stat-value">${week}</div>
+          <div class="celebrate-stat-label">Weeks complete</div>
+        </div>
+        <div class="celebrate-stat">
+          <div class="celebrate-stat-value">${progressPct}%</div>
+          <div class="celebrate-stat-label">Progress</div>
+        </div>
+      `;
+    }
+
+    // Show the modal
+    const overlay = document.getElementById('celebrateOverlay');
+    if (overlay) {
+      overlay.classList.add('visible');
+    }
   }
 
   // Run on DOM ready
