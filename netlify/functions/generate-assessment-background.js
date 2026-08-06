@@ -3208,13 +3208,13 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     console.error('[Claude] Failed to parse response:', parseError.message);
     const defaultAssessment = getDefaultAssessment();
     defaultAssessment._debug_error = parseError.message;
-    defaultAssessment._debug_raw_response = result.content?.[0]?.text?.substring(0, 2000) || 'No content';
+    defaultAssessment._debug_raw_response = content?.substring(0, 2000) || 'No content';
     return defaultAssessment;
   }
   } catch (fetchError) {
     // Handle abort/timeout errors
     if (fetchError.name === 'AbortError') {
-      throw new Error('Claude API request timed out after 4 minutes');
+      throw new Error('Claude API request timed out after 8 minutes');
     }
     throw fetchError;
   } finally {
@@ -3679,7 +3679,7 @@ function generateMetricsFromBreakdown(categoryKey, breakdown) {
         metrics.push({
           label: 'Posting Frequency',
           value: breakdown.posting_frequency.value !== null
-            ? `${breakdown.posting_frequency.value} posts/month`
+            ? `${breakdown.posting_frequency.value} posts/week`
             : 'Not available',
           status: getMetricStatus(breakdown.posting_frequency.score),
           source: breakdown.posting_frequency.source
@@ -3731,12 +3731,12 @@ function generateMetricsFromBreakdown(categoryKey, breakdown) {
           source: breakdown.mobile_speed.source
         });
       }
-      if (breakdown.ssl_security) {
+      if (breakdown.ssl_https) {
         metrics.push({
           label: 'SSL Security',
-          value: breakdown.ssl_security.value ? 'Secure' : 'Not Secure',
-          status: breakdown.ssl_security.value ? 'good' : 'critical',
-          source: breakdown.ssl_security.source
+          value: breakdown.ssl_https.value ? 'Secure' : 'Not Secure',
+          status: breakdown.ssl_https.value ? 'good' : 'critical',
+          source: breakdown.ssl_https.source
         });
       }
       break;
