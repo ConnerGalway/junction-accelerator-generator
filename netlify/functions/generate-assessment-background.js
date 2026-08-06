@@ -763,6 +763,8 @@ async function getPlaceDetails(placeId, apiKey) {
   detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types');
   detailsUrl.searchParams.set('key', apiKey);
 
+  console.log('[Google Places] API URL:', detailsUrl.toString().replace(apiKey, 'API_KEY_HIDDEN'));
+
   const detailsResponse = await fetch(detailsUrl.toString());
   if (!detailsResponse.ok) {
     throw new Error(`Google Places Details failed: ${detailsResponse.status}`);
@@ -770,7 +772,15 @@ async function getPlaceDetails(placeId, apiKey) {
 
   const detailsResult = await detailsResponse.json();
 
+  // Log the actual response status for debugging
+  console.log('[Google Places] API Response:', JSON.stringify({
+    status: detailsResult.status,
+    error_message: detailsResult.error_message,
+    hasResult: !!detailsResult.result
+  }));
+
   if (detailsResult.status !== 'OK' || !detailsResult.result) {
+    console.error('[Google Places] API Error:', detailsResult.status, detailsResult.error_message || 'No error message');
     return null;
   }
 
