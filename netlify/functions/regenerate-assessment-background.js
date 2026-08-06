@@ -120,7 +120,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Fetching Google Places data');
     let googlePlacesData = null;
-    if (process.env.GOOGLE_PLACES_API_KEY) {
+    if (process.env.GOOGLE_PLACES_KEY) {
       try {
         // If a Place ID was provided, use it directly (most reliable)
         if (googlePlaceId) {
@@ -527,9 +527,9 @@ function doDomainsMatch(domain1, domain2) {
 
 // Fetch Google Places data directly using a Place ID (most reliable method)
 async function fetchGooglePlacesByPlaceId(placeId) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
   if (!apiKey) {
-    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+    throw new Error('GOOGLE_PLACES_KEY not configured');
   }
 
   console.log('[Google Places] Fetching by Place ID:', placeId);
@@ -604,9 +604,9 @@ function formatPlaceData(place, matchInfo = {}) {
 }
 
 async function fetchGooglePlacesData(businessName, location, websiteUrl = null) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
   if (!apiKey) {
-    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+    throw new Error('GOOGLE_PLACES_KEY not configured');
   }
 
   const targetDomain = extractDomain(websiteUrl);
@@ -2703,10 +2703,12 @@ function generateMetricsFromBreakdown(categoryKey, breakdown) {
         });
       }
       if (breakdown.platform_presence) {
+        const platformValue = breakdown.platform_presence.value;
+        const platformCount = typeof platformValue === 'object' ? platformValue?.count : platformValue;
         metrics.push({
           label: 'Platforms Active',
-          value: breakdown.platform_presence.value !== null
-            ? `${breakdown.platform_presence.value} platforms`
+          value: platformCount !== null && platformCount !== undefined
+            ? `${platformCount} platforms`
             : 'Not available',
           status: getMetricStatus(breakdown.platform_presence.score),
           source: breakdown.platform_presence.source

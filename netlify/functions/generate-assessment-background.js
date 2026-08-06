@@ -207,7 +207,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Fetching Google Places data');
     let googlePlacesData = null;
-    if (process.env.GOOGLE_PLACES_API_KEY) {
+    if (process.env.GOOGLE_PLACES_KEY) {
       if (DEBUG) console.log('[STEP 4b] Fetching Google Places data');
       try {
         // Use Place ID if provided (more reliable), otherwise search
@@ -228,7 +228,7 @@ export async function handler(event, context) {
         };
       }
     } else {
-      if (DEBUG) console.log('[STEP 4b] GOOGLE_PLACES_API_KEY not configured, skipping');
+      if (DEBUG) console.log('[STEP 4b] GOOGLE_PLACES_KEY not configured, skipping');
       await updateProgress('Google Places skipped (no API key)');
     }
     // ─────────────────────────────────────────────────────────────────────────
@@ -782,9 +782,9 @@ function formatPlaceData(place, matchInfo = {}) {
  * Enhanced Google Places search with multiple strategies and domain verification
  */
 async function fetchGooglePlacesData(businessName, location, websiteUrl = null) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
   if (!apiKey) {
-    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+    throw new Error('GOOGLE_PLACES_KEY not configured');
   }
 
   const targetDomain = extractDomain(websiteUrl);
@@ -930,9 +930,9 @@ async function fetchGooglePlacesData(businessName, location, websiteUrl = null) 
  * Use when you have the Place ID from Google Maps URL
  */
 async function fetchGooglePlacesByPlaceId(placeId) {
-  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
   if (!apiKey) {
-    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+    throw new Error('GOOGLE_PLACES_KEY not configured');
   }
 
   console.log('[Google Places] Fetching by Place ID:', placeId);
@@ -3561,10 +3561,12 @@ function generateMetricsFromBreakdown(categoryKey, breakdown) {
         });
       }
       if (breakdown.platform_presence) {
+        const platformValue = breakdown.platform_presence.value;
+        const platformCount = typeof platformValue === 'object' ? platformValue?.count : platformValue;
         metrics.push({
           label: 'Platforms Active',
-          value: breakdown.platform_presence.value !== null
-            ? `${breakdown.platform_presence.value} platforms`
+          value: platformCount !== null && platformCount !== undefined
+            ? `${platformCount} platforms`
             : 'Not available',
           status: getMetricStatus(breakdown.platform_presence.score),
           source: breakdown.platform_presence.source

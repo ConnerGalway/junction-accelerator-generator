@@ -10,11 +10,11 @@ export async function handler(event, context) {
     GITHUB_TOKEN: !!process.env.GITHUB_TOKEN,
     GITHUB_OWNER: !!process.env.GITHUB_OWNER,
     GITHUB_REPO: !!process.env.GITHUB_REPO,
-    GOOGLE_PLACES_API_KEY: !!process.env.GOOGLE_PLACES_API_KEY // optional
+    GOOGLE_PLACES_KEY: !!process.env.GOOGLE_PLACES_KEY // optional
   };
 
   const missing = Object.entries(checks)
-    .filter(([key, value]) => !value && key !== 'GOOGLE_PLACES_API_KEY')
+    .filter(([key, value]) => !value && key !== 'GOOGLE_PLACES_KEY')
     .map(([key]) => key);
 
   return {
