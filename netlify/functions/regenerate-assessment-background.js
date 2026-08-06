@@ -373,11 +373,11 @@ export async function handler(event, context) {
           slug,
           websiteUrl,
           location,
-          assessmentData,
+          assessmentData: finalAssessmentData,
           coachEmail: user.email
         });
       } else {
-        html = generateBasicAssessmentHtml({ businessName, slug, websiteUrl, assessmentData });
+        html = generateBasicAssessmentHtml({ businessName, slug, websiteUrl, assessmentData: finalAssessmentData });
       }
 
       // Commit to GitHub (update existing file)
@@ -1808,15 +1808,21 @@ function validateAssessmentQuality(assessmentData, sourceData) {
 async function generateAssessmentWithClaude(data) {
   const context = buildAssessmentContext(data);
 
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250929',
+  // Create abort controller with 4-minute timeout for Claude API
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minutes
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5-20250929',
       max_tokens: 16000,
       messages: [
         {
@@ -2287,6 +2293,15 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     defaultAssessment._debug_error = e.message;
     defaultAssessment._debug_raw_response = content?.substring(0, 2000) || 'No content available';
     return defaultAssessment;
+  }
+  } catch (fetchError) {
+    // Handle abort/timeout errors
+    if (fetchError.name === 'AbortError') {
+      throw new Error('Claude API request timed out after 4 minutes');
+    }
+    throw fetchError;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 

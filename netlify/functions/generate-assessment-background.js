@@ -508,7 +508,7 @@ export async function handler(event, context) {
         slug,
         websiteUrl,
         location,
-        assessmentData,
+        assessmentData: finalAssessmentData,
         coachEmail: user.email
       });
     } else {
@@ -517,7 +517,7 @@ export async function handler(event, context) {
         businessName,
         slug,
         websiteUrl,
-        assessmentData
+        assessmentData: finalAssessmentData
       });
     }
 
@@ -2464,16 +2464,22 @@ async function generateAssessmentWithClaude(data) {
   console.log('[Claude] API key length:', apiKey?.length || 0);
   console.log('[Claude] API key prefix:', apiKey?.substring(0, 10) || 'MISSING');
 
-  // Use REST API directly for better compatibility
-  const response = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'x-api-key': process.env.ANTHROPIC_API_KEY,
-      'anthropic-version': '2023-06-01'
-    },
-    body: JSON.stringify({
-      model: 'claude-sonnet-4-5-20250929',
+  // Create abort controller with 4-minute timeout for Claude API
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minutes
+
+  try {
+    // Use REST API directly for better compatibility
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'anthropic-version': '2023-06-01'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-5-20250929',
       max_tokens: 16000,
       messages: [
         {
@@ -3068,6 +3074,15 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     defaultAssessment._debug_error = parseError.message;
     defaultAssessment._debug_raw_response = result.content?.[0]?.text?.substring(0, 2000) || 'No content';
     return defaultAssessment;
+  }
+  } catch (fetchError) {
+    // Handle abort/timeout errors
+    if (fetchError.name === 'AbortError') {
+      throw new Error('Claude API request timed out after 4 minutes');
+    }
+    throw fetchError;
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
