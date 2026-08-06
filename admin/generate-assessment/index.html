@@ -211,6 +211,86 @@
       margin-top: 6px;
     }
 
+    /* ── Tooltip ─────────────────────────────────────────── */
+    .tooltip-trigger {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      margin-left: 6px;
+      padding: 0;
+      background: var(--cream);
+      border: 1px solid var(--border);
+      border-radius: 50%;
+      cursor: pointer;
+      vertical-align: middle;
+      transition: background 0.2s, border-color 0.2s;
+    }
+
+    .tooltip-trigger:hover {
+      background: var(--mint);
+      border-color: var(--mint-dark);
+    }
+
+    .tooltip-trigger svg {
+      width: 12px;
+      height: 12px;
+      color: var(--muted);
+    }
+
+    .tooltip-trigger:hover svg {
+      color: var(--navy);
+    }
+
+    .tooltip-content {
+      display: none;
+      margin-top: 12px;
+      padding: 16px;
+      background: var(--navy);
+      color: #fff;
+      border-radius: 10px;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .tooltip-content.visible {
+      display: block;
+      animation: fadeUp 0.2s ease both;
+    }
+
+    .tooltip-content strong {
+      display: block;
+      margin-bottom: 10px;
+      color: var(--mint);
+    }
+
+    .tooltip-content ol {
+      margin: 0 0 12px 20px;
+      padding: 0;
+    }
+
+    .tooltip-content li {
+      margin-bottom: 6px;
+    }
+
+    .tooltip-content a {
+      color: var(--mint);
+      text-decoration: underline;
+    }
+
+    .tooltip-content a:hover {
+      color: #fff;
+    }
+
+    .tooltip-alt {
+      margin: 0;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,0.15);
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
     /* ── Social media grid ──────────────────────────────── */
     .social-grid {
       display: grid;
@@ -730,6 +810,31 @@
               <input type="text" class="form-input" id="location" placeholder="e.g., Victoria, BC">
             </div>
           </div>
+
+          <div class="form-group">
+            <label class="form-label" for="googlePlaceId">
+              Google Place ID <span class="form-label--optional">(optional)</span>
+              <button type="button" class="tooltip-trigger" aria-label="How to find Place ID">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+                  <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                </svg>
+              </button>
+            </label>
+            <input type="text" class="form-input" id="googlePlaceId" placeholder="e.g., ChIJN1t_tDeuEmsRUsoyG83frY4">
+            <p class="form-hint">Improves accuracy of Google reviews data. If left blank, we'll search by business name.</p>
+            <div class="tooltip-content" id="placeIdTooltip">
+              <strong>How to find the Google Place ID:</strong>
+              <ol>
+                <li>Go to <a href="https://developers.google.com/maps/documentation/javascript/examples/places-placeid-finder" target="_blank" rel="noopener">Google's Place ID Finder</a></li>
+                <li>Search for the business name</li>
+                <li>Click on the correct result on the map</li>
+                <li>Copy the Place ID (starts with "ChIJ")</li>
+              </ol>
+              <p class="tooltip-alt">Or: Open the business in Google Maps, look at the URL for text after "!1s" (e.g., !1sChIJ...)</p>
+            </div>
+          </div>
         </div>
 
         <!-- Social Media Accounts -->
@@ -980,6 +1085,16 @@
         slugInput.value = slug;
       });
 
+      // Tooltip toggle for Place ID help
+      const tooltipTrigger = document.querySelector('.tooltip-trigger');
+      const tooltipContent = document.getElementById('placeIdTooltip');
+      if (tooltipTrigger && tooltipContent) {
+        tooltipTrigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          tooltipContent.classList.toggle('visible');
+        });
+      }
+
       // Form submission
       form.addEventListener('submit', handleSubmit);
     }
@@ -995,6 +1110,7 @@
       const slug = document.getElementById('slug').value.trim();
       const websiteUrl = document.getElementById('websiteUrl').value.trim();
       const location = document.getElementById('location').value.trim();
+      const googlePlaceId = document.getElementById('googlePlaceId').value.trim();
 
       // Collect social media URLs
       const social = {
@@ -1048,7 +1164,8 @@
             slug,
             websiteUrl,
             location: location || null,
-            social
+            social,
+            googlePlaceId: googlePlaceId || null
           })
         });
 
