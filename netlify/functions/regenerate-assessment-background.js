@@ -574,12 +574,21 @@ async function getPlaceDetails(placeId, apiKey) {
   detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types');
   detailsUrl.searchParams.set('key', apiKey);
 
+  console.log('[Google Places] Calling Place Details API for:', placeId);
+  console.log('[Google Places] API key prefix:', apiKey?.substring(0, 10) + '...');
+
   const detailsResponse = await fetch(detailsUrl.toString());
   const detailsResult = await detailsResponse.json();
 
+  console.log('[Google Places] API response status:', detailsResult.status);
+
   if (detailsResult.status !== 'OK' || !detailsResult.result) {
+    console.error('[Google Places] FAILED - status:', detailsResult.status);
+    console.error('[Google Places] Error message:', detailsResult.error_message || 'none');
     return null;
   }
+
+  console.log('[Google Places] SUCCESS - found:', detailsResult.result.name);
   return detailsResult.result;
 }
 
