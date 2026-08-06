@@ -20,8 +20,11 @@ export async function handler(event, context) {
 
   try {
     const body = JSON.parse(event.body);
-    const { businessName, slug, websiteUrl, location, social } = body;
+    const { businessName, slug, websiteUrl, location, social, googlePlaceId } = body;
     console.log('[REGENERATE] Business:', businessName, 'Slug:', slug);
+    if (googlePlaceId) {
+      console.log('[REGENERATE] Google Place ID provided:', googlePlaceId);
+    }
 
     // Validate required fields
     if (!businessName || !slug || !websiteUrl) {
@@ -119,7 +122,14 @@ export async function handler(event, context) {
     let googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_API_KEY) {
       try {
-        googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
+        // If a Place ID was provided, use it directly (most reliable)
+        if (googlePlaceId) {
+          console.log('[Google Places] Using provided Place ID:', googlePlaceId);
+          googlePlacesData = await fetchGooglePlacesByPlaceId(googlePlaceId);
+        } else {
+          // Otherwise, search by name/location
+          googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
+        }
         await updateProgress('Google Places complete');
       } catch (err) {
         console.error('Google Places error (non-fatal):', err.message);
@@ -420,7 +430,13 @@ export async function handler(event, context) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function fetchSEOptimerReport(websiteUrl) {
+  // Clean URL - ensure proper format
   let cleanUrl = websiteUrl.replace(/^https?:\/\//, '').replace(/\/+$/, '');
+  // Try with www if not present
+  const urlVariants = [cleanUrl];
+  if (!cleanUrl.startsWith('www.')) {
+    urlVariants.push('www.' + cleanUrl);
+  }
 
   const headers = {
     'Content-Type': 'application/json',
@@ -428,41 +444,60 @@ async function fetchSEOptimerReport(websiteUrl) {
     'x-api-key': process.env.SEOPTIMER_API_KEY
   };
 
-  const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({ url: cleanUrl, pdf: 0 })
-  });
+  let lastError = null;
 
-  if (!createResponse.ok) {
-    throw new Error(`SEOptimer create failed: ${createResponse.status}`);
-  }
+  for (const urlToTry of urlVariants) {
+    console.log('[SEOptimer] Trying URL:', urlToTry);
 
-  const createResult = await createResponse.json();
-  if (!createResult.success || !createResult.data?.id) {
-    throw new Error('SEOptimer create failed');
-  }
+    try {
+      const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ url: urlToTry, pdf: 0 })
+      });
 
-  const reportId = createResult.data.id;
+      if (!createResponse.ok) {
+        lastError = new Error(`SEOptimer create failed: ${createResponse.status}`);
+        continue;
+      }
 
-  // Poll for results
-  for (let attempt = 0; attempt < 40; attempt++) {
-    await new Promise(resolve => setTimeout(resolve, 2000));
+      const createResult = await createResponse.json();
+      if (!createResult.success || !createResult.data?.id) {
+        lastError = new Error('SEOptimer create failed: no report ID returned');
+        continue;
+      }
 
-    const getResponse = await fetch(`https://api.seoptimer.com/v1/report/get/${reportId}`, {
-      method: 'GET',
-      headers
-    });
+      const reportId = createResult.data.id;
+      console.log('[SEOptimer] Report created, ID:', reportId);
 
-    if (!getResponse.ok) continue;
+      // Poll for results
+      for (let attempt = 0; attempt < 40; attempt++) {
+        await new Promise(resolve => setTimeout(resolve, 2000));
 
-    const reportData = await getResponse.json();
-    if (reportData.success && reportData.data) {
-      return reportData.data;
+        const getResponse = await fetch(`https://api.seoptimer.com/v1/report/get/${reportId}`, {
+          method: 'GET',
+          headers
+        });
+
+        if (!getResponse.ok) continue;
+
+        const reportData = await getResponse.json();
+        if (reportData.success && reportData.data) {
+          // Check if report indicates site was inaccessible
+          if (reportData.data.output?.message?.includes('not accessible')) {
+            lastError = new Error(`Website blocking SEOptimer: ${reportData.data.output.message}`);
+            break; // Try next URL variant
+          }
+          console.log('[SEOptimer] Report ready');
+          return reportData.data;
+        }
+      }
+    } catch (err) {
+      lastError = err;
     }
   }
 
-  throw new Error('SEOptimer report timed out');
+  throw lastError || new Error('SEOptimer report failed for all URL variants');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -484,6 +519,33 @@ function doDomainsMatch(domain1, domain2) {
   if (domain1 === domain2) return true;
   if (domain1.includes(domain2) || domain2.includes(domain1)) return true;
   return false;
+}
+
+// Fetch Google Places data directly using a Place ID (most reliable method)
+async function fetchGooglePlacesByPlaceId(placeId) {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+  }
+
+  console.log('[Google Places] Fetching by Place ID:', placeId);
+  const details = await getPlaceDetails(placeId, apiKey);
+
+  if (!details) {
+    throw new Error(`Place ID not found: ${placeId}`);
+  }
+
+  const formattedData = formatPlaceData(details, { strategy: 'direct_place_id', verified: true });
+  formattedData._placeId = placeId;
+  formattedData._fetchMethod = 'direct_place_id';
+
+  console.log('[Google Places] Successfully fetched:', {
+    name: formattedData.name,
+    rating: formattedData.rating,
+    reviews: formattedData.totalReviews
+  });
+
+  return formattedData;
 }
 
 async function searchGooglePlaces(query, apiKey) {
@@ -654,9 +716,15 @@ async function analyzeWebsiteContent(websiteUrl) {
     const html = await response.text();
     const htmlLower = html.toLowerCase();
 
+    // Detect booking platforms first
+    const bookingPlatforms = detectBookingPlatforms(htmlLower);
+    // hasBookingLink is true if we detect booking keywords OR if we find booking platforms
+    const hasBookingKeywords = detectBookingPresence(html, htmlLower);
+    const hasBookingLink = hasBookingKeywords || bookingPlatforms.length > 0;
+
     const analysis = {
-      hasBookingLink: detectBookingPresence(html, htmlLower),
-      bookingPlatforms: detectBookingPlatforms(htmlLower),
+      hasBookingLink: hasBookingLink,
+      bookingPlatforms: bookingPlatforms,
       hasPhone: detectPhone(html),
       hasEmail: detectEmail(html),
       hasAddress: detectAddress(htmlLower),
@@ -695,32 +763,64 @@ async function analyzeWebsiteContent(websiteUrl) {
 }
 
 function detectBookingPresence(html, htmlLower) {
+  // Multi-language booking keywords
   const bookingKeywords = [
+    // English
     'book now', 'book online', 'reserve', 'reservation', 'make a booking',
     'check availability', 'book a table', 'book a room', 'book your',
     'schedule', 'appointment', 'buy tickets', 'purchase tickets',
-    'add to cart', 'book tour', 'reserve now'
+    'add to cart', 'book tour', 'reserve now', 'get tickets',
+    // German
+    'jetzt buchen', 'buchung', 'reservieren', 'reservierung', 'buchen sie',
+    'verfügbarkeit prüfen', 'zimmer buchen', 'termin buchen',
+    // French
+    'réserver', 'réservation', 'réserver maintenant', 'vérifier disponibilité',
+    // Spanish
+    'reservar', 'reserva', 'reservar ahora', 'comprobar disponibilidad'
   ];
   return bookingKeywords.some(kw => htmlLower.includes(kw));
 }
 
 function detectBookingPlatforms(htmlLower) {
   const platforms = [];
+  // Major OTAs and booking platforms
   if (htmlLower.includes('booking.com')) platforms.push('Booking.com');
   if (htmlLower.includes('expedia')) platforms.push('Expedia');
   if (htmlLower.includes('tripadvisor')) platforms.push('TripAdvisor');
   if (htmlLower.includes('viator')) platforms.push('Viator');
   if (htmlLower.includes('getyourguide')) platforms.push('GetYourGuide');
   if (htmlLower.includes('airbnb')) platforms.push('Airbnb');
+  if (htmlLower.includes('vrbo')) platforms.push('VRBO');
+  if (htmlLower.includes('hotels.com')) platforms.push('Hotels.com');
+  // Restaurant reservations
   if (htmlLower.includes('opentable')) platforms.push('OpenTable');
   if (htmlLower.includes('resy')) platforms.push('Resy');
   if (htmlLower.includes('yelp.com/reservations')) platforms.push('Yelp Reservations');
+  // Tour & activity booking
   if (htmlLower.includes('fareharbor')) platforms.push('FareHarbor');
   if (htmlLower.includes('checkfront')) platforms.push('Checkfront');
   if (htmlLower.includes('rezdy')) platforms.push('Rezdy');
   if (htmlLower.includes('bookeo')) platforms.push('Bookeo');
+  if (htmlLower.includes('peek.com')) platforms.push('Peek');
+  if (htmlLower.includes('xola')) platforms.push('Xola');
+  if (htmlLower.includes('bokun')) platforms.push('Bokun');
+  // Hotel/lodging PMS systems
+  if (htmlLower.includes('cloudbeds')) platforms.push('Cloudbeds');
+  if (htmlLower.includes('littlehotelier')) platforms.push('Little Hotelier');
+  if (htmlLower.includes('mews.com') || htmlLower.includes('mews.li')) platforms.push('Mews');
+  if (htmlLower.includes('webrezpro')) platforms.push('WebRezPro');
+  if (htmlLower.includes('roomraccoon')) platforms.push('RoomRaccoon');
+  if (htmlLower.includes('sirvoy')) platforms.push('Sirvoy');
+  if (htmlLower.includes('innroad')) platforms.push('innRoad');
+  if (htmlLower.includes('lodgify')) platforms.push('Lodgify');
+  if (htmlLower.includes('guesty')) platforms.push('Guesty');
+  if (htmlLower.includes('hostaway')) platforms.push('Hostaway');
+  // General scheduling
   if (htmlLower.includes('squareup') || htmlLower.includes('square appointments')) platforms.push('Square');
   if (htmlLower.includes('calendly')) platforms.push('Calendly');
+  if (htmlLower.includes('acuity')) platforms.push('Acuity Scheduling');
+  // Direct booking widgets (check for common patterns)
+  if (htmlLower.includes('bookingengine') || htmlLower.includes('booking-engine')) platforms.push('Direct Booking Engine');
   return platforms;
 }
 
