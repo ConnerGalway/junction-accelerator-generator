@@ -8,15 +8,15 @@
  * @version 1.0.0
  */
 
-// CommonJS require for Node.js/Netlify bundling (esbuild handles this correctly)
-const {
+// ES Module imports (required for Netlify Functions bundling)
+import {
   SCORING_ENGINE_VERSION,
   CATEGORY_WEIGHTS,
   MISSING_DATA_POLICY,
   RUBRICS,
   scoreToGrade,
   scoreFromThresholds
-} = require('./rubrics');
+} from './rubrics.js';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN SCORING FUNCTION
@@ -857,39 +857,7 @@ function calculateContentQualityScore(socialMediaData) {
 // EXPORTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// Node.js / CommonJS
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    calculateAllScores,
-    calculateWebsiteTechnicalScore,
-    calculateReviewsReputationScore,
-    calculateBookingConversionScore,
-    calculateSocialMediaScore,
-    calculateGuestExperienceScore,
-    calculateLocalVisibilityScore,
-    calculateOverallScore,
-    applySubMetricWeights,
-    determineOverallConfidence,
-    buildMissingDataFlags,
-    calculatePhoneVisibilityScore,
-    calculateContentQualityScore
-  };
-}
-
-// Browser / ES Modules (window global)
-if (typeof window !== 'undefined') {
-  window.JunctionScoringEngine = {
-    calculateAllScores,
-    calculateWebsiteTechnicalScore,
-    calculateReviewsReputationScore,
-    calculateBookingConversionScore,
-    calculateSocialMediaScore,
-    calculateGuestExperienceScore,
-    calculateLocalVisibilityScore
-  };
-}
-
-// ES Module named exports (for bundlers like esbuild)
+// ES Module named exports (for Netlify Functions / esbuild)
 export {
   calculateAllScores,
   calculateWebsiteTechnicalScore,

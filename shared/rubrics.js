@@ -583,41 +583,7 @@ function scoreFromThresholds(value, thresholds, direction = 'ascending') {
 // EXPORTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// Node.js / CommonJS
-if (typeof module !== 'undefined' && module.exports) {
-  module.exports = {
-    SCORING_ENGINE_VERSION,
-    CATEGORY_WEIGHTS,
-    GRADE_THRESHOLDS,
-    MISSING_DATA_POLICY,
-    RUBRICS,
-    scoreToGrade,
-    getCategoryKeys,
-    validateWeights,
-    getRubric,
-    getSubMetric,
-    scoreFromThresholds
-  };
-}
-
-// Browser / ES Modules (window global)
-if (typeof window !== 'undefined') {
-  window.JunctionRubrics = {
-    SCORING_ENGINE_VERSION,
-    CATEGORY_WEIGHTS,
-    GRADE_THRESHOLDS,
-    MISSING_DATA_POLICY,
-    RUBRICS,
-    scoreToGrade,
-    getCategoryKeys,
-    validateWeights,
-    getRubric,
-    getSubMetric,
-    scoreFromThresholds
-  };
-}
-
-// ES Module named exports (for bundlers like esbuild)
+// ES Module named exports (for Netlify Functions / esbuild)
 export {
   SCORING_ENGINE_VERSION,
   CATEGORY_WEIGHTS,
