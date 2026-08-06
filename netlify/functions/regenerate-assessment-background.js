@@ -172,14 +172,15 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault) with caching
+    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault) - force refresh on regeneration
     // ─────────────────────────────────────────────────────────────────────────
     let socialMediaData = null;
     if (social && Object.values(social).some(url => url)) {
-      console.log('[REGENERATE] Fetching social media data from SociaVault (with cache)');
-      await updateProgress('Analyzing social media profiles');
+      console.log('[REGENERATE] Fetching fresh social media data from SociaVault');
+      await updateProgress('Analyzing social media profiles (fresh fetch)');
       try {
-        socialMediaData = await getSocialMediaDataWithCache(slug, social, supabaseAdmin);
+        // Force refresh = true to ensure we get latest data during regeneration
+        socialMediaData = await getSocialMediaDataWithCache(slug, social, supabaseAdmin, true);
         const cacheStatus = socialMediaData?._cached ? '(cached)' : '(fresh)';
         console.log('[REGENERATE] Social media analysis complete:', socialMediaData?.summary, cacheStatus);
         await updateProgress('Social media analysis complete');
@@ -493,7 +494,12 @@ async function fetchSEOptimerReport(websiteUrl) {
             break; // Try next URL variant
           }
           console.log('[SEOptimer] Report ready');
-          return reportData.data;
+
+          // SEOptimer returns { id, input, output, created_at, completed_at }
+          // The actual SEO data is in the output field
+          const output = reportData.data.output || reportData.data;
+          console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 20));
+          return output;
         }
       }
     } catch (err) {
@@ -932,25 +938,30 @@ function detectSocialLinks(htmlLower) {
 // SOCIAVAULT API INTEGRATION (Social Media Analytics)
 // ═══════════════════════════════════════════════════════════════════════════
 
-async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClient) {
+async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClient, forceRefresh = false) {
   if (!socialUrls || !Object.values(socialUrls).some(url => url)) {
     return null;
   }
 
-  try {
-    const now = new Date().toISOString();
-    const { data: cached, error: cacheError } = await supabaseClient
-      .from('social_media_cache')
-      .select('payload, fetched_at, expires_at')
-      .eq('client_slug', clientSlug)
-      .single();
+  // Skip cache if forcing refresh (e.g., during regeneration)
+  if (!forceRefresh) {
+    try {
+      const now = new Date().toISOString();
+      const { data: cached, error: cacheError } = await supabaseClient
+        .from('social_media_cache')
+        .select('payload, fetched_at, expires_at')
+        .eq('client_slug', clientSlug)
+        .single();
 
-    if (!cacheError && cached && cached.expires_at > now) {
-      console.log('[SociaVault] Cache hit for:', clientSlug);
-      return { ...cached.payload, _cached: true, _cachedAt: cached.fetched_at };
+      if (!cacheError && cached && cached.expires_at > now) {
+        console.log('[SociaVault] Cache hit for:', clientSlug);
+        return { ...cached.payload, _cached: true, _cachedAt: cached.fetched_at };
+      }
+    } catch (err) {
+      console.log('[SociaVault] Cache check failed:', err.message);
     }
-  } catch (err) {
-    console.log('[SociaVault] Cache check failed:', err.message);
+  } else {
+    console.log('[SociaVault] Force refresh - skipping cache');
   }
 
   const freshData = await fetchSocialMediaData(socialUrls);
@@ -1872,6 +1883,13 @@ CRITICAL DATA ACCURACY RULES - FOLLOW EXACTLY
 3. EVERY METRIC MUST INCLUDE:
    - "confidence": "high" (from verified API data), "medium" (inferred from website), or "low" (requires manual check)
    - "source": The specific data source (e.g., "Google Places API", "Website scrape", "SEOptimer")
+
+4. NEVER CONTRADICT VERIFIED DATA IN YOUR NARRATIVES
+   - If Website Analysis shows "Phone number visible: YES", do NOT write that phone is "absent" or "missing"
+   - If Website Analysis shows "Email visible: YES", do NOT write that email is not shown
+   - If Website Analysis shows "Hours displayed: YES", do NOT write that hours are missing
+   - Your narrative MUST be consistent with the verified metrics shown in the data sections
+   - If something is detected (e.g., hasPhone=YES) but could be better placed (e.g., not in header), say "Phone is present but could be more prominent" instead of "Phone is absent"
 
 ═══════════════════════════════════════════════════════════════════════════════
 ASSESSMENT STRUCTURE - 6 CATEGORIES

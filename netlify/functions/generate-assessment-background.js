@@ -674,7 +674,18 @@ async function fetchSEOptimerReport(websiteUrl) {
     // Check if report is ready
     if (reportData.success && reportData.data) {
       console.log('[SEOptimer] Report ready with keys:', Object.keys(reportData.data).slice(0, 15));
-      return reportData.data;
+
+      // SEOptimer returns { id, input, output, created_at, completed_at }
+      // The actual SEO data is in the output field
+      const output = reportData.data.output || reportData.data;
+      console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 20));
+
+      // Log performance data structure if available
+      if (output.performance) {
+        console.log('[SEOptimer] Performance data:', JSON.stringify(output.performance));
+      }
+
+      return output;
     }
 
     // Check for firewall/blocked errors
@@ -2593,6 +2604,13 @@ CRITICAL DATA ACCURACY RULES - FOLLOW EXACTLY
 3. EVERY METRIC MUST INCLUDE:
    - "confidence": "high" (from verified API data), "medium" (inferred from website), or "low" (requires manual check)
    - "source": The specific data source (e.g., "Google Places API", "Website scrape", "SEOptimer")
+
+4. NEVER CONTRADICT VERIFIED DATA IN YOUR NARRATIVES
+   - If Website Analysis shows "Phone number visible: YES", do NOT write that phone is "absent" or "missing"
+   - If Website Analysis shows "Email visible: YES", do NOT write that email is not shown
+   - If Website Analysis shows "Hours displayed: YES", do NOT write that hours are missing
+   - Your narrative MUST be consistent with the verified metrics shown in the data sections
+   - If something is detected (e.g., hasPhone=YES) but could be better placed (e.g., not in header), say "Phone is present but could be more prominent" instead of "Phone is absent"
 
 ═══════════════════════════════════════════════════════════════════════════════
 ASSESSMENT STRUCTURE - 6 CATEGORIES
