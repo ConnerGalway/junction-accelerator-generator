@@ -43,7 +43,7 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId } = body;
     slug = body.slug;
     if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
 
@@ -209,7 +209,13 @@ export async function handler(event, context) {
     if (process.env.GOOGLE_PLACES_API_KEY) {
       if (DEBUG) console.log('[STEP 4b] Fetching Google Places data');
       try {
-        googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
+        // Use Place ID if provided (more reliable), otherwise search
+        if (googlePlaceId) {
+          console.log('[Google Places] Using provided Place ID:', googlePlaceId);
+          googlePlacesData = await fetchGooglePlacesByPlaceId(googlePlaceId);
+        } else {
+          googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
+        }
         if (DEBUG) console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
         await updateProgress('Google Places complete');
       } catch (err) {
@@ -896,6 +902,40 @@ async function fetchGooglePlacesData(businessName, location, websiteUrl = null) 
   return placesData;
 }
 
+/**
+ * Fetch Google Places data directly by Place ID (most reliable method)
+ * Use when you have the Place ID from Google Maps URL
+ */
+async function fetchGooglePlacesByPlaceId(placeId) {
+  const apiKey = process.env.GOOGLE_PLACES_API_KEY;
+  if (!apiKey) {
+    throw new Error('GOOGLE_PLACES_API_KEY not configured');
+  }
+
+  console.log('[Google Places] Fetching by Place ID:', placeId);
+
+  const details = await getPlaceDetails(placeId, apiKey);
+  if (!details) {
+    throw new Error(`Place ID not found: ${placeId}`);
+  }
+
+  const formattedData = formatPlaceData(details, {
+    strategy: 'direct_place_id',
+    verified: true
+  });
+
+  formattedData._placeId = placeId;
+  formattedData._fetchMethod = 'direct_place_id';
+
+  console.log('[Google Places] Place ID fetch successful:', {
+    name: formattedData.name,
+    rating: formattedData.rating,
+    totalReviews: formattedData.totalReviews
+  });
+
+  return formattedData;
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // WEBSITE CONTENT ANALYSIS
 // ═══════════════════════════════════════════════════════════════════════════
@@ -926,10 +966,16 @@ async function analyzeWebsiteContent(websiteUrl) {
     const ctaQuality = detectCTAQuality(html, htmlLower);
     const hoursQuality = detectHoursQuality(html, htmlLower);
 
+    // Detect booking platforms first
+    const bookingPlatforms = detectBookingPlatforms(htmlLower);
+    // hasBookingLink is true if we detect booking keywords OR if we find booking platforms
+    const hasBookingKeywords = detectBookingPresence(html, htmlLower);
+    const hasBookingLink = hasBookingKeywords || bookingPlatforms.length > 0;
+
     const analysis = {
       // Booking/Reservation presence (with quality tier)
-      hasBookingLink: detectBookingPresence(html, htmlLower),
-      bookingPlatforms: detectBookingPlatforms(htmlLower),
+      hasBookingLink: hasBookingLink,
+      bookingPlatforms: bookingPlatforms,
       ctaQuality: ctaQuality, // Enhanced CTA analysis
 
       // Contact information (with quality tiers)
@@ -992,10 +1038,18 @@ async function analyzeWebsiteContent(websiteUrl) {
 
 function detectBookingPresence(html, htmlLower) {
   const bookingKeywords = [
+    // English
     'book now', 'book online', 'reserve', 'reservation', 'make a booking',
     'check availability', 'book a table', 'book a room', 'book your',
     'schedule', 'appointment', 'buy tickets', 'purchase tickets',
-    'add to cart', 'book tour', 'reserve now'
+    'add to cart', 'book tour', 'reserve now', 'get tickets',
+    // German
+    'jetzt buchen', 'buchung', 'reservieren', 'reservierung', 'buchen sie',
+    'verfügbarkeit prüfen', 'zimmer buchen', 'termin buchen',
+    // French
+    'réserver', 'réservation', 'réserver maintenant', 'vérifier disponibilité',
+    // Spanish
+    'reservar', 'reserva', 'reservar ahora', 'comprobar disponibilidad'
   ];
 
   return bookingKeywords.some(kw => htmlLower.includes(kw));
@@ -1004,21 +1058,64 @@ function detectBookingPresence(html, htmlLower) {
 function detectBookingPlatforms(htmlLower) {
   const platforms = [];
 
+  // Major OTAs
   if (htmlLower.includes('booking.com')) platforms.push('Booking.com');
   if (htmlLower.includes('expedia')) platforms.push('Expedia');
+  if (htmlLower.includes('hotels.com')) platforms.push('Hotels.com');
   if (htmlLower.includes('tripadvisor')) platforms.push('TripAdvisor');
-  if (htmlLower.includes('viator')) platforms.push('Viator');
-  if (htmlLower.includes('getyourguide')) platforms.push('GetYourGuide');
+  if (htmlLower.includes('vrbo')) platforms.push('VRBO');
   if (htmlLower.includes('airbnb')) platforms.push('Airbnb');
-  if (htmlLower.includes('opentable')) platforms.push('OpenTable');
-  if (htmlLower.includes('resy')) platforms.push('Resy');
-  if (htmlLower.includes('yelp.com/reservations')) platforms.push('Yelp Reservations');
+
+  // Hotel/Lodging PMS systems
+  if (htmlLower.includes('cloudbeds')) platforms.push('Cloudbeds');
+  if (htmlLower.includes('littlehotelier') || htmlLower.includes('little hotelier')) platforms.push('Little Hotelier');
+  if (htmlLower.includes('mews.com') || htmlLower.includes('mews.li')) platforms.push('Mews');
+  if (htmlLower.includes('webrezpro')) platforms.push('WebRezPro');
+  if (htmlLower.includes('roomraccoon')) platforms.push('RoomRaccoon');
+  if (htmlLower.includes('sirvoy')) platforms.push('Sirvoy');
+  if (htmlLower.includes('lodgify')) platforms.push('Lodgify');
+  if (htmlLower.includes('guesty')) platforms.push('Guesty');
+  if (htmlLower.includes('hostaway')) platforms.push('Hostaway');
+  if (htmlLower.includes('hostfully')) platforms.push('Hostfully');
+  if (htmlLower.includes('smoobu')) platforms.push('Smoobu');
+  if (htmlLower.includes('beds24')) platforms.push('Beds24');
+  if (htmlLower.includes('innroad')) platforms.push('innRoad');
+  if (htmlLower.includes('newbook')) platforms.push('NewBook');
+
+  // Tour/Activity booking systems
   if (htmlLower.includes('fareharbor')) platforms.push('FareHarbor');
   if (htmlLower.includes('checkfront')) platforms.push('Checkfront');
   if (htmlLower.includes('rezdy')) platforms.push('Rezdy');
   if (htmlLower.includes('bookeo')) platforms.push('Bookeo');
+  if (htmlLower.includes('peek.com')) platforms.push('Peek');
+  if (htmlLower.includes('xola')) platforms.push('Xola');
+  if (htmlLower.includes('bokun')) platforms.push('Bokun');
+  if (htmlLower.includes('trekksoft')) platforms.push('TrekkSoft');
+  if (htmlLower.includes('regiondo')) platforms.push('Regiondo');
+  if (htmlLower.includes('bókun')) platforms.push('Bokun');
+
+  // Experience/Activity OTAs
+  if (htmlLower.includes('viator')) platforms.push('Viator');
+  if (htmlLower.includes('getyourguide')) platforms.push('GetYourGuide');
+  if (htmlLower.includes('klook')) platforms.push('Klook');
+  if (htmlLower.includes('tiqets')) platforms.push('Tiqets');
+  if (htmlLower.includes('musement')) platforms.push('Musement');
+
+  // Restaurant booking
+  if (htmlLower.includes('opentable')) platforms.push('OpenTable');
+  if (htmlLower.includes('resy')) platforms.push('Resy');
+  if (htmlLower.includes('yelp.com/reservations')) platforms.push('Yelp Reservations');
+  if (htmlLower.includes('thefork') || htmlLower.includes('the fork')) platforms.push('TheFork');
+  if (htmlLower.includes('sevenrooms')) platforms.push('SevenRooms');
+  if (htmlLower.includes('tock.com')) platforms.push('Tock');
+
+  // Generic booking/scheduling
   if (htmlLower.includes('squareup') || htmlLower.includes('square appointments')) platforms.push('Square');
   if (htmlLower.includes('calendly')) platforms.push('Calendly');
+  if (htmlLower.includes('acuity') || htmlLower.includes('acuityscheduling')) platforms.push('Acuity');
+  if (htmlLower.includes('simplebooking')) platforms.push('SimpleBooking');
+  if (htmlLower.includes('mindbody')) platforms.push('Mindbody');
+  if (htmlLower.includes('vagaro')) platforms.push('Vagaro');
 
   return platforms;
 }
