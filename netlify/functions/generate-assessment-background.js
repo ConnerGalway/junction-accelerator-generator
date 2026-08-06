@@ -2464,12 +2464,12 @@ async function generateAssessmentWithClaude(data) {
   console.log('[Claude] API key length:', apiKey?.length || 0);
   console.log('[Claude] API key prefix:', apiKey?.substring(0, 10) || 'MISSING');
 
-  // Create abort controller with 4-minute timeout for Claude API
+  // Create abort controller with 8-minute timeout for Claude API
   const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 240000); // 4 minutes
+  const timeoutId = setTimeout(() => controller.abort(), 480000); // 8 minutes
 
   try {
-    // Use REST API directly for better compatibility
+    // Use streaming to prevent network timeouts on long responses
     const response = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
       signal: controller.signal,
@@ -2480,6 +2480,7 @@ async function generateAssessmentWithClaude(data) {
       },
       body: JSON.stringify({
         model: 'claude-sonnet-4-5-20250929',
+        stream: true,
       max_tokens: 16000,
       messages: [
         {
@@ -2898,13 +2899,41 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     throw new Error(`Claude API error: ${response.status} ${errorText}`);
   }
 
-  const result = await response.json();
-  console.log('[Claude] Response received, content length:', result.content?.[0]?.text?.length || 0);
+  // Process streaming response
+  console.log('[Claude] Processing streaming response...');
+  let content = '';
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    const chunk = decoder.decode(value, { stream: true });
+    const lines = chunk.split('\n');
+
+    for (const line of lines) {
+      if (line.startsWith('data: ')) {
+        const data = line.slice(6);
+        if (data === '[DONE]') continue;
+
+        try {
+          const event = JSON.parse(data);
+          if (event.type === 'content_block_delta' && event.delta?.text) {
+            content += event.delta.text;
+          }
+        } catch (e) {
+          // Skip invalid JSON lines
+        }
+      }
+    }
+  }
+
+  console.log('[Claude] Streaming complete, content length:', content.length);
+  console.log('[Claude] First 500 chars:', content.substring(0, 500));
 
   // Parse the response
   try {
-    const content = result.content[0].text;
-    console.log('[Claude] First 500 chars:', content.substring(0, 500));
 
     // Extract JSON from response (handle markdown code blocks)
     const jsonMatch = content.match(/```json\n?([\s\S]*?)\n?```/) || content.match(/\{[\s\S]*\}/);
