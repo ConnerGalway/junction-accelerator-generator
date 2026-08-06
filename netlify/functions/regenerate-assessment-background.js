@@ -1101,6 +1101,11 @@ async function fetchInstagramData(url, headers) {
   let contentMix = { images: 0, carousels: 0, reels: 0 };
   let bestContent = [];
 
+  // Helper functions to handle different field name variations from SociaVault
+  const getLikes = (p) => p.like_count || p.likes || p.likes_count || p.edge_liked_by?.count || 0;
+  const getComments = (p) => p.comment_count || p.comments || p.comments_count || p.edge_media_to_comment?.count || 0;
+  const getTimestamp = (p) => p.taken_at || p.timestamp || p.created_at || p.taken_at_timestamp || 0;
+
   try {
     console.log('[SociaVault] Fetching Instagram posts for:', handle);
     const postsRes = await fetch(
@@ -1110,6 +1115,10 @@ async function fetchInstagramData(url, headers) {
 
     if (postsRes.ok) {
       const postsData = await postsRes.json();
+
+      // Debug: Log the raw posts response
+      const rawPostsResponse = JSON.stringify(postsData);
+      console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
 
       // Get items - could be array or object with numeric keys
       let rawItems = postsData.data?.items || postsData.items || [];
@@ -1125,8 +1134,21 @@ async function fetchInstagramData(url, headers) {
       console.log(`[SociaVault] Found ${posts.length} Instagram posts to analyze`);
 
       if (posts.length > 0) {
-        const totalLikes = posts.reduce((sum, p) => sum + (p.like_count || 0), 0);
-        const totalComments = posts.reduce((sum, p) => sum + (p.comment_count || 0), 0);
+        // Log first post to see field names
+        const firstPost = posts[0];
+        console.log('[SociaVault] First post keys:', Object.keys(firstPost).join(', '));
+        console.log('[SociaVault] First post sample:', JSON.stringify({
+          like_count: firstPost.like_count,
+          likes: firstPost.likes,
+          comment_count: firstPost.comment_count,
+          comments: firstPost.comments,
+          taken_at: firstPost.taken_at,
+          timestamp: firstPost.timestamp
+        }));
+
+        const totalLikes = posts.reduce((sum, p) => sum + getLikes(p), 0);
+        const totalComments = posts.reduce((sum, p) => sum + getComments(p), 0);
+        console.log('[SociaVault] Calculated totals - likes:', totalLikes, 'comments:', totalComments);
 
         avgLikes = Math.round(totalLikes / posts.length);
         avgComments = Math.round(totalComments / posts.length);
@@ -1148,21 +1170,24 @@ async function fetchInstagramData(url, headers) {
         });
 
         // Calculate posting frequency (posts per week)
-        const timestamps = posts.map(p => p.taken_at).filter(t => t).sort((a, b) => b - a);
+        const timestamps = posts.map(p => getTimestamp(p)).filter(t => t).sort((a, b) => b - a);
+        console.log('[SociaVault] Timestamps found:', timestamps.length, 'First:', timestamps[0], 'Last:', timestamps[timestamps.length - 1]);
         if (timestamps.length >= 2) {
           const newest = timestamps[0];
           const oldest = timestamps[timestamps.length - 1];
           const daySpan = (newest - oldest) / (60 * 60 * 24);
+          console.log('[SociaVault] Day span:', daySpan);
           if (daySpan > 0) {
             postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10;
+            console.log('[SociaVault] Calculated posting frequency:', postingFrequency, 'posts/week');
           }
         }
 
         // Calculate engagement rate per post and find best performers
         const postsWithEngagement = posts.map(p => {
-          const likes = p.like_count || 0;
-          const comments = p.comment_count || 0;
-          const views = p.play_count || 0;
+          const likes = getLikes(p);
+          const comments = getComments(p);
+          const views = p.play_count || p.view_count || 0;
           const engagement = likes + comments;
           const postEngagementRate = followers > 0 ? (engagement / followers * 100) : 0;
 
@@ -1174,8 +1199,8 @@ async function fetchInstagramData(url, headers) {
             views,
             engagement,
             engagementRate: Math.round(postEngagementRate * 100) / 100,
-            caption: p.caption?.text?.substring(0, 150) || '',
-            timestamp: p.taken_at,
+            caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || '',
+            timestamp: getTimestamp(p),
             performanceVsAverage: avgLikes > 0 ? Math.round((likes / avgLikes) * 10) / 10 : 1
           };
         });
@@ -1213,10 +1238,11 @@ async function fetchInstagramData(url, headers) {
     recentPosts: posts.slice(0, 5).map(p => ({
       id: p.id || p.code,
       type: p.media_type === 2 ? 'video' : (p.media_type === 8 ? 'carousel' : 'image'),
-      likes: p.like_count || 0,
-      comments: p.comment_count || 0,
-      views: p.play_count || null,
-      caption: p.caption?.text?.substring(0, 150) || ''
+      likes: getLikes(p),
+      comments: getComments(p),
+      views: p.play_count || p.view_count || null,
+      timestamp: getTimestamp(p),
+      caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || ''
     })),
     _creditsUsed: 2
   };

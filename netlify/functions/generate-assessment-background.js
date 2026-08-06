@@ -678,11 +678,22 @@ async function fetchSEOptimerReport(websiteUrl) {
       // SEOptimer returns { id, input, output, created_at, completed_at }
       // The actual SEO data is in the output field
       const output = reportData.data.output || reportData.data;
-      console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 20));
+      console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 30).join(', '));
 
       // Log performance data structure if available
       if (output.performance) {
         console.log('[SEOptimer] Performance data:', JSON.stringify(output.performance));
+      } else {
+        // Look for alternative performance field names
+        console.log('[SEOptimer] No performance field. Looking for alternatives...');
+        const possiblePerfKeys = ['pagespeed', 'speed', 'scores', 'metrics', 'lighthouse', 'page_speed'];
+        possiblePerfKeys.forEach(key => {
+          if (output[key]) {
+            console.log(`[SEOptimer] Found ${key}:`, JSON.stringify(output[key]).substring(0, 500));
+          }
+        });
+        // Log first 2000 chars of full output to understand structure
+        console.log('[SEOptimer] Full output sample:', JSON.stringify(output).substring(0, 2000));
       }
 
       return output;
@@ -1746,6 +1757,11 @@ async function fetchInstagramData(url, headers) {
   let postingFrequency = 0;
   let bestContent = [];
 
+  // Helper functions to handle different field name variations from SociaVault
+  const getLikes = (p) => p.like_count || p.likes || p.likes_count || p.edge_liked_by?.count || 0;
+  const getComments = (p) => p.comment_count || p.comments || p.comments_count || p.edge_media_to_comment?.count || 0;
+  const getTimestamp = (p) => p.taken_at || p.timestamp || p.created_at || p.taken_at_timestamp || 0;
+
   try {
     const postsRes = await fetch(
       `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
@@ -1784,11 +1800,26 @@ async function fetchInstagramData(url, headers) {
       console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length);
       if (posts.length > 0) {
         console.log('[SociaVault] First post keys:', Object.keys(posts[0]).join(', '));
+        // Log first post details to see actual field names and values
+        const firstPost = posts[0];
+        console.log('[SociaVault] First post sample:', JSON.stringify({
+          like_count: firstPost.like_count,
+          likes: firstPost.likes,
+          likes_count: firstPost.likes_count,
+          comment_count: firstPost.comment_count,
+          comments: firstPost.comments,
+          comments_count: firstPost.comments_count,
+          taken_at: firstPost.taken_at,
+          timestamp: firstPost.timestamp,
+          created_at: firstPost.created_at
+        }));
       }
 
       if (posts.length > 0) {
-        const totalLikes = posts.reduce((sum, p) => sum + (p.like_count || 0), 0);
-        const totalComments = posts.reduce((sum, p) => sum + (p.comment_count || 0), 0);
+        const totalLikes = posts.reduce((sum, p) => sum + getLikes(p), 0);
+        const totalComments = posts.reduce((sum, p) => sum + getComments(p), 0);
+
+        console.log('[SociaVault] Calculated totals - likes:', totalLikes, 'comments:', totalComments);
         avgLikes = Math.round(totalLikes / posts.length);
         avgComments = Math.round(totalComments / posts.length);
 
@@ -1809,32 +1840,37 @@ async function fetchInstagramData(url, headers) {
         });
 
         // Calculate posting frequency (posts per week)
-        const timestamps = posts.map(p => p.taken_at).filter(t => t).sort((a, b) => b - a);
+        const timestamps = posts.map(p => getTimestamp(p)).filter(t => t).sort((a, b) => b - a);
+        console.log('[SociaVault] Timestamps found:', timestamps.length, 'First:', timestamps[0], 'Last:', timestamps[timestamps.length - 1]);
         if (timestamps.length >= 2) {
           const newest = timestamps[0];
           const oldest = timestamps[timestamps.length - 1];
           const daySpan = (newest - oldest) / (60 * 60 * 24);
+          console.log('[SociaVault] Day span:', daySpan);
           if (daySpan > 0) {
             postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10; // Posts per week
+            console.log('[SociaVault] Calculated posting frequency:', postingFrequency, 'posts/week');
           }
         }
 
         // Identify best performing content (top 3 by engagement rate)
         const postsWithEngagement = posts.map(p => {
-          const postEngagement = (p.like_count || 0) + (p.comment_count || 0);
+          const likes = getLikes(p);
+          const comments = getComments(p);
+          const postEngagement = likes + comments;
           const postEngagementRate = followers > 0 ? (postEngagement / followers * 100) : 0;
           return {
             id: p.id || p.code,
             type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
                   (p.media_type === 8 ? 'carousel' : 'image'),
-            likes: p.like_count || 0,
-            comments: p.comment_count || 0,
-            views: p.play_count || null,
+            likes: likes,
+            comments: comments,
+            views: p.play_count || p.view_count || null,
             engagement: postEngagement,
             engagementRate: Math.round(postEngagementRate * 100) / 100,
-            timestamp: p.taken_at,
-            caption: p.caption?.text?.substring(0, 150) || '',
-            performanceVsAverage: avgLikes > 0 ? Math.round((p.like_count || 0) / avgLikes * 100) / 100 : 1
+            timestamp: getTimestamp(p),
+            caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || '',
+            performanceVsAverage: avgLikes > 0 ? Math.round(likes / avgLikes * 100) / 100 : 1
           };
         });
 
@@ -1872,11 +1908,11 @@ async function fetchInstagramData(url, headers) {
       id: p.id || p.code,
       type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
             (p.media_type === 8 ? 'carousel' : 'image'),
-      likes: p.like_count || 0,
-      comments: p.comment_count || 0,
-      views: p.play_count || null,
-      timestamp: p.taken_at,
-      caption: p.caption?.text?.substring(0, 150) || ''
+      likes: getLikes(p),
+      comments: getComments(p),
+      views: p.play_count || p.view_count || null,
+      timestamp: getTimestamp(p),
+      caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || ''
     })),
     _creditsUsed: 2 // profile + posts
   };
