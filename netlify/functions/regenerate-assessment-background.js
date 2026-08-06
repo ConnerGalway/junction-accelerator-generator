@@ -2362,140 +2362,119 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
       // Attempt to repair common JSON issues
       let repairedJson = sanitizedJson;
 
-      // Step 1: Additional control character cleanup (belt and suspenders)
-      repairedJson = repairedJson.replace(/[\x00-\x1F\x7F]/g, (char) => {
-        if (char === '\n') return '\\n';
-        if (char === '\r') return '\\r';
-        if (char === '\t') return '\\t';
-        return ''; // Remove other control chars
-      });
-
-      // Step 2: Remove trailing commas before ] or }
+      // Step 1: Remove trailing commas before ] or }
       repairedJson = repairedJson.replace(/,(\s*[}\]])/g, '$1');
 
-      // Step 3: Fix unescaped quotes inside strings (common LLM issue)
-      repairedJson = repairedJson.replace(/"([^"]*?)(?<!\\)"([^"]*?)"/g, (match, p1, p2) => {
-        if (p2 && !p2.startsWith(':') && !p2.startsWith(',') && !p2.startsWith('}') && !p2.startsWith(']')) {
-          return `"${p1}\\"${p2}"`;
-        }
-        return match;
-      });
+      // Skip aggressive repair steps that might corrupt JSON
+      // Go straight to truncation-based repair
 
-      // Try first repair
+      console.log('[Claude] Attempting truncation-based repair...');
+
+      // Find the last complete JSON value and truncate there
+      // Strategy: Find last occurrence of complete patterns and truncate there
+      const truncationPoints = [];
+
+      // Pattern 1: End of string value followed by comma or closing bracket
+      let match;
+      const stringEndPattern = /",?\s*(?=[}\]])/g;
+      while ((match = stringEndPattern.exec(repairedJson)) !== null) {
+        if (match.index > repairedJson.length * 0.5) {
+          truncationPoints.push(match.index + match[0].length);
+        }
+      }
+
+      // Pattern 2: End of array with ]
+      const arrayEndPattern = /\],?\s*(?=[}\]])/g;
+      while ((match = arrayEndPattern.exec(repairedJson)) !== null) {
+        if (match.index > repairedJson.length * 0.5) {
+          truncationPoints.push(match.index + match[0].length);
+        }
+      }
+
+      // Pattern 3: End of object with }
+      const objEndPattern = /},?\s*(?=[}\]])/g;
+      while ((match = objEndPattern.exec(repairedJson)) !== null) {
+        if (match.index > repairedJson.length * 0.5) {
+          truncationPoints.push(match.index + match[0].length);
+        }
+      }
+
+      // Also check for simple patterns
+      const simplePatterns = ['"}', '"]', 'true}', 'false}', 'null}', 'true]', 'false]', 'null]'];
+      for (const pattern of simplePatterns) {
+        let idx = repairedJson.lastIndexOf(pattern);
+        if (idx > repairedJson.length * 0.5) {
+          truncationPoints.push(idx + pattern.length);
+        }
+      }
+
+      if (truncationPoints.length > 0) {
+        // Use the latest good truncation point
+        const bestPoint = Math.max(...truncationPoints);
+        console.log('[Claude] Truncating at position:', bestPoint, 'of', repairedJson.length);
+        repairedJson = repairedJson.substring(0, bestPoint);
+
+        // Remove any trailing commas
+        repairedJson = repairedJson.replace(/,\s*$/, '');
+      }
+
+      // Close any remaining open structures
+      const newOpenBraces = (repairedJson.match(/{/g) || []).length;
+      const newCloseBraces = (repairedJson.match(/}/g) || []).length;
+      const newOpenBrackets = (repairedJson.match(/\[/g) || []).length;
+      const newCloseBrackets = (repairedJson.match(/]/g) || []).length;
+
+      console.log('[Claude] Bracket balance - braces:', newOpenBraces, '/', newCloseBraces, 'brackets:', newOpenBrackets, '/', newCloseBrackets);
+
+      for (let i = 0; i < newOpenBrackets - newCloseBrackets; i++) repairedJson += ']';
+      for (let i = 0; i < newOpenBraces - newCloseBraces; i++) repairedJson += '}';
+
       try {
         parsed = JSON.parse(repairedJson);
-        console.log('[Claude] Repair successful (step 1-3)');
-      } catch (secondError) {
-        console.log('[Claude] Basic repair failed, trying truncation:', secondError.message);
+        console.log('[Claude] Repair successful (with truncation)');
+      } catch (repairError) {
+        console.error('[Claude] Truncation repair failed:', repairError.message);
 
-        // Step 4: Aggressive truncation for truncated responses
-        // Find the last complete JSON value (string ending with ", or number/bool/null)
-
-        // Strategy: Find last occurrence of complete patterns and truncate there
-        const truncationPoints = [];
-
-        // Pattern 1: End of string value followed by comma or closing bracket
-        let match;
-        const stringEndPattern = /",?\s*(?=[}\]])/g;
-        while ((match = stringEndPattern.exec(repairedJson)) !== null) {
-          if (match.index > repairedJson.length * 0.5) {
-            truncationPoints.push(match.index + match[0].length);
-          }
-        }
-
-        // Pattern 2: End of array with ]
-        const arrayEndPattern = /\],?\s*(?=[}\]])/g;
-        while ((match = arrayEndPattern.exec(repairedJson)) !== null) {
-          if (match.index > repairedJson.length * 0.5) {
-            truncationPoints.push(match.index + match[0].length);
-          }
-        }
-
-        // Pattern 3: End of object with }
-        const objEndPattern = /},?\s*(?=[}\]])/g;
-        while ((match = objEndPattern.exec(repairedJson)) !== null) {
-          if (match.index > repairedJson.length * 0.5) {
-            truncationPoints.push(match.index + match[0].length);
-          }
-        }
-
-        // Also check for simple patterns
-        const simplePatterns = ['"}', '"]', 'true}', 'false}', 'null}', 'true]', 'false]', 'null]'];
-        for (const pattern of simplePatterns) {
-          let idx = repairedJson.lastIndexOf(pattern);
-          if (idx > repairedJson.length * 0.5) {
-            truncationPoints.push(idx + pattern.length);
-          }
-        }
-
-        if (truncationPoints.length > 0) {
-          // Use the latest good truncation point
-          const bestPoint = Math.max(...truncationPoints);
-          console.log('[Claude] Truncating at position:', bestPoint, 'of', repairedJson.length);
-          repairedJson = repairedJson.substring(0, bestPoint);
-
-          // Remove any trailing commas
-          repairedJson = repairedJson.replace(/,\s*$/, '');
-        }
-
-        // Close any remaining open structures
-        const newOpenBraces = (repairedJson.match(/{/g) || []).length;
-        const newCloseBraces = (repairedJson.match(/}/g) || []).length;
-        const newOpenBrackets = (repairedJson.match(/\[/g) || []).length;
-        const newCloseBrackets = (repairedJson.match(/]/g) || []).length;
-
-        console.log('[Claude] Bracket balance - braces:', newOpenBraces, '/', newCloseBraces, 'brackets:', newOpenBrackets, '/', newCloseBrackets);
-
-        for (let i = 0; i < newOpenBrackets - newCloseBrackets; i++) repairedJson += ']';
-        for (let i = 0; i < newOpenBraces - newCloseBraces; i++) repairedJson += '}';
-
-        try {
-          parsed = JSON.parse(repairedJson);
-          console.log('[Claude] Repair successful (with truncation)');
-        } catch (repairError) {
-          console.error('[Claude] Truncation repair failed:', repairError.message);
-
-          // Last resort: try to find ANY valid JSON object in the response
-          console.log('[Claude] Attempting last-resort extraction...');
-          const lastResortMatch = repairedJson.match(/\{[\s\S]*?"executive_summary"[\s\S]*?"categories"[\s\S]*?\}/);
-          if (lastResortMatch) {
-            try {
-              // Try increasingly aggressive truncation
-              let candidate = lastResortMatch[0];
-              for (let cutback = 0; cutback < 5000; cutback += 500) {
-                const truncated = candidate.substring(0, candidate.length - cutback);
-                const lastGood = truncated.lastIndexOf('"}');
-                if (lastGood > truncated.length * 0.8) {
-                  let attempt = truncated.substring(0, lastGood + 2);
-                  // Balance and close
-                  const ob = (attempt.match(/{/g) || []).length;
-                  const cb = (attempt.match(/}/g) || []).length;
-                  const oq = (attempt.match(/\[/g) || []).length;
-                  const cq = (attempt.match(/]/g) || []).length;
-                  for (let i = 0; i < oq - cq; i++) attempt += ']';
-                  for (let i = 0; i < ob - cb; i++) attempt += '}';
-                  try {
-                    parsed = JSON.parse(attempt);
-                    console.log('[Claude] Last-resort extraction successful at cutback:', cutback);
-                    break;
-                  } catch (e) {
-                    // Continue trying
-                  }
+        // Last resort: try to find ANY valid JSON object in the response
+        console.log('[Claude] Attempting last-resort extraction...');
+        const lastResortMatch = repairedJson.match(/\{[\s\S]*?"executive_summary"[\s\S]*?"categories"[\s\S]*?\}/);
+        if (lastResortMatch) {
+          try {
+            // Try increasingly aggressive truncation
+            let candidate = lastResortMatch[0];
+            for (let cutback = 0; cutback < 5000; cutback += 500) {
+              const truncated = candidate.substring(0, candidate.length - cutback);
+              const lastGood = truncated.lastIndexOf('"}');
+              if (lastGood > truncated.length * 0.8) {
+                let attempt = truncated.substring(0, lastGood + 2);
+                // Balance and close
+                const ob = (attempt.match(/{/g) || []).length;
+                const cb = (attempt.match(/}/g) || []).length;
+                const oq = (attempt.match(/\[/g) || []).length;
+                const cq = (attempt.match(/]/g) || []).length;
+                for (let i = 0; i < oq - cq; i++) attempt += ']';
+                for (let i = 0; i < ob - cb; i++) attempt += '}';
+                try {
+                  parsed = JSON.parse(attempt);
+                  console.log('[Claude] Last-resort extraction successful at cutback:', cutback);
+                  break;
+                } catch (e) {
+                  // Continue trying
                 }
               }
-            } catch (e) {
-              // Fall through to error
             }
+          } catch (e) {
+            // Fall through to error
           }
+        }
 
-          if (!parsed) {
-            console.error('[Claude] All repair attempts failed:', repairError.message);
-            const errorPos = parseInt(firstError.message.match(/position (\d+)/)?.[1] || '0');
-            if (errorPos > 0) {
-              console.error('[Claude] Content around error:', jsonStr.substring(Math.max(0, errorPos - 100), Math.min(jsonStr.length, errorPos + 100)));
-            }
-            throw firstError;
+        if (!parsed) {
+          console.error('[Claude] All repair attempts failed:', repairError.message);
+          const errorPos = parseInt(firstError.message.match(/position (\d+)/)?.[1] || '0');
+          if (errorPos > 0) {
+            console.error('[Claude] Content around error:', jsonStr.substring(Math.max(0, errorPos - 100), Math.min(jsonStr.length, errorPos + 100)));
           }
+          throw firstError;
         }
       }
     }
