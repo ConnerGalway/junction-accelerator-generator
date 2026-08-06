@@ -2226,18 +2226,77 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     let jsonStr = jsonMatch[1] || jsonMatch[0];
     console.log('[Claude] Extracted JSON length:', jsonStr.length);
 
+    // PRE-SANITIZE: Fix control characters BEFORE first parse attempt
+    // This is critical because control characters inside JSON strings break parsing
+    const sanitizeJsonString = (str) => {
+      // Replace control characters inside string values only
+      // We need to be careful not to break the JSON structure
+      let result = '';
+      let inString = false;
+      let escaped = false;
+
+      for (let i = 0; i < str.length; i++) {
+        const char = str[i];
+        const charCode = char.charCodeAt(0);
+
+        if (escaped) {
+          result += char;
+          escaped = false;
+          continue;
+        }
+
+        if (char === '\\' && inString) {
+          result += char;
+          escaped = true;
+          continue;
+        }
+
+        if (char === '"') {
+          inString = !inString;
+          result += char;
+          continue;
+        }
+
+        // If inside a string and it's a control character, escape it
+        if (inString && charCode >= 0 && charCode <= 31) {
+          if (charCode === 10) result += '\\n';      // newline
+          else if (charCode === 13) result += '\\r'; // carriage return
+          else if (charCode === 9) result += '\\t';  // tab
+          else result += ''; // remove other control chars
+          continue;
+        }
+
+        result += char;
+      }
+
+      return result;
+    };
+
+    // Apply sanitization
+    const sanitizedJson = sanitizeJsonString(jsonStr);
+    console.log('[Claude] Sanitized JSON length:', sanitizedJson.length, '(original:', jsonStr.length, ')');
+
     // Try to parse, with repair attempts if needed
     let parsed;
     try {
-      parsed = JSON.parse(jsonStr);
+      parsed = JSON.parse(sanitizedJson);
+      console.log('[Claude] Parse successful after sanitization');
     } catch (firstError) {
       console.log('[Claude] First parse failed, attempting repair:', firstError.message);
-      console.log('[Claude] Error position info:', firstError.message.match(/position (\d+)/)?.[1] || 'unknown');
+      const errorPos = parseInt(firstError.message.match(/position (\d+)/)?.[1] || '0');
+      console.log('[Claude] Error position:', errorPos);
+      if (errorPos > 0) {
+        // Log characters around the error position
+        const start = Math.max(0, errorPos - 50);
+        const end = Math.min(sanitizedJson.length, errorPos + 50);
+        console.log('[Claude] Context around error:', JSON.stringify(sanitizedJson.substring(start, end)));
+        console.log('[Claude] Character at error pos:', JSON.stringify(sanitizedJson[errorPos]), 'code:', sanitizedJson.charCodeAt(errorPos));
+      }
 
       // Attempt to repair common JSON issues
-      let repairedJson = jsonStr;
+      let repairedJson = sanitizedJson;
 
-      // Step 1: Fix control characters that break JSON
+      // Step 1: Additional control character cleanup (belt and suspenders)
       repairedJson = repairedJson.replace(/[\x00-\x1F\x7F]/g, (char) => {
         if (char === '\n') return '\\n';
         if (char === '\r') return '\\r';
