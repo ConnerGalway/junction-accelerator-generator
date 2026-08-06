@@ -410,6 +410,10 @@ export async function handler(event, context) {
     const mergedCategories = {};
     for (const [key, scoringData] of Object.entries(scoringResult.categories)) {
       const claudeData = assessmentData.categories?.[key] || {};
+
+      // Generate metrics from scoring engine breakdown (more accurate than Claude)
+      const generatedMetrics = generateMetricsFromBreakdown(key, scoringData.breakdown);
+
       mergedCategories[key] = {
         // Deterministic scores from scoring engine (these are authoritative)
         score: scoringData.score,
@@ -422,7 +426,7 @@ export async function handler(event, context) {
         title: scoringData.title || claudeData.title,
         summary: claudeData.summary || 'Analysis pending.',
         findings: claudeData.findings || [],
-        metrics: claudeData.metrics || [],
+        metrics: generatedMetrics.length > 0 ? generatedMetrics : (claudeData.metrics || []),
         recommendations: claudeData.recommendations || [],
         data_sources: claudeData.data_sources || scoringData.dataSources || []
       };
@@ -3523,6 +3527,146 @@ ${JSON.stringify(seo, null, 2)}`;
   }
 
   return context;
+}
+
+/**
+ * Generate display-friendly metrics from scoring engine breakdown
+ * This ensures actual data values are shown, not Claude's potentially incorrect values
+ */
+function generateMetricsFromBreakdown(categoryKey, breakdown) {
+  if (!breakdown) return [];
+
+  const metrics = [];
+
+  switch (categoryKey) {
+    case 'social_media':
+      if (breakdown.total_followers) {
+        metrics.push({
+          label: 'Total Followers',
+          value: breakdown.total_followers.value !== null
+            ? breakdown.total_followers.value.toLocaleString()
+            : 'Not available',
+          status: getMetricStatus(breakdown.total_followers.score),
+          source: breakdown.total_followers.source
+        });
+      }
+      if (breakdown.engagement_rate) {
+        metrics.push({
+          label: 'Engagement Rate',
+          value: breakdown.engagement_rate.value !== null
+            ? `${breakdown.engagement_rate.value.toFixed(2)}%`
+            : 'Not available',
+          status: getMetricStatus(breakdown.engagement_rate.score),
+          source: breakdown.engagement_rate.source
+        });
+      }
+      if (breakdown.platform_presence) {
+        metrics.push({
+          label: 'Platforms Active',
+          value: breakdown.platform_presence.value !== null
+            ? `${breakdown.platform_presence.value} platforms`
+            : 'Not available',
+          status: getMetricStatus(breakdown.platform_presence.score),
+          source: breakdown.platform_presence.source
+        });
+      }
+      if (breakdown.posting_frequency) {
+        metrics.push({
+          label: 'Posting Frequency',
+          value: breakdown.posting_frequency.value !== null
+            ? `${breakdown.posting_frequency.value} posts/month`
+            : 'Not available',
+          status: getMetricStatus(breakdown.posting_frequency.score),
+          source: breakdown.posting_frequency.source
+        });
+      }
+      break;
+
+    case 'reviews_reputation':
+      if (breakdown.google_rating) {
+        metrics.push({
+          label: 'Google Rating',
+          value: breakdown.google_rating.value !== null
+            ? `${breakdown.google_rating.value.toFixed(1)} / 5.0`
+            : 'Not available',
+          status: getMetricStatus(breakdown.google_rating.score),
+          source: breakdown.google_rating.source
+        });
+      }
+      if (breakdown.review_volume) {
+        metrics.push({
+          label: 'Total Reviews',
+          value: breakdown.review_volume.value !== null
+            ? breakdown.review_volume.value.toLocaleString()
+            : 'Not available',
+          status: getMetricStatus(breakdown.review_volume.score),
+          source: breakdown.review_volume.source
+        });
+      }
+      break;
+
+    case 'website_technical':
+      if (breakdown.desktop_speed) {
+        metrics.push({
+          label: 'Desktop Speed',
+          value: breakdown.desktop_speed.value !== null
+            ? `${breakdown.desktop_speed.value}/100`
+            : 'Not available',
+          status: getMetricStatus(breakdown.desktop_speed.score),
+          source: breakdown.desktop_speed.source
+        });
+      }
+      if (breakdown.mobile_speed) {
+        metrics.push({
+          label: 'Mobile Speed',
+          value: breakdown.mobile_speed.value !== null
+            ? `${breakdown.mobile_speed.value}/100`
+            : 'Not available',
+          status: getMetricStatus(breakdown.mobile_speed.score),
+          source: breakdown.mobile_speed.source
+        });
+      }
+      if (breakdown.ssl_security) {
+        metrics.push({
+          label: 'SSL Security',
+          value: breakdown.ssl_security.value ? 'Secure' : 'Not Secure',
+          status: breakdown.ssl_security.value ? 'good' : 'critical',
+          source: breakdown.ssl_security.source
+        });
+      }
+      break;
+
+    case 'booking_conversion':
+      if (breakdown.booking_capability) {
+        metrics.push({
+          label: 'Online Booking',
+          value: breakdown.booking_capability.value ? 'Available' : 'Not Found',
+          status: breakdown.booking_capability.value ? 'good' : 'critical',
+          source: breakdown.booking_capability.source
+        });
+      }
+      if (breakdown.phone_visibility) {
+        metrics.push({
+          label: 'Phone Visible',
+          value: breakdown.phone_visibility.value ? 'Yes' : 'No',
+          status: breakdown.phone_visibility.value ? 'good' : 'warning',
+          source: breakdown.phone_visibility.source
+        });
+      }
+      break;
+
+    default:
+      // For other categories, return empty and let Claude's metrics be used
+      break;
+  }
+
+  return metrics;
+}
+
+function getMetricStatus(score) {
+  if (score >= 80) return 'good';
+  if (score >= 60) return 'warning';
+  return 'critical';
 }
 
 function getDefaultAssessment() {
