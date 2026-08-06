@@ -115,6 +115,7 @@ export async function handler(event, context) {
         business_name: businessName,
         website_url: websiteUrl,
         location: location || null,
+        google_place_id: googlePlaceId || null,
         social_instagram: social?.instagram || null,
         social_facebook: social?.facebook || null,
         social_tiktok: social?.tiktok || null,
