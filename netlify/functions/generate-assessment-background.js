@@ -662,14 +662,38 @@ async function fetchSEOptimerReport(websiteUrl) {
 
     const reportData = await getResponse.json();
 
+    // Debug: Log full response
+    console.log(`[SEOptimer] Poll ${attempt + 1} response:`, JSON.stringify({
+      success: reportData.success,
+      message: reportData.message,
+      hasData: !!reportData.data,
+      dataKeys: reportData.data ? Object.keys(reportData.data).slice(0, 10) : [],
+      error: reportData.error
+    }));
+
     // Check if report is ready
     if (reportData.success && reportData.data) {
+      console.log('[SEOptimer] Report ready with keys:', Object.keys(reportData.data).slice(0, 15));
       return reportData.data;
+    }
+
+    // Check for firewall/blocked errors
+    if (reportData.data?.blocked || reportData.message?.toLowerCase().includes('block') ||
+        reportData.message?.toLowerCase().includes('firewall') ||
+        reportData.data?.error?.toLowerCase()?.includes('block')) {
+      console.error('[SEOptimer] Website blocked by firewall:', reportData.message || reportData.data?.error);
+      throw new Error(`Website blocked by firewall: ${reportData.message || reportData.data?.error || 'Unknown blocking issue'}`);
     }
 
     // If not ready yet, continue polling
     if (reportData.success === false && reportData.message?.includes('processing')) {
       continue;
+    }
+
+    // Check for other errors
+    if (reportData.success === false && reportData.message) {
+      console.error('[SEOptimer] Report error:', reportData.message);
+      throw new Error(`SEOptimer error: ${reportData.message}`);
     }
   }
 
@@ -1665,12 +1689,28 @@ async function fetchInstagramData(url, headers) {
   }
 
   const profileData = await profileRes.json();
+
+  // Debug: Log the actual response structure
+  console.log('[SociaVault] Instagram profile response structure:', JSON.stringify({
+    success: profileData.success,
+    hasData: !!profileData.data,
+    dataKeys: profileData.data ? Object.keys(profileData.data) : [],
+    rawDataPreview: JSON.stringify(profileData.data).substring(0, 500)
+  }));
+
   if (!profileData.success) {
-    throw new Error('Instagram profile fetch unsuccessful');
+    throw new Error(`Instagram profile fetch unsuccessful: ${JSON.stringify(profileData)}`);
   }
 
-  const user = profileData.data?.data?.user || profileData.data?.user || {};
-  const followers = user.edge_followed_by?.count || user.follower_count || 0;
+  const user = profileData.data?.data?.user || profileData.data?.user || profileData.data || {};
+  const followers = user.edge_followed_by?.count || user.follower_count || user.followers || 0;
+
+  console.log('[SociaVault] Extracted user data:', JSON.stringify({
+    hasUser: !!user,
+    userKeys: Object.keys(user),
+    followers,
+    username: user.username
+  }));
 
   // Fetch recent posts for engagement calculation (up to 12 for better analysis)
   let posts = [];
@@ -1689,7 +1729,22 @@ async function fetchInstagramData(url, headers) {
 
     if (postsRes.ok) {
       const postsData = await postsRes.json();
-      posts = (postsData.data?.items || []).slice(0, 12); // Analyze up to 12 posts
+
+      // Debug: Log posts response structure
+      console.log('[SociaVault] Instagram posts response structure:', JSON.stringify({
+        success: postsData.success,
+        hasData: !!postsData.data,
+        dataKeys: postsData.data ? Object.keys(postsData.data) : [],
+        itemsCount: postsData.data?.items?.length || 0,
+        rawDataPreview: JSON.stringify(postsData.data).substring(0, 500)
+      }));
+
+      posts = (postsData.data?.items || postsData.data?.edges || postsData.items || []).slice(0, 12);
+
+      console.log('[SociaVault] Extracted posts count:', posts.length);
+      if (posts.length > 0) {
+        console.log('[SociaVault] First post structure:', JSON.stringify(Object.keys(posts[0])));
+      }
 
       if (posts.length > 0) {
         const totalLikes = posts.reduce((sum, p) => sum + (p.like_count || 0), 0);
