@@ -1099,8 +1099,18 @@ async function fetchInstagramData(url, headers) {
 
     if (postsRes.ok) {
       const postsData = await postsRes.json();
-      // Analyze up to 12 posts instead of 5
-      posts = (postsData.data?.items || []).slice(0, 12);
+
+      // Get items - could be array or object with numeric keys
+      let rawItems = postsData.data?.items || postsData.items || [];
+
+      // Convert object with numeric keys to array if needed
+      // SociaVault sometimes returns {"0":{...}, "1":{...}} instead of [{...}, {...}]
+      if (rawItems && typeof rawItems === 'object' && !Array.isArray(rawItems)) {
+        console.log('[SociaVault] Converting items object to array');
+        rawItems = Object.values(rawItems);
+      }
+
+      posts = (rawItems || []).slice(0, 12);
       console.log(`[SociaVault] Found ${posts.length} Instagram posts to analyze`);
 
       if (posts.length > 0) {

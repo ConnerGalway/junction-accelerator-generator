@@ -1690,27 +1690,31 @@ async function fetchInstagramData(url, headers) {
 
   const profileData = await profileRes.json();
 
-  // Debug: Log the actual response structure
-  console.log('[SociaVault] Instagram profile response structure:', JSON.stringify({
-    success: profileData.success,
-    hasData: !!profileData.data,
-    dataKeys: profileData.data ? Object.keys(profileData.data) : [],
-    rawDataPreview: JSON.stringify(profileData.data).substring(0, 500)
-  }));
+  // Debug: Log the FULL raw response
+  const rawResponse = JSON.stringify(profileData);
+  console.log('[SociaVault] RAW PROFILE RESPONSE (first 3000 chars):', rawResponse.substring(0, 3000));
 
   if (!profileData.success) {
     throw new Error(`Instagram profile fetch unsuccessful: ${JSON.stringify(profileData)}`);
   }
 
-  const user = profileData.data?.data?.user || profileData.data?.user || profileData.data || {};
-  const followers = user.edge_followed_by?.count || user.follower_count || user.followers || 0;
+  // Try ALL possible response structures from SociaVault
+  const user = profileData.data?.data?.user
+    || profileData.data?.user
+    || profileData.data?.graphql?.user
+    || profileData.user
+    || profileData.data
+    || {};
 
-  console.log('[SociaVault] Extracted user data:', JSON.stringify({
-    hasUser: !!user,
-    userKeys: Object.keys(user),
-    followers,
-    username: user.username
-  }));
+  // Try ALL possible follower field names
+  const followers = user.edge_followed_by?.count
+    || user.follower_count
+    || user.followers
+    || user.followers_count
+    || user.followerCount
+    || 0;
+
+  console.log('[SociaVault] EXTRACTED: followers=' + followers + ', username=' + (user.username || user.full_name || 'N/A'));
 
   // Fetch recent posts for engagement calculation (up to 12 for better analysis)
   let posts = [];
@@ -1730,20 +1734,35 @@ async function fetchInstagramData(url, headers) {
     if (postsRes.ok) {
       const postsData = await postsRes.json();
 
-      // Debug: Log posts response structure
-      console.log('[SociaVault] Instagram posts response structure:', JSON.stringify({
-        success: postsData.success,
-        hasData: !!postsData.data,
-        dataKeys: postsData.data ? Object.keys(postsData.data) : [],
-        itemsCount: postsData.data?.items?.length || 0,
-        rawDataPreview: JSON.stringify(postsData.data).substring(0, 500)
-      }));
+      // Debug: Log the FULL raw posts response
+      const rawPostsResponse = JSON.stringify(postsData);
+      console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
 
-      posts = (postsData.data?.items || postsData.data?.edges || postsData.items || []).slice(0, 12);
+      // Get items from response - could be array or object with numeric keys
+      let rawItems = postsData.data?.items
+        || postsData.data?.edges
+        || postsData.data?.edge_owner_to_timeline_media?.edges
+        || postsData.items
+        || postsData.posts
+        || [];
 
-      console.log('[SociaVault] Extracted posts count:', posts.length);
+      // Convert object with numeric keys to array if needed
+      // SociaVault sometimes returns {"0":{...}, "1":{...}} instead of [{...}, {...}]
+      if (rawItems && typeof rawItems === 'object' && !Array.isArray(rawItems)) {
+        console.log('[SociaVault] Converting items object to array');
+        rawItems = Object.values(rawItems);
+      }
+
+      posts = (rawItems || []).slice(0, 12);
+
+      // Handle edge/node structure if present
+      if (posts.length > 0 && posts[0]?.node) {
+        posts = posts.map(p => p.node);
+      }
+
+      console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length);
       if (posts.length > 0) {
-        console.log('[SociaVault] First post structure:', JSON.stringify(Object.keys(posts[0])));
+        console.log('[SociaVault] First post keys:', Object.keys(posts[0]).join(', '));
       }
 
       if (posts.length > 0) {
