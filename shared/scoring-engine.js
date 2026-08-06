@@ -82,6 +82,21 @@ function calculateAllScores(data) {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /**
+ * Convert letter grade to numeric score (0-100)
+ */
+function gradeToScore(grade) {
+  if (!grade || typeof grade !== 'string') return null;
+  const gradeMap = {
+    'A+': 97, 'A': 93, 'A-': 90,
+    'B+': 87, 'B': 83, 'B-': 80,
+    'C+': 77, 'C': 73, 'C-': 70,
+    'D+': 67, 'D': 63, 'D-': 60,
+    'F': 50
+  };
+  return gradeMap[grade.toUpperCase()] ?? null;
+}
+
+/**
  * Calculate Website & Technical Foundation score
  */
 function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
@@ -89,42 +104,48 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
   const breakdown = {};
   let hasData = false;
 
-  // SEOptimer has different response structures - try multiple paths
-  // The "scores" object contains performance, seo, usability, etc.
+  // SEOptimer has different response structures
+  // The "scores" object contains { performance: { grade: "B-" }, seo: { grade: "A-" }, ... }
   const scores = seoptData?.scores || {};
-  const performance = seoptData?.performance || scores?.performance || {};
 
-  // Desktop Speed - try multiple field names
-  const desktopScore = performance?.desktop_score
-    ?? performance?.desktop
-    ?? scores?.performance?.desktop
-    ?? scores?.desktop
+  // Performance score - try numeric first, then convert from letter grade
+  let performanceScore = seoptData?.performance?.desktop_score
+    ?? seoptData?.performance?.score
     ?? null;
 
-  if (seoptData && !seoptData._error && desktopScore != null) {
+  // If no numeric score, try to get letter grade and convert
+  if (performanceScore == null && scores?.performance?.grade) {
+    performanceScore = gradeToScore(scores.performance.grade);
+  }
+
+  // Desktop Speed - use performance score (SEOptimer combines desktop/mobile into one performance grade)
+  if (seoptData && !seoptData._error && performanceScore != null) {
     breakdown.desktop_speed = {
-      value: desktopScore,
-      score: Math.min(100, Math.max(0, desktopScore)),
-      source: 'SEOptimer'
+      value: performanceScore,
+      score: Math.min(100, Math.max(0, performanceScore)),
+      source: 'SEOptimer',
+      grade: scores?.performance?.grade || null
     };
     hasData = true;
   } else {
     breakdown.desktop_speed = { value: null, score: 50, source: 'unavailable' };
   }
 
-  // Mobile Speed - try multiple field names
-  const mobileScore = performance?.mobile_score
-    ?? performance?.mobile
-    ?? scores?.performance?.mobile
-    ?? scores?.mobile
-    ?? scores?.usability?.score  // usability often correlates with mobile
-    ?? null;
+  // Mobile Speed - use usability score if available, otherwise use performance
+  let mobileScore = seoptData?.performance?.mobile_score ?? null;
+  if (mobileScore == null && scores?.usability?.grade) {
+    mobileScore = gradeToScore(scores.usability.grade);
+  }
+  if (mobileScore == null) {
+    mobileScore = performanceScore; // Fall back to performance score
+  }
 
   if (seoptData && !seoptData._error && mobileScore != null) {
     breakdown.mobile_speed = {
       value: mobileScore,
       score: Math.min(100, Math.max(0, mobileScore)),
-      source: 'SEOptimer'
+      source: 'SEOptimer',
+      grade: scores?.usability?.grade || scores?.performance?.grade || null
     };
     hasData = true;
   } else {
