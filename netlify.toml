@@ -36,3 +36,15 @@
   for = "/admin/*"
   [headers.values]
     Cache-Control = "no-store, no-cache, must-revalidate"
+
+# Prevent CDN caching on client assessment pages (content updates frequently)
+[[headers]]
+  for = "/clients/*"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
+
+# Also apply to the rewritten URLs (/:slug/ → /clients/:slug/)
+[[headers]]
+  for = "/:slug/"
+  [headers.values]
+    Cache-Control = "no-cache, must-revalidate"
