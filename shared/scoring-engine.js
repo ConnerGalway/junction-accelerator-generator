@@ -8,15 +8,15 @@
  * @version 1.0.0
  */
 
-// ES Module import for bundlers (esbuild/Netlify)
-import {
+// CommonJS require for Node.js/Netlify bundling (esbuild handles this correctly)
+const {
   SCORING_ENGINE_VERSION,
   CATEGORY_WEIGHTS,
   MISSING_DATA_POLICY,
   RUBRICS,
   scoreToGrade,
   scoreFromThresholds
-} from './rubrics.js';
+} = require('./rubrics');
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MAIN SCORING FUNCTION
