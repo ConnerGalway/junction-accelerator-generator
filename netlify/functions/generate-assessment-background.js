@@ -2906,6 +2906,9 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
   // Process streaming response
   console.log('[Claude] Processing streaming response...');
   let content = '';
+  let buffer = ''; // Buffer for incomplete SSE lines
+  let eventCount = 0;
+  let deltaCount = 0;
   const reader = response.body.getReader();
   const decoder = new TextDecoder();
 
@@ -2914,27 +2917,68 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
     if (done) break;
 
     const chunk = decoder.decode(value, { stream: true });
-    const lines = chunk.split('\n');
+    buffer += chunk;
+
+    // Process complete lines only (ending with \n)
+    const lines = buffer.split('\n');
+    // Keep the last potentially incomplete line in buffer
+    buffer = lines.pop() || '';
 
     for (const line of lines) {
-      if (line.startsWith('data: ')) {
-        const data = line.slice(6);
-        if (data === '[DONE]') continue;
+      const trimmedLine = line.trim();
+      if (trimmedLine.startsWith('data: ')) {
+        eventCount++;
+        const data = trimmedLine.slice(6);
+        if (data === '[DONE]') {
+          console.log('[Claude] Received [DONE] signal');
+          continue;
+        }
 
         try {
           const event = JSON.parse(data);
           if (event.type === 'content_block_delta' && event.delta?.text) {
             content += event.delta.text;
+            deltaCount++;
+          } else if (event.type === 'error') {
+            console.error('[Claude] Stream error event:', event.error);
+          } else if (event.type === 'message_stop') {
+            console.log('[Claude] Received message_stop event');
           }
         } catch (e) {
-          // Skip invalid JSON lines
+          // Only log if it looks like it should be valid JSON
+          if (data.startsWith('{')) {
+            console.warn('[Claude] Failed to parse SSE data:', data.substring(0, 100));
+          }
         }
       }
     }
   }
 
-  console.log('[Claude] Streaming complete, content length:', content.length);
-  console.log('[Claude] First 500 chars:', content.substring(0, 500));
+  // Process any remaining buffer content
+  if (buffer.trim().startsWith('data: ')) {
+    const data = buffer.trim().slice(6);
+    if (data !== '[DONE]') {
+      try {
+        const event = JSON.parse(data);
+        if (event.type === 'content_block_delta' && event.delta?.text) {
+          content += event.delta.text;
+          deltaCount++;
+        }
+      } catch (e) {
+        console.warn('[Claude] Failed to parse final buffer:', buffer.substring(0, 100));
+      }
+    }
+  }
+
+  console.log('[Claude] Streaming complete - events:', eventCount, 'deltas:', deltaCount, 'content length:', content.length);
+
+  // Log first and last 200 chars of content for debugging
+  if (content.length > 0) {
+    console.log('[Claude] Content start:', content.substring(0, 200));
+    console.log('[Claude] Content end:', content.substring(content.length - 200));
+  } else {
+    console.error('[Claude] WARNING: No content received from streaming!');
+  }
 
   // Parse the response
   try {
