@@ -875,7 +875,7 @@ if (typeof module !== 'undefined' && module.exports) {
   };
 }
 
-// Browser / ES Modules
+// Browser / ES Modules (window global)
 if (typeof window !== 'undefined') {
   window.JunctionScoringEngine = {
     calculateAllScores,
@@ -887,3 +887,20 @@ if (typeof window !== 'undefined') {
     calculateLocalVisibilityScore
   };
 }
+
+// ES Module named exports (for bundlers like esbuild)
+export {
+  calculateAllScores,
+  calculateWebsiteTechnicalScore,
+  calculateReviewsReputationScore,
+  calculateBookingConversionScore,
+  calculateSocialMediaScore,
+  calculateGuestExperienceScore,
+  calculateLocalVisibilityScore,
+  calculateOverallScore,
+  applySubMetricWeights,
+  determineOverallConfidence,
+  buildMissingDataFlags,
+  calculatePhoneVisibilityScore,
+  calculateContentQualityScore
+};

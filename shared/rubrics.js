@@ -600,7 +600,7 @@ if (typeof module !== 'undefined' && module.exports) {
   };
 }
 
-// Browser / ES Modules
+// Browser / ES Modules (window global)
 if (typeof window !== 'undefined') {
   window.JunctionRubrics = {
     SCORING_ENGINE_VERSION,
@@ -616,3 +616,18 @@ if (typeof window !== 'undefined') {
     scoreFromThresholds
   };
 }
+
+// ES Module named exports (for bundlers like esbuild)
+export {
+  SCORING_ENGINE_VERSION,
+  CATEGORY_WEIGHTS,
+  GRADE_THRESHOLDS,
+  MISSING_DATA_POLICY,
+  RUBRICS,
+  scoreToGrade,
+  getCategoryKeys,
+  validateWeights,
+  getRubric,
+  getSubMetric,
+  scoreFromThresholds
+};
