@@ -498,7 +498,13 @@ async function fetchSEOptimerReport(websiteUrl) {
           // SEOptimer returns { id, input, output, created_at, completed_at }
           // The actual SEO data is in the output field
           const output = reportData.data.output || reportData.data;
-          console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 20));
+          console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 20).join(', '));
+
+          // Log the scores structure to understand available metrics
+          if (output.scores) {
+            console.log('[SEOptimer] Scores structure:', JSON.stringify(output.scores).substring(0, 1500));
+          }
+
           return output;
         }
       }
@@ -1155,6 +1161,12 @@ async function fetchInstagramData(url, headers) {
 
         if (followers > 0) {
           engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
+          console.log('[SociaVault] Engagement calculation:', {
+            avgLikes,
+            avgComments,
+            followers,
+            engagementRate
+          });
         }
 
         // Calculate content mix

@@ -680,20 +680,13 @@ async function fetchSEOptimerReport(websiteUrl) {
       const output = reportData.data.output || reportData.data;
       console.log('[SEOptimer] Output keys:', Object.keys(output).slice(0, 30).join(', '));
 
-      // Log performance data structure if available
-      if (output.performance) {
+      // Log the scores structure - this is where performance data lives
+      if (output.scores) {
+        console.log('[SEOptimer] Scores structure:', JSON.stringify(output.scores).substring(0, 1500));
+      } else if (output.performance) {
         console.log('[SEOptimer] Performance data:', JSON.stringify(output.performance));
       } else {
-        // Look for alternative performance field names
-        console.log('[SEOptimer] No performance field. Looking for alternatives...');
-        const possiblePerfKeys = ['pagespeed', 'speed', 'scores', 'metrics', 'lighthouse', 'page_speed'];
-        possiblePerfKeys.forEach(key => {
-          if (output[key]) {
-            console.log(`[SEOptimer] Found ${key}:`, JSON.stringify(output[key]).substring(0, 500));
-          }
-        });
-        // Log first 2000 chars of full output to understand structure
-        console.log('[SEOptimer] Full output sample:', JSON.stringify(output).substring(0, 2000));
+        console.log('[SEOptimer] No scores or performance field found');
       }
 
       return output;
@@ -1825,6 +1818,12 @@ async function fetchInstagramData(url, headers) {
 
         if (followers > 0) {
           engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
+          console.log('[SociaVault] Engagement calculation:', {
+            avgLikes,
+            avgComments,
+            followers,
+            engagementRate
+          });
         }
 
         // Calculate content mix

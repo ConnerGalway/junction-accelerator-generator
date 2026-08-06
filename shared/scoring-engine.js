@@ -89,11 +89,22 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
   const breakdown = {};
   let hasData = false;
 
-  // Desktop Speed
-  if (seoptData && !seoptData._error && seoptData.performance?.desktop_score != null) {
+  // SEOptimer has different response structures - try multiple paths
+  // The "scores" object contains performance, seo, usability, etc.
+  const scores = seoptData?.scores || {};
+  const performance = seoptData?.performance || scores?.performance || {};
+
+  // Desktop Speed - try multiple field names
+  const desktopScore = performance?.desktop_score
+    ?? performance?.desktop
+    ?? scores?.performance?.desktop
+    ?? scores?.desktop
+    ?? null;
+
+  if (seoptData && !seoptData._error && desktopScore != null) {
     breakdown.desktop_speed = {
-      value: seoptData.performance.desktop_score,
-      score: Math.min(100, Math.max(0, seoptData.performance.desktop_score)),
+      value: desktopScore,
+      score: Math.min(100, Math.max(0, desktopScore)),
       source: 'SEOptimer'
     };
     hasData = true;
@@ -101,11 +112,18 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
     breakdown.desktop_speed = { value: null, score: 50, source: 'unavailable' };
   }
 
-  // Mobile Speed
-  if (seoptData && !seoptData._error && seoptData.performance?.mobile_score != null) {
+  // Mobile Speed - try multiple field names
+  const mobileScore = performance?.mobile_score
+    ?? performance?.mobile
+    ?? scores?.performance?.mobile
+    ?? scores?.mobile
+    ?? scores?.usability?.score  // usability often correlates with mobile
+    ?? null;
+
+  if (seoptData && !seoptData._error && mobileScore != null) {
     breakdown.mobile_speed = {
-      value: seoptData.performance.mobile_score,
-      score: Math.min(100, Math.max(0, seoptData.performance.mobile_score)),
+      value: mobileScore,
+      score: Math.min(100, Math.max(0, mobileScore)),
       source: 'SEOptimer'
     };
     hasData = true;
