@@ -336,17 +336,35 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     if (DEBUG) console.log('[STEP 5b] Generating analysis with Claude');
     await updateProgress('Generating analysis with Claude (this may take 30-60 seconds)');
-    const assessmentData = await generateAssessmentWithClaude({
-      businessName,
-      websiteUrl,
-      location,
-      social,
-      seoptData,
-      googlePlacesData,
-      websiteAnalysis,
-      socialMediaData,
-      preCalculatedScores: scoringResult  // Pass pre-calculated scores
-    });
+
+    // Retry logic for Claude API calls (handles network timeouts)
+    let assessmentData;
+    const maxRetries = 2;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+      try {
+        console.log(`[Claude] Attempt ${attempt}/${maxRetries}`);
+        assessmentData = await generateAssessmentWithClaude({
+          businessName,
+          websiteUrl,
+          location,
+          social,
+          seoptData,
+          googlePlacesData,
+          websiteAnalysis,
+          socialMediaData,
+          preCalculatedScores: scoringResult  // Pass pre-calculated scores
+        });
+        break; // Success, exit retry loop
+      } catch (claudeError) {
+        console.error(`[Claude] Attempt ${attempt} failed:`, claudeError.message);
+        if (attempt === maxRetries) {
+          throw claudeError; // All retries exhausted
+        }
+        console.log('[Claude] Retrying in 5 seconds...');
+        await new Promise(r => setTimeout(r, 5000));
+        await updateProgress(`Claude analysis retry (attempt ${attempt + 1})`);
+      }
+    }
     await updateProgress('Claude analysis complete');
 
     // ─────────────────────────────────────────────────────────────────────────
