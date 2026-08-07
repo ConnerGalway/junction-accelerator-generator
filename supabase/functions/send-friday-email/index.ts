@@ -120,7 +120,7 @@ async function processClient(
 
   await sendEmail({
     recipients,
-    subject: `Your week ${currentWeek} recap — here's what you accomplished`,
+    subject: `Your week ${currentWeek} recap: here's what you accomplished`,
     html: buildHtml({ clientName, weekNumber: currentWeek, completedItems, incompleteItems, completionPercent, noProgress, deepLink: weekData.deep_link }),
     text: buildText({ clientName, weekNumber: currentWeek, completedItems, incompleteItems, completionPercent, noProgress, deepLink: weekData.deep_link })
   })
@@ -318,7 +318,7 @@ function buildHtml(p: EmailParams): string {
       <tr>
         <td style="background-color:#eef7f1;border-left:4px solid #aadab6;border-radius:0 8px 8px 0;padding:20px 24px;">
           <p style="font-family:Arial,sans-serif;font-size:15px;color:#11154b;line-height:1.65;margin:0;">
-            This week got busy — that happens. Your plan is still there waiting for you, exactly where you left it. Even one small action this weekend makes a difference.
+            This week got busy. That happens. Your plan is still there waiting for you, exactly where you left it. Even one small action this weekend makes a difference.
           </p>
         </td>
       </tr>
@@ -430,9 +430,9 @@ function buildText(p: EmailParams): string {
   if (p.noProgress) {
     return `${p.noProgress ? 'Hey there' : 'Nice work this week'}, ${p.clientName}.
 
-WEEK ${p.weekNumber} RECAP — JUNCTION eLEARNINGU ACCELERATOR
+WEEK ${p.weekNumber} RECAP: JUNCTION eLEARNINGU ACCELERATOR
 
-This week got busy — that happens. Your plan is still there waiting for you, exactly where you left it. Even one small action this weekend makes a difference.
+This week got busy. That happens. Your plan is still there waiting for you, exactly where you left it. Even one small action this weekend makes a difference.
 
 Jump back in: ${p.deepLink}
 
@@ -447,7 +447,7 @@ You're receiving this because you're enrolled in the Junction eLearningU Acceler
 
   return `Nice work this week, ${p.clientName}.
 
-WEEK ${p.weekNumber} RECAP — JUNCTION eLEARNINGU ACCELERATOR
+WEEK ${p.weekNumber} RECAP: JUNCTION eLEARNINGU ACCELERATOR
 
 ${p.completionPercent}% complete this week
 

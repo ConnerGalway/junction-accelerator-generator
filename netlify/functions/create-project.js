@@ -496,7 +496,7 @@ function generatePlanJson(clientName, slug, coachEmail, planData) {
     weeks: planData.roadmap.weeks.map(week => ({
       week: week.number,
       month: Math.ceil(week.number / 4),
-      title: `Week ${week.number} — ${week.title}`,
+      title: `Week ${week.number}: ${week.title}`,
       actions: week.actions.map(stripMarkdown),
       checklist: week.checklist.map(stripMarkdown),
       deep_link: `https://accelerator.elearningu.com/${slug}/#week-${week.number}`

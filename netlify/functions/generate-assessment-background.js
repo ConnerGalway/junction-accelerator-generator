@@ -4003,7 +4003,7 @@ function generateBasicAssessmentHtml(data) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${businessName} — Digital Marketing Assessment</title>
+  <title>${businessName}: Digital Marketing Assessment</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
@@ -4027,7 +4027,7 @@ function generateBasicAssessmentHtml(data) {
 <body data-client-slug="${slug}">
   <header class="header">
     <h1>${businessName}</h1>
-    <p>Digital Marketing Assessment — ${assessmentDate}</p>
+    <p>Digital Marketing Assessment: ${assessmentDate}</p>
   </header>
   <main class="main">
     <div class="grade-card">

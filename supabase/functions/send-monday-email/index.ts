@@ -98,7 +98,7 @@ async function processClient(
 
   await sendEmail({
     recipients,
-    subject: `Your week ${currentWeek} plan is ready — ${clientName}`,
+    subject: `Your week ${currentWeek} plan is ready: ${clientName}`,
     html: buildHtml({ clientName, weekNumber: currentWeek, goal: plan.goal, weekData, stat }),
     text: buildText({ clientName, weekNumber: currentWeek, goal: plan.goal, weekData, stat })
   })
@@ -349,11 +349,11 @@ function buildStatBlock(stat: { content: string; source: string; tone: string })
 function buildText(p: EmailParams): string {
   const actions   = p.weekData.actions.map((a, i) => `  ${i + 1}. ${a}`).join('\n')
   const checklist = p.weekData.checklist.map(c => `  ☐ ${c}`).join('\n')
-  const stat      = p.stat ? `\n---\nThis week in tourism:\n"${p.stat.content}"\n— ${p.stat.source}\n` : ''
+  const stat      = p.stat ? `\n---\nThis week in tourism:\n"${p.stat.content}"\n- ${p.stat.source}\n` : ''
 
   return `Good morning, ${p.clientName}.
 
-WEEK ${p.weekNumber} OF 12 — JUNCTION eLEARNINGU ACCELERATOR
+WEEK ${p.weekNumber} OF 12: JUNCTION eLEARNINGU ACCELERATOR
 
 YOUR 90-DAY GOAL
 ${p.goal}
