@@ -1013,91 +1013,148 @@ async function fetchGooglePlacesByPlaceId(placeId) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function analyzeWebsiteContent(websiteUrl) {
-  console.log('[Website Analysis] Fetching:', websiteUrl);
+  console.log('[Website Analysis] Starting multi-page analysis:', websiteUrl);
 
   try {
-    // Fetch the website HTML
-    const response = await fetch(websiteUrl, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (compatible; TourismAssessmentBot/1.0)',
-        'Accept': 'text/html,application/xhtml+xml'
-      },
-      timeout: 15000
+    // Crawl the website (homepage + linked pages)
+    const pages = await crawlWebsite(websiteUrl, {
+      maxPages: 15,    // Reasonable limit for serverless
+      delayMs: 300,    // 300ms between requests
+      timeout: 10000   // 10s per page
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
+    if (pages.length === 0) {
+      throw new Error('No pages could be fetched');
     }
 
-    const html = await response.text();
-    const htmlLower = html.toLowerCase();
-
-    // Extract key tourism-relevant content signals (with quality tiers)
-    const phoneQuality = detectPhoneQuality(html);
-    const pricingQuality = detectPricingQuality(html, htmlLower);
-    const ctaQuality = detectCTAQuality(html, htmlLower);
-    const hoursQuality = detectHoursQuality(html, htmlLower);
-
-    // Detect booking platforms first
-    const bookingPlatforms = detectBookingPlatforms(htmlLower);
-    // hasBookingLink is true if we detect booking keywords OR if we find booking platforms
-    const hasBookingKeywords = detectBookingPresence(html, htmlLower);
-    const hasBookingLink = hasBookingKeywords || bookingPlatforms.length > 0;
-
-    const analysis = {
-      // Booking/Reservation presence (with quality tier)
-      hasBookingLink: hasBookingLink,
-      bookingPlatforms: bookingPlatforms,
-      ctaQuality: ctaQuality, // Enhanced CTA analysis
-
-      // Contact information (with quality tiers)
-      hasPhone: detectPhone(html),
-      phoneQuality: phoneQuality, // Enhanced phone analysis
-      hasEmail: detectEmail(html),
-      hasAddress: detectAddress(htmlLower),
-
-      // Hours/Availability (with quality tier)
-      hasHours: detectHours(htmlLower),
-      hoursQuality: hoursQuality, // Enhanced hours analysis
-
-      // Pricing signals (with transparency tier)
-      hasPricing: detectPricing(html, htmlLower),
-      pricingQuality: pricingQuality, // Enhanced pricing analysis
-
-      // Visual content
-      imageCount: countImages(html),
-      hasVideoEmbed: detectVideo(htmlLower),
-
-      // Navigation/UX signals
-      hasMobileViewport: html.includes('viewport'),
+    // Initialize aggregated results
+    const aggregated = {
+      hasBookingLink: false,
+      bookingPlatforms: [],
+      ctaQuality: { score: 0, tier: 'none', details: {} },
+      hasPhone: false,
+      phoneQuality: { score: 0, tier: 'none' },
+      hasEmail: false,
+      hasAddress: false,
+      hasHours: false,
+      hoursQuality: { score: 0, tier: 'none' },
+      hasPricing: false,
+      pricingQuality: { score: 0, transparency: 'none' },
+      imageCount: 0,
+      hasVideoEmbed: false,
+      hasMobileViewport: false,
       hasSSL: websiteUrl.startsWith('https'),
-
-      // Tourism-specific content
-      hasDirections: detectDirections(htmlLower),
-      hasParking: htmlLower.includes('parking'),
-      hasAccessibility: detectAccessibility(htmlLower),
-      hasMultiLanguage: detectMultiLanguage(html),
-
-      // Social links on site
-      socialLinksOnSite: detectSocialLinks(htmlLower),
-
-      // Page size (affects mobile experience)
-      pageSizeKB: Math.round(html.length / 1024),
-
-      _source: 'direct_scrape',
-      _timestamp: new Date().toISOString()
+      hasDirections: false,
+      hasParking: false,
+      hasAccessibility: false,
+      hasMultiLanguage: false,
+      socialLinksOnSite: [],
+      pageSizeKB: 0,
+      _pagesAnalyzed: pages.length,
+      _pagesWithContent: {}
     };
 
+    // Analyze each page and aggregate results
+    for (const { url, html } of pages) {
+      const htmlLower = html.toLowerCase();
+
+      // Booking - aggregate platforms and check for booking presence
+      const bookingPlatforms = detectBookingPlatforms(htmlLower);
+      if (bookingPlatforms.length > 0) {
+        aggregated.bookingPlatforms.push(...bookingPlatforms);
+        aggregated.hasBookingLink = true;
+      }
+      if (detectBookingPresence(html, htmlLower)) {
+        aggregated.hasBookingLink = true;
+      }
+
+      // CTA - take the best score
+      const ctaQuality = detectCTAQuality(html, htmlLower);
+      if (ctaQuality.score > aggregated.ctaQuality.score) {
+        aggregated.ctaQuality = ctaQuality;
+      }
+
+      // Contact info - mark true if found on ANY page
+      if (detectPhone(html)) aggregated.hasPhone = true;
+      const phoneQ = detectPhoneQuality(html);
+      if (phoneQ.score > aggregated.phoneQuality.score) {
+        aggregated.phoneQuality = phoneQ;
+      }
+      if (detectEmail(html)) aggregated.hasEmail = true;
+      if (detectAddress(htmlLower)) aggregated.hasAddress = true;
+
+      // Hours - mark true if found on ANY page
+      if (detectHours(htmlLower)) aggregated.hasHours = true;
+      const hoursQ = detectHoursQuality(html, htmlLower);
+      if (hoursQ.score > aggregated.hoursQuality.score) {
+        aggregated.hoursQuality = hoursQ;
+      }
+
+      // Pricing - mark true if found on ANY page
+      if (detectPricing(html, htmlLower)) aggregated.hasPricing = true;
+      const pricingQ = detectPricingQuality(html, htmlLower);
+      if (pricingQ.score > aggregated.pricingQuality.score) {
+        aggregated.pricingQuality = pricingQ;
+      }
+
+      // Visual content - sum images across all pages
+      aggregated.imageCount += countImages(html);
+      if (detectVideo(htmlLower)) aggregated.hasVideoEmbed = true;
+
+      // Technical - check any page
+      if (html.includes('viewport')) aggregated.hasMobileViewport = true;
+
+      // Tourism-specific - TRACK WHICH PAGE HAS THE CONTENT
+      if (detectDirections(htmlLower)) {
+        aggregated.hasDirections = true;
+        if (!aggregated._pagesWithContent.directions) {
+          aggregated._pagesWithContent.directions = url;
+        }
+      }
+      if (htmlLower.includes('parking')) {
+        aggregated.hasParking = true;
+        if (!aggregated._pagesWithContent.parking) {
+          aggregated._pagesWithContent.parking = url;
+        }
+      }
+      if (detectAccessibility(htmlLower)) {
+        aggregated.hasAccessibility = true;
+        if (!aggregated._pagesWithContent.accessibility) {
+          aggregated._pagesWithContent.accessibility = url;
+        }
+      }
+      if (detectMultiLanguage(html)) {
+        aggregated.hasMultiLanguage = true;
+      }
+
+      // Social links - aggregate from all pages
+      const socialLinks = detectSocialLinks(htmlLower);
+      aggregated.socialLinksOnSite.push(...socialLinks);
+
+      // Page size - sum then average
+      aggregated.pageSizeKB += Math.round(html.length / 1024);
+    }
+
+    // Deduplicate arrays
+    aggregated.bookingPlatforms = [...new Set(aggregated.bookingPlatforms)];
+    aggregated.socialLinksOnSite = [...new Set(aggregated.socialLinksOnSite)];
+
+    // Average page size
+    aggregated.pageSizeKB = Math.round(aggregated.pageSizeKB / pages.length);
+
+    aggregated._source = 'multi_page_crawl';
+    aggregated._timestamp = new Date().toISOString();
+
     console.log('[Website Analysis] Complete:', {
-      hasBooking: analysis.hasBookingLink,
-      ctaScore: analysis.ctaQuality.score,
-      phoneScore: analysis.phoneQuality.score,
-      hoursScore: analysis.hoursQuality.score,
-      pricingTransparency: analysis.pricingQuality.transparency,
-      imageCount: analysis.imageCount
+      pagesAnalyzed: aggregated._pagesAnalyzed,
+      hasBooking: aggregated.hasBookingLink,
+      hasDirections: aggregated.hasDirections,
+      hasParking: aggregated.hasParking,
+      hasAccessibility: aggregated.hasAccessibility,
+      pagesWithContent: aggregated._pagesWithContent
     });
 
-    return analysis;
+    return aggregated;
 
   } catch (err) {
     console.error('[Website Analysis] Error:', err.message);
@@ -1533,6 +1590,141 @@ function detectSocialLinks(htmlLower) {
   if (htmlLower.includes('linkedin.com')) socials.push('LinkedIn');
   if (htmlLower.includes('pinterest.com')) socials.push('Pinterest');
   return socials;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// MULTI-PAGE WEBSITE CRAWLER
+// Crawls multiple pages to find content that may not be on the homepage
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Extract internal links from HTML content
+ * Only returns links to the same host (no external links)
+ */
+function extractInternalLinks(html, baseUrl) {
+  const links = new Set();
+  const baseHost = new URL(baseUrl).host;
+
+  // Match href attributes
+  const hrefRegex = /href=["']([^"']+)["']/gi;
+  let match;
+
+  while ((match = hrefRegex.exec(html)) !== null) {
+    try {
+      const href = match[1];
+      // Skip anchors, javascript, mailto, tel
+      if (href.startsWith('#') || href.startsWith('javascript:') ||
+          href.startsWith('mailto:') || href.startsWith('tel:')) {
+        continue;
+      }
+
+      // Resolve relative URLs
+      const fullUrl = new URL(href, baseUrl);
+
+      // Only include same-host links
+      if (fullUrl.host === baseHost) {
+        // Normalize: remove trailing slash, fragment
+        let normalized = fullUrl.origin + fullUrl.pathname;
+        if (normalized.endsWith('/') && normalized.length > 1) {
+          normalized = normalized.slice(0, -1);
+        }
+        links.add(normalized);
+      }
+    } catch (e) {
+      // Invalid URL, skip
+    }
+  }
+
+  return Array.from(links);
+}
+
+/**
+ * Fetch a single page with timeout and content-type validation
+ */
+async function fetchPage(url, timeout = 10000) {
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    const response = await fetch(url, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (compatible; TourismAssessmentBot/1.0)',
+        'Accept': 'text/html,application/xhtml+xml'
+      },
+      signal: controller.signal
+    });
+
+    clearTimeout(timeoutId);
+
+    if (!response.ok) return null;
+
+    const contentType = response.headers.get('content-type') || '';
+    if (!contentType.includes('text/html')) return null;
+
+    return await response.text();
+  } catch (err) {
+    console.log(`[Crawler] Failed to fetch ${url}: ${err.message}`);
+    return null;
+  }
+}
+
+/**
+ * Crawl a website starting from the homepage
+ * Extracts links from homepage and visits important pages first
+ */
+async function crawlWebsite(websiteUrl, options = {}) {
+  const {
+    maxPages = 15,        // Max pages to crawl (keeps within serverless limits)
+    delayMs = 300,        // Delay between requests (rate limiting)
+    timeout = 10000       // Per-page timeout
+  } = options;
+
+  console.log(`[Crawler] Starting crawl of ${websiteUrl}, max ${maxPages} pages`);
+
+  const visited = new Set();
+  const toVisit = [websiteUrl];
+  const pages = [];
+
+  while (toVisit.length > 0 && pages.length < maxPages) {
+    const url = toVisit.shift();
+
+    // Skip if already visited
+    const normalizedUrl = url.replace(/\/$/, '');
+    if (visited.has(normalizedUrl)) continue;
+    visited.add(normalizedUrl);
+
+    // Fetch the page
+    const html = await fetchPage(url, timeout);
+    if (!html) continue;
+
+    pages.push({ url, html });
+    console.log(`[Crawler] Fetched ${url} (${pages.length}/${maxPages})`);
+
+    // Extract links from homepage only (to avoid going too deep)
+    if (pages.length === 1) {
+      const links = extractInternalLinks(html, websiteUrl);
+      // Prioritize important-looking pages for tourism businesses
+      const prioritized = links.sort((a, b) => {
+        const priority = ['location', 'contact', 'about', 'access', 'directions',
+                         'parking', 'hours', 'visit', 'info', 'faq', 'getting-here',
+                         'accessibility', 'how-to-get', 'find-us', 'map'];
+        const aLower = a.toLowerCase();
+        const bLower = b.toLowerCase();
+        const aScore = priority.findIndex(p => aLower.includes(p));
+        const bScore = priority.findIndex(p => bLower.includes(p));
+        return (aScore === -1 ? 999 : aScore) - (bScore === -1 ? 999 : bScore);
+      });
+      toVisit.push(...prioritized);
+    }
+
+    // Rate limiting - be respectful to target websites
+    if (toVisit.length > 0 && pages.length < maxPages) {
+      await new Promise(r => setTimeout(r, delayMs));
+    }
+  }
+
+  console.log(`[Crawler] Completed. Fetched ${pages.length} pages from ${visited.size} attempted.`);
+  return pages;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
