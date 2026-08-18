@@ -2583,8 +2583,8 @@ nav { flex: 1; padding: 12px 0; }
           <circle cx="90" cy="90" r="75" fill="none" stroke="#aadab6" stroke-width="14" stroke-linecap="round" stroke-dasharray="471.2" stroke-dashoffset="137" id="dashboardRing"></circle>
         </svg>
         <div class="dashboard__ring-center">
-          <div class="dashboard__ring-score" id="dashboardScore">71</div>
-          <div class="dashboard__ring-grade">Grade C</div>
+          <div class="dashboard__ring-score" id="dashboardScore">--</div>
+          <div class="dashboard__ring-grade" id="dashboardGrade">Grade --</div>
         </div>
       </div>
       <div class="dashboard__progress-text">
@@ -2635,7 +2635,7 @@ nav { flex: 1; padding: 12px 0; }
         </div>
         <div class="dashboard__next-step-meta">
           <div class="dashboard__next-step-meta-label">Overall Grade</div>
-          <div class="dashboard__next-step-meta-value">C (71/100)</div>
+          <div class="dashboard__next-step-meta-value" id="dashboardSidebarGrade">-- (--/100)</div>
         </div>
         <div class="dashboard__plan-coming">
           <div class="dashboard__plan-coming-title">90-Day Plan Coming Soon</div>
@@ -2909,6 +2909,19 @@ function renderAssessment() {
 
   const data = window.ASSESSMENT_DATA;
 
+  // Update overall score and grade from data (single source of truth)
+  if (data.overall) {
+    const overallScoreEl = document.getElementById('overallScore');
+    const overallGradeEl = document.getElementById('overallGrade');
+    const coverScoreEl = document.getElementById('coverScore');
+    const coverGradeEl = document.getElementById('coverGrade');
+
+    if (overallScoreEl) overallScoreEl.textContent = data.overall.score;
+    if (overallGradeEl) overallGradeEl.textContent = data.overall.grade;
+    if (coverScoreEl) coverScoreEl.textContent = data.overall.score;
+    if (coverGradeEl) coverGradeEl.textContent = data.overall.grade;
+  }
+
   // Render Executive Summary
   renderExecutiveSummary(data.executive_summary);
 
@@ -3177,10 +3190,15 @@ function renderDashboard() {
 
   const data = window.ASSESSMENT_DATA;
 
-  // Update score in ring
-  const scoreEl = document.getElementById('dashboardScore');
-  if (scoreEl && data.overall) {
-    scoreEl.textContent = data.overall.score;
+  // Update all score/grade displays from data (single source of truth)
+  if (data.overall) {
+    const scoreEl = document.getElementById('dashboardScore');
+    const gradeEl = document.getElementById('dashboardGrade');
+    const sidebarGradeEl = document.getElementById('dashboardSidebarGrade');
+
+    if (scoreEl) scoreEl.textContent = data.overall.score;
+    if (gradeEl) gradeEl.textContent = 'Grade ' + data.overall.grade;
+    if (sidebarGradeEl) sidebarGradeEl.textContent = data.overall.grade + ' (' + data.overall.score + '/100)';
   }
 
   // Render Quick Wins
