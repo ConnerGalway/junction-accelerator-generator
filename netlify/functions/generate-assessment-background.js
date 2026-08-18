@@ -488,8 +488,8 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 6B. SEED MILESTONE ASSESSMENTS
-    // Creates initial + pending 30/60/90 day milestone records
+    // 6B. SEED INITIAL MILESTONE
+    // Creates the initial milestone record (30/60/90 are seeded when plan.md is uploaded)
     // ─────────────────────────────────────────────────────────────────────────
     try {
       // Get notification recipients (coach + PSMs)
@@ -503,20 +503,14 @@ export async function handler(event, context) {
       const notificationEmails = recipients?.map(r => r.email) || [user.email];
       const today = new Date().toISOString().split('T')[0];
 
-      // Calculate milestone due dates (from today as Day 0)
-      const addDays = (dateStr, days) => {
-        const date = new Date(dateStr);
-        date.setDate(date.getDate() + days);
-        return date.toISOString().split('T')[0];
-      };
-
       const categoryScoresJson = Object.fromEntries(
         Object.entries(scoringResult.categories).map(([key, cat]) => [key, { score: cat.score, grade: cat.grade }])
       );
 
-      // Insert all milestones (initial as completed, others as pending)
-      const milestones = [
-        {
+      // Insert only the initial milestone (30/60/90 are created when plan.md is uploaded)
+      const { error: milestoneError } = await supabaseAdmin
+        .from('milestone_assessments')
+        .upsert({
           client_slug: slug,
           milestone_type: 'initial',
           due_date: today,
@@ -529,41 +523,15 @@ export async function handler(event, context) {
           category_deltas: null,
           assessment_data: finalAssessmentData,
           notification_recipients: notificationEmails
-        },
-        {
-          client_slug: slug,
-          milestone_type: '30-day',
-          due_date: addDays(today, 30),
-          status: 'pending',
-          notification_recipients: notificationEmails
-        },
-        {
-          client_slug: slug,
-          milestone_type: '60-day',
-          due_date: addDays(today, 60),
-          status: 'pending',
-          notification_recipients: notificationEmails
-        },
-        {
-          client_slug: slug,
-          milestone_type: '90-day',
-          due_date: addDays(today, 90),
-          status: 'pending',
-          notification_recipients: notificationEmails
-        }
-      ];
-
-      const { error: milestoneError } = await supabaseAdmin
-        .from('milestone_assessments')
-        .upsert(milestones, { onConflict: 'client_slug,milestone_type' });
+        }, { onConflict: 'client_slug,milestone_type' });
 
       if (milestoneError) {
-        console.warn('[STEP 6B] Failed to seed milestones (non-fatal):', milestoneError.message);
+        console.warn('[STEP 6B] Failed to seed initial milestone (non-fatal):', milestoneError.message);
       } else {
-        if (DEBUG) console.log('[STEP 6B] Milestone assessments seeded successfully');
+        if (DEBUG) console.log('[STEP 6B] Initial milestone seeded successfully');
       }
     } catch (milestoneErr) {
-      console.warn('[STEP 6B] Failed to seed milestones (non-fatal):', milestoneErr.message);
+      console.warn('[STEP 6B] Failed to seed initial milestone (non-fatal):', milestoneErr.message);
     }
 
     // NOTE: Assessment is now complete in database. GitHub commit is just for publishing

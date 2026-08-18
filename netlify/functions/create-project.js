@@ -195,6 +195,65 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 8B. SEED 30/60/90 DAY MILESTONES
+    // Day 0 = cohortStartDate (when plan.md is uploaded)
+    // ─────────────────────────────────────────────────────────────────────────
+    try {
+      // Get notification recipients (coach + PSMs)
+      const { data: recipients } = await supabaseAdmin
+        .from('user_plans')
+        .select('email, role')
+        .or(`client_slug.eq.${slug},client_slug.eq.*`)
+        .in('role', ['coach', 'psm'])
+        .eq('active', true);
+
+      const notificationEmails = recipients?.map(r => r.email) || [coachEmail];
+
+      // Calculate milestone due dates from cohort start date
+      const addDays = (dateStr, days) => {
+        const date = new Date(dateStr);
+        date.setDate(date.getDate() + days);
+        return date.toISOString().split('T')[0];
+      };
+
+      const milestones = [
+        {
+          client_slug: slug,
+          milestone_type: '30-day',
+          due_date: addDays(cohortStartDate, 30),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        },
+        {
+          client_slug: slug,
+          milestone_type: '60-day',
+          due_date: addDays(cohortStartDate, 60),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        },
+        {
+          client_slug: slug,
+          milestone_type: '90-day',
+          due_date: addDays(cohortStartDate, 90),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        }
+      ];
+
+      const { error: milestoneError } = await supabaseAdmin
+        .from('milestone_assessments')
+        .upsert(milestones, { onConflict: 'client_slug,milestone_type' });
+
+      if (milestoneError) {
+        console.warn('Failed to seed milestones (non-fatal):', milestoneError.message);
+      } else {
+        console.log(`Seeded 30/60/90 day milestones for ${slug}`);
+      }
+    } catch (milestoneErr) {
+      console.warn('Failed to seed milestones (non-fatal):', milestoneErr.message);
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 9. SUCCESS
     // ─────────────────────────────────────────────────────────────────────────
     return {
