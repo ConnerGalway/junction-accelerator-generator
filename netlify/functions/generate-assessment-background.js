@@ -487,6 +487,85 @@ export async function handler(event, context) {
       console.warn('[STEP 6] Failed to save score history (non-fatal):', historyError.message);
     }
 
+    // ─────────────────────────────────────────────────────────────────────────
+    // 6B. SEED MILESTONE ASSESSMENTS
+    // Creates initial + pending 30/60/90 day milestone records
+    // ─────────────────────────────────────────────────────────────────────────
+    try {
+      // Get notification recipients (coach + PSMs)
+      const { data: recipients } = await supabaseAdmin
+        .from('user_plans')
+        .select('email, role')
+        .or(`client_slug.eq.${slug},client_slug.eq.*`)
+        .in('role', ['coach', 'psm'])
+        .eq('active', true);
+
+      const notificationEmails = recipients?.map(r => r.email) || [user.email];
+      const today = new Date().toISOString().split('T')[0];
+
+      // Calculate milestone due dates (from today as Day 0)
+      const addDays = (dateStr, days) => {
+        const date = new Date(dateStr);
+        date.setDate(date.getDate() + days);
+        return date.toISOString().split('T')[0];
+      };
+
+      const categoryScoresJson = Object.fromEntries(
+        Object.entries(scoringResult.categories).map(([key, cat]) => [key, { score: cat.score, grade: cat.grade }])
+      );
+
+      // Insert all milestones (initial as completed, others as pending)
+      const milestones = [
+        {
+          client_slug: slug,
+          milestone_type: 'initial',
+          due_date: today,
+          status: 'completed',
+          generated_at: new Date().toISOString(),
+          overall_score: scoringResult.overall.score,
+          overall_grade: scoringResult.overall.grade,
+          category_scores: categoryScoresJson,
+          score_delta: 0,
+          category_deltas: null,
+          assessment_data: finalAssessmentData,
+          notification_recipients: notificationEmails
+        },
+        {
+          client_slug: slug,
+          milestone_type: '30-day',
+          due_date: addDays(today, 30),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        },
+        {
+          client_slug: slug,
+          milestone_type: '60-day',
+          due_date: addDays(today, 60),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        },
+        {
+          client_slug: slug,
+          milestone_type: '90-day',
+          due_date: addDays(today, 90),
+          status: 'pending',
+          notification_recipients: notificationEmails
+        }
+      ];
+
+      const { error: milestoneError } = await supabaseAdmin
+        .from('milestone_assessments')
+        .upsert(milestones, { onConflict: 'client_slug,milestone_type' });
+
+      if (milestoneError) {
+        console.warn('[STEP 6B] Failed to seed milestones (non-fatal):', milestoneError.message);
+      } else {
+        if (DEBUG) console.log('[STEP 6B] Milestone assessments seeded successfully');
+      }
+    } catch (milestoneErr) {
+      console.warn('[STEP 6B] Failed to seed milestones (non-fatal):', milestoneErr.message);
+    }
+
     // NOTE: Assessment is now complete in database. GitHub commit is just for publishing
     // and should not block the assessment from being marked complete.
 
