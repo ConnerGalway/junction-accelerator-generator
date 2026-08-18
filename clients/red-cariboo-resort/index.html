@@ -177,6 +177,445 @@ nav { flex: 1; padding: 12px 0; }
 
 .page.active { display: block; }
 
+/* ── Dashboard Page ─────────────────────────── */
+.dashboard__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 22px;
+}
+
+.dashboard__header-eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--slate);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.dashboard__header-title {
+  margin: 0;
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 36px;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--dark);
+}
+
+.dashboard__header-badge {
+  flex: none;
+  background: var(--mint);
+  border: 1px solid var(--mint-dark);
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.dashboard__header-badge svg {
+  width: 16px;
+  height: 16px;
+}
+
+.dashboard__progress-card {
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 32px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.dashboard__ring-container {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  justify-self: center;
+}
+
+.dashboard__ring-container svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.dashboard__ring-center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.dashboard__ring-score {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 48px;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: var(--dark);
+}
+
+.dashboard__ring-grade {
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 18px;
+  background: var(--mint);
+  color: var(--navy);
+  padding: 4px 12px;
+  border-radius: 12px;
+  margin-top: 8px;
+}
+
+.dashboard__ring-label {
+  font-size: 13px;
+  color: var(--slate);
+  margin-top: 4px;
+}
+
+.dashboard__progress-text h2 {
+  margin: 0 0 8px;
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 26px;
+  letter-spacing: -0.01em;
+  color: var(--dark);
+}
+
+.dashboard__progress-text p {
+  margin: 0 0 24px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--dark);
+  max-width: 52ch;
+  font-weight: 500;
+}
+
+.dashboard__phases-label {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--slate);
+  margin-bottom: 12px;
+  text-transform: uppercase;
+}
+
+.dashboard__phases {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 2px solid rgba(0,0,0,0.06);
+}
+
+.dashboard__phase {
+  padding: 16px 16px 0 0;
+  border-left: 3px solid transparent;
+}
+
+.dashboard__phase.current {
+  border-left-color: var(--mint);
+  padding-left: 13px;
+}
+
+.dashboard__phase-range {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--slate);
+  margin-bottom: 7px;
+}
+
+.dashboard__phase-name {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--dark);
+  margin-bottom: 4px;
+}
+
+.dashboard__phase.current .dashboard__phase-name {
+  color: var(--success);
+}
+
+.dashboard__phase-detail {
+  font-size: 12.5px;
+  color: var(--slate);
+  line-height: 1.45;
+}
+
+.dashboard__next-step {
+  display: grid;
+  grid-template-columns: 1fr 280px;
+  background: var(--navy);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.dashboard__next-step-main {
+  padding: 32px;
+  min-width: 0;
+}
+
+.dashboard__next-step-eyebrow {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  color: var(--mint);
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.dashboard__next-step-title {
+  margin: 0 0 20px;
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 28px;
+  line-height: 1.14;
+  letter-spacing: -0.02em;
+  color: #fff;
+}
+
+.dashboard__next-step-tasks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.dashboard__task-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.06);
+}
+
+.dashboard__task-row:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+.dashboard__task-number {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 12px;
+  flex: none;
+}
+
+.dashboard__task-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.9);
+  line-height: 1.5;
+}
+
+.dashboard__task-time {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-left: auto;
+  flex: none;
+}
+
+.dashboard__next-step-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.dashboard__next-step-link {
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.dashboard__next-step-link:hover {
+  color: var(--mint);
+}
+
+.dashboard__next-step-sidebar {
+  border-left: 1px solid rgba(255,255,255,0.14);
+  padding: 32px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dashboard__next-step-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dashboard__next-step-meta-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(255,255,255,0.5);
+  text-transform: uppercase;
+}
+
+.dashboard__next-step-meta-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  line-height: 1.4;
+}
+
+.dashboard__plan-coming {
+  background: rgba(255,255,255,0.06);
+  border: 1px dashed rgba(255,255,255,0.2);
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.dashboard__plan-coming-title {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 14px;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.dashboard__plan-coming-text {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+}
+
+.dashboard__categories {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.dashboard__category-pill {
+  background: var(--card-bg);
+  border: 1px solid rgba(0,0,0,0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.dashboard__category-pill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.dashboard__category-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.dashboard__category-grade {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--mint);
+  color: var(--navy);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 16px;
+  flex: none;
+}
+
+.dashboard__category-grade.grade-a { background: #86d899; }
+.dashboard__category-grade.grade-b { background: var(--mint); }
+.dashboard__category-grade.grade-c { background: #ffd966; color: #8a6d00; }
+.dashboard__category-grade.grade-d { background: #ffb366; color: #8a4500; }
+.dashboard__category-grade.grade-f { background: #ff8a8a; color: #8a0000; }
+
+.dashboard__category-info {
+  min-width: 0;
+}
+
+.dashboard__category-name {
+  font-family: var(--font-d);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--dark);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+
+.dashboard__category-score {
+  font-size: 12px;
+  color: var(--slate);
+}
+
+@media (max-width: 1024px) {
+  .dashboard__progress-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+  .dashboard__ring-container {
+    justify-self: center;
+  }
+  .dashboard__phases {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dashboard__next-step {
+    grid-template-columns: 1fr;
+  }
+  .dashboard__next-step-sidebar {
+    border-left: none;
+    border-top: 1px solid rgba(255,255,255,0.14);
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 24px;
+  }
+  .dashboard__categories {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .dashboard__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .dashboard__header-title {
+    font-size: 28px;
+  }
+  .dashboard__phases {
+    grid-template-columns: 1fr 1fr;
+  }
+  .dashboard__categories {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── Assessment Page ─────────────────────────── */
 .assessment-hero {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
@@ -2034,7 +2473,16 @@ nav { flex: 1; padding: 12px 0; }
 
   <nav>
     <div class="nav-section-label">Overview</div>
-    <div class="nav-item active" onclick="navigate('assessment')">
+    <div class="nav-item active" onclick="navigate('dashboard')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="3" width="7" height="8" rx="1.5"/>
+        <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+        <rect x="3" y="14" width="7" height="7" rx="1.5"/>
+        <rect x="14" y="11" width="7" height="10" rx="1.5"/>
+      </svg>
+      Dashboard
+    </div>
+    <div class="nav-item" onclick="navigate('assessment')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
         <rect x="9" y="3" width="6" height="4" rx="1"/>
@@ -2111,8 +2559,99 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Main Content -->
 <main id="main">
 
+  <!-- Dashboard Page -->
+  <section id="page-dashboard" class="page active">
+    <div class="dashboard__header">
+      <div>
+        <div class="dashboard__header-eyebrow">Your Digital Marketing Journey</div>
+        <h1 class="dashboard__header-title">Welcome, Red Cariboo Resort</h1>
+      </div>
+      <div class="dashboard__header-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+          <polyline points="22 4 12 14.01 9 11.01"/>
+        </svg>
+        Assessment Complete
+      </div>
+    </div>
+
+    <!-- Progress Card with Assessment Score -->
+    <div class="dashboard__progress-card">
+      <div class="dashboard__ring-container">
+        <svg viewBox="0 0 180 180">
+          <circle cx="90" cy="90" r="75" fill="none" stroke="#f0ece5" stroke-width="14"></circle>
+          <circle cx="90" cy="90" r="75" fill="none" stroke="#aadab6" stroke-width="14" stroke-linecap="round" stroke-dasharray="471.2" stroke-dashoffset="137" id="dashboardRing"></circle>
+        </svg>
+        <div class="dashboard__ring-center">
+          <div class="dashboard__ring-score" id="dashboardScore">71</div>
+          <div class="dashboard__ring-grade">Grade C</div>
+        </div>
+      </div>
+      <div class="dashboard__progress-text">
+        <h2>Your assessment is complete.</h2>
+        <p>Your digital marketing assessment shows strong foundations in technical website setup and booking systems. Focus areas include social media presence and review generation to maximize your online visibility.</p>
+        <div class="dashboard__phases-label">What Comes Next</div>
+        <div class="dashboard__phases">
+          <div class="dashboard__phase current">
+            <div class="dashboard__phase-range">Now</div>
+            <div class="dashboard__phase-name">Assessment</div>
+            <div class="dashboard__phase-detail">Review your results</div>
+          </div>
+          <div class="dashboard__phase">
+            <div class="dashboard__phase-range">Coming</div>
+            <div class="dashboard__phase-name">Strategy</div>
+            <div class="dashboard__phase-detail">Your 90-day plan</div>
+          </div>
+          <div class="dashboard__phase">
+            <div class="dashboard__phase-range">Coming</div>
+            <div class="dashboard__phase-name">Tactics</div>
+            <div class="dashboard__phase-detail">Step-by-step guides</div>
+          </div>
+          <div class="dashboard__phase">
+            <div class="dashboard__phase-range">Coming</div>
+            <div class="dashboard__phase-name">Roadmap</div>
+            <div class="dashboard__phase-detail">Weekly action items</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Wins as Next Steps -->
+    <div class="dashboard__next-step">
+      <div class="dashboard__next-step-main">
+        <div class="dashboard__next-step-eyebrow">Quick Wins: Start Here</div>
+        <h2 class="dashboard__next-step-title">High-impact improvements you can make this week</h2>
+        <div class="dashboard__next-step-tasks" id="dashboardQuickWins">
+          <!-- Populated by JavaScript -->
+        </div>
+        <div class="dashboard__next-step-actions">
+          <a href="#" class="dashboard__next-step-link" onclick="navigate('assessment'); return false;">View full assessment details →</a>
+        </div>
+      </div>
+      <div class="dashboard__next-step-sidebar">
+        <div class="dashboard__next-step-meta">
+          <div class="dashboard__next-step-meta-label">Assessment Date</div>
+          <div class="dashboard__next-step-meta-value">August 6, 2026</div>
+        </div>
+        <div class="dashboard__next-step-meta">
+          <div class="dashboard__next-step-meta-label">Overall Grade</div>
+          <div class="dashboard__next-step-meta-value">C (71/100)</div>
+        </div>
+        <div class="dashboard__plan-coming">
+          <div class="dashboard__plan-coming-title">90-Day Plan Coming Soon</div>
+          <div class="dashboard__plan-coming-text">Your coach is preparing a customized implementation strategy based on this assessment.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category Overview Pills -->
+    <div class="dashboard__categories" id="dashboardCategories">
+      <!-- Populated by JavaScript -->
+    </div>
+  </section>
+
   <!-- Assessment Page -->
-  <section id="page-assessment" class="page active">
+  <section id="page-assessment" class="page">
     <div class="assessment-hero">
       <div class="assessment-hero-top">
         <div>
@@ -2630,8 +3169,76 @@ function renderRecommendations(recommendations) {
   return html;
 }
 
+// ══════════════════════════════════════════════════════════════
+// RENDER DASHBOARD
+// ══════════════════════════════════════════════════════════════
+function renderDashboard() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Update score in ring
+  const scoreEl = document.getElementById('dashboardScore');
+  if (scoreEl && data.overall) {
+    scoreEl.textContent = data.overall.score;
+  }
+
+  // Render Quick Wins
+  const quickWinsContainer = document.getElementById('dashboardQuickWins');
+  if (quickWinsContainer && data.quick_wins) {
+    let html = '';
+    data.quick_wins.slice(0, 4).forEach((qw, i) => {
+      html += `
+        <div class="dashboard__task-row">
+          <span class="dashboard__task-number">${i + 1}</span>
+          <span class="dashboard__task-text">${qw.task}</span>
+          <span class="dashboard__task-time">${qw.time_estimate}</span>
+        </div>
+      `;
+    });
+    quickWinsContainer.innerHTML = html;
+  }
+
+  // Render Category Pills
+  const categoriesContainer = document.getElementById('dashboardCategories');
+  if (categoriesContainer && data.categories) {
+    const categoryOrder = [
+      { key: 'website_technical', name: 'Website & Technical' },
+      { key: 'reviews_reputation', name: 'Reviews & Reputation' },
+      { key: 'booking_conversion', name: 'Booking & Conversion' },
+      { key: 'social_media', name: 'Social Media' },
+      { key: 'guest_experience', name: 'Guest Experience' },
+      { key: 'local_visibility', name: 'Local Visibility' }
+    ];
+
+    let html = '';
+    categoryOrder.forEach(cat => {
+      const catData = data.categories[cat.key];
+      if (catData) {
+        const grade = catData.grade || 'N/A';
+        const gradeClass = grade.toLowerCase().charAt(0);
+        html += `
+          <div class="dashboard__category-pill" onclick="navigate('assessment')">
+            <div class="dashboard__category-header">
+              <div class="dashboard__category-grade grade-${gradeClass}">${grade}</div>
+              <div class="dashboard__category-info">
+                <div class="dashboard__category-name">${catData.title || cat.name}</div>
+                <div class="dashboard__category-score">${catData.score}/100</div>
+              </div>
+            </div>
+          </div>
+        `;
+      }
+    });
+    categoriesContainer.innerHTML = html;
+  }
+}
+
 // Initialize on load
-document.addEventListener('DOMContentLoaded', renderAssessment);
+document.addEventListener('DOMContentLoaded', function() {
+  renderDashboard();
+  renderAssessment();
+});
 </script>
 </body>
 </html>
