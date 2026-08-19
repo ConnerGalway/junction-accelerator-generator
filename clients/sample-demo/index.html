@@ -1720,6 +1720,501 @@ nav { flex: 1; padding: 12px 0; }
   .milestone-category-name { width: 100%; margin-bottom: 8px; }
 }
 
+/* Milestone Categories Grid */
+.milestone-categories {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.milestone-categories h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.milestone-category-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.milestone-category-item {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+}
+
+.milestone-category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.milestone-category-header .milestone-category-name {
+  width: auto;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+.milestone-category-change {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.milestone-category-change.positive { color: #2e7d32; }
+
+.milestone-category-scores {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.score-before { color: #999; }
+.score-arrow { color: #ccc; font-size: 14px; }
+.score-middle { color: #666; }
+.score-after { color: var(--navy); }
+.score-after.final { color: #2e7d32; }
+
+.milestone-category-note {
+  font-size: 12px;
+  color: var(--slate);
+  line-height: 1.4;
+  margin: 0;
+}
+
+/* Milestone Wins */
+.milestone-wins {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.milestone-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.milestone-wins-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.milestone-win-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  background: linear-gradient(135deg, rgba(76,175,80,.08) 0%, rgba(170,218,182,.08) 100%);
+  border-radius: 10px;
+  border-left: 3px solid #4caf50;
+}
+
+.milestone-win-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke: #4caf50;
+}
+
+.milestone-win-item span {
+  font-size: 14px;
+  color: var(--dark);
+}
+
+/* Milestone Focus Areas */
+.milestone-focus {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.milestone-focus h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.milestone-focus-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.milestone-focus-item {
+  display: flex;
+  gap: 16px;
+}
+
+.milestone-focus-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.milestone-focus-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.milestone-focus-content p {
+  font-size: 13px;
+  color: var(--slate);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* 60-Day Three-up grid */
+.milestone-comparison-grid.three-up {
+  grid-template-columns: 1fr 1fr 1.2fr;
+}
+
+/* 90-Day Journey Line */
+.milestone-final-score {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  text-align: center;
+}
+
+.milestone-journey-line {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin-bottom: 32px;
+}
+
+.journey-point {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.journey-point.final {
+  background: linear-gradient(135deg, rgba(76,175,80,.1) 0%, rgba(170,218,182,.1) 100%);
+  padding: 20px 30px;
+  border-radius: 16px;
+  border: 2px solid #4caf50;
+}
+
+.journey-score {
+  font-family: var(--font-d);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.journey-point.final .journey-score {
+  font-size: 48px;
+  color: #2e7d32;
+}
+
+.journey-label {
+  font-size: 11px;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+
+.journey-grade {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--slate);
+}
+
+.journey-point.final .journey-grade {
+  color: #2e7d32;
+  font-size: 18px;
+}
+
+.journey-connector {
+  width: 40px;
+  height: 3px;
+  background: linear-gradient(90deg, #ccc, var(--mint));
+}
+
+.milestone-total-improvement {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.improvement-badge {
+  background: linear-gradient(135deg, #4caf50 0%, #66bb6a 100%);
+  color: #fff;
+  padding: 12px 32px;
+  border-radius: 30px;
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+.milestone-total-improvement p {
+  font-size: 15px;
+  color: var(--slate);
+  margin: 0;
+}
+
+/* Achievement Grid */
+.milestone-achievements {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.milestone-achievements h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.achievement-card {
+  background: linear-gradient(135deg, #f8f9fa 0%, #fff 100%);
+  border-radius: 12px;
+  padding: 24px 16px;
+  text-align: center;
+  border: 1px solid rgba(0,0,0,.06);
+}
+
+.achievement-icon {
+  width: 48px;
+  height: 48px;
+  background: var(--navy);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+}
+
+.achievement-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--mint);
+}
+
+.achievement-stat {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--navy);
+}
+
+.achievement-label {
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin: 4px 0 8px;
+}
+
+.achievement-card p {
+  font-size: 12px;
+  color: var(--slate);
+  margin: 0;
+}
+
+/* Impact Stats */
+.milestone-impact {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 16px;
+  padding: 40px;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.milestone-impact h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  text-align: center;
+}
+
+.impact-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.impact-stat {
+  text-align: center;
+}
+
+.impact-value {
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--mint);
+}
+
+.impact-label {
+  font-size: 13px;
+  opacity: 0.8;
+  margin-top: 8px;
+}
+
+/* Next Steps */
+.milestone-next-steps {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.milestone-next-steps h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.next-steps-intro {
+  color: var(--slate);
+  margin-bottom: 24px;
+}
+
+.next-steps-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.next-step-item {
+  display: flex;
+  gap: 16px;
+}
+
+.next-step-number {
+  width: 32px;
+  height: 32px;
+  background: var(--mint);
+  color: var(--navy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.next-step-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.next-step-content p {
+  font-size: 13px;
+  color: var(--slate);
+  margin: 0;
+}
+
+/* Celebration */
+.milestone-celebration {
+  background: linear-gradient(135deg, rgba(170,218,182,.2) 0%, rgba(76,175,80,.1) 100%);
+  border-radius: 16px;
+  padding: 48px;
+  text-align: center;
+  border: 2px solid var(--mint);
+}
+
+.celebration-content {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.celebration-icon {
+  width: 64px;
+  height: 64px;
+  stroke: #4caf50;
+  margin-bottom: 24px;
+}
+
+.celebration-content h3 {
+  font-family: var(--font-d);
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.celebration-content p {
+  font-size: 15px;
+  color: var(--slate);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Responsive adjustments for milestones */
+@media (max-width: 768px) {
+  .milestone-category-grid { grid-template-columns: 1fr; }
+  .achievement-grid { grid-template-columns: repeat(2, 1fr); }
+  .impact-stats { grid-template-columns: repeat(2, 1fr); }
+  .milestone-journey-line { flex-wrap: wrap; gap: 16px; }
+  .journey-connector { display: none; }
+  .milestone-comparison-grid.three-up { grid-template-columns: 1fr; }
+}
+
 /* ── Coming Soon Page ─────────────────────────── */
 .coming-soon-section {
   display: flex;
@@ -2958,16 +3453,16 @@ nav { flex: 1; padding: 12px 0; }
           <span class="milestone-dot completed"></span>
           Initial Assessment
         </div>
-        <div class="nav-sub-item locked" data-page="assessment-30day" onclick="showMilestoneLocked('30-day')">
-          <span class="milestone-dot locked"></span>
+        <div class="nav-sub-item" data-page="assessment-30day" onclick="navigateMilestone('assessment-30day')">
+          <span class="milestone-dot completed"></span>
           30-Day Check-in
         </div>
-        <div class="nav-sub-item locked" data-page="assessment-60day" onclick="showMilestoneLocked('60-day')">
-          <span class="milestone-dot locked"></span>
+        <div class="nav-sub-item" data-page="assessment-60day" onclick="navigateMilestone('assessment-60day')">
+          <span class="milestone-dot completed"></span>
           60-Day Check-in
         </div>
-        <div class="nav-sub-item locked" data-page="assessment-90day" onclick="showMilestoneLocked('90-day')">
-          <span class="milestone-dot locked"></span>
+        <div class="nav-sub-item" data-page="assessment-90day" onclick="navigateMilestone('assessment-90day')">
+          <span class="milestone-dot completed"></span>
           90-Day Review
         </div>
       </div>
@@ -3194,50 +3689,177 @@ nav { flex: 1; padding: 12px 0; }
     <div class="milestone-page">
       <div class="milestone-hero">
         <div class="milestone-hero-content">
-          <div class="milestone-hero-badge pending">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-            Day 30
-          </div>
-          <h1 class="milestone-hero-title">30-Day Check-in</h1>
-          <p class="milestone-hero-subtitle">Your progress assessment will be generated automatically 30 days after your plan begins.</p>
-        </div>
-      </div>
-
-      <div class="milestone-pending-card">
-        <div class="milestone-pending-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </div>
-        <h2>Waiting for Plan Activation</h2>
-        <p>Once your coach uploads your implementation plan and sets your cohort start date, we'll automatically run your 30-day assessment at the right time.</p>
-        <div class="milestone-pending-features">
-          <div class="milestone-pending-feature">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-            </svg>
-            <span>Progress comparison vs initial assessment</span>
-          </div>
-          <div class="milestone-pending-feature">
+          <div class="milestone-hero-badge completed">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            <span>Category-by-category improvements</span>
+            Day 30
           </div>
-          <div class="milestone-pending-feature">
+          <h1 class="milestone-hero-title">30-Day Check-in</h1>
+          <p class="milestone-hero-subtitle">Your first month progress assessment shows strong early momentum.</p>
+        </div>
+      </div>
+
+      <!-- Score Comparison -->
+      <div class="milestone-comparison-grid">
+        <div class="milestone-score-card initial">
+          <div class="milestone-score-label">Initial Score</div>
+          <div class="milestone-score-value">74</div>
+          <div class="milestone-score-grade">Grade C</div>
+        </div>
+        <div class="milestone-arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </div>
+        <div class="milestone-score-card current">
+          <div class="milestone-score-label">30-Day Score</div>
+          <div class="milestone-score-value">81</div>
+          <div class="milestone-score-grade">Grade B-</div>
+          <div class="milestone-delta-badge positive">+7 points</div>
+        </div>
+      </div>
+
+      <!-- Category Progress -->
+      <div class="milestone-categories">
+        <h2>Category Progress</h2>
+        <div class="milestone-category-grid">
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Website & Technical</span>
+              <span class="milestone-category-change positive">+5</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">78</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">83</span>
+            </div>
+            <p class="milestone-category-note">Improved page speed and added H2 header structure</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Reviews & Reputation</span>
+              <span class="milestone-category-change positive">+8</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">71</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">79</span>
+            </div>
+            <p class="milestone-category-note">Added 12 new Google reviews with review request process</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Online Booking</span>
+              <span class="milestone-category-change positive">+6</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">80</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">86</span>
+            </div>
+            <p class="milestone-category-note">Added phone/email to header and operating hours</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Social Media</span>
+              <span class="milestone-category-change positive">+10</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">62</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">72</span>
+            </div>
+            <p class="milestone-category-note">Increased posting to 3x weekly, gained 150 followers</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Guest Experience</span>
+              <span class="milestone-category-change positive">+6</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">84</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">90</span>
+            </div>
+            <p class="milestone-category-note">Added FAQ page and seasonal hours information</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Local Visibility</span>
+              <span class="milestone-category-change positive">+4</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">81</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">85</span>
+            </div>
+            <p class="milestone-category-note">Added Local Business Schema markup</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Wins -->
+      <div class="milestone-wins">
+        <h2>Key Wins This Month</h2>
+        <div class="milestone-wins-list">
+          <div class="milestone-win-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="16" x2="12" y2="12"/>
-              <line x1="12" y1="8" x2="12.01" y2="8"/>
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            <span>Updated priorities for next 30 days</span>
+            <span>12 new 5-star Google reviews collected</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Instagram followers grew from 194 to 344 (+77%)</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Phone inquiries increased 35% after header contact info added</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>FAQ page now ranks #3 for "Lakeside cabin questions"</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Focus Areas -->
+      <div class="milestone-focus">
+        <h2>Focus Areas for Next 30 Days</h2>
+        <div class="milestone-focus-list">
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">1</div>
+            <div class="milestone-focus-content">
+              <h4>Launch Instagram Reels strategy</h4>
+              <p>Create 10 Reels showcasing cabin views and activities to accelerate follower growth</p>
+            </div>
+          </div>
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">2</div>
+            <div class="milestone-focus-content">
+              <h4>Continue review momentum</h4>
+              <p>Target 10+ new reviews this month with QR code cards at checkout</p>
+            </div>
+          </div>
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">3</div>
+            <div class="milestone-focus-content">
+              <h4>Optimize title tags and meta descriptions</h4>
+              <p>Shorten title tag and add compelling meta descriptions to improve CTR</p>
+            </div>
           </div>
         </div>
       </div>
@@ -3249,50 +3871,188 @@ nav { flex: 1; padding: 12px 0; }
     <div class="milestone-page">
       <div class="milestone-hero">
         <div class="milestone-hero-content">
-          <div class="milestone-hero-badge pending">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-            Day 60
-          </div>
-          <h1 class="milestone-hero-title">60-Day Check-in</h1>
-          <p class="milestone-hero-subtitle">Your mid-point progress assessment will be generated automatically 60 days after your plan begins.</p>
-        </div>
-      </div>
-
-      <div class="milestone-pending-card">
-        <div class="milestone-pending-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-        </div>
-        <h2>Available at Day 60</h2>
-        <p>Your 60-day check-in will measure your progress at the midpoint of your implementation. This assessment will show how much you've grown and where to focus for the final push.</p>
-        <div class="milestone-pending-features">
-          <div class="milestone-pending-feature">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <line x1="12" y1="20" x2="12" y2="10"/>
-              <line x1="18" y1="20" x2="18" y2="4"/>
-              <line x1="6" y1="20" x2="6" y2="16"/>
-            </svg>
-            <span>Trend analysis across all categories</span>
-          </div>
-          <div class="milestone-pending-feature">
+          <div class="milestone-hero-badge completed">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
               <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            <span>Comparison to initial and 30-day scores</span>
+            Day 60
           </div>
-          <div class="milestone-pending-feature">
+          <h1 class="milestone-hero-title">60-Day Check-in</h1>
+          <p class="milestone-hero-subtitle">You've crossed the halfway mark with exceptional progress across all categories.</p>
+        </div>
+      </div>
+
+      <!-- Score Comparison -->
+      <div class="milestone-comparison-grid three-up">
+        <div class="milestone-score-card initial">
+          <div class="milestone-score-label">Initial</div>
+          <div class="milestone-score-value">74</div>
+          <div class="milestone-score-grade">Grade C</div>
+        </div>
+        <div class="milestone-score-card">
+          <div class="milestone-score-label">30-Day</div>
+          <div class="milestone-score-value">81</div>
+          <div class="milestone-score-grade">Grade B-</div>
+        </div>
+        <div class="milestone-score-card current">
+          <div class="milestone-score-label">60-Day Score</div>
+          <div class="milestone-score-value">89</div>
+          <div class="milestone-score-grade">Grade B+</div>
+          <div class="milestone-delta-badge positive">+15 total</div>
+        </div>
+      </div>
+
+      <!-- Category Progress -->
+      <div class="milestone-categories">
+        <h2>Category Progress</h2>
+        <div class="milestone-category-grid">
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Website & Technical</span>
+              <span class="milestone-category-change positive">+12 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">78</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">83</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">90</span>
+            </div>
+            <p class="milestone-category-note">Optimized images, fixed redirects, and improved Core Web Vitals</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Reviews & Reputation</span>
+              <span class="milestone-category-change positive">+17 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">71</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">79</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">88</span>
+            </div>
+            <p class="milestone-category-note">Now at 45 total reviews, responding to all within 24 hours</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Online Booking</span>
+              <span class="milestone-category-change positive">+12 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">80</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">86</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">92</span>
+            </div>
+            <p class="milestone-category-note">Added live chat and availability calendar widget</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Social Media</span>
+              <span class="milestone-category-change positive">+22 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">62</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">72</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">84</span>
+            </div>
+            <p class="milestone-category-note">Reels strategy driving growth, now at 680 followers</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Guest Experience</span>
+              <span class="milestone-category-change positive">+10 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">84</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">90</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">94</span>
+            </div>
+            <p class="milestone-category-note">Added packing list and "Know Before You Go" sections</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Local Visibility</span>
+              <span class="milestone-category-change positive">+10 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">81</span>
+              <span class="score-arrow">→</span>
+              <span class="score-middle">85</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after">91</span>
+            </div>
+            <p class="milestone-category-note">Google Posts active, new tourism directory listings</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key Wins -->
+      <div class="milestone-wins">
+        <h2>Key Wins This Month</h2>
+        <div class="milestone-wins-list">
+          <div class="milestone-win-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
             </svg>
-            <span>Acceleration opportunities for final month</span>
+            <span>Instagram Reels averaging 2,500 views each</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Direct bookings up 45% compared to same period last year</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Google Business Profile views increased 120%</span>
+          </div>
+          <div class="milestone-win-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+              <polyline points="22 4 12 14.01 9 11.01"/>
+            </svg>
+            <span>Featured in regional tourism newsletter reaching 5,000 subscribers</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Focus Areas -->
+      <div class="milestone-focus">
+        <h2>Final Push: Last 30 Days</h2>
+        <div class="milestone-focus-list">
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">1</div>
+            <div class="milestone-focus-content">
+              <h4>Launch paid social campaign</h4>
+              <p>$500/month Facebook/Instagram ads targeting nature enthusiasts in regional markets</p>
+            </div>
+          </div>
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">2</div>
+            <div class="milestone-focus-content">
+              <h4>Create YouTube content</h4>
+              <p>Publish 3 videos: property tour, local activities guide, and guest testimonials</p>
+            </div>
+          </div>
+          <div class="milestone-focus-item">
+            <div class="milestone-focus-number">3</div>
+            <div class="milestone-focus-content">
+              <h4>Secure additional backlinks</h4>
+              <p>Reach out to 5 travel bloggers for reviews and features</p>
+            </div>
           </div>
         </div>
       </div>
@@ -3302,51 +4062,253 @@ nav { flex: 1; padding: 12px 0; }
   <!-- 90-Day Milestone Assessment -->
   <section id="page-assessment-90day" class="page">
     <div class="milestone-page">
-      <div class="milestone-hero">
+      <div class="milestone-hero celebration">
         <div class="milestone-hero-content">
-          <div class="milestone-hero-badge pending">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-            Day 90
-          </div>
-          <h1 class="milestone-hero-title">90-Day Review</h1>
-          <p class="milestone-hero-subtitle">Your final comprehensive assessment will be generated automatically at the end of your 90-day program.</p>
-        </div>
-      </div>
-
-      <div class="milestone-pending-card">
-        <div class="milestone-pending-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
-        </div>
-        <h2>Your Final Progress Report</h2>
-        <p>At the end of your 90-day journey, you'll receive a comprehensive review of your digital marketing transformation, including total score improvement, category growth, and recommendations for continued success.</p>
-        <div class="milestone-pending-features">
-          <div class="milestone-pending-feature">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
-              <polyline points="17 6 23 6 23 12"/>
-            </svg>
-            <span>Complete journey from Day 0 to Day 90</span>
-          </div>
-          <div class="milestone-pending-feature">
+          <div class="milestone-hero-badge completed">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <circle cx="12" cy="8" r="7"/>
               <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
             </svg>
-            <span>Achievement highlights and wins</span>
+            Day 90
           </div>
-          <div class="milestone-pending-feature">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-              <path d="M13.73 21a2 2 0 01-3.46 0"/>
-            </svg>
-            <span>Next steps for continued growth</span>
+          <h1 class="milestone-hero-title">90-Day Final Review</h1>
+          <p class="milestone-hero-subtitle">Congratulations! You've completed your digital marketing transformation journey.</p>
+        </div>
+      </div>
+
+      <!-- Final Score Showcase -->
+      <div class="milestone-final-score">
+        <div class="milestone-journey-line">
+          <div class="journey-point">
+            <div class="journey-score">74</div>
+            <div class="journey-label">Day 0</div>
+            <div class="journey-grade">C</div>
           </div>
+          <div class="journey-connector"></div>
+          <div class="journey-point">
+            <div class="journey-score">81</div>
+            <div class="journey-label">Day 30</div>
+            <div class="journey-grade">B-</div>
+          </div>
+          <div class="journey-connector"></div>
+          <div class="journey-point">
+            <div class="journey-score">89</div>
+            <div class="journey-label">Day 60</div>
+            <div class="journey-grade">B+</div>
+          </div>
+          <div class="journey-connector"></div>
+          <div class="journey-point final">
+            <div class="journey-score">96</div>
+            <div class="journey-label">Day 90</div>
+            <div class="journey-grade">A</div>
+          </div>
+        </div>
+        <div class="milestone-total-improvement">
+          <div class="improvement-badge">+22 Points</div>
+          <p>From Grade C to Grade A in 90 days</p>
+        </div>
+      </div>
+
+      <!-- Category Final Results -->
+      <div class="milestone-categories final">
+        <h2>Final Category Scores</h2>
+        <div class="milestone-category-grid">
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Website & Technical</span>
+              <span class="milestone-category-change positive">+18 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">78</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">96</span>
+            </div>
+            <p class="milestone-category-note">Mobile PageSpeed now 92/100, all Core Web Vitals passing</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Reviews & Reputation</span>
+              <span class="milestone-category-change positive">+24 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">71</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">95</span>
+            </div>
+            <p class="milestone-category-note">Now at 68 reviews with 5.0 rating, responding to 100%</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Online Booking</span>
+              <span class="milestone-category-change positive">+17 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">80</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">97</span>
+            </div>
+            <p class="milestone-category-note">Conversion rate up 65%, streamlined 3-click booking flow</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Social Media</span>
+              <span class="milestone-category-change positive">+32 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">62</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">94</span>
+            </div>
+            <p class="milestone-category-note">1,200+ followers, 8.2% engagement, consistent posting schedule</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Guest Experience</span>
+              <span class="milestone-category-change positive">+14 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">84</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">98</span>
+            </div>
+            <p class="milestone-category-note">Complete pre-arrival info, virtual tour, automated confirmations</p>
+          </div>
+          <div class="milestone-category-item">
+            <div class="milestone-category-header">
+              <span class="milestone-category-name">Local Visibility</span>
+              <span class="milestone-category-change positive">+15 total</span>
+            </div>
+            <div class="milestone-category-scores">
+              <span class="score-before">81</span>
+              <span class="score-arrow">→</span>
+              <span class="score-after final">96</span>
+            </div>
+            <p class="milestone-category-note">Ranking #1 for "Lakeside cabin rentals", 150+ backlinks</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Achievement Highlights -->
+      <div class="milestone-achievements">
+        <h2>Your Journey Highlights</h2>
+        <div class="achievement-grid">
+          <div class="achievement-card">
+            <div class="achievement-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+              </svg>
+            </div>
+            <div class="achievement-stat">48</div>
+            <div class="achievement-label">New Reviews</div>
+            <p>From 20 to 68 total reviews</p>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>
+            </div>
+            <div class="achievement-stat">1,200+</div>
+            <div class="achievement-label">Social Followers</div>
+            <p>From 522 to 1,200+ across platforms</p>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="12" y1="20" x2="12" y2="10"/>
+                <line x1="18" y1="20" x2="18" y2="4"/>
+                <line x1="6" y1="20" x2="6" y2="16"/>
+              </svg>
+            </div>
+            <div class="achievement-stat">+78%</div>
+            <div class="achievement-label">Direct Bookings</div>
+            <p>Year-over-year increase</p>
+          </div>
+          <div class="achievement-card">
+            <div class="achievement-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"/>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>
+            </div>
+            <div class="achievement-stat">#1</div>
+            <div class="achievement-label">Google Ranking</div>
+            <p>For "Lakeside cabin rentals"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Business Impact -->
+      <div class="milestone-impact">
+        <h2>Business Impact Summary</h2>
+        <div class="impact-stats">
+          <div class="impact-stat">
+            <div class="impact-value">+78%</div>
+            <div class="impact-label">Direct Booking Revenue</div>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-value">-45%</div>
+            <div class="impact-label">OTA Commission Costs</div>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-value">+156%</div>
+            <div class="impact-label">Website Traffic</div>
+          </div>
+          <div class="impact-stat">
+            <div class="impact-value">4.2x</div>
+            <div class="impact-label">ROI on Marketing Spend</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Next Steps -->
+      <div class="milestone-next-steps">
+        <h2>Continuing Your Success</h2>
+        <p class="next-steps-intro">You've built an exceptional digital marketing foundation. Here's how to maintain and grow from here:</p>
+        <div class="next-steps-list">
+          <div class="next-step-item">
+            <div class="next-step-number">1</div>
+            <div class="next-step-content">
+              <h4>Maintain posting consistency</h4>
+              <p>Continue 3x weekly social posts and monthly Google Posts to maintain algorithm visibility</p>
+            </div>
+          </div>
+          <div class="next-step-item">
+            <div class="next-step-number">2</div>
+            <div class="next-step-content">
+              <h4>Scale paid advertising</h4>
+              <p>Increase ad budget during peak booking seasons, test new audiences and creative</p>
+            </div>
+          </div>
+          <div class="next-step-item">
+            <div class="next-step-number">3</div>
+            <div class="next-step-content">
+              <h4>Build email marketing</h4>
+              <p>Launch monthly newsletter to past guests, seasonal promotions, and referral program</p>
+            </div>
+          </div>
+          <div class="next-step-item">
+            <div class="next-step-number">4</div>
+            <div class="next-step-content">
+              <h4>Monitor and optimize</h4>
+              <p>Schedule quarterly reviews of analytics, review response times, and competitor activity</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Celebration -->
+      <div class="milestone-celebration">
+        <div class="celebration-content">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="celebration-icon">
+            <circle cx="12" cy="8" r="7"/>
+            <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>
+          </svg>
+          <h3>Congratulations on completing your 90-day journey!</h3>
+          <p>You've transformed your digital presence from a C to an A. Your dedication and consistent effort have paid off with real business results.</p>
         </div>
       </div>
     </div>
