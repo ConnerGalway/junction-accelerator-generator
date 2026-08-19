@@ -2215,6 +2215,558 @@ nav { flex: 1; padding: 12px 0; }
   .milestone-comparison-grid.three-up { grid-template-columns: 1fr; }
 }
 
+/* ── Strategy Page ─────────────────────────── */
+.strategy-page {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.strategy-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.strategy-header h1 {
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.strategy-subtitle {
+  font-size: 16px;
+  color: var(--slate);
+}
+
+.strategy-goal {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  color: #fff;
+}
+
+.strategy-goal-label {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mint);
+  margin-bottom: 12px;
+}
+
+.strategy-goal p {
+  font-size: 18px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.strategy-positioning {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.strategy-positioning h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.strategy-positioning p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--dark);
+  margin: 0;
+}
+
+.strategy-objectives {
+  margin-bottom: 32px;
+}
+
+.strategy-objectives h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.objectives-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.objective-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  position: relative;
+}
+
+.objective-number {
+  width: 36px;
+  height: 36px;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.objective-title {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.objective-description {
+  font-size: 14px;
+  color: var(--slate);
+  line-height: 1.5;
+  margin-bottom: 16px;
+}
+
+.objective-tactic-pill {
+  display: inline-block;
+  background: rgba(170,218,182,.3);
+  color: var(--navy);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.strategy-tactics-overview h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+}
+
+.tactics-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.tactic-overview-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 2px solid transparent;
+}
+
+.tactic-overview-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0,0,0,.1);
+  border-color: var(--mint);
+}
+
+.tactic-phase {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--mint-dark);
+  margin-bottom: 4px;
+}
+
+.tactic-number {
+  font-size: 12px;
+  color: var(--slate);
+  margin-bottom: 8px;
+}
+
+.tactic-overview-card h3 {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.tactic-overview-card p {
+  font-size: 13px;
+  color: var(--slate);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+
+.tactic-weeks {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+/* ── Tactic Pages ─────────────────────────── */
+.tactic-page {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.tactic-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.tactic-header-badge {
+  display: inline-block;
+  background: var(--navy);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.tactic-header h1 {
+  font-family: var(--font-d);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.tactic-subtitle {
+  font-size: 16px;
+  color: var(--slate);
+  margin-bottom: 16px;
+}
+
+.tactic-meta {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+}
+
+.tactic-meta-item {
+  font-size: 14px;
+  color: var(--dark);
+}
+
+.tactic-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tactic-section h2 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.tactic-context {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  border-left: 4px solid var(--navy);
+}
+
+.tactic-context p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--dark);
+  margin: 0;
+}
+
+.tactic-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tactic-step {
+  display: flex;
+  gap: 16px;
+}
+
+.tactic-step .step-number {
+  width: 32px;
+  height: 32px;
+  background: var(--mint);
+  color: var(--navy);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.step-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.step-content p {
+  font-size: 13px;
+  color: var(--slate);
+  margin: 0;
+}
+
+.metrics-table {
+  background: #f8f9fa;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.metrics-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 12px 16px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.metrics-row {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  padding: 12px 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+  font-size: 14px;
+}
+
+.metrics-row:last-child {
+  border-bottom: none;
+}
+
+.metrics-row span:first-child {
+  color: var(--dark);
+  font-weight: 500;
+}
+
+.metrics-row span:not(:first-child) {
+  color: var(--navy);
+  font-weight: 600;
+  text-align: center;
+}
+
+.tips-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tip-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+.tip-item svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  stroke: var(--navy);
+}
+
+.tip-item span {
+  font-size: 14px;
+  color: var(--dark);
+  line-height: 1.5;
+}
+
+/* ── Roadmap Page ─────────────────────────── */
+.roadmap-page {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.roadmap-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.roadmap-header h1 {
+  font-family: var(--font-d);
+  font-size: 32px;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.roadmap-subtitle {
+  font-size: 16px;
+  color: var(--slate);
+  margin-bottom: 24px;
+}
+
+.roadmap-progress {
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.roadmap-progress-bar {
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.roadmap-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--mint), var(--mint-dark));
+  border-radius: 4px;
+}
+
+.roadmap-progress-text {
+  font-size: 13px;
+  color: var(--slate);
+}
+
+.roadmap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.roadmap-month {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.roadmap-month-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--navy);
+}
+
+.roadmap-month-header h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0;
+}
+
+.roadmap-month-focus {
+  font-size: 13px;
+  color: var(--slate);
+  background: #f8f9fa;
+  padding: 6px 12px;
+  border-radius: 20px;
+}
+
+.roadmap-week {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 16px;
+}
+
+.roadmap-week:last-child {
+  margin-bottom: 0;
+}
+
+.roadmap-week-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.week-badge {
+  background: var(--navy);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.roadmap-week-header h3 {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 0;
+}
+
+.week-actions h4 {
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--slate);
+  margin-bottom: 12px;
+}
+
+.week-actions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.week-actions li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  color: var(--dark);
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.week-actions li:last-child {
+  border-bottom: none;
+}
+
+.week-actions input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--mint-dark);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .objectives-grid { grid-template-columns: 1fr; }
+  .tactics-overview-grid { grid-template-columns: 1fr; }
+  .tactic-meta { flex-direction: column; gap: 8px; }
+  .metrics-header, .metrics-row { grid-template-columns: 1.5fr 1fr 1fr 1fr; font-size: 12px; }
+  .roadmap-month-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
+
 /* ── Coming Soon Page ─────────────────────────── */
 .coming-soon-section {
   display: flex;
@@ -3469,55 +4021,38 @@ nav { flex: 1; padding: 12px 0; }
     </div>
 
     <div class="nav-section-label">Your Plan</div>
-    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+    <div class="nav-item" onclick="navigate('strategy')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
       Strategy
-      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0110 0v4"/>
-      </svg>
     </div>
 
     <div class="nav-section-label">Tactics</div>
-    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+    <div class="nav-item" onclick="navigate('tactic1')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
         <polyline points="22 4 12 14.01 9 11.01"/>
       </svg>
-      Tactic 1
-      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0110 0v4"/>
-      </svg>
+      Social Media
     </div>
-    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+    <div class="nav-item" onclick="navigate('tactic2')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      Tactic 2
-      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0110 0v4"/>
-      </svg>
+      Reviews
     </div>
-    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+    <div class="nav-item" onclick="navigate('tactic3')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-        <polyline points="22 4 12 14.01 9 11.01"/>
+        <circle cx="11" cy="11" r="8"/>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"/>
       </svg>
-      Tactic 3
-      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0110 0v4"/>
-      </svg>
+      Local SEO
     </div>
 
     <div class="nav-section-label">Implementation</div>
-    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+    <div class="nav-item" onclick="navigate('roadmap')">
       <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
         <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
         <line x1="16" y1="2" x2="16" y2="6"/>
@@ -3525,10 +4060,6 @@ nav { flex: 1; padding: 12px 0; }
         <line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
       90-Day Roadmap
-      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-        <path d="M7 11V7a5 5 0 0110 0v4"/>
-      </svg>
     </div>
   </nav>
 </aside>
@@ -4314,85 +4845,661 @@ nav { flex: 1; padding: 12px 0; }
     </div>
   </section>
 
-  <!-- Coming Soon Pages -->
+  <!-- Strategy Page -->
   <section id="page-strategy" class="page">
-    <div class="coming-soon-section">
-      <div class="coming-soon-content">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 6v6l4 2"/>
-          </svg>
+    <div class="strategy-page">
+      <div class="strategy-header">
+        <h1>Your 90-Day Strategy</h1>
+        <p class="strategy-subtitle">A focused plan to transform your digital marketing presence</p>
+      </div>
+
+      <div class="strategy-goal">
+        <div class="strategy-goal-label">Your Goal</div>
+        <p>Increase direct bookings by 50% and grow social media following to 1,000+ followers within 90 days by implementing a consistent content strategy, building review momentum, and optimizing local search visibility.</p>
+      </div>
+
+      <div class="strategy-positioning">
+        <h2>Strategic Positioning</h2>
+        <p>Position Conner's Cabins as the premier lakeside escape for families and couples seeking a peaceful, nature-immersed getaway with modern amenities and personalized hospitality. Differentiate through authentic guest experiences, stunning visual content, and responsive communication.</p>
+      </div>
+
+      <div class="strategy-objectives">
+        <h2>Your Three Objectives</h2>
+        <div class="objectives-grid">
+          <div class="objective-card">
+            <div class="objective-number">1</div>
+            <h3 class="objective-title">Build Social Presence</h3>
+            <p class="objective-description">Establish a consistent, engaging social media presence that showcases the cabin experience and drives discovery from new audiences.</p>
+            <span class="objective-tactic-pill">Tactic 1: Weeks 1-4</span>
+          </div>
+          <div class="objective-card">
+            <div class="objective-number">2</div>
+            <h3 class="objective-title">Grow Review Momentum</h3>
+            <p class="objective-description">Implement a systematic review collection process that builds social proof and improves local search rankings.</p>
+            <span class="objective-tactic-pill">Tactic 2: Weeks 5-8</span>
+          </div>
+          <div class="objective-card">
+            <div class="objective-number">3</div>
+            <h3 class="objective-title">Dominate Local Search</h3>
+            <p class="objective-description">Optimize Google Business Profile and local SEO to capture high-intent searchers looking for cabin rentals in your area.</p>
+            <span class="objective-tactic-pill">Tactic 3: Weeks 9-12</span>
+          </div>
         </div>
-        <h2>Strategy Coming Soon</h2>
-        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
-        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+
+      <div class="strategy-tactics-overview">
+        <h2>Tactics Overview</h2>
+        <div class="tactics-overview-grid">
+          <div class="tactic-overview-card" onclick="navigate('tactic1')">
+            <div class="tactic-phase">Foundation</div>
+            <div class="tactic-number">Tactic 1</div>
+            <h3>Social Media Activation</h3>
+            <p>Build posting habits, create content batches, and grow your Instagram presence</p>
+            <span class="tactic-weeks">Weeks 1-4</span>
+          </div>
+          <div class="tactic-overview-card" onclick="navigate('tactic2')">
+            <div class="tactic-phase">Growth</div>
+            <div class="tactic-number">Tactic 2</div>
+            <h3>Review Generation</h3>
+            <p>Implement systematic review requests and build social proof</p>
+            <span class="tactic-weeks">Weeks 5-8</span>
+          </div>
+          <div class="tactic-overview-card" onclick="navigate('tactic3')">
+            <div class="tactic-phase">Scale</div>
+            <div class="tactic-number">Tactic 3</div>
+            <h3>Local SEO Optimization</h3>
+            <p>Dominate local search results and capture high-intent visitors</p>
+            <span class="tactic-weeks">Weeks 9-12</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Tactic 1: Social Media -->
   <section id="page-tactic1" class="page">
-    <div class="coming-soon-section">
-      <div class="coming-soon-content">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
+    <div class="tactic-page">
+      <div class="tactic-header">
+        <div class="tactic-header-badge">Tactic 1 of 3</div>
+        <h1>Social Media Activation</h1>
+        <p class="tactic-subtitle">Build a consistent, engaging presence that drives discovery</p>
+        <div class="tactic-meta">
+          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 1-4</span>
+          <span class="tactic-meta-item"><strong>Phase:</strong> Foundation</span>
         </div>
-        <h2>Tactic 1 Coming Soon</h2>
-        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
-        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What We Heard From You</h2>
+        <div class="tactic-context">
+          <p>Your assessment revealed that while you have beautiful cabin imagery and an excellent guest experience, your social media presence isn't capturing this value. With only 522 followers and posting just once every 10 weeks, you're missing opportunities to reach new guests who discover accommodations through Instagram and Facebook.</p>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What This Tactic Involves</h2>
+        <div class="tactic-steps">
+          <div class="tactic-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Set Up Content Calendar</h4>
+              <p>Create a repeatable posting schedule: cabin features on Monday, local activities on Wednesday, guest experiences on Friday</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Batch Create Content</h4>
+              <p>Use your existing 37 website photos to create 4 weeks of posts in one sitting. Add captions that tell stories.</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Launch Instagram Reels</h4>
+              <p>Create 2-3 short video Reels per week showcasing cabin views, nature sounds, and cozy moments</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Engage Consistently</h4>
+              <p>Respond to comments within 2 hours, follow local tourism accounts, and use location-specific hashtags</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Success Metrics</h2>
+        <div class="metrics-table">
+          <div class="metrics-header">
+            <span>Metric</span>
+            <span>30 Days</span>
+            <span>60 Days</span>
+            <span>90 Days</span>
+          </div>
+          <div class="metrics-row">
+            <span>Instagram Followers</span>
+            <span>350</span>
+            <span>600</span>
+            <span>1,000</span>
+          </div>
+          <div class="metrics-row">
+            <span>Posts Per Week</span>
+            <span>3</span>
+            <span>4</span>
+            <span>5</span>
+          </div>
+          <div class="metrics-row">
+            <span>Engagement Rate</span>
+            <span>5%</span>
+            <span>6%</span>
+            <span>7%</span>
+          </div>
+          <div class="metrics-row">
+            <span>Website Clicks from Social</span>
+            <span>20/week</span>
+            <span>50/week</span>
+            <span>100/week</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Tips & Resources</h2>
+        <div class="tips-list">
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Post when your audience is active: 7-9am and 7-9pm for leisure travelers</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Use 5-10 relevant hashtags: #lakesidecabin #cabinlife #naturegetaway #weekendretreat</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Reels get 3-5x more reach than static posts. Prioritize short video content.</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Tactic 2: Reviews -->
   <section id="page-tactic2" class="page">
-    <div class="coming-soon-section">
-      <div class="coming-soon-content">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
+    <div class="tactic-page">
+      <div class="tactic-header">
+        <div class="tactic-header-badge">Tactic 2 of 3</div>
+        <h1>Review Generation</h1>
+        <p class="tactic-subtitle">Build social proof that converts browsers into bookers</p>
+        <div class="tactic-meta">
+          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 5-8</span>
+          <span class="tactic-meta-item"><strong>Phase:</strong> Growth</span>
         </div>
-        <h2>Tactic 2 Coming Soon</h2>
-        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
-        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What We Heard From You</h2>
+        <div class="tactic-context">
+          <p>You have a perfect 5.0 Google rating, but only 20 reviews. This limits your visibility in local search results and doesn't reflect the volume of happy guests you've hosted. With a systematic approach, you can turn satisfied guests into vocal advocates.</p>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What This Tactic Involves</h2>
+        <div class="tactic-steps">
+          <div class="tactic-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Create Review Request System</h4>
+              <p>Set up automated email 3 days post-checkout with direct link to Google review page</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Deploy QR Code Cards</h4>
+              <p>Place review request cards in cabins with QR code linking directly to Google reviews</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Respond to All Reviews</h4>
+              <p>Reply to every review within 24 hours with personalized thanks and invitation to return</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Expand to Other Platforms</h4>
+              <p>Claim TripAdvisor listing and encourage reviews there for broader visibility</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Success Metrics</h2>
+        <div class="metrics-table">
+          <div class="metrics-header">
+            <span>Metric</span>
+            <span>30 Days</span>
+            <span>60 Days</span>
+            <span>90 Days</span>
+          </div>
+          <div class="metrics-row">
+            <span>Google Reviews</span>
+            <span>30</span>
+            <span>50</span>
+            <span>70</span>
+          </div>
+          <div class="metrics-row">
+            <span>Response Rate</span>
+            <span>100%</span>
+            <span>100%</span>
+            <span>100%</span>
+          </div>
+          <div class="metrics-row">
+            <span>Average Rating</span>
+            <span>5.0</span>
+            <span>5.0</span>
+            <span>4.9+</span>
+          </div>
+          <div class="metrics-row">
+            <span>Review Request Conversion</span>
+            <span>15%</span>
+            <span>20%</span>
+            <span>25%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Tips & Resources</h2>
+        <div class="tips-list">
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>The best time to ask for a review is 3-5 days after checkout when memories are fresh</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Make it easy: Include a direct link that takes guests straight to the review form</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Personalize responses by mentioning specific details from their stay</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- Tactic 3: Local SEO -->
   <section id="page-tactic3" class="page">
-    <div class="coming-soon-section">
-      <div class="coming-soon-content">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
-            <polyline points="22 4 12 14.01 9 11.01"/>
-          </svg>
+    <div class="tactic-page">
+      <div class="tactic-header">
+        <div class="tactic-header-badge">Tactic 3 of 3</div>
+        <h1>Local SEO Optimization</h1>
+        <p class="tactic-subtitle">Capture high-intent searchers ready to book</p>
+        <div class="tactic-meta">
+          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 9-12</span>
+          <span class="tactic-meta-item"><strong>Phase:</strong> Scale</span>
         </div>
-        <h2>Tactic 3 Coming Soon</h2>
-        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
-        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What We Heard From You</h2>
+        <div class="tactic-context">
+          <p>Your Google Business Profile is verified but underutilized. You're missing Local Business Schema on your website, and your backlink profile is limited. These gaps are costing you visibility when potential guests search for "cabin rentals near me" or "lakeside getaway."</p>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>What This Tactic Involves</h2>
+        <div class="tactic-steps">
+          <div class="tactic-step">
+            <div class="step-number">1</div>
+            <div class="step-content">
+              <h4>Optimize Google Business Profile</h4>
+              <p>Add photos weekly, post updates, respond to Q&A, and keep hours current</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">2</div>
+            <div class="step-content">
+              <h4>Add Schema Markup</h4>
+              <p>Implement LocalBusiness and LodgingBusiness schema on your website for rich snippets</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">3</div>
+            <div class="step-content">
+              <h4>Build Local Citations</h4>
+              <p>List your business on 20+ local directories with consistent NAP (Name, Address, Phone)</p>
+            </div>
+          </div>
+          <div class="tactic-step">
+            <div class="step-number">4</div>
+            <div class="step-content">
+              <h4>Create Local Content</h4>
+              <p>Write blog posts about local attractions, seasonal activities, and area guides</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Success Metrics</h2>
+        <div class="metrics-table">
+          <div class="metrics-header">
+            <span>Metric</span>
+            <span>30 Days</span>
+            <span>60 Days</span>
+            <span>90 Days</span>
+          </div>
+          <div class="metrics-row">
+            <span>GBP Views</span>
+            <span>500/mo</span>
+            <span>1,000/mo</span>
+            <span>2,000/mo</span>
+          </div>
+          <div class="metrics-row">
+            <span>Local Pack Ranking</span>
+            <span>Top 5</span>
+            <span>Top 3</span>
+            <span>#1</span>
+          </div>
+          <div class="metrics-row">
+            <span>Directory Listings</span>
+            <span>10</span>
+            <span>20</span>
+            <span>30</span>
+          </div>
+          <div class="metrics-row">
+            <span>Organic Traffic</span>
+            <span>+25%</span>
+            <span>+75%</span>
+            <span>+150%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tactic-section">
+        <h2>Tips & Resources</h2>
+        <div class="tips-list">
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Google Posts expire after 7 days. Post weekly to maintain visibility in local results.</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>NAP consistency is critical. Ensure your name, address, and phone match exactly everywhere.</span>
+          </div>
+          <div class="tip-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+            <span>Answer every GBP Q&A within 24 hours. Unanswered questions hurt your profile.</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
+  <!-- 90-Day Roadmap -->
   <section id="page-roadmap" class="page">
-    <div class="coming-soon-section">
-      <div class="coming-soon-content">
-        <div class="coming-soon-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
+    <div class="roadmap-page">
+      <div class="roadmap-header">
+        <h1>Your 90-Day Roadmap</h1>
+        <p class="roadmap-subtitle">Week-by-week actions to transform your digital presence</p>
+        <div class="roadmap-progress">
+          <div class="roadmap-progress-bar">
+            <div class="roadmap-progress-fill" style="width: 100%"></div>
+          </div>
+          <span class="roadmap-progress-text">12 of 12 weeks complete</span>
         </div>
-        <h2>90-Day Roadmap Coming Soon</h2>
-        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
-        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+
+      <div class="roadmap-grid">
+        <!-- Month 1: Foundation -->
+        <div class="roadmap-month">
+          <div class="roadmap-month-header">
+            <h2>Month 1: Foundation</h2>
+            <span class="roadmap-month-focus">Focus: Social Media Activation</span>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 1</span>
+              <h3>Setup & Planning</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Audit current social media accounts</li>
+                  <li><input type="checkbox" checked disabled> Create content calendar template</li>
+                  <li><input type="checkbox" checked disabled> Gather 20 cabin photos for posting</li>
+                  <li><input type="checkbox" checked disabled> Set up scheduling tool (Later or Buffer)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 2</span>
+              <h3>Content Creation</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Write 12 post captions for month 1</li>
+                  <li><input type="checkbox" checked disabled> Create 4 Instagram Reels</li>
+                  <li><input type="checkbox" checked disabled> Schedule first 2 weeks of content</li>
+                  <li><input type="checkbox" checked disabled> Update Instagram bio with booking link</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 3</span>
+              <h3>Launch & Engage</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Begin 3x weekly posting schedule</li>
+                  <li><input type="checkbox" checked disabled> Follow 50 local tourism accounts</li>
+                  <li><input type="checkbox" checked disabled> Respond to all comments within 2 hours</li>
+                  <li><input type="checkbox" checked disabled> Share guest photos with permission</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 4</span>
+              <h3>Review & Optimize</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Review Instagram insights for top posts</li>
+                  <li><input type="checkbox" checked disabled> Adjust posting times based on data</li>
+                  <li><input type="checkbox" checked disabled> Create 4 more Reels for month 2</li>
+                  <li><input type="checkbox" checked disabled> Document what's working, what's not</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month 2: Growth -->
+        <div class="roadmap-month">
+          <div class="roadmap-month-header">
+            <h2>Month 2: Growth</h2>
+            <span class="roadmap-month-focus">Focus: Review Generation</span>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 5</span>
+              <h3>Review System Setup</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Create post-stay email template</li>
+                  <li><input type="checkbox" checked disabled> Generate Google review QR code</li>
+                  <li><input type="checkbox" checked disabled> Design review request cards for cabins</li>
+                  <li><input type="checkbox" checked disabled> Set up email automation (if available)</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 6</span>
+              <h3>Launch Review Requests</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Send first batch of review request emails</li>
+                  <li><input type="checkbox" checked disabled> Place QR cards in all cabins</li>
+                  <li><input type="checkbox" checked disabled> Respond to any new reviews within 24h</li>
+                  <li><input type="checkbox" checked disabled> Continue 3x weekly social posting</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 7</span>
+              <h3>Expand Platforms</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Claim TripAdvisor listing</li>
+                  <li><input type="checkbox" checked disabled> Add TripAdvisor to review requests</li>
+                  <li><input type="checkbox" checked disabled> Check Facebook reviews status</li>
+                  <li><input type="checkbox" checked disabled> Add review widget to website</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 8</span>
+              <h3>Optimize & Scale</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Review conversion rate of email requests</li>
+                  <li><input type="checkbox" checked disabled> Test different email subject lines</li>
+                  <li><input type="checkbox" checked disabled> Create incentive for return guests who review</li>
+                  <li><input type="checkbox" checked disabled> Share positive reviews on social media</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Month 3: Scale -->
+        <div class="roadmap-month">
+          <div class="roadmap-month-header">
+            <h2>Month 3: Scale</h2>
+            <span class="roadmap-month-focus">Focus: Local SEO Optimization</span>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 9</span>
+              <h3>GBP Optimization</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Audit Google Business Profile completeness</li>
+                  <li><input type="checkbox" checked disabled> Add 10 new photos to GBP</li>
+                  <li><input type="checkbox" checked disabled> Update business hours and services</li>
+                  <li><input type="checkbox" checked disabled> Create first Google Post</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 10</span>
+              <h3>Technical SEO</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Add LocalBusiness schema to website</li>
+                  <li><input type="checkbox" checked disabled> Optimize title tags and meta descriptions</li>
+                  <li><input type="checkbox" checked disabled> Add operating hours to website</li>
+                  <li><input type="checkbox" checked disabled> Create FAQ page for common questions</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 11</span>
+              <h3>Citations & Listings</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Submit to 10 local directories</li>
+                  <li><input type="checkbox" checked disabled> Verify NAP consistency across all listings</li>
+                  <li><input type="checkbox" checked disabled> Create profile on tourism board site</li>
+                  <li><input type="checkbox" checked disabled> Reach out to local bloggers for features</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="roadmap-week">
+            <div class="roadmap-week-header">
+              <span class="week-badge">Week 12</span>
+              <h3>Review & Plan Ahead</h3>
+            </div>
+            <div class="roadmap-week-content">
+              <div class="week-actions">
+                <h4>Actions</h4>
+                <ul>
+                  <li><input type="checkbox" checked disabled> Complete 90-day assessment</li>
+                  <li><input type="checkbox" checked disabled> Document all improvements and wins</li>
+                  <li><input type="checkbox" checked disabled> Create maintenance schedule for ongoing tasks</li>
+                  <li><input type="checkbox" checked disabled> Plan next quarter priorities</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
