@@ -46,6 +46,9 @@
 
   /* Type scale. One display moment per page, then a hard step down. */
   --t-display: clamp(3.25rem, 8.6vw, 9.25rem);
+  /* Interior pages open one step below the homepage. Only one page on the site
+     gets the display size, or it stops meaning anything. */
+  --t-h1: clamp(2.75rem, 6.2vw, 5.75rem);
   --t-h2: clamp(2.125rem, 4.4vw, 3.75rem);
   --t-h3: clamp(1.5rem, 2.5vw, 2.125rem);
   --t-h4: 1.1875rem;
@@ -113,6 +116,12 @@ img,
 svg {
   display: block;
   max-width: 100%;
+}
+
+/* Any component that sets its own `display` outranks the UA sheet's
+   `[hidden] { display: none }`, which silently breaks the filters. */
+[hidden] {
+  display: none !important;
 }
 
 ::selection {
@@ -1005,10 +1014,20 @@ a.card:active {
   transition: transform 240ms var(--ease-out);
 }
 
+/* The current page keeps its rule drawn, so hover and location share one
+   visual language instead of needing two. */
+.nav a[aria-current="page"]::after {
+  transform: scaleX(1);
+}
+
 @media (hover: hover) and (pointer: fine) {
   .nav a:not(.btn):hover::after {
     transform: scaleX(1);
   }
+}
+
+.menu__inner a[aria-current="page"] {
+  color: var(--green);
 }
 
 /* --- Mobile menu ---------------------------------------------------------- */
@@ -1267,6 +1286,354 @@ a.card:active {
 }
 
 /* ==========================================================================
+   7b. Interior page components
+   ========================================================================== */
+
+/* --- Page hero ------------------------------------------------------------ */
+
+.page-hero {
+  padding-top: clamp(3rem, 6vw, 5.5rem);
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem);
+}
+
+.page-hero h1 {
+  font-size: var(--t-h1);
+  font-weight: var(--w-black);
+  line-height: 0.92;
+  letter-spacing: -0.04em;
+  margin-top: 1.25rem;
+  text-wrap: balance;
+}
+
+.page-hero .lead {
+  margin-top: 1.5rem;
+}
+
+/* --- Numbered service rows ------------------------------------------------ */
+
+/* Rows rather than a grid of six identical cards. The brand rules ask for
+   "numbered services", and a numbered list is what that actually looks like. */
+.services {
+  border-top: 1px solid var(--rule);
+}
+
+.service {
+  display: grid;
+  grid-template-columns: 5.5rem minmax(0, 1fr) auto;
+  align-items: start;
+  gap: clamp(1rem, 3vw, 2.5rem);
+  padding: clamp(1.75rem, 3vw, 2.5rem) clamp(0.75rem, 1.5vw, 1.25rem);
+  border-bottom: 1px solid var(--rule);
+  color: inherit;
+  text-decoration: none;
+  transition:
+    background-color var(--hover) ease,
+    padding-left var(--hover) var(--ease-out);
+}
+
+.service__num {
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+  font-weight: var(--w-medium);
+  color: var(--ink-muted);
+  padding-top: 0.45rem;
+  transition: color var(--hover) ease;
+}
+
+.service__title {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: var(--w-bold);
+  letter-spacing: -0.028em;
+  line-height: 1.08;
+}
+
+.service__body p {
+  margin-top: 0.75rem;
+  max-width: 52ch;
+}
+
+.service__meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  align-self: center;
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.4rem 0.75rem 0.35rem;
+  white-space: nowrap;
+  transition: border-color var(--hover) ease, color var(--hover) ease;
+}
+
+.service__arrow {
+  align-self: center;
+  font-size: 1.375rem;
+  color: var(--ink-muted);
+  transition: transform 260ms var(--ease-out), color var(--hover) ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .service:hover {
+    background: var(--surface);
+    padding-left: clamp(1.25rem, 2.5vw, 2rem);
+  }
+
+  .service:hover .service__num,
+  .service:hover .service__arrow {
+    color: var(--green);
+  }
+
+  .service:hover .service__arrow {
+    transform: translateX(5px);
+  }
+
+  .service:hover .service__meta {
+    border-color: var(--green);
+    color: var(--green);
+  }
+}
+
+/* --- Filter chips --------------------------------------------------------- */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+.chip {
+  border: 1px solid rgba(23, 21, 18, 0.25);
+  background: transparent;
+  border-radius: 999px;
+  padding: 0.55rem 1.1rem 0.5rem;
+  font-family: var(--font);
+  font-size: 0.9375rem;
+  font-weight: var(--w-medium);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    transform var(--press) var(--ease-out),
+    background-color var(--hover) ease,
+    border-color var(--hover) ease,
+    color var(--hover) ease;
+}
+
+.chip:active {
+  transform: scale(0.96);
+}
+
+.chip[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .chip:hover {
+    border-color: var(--ink);
+  }
+}
+
+/* The whole grid dips out and back rather than each card animating
+   independently, so a filter change reads as one move. */
+.filter-grid {
+  transition: opacity 240ms var(--ease-out);
+}
+
+.filter-grid.is-swapping {
+  opacity: 0;
+  transition-duration: 140ms;
+}
+
+.filter-empty {
+  padding: 2rem 0;
+  color: var(--ink-muted);
+}
+
+/* --- Course card ---------------------------------------------------------- */
+
+.course {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  padding: 0;
+}
+
+.course__tint {
+  height: 6px;
+  background: var(--green);
+}
+
+.course__inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: clamp(1.5rem, 2.2vw, 2rem);
+}
+
+.course__kind {
+  color: var(--green);
+}
+
+.course__title {
+  margin-top: 0.875rem;
+  font-size: 1.3125rem;
+  font-weight: var(--w-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.course__foot {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-top: auto;
+  padding-top: 1.5rem;
+}
+
+.course__price {
+  font-size: 1.375rem;
+  font-weight: var(--w-bold);
+  letter-spacing: -0.025em;
+}
+
+/* --- Case study ----------------------------------------------------------- */
+
+.case {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.6fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding-block: clamp(2.5rem, 5vw, 4rem);
+  border-top: 1px solid var(--rule);
+}
+
+.case__stat {
+  font-size: clamp(3rem, 6vw, 5rem);
+  font-weight: var(--w-black);
+  letter-spacing: -0.05em;
+  line-height: 0.9;
+  color: var(--green);
+}
+
+.case__span {
+  margin-top: 1rem;
+}
+
+.case__title {
+  font-size: clamp(1.625rem, 2.8vw, 2.375rem);
+  font-weight: var(--w-bold);
+  letter-spacing: -0.03em;
+  line-height: 1.06;
+  margin-top: 0.75rem;
+}
+
+.quote {
+  margin-top: 1.75rem;
+  padding-left: 1.25rem;
+  border-left: 2px solid var(--gold);
+}
+
+.quote p {
+  font-size: var(--t-lead);
+  font-weight: var(--w-light);
+  line-height: 1.5;
+  color: var(--ink);
+}
+
+.quote footer {
+  margin-top: 0.75rem;
+}
+
+/* --- Beliefs -------------------------------------------------------------- */
+
+.belief {
+  padding-top: 1.5rem;
+  border-top: 2px solid var(--ink);
+}
+
+.belief__num {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: var(--w-medium);
+  color: var(--green);
+}
+
+.belief h3 {
+  margin-top: 1rem;
+  font-size: 1.375rem;
+  font-weight: var(--w-bold);
+  letter-spacing: -0.022em;
+  line-height: 1.18;
+}
+
+.belief p {
+  margin-top: 0.75rem;
+}
+
+/* --- Person --------------------------------------------------------------- */
+
+.person {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: start;
+}
+
+.person__avatar {
+  width: 5.5rem;
+  height: 5.5rem;
+  border-radius: 50%;
+  background: var(--green);
+  color: var(--paper);
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 1.375rem;
+  font-weight: var(--w-medium);
+  letter-spacing: 0.06em;
+}
+
+.person__name {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: var(--w-black);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+/* --- Article card --------------------------------------------------------- */
+
+.article__meta {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.article__title {
+  margin-top: 0.625rem;
+  font-size: 1.375rem;
+  font-weight: var(--w-bold);
+  letter-spacing: -0.022em;
+  line-height: 1.18;
+}
+
+/* --- Signed-in style CTA bar ---------------------------------------------- */
+
+.note {
+  font-family: var(--font-mono);
+  font-size: var(--t-label);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+/* ==========================================================================
    8. Responsive
    ========================================================================== */
 
@@ -1291,10 +1658,37 @@ a.card:active {
   }
 }
 
+@media (max-width: 60rem) {
+  .case {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.25rem;
+  }
+}
+
 @media (max-width: 44rem) {
   .doors,
   .duo,
   .trio {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  /* The number moves above the title so the copy keeps a usable measure. */
+  .service {
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.75rem 1rem;
+  }
+
+  .service__num {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+
+  .service__meta,
+  .service__arrow {
+    align-self: start;
+  }
+
+  .person {
     grid-template-columns: minmax(0, 1fr);
   }
 
@@ -1368,8 +1762,14 @@ a.card:active {
   .btn:active,
   a.card:active,
   .play:active,
-  .nav-toggle:active {
+  .nav-toggle:active,
+  .chip:active {
     transform: none;
+  }
+
+  .service,
+  .service__arrow {
+    transition: background-color 150ms ease, color 150ms ease;
   }
 
   .menu {

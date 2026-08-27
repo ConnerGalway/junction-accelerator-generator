@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JunctionU / Junction Consulting</title>
+<meta name="description" content="Certificate courses, workshops and free Tourism Talks for tourism professionals. Lessons run under an hour. 2,000+ people are in.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script>
+  document.documentElement.setAttribute('data-motion', '');
+  setTimeout(function () {
+    if (!document.documentElement.hasAttribute('data-motion-ready')) {
+      document.documentElement.removeAttribute('data-motion');
+    }
+  }, 1500);
+</script>
+</head>
+<body>
+
+<a href="#main" class="visually-hidden">Skip to content</a>
+
+<header class="header" id="site-header">
+  <div class="wrap header__inner">
+    <a href="index.html" class="header__logo" aria-label="Junction, home">
+      <img src="assets/wordmark.png" alt="Junction" width="247" height="35">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="services.html">Services</a>
+      <a href="work.html">Work</a>
+      <a href="junctionu.html" aria-current="page">JunctionU</a>
+      <a href="ideas.html">Ideas</a>
+      <a href="about.html">About</a>
+      <a href="#start" class="btn btn--primary btn--sm">Start free</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="menu" id="menu">
+  <nav class="menu__inner" aria-label="Mobile">
+    <a href="services.html" style="--i: 0">Services</a>
+    <a href="work.html" style="--i: 1">Work</a>
+    <a href="junctionu.html" aria-current="page" style="--i: 2">JunctionU</a>
+    <a href="ideas.html" style="--i: 3">Ideas</a>
+    <a href="about.html" style="--i: 4">About</a>
+  </nav>
+</div>
+
+<main id="main">
+
+  <section class="page-hero wrap">
+    <p class="label label--green" data-reveal>JunctionU / formerly eLearningU</p>
+    <h1 data-reveal style="--delay: 60ms">Training that fits between two guest check-ins.</h1>
+    <p class="lead measure-wide" data-reveal style="--delay: 140ms">
+      Certificate courses, workshops and free Tourism Talks, built for tourism
+      professionals. Lessons run under an hour and every one ends in something
+      you can do today. 2,000+ people are in.
+    </p>
+    <div class="hero__actions" style="margin-top: 1.75rem; --delay: 200ms" data-reveal>
+      <a href="#start" class="btn btn--primary">Start free</a>
+      <a href="#catalogue" class="btn btn--outline">Browse the catalogue</a>
+      <a href="#start" class="btn btn--outline btn--sm">Sign in</a>
+    </div>
+    <p class="note" style="margin-top: 1.25rem" data-reveal>
+      Free account = Tourism Talks + a starter course. No card.
+    </p>
+  </section>
+
+  <section class="section panel--sunk" id="catalogue">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="h2" data-reveal>The catalogue</h2>
+        <div class="chips" role="group" aria-label="Filter courses by type"
+             data-filter-group="courses" data-filter-noun="courses" data-reveal>
+          <button type="button" class="chip" data-filter="All" aria-pressed="true">All</button>
+          <button type="button" class="chip" data-filter="Certificate" aria-pressed="false">Certificates</button>
+          <button type="button" class="chip" data-filter="Workshop" aria-pressed="false">Workshops</button>
+          <button type="button" class="chip" data-filter="Free" aria-pressed="false">Free</button>
+        </div>
+      </div>
+
+      <p class="visually-hidden" role="status" data-filter-count="courses"></p>
+
+      <div class="trio filter-grid" data-filter-target="courses" data-stagger>
+
+        <a href="#start" class="card course" data-kind="Certificate" data-reveal>
+          <span class="course__tint"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Certificate</span>
+            <span class="course__title">Tourism Digital Marketing Essentials</span>
+            <span class="small" style="margin-top: 0.625rem">The full foundation: website, Google profile, reviews, email and social, in plain language.</span>
+            <span class="course__foot">
+              <span class="label">8 modules / 6 hrs</span>
+              <span class="course__price">$349</span>
+            </span>
+          </span>
+        </a>
+
+        <a href="#start" class="card course" data-kind="Certificate" data-reveal>
+          <span class="course__tint" style="background: #2e6b54"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Certificate</span>
+            <span class="course__title">AI for Tourism Operators</span>
+            <span class="small" style="margin-top: 0.625rem">Where AI pays off in a small business, and where it wastes your month.</span>
+            <span class="course__foot">
+              <span class="label">6 modules / 4 hrs</span>
+              <span class="course__price">$349</span>
+            </span>
+          </span>
+        </a>
+
+        <a href="#start" class="card course" data-kind="Certificate" data-reveal>
+          <span class="course__tint"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Certificate</span>
+            <span class="course__title">Sustainable Tourism</span>
+            <span class="small" style="margin-top: 0.625rem">A sustainability practice guests can feel and your marketing can honestly claim.</span>
+            <span class="course__foot">
+              <span class="label">6 modules / 4 hrs</span>
+              <span class="course__price">$349</span>
+            </span>
+          </span>
+        </a>
+
+        <a href="#start" class="card course" data-kind="Workshop" data-reveal>
+          <span class="course__tint" style="background: #2e6b54"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Workshop</span>
+            <span class="course__title">Your Google Business Profile, Fixed</span>
+            <span class="small" style="margin-top: 0.625rem">Ninety hands-on minutes. Leave with your profile complete and working for you.</span>
+            <span class="course__foot">
+              <span class="label">Live / 90 min</span>
+              <span class="course__price">$79</span>
+            </span>
+          </span>
+        </a>
+
+        <a href="#start" class="card course" data-kind="Workshop" data-reveal>
+          <span class="course__tint"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Workshop</span>
+            <span class="course__title">Email That Gets Opened</span>
+            <span class="small" style="margin-top: 0.625rem">Welcome, pre-arrival, win-back: build all three in one working session.</span>
+            <span class="course__foot">
+              <span class="label">Live / 2 hrs</span>
+              <span class="course__price">$79</span>
+            </span>
+          </span>
+        </a>
+
+        <a href="#start" class="card course" data-kind="Free" data-reveal>
+          <span class="course__tint" style="background: #2e6b54"></span>
+          <span class="course__inner">
+            <span class="label course__kind">Free</span>
+            <span class="course__title">Tourism Talks</span>
+            <span class="small" style="margin-top: 0.625rem">Candid conversations with marketers doing the work: Nimmo Bay, SuperNatural BC and more.</span>
+            <span class="course__foot">
+              <span class="label">Video series</span>
+              <span class="course__price">Free</span>
+            </span>
+          </span>
+        </a>
+
+      </div>
+
+      <p class="filter-empty" data-filter-empty="courses" hidden>Nothing in that category yet.</p>
+
+      <p class="small" style="margin-top: 2rem" data-reveal>
+        Checkout happens right here. Card in, certificate out, no separate platform.
+      </p>
+    </div>
+  </section>
+
+  <section class="section wrap">
+    <div class="split split--wide-left">
+      <div>
+        <p class="label label--green" data-reveal>For DMOs</p>
+        <h2 class="h2" style="margin-top: 1.25rem; max-width: 16ch" data-reveal>Fund seats for your whole region.</h2>
+        <p class="lead measure-wide" style="margin-top: 1.25rem" data-reveal>
+          Partners cover 25% to 100% of course costs for their operators. We
+          handle delivery, support and progress reporting. Travel Yukon has run
+          it for four years, and 300+ businesses came through.
+        </p>
+        <a href="#start" class="btn btn--primary" style="margin-top: 1.75rem" data-reveal>Become a partner</a>
+      </div>
+
+      <blockquote class="card card--green" data-reveal style="--delay: 120ms">
+        <p class="h3" style="font-weight: var(--w-light); letter-spacing: -0.02em; line-height: 1.25">
+          Functional, accessible, and personalized. Incredibly valuable education
+          for our tourism sector.
+        </p>
+        <footer class="label label--onDark" style="margin-top: 1.5rem">
+          Avery Bramadat / Senior Tourism Development Advisor, Travel Yukon
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section class="section panel--green" id="start">
+    <div class="wrap" style="text-align: center">
+      <h2 class="h2" style="max-width: 18ch; margin-inline: auto" data-reveal>
+        A free account takes about a minute.
+      </h2>
+      <p class="lead measure" style="margin: 1.5rem auto 0" data-reveal>
+        Tourism Talks and a starter course, no card. Upgrade whenever the work
+        calls for it.
+      </p>
+      <a href="#start" class="btn btn--primary" style="margin-top: 2.25rem" data-reveal>Start free</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>&copy; Junction Consulting 2026 / JunctionU is Junction&rsquo;s training platform</span>
+    <div class="footer__links">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="motion.js"></script>
+</body>
+</html>

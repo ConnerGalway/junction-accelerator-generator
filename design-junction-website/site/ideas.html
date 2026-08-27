@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ideas / Junction Consulting</title>
+<meta name="description" content="100+ articles on tourism marketing, AI and the visitor economy, plus The Brief, the weekly newsletter for marketers.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<script>
+  document.documentElement.setAttribute('data-motion', '');
+  setTimeout(function () {
+    if (!document.documentElement.hasAttribute('data-motion-ready')) {
+      document.documentElement.removeAttribute('data-motion');
+    }
+  }, 1500);
+</script>
+</head>
+<body>
+
+<a href="#main" class="visually-hidden">Skip to content</a>
+
+<header class="header" id="site-header">
+  <div class="wrap header__inner">
+    <a href="index.html" class="header__logo" aria-label="Junction, home">
+      <img src="assets/wordmark.png" alt="Junction" width="247" height="35">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="services.html">Services</a>
+      <a href="work.html">Work</a>
+      <a href="junctionu.html">JunctionU</a>
+      <a href="ideas.html" aria-current="page">Ideas</a>
+      <a href="about.html">About</a>
+      <a href="#start" class="btn btn--primary btn--sm">Start a conversation</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<div class="menu" id="menu">
+  <nav class="menu__inner" aria-label="Mobile">
+    <a href="services.html" style="--i: 0">Services</a>
+    <a href="work.html" style="--i: 1">Work</a>
+    <a href="junctionu.html" style="--i: 2">JunctionU</a>
+    <a href="ideas.html" aria-current="page" style="--i: 3">Ideas</a>
+    <a href="about.html" style="--i: 4">About</a>
+  </nav>
+</div>
+
+<main id="main">
+
+  <section class="page-hero wrap">
+    <p class="label label--green" data-reveal>Ideas / 100+ articles</p>
+    <h1 data-reveal style="--delay: 60ms">Thinking you can use by Friday.</h1>
+  </section>
+
+  <!-- The Brief is the nurture engine, so it sits above the archive rather
+       than at the foot of the page. -->
+  <section class="section--tight wrap">
+    <div class="card card--green split split--wide-left" style="align-items: center" data-reveal>
+      <div>
+        <p class="label label--onDark">The Brief / weekly</p>
+        <h2 class="h3" style="margin-top: 1rem">Start every week knowing something your competitors don&rsquo;t.</h2>
+      </div>
+      <div>
+        <form class="field" data-newsletter>
+          <label for="brief-email" class="visually-hidden">Your email address</label>
+          <input id="brief-email" class="input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+          <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+        </form>
+        <p class="label label--onDark" style="margin-top: 1rem">Award-winning. Free. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight wrap">
+    <div class="chips" role="group" aria-label="Filter articles by topic"
+         data-filter-group="articles" data-filter-noun="articles" data-reveal>
+      <button type="button" class="chip" data-filter="All" aria-pressed="true">All</button>
+      <button type="button" class="chip" data-filter="Marketing" aria-pressed="false">Marketing</button>
+      <button type="button" class="chip" data-filter="AI" aria-pressed="false">AI</button>
+      <button type="button" class="chip" data-filter="Tourism" aria-pressed="false">Tourism</button>
+      <button type="button" class="chip" data-filter="Trends" aria-pressed="false">Trends</button>
+    </div>
+
+    <p class="visually-hidden" role="status" data-filter-count="articles"></p>
+
+    <div class="trio filter-grid" style="margin-top: 2rem" data-filter-target="articles" data-stagger>
+
+      <a href="#" class="card" data-kind="Marketing" data-reveal>
+        <p class="article__meta">Jul 14 / Marketing</p>
+        <h2 class="article__title">Maybe the algorithm isn&rsquo;t the problem</h2>
+        <p class="small" style="margin-top: 0.75rem">Before you blame the platform, check the three things the algorithm actually rewards.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="Trends" data-reveal>
+        <p class="article__meta">Jul 6 / Trends</p>
+        <h2 class="article__title">The year of the creator economy</h2>
+        <p class="small" style="margin-top: 0.75rem">What tourism brands should copy from creators, and what to leave alone.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="AI" data-reveal>
+        <p class="article__meta">Jun 8 / AI</p>
+        <h2 class="article__title">The four phases of AI adoption</h2>
+        <p class="small" style="margin-top: 0.75rem">Most teams stall at phase two. Here is what the jump to three looks like.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="Tourism" data-reveal>
+        <p class="article__meta">May 26 / Tourism</p>
+        <h2 class="article__title">The hidden 80% of your visitor economy</h2>
+        <p class="small" style="margin-top: 0.75rem">The businesses that never call themselves tourism businesses, and why they matter most.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="Marketing" data-reveal>
+        <p class="article__meta">May 12 / Marketing</p>
+        <h2 class="article__title">They remember the interaction</h2>
+        <p class="small" style="margin-top: 0.75rem">What 4,500 visitors taught one small town about word of mouth.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="Marketing" data-reveal>
+        <p class="article__meta">Apr 28 / Marketing</p>
+        <h2 class="article__title">Your Google profile is your homepage now</h2>
+        <p class="small" style="margin-top: 0.75rem">More travellers see it than your website. Sixty minutes fixes it.</p>
+      </a>
+
+      <a href="#" class="card" data-kind="Tourism" data-reveal>
+        <p class="article__meta">Apr 14 / Tourism</p>
+        <h2 class="article__title">What a DMO can actually promise its board</h2>
+        <p class="small" style="margin-top: 0.75rem">Capacity built is measurable. Here is how partners report it.</p>
+      </a>
+
+    </div>
+
+    <p class="filter-empty" data-filter-empty="articles" hidden>Nothing filed under that topic yet.</p>
+
+    <p class="small measure-wide" style="margin-top: 2.5rem; padding-top: 2rem; border-top: 1px solid var(--rule)" data-reveal>
+      Every article ends with one next step matched to its topic: a course, a
+      tool, or a conversation. The full archive lands here at launch, each piece
+      with its own search-ready title and description.
+    </p>
+  </section>
+
+  <section class="section panel--green" id="start">
+    <div class="wrap" style="text-align: center">
+      <h2 class="h2" style="max-width: 20ch; margin-inline: auto" data-reveal>
+        Read something here that applies to your region?
+      </h2>
+      <p class="lead measure" style="margin: 1.5rem auto 0" data-reveal>
+        A few questions, then the call books itself on the spot. Thirty minutes,
+        no pitch deck.
+      </p>
+      <a href="#start" class="btn btn--primary" style="margin-top: 2.25rem" data-reveal>Start a conversation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="wrap footer__inner">
+    <span>&copy; Junction Consulting 2026</span>
+    <div class="footer__links">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="motion.js"></script>
+</body>
+</html>

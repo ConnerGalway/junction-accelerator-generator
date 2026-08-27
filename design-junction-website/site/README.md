@@ -11,10 +11,20 @@ python3 -m http.server 4321 --directory design-junction-website/site
 
 | File | What it holds |
 | --- | --- |
-| `index.html` | The homepage |
+| `index.html` | Homepage |
+| `services.html` | Six numbered services |
+| `work.html` | Four case studies |
+| `junctionu.html` | Course catalogue with filters |
+| `ideas.html` | Article archive with filters, The Brief |
+| `about.html` | Beliefs and team |
 | `styles.css` | Tokens and every component. Sections 1 to 9, signposted in the file |
-| `motion.js` | Reveals, counters, route drawing, mobile menu, newsletter |
+| `motion.js` | Reveals, counters, route drawing, menu, filters, newsletter |
 | `assets/` | Wordmark, client logos, photography |
+
+The header, mobile menu and footer are duplicated in each page rather than
+injected at runtime, because there is no build step and injecting chrome with
+JavaScript would hide the navigation from crawlers and from anyone whose script
+fails. Six copies to keep in sync is the price.
 
 ## Decisions made here, and why
 
@@ -71,6 +81,38 @@ intentional:
 nothing flashes in and then hides, and a 1500ms timer removes it if `motion.js`
 never arrives. With JS off, nothing is hidden in the first place.
 
+**Only the homepage gets display type, and only the homepage gets the motif.**
+Interior pages open one step down at `--t-h1` and carry no route drawing. The
+brand rules allow one signature motif per page; spending it on every page would
+spend it on none.
+
+**Interior pages vary their structure, not just their content.** Services is a
+numbered list of rows, Work is an editorial two-column layout, JunctionU and
+Ideas are filtered grids, About is a three-column belief row plus a profile. None
+of them repeat the homepage's card grid.
+
+## Filters
+
+Chips filter a grid in place, with no page reload:
+
+```html
+<div class="chips" role="group" aria-label="Filter by type"
+     data-filter-group="courses" data-filter-noun="courses">
+  <button class="chip" data-filter="All" aria-pressed="true">All</button>
+  <button class="chip" data-filter="Workshop" aria-pressed="false">Workshops</button>
+</div>
+<p class="visually-hidden" role="status" data-filter-count="courses"></p>
+<div class="trio filter-grid" data-filter-target="courses" data-stagger>
+  <a class="card" data-kind="Workshop">...</a>
+</div>
+<p class="filter-empty" data-filter-empty="courses" hidden>Nothing here yet.</p>
+```
+
+The grid dips to opacity 0, swaps while nothing is visible, then returns, so a
+filter change reads as one move rather than a dozen cards reflowing. A filter
+that surfaces a card which was never scroll-revealed forces it visible, or it
+would appear as blank space.
+
 ## Adding a page
 
 Reuse `styles.css` as is. A section is:
@@ -91,9 +133,14 @@ container to cascade the children. Backgrounds: `panel--green`, `panel--surface`
 
 ## Known gaps
 
-- Nav links and card links point at on-page anchors. They need real URLs once
-  the other pages exist.
+- Individual case study, article and course pages do not exist yet. Those links
+  point at their index page or at `#start`.
+- The Digital Snapshot and Program Builder have sections on the homepage but no
+  tool behind them.
 - The newsletter form confirms in place. No endpoint is wired up.
+- "Start a conversation" scrolls to the CTA band on each page. The strategy calls
+  for a routed enquiry form (DMO / operator / AI training / speaking), which is
+  the next real build.
 - The play button on the JunctionU card has no video behind it.
 - Type substitutes Work Sans for Basis Grotesque Pro in the design system, but
   this site uses Overpass per the locked brand decisions in `../CLAUDE.md`. The

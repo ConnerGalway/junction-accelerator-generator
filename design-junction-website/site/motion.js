@@ -14,10 +14,6 @@
   'use strict';
 
   var root = document.documentElement;
-
-  // Tell the head-script failsafe that motion is alive, so it stops counting down.
-  root.setAttribute('data-motion-ready', '');
-
   var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canObserve = 'IntersectionObserver' in window;
 
@@ -79,6 +75,12 @@
       });
     });
   }
+
+  // Only now tell the head-script failsafe to stop counting down. Claiming it
+  // any earlier would mean a throw in the setup above leaves the page hidden at
+  // opacity 0 with the safety net already switched off. Anything below this
+  // line can fail without taking the content with it.
+  root.setAttribute('data-motion-ready', '');
 
   /* --- Header ------------------------------------------------------------ */
 
@@ -236,12 +238,84 @@
     });
   }
 
+  /* --- Catalogue filters ------------------------------------------------- */
+
+  // Chips filter a grid in place. The grid dips to opacity 0, the swap happens
+  // while nothing is visible, then it comes back. One move rather than a dozen
+  // cards reflowing in front of the reader.
+  Array.prototype.forEach.call(document.querySelectorAll('[data-filter-group]'), function (group) {
+    var key = group.getAttribute('data-filter-group');
+    var grid = document.querySelector('[data-filter-target="' + key + '"]');
+    if (!grid) return;
+
+    var items = Array.prototype.slice.call(grid.children);
+    var empty = document.querySelector('[data-filter-empty="' + key + '"]');
+    var live = document.querySelector('[data-filter-count="' + key + '"]');
+    var chips = Array.prototype.slice.call(group.querySelectorAll('.chip'));
+    var swapTimer = null;
+
+    var noun = group.getAttribute('data-filter-noun') || 'items';
+
+    // `force` marks a user-initiated filter change. Items further down the grid
+    // may never have been scroll-revealed, and a filter that surfaces them must
+    // not leave them sitting at opacity 0 as blank space. The initial call
+    // passes force = false so the reveal-on-scroll still plays on first load.
+    function commit(value, force) {
+      var shown = 0;
+      items.forEach(function (el) {
+        var match = value === 'All' || el.getAttribute('data-kind') === value;
+        el.hidden = !match;
+        if (match) {
+          shown++;
+          if (force) el.classList.add('is-in');
+        }
+      });
+      if (empty) empty.hidden = shown !== 0;
+      if (live) {
+        live.textContent =
+          shown + ' ' + (shown === 1 ? noun.replace(/s$/, '') : noun) + ' shown';
+      }
+      return shown;
+    }
+
+    function select(chip) {
+      var value = chip.getAttribute('data-filter');
+
+      chips.forEach(function (c) {
+        c.setAttribute('aria-pressed', String(c === chip));
+      });
+
+      if (reduced) {
+        commit(value, true);
+        return;
+      }
+
+      grid.classList.add('is-swapping');
+      clearTimeout(swapTimer);
+      swapTimer = setTimeout(function () {
+        commit(value, true);
+        grid.classList.remove('is-swapping');
+      }, 140);
+    }
+
+    chips.forEach(function (chip) {
+      chip.addEventListener('click', function () {
+        select(chip);
+      });
+    });
+
+    // Establish the starting count for assistive tech without animating.
+    var initial = chips.filter(function (c) {
+      return c.getAttribute('aria-pressed') === 'true';
+    })[0];
+    if (initial) commit(initial.getAttribute('data-filter'), false);
+  });
+
   /* --- Newsletter -------------------------------------------------------- */
 
   // No endpoint is wired up yet. Confirm in place rather than navigating away,
   // and keep the announcement available to screen readers.
-  var form = document.querySelector('[data-newsletter]');
-  if (form) {
+  Array.prototype.forEach.call(document.querySelectorAll('[data-newsletter]'), function (form) {
     form.addEventListener('submit', function (e) {
       e.preventDefault();
       var input = form.querySelector('input');
@@ -262,5 +336,5 @@
       note.textContent = 'Check your inbox to confirm. First issue lands Monday.';
       form.insertAdjacentElement('afterend', note);
     });
-  }
+  });
 })();
