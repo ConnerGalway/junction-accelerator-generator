@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+:root{
+/* Junction's deck is set in Basis Grotesque Pro (Light/Regular/Medium), a licensed
+   Colophon Foundry face we don't have files for. Work Sans is the nearest free
+   substitute: same low-contrast grotesque skeleton, similar x-height and aperture,
+   and ships the Light/Regular/Medium trio the deck actually uses. Swap in the real
+   Basis Grotesque Pro webfont files if/when available. */
+--font-sans:'Work Sans',-apple-system,'Helvetica Neue',Arial,sans-serif;
+--weight-light:300;
+--weight-regular:400;
+--weight-medium:500;
+--weight-semibold:600;
+
+/* type scale — headlines run in Light weight at large size (the deck's signature move) */
+--text-display:clamp(2.75rem,5vw,4.25rem);
+--text-h1:clamp(2.25rem,3.6vw,3.25rem);
+--text-h2:clamp(1.5rem,2.4vw,2.125rem);
+--text-h3:1.375rem;
+--text-stat:clamp(3rem,6vw,5.5rem);
+--text-body-lg:1.25rem;
+--text-body:1.0625rem;
+--text-small:0.875rem;
+--text-label:0.75rem;
+
+--leading-tight:1.05;
+--leading-snug:1.25;
+--leading-normal:1.5;
+--tracking-label:0.08em;
+}

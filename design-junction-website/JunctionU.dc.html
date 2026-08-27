@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/colors.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/typography.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/styles.css">
+<script src="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: var(--navy-800, #233f5f); text-decoration: none; }
+  a:hover { opacity: 0.85; }
+</style>
+</helmet>
+<div style="font-family: 'Work Sans', sans-serif; background: var(--white); color: var(--text-body); width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 56px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);">
+    <a href="Homepage v6.dc.html" style="display: flex; align-items: center; gap: 10px;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"><span style="font-size: 14px; font-weight: 500; color: var(--navy-900); border-left: 1px solid var(--border-subtle); padding-left: 10px;">U</span></a>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; color: var(--gray-700);">
+      <a href="Services.dc.html" style="color: inherit;">Services</a>
+      <a href="Work.dc.html" style="color: inherit;">Work</a>
+      <a href="JunctionU.dc.html" style="color: var(--navy-900); font-weight: 500;">JunctionU</a>
+      <a href="About.dc.html" style="color: inherit;">About</a>
+      <a href="Articles.dc.html" style="color: inherit;">Articles</a>
+      <a href="Dashboard.dc.html" style="border: 1px solid var(--gray-200); color: var(--navy-800); padding: 12px 24px; border-radius: 999px; white-space: nowrap;" style-hover="border-color: var(--navy-800);">Sign in</a>
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 12px 24px; border-radius: 999px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Start free</a>
+    </nav>
+  </header>
+
+  <section style="padding: 92px 56px 64px; background: linear-gradient(180deg, #7fae92 0%, rgba(163,197,176,0.4) 52%, var(--white) 100%); text-align: center;">
+    <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="mint" hint-size="180px,32px">Formerly eLearningU</x-import>
+    <h1 style="font-weight: 300; font-size: clamp(44px, 5.8vw, 88px); line-height: 1.02; letter-spacing: -0.025em; color: var(--navy-900); margin: 26px auto 0; max-width: 17ch;">Training that fits between two guest check-ins.</h1>
+    <p style="font-size: 19px; font-weight: 300; line-height: 1.6; color: var(--gray-700); max-width: 50ch; margin: 26px auto 0;">Certificate courses, hands-on workshops and free Tourism Talks — built for tourism professionals, in lessons under an hour. Join 2,000+ already learning.</p>
+    <div style="display: flex; gap: 14px; justify-content: center; margin-top: 36px; flex-wrap: wrap;">
+      <a href="#catalogue" style="background: var(--gold-500); color: var(--navy-900); padding: 17px 32px; border-radius: 999px; font-size: 16px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Browse courses</a>
+      <a href="Dashboard.dc.html" style="border: 1px solid var(--gray-200); background: var(--white); color: var(--navy-800); padding: 17px 32px; border-radius: 999px; font-size: 16px; white-space: nowrap;" style-hover="border-color: var(--navy-800);">Start free</a>
+    </div>
+  </section>
+
+  <section id="catalogue" style="padding: 48px 56px 88px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 36px;">
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); letter-spacing: -0.02em; color: var(--navy-900); margin: 0;">The catalogue</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <button type="button" onClick="{{ f.pick }}" style="background: {{ f.bg }}; color: {{ f.fg }}; border: 1px solid {{ f.border }}; border-radius: 999px; padding: 10px 20px; font-family: 'Work Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer;">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <sc-for list="{{ courses }}" as="c" hint-placeholder-count="6">
+        <a href="Course.dc.html" style="display: flex; flex-direction: column; background: var(--surface-card, #fff); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg, 20px); overflow: hidden;" style-hover="border-color: var(--navy-800);">
+          <div style="height: 150px; background: {{ c.tint }}; display: flex; align-items: flex-end; padding: 18px;">
+            <span style="background: rgba(255,255,255,0.92); border-radius: 999px; padding: 7px 14px; font-size: 12px; font-weight: 500; color: var(--navy-800);">{{ c.kind }}</span>
+          </div>
+          <div style="padding: 26px 26px 28px; display: flex; flex-direction: column; flex: 1;">
+            <h3 style="font-weight: 500; font-size: 20px; line-height: 1.25; color: var(--navy-800); margin: 0 0 8px;">{{ c.title }}</h3>
+            <p style="font-size: 14px; font-weight: 300; line-height: 1.55; color: var(--gray-700); margin: 0 0 18px;">{{ c.blurb }}</p>
+            <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-size: 13px; color: var(--gray-500);">{{ c.meta }}</span>
+              <span style="font-weight: 500; font-size: 18px; color: var(--navy-900);">{{ c.price }}</span>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+  </section>
+
+  <section style="margin: 0 56px 88px; padding: 64px 52px; border-radius: var(--radius-lg, 20px); background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-500); margin-bottom: 16px;">For DMOs</div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3.2vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 14px;">Fund seats for your whole region.</h2>
+      <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: #c3cbdd; margin: 0; max-width: 52ch;">Destination partners subsidise 25% to 100% of course costs for their operators — with delivery, support and progress reporting handled by us.</p>
+    </div>
+    <div style="text-align: right;">
+      <a href="Contact.dc.html" style="display: inline-block; background: var(--gold-500); color: var(--navy-900); padding: 16px 30px; border-radius: 999px; font-size: 15px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Become a partner</a>
+    </div>
+  </section>
+
+  <section style="padding: 0 56px 96px; text-align: center;">
+    <blockquote style="margin: 0 auto; max-width: 60ch;">
+      <p style="font-weight: 300; font-size: clamp(24px, 2.8vw, 38px); line-height: 1.25; letter-spacing: -0.015em; color: var(--navy-900); margin: 0;">"Junction has delivered incredibly valuable insights and education to our tourism sector — functional, accessible, and personalized."</p>
+      <footer style="font-size: 14px; color: var(--gray-500); margin-top: 20px;">Avery Bramadat — Senior Tourism Development Advisor, Travel Yukon</footer>
+    </blockquote>
+  </section>
+
+  <footer style="padding: 32px 56px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 13px; color: var(--gray-500);">
+    <span>© Junction Consulting 2026 — JunctionU is the training platform of Junction</span>
+    <div style="display: flex; gap: 28px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: 'All' };
+  all = [
+    { title: 'Tourism Digital Marketing Essentials', kind: 'Certificate', blurb: 'The complete foundation: website, Google Business Profile, reviews, email and social — in plain language.', meta: '8 modules · 6 hrs', price: '$349', tint: 'var(--chip-sage)' },
+    { title: 'Sustainable Tourism', kind: 'Certificate', blurb: 'Build a credible sustainability practice guests can feel — and your marketing can honestly claim.', meta: '6 modules · 4 hrs', price: '$349', tint: 'var(--chip-mint)' },
+    { title: 'AI for Tourism Operators', kind: 'Certificate', blurb: 'Where AI pays off in a small business: guest communication, content, research — and where it wastes your month.', meta: '6 modules · 4 hrs', price: '$349', tint: 'var(--chip-peach)' },
+    { title: 'Your Google Business Profile, Fixed', kind: 'Workshop', blurb: 'Ninety hands-on minutes. Leave with your profile complete, accurate and working for you.', meta: 'Live · 90 min', price: '$79', tint: 'var(--chip-peach)' },
+    { title: 'Email That Gets Opened', kind: 'Workshop', blurb: 'Build a simple guest email program — welcome, pre-arrival, win-back — in one working session.', meta: 'Live · 2 hrs', price: '$79', tint: 'var(--chip-sage)' },
+    { title: 'Tourism Talks', kind: 'Free', blurb: 'Candid conversations with the marketers doing the work — Nimmo Bay, SuperNatural BC and more.', meta: 'Video series', price: 'Free', tint: 'var(--chip-mint)' },
+  ];
+  renderVals() {
+    const cur = this.state.filter;
+    const labels = ['All', 'Certificate', 'Workshop', 'Free'];
+    return {
+      filters: labels.map(label => ({
+        label: label === 'Free' ? 'Free' : label === 'All' ? 'All' : label + 's',
+        pick: () => this.setState({ filter: label }),
+        bg: cur === label ? 'var(--navy-900)' : 'var(--white)',
+        fg: cur === label ? 'var(--white)' : 'var(--navy-800)',
+        border: cur === label ? 'var(--navy-900)' : 'var(--border-subtle, #e5e5e5)',
+      })),
+      courses: cur === 'All' ? this.all : this.all.filter(c => c.kind === cur),
+    };
+  }
+}
+</script>
+</body>
+</html>

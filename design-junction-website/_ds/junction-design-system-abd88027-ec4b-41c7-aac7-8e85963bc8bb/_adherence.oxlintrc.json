@@ -1,0 +1,238 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/slides/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Work Sans))/i]",
+        "message": "Font not provided by the design system. Available: Work Sans."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='ActionTag'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|key|ref|className|style|children)$/]",
+        "message": "<ActionTag> doesn't accept that prop. Declared props: children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IconBadge'] > JSXAttribute > JSXIdentifier[name!=/^(?:icon|tone|size|key|ref|className|style|children)$/]",
+        "message": "<IconBadge> doesn't accept that prop. Declared props: icon, tone, size."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='IconBadge'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:sage|mint|peach|none)$/]",
+        "message": "<IconBadge> tone must be one of 'sage' | 'mint' | 'peach' | 'none'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PastelChip'] > JSXAttribute > JSXIdentifier[name!=/^(?:tone|children|key|ref|className|style|children)$/]",
+        "message": "<PastelChip> doesn't accept that prop. Declared props: tone, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='PastelChip'] > JSXAttribute[name.name='tone'] > Literal[value!=/^(?:sage|mint|peach)$/]",
+        "message": "<PastelChip> tone must be one of 'sage' | 'mint' | 'peach'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='QuoteCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:children|backgroundImage|key|ref|className|style|children)$/]",
+        "message": "<QuoteCard> doesn't accept that prop. Declared props: children, backgroundImage."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatCallout'] > JSXAttribute > JSXIdentifier[name!=/^(?:value|label|size|key|ref|className|style|children)$/]",
+        "message": "<StatCallout> doesn't accept that prop. Declared props: value, label, size."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='StatCallout'] > JSXAttribute[name.name='size'] > Literal[value!=/^(?:sm|md|lg)$/]",
+        "message": "<StatCallout> size must be one of 'sm' | 'md' | 'lg'."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "ActionTag": {
+        "replaces": []
+      },
+      "IconBadge": {
+        "replaces": []
+      },
+      "PastelChip": {
+        "replaces": []
+      },
+      "QuoteCard": {
+        "replaces": []
+      },
+      "StatCallout": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--accent-navy",
+      "--accent-primary",
+      "--black",
+      "--border-subtle",
+      "--chip-mint",
+      "--chip-peach",
+      "--chip-sage",
+      "--font-sans",
+      "--gold-500",
+      "--gold-600",
+      "--gray-100",
+      "--gray-200",
+      "--gray-500",
+      "--gray-700",
+      "--gray-900",
+      "--leading-normal",
+      "--leading-snug",
+      "--leading-tight",
+      "--mint-100",
+      "--navy-600",
+      "--navy-700",
+      "--navy-800",
+      "--navy-900",
+      "--peach-100",
+      "--radius-lg",
+      "--radius-md",
+      "--radius-pill",
+      "--radius-sm",
+      "--sage-100",
+      "--shadow-card",
+      "--shadow-dark-panel",
+      "--space-1",
+      "--space-10",
+      "--space-2",
+      "--space-3",
+      "--space-4",
+      "--space-5",
+      "--space-6",
+      "--space-7",
+      "--space-8",
+      "--space-9",
+      "--surface-card",
+      "--surface-dark",
+      "--surface-muted",
+      "--surface-page",
+      "--text-body",
+      "--text-body-lg",
+      "--text-display",
+      "--text-h1",
+      "--text-h2",
+      "--text-h3",
+      "--text-heading",
+      "--text-label",
+      "--text-muted",
+      "--text-on-accent",
+      "--text-on-dark",
+      "--text-small",
+      "--text-stat",
+      "--tracking-label",
+      "--weight-light",
+      "--weight-medium",
+      "--weight-regular",
+      "--weight-semibold",
+      "--white"
+    ],
+    "tokenKinds": {
+      "--navy-900": "color",
+      "--navy-800": "color",
+      "--navy-700": "color",
+      "--navy-600": "color",
+      "--gold-500": "color",
+      "--gold-600": "color",
+      "--sage-100": "color",
+      "--mint-100": "color",
+      "--peach-100": "color",
+      "--gray-900": "color",
+      "--gray-700": "color",
+      "--gray-500": "color",
+      "--gray-200": "color",
+      "--gray-100": "color",
+      "--black": "color",
+      "--white": "color",
+      "--surface-page": "color",
+      "--surface-card": "color",
+      "--surface-muted": "color",
+      "--surface-dark": "color",
+      "--text-heading": "font",
+      "--text-body": "font",
+      "--text-muted": "font",
+      "--text-on-dark": "font",
+      "--text-on-accent": "font",
+      "--accent-primary": "color",
+      "--accent-navy": "color",
+      "--border-subtle": "color",
+      "--chip-sage": "color",
+      "--chip-mint": "color",
+      "--chip-peach": "color",
+      "--font-sans": "font",
+      "--weight-light": "font",
+      "--weight-regular": "font",
+      "--weight-medium": "font",
+      "--weight-semibold": "font",
+      "--text-display": "font",
+      "--text-h1": "font",
+      "--text-h2": "font",
+      "--text-h3": "font",
+      "--text-stat": "font",
+      "--text-body-lg": "font",
+      "--text-small": "font",
+      "--text-label": "font",
+      "--leading-tight": "font",
+      "--leading-snug": "font",
+      "--leading-normal": "font",
+      "--tracking-label": "font",
+      "--space-1": "spacing",
+      "--space-2": "spacing",
+      "--space-3": "spacing",
+      "--space-4": "spacing",
+      "--space-5": "spacing",
+      "--space-6": "spacing",
+      "--space-7": "spacing",
+      "--space-8": "spacing",
+      "--space-9": "spacing",
+      "--space-10": "spacing",
+      "--radius-sm": "radius",
+      "--radius-md": "radius",
+      "--radius-lg": "radius",
+      "--radius-pill": "radius",
+      "--shadow-card": "shadow",
+      "--shadow-dark-panel": "shadow"
+    },
+    "fontFamilies": [
+      "Work Sans"
+    ]
+  }
+}

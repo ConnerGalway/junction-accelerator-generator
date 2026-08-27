@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/colors.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/typography.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/styles.css">
+<script src="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: var(--surface-page, #fff); }
+  * { box-sizing: border-box; }
+  a { color: var(--navy-800, #233f5f); text-decoration: none; }
+  a:hover { opacity: 0.85; }
+  :root { --green-800: #144d40; --green-700: #1b5e4e; --green-100: #d3e6de; }
+</style>
+</helmet>
+<div style="font-family: 'Work Sans', sans-serif; background: var(--surface-page); color: var(--text-body); width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 56px; background: rgba(240,246,242,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);">
+    <a href="#" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; font-weight: 400; color: var(--gray-700);">
+      <a href="Services.dc.html" style="color: inherit;">Services</a>
+      <a href="Work.dc.html" style="color: inherit;">Work</a>
+      <a href="JunctionU.dc.html" style="color: inherit;">JunctionU</a>
+      <a href="About.dc.html" style="color: inherit;">About</a>
+      <a href="Articles.dc.html" style="color: inherit;">Articles</a>
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 12px 24px; border-radius: 999px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="position: relative; padding: 92px 56px 72px; text-align: center; background: linear-gradient(180deg, #7fae92 0%, rgba(163,197,176,0.45) 52%, var(--white) 100%); overflow: hidden;">
+
+    <h1 style="font-weight: 300; font-size: clamp(48px, 6.4vw, 104px); line-height: 1.04; letter-spacing: -0.025em; color: var(--navy-900); margin: 0 auto; max-width: 18ch;">Technology should serve <span style="display: inline; border-bottom: 3px solid var(--gold-500); white-space: nowrap;">{{ goalWord }}</span>.<br>We make sure it does.</h1>
+    <p style="font-size: 20px; font-weight: 300; line-height: 1.6; color: var(--gray-700); max-width: 52ch; margin: 32px auto 0;">Junction builds the marketing strategy, then trains the people who deliver it. Fourteen years alongside destinations, operators, and the organizations that back them.</p>
+    <div style="display: flex; gap: 14px; justify-content: center; margin-top: 40px; flex-wrap: wrap;">
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 17px 32px; border-radius: 999px; font-size: 16px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a discovery call</a>
+      <a href="JunctionU.dc.html" style="border: 1px solid var(--gray-200); color: var(--navy-800); padding: 17px 32px; border-radius: 999px; font-size: 16px; font-weight: 400; white-space: nowrap;" style-hover="border-color: var(--navy-800);">Explore JunctionU</a>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px 40px; margin-top: 64px; font-size: 14px; color: var(--gray-500);">
+      <span>Destination BC</span><span>Travel Yukon</span><span>Ontario's Southwest</span><span>Kootenay Rockies</span><span>Indigenous Tourism BC</span><span>Fairmont</span><span>Revelstoke</span>
+    </div>
+  </section>
+
+  <section style="padding: 72px 56px 0; text-align: center; margin: 0 56px; padding-left: 0; padding-right: 0;">
+    <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 24px;">Why organizations trust our advice</div>
+    <p style="font-weight: 300; font-size: clamp(28px, 3.4vw, 48px); line-height: 1.15; letter-spacing: -0.02em; color: var(--navy-900); max-width: 30ch; margin: 0 auto;">We don't build websites, manage social media, or buy ads. So when we recommend something, it's because <span style="border-bottom: 3px solid var(--gold-500);">it works</span> — not because we sell it.</p>
+  </section>
+
+  <section id="services" style="padding: 84px 56px 56px;">
+    <div style="text-align: center; max-width: 60ch; margin: 0 auto 64px;">
+      <h2 style="font-weight: 300; font-size: clamp(34px, 4vw, 56px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 0;">Two ways to work with us.</h2>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 20px 0 0;">We build the plan — or we build the people who'll run it. Most clients start with one and end up with both.</p>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px;">
+      <a href="#" style="display: block; background: var(--surface-dark); color: var(--white); border-radius: var(--radius-lg, 20px); padding: 52px 48px 48px;" style-hover="background: var(--navy-800);">
+        <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="sage" hint-size="120px,32px">The plan</x-import>
+        <h3 style="font-weight: 300; font-size: clamp(30px, 3vw, 44px); line-height: 1.1; letter-spacing: -0.02em; margin: 28px 0 16px;">Marketing Strategy</h3>
+        <p style="font-size: 17px; font-weight: 300; line-height: 1.65; color: #c3cbdd; margin: 0 0 32px; max-width: 46ch;">Research-led strategy built on what actually drives visitation — plus the operating model your team needs to run it without us. No websites, no ad buying, no conflicts of interest.</p>
+        <span style="font-size: 15px; font-weight: 500; color: var(--gold-500);">How we work →</span>
+      </a>
+      <a href="#" style="display: block; background: var(--surface-muted); color: var(--navy-900); border-radius: var(--radius-lg, 20px); padding: 52px 48px 48px;" style-hover="background: var(--gray-200);">
+        <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="peach" hint-size="120px,32px">The people</x-import>
+        <h3 style="font-weight: 300; font-size: clamp(30px, 3vw, 44px); line-height: 1.1; letter-spacing: -0.02em; margin: 28px 0 16px;">Marketing &amp; AI Training</h3>
+        <p style="font-size: 17px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 32px; max-width: 46ch;">Workshops, keynotes, the Accelerator, and the JunctionU platform. A no-jargon zone — every action doable in under an hour, built for the person who has to do the work on Tuesday.</p>
+        <span style="font-size: 15px; font-weight: 500; color: var(--navy-800);">Explore training →</span>
+      </a>
+    </div>
+    <div style="display: flex; align-items: center; justify-content: center; gap: 14px; margin-top: 28px; flex-wrap: wrap; text-align: center;">
+      <p style="font-size: 16px; font-weight: 300; color: var(--gray-700); margin: 0;">Run a destination? <a href="Services.dc.html#partnerships" style="font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 1px;">Partner with us</a> to bring training to every operator in your region.</p>
+    </div>
+  </section>
+
+  <section data-stats="true" style="margin: 40px 56px 0; padding: 88px 48px; text-align: center; border-radius: var(--radius-lg, 20px); background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); position: relative; overflow: hidden;">
+
+    <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #8fa0c8; margin-bottom: 20px; position: relative;">What one region's visitors were worth</div>
+    <div style="font-weight: 300; font-size: clamp(80px, 12vw, 200px); line-height: 0.95; letter-spacing: -0.04em; color: var(--white); font-variant-numeric: tabular-nums; position: relative;">{{ bigStat }}</div>
+    <p style="font-size: 18px; font-weight: 300; color: #c3cbdd; max-width: 46ch; margin: 24px auto 0; position: relative;">in potential local spend, identified for one small town's businesses — then turned into a checklist every operator could act on.</p>
+    <div style="display: flex; justify-content: center; gap: 72px; margin-top: 64px; flex-wrap: wrap; font-variant-numeric: tabular-nums; position: relative;">
+      <div><div style="font-weight: 300; font-size: 52px; letter-spacing: -0.02em; color: var(--gold-500);">{{ statPros }}</div><div style="font-size: 14px; color: #8fa0c8; margin-top: 6px;">professionals trained</div></div>
+      <div><div style="font-weight: 300; font-size: 52px; letter-spacing: -0.02em; color: var(--gold-500);">{{ statBiz }}</div><div style="font-size: 14px; color: #8fa0c8; margin-top: 6px;">businesses through Go Digital</div></div>
+      <div><div style="font-weight: 300; font-size: 52px; letter-spacing: -0.02em; color: var(--gold-500);">{{ statYears }}</div><div style="font-size: 14px; color: #8fa0c8; margin-top: 6px;">years in the visitor economy</div></div>
+    </div>
+  </section>
+
+  <section id="junctionu" style="background: linear-gradient(180deg, var(--white) 0%, var(--chip-mint) 160%); padding: 96px 56px 84px;">
+    <div style="display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); gap: 72px; align-items: center;">
+      <div>
+        <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="mint" hint-size="180px,32px">Formerly eLearningU</x-import>
+        <h2 style="font-weight: 300; font-size: clamp(36px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.025em; color: var(--navy-900); margin: 26px 0 0;">JunctionU is where your team keeps getting better.</h2>
+        <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); max-width: 46ch; margin: 24px 0 36px;">Certificate courses, hands-on workshops and free Tourism Talks — the training platform 2,000+ professionals already use, now part of Junction.</p>
+        <div style="display: flex; gap: 14px; flex-wrap: wrap;">
+          <a href="#" style="background: var(--gold-500); color: var(--navy-900); padding: 16px 30px; border-radius: 999px; font-size: 16px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Browse courses</a>
+          <a href="#" style="border: 1px solid var(--gray-200); background: var(--white); color: var(--navy-800); padding: 16px 30px; border-radius: 999px; font-size: 16px; white-space: nowrap;" style-hover="border-color: var(--navy-800);">Start free</a>
+        </div>
+      </div>
+      <div style="background: var(--surface-dark); border-radius: var(--radius-lg, 20px); padding: 28px; box-shadow: 0 24px 60px rgba(17,21,75,0.25);">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px;">
+          <span style="color: var(--white); font-size: 14px; font-weight: 500;">Tourism Digital Marketing Essentials</span>
+          <span style="font-size: 12px; color: #8fa0c8;">Module {{ lessonModule }} of 8</span>
+        </div>
+        <div style="position: relative; border-radius: 12px; overflow: hidden;">
+          <img src="assets/photo-townscape.png" alt="" style="width: 100%; height: 260px; object-fit: cover; display: block;">
+          <div style="position: absolute; inset: 0; background: rgba(17,21,75,0.35); display: flex; align-items: center; justify-content: center;">
+            <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--gold-500); display: flex; align-items: center; justify-content: center; color: var(--navy-900); font-size: 22px; padding-left: 4px;">▶</div>
+          </div>
+        </div>
+        <div style="margin-top: 20px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: #8fa0c8; margin-bottom: 8px;"><span>Lesson 3 — Your Google Business Profile</span><span>{{ lessonPct }}%</span></div>
+          <div style="height: 6px; border-radius: 999px; background: rgba(255,255,255,0.15); overflow: hidden;"><div style="height: 100%; width: {{ lessonPctCss }}; background: var(--gold-500); border-radius: 999px; transition: width 1.2s ease-out;"></div></div>
+        </div>
+        <div style="display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap;">
+          <span style="font-size: 12px; color: var(--navy-900); background: var(--chip-sage); border-radius: 999px; padding: 6px 14px;">Certificate track</span>
+          <span style="font-size: 12px; color: var(--navy-900); background: var(--chip-peach); border-radius: 999px; padding: 6px 14px;">Under 1 hr / lesson</span>
+          <span style="font-size: 12px; color: var(--navy-900); background: var(--chip-mint); border-radius: 999px; padding: 6px 14px;">Workbook included</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" style="padding: 84px 56px 48px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 32px; margin-bottom: 52px;">
+      <h2 style="font-weight: 300; font-size: clamp(34px, 4vw, 56px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 0;">The work speaks plainly too.</h2>
+      <a href="Work.dc.html" style="font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px; white-space: nowrap;">All case studies →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <a href="#" style="display: block; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg, 20px); padding: 40px 36px;" style-hover="border-color: var(--navy-800);">
+        <div style="font-weight: 300; font-size: 64px; letter-spacing: -0.03em; color: var(--navy-900); font-variant-numeric: tabular-nums;">300+</div>
+        <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); margin: 18px 0 10px;">Travel Yukon</div>
+        <h3 style="font-weight: 500; font-size: 20px; color: var(--navy-800); margin: 0 0 10px;">Go Digital program</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">Businesses grown over four years — alumni now lead the program themselves.</p>
+      </a>
+      <a href="#" style="display: block; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg, 20px); padding: 40px 36px;" style-hover="border-color: var(--navy-800);">
+        <div style="font-weight: 300; font-size: 64px; letter-spacing: -0.03em; color: var(--navy-900); font-variant-numeric: tabular-nums;">+300%</div>
+        <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); margin: 18px 0 10px;">Indigenous Tourism BC</div>
+        <h3 style="font-weight: 500; font-size: 20px; color: var(--navy-800); margin: 0 0 10px;">Accelerator program</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">Past stakeholder engagement goals, with booking growth inside three months.</p>
+      </a>
+      <a href="#" style="display: block; background: var(--surface-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg, 20px); padding: 40px 36px;" style-hover="border-color: var(--navy-800);">
+        <div style="font-weight: 300; font-size: 64px; letter-spacing: -0.03em; color: var(--navy-900); font-variant-numeric: tabular-nums;">2026</div>
+        <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500); margin: 18px 0 10px;">Ontario's Southwest</div>
+        <h3 style="font-weight: 500; font-size: 20px; color: var(--navy-800); margin: 0 0 10px;">Traveller Insights Study</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">Findings now drive the region's 2026 tourism strategy.</p>
+      </a>
+    </div>
+  </section>
+
+  <section style="padding: 40px 56px 84px;">
+    <x-import component-from-global-scope="JunctionDesignSystem_abd880.QuoteCard" background-image="assets/photo-mountains.png" hint-size="100%,420px">
+      <span style="font-weight: 300;">"We are a stronger, smarter tourism organization today thanks to the work we did with Junction."</span>
+      <span style="display: block; font-size: 14px; font-weight: 400; opacity: 0.7; margin-top: 18px;">Kathy Cooper — CEO, Kootenay Rockies Tourism</span>
+    </x-import>
+  </section>
+
+  <section id="articles" style="padding: 0 56px 84px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 64px; align-items: start;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 20px;">Latest thinking</div>
+      <a href="#" style="display: block; padding: 22px 0; border-top: 1px solid var(--border-subtle);"><div style="font-size: 12px; color: var(--gray-500); margin-bottom: 6px;">July 14, 2026</div><div style="font-weight: 400; font-size: 22px; color: var(--navy-800); letter-spacing: -0.01em;">Maybe the algorithm isn't the problem</div></a>
+      <a href="#" style="display: block; padding: 22px 0; border-top: 1px solid var(--border-subtle);"><div style="font-size: 12px; color: var(--gray-500); margin-bottom: 6px;">July 6, 2026</div><div style="font-weight: 400; font-size: 22px; color: var(--navy-800); letter-spacing: -0.01em;">The year of the creator economy</div></a>
+      <a href="#" style="display: block; padding: 22px 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);"><div style="font-size: 12px; color: var(--gray-500); margin-bottom: 6px;">June 8, 2026</div><div style="font-weight: 400; font-size: 22px; color: var(--navy-800); letter-spacing: -0.01em;">The four phases of AI adoption</div></a>
+    </div>
+    <div style="background: var(--surface-muted); border-radius: var(--radius-lg, 20px); padding: 48px 44px;">
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 18px;">The Brief — weekly</div>
+      <p style="font-weight: 300; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.15; letter-spacing: -0.02em; color: var(--navy-900); margin: 0 0 14px;">Start every week knowing something your competitors don't.</p>
+      <p style="font-size: 15px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0 0 28px;">The award-winning newsletter for marketers who want real insight without the noise.</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="email" placeholder="Your email address" style="flex: 1; min-width: 180px; background: var(--white); border: 1px solid var(--border-subtle); border-radius: 999px; padding: 14px 20px; font-family: 'Work Sans', sans-serif; font-size: 15px; color: var(--text-body);">
+        <button type="button" style="background: var(--gold-500); color: var(--navy-900); border: none; border-radius: 999px; padding: 14px 26px; font-family: 'Work Sans', sans-serif; font-weight: 500; font-size: 15px; cursor: pointer;" style-hover="background: var(--gold-600);">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); padding: 100px 56px; text-align: center; position: relative; overflow: hidden;">
+
+    <h2 style="font-weight: 300; font-size: clamp(40px, 5.6vw, 88px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 auto; max-width: 20ch;">Tell us the goal. We'll be honest about the rest.</h2>
+    <p style="font-size: 18px; font-weight: 300; line-height: 1.6; color: #c3cbdd; max-width: 48ch; margin: 26px auto 0;">Thirty minutes, no pitch deck — including whether we're the right people for it.</p>
+    <a href="#" style="display: inline-block; background: var(--gold-500); color: var(--navy-900); padding: 18px 36px; border-radius: 999px; font-size: 17px; font-weight: 500; margin-top: 40px; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a discovery call</a>
+    <div style="font-size: 14px; color: #8fa0c8; margin-top: 22px;">conner@wearejunction.com</div>
+  </section>
+
+  <footer style="padding: 32px 56px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 13px; color: var(--gray-500);">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 28px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1440}}">
+class Component extends DCLogic {
+  state = { goalIdx: 0, statsOn: false, prog: { big: 0, pros: 0, biz: 0, years: 0 }, lessonPct: 0 };
+  goals = ['your goals', 'more visitors', 'booked-out summers', 'a smarter team', 'your goals'];
+
+  componentDidMount() {
+    this.wordTimer = setInterval(() => {
+      this.setState(s => {
+        const next = s.goalIdx + 1;
+        if (next >= this.goals.length - 1) { clearInterval(this.wordTimer); return { goalIdx: this.goals.length - 1 }; }
+        return { goalIdx: next };
+      });
+    }, 1800);
+    this.obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { this.startCount(); this.obs.disconnect(); }
+      });
+    }, { threshold: 0.4 });
+    const el = document.querySelector('[data-stats]');
+    if (el) this.obs.observe(el); else this.startCount();
+    setTimeout(() => this.setState({ lessonPct: 62 }), 800);
+  }
+  componentWillUnmount() { clearInterval(this.wordTimer); clearInterval(this.countTimer); if (this.obs) this.obs.disconnect(); }
+
+  startCount() {
+    if (this.state.statsOn) return;
+    this.setState({ statsOn: true });
+    const t0 = Date.now(), dur = 1400;
+    this.countTimer = setInterval(() => {
+      const p = Math.min(1, (Date.now() - t0) / dur);
+      const e = 1 - Math.pow(1 - p, 3);
+      this.setState({ prog: { big: e * 900000, pros: e * 2000, biz: e * 300, years: e * 14 } });
+      if (p >= 1) clearInterval(this.countTimer);
+    }, 40);
+  }
+
+  renderVals() {
+    const { prog, statsOn } = this.state;
+    return {
+      goalWord: this.goals[this.state.goalIdx],
+      bigStat: statsOn ? '$' + Math.round(prog.big).toLocaleString('en-US') + '+' : '$0',
+      statPros: statsOn ? Math.round(prog.pros).toLocaleString('en-US') + '+' : '0',
+      statBiz: statsOn ? Math.round(prog.biz) + '+' : '0',
+      statYears: statsOn ? String(Math.round(prog.years)) : '0',
+      lessonModule: 3,
+      lessonPct: this.state.lessonPct,
+      lessonPctCss: this.state.lessonPct + '%',
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #0B0D12; }
+  * { box-sizing: border-box; }
+  a { color: #F2F3F0; text-decoration: none; }
+  a:hover { color: #D6FF3E; }
+  @keyframes junction-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+</style>
+</helmet>
+<div style="font-family: 'Space Grotesk', sans-serif; background: #0B0D12; color: #F2F3F0; width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 18px 40px; background: rgba(11,13,18,0.85); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(242,243,240,0.12);">
+    <a href="#" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 16px; width: auto; display: block; filter: invert(1);"></a>
+    <nav style="display: flex; align-items: center; gap: 30px; font-size: 13px; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase;">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#junctionu">JunctionU</a>
+      <a href="#about">About</a>
+      <a href="#articles">Articles</a>
+      <a href="#contact" style="background: #D6FF3E; color: #0B0D12; border-radius: 2px; padding: 10px 18px;" style-hover="background: #F2F3F0; color: #0B0D12;">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="padding: 72px 40px 48px;">
+    <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #D6FF3E; margin-bottom: 44px;">Junction_ &nbsp;+&nbsp; JunctionU_ &nbsp;→&nbsp; one house</div>
+    <h1 style="font-weight: 700; font-size: clamp(52px, 10.5vw, 172px); line-height: 0.86; letter-spacing: -0.035em; text-transform: uppercase; margin: 0;">Technology<br>isn't the goal.<br><span style="color: #D6FF3E;">Yours is.</span></h1>
+    <div style="display: grid; grid-template-columns: 1.1fr 1fr; gap: 56px; align-items: end; margin-top: 56px;">
+      <p style="font-size: 21px; line-height: 1.5; max-width: 44ch; margin: 0; color: #A8AEB8;">We build marketing strategy and training for organizations that are done outsourcing their own capability. Fourteen years, 2,000+ professionals, one rule: you leave holding the keys.</p>
+      <div style="display: flex; gap: 12px; flex-wrap: wrap; justify-content: flex-end;">
+        <a href="#contact" style="background: #D6FF3E; color: #0B0D12; padding: 18px 30px; border-radius: 2px; font-weight: 500; font-size: 16px;" style-hover="background: #F2F3F0;">Book a discovery call</a>
+        <a href="#junctionu" style="border: 1px solid rgba(242,243,240,0.3); padding: 18px 30px; border-radius: 2px; font-size: 16px;" style-hover="border-color: #D6FF3E;">Start learning free</a>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 32px 0 40px; border-top: 1px solid rgba(242,243,240,0.12); border-bottom: 1px solid rgba(242,243,240,0.12); overflow: hidden;">
+    <div style="display: flex; width: max-content; animation: junction-marquee 34s linear infinite; font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; color: #6E7580;">
+      <div style="display: flex; gap: 44px; padding-right: 44px;"><span>Destination BC</span><span style="color:#D6FF3E;">/</span><span>Travel Yukon</span><span style="color:#D6FF3E;">/</span><span>Ontario's Southwest</span><span style="color:#D6FF3E;">/</span><span>Kootenay Rockies</span><span style="color:#D6FF3E;">/</span><span>Indigenous Tourism BC</span><span style="color:#D6FF3E;">/</span><span>Fairmont</span><span style="color:#D6FF3E;">/</span><span>Revelstoke</span><span style="color:#D6FF3E;">/</span></div>
+      <div style="display: flex; gap: 44px; padding-right: 44px;"><span>Destination BC</span><span style="color:#D6FF3E;">/</span><span>Travel Yukon</span><span style="color:#D6FF3E;">/</span><span>Ontario's Southwest</span><span style="color:#D6FF3E;">/</span><span>Kootenay Rockies</span><span style="color:#D6FF3E;">/</span><span>Indigenous Tourism BC</span><span style="color:#D6FF3E;">/</span><span>Fairmont</span><span style="color:#D6FF3E;">/</span><span>Revelstoke</span><span style="color:#D6FF3E;">/</span></div>
+    </div>
+  </section>
+
+  <section style="padding: 96px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center;">
+    <img src="assets/photo-mountains.png" alt="" style="width: 100%; height: 520px; object-fit: cover; display: block; border-radius: 260px 260px 8px 8px;">
+    <div>
+      <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #D6FF3E; margin-bottom: 26px;">The position</div>
+      <h2 style="font-weight: 700; font-size: clamp(34px, 4.4vw, 62px); line-height: 1.0; letter-spacing: -0.025em; text-transform: uppercase; margin: 0;">We don't run your ads.<br>We make you<br>dangerous.</h2>
+      <p style="font-size: 18px; line-height: 1.6; color: #A8AEB8; max-width: 46ch; margin: 30px 0 0;">No websites. No social media management. No media buying. Every recommendation we make exists for one reason — because it's what's best for your organization. That focus is the whole product.</p>
+    </div>
+  </section>
+
+  <section id="services" style="padding: 0 40px 96px;">
+    <h2 style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #6E7580; margin: 0 0 40px;">What we do / 05 services</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(242,243,240,0.14);">
+      <a href="#" style="display: block; background: #0B0D12; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">01</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">Marketing<br>Strategy</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">Research-led plans built on what actually drives visitation.</p>
+      </a>
+      <a href="#" style="display: block; background: #0B0D12; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">02</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">Marketing<br>Training</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">Workshops, keynotes and custom programs. A no-jargon zone.</p>
+      </a>
+      <a href="#" style="display: block; background: #0B0D12; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">03</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">The<br>Accelerator</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">1:1 coaching, a full digital assessment, and a plan you start Monday. $2,500.</p>
+      </a>
+      <a href="#" style="display: block; background: #0B0D12; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">04</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">AI<br>Training</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">Where AI pays off in a small team — and where it wastes your month.</p>
+      </a>
+      <a href="#" style="display: block; background: #0B0D12; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">05</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">Destination<br>Partnerships</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">JunctionU for every operator in your region, subsidised and reported on.</p>
+      </a>
+      <a href="#" style="display: block; background: #191D25; padding: 40px 34px 44px; min-height: 300px;" style-hover="background: #D6FF3E; color: #0B0D12;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; margin-bottom: 60px;">+</div>
+        <h3 style="font-weight: 700; font-size: 30px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 16px;">Speaking</h3>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; opacity: 0.72;">Keynotes, workshops, conferences and virtual sessions on AI and the visitor economy.</p>
+      </a>
+    </div>
+  </section>
+
+  <section id="work" style="padding: 0 40px 96px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 32px; margin-bottom: 40px;">
+      <h2 style="font-weight: 700; font-size: clamp(34px, 5vw, 76px); line-height: 0.95; letter-spacing: -0.03em; text-transform: uppercase; margin: 0;">Proof, not<br>promises</h2>
+      <a href="#" style="font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; white-space: nowrap;">All work →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+      <a href="#" style="display: block; background: #D6FF3E; color: #0B0D12; padding: 34px 30px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 8px;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase;">Travel Yukon</div>
+        <div>
+          <div style="font-weight: 700; font-size: 88px; line-height: 0.85; letter-spacing: -0.04em;">300+</div>
+          <p style="font-size: 17px; line-height: 1.45; margin: 18px 0 0; max-width: 22ch;">Yukon businesses grown through the Go Digital program — alumni now lead it themselves.</p>
+        </div>
+      </a>
+      <a href="#" style="display: block; background: #191D25; padding: 34px 30px; min-height: 400px; display: flex; flex-direction: column; justify-content: space-between; border-radius: 8px;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #D6FF3E;">Indigenous Tourism BC</div>
+        <div>
+          <div style="font-weight: 700; font-size: 88px; line-height: 0.85; letter-spacing: -0.04em;">+300%</div>
+          <p style="font-size: 17px; line-height: 1.45; margin: 18px 0 0; max-width: 22ch; color: #A8AEB8;">Over engagement goals for the Accelerator, with bookings up inside three months.</p>
+        </div>
+      </a>
+      <a href="#" style="display: block; position: relative; min-height: 400px; border-radius: 8px; overflow: hidden;">
+        <img src="assets/photo-townscape.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <div style="position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding: 34px 30px; background: linear-gradient(180deg, rgba(11,13,18,0.55), rgba(11,13,18,0.9));">
+          <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: #D6FF3E;">Kootenay Rockies</div>
+          <div>
+            <div style="font-weight: 700; font-size: 44px; line-height: 0.95; letter-spacing: -0.03em; text-transform: uppercase;">A region that<br>rebuilt its<br>own playbook</div>
+            <p style="font-size: 16px; line-height: 1.45; margin: 16px 0 0; max-width: 24ch; color: #C8CDD5;">Marketing operations restructured around the highest-impact activity.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <section style="padding: 0 40px 96px;">
+    <blockquote style="margin: 0; border-top: 1px solid rgba(242,243,240,0.14); padding-top: 56px;">
+      <p style="font-weight: 500; font-size: clamp(28px, 3.8vw, 54px); line-height: 1.14; letter-spacing: -0.02em; margin: 0; max-width: 30ch;">"We are a stronger, smarter tourism organization today thanks to the work we did with Junction."</p>
+      <footer style="font-family: 'Space Mono', monospace; font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: #6E7580; margin-top: 30px;">Kathy Cooper — CEO, Kootenay Rockies Tourism</footer>
+    </blockquote>
+  </section>
+
+  <section id="junctionu" style="background: #F2F3F0; color: #0B0D12; padding: 88px 40px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 32px; flex-wrap: wrap;">
+      <h2 style="font-weight: 700; font-size: clamp(48px, 9vw, 148px); line-height: 0.85; letter-spacing: -0.04em; text-transform: uppercase; margin: 0;">JunctionU<span style="color: #7B8B00;">_</span></h2>
+      <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #5A6069;">Formerly eLearningU</div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px; margin-top: 52px;">
+      <p style="font-size: 20px; line-height: 1.5; margin: 0;">The whole training platform, now under one roof. Certificate courses, hands-on workshops and free Tourism Talks.</p>
+      <div style="border-top: 2px solid #0B0D12; padding-top: 18px;"><div style="font-weight: 700; font-size: 60px; line-height: 0.9; letter-spacing: -0.03em;">2,000+</div><div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; color: #5A6069;">Professionals trained</div></div>
+      <div style="border-top: 2px solid #0B0D12; padding-top: 18px;"><div style="font-weight: 700; font-size: 60px; line-height: 0.9; letter-spacing: -0.03em;">Free</div><div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; margin-top: 10px; color: #5A6069;">To start, forever</div></div>
+    </div>
+    <div style="display: flex; gap: 12px; margin-top: 44px; flex-wrap: wrap;">
+      <a href="#" style="background: #0B0D12; color: #F2F3F0; padding: 17px 30px; border-radius: 2px; font-size: 16px; font-weight: 500;" style-hover="background: #7B8B00; color: #F2F3F0;">Browse the catalogue</a>
+      <a href="#" style="border: 1px solid rgba(11,13,18,0.3); color: #0B0D12; padding: 17px 30px; border-radius: 2px; font-size: 16px;" style-hover="border-color: #0B0D12;">Destination partnerships</a>
+    </div>
+  </section>
+
+  <section id="articles" style="padding: 88px 40px;">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 64px;">
+      <div>
+        <h2 style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #6E7580; margin: 0 0 30px;">Articles</h2>
+        <a href="#" style="display: block; padding: 20px 0; border-top: 1px solid rgba(242,243,240,0.14);"><div style="font-family: 'Space Mono', monospace; font-size: 11px; color: #6E7580; margin-bottom: 8px;">14 JUL 2026</div><div style="font-weight: 500; font-size: 24px; letter-spacing: -0.01em;">Maybe the algorithm isn't the problem</div></a>
+        <a href="#" style="display: block; padding: 20px 0; border-top: 1px solid rgba(242,243,240,0.14);"><div style="font-family: 'Space Mono', monospace; font-size: 11px; color: #6E7580; margin-bottom: 8px;">06 JUL 2026</div><div style="font-weight: 500; font-size: 24px; letter-spacing: -0.01em;">The year of the creator economy</div></a>
+        <a href="#" style="display: block; padding: 20px 0; border-top: 1px solid rgba(242,243,240,0.14); border-bottom: 1px solid rgba(242,243,240,0.14);"><div style="font-family: 'Space Mono', monospace; font-size: 11px; color: #6E7580; margin-bottom: 8px;">08 JUN 2026</div><div style="font-weight: 500; font-size: 24px; letter-spacing: -0.01em;">The four phases of AI adoption</div></a>
+      </div>
+      <div style="border: 1px solid rgba(242,243,240,0.2); padding: 40px 36px; border-radius: 8px;">
+        <div style="font-family: 'Space Mono', monospace; font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: #D6FF3E; margin-bottom: 22px;">The Brief</div>
+        <p style="font-weight: 700; font-size: 34px; line-height: 1.05; letter-spacing: -0.02em; text-transform: uppercase; margin: 0 0 18px;">Know something your competitors don't</p>
+        <p style="font-size: 15px; line-height: 1.6; color: #A8AEB8; margin: 0 0 28px;">Award-winning weekly. Real insight, no noise.</p>
+        <div style="display: flex; gap: 10px;">
+          <input type="email" placeholder="Your email address" style="flex: 1; background: transparent; border: 1px solid rgba(242,243,240,0.28); border-radius: 2px; padding: 14px 18px; font-family: 'Space Grotesk', sans-serif; font-size: 15px; color: #F2F3F0;">
+          <button type="button" style="background: #D6FF3E; color: #0B0D12; border: none; border-radius: 2px; padding: 14px 24px; font-family: 'Space Grotesk', sans-serif; font-weight: 500; font-size: 15px; cursor: pointer;">Subscribe</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding: 0 40px 80px;">
+    <div style="border-top: 1px solid rgba(242,243,240,0.14); padding-top: 64px; display: grid; grid-template-columns: 1.5fr 1fr; gap: 56px; align-items: end;">
+      <h2 style="font-weight: 700; font-size: clamp(48px, 9vw, 150px); line-height: 0.84; letter-spacing: -0.045em; text-transform: uppercase; margin: 0;">Let's talk<span style="color: #D6FF3E;">_</span></h2>
+      <div>
+        <p style="font-size: 17px; line-height: 1.6; color: #A8AEB8; margin: 0 0 26px;">Tell us what you're trying to achieve. We'll tell you honestly whether we're the right people for it.</p>
+        <a href="#" style="display: inline-block; background: #D6FF3E; color: #0B0D12; padding: 18px 32px; border-radius: 2px; font-weight: 500; font-size: 16px;" style-hover="background: #F2F3F0;">Book a discovery call</a>
+        <div style="font-family: 'Space Mono', monospace; font-size: 13px; color: #6E7580; margin-top: 20px;">hello@wearejunction.com</div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding: 32px 40px; border-top: 1px solid rgba(242,243,240,0.14); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'Space Mono', monospace; font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: #6E7580;">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 26px;"><a href="#">Instagram</a><a href="#">LinkedIn</a><a href="#">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #F5F1E8; }
+  * { box-sizing: border-box; }
+  a { color: inherit; text-decoration: none; }
+  @keyframes jx-blink { 0%, 48% { opacity: 1; } 52%, 100% { opacity: 0; } }
+</style>
+</helmet>
+<div style="font-family: Overpass, sans-serif; background: #F5F1E8; color: #171512; width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 16px 40px; background: #F5F1E8; border-bottom: 2px solid #171512;">
+    <a href="#" style="display: flex; align-items: center; gap: 12px;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 16px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 24px; font-size: 14px; font-weight: 600;">
+      <a href="#services" style="padding-bottom: 2px; border-bottom: 3px solid transparent;" style-hover="border-color: #FF4D00;">Services</a>
+      <a href="#work" style="padding-bottom: 2px; border-bottom: 3px solid transparent;" style-hover="border-color: #FF4D00;">Work</a>
+      <a href="#junctionu" style="padding-bottom: 2px; border-bottom: 3px solid transparent;" style-hover="border-color: #FF4D00;">JunctionU</a>
+      <a href="#about" style="padding-bottom: 2px; border-bottom: 3px solid transparent;" style-hover="border-color: #FF4D00;">About</a>
+      <a href="#articles" style="padding-bottom: 2px; border-bottom: 3px solid transparent;" style-hover="border-color: #FF4D00;">Articles</a>
+      <a href="#contact" style="margin-left: 8px; background: #FF4D00; color: #F5F1E8; padding: 12px 22px 10px; border-radius: 8px; font-weight: 800; font-size: 14px; white-space: nowrap;" style-hover="background: #171512;">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="padding: 72px 40px 56px; display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: 64px; align-items: start;">
+    <div>
+      <div style="display: inline-flex; align-items: center; gap: 10px; font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 36px; white-space: nowrap;"><span style="width: 12px; height: 12px; border-radius: 50%; background: #FF4D00; box-shadow: 0 0 0 3px #F5F1E8, 0 0 0 5px #FF4D00;"></span>You are here</div>
+      <h1 style="font-weight: 900; font-size: clamp(46px, 6.4vw, 100px); line-height: 0.94; letter-spacing: -0.035em; margin: 0;">Technology should serve <span style="color: #FF4D00;">your goals</span>.<br>We make sure it does<span style="color: #FF4D00; animation: jx-blink 1.1s steps(1) infinite;">_</span></h1>
+      <p style="font-size: 20px; line-height: 1.55; max-width: 48ch; margin: 34px 0 0; color: #4A453C;">Junction is where organizations and technology meet. We build the strategy, then train the people who have to deliver it — fourteen years with destinations, operators, and the organizations that back them.</p>
+      <div style="display: flex; gap: 14px; margin-top: 38px; flex-wrap: wrap;">
+        <a href="#contact" style="background: #171512; color: #F5F1E8; padding: 18px 30px 16px; border-radius: 10px; font-size: 16px; font-weight: 800;" style-hover="background: #FF4D00;">Book a discovery call</a>
+        <a href="#junctionu" style="border: 2px solid #171512; padding: 16px 30px 14px; border-radius: 10px; font-size: 16px; font-weight: 800;" style-hover="background: #171512; color: #F5F1E8;">Start learning free</a>
+      </div>
+    </div>
+    <div style="background: #114B3C; border-radius: 22px; padding: 12px;">
+      <div style="border: 3px solid #F5F1E8; border-radius: 14px; padding: 26px 26px 18px; color: #F5F1E8;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #A9D3B8;">All routes</span>
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.1em; color: #A9D3B8;">JCT-26</span>
+        </div>
+        <a href="#services" style="display: flex; align-items: center; gap: 16px; padding: 15px 4px 13px; border-top: 1px solid rgba(245,241,232,0.28);" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; background: #F5F1E8; color: #114B3C; border-radius: 6px; padding: 5px 8px 3px;">01</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">Marketing Strategy</span>
+          <span style="font-weight: 900; font-size: 20px;">→</span>
+        </a>
+        <a href="#services" style="display: flex; align-items: center; gap: 16px; padding: 15px 4px 13px; border-top: 1px solid rgba(245,241,232,0.28);" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; background: #F5F1E8; color: #114B3C; border-radius: 6px; padding: 5px 8px 3px;">02</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">Marketing Training</span>
+          <span style="font-weight: 900; font-size: 20px;">→</span>
+        </a>
+        <a href="#services" style="display: flex; align-items: center; gap: 16px; padding: 15px 4px 13px; border-top: 1px solid rgba(245,241,232,0.28);" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; background: #FF4D00; color: #F5F1E8; border-radius: 6px; padding: 5px 8px 3px;">03</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">The Accelerator</span>
+          <span style="font-weight: 900; font-size: 20px;">→</span>
+        </a>
+        <a href="#services" style="display: flex; align-items: center; gap: 16px; padding: 15px 4px 13px; border-top: 1px solid rgba(245,241,232,0.28);" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; background: #F5F1E8; color: #114B3C; border-radius: 6px; padding: 5px 8px 3px;">04</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">AI Training</span>
+          <span style="font-weight: 900; font-size: 20px;">→</span>
+        </a>
+        <a href="#services" style="display: flex; align-items: center; gap: 16px; padding: 15px 4px 13px; border-top: 1px solid rgba(245,241,232,0.28);" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; background: #F5F1E8; color: #114B3C; border-radius: 6px; padding: 5px 8px 3px;">05</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">Destination Partnerships</span>
+          <span style="font-weight: 900; font-size: 20px;">→</span>
+        </a>
+        <a href="#junctionu" style="display: flex; align-items: center; gap: 16px; padding: 16px 4px 14px; border-top: 3px double rgba(245,241,232,0.5); margin-top: 4px;" style-hover="color: #FFB38F;">
+          <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #A9D3B8;">Next exit</span>
+          <span style="font-weight: 800; font-size: 21px; letter-spacing: -0.01em; flex: 1;">JunctionU<span style="color: #FFB38F;">_</span></span>
+          <span style="font-weight: 900; font-size: 20px;">↗</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div style="height: 5px; margin: 0 40px; background: repeating-linear-gradient(90deg, #171512 0 44px, transparent 44px 78px);"></div>
+
+  <section style="padding: 28px 40px 32px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 32px;">
+    <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8271;">Travelled with</span>
+    <span style="font-weight: 800; font-size: 15px;">Destination BC</span>
+    <span style="font-weight: 800; font-size: 15px;">Travel Yukon</span>
+    <span style="font-weight: 800; font-size: 15px;">Ontario's Southwest</span>
+    <span style="font-weight: 800; font-size: 15px;">Kootenay Rockies</span>
+    <span style="font-weight: 800; font-size: 15px;">Indigenous Tourism BC</span>
+    <span style="font-weight: 800; font-size: 15px;">Fairmont</span>
+    <span style="font-weight: 800; font-size: 15px;">Revelstoke</span>
+  </section>
+
+  <section style="position: relative; margin: 0 40px; border-radius: 22px; overflow: hidden;">
+    <img src="assets/photo-mountains.png" alt="" style="width: 100%; height: 480px; object-fit: cover; display: block;">
+    <div style="position: absolute; inset: 0; background: linear-gradient(180deg, rgba(23,21,18,0) 40%, rgba(23,21,18,0.75)); display: flex; align-items: flex-end; padding: 36px;">
+      <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <span style="border: 2px solid #F5F1E8; color: #F5F1E8; border-radius: 999px; padding: 10px 20px 8px; font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">No websites</span>
+        <span style="border: 2px solid #F5F1E8; color: #F5F1E8; border-radius: 999px; padding: 10px 20px 8px; font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">No ad buying</span>
+        <span style="border: 2px solid #F5F1E8; color: #F5F1E8; border-radius: 999px; padding: 10px 20px 8px; font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">No social management</span>
+        <span style="background: #FF4D00; border: 2px solid #FF4D00; color: #F5F1E8; border-radius: 999px; padding: 10px 20px 8px; font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Only what gets you there</span>
+      </div>
+    </div>
+  </section>
+
+  <section id="services" style="padding: 96px 40px 88px;">
+    <div style="display: grid; grid-template-columns: 1fr 1.6fr; gap: 64px;">
+      <div style="position: sticky; top: 110px; align-self: start;">
+        <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #FF4D00; margin-bottom: 20px;">The route</div>
+        <h2 style="font-weight: 900; font-size: clamp(34px, 3.8vw, 58px); line-height: 0.96; letter-spacing: -0.03em; margin: 0;">We don't run your marketing. We make your team the best in the room.</h2>
+        <p style="font-size: 17px; line-height: 1.6; color: #4A453C; margin: 24px 0 0; max-width: 42ch;">Every engagement is built to be handed over. Strategy your team can run, training they'll actually use, and a platform that keeps them sharp after we're gone.</p>
+      </div>
+      <div>
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 15px; background: #171512; color: #F5F1E8; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">01</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Marketing Strategy</span><span style="font-weight: 900; font-size: 22px;">→</span></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">Research-led plans built on what actually drives visitation — plus the operating model to run them without us.</span>
+          </span>
+        </a>
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 15px; background: #171512; color: #F5F1E8; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">02</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Marketing Training</span><span style="font-weight: 900; font-size: 22px;">→</span></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">Workshops, keynotes and custom programs. A no-jargon zone — every action doable in under an hour.</span>
+          </span>
+        </a>
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 15px; background: #FF4D00; color: #F5F1E8; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">03</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">The Accelerator</span><sc-if value="{{ showPricing }}" hint-placeholder-val="{{ true }}"><span style="font-family: 'Overpass Mono', monospace; font-weight: 600; font-size: 14px; white-space: nowrap;">$2,500 →</span></sc-if></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">A digital assessment, one-to-one coaching, and a three-page plan you can start on Monday. 25–100% off through destination partnerships.</span>
+          </span>
+        </a>
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 15px; background: #171512; color: #F5F1E8; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">04</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">AI Training</span><span style="font-weight: 900; font-size: 22px;">→</span></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">Where AI genuinely pays off in a small marketing team — and where it quietly eats your month.</span>
+          </span>
+        </a>
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 15px; background: #171512; color: #F5F1E8; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">05</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Destination Partnerships</span><span style="font-weight: 900; font-size: 22px;">→</span></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">Subsidised JunctionU seats for every operator in your region, with progress reported back to you.</span>
+          </span>
+        </a>
+        <sc-if value="{{ showSpeaking }}" hint-placeholder-val="{{ true }}">
+        <a href="#" style="display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 30px 0 26px; border-top: 2px solid #171512; border-bottom: 2px solid #171512;" style-hover="color: #FF4D00;">
+          <span style="font-weight: 900; font-size: 20px; border: 2px solid #171512; color: #171512; border-radius: 8px; width: 52px; height: 52px; display: flex; align-items: center; justify-content: center; padding-top: 3px;">+</span>
+          <span>
+            <span style="display: flex; justify-content: space-between; align-items: baseline; gap: 16px;"><span style="font-weight: 800; font-size: 30px; letter-spacing: -0.02em;">Speaking</span><span style="font-weight: 900; font-size: 22px;">→</span></span>
+            <span style="display: block; font-size: 16px; line-height: 1.6; color: #4A453C; margin-top: 8px;">Keynotes, workshops, conference sessions and virtual talks — AI, tourism innovation, and what's next.</span>
+          </span>
+        </a>
+        </sc-if>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" style="background: #171512; color: #F5F1E8; padding: 88px 40px;">
+    <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 32px; margin-bottom: 48px;">
+      <div>
+        <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #FF7A40; margin-bottom: 18px;">Postcards from the route</div>
+        <h2 style="font-weight: 900; font-size: clamp(36px, 5vw, 74px); line-height: 0.9; letter-spacing: -0.035em; margin: 0;">Proof, not promises</h2>
+      </div>
+      <a href="#" style="font-family: 'Overpass Mono', monospace; font-size: 13px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; border-bottom: 2px solid #FF4D00; padding-bottom: 4px; white-space: nowrap;" style-hover="color: #FF7A40;">All work →</a>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px;">
+      <a href="#" style="background: #114B3C; border-radius: 20px; padding: 10px; min-height: 400px; display: flex;">
+        <div style="border: 3px solid #F5F1E8; border-radius: 13px; padding: 26px 24px 24px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
+          <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #A9D3B8;">Travel Yukon · Go Digital</div>
+          <div>
+            <div style="font-weight: 900; font-size: clamp(56px, 6.2vw, 92px); line-height: 0.85; letter-spacing: -0.04em;">300+</div>
+            <p style="font-size: 15px; line-height: 1.55; margin: 16px 0 0; max-width: 26ch; color: #D9E7DC;">Yukon businesses grown over four years — alumni now lead the program themselves.</p>
+          </div>
+        </div>
+      </a>
+      <a href="#" style="background: #FF4D00; border-radius: 20px; padding: 10px; min-height: 400px; display: flex;">
+        <div style="border: 3px solid #F5F1E8; border-radius: 13px; padding: 26px 24px 24px; display: flex; flex-direction: column; justify-content: space-between; flex: 1;">
+          <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #FFD9C4;">Indigenous Tourism BC · Accelerator</div>
+          <div>
+            <div style="font-weight: 900; font-size: clamp(56px, 6.2vw, 92px); line-height: 0.85; letter-spacing: -0.04em;">+300%</div>
+            <p style="font-size: 15px; line-height: 1.55; margin: 16px 0 0; max-width: 26ch; color: #FFE4D4;">Over stakeholder engagement goals, with booking growth inside three months.</p>
+          </div>
+        </div>
+      </a>
+      <a href="#" style="position: relative; border-radius: 20px; overflow: hidden; min-height: 400px; display: flex;">
+        <img src="assets/photo-townscape.png" alt="" style="position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;">
+        <div style="position: relative; flex: 1; background: linear-gradient(180deg, rgba(23,21,18,0.2), rgba(23,21,18,0.85)); padding: 26px 24px 24px; display: flex; flex-direction: column; justify-content: space-between;">
+          <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #FFB38F;">Kootenay Rockies · Strategy</div>
+          <div>
+            <div style="font-weight: 900; font-size: 38px; line-height: 0.95; letter-spacing: -0.03em;">A region that rebuilt its own playbook</div>
+            <p style="font-size: 15px; line-height: 1.55; margin: 14px 0 0; max-width: 28ch; color: #D8D4CC;">Marketing operations restructured around the highest-impact activity.</p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <blockquote style="margin: 64px 0 0; border-top: 1px solid rgba(245,241,232,0.25); padding-top: 44px;">
+      <p style="font-weight: 800; font-size: clamp(24px, 3vw, 42px); line-height: 1.12; letter-spacing: -0.02em; margin: 0; max-width: 34ch;">"We are a stronger, smarter tourism organization today thanks to the work we did with Junction."</p>
+      <footer style="font-family: 'Overpass Mono', monospace; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: #9C968A; margin-top: 24px;">Kathy Cooper — CEO, Kootenay Rockies Tourism</footer>
+    </blockquote>
+  </section>
+
+  <section id="junctionu" style="padding: 96px 40px;">
+    <div style="background: #114B3C; border-radius: 26px; padding: 14px;">
+      <div style="border: 3px solid #F5F1E8; border-radius: 16px; padding: 56px 48px; color: #F5F1E8;">
+        <div style="display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap; margin-bottom: 44px;">
+          <div>
+            <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #A9D3B8; margin-bottom: 18px;">Next exit · formerly eLearningU</div>
+            <h2 style="font-weight: 900; font-size: clamp(44px, 6.6vw, 104px); line-height: 0.86; letter-spacing: -0.04em; margin: 0;">JunctionU<span style="color: #FF7A40; animation: jx-blink 1.1s steps(1) infinite;">_</span></h2>
+            <p style="font-size: 18px; line-height: 1.55; color: #C9DECF; max-width: 50ch; margin: 22px 0 0;">Certificate courses, hands-on workshops and free Tourism Talks — the whole training platform, now part of Junction. 2,000+ professionals and counting.</p>
+          </div>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap;">
+            <a href="#" style="background: #F5F1E8; color: #114B3C; padding: 16px 28px 14px; border-radius: 10px; font-size: 16px; font-weight: 800;" style-hover="background: #FF4D00; color: #F5F1E8;">Browse the catalogue</a>
+            <a href="#" style="border: 2px solid rgba(245,241,232,0.5); padding: 14px 28px 12px; border-radius: 10px; font-size: 16px; font-weight: 800;" style-hover="border-color: #F5F1E8;">For DMOs</a>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;">
+          <div style="background: #F5F1E8; color: #171512; border-radius: 14px; overflow: hidden;">
+            <img src="assets/photo-townscape.png" alt="" style="width: 100%; height: 140px; object-fit: cover; display: block;">
+            <div style="padding: 22px 22px 24px;">
+              <div style="font-family: 'Overpass Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #B3400A; margin-bottom: 10px;">Certificate course</div>
+              <h3 style="font-weight: 800; font-size: 20px; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 12px;">Tourism Digital Marketing Essentials</h3>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span style="font-family: 'Overpass Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8271;">8 modules · 6 hrs</span>
+                <sc-if value="{{ showPricing }}" hint-placeholder-val="{{ true }}"><span style="font-weight: 900; font-size: 19px;">$349</span></sc-if>
+              </div>
+            </div>
+          </div>
+          <div style="background: #F5F1E8; color: #171512; border-radius: 14px; overflow: hidden;">
+            <img src="assets/photo-mountains.png" alt="" style="width: 100%; height: 140px; object-fit: cover; display: block;">
+            <div style="padding: 22px 22px 24px;">
+              <div style="font-family: 'Overpass Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #B3400A; margin-bottom: 10px;">Certificate course</div>
+              <h3 style="font-weight: 800; font-size: 20px; line-height: 1.15; letter-spacing: -0.015em; margin: 0 0 12px;">Sustainable Tourism</h3>
+              <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                <span style="font-family: 'Overpass Mono', monospace; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #8A8271;">6 modules · 4 hrs</span>
+                <sc-if value="{{ showPricing }}" hint-placeholder-val="{{ true }}"><span style="font-weight: 900; font-size: 19px;">$349</span></sc-if>
+              </div>
+            </div>
+          </div>
+          <div style="background: #FF4D00; color: #F5F1E8; border-radius: 14px; padding: 24px 22px; display: flex; flex-direction: column;">
+            <div style="font-family: 'Overpass Mono', monospace; font-size: 10px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px;">Free forever</div>
+            <h3 style="font-weight: 800; font-size: 24px; line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 12px;">Tourism Talks</h3>
+            <p style="font-size: 15px; line-height: 1.55; margin: 0 0 18px; color: #FFE4D4;">Candid conversations with the marketers actually doing the work — Nimmo Bay, SuperNatural BC and more.</p>
+            <div style="margin-top: auto; font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;">Watch free →</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="height: 5px; margin: 0 40px; background: repeating-linear-gradient(90deg, #171512 0 44px, transparent 44px 78px);"></div>
+
+  <section id="articles" style="padding: 80px 40px; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: start;">
+    <div>
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #8A8271; margin-bottom: 24px;">Field notes</div>
+      <a href="#" style="display: block; padding: 22px 0 20px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;"><div style="font-family: 'Overpass Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #8A8271; margin-bottom: 8px;">14 JUL 2026</div><div style="font-weight: 800; font-size: 25px; line-height: 1.1; letter-spacing: -0.015em;">Maybe the algorithm isn't the problem</div></a>
+      <a href="#" style="display: block; padding: 22px 0 20px; border-top: 2px solid #171512;" style-hover="color: #FF4D00;"><div style="font-family: 'Overpass Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #8A8271; margin-bottom: 8px;">06 JUL 2026</div><div style="font-weight: 800; font-size: 25px; line-height: 1.1; letter-spacing: -0.015em;">The year of the creator economy</div></a>
+      <a href="#" style="display: block; padding: 22px 0 20px; border-top: 2px solid #171512; border-bottom: 2px solid #171512;" style-hover="color: #FF4D00;"><div style="font-family: 'Overpass Mono', monospace; font-size: 10px; letter-spacing: 0.08em; color: #8A8271; margin-bottom: 8px;">08 JUN 2026</div><div style="font-weight: 800; font-size: 25px; line-height: 1.1; letter-spacing: -0.015em;">The four phases of AI adoption</div></a>
+    </div>
+    <div style="background: #171512; color: #F5F1E8; border-radius: 20px; padding: 44px 40px;">
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #FF7A40; margin-bottom: 18px;">The Brief — weekly</div>
+      <p style="font-weight: 900; font-size: clamp(26px, 2.8vw, 38px); line-height: 1.02; letter-spacing: -0.025em; margin: 0 0 16px;">Start every week knowing something your competitors don't.</p>
+      <p style="font-size: 15px; line-height: 1.6; color: #B5AFA3; margin: 0 0 28px;">The award-winning newsletter for marketers who want real insight without the noise.</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="email" placeholder="Your email address" style="flex: 1; min-width: 180px; background: rgba(245,241,232,0.08); border: 2px solid rgba(245,241,232,0.35); border-radius: 10px; padding: 14px 18px 12px; font-family: Overpass, sans-serif; font-size: 15px; color: #F5F1E8;">
+        <button type="button" style="background: #FF4D00; color: #F5F1E8; border: none; border-radius: 10px; padding: 14px 24px 12px; font-family: Overpass, sans-serif; font-weight: 800; font-size: 15px; cursor: pointer;">Subscribe</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" style="padding: 0 40px 88px;">
+    <div style="background: #FF4D00; border-radius: 26px; padding: 14px;">
+      <div style="border: 3px solid #F5F1E8; border-radius: 16px; padding: 64px 48px; color: #F5F1E8; display: grid; grid-template-columns: 1.5fr 1fr; gap: 56px; align-items: end;">
+        <div>
+          <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 22px;">Next exit: yours</div>
+          <h2 style="font-weight: 900; font-size: clamp(44px, 6.6vw, 108px); line-height: 0.86; letter-spacing: -0.045em; margin: 0;">Let's get to know each other<span style="animation: jx-blink 1.1s steps(1) infinite;">_</span></h2>
+        </div>
+        <div>
+          <p style="font-size: 18px; line-height: 1.6; margin: 0 0 26px; color: #FFE4D4;">Thirty minutes, no pitch deck. Tell us what you're trying to achieve and we'll tell you honestly whether we're the right people for it.</p>
+          <a href="#" style="display: inline-block; background: #F5F1E8; color: #171512; padding: 18px 32px 16px; border-radius: 10px; font-size: 17px; font-weight: 800;" style-hover="background: #171512; color: #F5F1E8;">Book a discovery call</a>
+          <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; margin-top: 20px; color: #FFD9C4;">hello@wearejunction.com</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="border-top: 2px solid #171512; padding: 28px 40px; display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">
+    <span style="color: #8A8271;">© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 26px;"><a href="#" style-hover="color: #FF4D00;">Instagram</a><a href="#" style-hover="color: #FF4D00;">LinkedIn</a><a href="#" style-hover="color: #FF4D00;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showPricing&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;},&quot;showSpeaking&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Content&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showPricing: this.props.showPricing ?? true,
+      showSpeaking: this.props.showSpeaking ?? true,
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #F5F1E8; }
+  * { box-sizing: border-box; }
+  a { color: #171512; text-decoration: none; }
+  a:hover { opacity: 0.88; }
+</style>
+</helmet>
+<div style="font-family: Overpass, sans-serif; background: #F5F1E8; color: #171512; width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 18px 44px; background: rgba(245,241,232,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(23,21,18,0.15);">
+    <a href="Junction Home.dc.html" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 30px; font-size: 15px; font-weight: 400;">
+      <a href="Junction Services.dc.html">Services</a>
+      <a href="Junction Work.dc.html">Work</a>
+      <a href="Junction JunctionU.dc.html">JunctionU</a>
+      <a href="Junction Ideas.dc.html" style="font-weight: 600; border-bottom: 2px solid #f2a900; padding-bottom: 2px;">Ideas</a>
+      <a href="Junction About.dc.html">About</a>
+      <a href="Junction Home.dc.html#start" style="background: #f2a900; color: #171512; padding: 12px 24px 10px; border-radius: 999px; font-weight: 600; white-space: nowrap;" style-hover="background: #171512; color: #F5F1E8;">Start a conversation</a>
+    </nav>
+  </header>
+
+  <section style="padding: 84px 44px 48px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 56px; align-items: end;">
+    <div>
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #114B3C; margin-bottom: 20px;">Ideas — 100+ articles</div>
+      <h1 style="font-weight: 900; font-size: clamp(40px, 5.2vw, 80px); line-height: 0.9; letter-spacing: -0.04em; margin: 0; max-width: 15ch;">Thinking you can use by Friday.</h1>
+    </div>
+    <div style="background: #114B3C; color: #F5F1E8; border-radius: 20px; padding: 34px 34px 30px;">
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #A9D3B8; margin-bottom: 12px;">The Brief — weekly</div>
+      <p style="font-weight: 800; font-size: 22px; line-height: 1.1; letter-spacing: -0.02em; margin: 0 0 18px;">Start every week knowing something your competitors don't.</p>
+      <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+        <input type="email" placeholder="Your email address" style="flex: 1; min-width: 150px; background: rgba(245,241,232,0.1); border: 1px solid rgba(245,241,232,0.4); border-radius: 999px; padding: 13px 18px 11px; font-family: Overpass, sans-serif; font-size: 14px; color: #F5F1E8;">
+        <button type="button" style="background: #f2a900; color: #171512; border: none; border-radius: 999px; padding: 13px 22px 11px; font-family: Overpass, sans-serif; font-weight: 600; font-size: 14px; cursor: pointer;">Subscribe</button>
+      </div>
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; color: #A9D3B8; margin-top: 12px;">Award-winning. Free. Unsubscribe anytime.</div>
+    </div>
+  </section>
+
+  <section style="padding: 0 44px 88px;">
+    <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px;">
+      <sc-for list="{{ filters }}" as="f" hint-placeholder-count="5">
+        <button type="button" onClick="{{ f.pick }}" style="background: {{ f.bg }}; color: {{ f.fg }}; border: 1px solid {{ f.border }}; border-radius: 999px; padding: 10px 20px 8px; font-family: Overpass, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;">{{ f.label }}</button>
+      </sc-for>
+    </div>
+    <sc-for list="{{ articles }}" as="a" hint-placeholder-count="7">
+      <a href="#" style="display: grid; grid-template-columns: 200px minmax(0, 1fr) auto; gap: 40px; align-items: baseline; padding: 26px 0; border-top: 1px solid rgba(23,21,18,0.2);" style-hover="opacity: 1; background: rgba(17,75,60,0.04);">
+        <span style="font-family: 'Overpass Mono', monospace; font-size: 12px; color: #857D6E;">{{ a.date }} · {{ a.cat }}</span>
+        <span>
+          <span style="display: block; font-weight: 800; font-size: clamp(19px, 2vw, 26px); letter-spacing: -0.02em;">{{ a.title }}</span>
+          <span style="display: block; font-size: 14.5px; font-weight: 300; line-height: 1.55; color: #4A453C; margin-top: 6px;">{{ a.teaser }}</span>
+        </span>
+        <span style="font-weight: 800; font-size: 18px; color: #114B3C;">→</span>
+      </a>
+    </sc-for>
+    <div style="border-top: 1px solid rgba(23,21,18,0.2);"></div>
+    <div style="font-size: 14px; font-weight: 300; color: #857D6E; margin-top: 22px;">Every article ends with one next step matched to its topic — a course, a tool, or a conversation. The full archive lands here at launch, each piece with its own search-ready title and description.</div>
+  </section>
+
+  <footer style="padding: 30px 44px; border-top: 1px solid rgba(23,21,18,0.15); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #857D6E;">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 26px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: 'All' };
+  all = [
+    { title: "Maybe the algorithm isn't the problem", cat: 'Marketing', date: 'JUL 14', teaser: "Before you blame the platform, check the three things the algorithm actually rewards." },
+    { title: 'The year of the creator economy', cat: 'Trends', date: 'JUL 6', teaser: 'What tourism brands should copy from creators, and what to leave alone.' },
+    { title: 'The four phases of AI adoption', cat: 'AI', date: 'JUN 8', teaser: 'Most teams stall at phase two. Here is what the jump to three looks like.' },
+    { title: 'The hidden 80% of your visitor economy', cat: 'Tourism', date: 'MAY 26', teaser: 'The businesses that never call themselves tourism businesses, and why they matter most.' },
+    { title: 'They remember the interaction', cat: 'Marketing', date: 'MAY 12', teaser: 'What 4,500 visitors taught one small town about word of mouth.' },
+    { title: 'Your Google profile is your homepage now', cat: 'Marketing', date: 'APR 28', teaser: 'More travellers see it than your website. Sixty minutes fixes it.' },
+    { title: 'What a DMO can actually promise its board', cat: 'Tourism', date: 'APR 14', teaser: 'Capacity built is measurable. Here is how partners report it.' },
+  ];
+  renderVals() {
+    const cur = this.state.filter;
+    return {
+      filters: ['All', 'Marketing', 'AI', 'Tourism', 'Trends'].map(label => ({
+        label,
+        pick: () => this.setState({ filter: label }),
+        bg: cur === label ? '#171512' : '#F5F1E8',
+        fg: cur === label ? '#F5F1E8' : '#171512',
+        border: cur === label ? '#171512' : 'rgba(23,21,18,0.25)',
+      })),
+      articles: cur === 'All' ? this.all : this.all.filter(a => a.cat === cur),
+    };
+  }
+}
+</script>
+</body>
+</html>

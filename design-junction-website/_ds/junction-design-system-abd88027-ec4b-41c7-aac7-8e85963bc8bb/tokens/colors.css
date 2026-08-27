@@ -1,0 +1,36 @@
+:root{
+/* base palette — sampled directly from Junction's Okotoks Visitor Readiness deck */
+--navy-900:#11154b;
+--navy-800:#233f5f;
+--navy-700:#183f61;
+--navy-600:#3a5878;
+--gold-500:#f2a900;
+--gold-600:#d99600;
+--sage-100:#dae9d3;
+--mint-100:#b5e5d6;
+--peach-100:#ffdaa4;
+--gray-900:#111214;
+--gray-700:#4a5057;
+--gray-500:#7a8087;
+--gray-200:#d5d5d5;
+--gray-100:#eaebeb;
+--black:#000000;
+--white:#ffffff;
+
+/* semantic aliases */
+--surface-page:var(--white);
+--surface-card:var(--white);
+--surface-muted:var(--gray-100);
+--surface-dark:var(--navy-900);
+--text-heading:var(--navy-800);
+--text-body:var(--black);
+--text-muted:var(--gray-700);
+--text-on-dark:var(--white);
+--text-on-accent:var(--navy-900);
+--accent-primary:var(--gold-500);
+--accent-navy:var(--navy-800);
+--border-subtle:var(--gray-200);
+--chip-sage:var(--sage-100);
+--chip-mint:var(--mint-100);
+--chip-peach:var(--peach-100);
+}

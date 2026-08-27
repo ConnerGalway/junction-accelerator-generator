@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/colors.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/typography.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/styles.css">
+<script src="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: var(--navy-800, #233f5f); text-decoration: none; }
+  a:hover { opacity: 0.85; }
+</style>
+</helmet>
+<div style="font-family: 'Work Sans', sans-serif; background: var(--white); color: var(--text-body); width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 56px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);">
+    <a href="Homepage v6.dc.html" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; color: var(--gray-700);">
+      <a href="Services.dc.html" style="color: inherit;">Services</a>
+      <a href="Work.dc.html" style="color: var(--navy-900); font-weight: 500;">Work</a>
+      <a href="JunctionU.dc.html" style="color: inherit;">JunctionU</a>
+      <a href="About.dc.html" style="color: inherit;">About</a>
+      <a href="Articles.dc.html" style="color: inherit;">Articles</a>
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 12px 24px; border-radius: 999px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="padding: 96px 56px 64px;">
+    <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 24px;">Work</div>
+    <h1 style="font-weight: 300; font-size: clamp(44px, 5.6vw, 84px); line-height: 1.04; letter-spacing: -0.025em; color: var(--navy-900); margin: 0; max-width: 18ch;">What it looks like when a region owns its own playbook.</h1>
+  </section>
+
+  <section style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 64px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 64px;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500);">Ontario's Southwest</div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 14px 0 0;">Traveller Insights Study</h2>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="sage" hint-size="100px,32px">Research</x-import>
+    </div>
+    <div>
+      <p style="font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--gray-700); margin: 0 0 22px;">A region-wide research program to understand who was actually visiting Southwest Ontario, why they came, and what would bring them back — replacing assumption with evidence across every partner DMO.</p>
+      <div style="background: var(--surface-muted); border-radius: 14px; padding: 24px 28px; margin-bottom: 22px;">
+        <div style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em; color: var(--navy-900);">The 2026 strategy</div>
+        <div style="font-size: 14px; color: var(--gray-700); margin-top: 4px;">is now driven by the study's findings — across the region and its member DMOs.</div>
+      </div>
+      <blockquote style="margin: 0; border-left: 3px solid var(--gold-500); padding-left: 22px;">
+        <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">"Junction has provided invaluable support to our region, our DMOs and our operators — thinking strategically and planning efficiently."</p>
+        <footer style="font-size: 13px; color: var(--gray-500); margin-top: 10px;">Joanne Wolnik — Executive Director, Ontario's Southwest</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 64px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 64px;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500);">Travel Yukon</div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 14px 0 0;">Go Digital program</h2>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="peach" hint-size="100px,32px">Training</x-import>
+    </div>
+    <div>
+      <p style="font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--gray-700); margin: 0 0 22px;">A territory-wide digital capacity program, four years running — workshops, coaching and JunctionU courses for tourism businesses from Whitehorse to Dawson City.</p>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-bottom: 22px;">
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 24px 28px;"><div style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em; color: var(--navy-900);">300+</div><div style="font-size: 14px; color: var(--gray-700); margin-top: 4px;">businesses through the program</div></div>
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 24px 28px;"><div style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em; color: var(--navy-900);">4 years</div><div style="font-size: 14px; color: var(--gray-700); margin-top: 4px;">and now led by program alumni</div></div>
+      </div>
+      <blockquote style="margin: 0; border-left: 3px solid var(--gold-500); padding-left: 22px;">
+        <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">"Junction has delivered incredibly valuable insights and education to our tourism sector — functional, accessible, and personalized."</p>
+        <footer style="font-size: 13px; color: var(--gray-500); margin-top: 10px;">Avery Bramadat — Senior Tourism Development Advisor, Travel Yukon</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 64px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 64px;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500);">Indigenous Tourism BC</div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 14px 0 0;">Accelerator program</h2>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="mint" hint-size="120px,32px">Accelerator</x-import>
+    </div>
+    <div>
+      <p style="font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--gray-700); margin: 0 0 22px;">The Accelerator, delivered across ITBC's member businesses — assessments, one-to-one coaching and implementation plans, subsidised by the organization for its operators.</p>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 24px 28px;"><div style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em; color: var(--navy-900);">+300%</div><div style="font-size: 14px; color: var(--gray-700); margin-top: 4px;">past stakeholder engagement goals</div></div>
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 24px 28px;"><div style="font-weight: 300; font-size: 34px; letter-spacing: -0.02em; color: var(--navy-900);">3 months</div><div style="font-size: 14px; color: var(--gray-700); margin-top: 4px;">to measurable booking growth</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 64px 0 88px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.6fr); gap: 64px;">
+    <div>
+      <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--gray-500);">Kootenay Rockies Tourism</div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 14px 0 0;">Destination marketing strategy</h2>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="sage" hint-size="100px,32px">Strategy</x-import>
+    </div>
+    <div>
+      <p style="font-size: 17px; font-weight: 300; line-height: 1.7; color: var(--gray-700); margin: 0 0 22px;">A restructuring of the region's marketing operations around the activities with the greatest impact — including redirected investment into responsible travel.</p>
+      <blockquote style="margin: 0; border-left: 3px solid var(--gold-500); padding-left: 22px;">
+        <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">"We are a stronger, smarter tourism organization today thanks to the work we did with Junction."</p>
+        <footer style="font-size: 13px; color: var(--gray-500); margin-top: 10px;">Kathy Cooper — CEO, Kootenay Rockies Tourism</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <section style="background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); padding: 88px 56px; text-align: center;">
+    <h2 style="font-weight: 300; font-size: clamp(34px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 auto; max-width: 20ch;">Your region could be next.</h2>
+    <a href="Contact.dc.html" style="display: inline-block; background: var(--gold-500); color: var(--navy-900); padding: 17px 34px; border-radius: 999px; font-size: 16px; font-weight: 500; margin-top: 36px; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a discovery call</a>
+  </section>
+
+  <footer style="padding: 32px 56px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 13px; color: var(--gray-500);">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 28px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

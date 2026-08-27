@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  html, body { margin: 0; padding: 0; background: #F5F1E8; }
+  * { box-sizing: border-box; }
+  a { color: #171512; text-decoration: none; }
+  a:hover { opacity: 0.88; }
+</style>
+</helmet>
+<div style="font-family: Overpass, sans-serif; background: #F5F1E8; color: #171512; width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 18px 44px; background: rgba(245,241,232,0.94); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(23,21,18,0.15);">
+    <a href="Junction Home.dc.html" style="display: flex; align-items: center; gap: 10px;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"><span style="font-weight: 800; font-size: 15px; color: #114B3C; border-left: 1px solid rgba(23,21,18,0.25); padding-left: 10px;">U</span></a>
+    <nav style="display: flex; align-items: center; gap: 30px; font-size: 15px; font-weight: 400;">
+      <a href="Junction Services.dc.html">Services</a>
+      <a href="Junction Work.dc.html">Work</a>
+      <a href="Junction JunctionU.dc.html" style="font-weight: 600; border-bottom: 2px solid #f2a900; padding-bottom: 2px;">JunctionU</a>
+      <a href="Junction Ideas.dc.html">Ideas</a>
+      <a href="Junction About.dc.html">About</a>
+      <a href="#" style="border: 2px solid #171512; padding: 10px 22px 8px; border-radius: 999px; font-weight: 600; white-space: nowrap;" style-hover="background: #171512; color: #F5F1E8;">Sign in</a>
+      <a href="#" style="background: #f2a900; color: #171512; padding: 12px 24px 10px; border-radius: 999px; font-weight: 600; white-space: nowrap;" style-hover="background: #171512; color: #F5F1E8;">Start free</a>
+    </nav>
+  </header>
+
+  <section style="padding: 84px 44px 56px; text-align: center;">
+    <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: #114B3C; margin-bottom: 20px;">JunctionU — formerly eLearningU</div>
+    <h1 style="font-weight: 900; font-size: clamp(44px, 6vw, 92px); line-height: 0.9; letter-spacing: -0.04em; margin: 0 auto; max-width: 16ch;">Training that fits between two guest check-ins.</h1>
+    <p style="font-size: 19px; font-weight: 300; line-height: 1.6; color: #4A453C; max-width: 50ch; margin: 26px auto 0;">Certificate courses, workshops and free Tourism Talks, built for tourism professionals. Lessons run under an hour and every one ends in something you can do today. 2,000+ people are in.</p>
+    <div style="display: flex; gap: 14px; justify-content: center; margin-top: 34px; flex-wrap: wrap;">
+      <a href="#" style="background: #f2a900; color: #171512; padding: 17px 32px 15px; border-radius: 999px; font-size: 16px; font-weight: 600; white-space: nowrap;" style-hover="background: #171512; color: #F5F1E8;">Start free</a>
+      <a href="#catalogue" style="border: 2px solid #171512; padding: 15px 32px 13px; border-radius: 999px; font-size: 16px; font-weight: 600; white-space: nowrap;" style-hover="background: #171512; color: #F5F1E8;">Browse the catalogue</a>
+    </div>
+    <div style="font-family: 'Overpass Mono', monospace; font-size: 12px; color: #857D6E; margin-top: 18px;">Free account = Tourism Talks + a starter course. No card.</div>
+  </section>
+
+  <section id="catalogue" style="padding: 24px 44px 72px;">
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; margin-bottom: 30px;">
+      <h2 style="font-weight: 800; font-size: clamp(26px, 2.8vw, 38px); letter-spacing: -0.025em; margin: 0;">The catalogue</h2>
+      <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+        <sc-for list="{{ filters }}" as="f" hint-placeholder-count="4">
+          <button type="button" onClick="{{ f.pick }}" style="background: {{ f.bg }}; color: {{ f.fg }}; border: 1px solid {{ f.border }}; border-radius: 999px; padding: 10px 20px 8px; font-family: Overpass, sans-serif; font-size: 14px; font-weight: 600; cursor: pointer;">{{ f.label }}</button>
+        </sc-for>
+      </div>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+      <sc-for list="{{ courses }}" as="c" hint-placeholder-count="6">
+        <a href="#" style="display: flex; flex-direction: column; background: #FFFFFF; border-radius: 20px; overflow: hidden;" style-hover="background: #FBF8F1;">
+          <div style="height: 140px; background: {{ c.tint }}; display: flex; align-items: flex-end; padding: 16px;">
+            <span style="background: #F5F1E8; border-radius: 999px; padding: 7px 14px 5px; font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: #171512;">{{ c.kind }}</span>
+          </div>
+          <div style="padding: 24px 26px 26px; display: flex; flex-direction: column; flex: 1;">
+            <h3 style="font-weight: 800; font-size: 20px; line-height: 1.2; letter-spacing: -0.015em; margin: 0 0 8px;">{{ c.title }}</h3>
+            <p style="font-size: 14px; font-weight: 300; line-height: 1.55; color: #4A453C; margin: 0 0 18px;">{{ c.blurb }}</p>
+            <div style="margin-top: auto; display: flex; justify-content: space-between; align-items: baseline;">
+              <span style="font-family: 'Overpass Mono', monospace; font-size: 11px; color: #857D6E;">{{ c.meta }}</span>
+              <span style="font-weight: 800; font-size: 18px; color: #114B3C;">{{ c.price }}</span>
+            </div>
+          </div>
+        </a>
+      </sc-for>
+    </div>
+    <div style="font-size: 14px; font-weight: 300; color: #857D6E; margin-top: 22px; text-align: center;">Checkout happens right here — card in, certificate out, no separate platform.</div>
+  </section>
+
+  <section style="margin: 0 44px 72px; background: #114B3C; color: #F5F1E8; border-radius: 20px; padding: 52px 48px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 48px; align-items: center;">
+    <div>
+      <div style="font-family: 'Overpass Mono', monospace; font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #A9D3B8; margin-bottom: 16px;">For DMOs</div>
+      <h2 style="font-weight: 900; font-size: clamp(28px, 3.2vw, 46px); line-height: 0.96; letter-spacing: -0.03em; margin: 0 0 14px;">Fund seats for your whole region.</h2>
+      <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: #D9E7DC; margin: 0; max-width: 52ch;">Partners cover 25% to 100% of course costs for their operators. We handle delivery, support and progress reporting. Travel Yukon has run it for four years; 300+ businesses came through.</p>
+    </div>
+    <div style="text-align: right;">
+      <a href="Junction Home.dc.html#start" style="display: inline-block; background: #f2a900; color: #171512; padding: 16px 30px 14px; border-radius: 999px; font-size: 15px; font-weight: 600; white-space: nowrap;" style-hover="background: #F5F1E8;">Become a partner</a>
+    </div>
+  </section>
+
+  <section style="padding: 0 44px 88px; text-align: center;">
+    <blockquote style="margin: 0 auto; max-width: 58ch;">
+      <p style="font-weight: 800; font-size: clamp(22px, 2.8vw, 36px); line-height: 1.15; letter-spacing: -0.02em; margin: 0;">"Functional, accessible, and personalized — incredibly valuable education for our tourism sector."</p>
+      <footer style="font-family: 'Overpass Mono', monospace; font-size: 12px; color: #857D6E; margin-top: 18px;">Avery Bramadat — Senior Tourism Development Advisor, Travel Yukon</footer>
+    </blockquote>
+  </section>
+
+  <footer style="padding: 30px 44px; border-top: 1px solid rgba(23,21,18,0.15); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-family: 'Overpass Mono', monospace; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #857D6E;">
+    <span>© Junction Consulting 2026 — JunctionU is Junction's training platform</span>
+    <div style="display: flex; gap: 26px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { filter: 'All' };
+  all = [
+    { title: 'Tourism Digital Marketing Essentials', kind: 'Certificate', blurb: 'The full foundation: website, Google profile, reviews, email and social, in plain language.', meta: '8 modules · 6 hrs', price: '$349', tint: '#114B3C' },
+    { title: 'AI for Tourism Operators', kind: 'Certificate', blurb: 'Where AI pays off in a small business, and where it wastes your month.', meta: '6 modules · 4 hrs', price: '$349', tint: '#2E6B54' },
+    { title: 'Sustainable Tourism', kind: 'Certificate', blurb: 'A sustainability practice guests can feel and your marketing can honestly claim.', meta: '6 modules · 4 hrs', price: '$349', tint: '#114B3C' },
+    { title: 'Your Google Business Profile, Fixed', kind: 'Workshop', blurb: 'Ninety hands-on minutes. Leave with your profile complete and working for you.', meta: 'Live · 90 min', price: '$79', tint: '#2E6B54' },
+    { title: 'Email That Gets Opened', kind: 'Workshop', blurb: 'Welcome, pre-arrival, win-back: build all three in one working session.', meta: 'Live · 2 hrs', price: '$79', tint: '#114B3C' },
+    { title: 'Tourism Talks', kind: 'Free', blurb: 'Candid conversations with marketers doing the work: Nimmo Bay, SuperNatural BC and more.', meta: 'Video series', price: 'Free', tint: '#2E6B54' },
+  ];
+  renderVals() {
+    const cur = this.state.filter;
+    return {
+      filters: ['All', 'Certificate', 'Workshop', 'Free'].map(label => ({
+        label: label === 'Certificate' ? 'Certificates' : label === 'Workshop' ? 'Workshops' : label,
+        pick: () => this.setState({ filter: label }),
+        bg: cur === label ? '#171512' : '#F5F1E8',
+        fg: cur === label ? '#F5F1E8' : '#171512',
+        border: cur === label ? '#171512' : 'rgba(23,21,18,0.25)',
+      })),
+      courses: cur === 'All' ? this.all : this.all.filter(c => c.kind === cur),
+    };
+  }
+}
+</script>
+</body>
+</html>

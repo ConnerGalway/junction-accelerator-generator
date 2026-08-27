@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/colors.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/typography.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/styles.css">
+<script src="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: var(--navy-800, #233f5f); text-decoration: none; }
+  a:hover { opacity: 0.85; }
+</style>
+</helmet>
+<div style="font-family: 'Work Sans', sans-serif; background: var(--white); color: var(--text-body); width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 56px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);">
+    <a href="Homepage v6.dc.html" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; color: var(--gray-700);">
+      <a href="Services.dc.html" style="color: var(--navy-900); font-weight: 500;">Services</a>
+      <a href="Work.dc.html" style="color: inherit;">Work</a>
+      <a href="JunctionU.dc.html" style="color: inherit;">JunctionU</a>
+      <a href="About.dc.html" style="color: inherit;">About</a>
+      <a href="Articles.dc.html" style="color: inherit;">Articles</a>
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 12px 24px; border-radius: 999px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="padding: 96px 56px 72px; max-width: 1100px;">
+    <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gray-500); margin-bottom: 24px;">Services</div>
+    <h1 style="font-weight: 300; font-size: clamp(44px, 5.6vw, 84px); line-height: 1.04; letter-spacing: -0.025em; color: var(--navy-900); margin: 0; max-width: 18ch;">We build the plan. Or we build the people who'll run it.</h1>
+    <p style="font-size: 19px; font-weight: 300; line-height: 1.6; color: var(--gray-700); max-width: 54ch; margin: 28px 0 0;">Every engagement ends the same way: your team holding the keys. We don't build websites, manage social media, or buy ads — so every recommendation exists because it works, not because we sell it.</p>
+  </section>
+
+  <section id="strategy" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 64px;">
+    <div>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="sage" hint-size="100px,32px">The plan</x-import>
+      <h2 style="font-weight: 300; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 22px 0 0;">Marketing Strategy</h2>
+    </div>
+    <div>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Research-led marketing strategy for destinations and the organizations that support them. We start with what actually drives visitation in your region — traveller research, channel performance, capacity on your team — and end with a plan your people can run without us.</p>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px;">
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 22px;"><div style="font-weight: 500; font-size: 16px; color: var(--navy-800); margin-bottom: 6px;">Destination strategy</div><div style="font-size: 14px; font-weight: 300; line-height: 1.55; color: var(--gray-700);">Multi-year direction, positioning, and investment priorities.</div></div>
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 22px;"><div style="font-weight: 500; font-size: 16px; color: var(--navy-800); margin-bottom: 6px;">Traveller research</div><div style="font-size: 14px; font-weight: 300; line-height: 1.55; color: var(--gray-700);">Insight studies that tell you who's coming, and why.</div></div>
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 22px;"><div style="font-weight: 500; font-size: 16px; color: var(--navy-800); margin-bottom: 6px;">Marketing operations</div><div style="font-size: 14px; font-weight: 300; line-height: 1.55; color: var(--gray-700);">Restructure the work around what has the greatest impact.</div></div>
+        <div style="background: var(--surface-muted); border-radius: 14px; padding: 22px;"><div style="font-weight: 500; font-size: 16px; color: var(--navy-800); margin-bottom: 6px;">Program design</div><div style="font-size: 14px; font-weight: 300; line-height: 1.55; color: var(--gray-700);">Operator-facing programs your DMO can deliver year after year.</div></div>
+      </div>
+      <a href="Contact.dc.html" style="display: inline-block; margin-top: 28px; font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px;">Talk to us about strategy →</a>
+    </div>
+  </section>
+
+  <section id="training" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 64px;">
+    <div>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="peach" hint-size="110px,32px">The people</x-import>
+      <h2 style="font-weight: 300; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 22px 0 0;">Marketing Training</h2>
+    </div>
+    <div>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Workshops, webinar series and custom programs for teams and business communities. A no-jargon zone: every action we teach is doable in under an hour, by the person who has to do the work on Tuesday.</p>
+      <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Delivered in the room, virtually, or as a series through your DMO — like the Visitor Economy Series that helped one small town's businesses get ready for 4,500 visitors and $900,000+ in potential spend.</p>
+      <a href="Contact.dc.html" style="display: inline-block; font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px;">Plan a training program →</a>
+    </div>
+  </section>
+
+  <section id="ai" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 64px;">
+    <div>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="mint" hint-size="110px,32px">The people</x-import>
+      <h2 style="font-weight: 300; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 22px 0 0;">AI Training</h2>
+    </div>
+    <div>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Past the hype and into the work. We train marketing teams on where AI genuinely pays off — research, content operations, guest communication — and where it quietly wastes a month. Built from sessions like <em style="font-style: normal; font-weight: 500;">AI: Your Business Superpower</em> and <em style="font-style: normal; font-weight: 500;">The AI Guest Journey</em>.</p>
+      <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Every session ends with your team using the tools on your real work — not watching a demo of ours.</p>
+      <a href="Contact.dc.html" style="display: inline-block; font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px;">Bring AI training to your team →</a>
+    </div>
+  </section>
+
+  <section id="accelerator" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0;">
+    <div style="background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); border-radius: var(--radius-lg, 20px); padding: 56px 52px; display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 56px; align-items: center;">
+      <div>
+        <div style="font-size: 13px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold-500); margin-bottom: 18px;">For individual businesses</div>
+        <h2 style="font-weight: 300; font-size: clamp(30px, 3.2vw, 46px); line-height: 1.08; letter-spacing: -0.02em; margin: 0 0 16px;">The Accelerator</h2>
+        <p style="font-size: 17px; font-weight: 300; line-height: 1.65; color: #c3cbdd; margin: 0; max-width: 52ch;">A full digital assessment, a one-to-one coaching session, and a three-page plan you can start on Monday. The fastest way to work with us directly.</p>
+      </div>
+      <div style="text-align: right;">
+        <div style="font-weight: 300; font-size: 56px; letter-spacing: -0.02em;">$2,500</div>
+        <div style="font-size: 14px; color: #8fa0c8; margin: 6px 0 24px;">25–100% off through destination partnerships</div>
+        <a href="Accelerator.dc.html" style="display: inline-block; background: var(--gold-500); color: var(--navy-900); padding: 15px 28px; border-radius: 999px; font-size: 15px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">See how it works</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="partnerships" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 64px;">
+    <div>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="sage" hint-size="110px,32px">For DMOs</x-import>
+      <h2 style="font-weight: 300; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 22px 0 0;">Destination Partnerships</h2>
+    </div>
+    <div>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Bring JunctionU to every operator in your region. You subsidise seats — 25% to fully funded — and we handle delivery, support, and reporting, so you can show your board exactly what capacity you built.</p>
+      <p style="font-size: 16px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Four years of Travel Yukon's Go Digital program grew 300+ businesses this way — and its alumni now lead it.</p>
+      <a href="Contact.dc.html" style="display: inline-block; font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px;">Partner with us →</a>
+    </div>
+  </section>
+
+  <section id="speaking" style="margin: 0 56px; border-top: 1px solid var(--border-subtle); padding: 72px 0 96px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr); gap: 64px;">
+    <div>
+      <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="peach" hint-size="110px,32px">On stage</x-import>
+      <h2 style="font-weight: 300; font-size: clamp(32px, 3.4vw, 48px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 22px 0 0;">Speaking</h2>
+    </div>
+    <div>
+      <p style="font-size: 18px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0 0 28px;">Keynotes, workshops, conference sessions and virtual presentations on AI adoption, tourism innovation and marketing trends — real, practical advice, never a lecture. Recent stages include the Northern BC Tourism Summit, TIABC Conference and Yukon's Go Digital Tourism Summit.</p>
+      <a href="Speaking.dc.html" style="display: inline-block; font-size: 15px; font-weight: 500; color: var(--navy-800); border-bottom: 2px solid var(--gold-500); padding-bottom: 2px;">Topics &amp; booking →</a>
+    </div>
+  </section>
+
+  <section style="background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white); padding: 88px 56px; text-align: center;">
+    <h2 style="font-weight: 300; font-size: clamp(34px, 4.4vw, 64px); line-height: 1.05; letter-spacing: -0.02em; margin: 0 auto; max-width: 22ch;">Not sure which door? That's what the call is for.</h2>
+    <a href="Contact.dc.html" style="display: inline-block; background: var(--gold-500); color: var(--navy-900); padding: 17px 34px; border-radius: 999px; font-size: 16px; font-weight: 500; margin-top: 36px; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a discovery call</a>
+  </section>
+
+  <footer style="padding: 32px 56px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 13px; color: var(--gray-500);">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 28px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>

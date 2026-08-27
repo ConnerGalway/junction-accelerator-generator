@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/colors.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/typography.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/tokens/spacing.css">
+<link rel="stylesheet" href="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/styles.css">
+<script src="_ds/junction-design-system-abd88027-ec4b-41c7-aac7-8e85963bc8bb/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; padding: 0; background: #fff; }
+  * { box-sizing: border-box; }
+  a { color: var(--navy-800, #233f5f); text-decoration: none; }
+  a:hover { opacity: 0.85; }
+</style>
+</helmet>
+<div style="font-family: 'Work Sans', sans-serif; background: var(--white); color: var(--text-body); width: 100%; overflow-x: hidden;">
+
+  <header style="position: sticky; top: 0; z-index: 60; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 20px 56px; background: rgba(255,255,255,0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border-subtle);">
+    <a href="Homepage v6.dc.html" style="display: flex; align-items: center;"><img src="assets/junction-wordmark.png" alt="Junction" style="height: 15px; width: auto; display: block;"></a>
+    <nav style="display: flex; align-items: center; gap: 32px; font-size: 15px; color: var(--gray-700);">
+      <a href="Services.dc.html" style="color: var(--navy-900); font-weight: 500;">Services</a>
+      <a href="Work.dc.html" style="color: inherit;">Work</a>
+      <a href="JunctionU.dc.html" style="color: inherit;">JunctionU</a>
+      <a href="About.dc.html" style="color: inherit;">About</a>
+      <a href="Articles.dc.html" style="color: inherit;">Articles</a>
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 12px 24px; border-radius: 999px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Book a call</a>
+    </nav>
+  </header>
+
+  <section style="padding: 96px 56px 80px; background: linear-gradient(180deg, #7fae92 0%, rgba(163,197,176,0.4) 52%, var(--white) 100%); text-align: center;">
+    <x-import component-from-global-scope="JunctionDesignSystem_abd880.PastelChip" tone="peach" hint-size="200px,32px">For individual businesses</x-import>
+    <h1 style="font-weight: 300; font-size: clamp(44px, 5.8vw, 88px); line-height: 1.02; letter-spacing: -0.025em; color: var(--navy-900); margin: 28px auto 0; max-width: 16ch;">Your marketing, unstuck in three weeks.</h1>
+    <p style="font-size: 19px; font-weight: 300; line-height: 1.6; color: var(--gray-700); max-width: 52ch; margin: 26px auto 0;">The Accelerator is a complete assessment of your digital presence, a one-to-one coaching session, and a three-page plan you can start on Monday. No retainer. No jargon. No dependence on us.</p>
+    <div style="display: flex; gap: 14px; justify-content: center; margin-top: 38px; flex-wrap: wrap;">
+      <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 17px 32px; border-radius: 999px; font-size: 16px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Apply now — $2,500</a>
+      <a href="#how" style="border: 1px solid var(--gray-200); background: var(--white); color: var(--navy-800); padding: 17px 32px; border-radius: 999px; font-size: 16px; white-space: nowrap;" style-hover="border-color: var(--navy-800);">How it works</a>
+    </div>
+    <div style="font-size: 14px; color: var(--gray-700); margin-top: 18px;">25–100% off through a <a href="Services.dc.html#partnerships" style="font-weight: 500; border-bottom: 2px solid var(--gold-500); padding-bottom: 1px;">destination partnership</a> — ask your DMO.</div>
+  </section>
+
+  <section id="how" style="padding: 88px 56px 48px;">
+    <h2 style="font-weight: 300; font-size: clamp(32px, 3.6vw, 52px); line-height: 1.08; letter-spacing: -0.02em; color: var(--navy-900); margin: 0 0 52px; text-align: center;">Three steps. Three weeks.</h2>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px;">
+      <div style="background: var(--surface-muted); border-radius: var(--radius-lg, 20px); padding: 40px 36px;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--gold-500); color: var(--navy-900); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 18px; margin-bottom: 26px;">1</div>
+        <h3 style="font-weight: 500; font-size: 21px; color: var(--navy-800); margin: 0 0 12px;">The assessment</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">We audit your entire digital presence — website, Google Business Profile, social, reviews, booking flow — and benchmark it against what actually drives customers in your market.</p>
+      </div>
+      <div style="background: var(--surface-muted); border-radius: var(--radius-lg, 20px); padding: 40px 36px;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--gold-500); color: var(--navy-900); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 18px; margin-bottom: 26px;">2</div>
+        <h3 style="font-weight: 500; font-size: 21px; color: var(--navy-800); margin: 0 0 12px;">The coaching session</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">One-to-one, on video, walking through what we found — in plain language, with your real accounts on screen. Bring anyone from your team; the recording is yours.</p>
+      </div>
+      <div style="background: var(--surface-muted); border-radius: var(--radius-lg, 20px); padding: 40px 36px;">
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--gold-500); color: var(--navy-900); display: flex; align-items: center; justify-content: center; font-weight: 500; font-size: 18px; margin-bottom: 26px;">3</div>
+        <h3 style="font-weight: 500; font-size: 21px; color: var(--navy-800); margin: 0 0 12px;">The plan</h3>
+        <p style="font-size: 15px; font-weight: 300; line-height: 1.65; color: var(--gray-700); margin: 0;">Three pages, prioritised, with every action doable in under an hour. Start Monday. Includes 90 days of email access to us while you work through it.</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 48px 56px;">
+    <div style="margin: 0; padding: 72px 48px; text-align: center; border-radius: var(--radius-lg, 20px); background: linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 100%); color: var(--white);">
+      <div style="font-size: 14px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #8fa0c8; margin-bottom: 18px;">Indigenous Tourism BC ran the Accelerator across its members</div>
+      <div style="font-weight: 300; font-size: clamp(72px, 10vw, 160px); line-height: 0.95; letter-spacing: -0.04em;">+300%</div>
+      <p style="font-size: 17px; font-weight: 300; color: #c3cbdd; max-width: 46ch; margin: 20px auto 0;">past stakeholder engagement goals — with measurable booking growth across the province inside three months.</p>
+    </div>
+  </section>
+
+  <section style="padding: 64px 56px 88px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 64px; align-items: start;">
+    <div>
+      <h2 style="font-weight: 300; font-size: clamp(28px, 3vw, 42px); line-height: 1.1; letter-spacing: -0.02em; color: var(--navy-900); margin: 0 0 24px;">Is it for you?</h2>
+      <div style="display: grid; gap: 14px;">
+        <div style="display: flex; gap: 14px; align-items: flex-start;"><span style="color: var(--gold-600, #b3821a); font-weight: 500;">✓</span><p style="font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">You run a tourism or hospitality business and marketing is one of nine jobs you hold.</p></div>
+        <div style="display: flex; gap: 14px; align-items: flex-start;"><span style="color: var(--gold-600, #b3821a); font-weight: 500;">✓</span><p style="font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">You suspect your digital presence is costing you bookings, but don't know where to start.</p></div>
+        <div style="display: flex; gap: 14px; align-items: flex-start;"><span style="color: var(--gold-600, #b3821a); font-weight: 500;">✓</span><p style="font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">You want a plan you can execute yourself — not a proposal for more services.</p></div>
+        <div style="display: flex; gap: 14px; align-items: flex-start;"><span style="color: var(--gray-500);">✗</span><p style="font-size: 16px; font-weight: 300; line-height: 1.6; color: var(--gray-700); margin: 0;">It's not for you if you're looking for someone to run your marketing. We'll make you dangerous instead.</p></div>
+      </div>
+    </div>
+    <div style="background: var(--surface-muted); border-radius: var(--radius-lg, 20px); padding: 44px 40px;">
+      <h3 style="font-weight: 500; font-size: 18px; color: var(--navy-800); margin: 0 0 20px;">What's included</h3>
+      <div style="display: grid; gap: 12px; font-size: 15px; font-weight: 300; color: var(--gray-700);">
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);"><span>Full digital presence assessment</span><span style="font-weight: 500; color: var(--navy-800);">30+ checks</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);"><span>One-to-one coaching session</span><span style="font-weight: 500; color: var(--navy-800);">90 min</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);"><span>Prioritised implementation plan</span><span style="font-weight: 500; color: var(--navy-800);">3 pages</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border-subtle);"><span>Email support while you execute</span><span style="font-weight: 500; color: var(--navy-800);">90 days</span></div>
+        <div style="display: flex; justify-content: space-between; gap: 16px;"><span>JunctionU course credit</span><span style="font-weight: 500; color: var(--navy-800);">included</span></div>
+      </div>
+      <div style="display: flex; align-items: baseline; justify-content: space-between; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border-subtle);">
+        <span style="font-weight: 300; font-size: 40px; letter-spacing: -0.02em; color: var(--navy-900);">$2,500</span>
+        <a href="Contact.dc.html" style="background: var(--gold-500); color: var(--navy-900); padding: 14px 26px; border-radius: 999px; font-size: 15px; font-weight: 500; white-space: nowrap;" style-hover="background: var(--gold-600);">Apply now</a>
+      </div>
+    </div>
+  </section>
+
+  <footer style="padding: 32px 56px; border-top: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; gap: 24px; font-size: 13px; color: var(--gray-500);">
+    <span>© Junction Consulting 2026</span>
+    <div style="display: flex; gap: 28px;"><a href="#" style="color: inherit;">Instagram</a><a href="#" style="color: inherit;">LinkedIn</a><a href="#" style="color: inherit;">Privacy</a></div>
+  </footer>
+</div>
+</x-dc>
+</body>
+</html>
