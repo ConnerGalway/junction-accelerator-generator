@@ -16,7 +16,10 @@ export async function handler(event, context) {
   try {
     // Parse request body
     const body = JSON.parse(event.body);
-    const { clientName, slug, coachEmail, cohortStartDate, assessmentDate, planMd } = body;
+    const { clientName, slug, coachEmail, cohortStartDate, assessmentDate, planMd, assessmentId } = body;
+
+    // Flag: are we adding a plan to an existing assessment?
+    const isAddingPlanToAssessment = !!assessmentId;
 
     // Validate required fields
     if (!clientName || !slug || !coachEmail || !cohortStartDate || !assessmentDate || !planMd) {
@@ -67,21 +70,23 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 2. CHECK IF PROJECT EXISTS
+    // 2. CHECK IF PROJECT EXISTS (skip if adding plan to existing assessment)
     // ─────────────────────────────────────────────────────────────────────────
-    const checkUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/clients/${slug}`;
-    const checkRes = await fetch(checkUrl, {
-      headers: {
-        'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
-        'Accept': 'application/vnd.github.v3+json'
-      }
-    });
+    if (!isAddingPlanToAssessment) {
+      const checkUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/clients/${slug}`;
+      const checkRes = await fetch(checkUrl, {
+        headers: {
+          'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+          'Accept': 'application/vnd.github.v3+json'
+        }
+      });
 
-    if (checkRes.status === 200) {
-      return {
-        statusCode: 409,
-        body: JSON.stringify({ error: 'Project already exists', step: 'github' })
-      };
+      if (checkRes.status === 200) {
+        return {
+          statusCode: 409,
+          body: JSON.stringify({ error: 'Project already exists', step: 'github' })
+        };
+      }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -136,11 +141,15 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 7. COMMIT TO GITHUB (3 files in single commit)
     // ─────────────────────────────────────────────────────────────────────────
+    const commitMessage = isAddingPlanToAssessment
+      ? `Add implementation plan: ${clientName}`
+      : `Add accelerator project: ${clientName}`;
+
     const commitResult = await commitToGitHub([
       { path: `clients/${slug}/plan.md`, content: planMd },
       { path: `clients/${slug}/index.html`, content: processedHtml },
       { path: `clients/${slug}/plan.json`, content: JSON.stringify(planJson, null, 2) }
-    ], `Add accelerator project: ${clientName}`);
+    ], commitMessage);
 
     if (commitResult.error) {
       return {
