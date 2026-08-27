@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junction Consulting</title>
+<meta name="description" content="Junction builds marketing strategy for destinations and trains the people who deliver it. 2,000+ tourism professionals trained.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Overpass:wght@300;400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+
+<!-- Set before first paint so revealed content never flashes in and then hides.
+     If JS is off, nothing gets the attribute and everything stays visible.
+     The timer is the failsafe for the other case: JS is on but motion.js never
+     arrives, which would otherwise leave the page hidden at opacity 0. -->
+<script>
+  document.documentElement.setAttribute('data-motion', '');
+  setTimeout(function () {
+    if (!document.documentElement.hasAttribute('data-motion-ready')) {
+      document.documentElement.removeAttribute('data-motion');
+    }
+  }, 1500);
+</script>
+</head>
+<body>
+
+<a href="#main" class="visually-hidden">Skip to content</a>
+
+<header class="header" id="site-header">
+  <div class="wrap header__inner">
+    <a href="#" class="header__logo" aria-label="Junction, home">
+      <img src="assets/wordmark.png" alt="Junction" width="247" height="35">
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#junctionu">JunctionU</a>
+      <a href="#ideas">Ideas</a>
+      <a href="#about">About</a>
+      <a href="#start" class="btn btn--primary btn--sm">Start a conversation</a>
+      <button type="button" class="nav-toggle" id="nav-toggle" aria-expanded="false" aria-controls="menu" aria-label="Open menu">
+        <span class="nav-toggle__bars" aria-hidden="true"><i></i><i></i></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Sits below the header, which stays put so the toggle never moves. -->
+<div class="menu" id="menu">
+  <nav class="menu__inner" aria-label="Mobile">
+    <a href="#services" style="--i: 0">Services</a>
+    <a href="#work" style="--i: 1">Work</a>
+    <a href="#junctionu" style="--i: 2">JunctionU</a>
+    <a href="#ideas" style="--i: 3">Ideas</a>
+    <a href="#about" style="--i: 4">About</a>
+  </nav>
+</div>
+
+<main id="main">
+
+  <!-- Hero ================================================================ -->
+  <section class="hero wrap" id="hero">
+    <h1 class="display">
+      <span class="line-mask" style="--delay: 0ms"><span>Technology should serve <em style="font-style: normal; color: var(--green)">your goals</em>.</span></span>
+      <span class="line-mask" style="--delay: 90ms"><span>We make sure it does.</span></span>
+    </h1>
+
+    <div class="hero__foot" data-reveal style="--delay: 380ms">
+      <p class="lead measure-wide">
+        Junction is where organizations and technology meet. We build marketing
+        strategy for destinations, and we train the people who deliver it.
+        2,000+ so far.
+      </p>
+      <div class="hero__actions">
+        <a href="#start" class="btn btn--primary">Start a conversation</a>
+        <a href="#junctionu" class="btn btn--outline">Explore JunctionU</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Client proof ========================================================= -->
+  <section class="section--tight wrap" aria-label="Selected clients">
+    <div class="rule-top" style="padding-top: 2.25rem">
+      <p class="label" data-reveal>Clients include</p>
+      <div class="logos" style="margin-top: 1.5rem" data-stagger>
+        <img src="assets/logo-destination-bc.png" alt="Destination British Columbia" data-reveal class="is-tall">
+        <img src="assets/logo-yukon.svg" alt="Travel Yukon" data-reveal>
+        <img src="assets/logo-osw.webp" alt="Ontario's Southwest" data-reveal class="is-tall">
+        <img src="assets/logo-kootenay.png" alt="Kootenay Rockies Tourism" data-reveal class="is-tall">
+        <img src="assets/logo-itbc.png" alt="Indigenous Tourism BC" data-reveal>
+        <img src="assets/logo-travel-alberta.png" alt="Travel Alberta" data-reveal class="is-tall">
+      </div>
+    </div>
+  </section>
+
+  <!-- The fork: two routes ================================================= -->
+  <section class="section wrap" id="services">
+    <p class="label label--green" data-reveal>Pick your route</p>
+    <h2 class="h2" style="margin-top: 1.25rem; max-width: 20ch; --delay: 60ms" data-reveal>
+      Two ways to work with us.
+    </h2>
+
+    <!-- The signature motif. One line arrives, splits, and each branch lands on
+         a door. It reconverges at the enquiry form at the foot of the page. -->
+    <svg class="route" viewBox="0 0 1200 84" fill="none" aria-hidden="true" focusable="false">
+      <path d="M600 0 V28" pathLength="1" style="--delay: 0ms"/>
+      <path d="M600 28 C600 62 210 50 210 84" pathLength="1" style="--delay: 140ms"/>
+      <path d="M600 28 C600 62 990 50 990 84" pathLength="1" style="--delay: 140ms"/>
+      <circle class="node" cx="600" cy="28" r="4.5"/>
+    </svg>
+
+    <div class="doors" data-stagger>
+      <a href="#start" class="card card--green door" data-reveal>
+        <p class="label label--onDark">Route 01 / The plan</p>
+        <h3 class="h3" style="margin-top: 1.375rem">Marketing strategy</h3>
+        <p class="body measure" style="margin-top: 0.875rem">
+          Research-led strategy for destinations and the organizations behind
+          them, built around what actually drives visitation. Your team runs it
+          after we hand it over.
+        </p>
+        <ul class="door__list">
+          <li><span class="door__num">01</span>Destination and brand strategy</li>
+          <li><span class="door__num">02</span>Traveller and market research</li>
+          <li><span class="door__num">03</span>Program design for regions</li>
+        </ul>
+        <span class="door__cta">
+          <span class="link">How we work <span class="link__arrow">&rarr;</span></span>
+        </span>
+      </a>
+
+      <a href="#junctionu" class="card door" data-reveal>
+        <p class="label label--green">Route 02 / The people</p>
+        <h3 class="h3" style="margin-top: 1.375rem">Training that sticks</h3>
+        <p class="body measure" style="margin-top: 0.875rem">
+          Everything we teach is doable in under an hour, in plain language, by
+          the person doing the work on Tuesday.
+        </p>
+        <ul class="door__list">
+          <li><span class="door__num">01</span>Workshops and the Accelerator</li>
+          <li><span class="door__num">02</span>AI training, 30 days</li>
+          <li><span class="door__num">03</span>The JunctionU platform</li>
+        </ul>
+        <span class="door__cta">
+          <span class="link">Explore training <span class="link__arrow">&rarr;</span></span>
+        </span>
+      </a>
+    </div>
+
+    <p class="small" style="margin-top: 1.75rem; text-align: center" data-reveal>
+      Run a destination?
+      <a href="#start" class="link">Fund training for every operator in your region</a>,
+      25% to fully covered.
+    </p>
+  </section>
+
+  <!-- Proof ================================================================ -->
+  <section class="section panel--green" aria-labelledby="proof-heading">
+    <div class="wrap" style="text-align: center">
+      <p class="label label--onDark" data-reveal>What one small town&rsquo;s visitors were worth</p>
+      <p class="stat-hero tnum" id="proof-heading" style="margin-top: 1.5rem"
+         data-count="900000" data-prefix="$" data-suffix="+">$900,000+</p>
+      <p class="lead measure" style="margin: 1.5rem auto 0" data-reveal>
+        In potential local spend, identified for Okotoks businesses ahead of
+        4,500 visitors, then turned into a checklist every operator could act on.
+      </p>
+
+      <div class="stat-row tnum" data-stagger>
+        <div data-reveal>
+          <p class="stat__value" data-count="2000" data-suffix="+">2,000+</p>
+          <p class="label label--onDark stat__label">Professionals trained</p>
+        </div>
+        <div data-reveal>
+          <p class="stat__value" data-count="300" data-suffix="+">300+</p>
+          <p class="label label--onDark stat__label">Yukon businesses, 4 years</p>
+        </div>
+        <div data-reveal>
+          <p class="stat__value" data-count="300" data-prefix="+" data-suffix="%">+300%</p>
+          <p class="label label--onDark stat__label">Past ITBC engagement goals</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case studies ========================================================= -->
+  <section class="section wrap" id="work">
+    <div class="section-head">
+      <h2 class="h2" data-reveal>The receipts</h2>
+      <a href="#work" class="link" data-reveal>All case studies <span class="link__arrow">&rarr;</span></a>
+    </div>
+
+    <div class="trio" data-stagger>
+      <a href="#work" class="card" data-reveal>
+        <p class="case__value tnum">300+</p>
+        <p class="label case__client">Travel Yukon</p>
+        <h3 class="h4">Go Digital program</h3>
+        <p class="small" style="margin-top: 0.5rem">Businesses through the program in four years. Alumni now lead it.</p>
+      </a>
+      <a href="#work" class="card" data-reveal>
+        <p class="case__value tnum">+300%</p>
+        <p class="label case__client">Indigenous Tourism BC</p>
+        <h3 class="h4">Accelerator program</h3>
+        <p class="small" style="margin-top: 0.5rem">Past engagement goals, with bookings up inside three months.</p>
+      </a>
+      <a href="#work" class="card" data-reveal>
+        <p class="case__value tnum">2026</p>
+        <p class="label case__client">Ontario&rsquo;s Southwest</p>
+        <h3 class="h4">Traveller Insights Study</h3>
+        <p class="small" style="margin-top: 0.5rem">Our findings drive the region&rsquo;s 2026 tourism strategy.</p>
+      </a>
+    </div>
+  </section>
+
+  <!-- Tools ================================================================ -->
+  <section class="section panel--sunk" id="tools">
+    <div class="wrap">
+      <p class="label label--green" data-reveal>Tools</p>
+      <div class="section-head section-head--split" style="margin-top: 1.25rem">
+        <h2 class="h2" style="max-width: 20ch" data-reveal>Get an answer before you get on a call.</h2>
+        <p class="small" style="padding-bottom: 0.4rem" data-reveal>
+          Both are free, take about a minute, and show you exactly how we work.
+        </p>
+      </div>
+
+      <div class="duo" data-stagger>
+        <a href="#start" class="card" data-reveal>
+          <p class="tool__index">01</p>
+          <h3 class="h3" style="margin-top: 0.875rem">The Digital Snapshot</h3>
+          <p class="body" style="margin-top: 0.875rem">
+            Enter your business name and get a score across the checks our
+            Accelerator audits: Google profile, reviews, site basics. Plus one
+            fix you can make today.
+          </p>
+          <span class="tool__audience">For operators</span>
+        </a>
+        <a href="#start" class="card" data-reveal>
+          <p class="tool__index">02</p>
+          <h3 class="h3" style="margin-top: 0.875rem">The Program Builder</h3>
+          <p class="body" style="margin-top: 0.875rem">
+            Enter your region size, operator count and budget. Get a modelled
+            program with seats funded, projected completion and economic upside,
+            plus a one-pager you can take to your board.
+          </p>
+          <span class="tool__audience">For destination organizations</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI training ========================================================== -->
+  <section class="section wrap" id="ai">
+    <div class="split split--wide-left">
+      <div>
+        <p class="label label--green" data-reveal>AI training / 30 days</p>
+        <h2 class="h2" style="margin-top: 1.25rem; max-width: 17ch; --delay: 60ms" data-reveal>
+          We automate one of your bottlenecks before day 30. Guaranteed.
+        </h2>
+        <p class="lead measure-wide" style="margin-top: 1.25rem" data-reveal>
+          A 30-day program for marketing teams, in and beyond tourism. Your team
+          learns AI on your real work, and leaves with systems already running.
+        </p>
+        <a href="#start" class="btn btn--primary" style="margin-top: 1.75rem" data-reveal>Bring it to your team</a>
+      </div>
+
+      <div class="card" data-reveal style="--delay: 120ms">
+        <p class="label">In the 30 days</p>
+        <ol class="steps" style="margin-top: 1.125rem">
+          <li><span class="steps__num">01</span>4 live training sessions with your team</li>
+          <li><span class="steps__num">02</span>A custom training dashboard</li>
+          <li><span class="steps__num">03</span>A prompt library your team keeps</li>
+          <li><span class="steps__num">04</span>A 90-day implementation plan</li>
+          <li class="is-payoff"><span class="steps__num">05</span>At least one business bottleneck, automated</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- JunctionU =========================================================== -->
+  <section class="section panel--surface" id="junctionu">
+    <div class="wrap split split--wide-right">
+      <div>
+        <p class="label label--green" data-reveal>JunctionU / formerly eLearningU</p>
+        <h2 class="h2" style="margin-top: 1.25rem" data-reveal>Training that fits between two guest check-ins.</h2>
+        <p class="lead measure-wide" style="margin-top: 1.25rem" data-reveal>
+          Certificate courses, workshops and free Tourism Talks, built for
+          tourism professionals. A free account gets you the Talks and a starter
+          course. 2,000+ people are already in.
+        </p>
+        <div class="hero__actions" style="margin-top: 1.75rem" data-reveal>
+          <a href="#start" class="btn btn--primary">Start free</a>
+          <a href="#junctionu" class="btn btn--outline">Browse courses</a>
+        </div>
+      </div>
+
+      <div class="card card--green" data-reveal style="--delay: 120ms">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; gap: 1rem">
+          <p class="h4">Tourism Digital Marketing Essentials</p>
+          <p class="label label--onDark" style="flex: none">Module 3 / 8</p>
+        </div>
+
+        <div class="media" style="margin-top: 1.125rem">
+          <img src="assets/photo-townscape.png" alt="" width="750" height="500">
+          <div class="media__scrim"></div>
+          <button type="button" class="play" aria-label="Play lesson preview">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
+
+        <div style="margin-top: 1.25rem">
+          <div style="display: flex; justify-content: space-between; gap: 1rem" class="label label--onDark">
+            <span>Lesson 3 / Your Google Business Profile</span>
+            <span class="tnum">62%</span>
+          </div>
+          <div class="progress" style="margin-top: 0.5rem">
+            <div class="progress__fill" data-progress style="--pct: 0.62"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ideas =============================================================== -->
+  <section class="section wrap split split--top" id="ideas">
+    <div>
+      <p class="label label--green" data-reveal>Ideas</p>
+      <div class="posts" style="margin-top: 1.5rem" data-stagger>
+        <a href="#ideas" class="post" data-reveal>
+          <p class="post__meta">Jul 14 / Marketing</p>
+          <p class="post__title">Maybe the algorithm isn&rsquo;t the problem</p>
+        </a>
+        <a href="#ideas" class="post" data-reveal>
+          <p class="post__meta">Jul 6 / Trends</p>
+          <p class="post__title">The year of the creator economy</p>
+        </a>
+        <a href="#ideas" class="post" data-reveal>
+          <p class="post__meta">Jun 8 / AI</p>
+          <p class="post__title">The four phases of AI adoption</p>
+        </a>
+      </div>
+      <a href="#ideas" class="link" style="display: inline-block; margin-top: 1.5rem" data-reveal>
+        All 100+ articles <span class="link__arrow">&rarr;</span>
+      </a>
+    </div>
+
+    <div class="card" data-reveal style="--delay: 100ms">
+      <p class="label label--green">The Brief / weekly</p>
+      <h2 class="h3" style="margin-top: 1.125rem">Start every week knowing something your competitors don&rsquo;t.</h2>
+      <p class="small" style="margin-top: 0.875rem">
+        The award-winning newsletter for marketers who want the insight without
+        the noise. Free, weekly, unsubscribe anytime.
+      </p>
+      <form class="field" style="margin-top: 1.625rem" data-newsletter>
+        <label for="brief-email" class="visually-hidden">Your email address</label>
+        <input id="brief-email" class="input" type="email" name="email" placeholder="Your email address" required autocomplete="email">
+        <button type="submit" class="btn btn--primary btn--sm">Subscribe</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Start a conversation ================================================= -->
+  <section class="section panel--green" id="start">
+    <div class="wrap" style="text-align: center">
+      <!-- The two routes come back together. -->
+      <svg class="route route--converge route--onDark" viewBox="0 0 1200 96" fill="none" aria-hidden="true" focusable="false">
+        <path d="M210 0 C210 42 600 30 600 64" pathLength="1" style="--delay: 0ms"/>
+        <path d="M990 0 C990 42 600 30 600 64" pathLength="1" style="--delay: 0ms"/>
+        <path d="M600 64 V96" pathLength="1" style="--delay: 260ms"/>
+        <circle class="node" cx="600" cy="64" r="4.5"/>
+      </svg>
+
+      <h2 class="display" style="margin: clamp(2.5rem, 4vw, 3.5rem) auto 0; max-width: 17ch; font-size: clamp(2.5rem, 5.6vw, 5.5rem)" data-reveal>
+        Tell us the goal. We&rsquo;ll be straight with you about the rest.
+      </h2>
+      <p class="lead measure" style="margin: 1.5rem auto 0" data-reveal>
+        A few questions, then the call books itself on the spot. Thirty minutes,
+        no pitch deck.
+      </p>
+      <a href="#start" class="btn btn--primary" style="margin-top: 2.25rem" data-reveal>Start a conversation</a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer" id="about">
+  <div class="wrap footer__inner">
+    <span>&copy; Junction Consulting 2026</span>
+    <div class="footer__links">
+      <a href="#">Instagram</a>
+      <a href="#">LinkedIn</a>
+      <a href="#">Privacy</a>
+    </div>
+  </div>
+</footer>
+
+<script src="motion.js"></script>
+</body>
+</html>
