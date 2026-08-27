@@ -1,0 +1,250 @@
+{
+  "client_name": "Red Cariboo Resort",
+  "client_slug": "red-cariboo-resort",
+  "goal": "Red Cariboo is nearly full, and almost none of it is tourism. Work crews and travelling professionals account for 90 to 95 percent of revenue. They book direct, they know the property, and they need no marketing at all. That is a comfortable position and a fragile one. When the industrial projects around Prince Rupert and Kitimat ended, the accommodation businesses that had filled up on crew bookings emptied inside a season. The job of the next ninety days is to build leisure demand before you need it, using the $40,000 the investor has committed through spring.\n\nThe data has already answered the question of who that traveller is. Over the past twelve months the website drew 2,805 active users from Canada against 1,152 from Germany, Switzerland and Austria combined, and that is before a dollar has been spent targeting Canadians. Germans engage more deeply once they arrive, averaging 165 seconds on site against 103. A German-speaking operator is a genuine advantage for a summer market that plans a year ahead, and that market is worth keeping. But the volume is domestic, the winter market is domestic, and January is the busiest month on the website in each of the last two years. The plan follows the demand: Canadian drive-market travellers for winter 2026/27, German-speaking travellers for summer 2027, seeded during the same window.\n\nThree problems currently stop that budget from working. The first is measurement. Four automatic events including page_view and first_visit are marked as key events, so every report in the account shows a conversion rate close to 100 percent, and roughly a quarter of recorded traffic is bot activity from China and Singapore that engages for under three seconds. The second is the booking path. The booking page is a bare date picker with no room types, no rates and no cancellation policy. The homepage carousel still leads with a Christmas offer that expired in January. The root domain serves German by default to an audience that is majority Canadian. The third is that the content which already works is buried. The Winter Packing List page drew 1,453 sessions last year, thirteen percent of all site traffic and more than the other 265 story pages put together. It sits in a nineteen-item dropdown alongside a page whose URL is still `duplikat-von-2023-year-in-review`. The booking page drew 72.\n\nSo the order matters. Weeks 1 to 4 fix measurement and the booking path, because paid traffic sent to the current site would waste the money and produce no usable data either way. Weeks 5 to 8 build the assets: a winter photo and video shoot, the first creator visit, and the landing pages the ads will point at. Weeks 9 to 12 turn on paid acquisition against a site that can convert and measure, landing in front of the December and January planning peak. About $17,000 is committed inside the ninety days. The remaining $18,000 runs from December to April, weighted toward January.\n\nWhat that produces, stated honestly: at the moderate case, 90 to 135 tourist room nights for the winter season and $21,000 to $31,500 in room revenue against $35,000 of discretionary spend. Season one does not pay for itself inside the season. A plan that promised otherwise would be selling you something. What the money buys is a booking path that converts, an analytics account that tells the truth, a photo and video library you own, an email list built from zero, two creator content packages, and a live pipeline into the summer 2027 German market, which books during this winter.\n\n| Scenario | Winter room nights (Dec–Mar) | Room revenue | Email list | New Google reviews |\n|---|---|---|---|---|\n| Conservative | 35 to 45 | $8,000 to $10,500 | 150 | 10 |\n| Moderate | 90 to 135 | $21,000 to $31,500 | 300 | 25 |\n| Aggressive | 210 to 280 | $49,000 to $65,500 | 500 | 40 |",
+  "coach_email": "conner@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Fix the Analytics",
+      "actions": [
+        "Unstar page_view and first_visit in GA4 Admin → Data display → Events → Key events → links to: Tactic 1 / Step 2",
+        "Confirm the internal traffic filter is Active and add the office IP addresses → links to: Tactic 1 / Step 1",
+        "Build a saved GA4 exploration that excludes China and Singapore traffic → links to: Tactic 1 / Step 1",
+        "Take the expired Christmas and winter offers off the homepage carousel → links to: Tactic 1 / Step 10",
+        "Email the CCCTA contact with the list of places you want to promote and ask for written confirmation → links to: Tactic 2 / Step 5"
+      ],
+      "checklist": [
+        "page_view and first_visit are no longer counted as key events",
+        "A filtered reporting view excluding bot traffic is saved and in use",
+        "The homepage no longer links to an offer that expired in January",
+        "The approvals question is with CCCTA in writing"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Scope the Contractor and Set the Baseline",
+      "actions": [
+        "Write the fixed-price contractor brief covering tracking, the booking bar, the booking page and the landing page template → links to: Tactic 1 / Step 5",
+        "Request quotes from the German developer and one Canadian freelancer → links to: Tactic 1 / Step 5",
+        "Export the clean baseline report and send a copy to Junction → links to: Tactic 1 / Step 4",
+        "Crawl the site with Screaming Frog and list every broken page → links to: Tactic 1 / Step 10",
+        "Walk the property with Axel and write the clear-up list with a deadline → links to: Tactic 2 / Step 1"
+      ],
+      "checklist": [
+        "Two contractor quotes are in hand with fixed prices",
+        "A one-page baseline dated to this week is saved and sent to Junction",
+        "Every 404 has a fix or a redirect assigned to it",
+        "The property clear-up list has a deadline two weeks ahead of the shoot"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Navigation and the German Default",
+      "actions": [
+        "Set the root domain to serve English by default with browser-language detection → links to: Tactic 1 / Step 6",
+        "Submit both the German and English sitemaps in Google Search Console → links to: Tactic 1 / Step 6",
+        "Split the Stories dropdown into Plan Your Trip and Stories → links to: Tactic 1 / Step 11",
+        "Move the FAQ out of the footer and into Plan Your Trip → links to: Tactic 1 / Step 11",
+        "Rename or hide the Restaurant menu item until summer 2027 → links to: Tactic 1 / Step 11",
+        "Publish the three-day itinerary in English → links to: Tactic 2 / Step 6"
+      ],
+      "checklist": [
+        "redcariboo.com loads in English, and a German browser still lands on German",
+        "Plan Your Trip appears in the main menu with the FAQ inside it",
+        "No menu item promises a restaurant that does not exist",
+        "The three-day itinerary is live and linked from the menu"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Coaching Session and Social Restart",
+      "actions": [
+        "Hold the Junction coaching session with the baseline report to hand",
+        "Confirm who owns social media and brief them with the library and the weekly pattern → links to: Tactic 2 / Step 9",
+        "Fix the Instagram and Facebook bio links and add profile highlights → links to: Tactic 2 / Step 10",
+        "Begin posting three times a week to a fixed day pattern → links to: Tactic 2 / Step 11",
+        "Capture the interim October photo and video set yourself → links to: Tactic 2 / Step 2",
+        "Put the newsletter recommendation to Axel and the investor in writing → links to: Tactic 4 / Step 1"
+      ],
+      "checklist": [
+        "A named person owns social media and has the content to work from",
+        "Both bio links point to a live winter page and clicks are tracked",
+        "Three posts went out this week",
+        "Around 40 images and 10 clips are in the interim library",
+        "The newsletter decision is recorded in writing"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Booking Path Build Begins",
+      "actions": [
+        "Contractor builds the four GTM triggers for the booking and enquiry events → links to: Tactic 1 / Step 3",
+        "Contractor builds the booking bar on a staging copy of the site → links to: Tactic 1 / Step 7",
+        "Write the booking page content: eight units, rates, policy, season dates, community kitchen → links to: Tactic 1 / Step 8",
+        "Reactivate Mailchimp and test every existing template on a phone → links to: Tactic 4 / Step 2",
+        "Publish the five-day itinerary → links to: Tactic 2 / Step 6"
+      ],
+      "checklist": [
+        "booking_start, booking_engine_click, offer_enquiry and contact_form fire on staging",
+        "The booking bar works on staging in both languages",
+        "Booking page copy is written and with the contractor",
+        "Mailchimp is active and the templates render correctly on mobile"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Booking Path Goes Live",
+      "actions": [
+        "Push the booking bar and the rebuilt booking page live → links to: Tactic 1 / Step 7",
+        "Publish the rebuilt booking page with all eight units and the season dates → links to: Tactic 1 / Step 8",
+        "Add phone, email and office hours to the header and footer sitewide → links to: Tactic 1 / Step 9",
+        "Mark the four new events as key events in GA4 → links to: Tactic 1 / Step 3",
+        "Complete a test booking from a phone on mobile data, through to the confirmation email → links to: Tactic 1 / Step 7",
+        "Add the footer sign-up form and the enquiry form checkbox → links to: Tactic 4 / Step 3",
+        "Switch on double opt-in in Mailchimp and confirm the confirmation email sends in both languages → links to: Tactic 4 / Step 4"
+      ],
+      "checklist": [
+        "The booking bar appears beneath the menu on every page",
+        "The booking page shows all eight units with rates, policy and season dates",
+        "Contact details and office hours appear sitewide with the time zone stated",
+        "A test booking completes on a phone without leaving redcariboo.com",
+        "Sign-up forms are live with double opt-in switched on"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Template, Spend Schedule and Preparation Pages",
+      "actions": [
+        "Contractor delivers the offer landing page template in English and German → links to: Tactic 1 / Step 12",
+        "Decide whether you run the ads or engage a freelance media buyer → links to: Tactic 3 / Step 1",
+        "Lock the week-by-week spend schedule through April into a single sheet → links to: Tactic 3 / Step 2",
+        "Publish the summer packing list and the Know Before You Go page → links to: Tactic 2 / Step 7",
+        "Build the pre-arrival email in Mailchimp → links to: Tactic 4 / Step 5"
+      ],
+      "checklist": [
+        "The landing page template is delivered and tested on staging in both languages",
+        "A named person is responsible for ad management",
+        "The spend schedule through April exists in writing",
+        "Two preparation pages are live and linked from Plan Your Trip",
+        "The pre-arrival email sends automatically five days before arrival"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Offers Live, Ad Accounts Built",
+      "actions": [
+        "Publish the winter package and Christmas landing pages in English → links to: Tactic 1 / Step 13",
+        "Create the Google Ads account in Expert Mode and link it to GA4 → links to: Tactic 3 / Step 3",
+        "Verify the Meta pixel, configure the four custom conversions and verify the domain → links to: Tactic 3 / Step 7",
+        "Publish the dark skies page → links to: Tactic 2 / Step 8",
+        "Build the post-stay review request email and order the QR review cards → links to: Tactic 4 / Step 6"
+      ],
+      "checklist": [
+        "Two winter offer pages are live with Book Now as the primary button",
+        "Google Ads is live in Expert Mode with conversions imported from GA4",
+        "The Meta pixel fires on the booking and offer pages, and the domain is verified",
+        "The dark skies page is live in Plan Your Trip",
+        "The post-stay review email sends automatically three days after checkout"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Google Search Launch",
+      "actions": [
+        "Build the winter search campaign with two ad groups and phrase match keywords → links to: Tactic 3 / Step 4",
+        "Launch Google Search at $50 a day and check the search terms report on day three → links to: Tactic 3 / Step 5",
+        "Write the creator deliverables and rights requirements into an agreement → links to: Tactic 3 / Step 11",
+        "Source and book the November creator, asking CCCTA for introductions first → links to: Tactic 3 / Step 12",
+        "Book the photographer for a movable late-November date with a weather clause → links to: Tactic 2 / Step 3"
+      ],
+      "checklist": [
+        "The search campaign is live and spending, with Display expansion and search partners switched off",
+        "The ad appears in a test search for cabins in Anahim Lake",
+        "A creator is booked with paid usage rights written into the agreement",
+        "The photographer is booked with a date that can move by a week"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Meta Launch, Spotify and Guest Contacts",
+      "actions": [
+        "Launch the cold Meta campaign at $40 a day against the BC and Alberta drive market → links to: Tactic 3 / Step 8",
+        "Review the Google search terms report and build the negative keyword list → links to: Tactic 3 / Step 5",
+        "Release the Spotify spot with the location line rewritten, and record the start date → links to: Tactic 3 / Step 10",
+        "Import past guest contacts and send the single re-permission email → links to: Tactic 4 / Step 9",
+        "Connect Cloudbeds to Mailchimp and tag contacts by guest type and language → links to: Tactic 4 / Step 8"
+      ],
+      "checklist": [
+        "Meta is spending against the drive market with location stated in every ad",
+        "The negative keyword list has at least ten entries",
+        "The Spotify spot is live and the pre-launch traffic baseline is recorded",
+        "Past guests are in Mailchimp with consent status and tags recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Creator Visit and the Winter Shoot",
+      "actions": [
+        "Host the creator visit and have the team capture behind-the-scenes footage alongside → links to: Tactic 3 / Step 13",
+        "Run the two-day professional photo and video shoot, including vertical video → links to: Tactic 2 / Step 3",
+        "Build the Meta retargeting audiences from 180-day visitors and booking_start drop-offs → links to: Tactic 3 / Step 9",
+        "Publish the Highway 20 winter driving page → links to: Tactic 2 / Step 7",
+        "Cut the first vertical Reels from the new footage and move to two Reels a week → links to: Tactic 2 / Step 12",
+        "Build the enquiry follow-up email → links to: Tactic 4 / Step 7"
+      ],
+      "checklist": [
+        "The creator visit is complete and a publishing date is agreed",
+        "Two days of professional photography and vertical video are shot",
+        "Commercial and paid advertising rights are confirmed in writing for all material",
+        "The retargeting audiences are created and populating"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: Review, Reload and Hand Off to Winter",
+      "actions": [
+        "Pull the 90-day report and compare every metric against the Week 2 baseline → links to: Tactic 1 / Step 4",
+        "Decide whether Google scales to $100 a day in December, and document the numbers behind it → links to: Tactic 3 / Step 6",
+        "Book the January creator visit against the dark skies and ice fishing window → links to: Tactic 3 / Step 14",
+        "Organise the new library by season and subject, and select the twenty advertising images → links to: Tactic 2 / Step 4",
+        "Draft and schedule the December winter availability email to the Canadian list → links to: Tactic 4 / Step 10",
+        "Outline the February summer 2027 email to the German list so it is ready to write in January → links to: Tactic 4 / Step 11",
+        "Turn the itineraries into December's social calendar and schedule it in Meta Business Suite → links to: Tactic 2 / Step 13"
+      ],
+      "checklist": [
+        "A 90-day report comparing every metric to the Week 2 baseline exists",
+        "The December to April spend decision is written down with the evidence behind it",
+        "The January creator visit is booked",
+        "The new library is organised and twenty advertising images are cleared",
+        "The December email is drafted and scheduled",
+        "December's social posts are scheduled and will publish without further work",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/red-cariboo-resort/#week-12"
+    }
+  ]
+}
