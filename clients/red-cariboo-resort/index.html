@@ -3500,21 +3500,226 @@ body:not(.has-plan) .plan-content{display:none}
      ASSESSMENT PAGE
      ════════════════════════════════════════════ -->
 <section id="page-assessment" class="page">
-  <!-- ASSESSMENT CONTENT IS REBUILT PER CLIENT BY CLAUDE -->
-  <!-- This section contains: Hero with grades, Summary, Recommendations, Audit sections, Social analysis -->
-  <!-- See CLAUDE.md for full structure -->
   <div class="assessment-hero">
     <div class="assessment-hero-top">
       <div>
         <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-        <p class="assessment-hero-date">Assessment Date: July 29, 2026</p>
+        <p class="assessment-hero-date">Assessment Date: August 6, 2026</p>
       </div>
-      <div class="assessment-hero-badge">Complete</div>
+      <div class="assessment-hero-actions">
+        <button class="download-pdf-btn" onclick="downloadPDF()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </button>
+        <div class="assessment-hero-badge">Complete</div>
+      </div>
     </div>
-    <!-- Grades and metrics are rebuilt per client -->
+
+    <div class="assessment-grade-card">
+      <div class="grade-circle" id="overallGrade">C</div>
+      <div class="grade-details">
+        <h3>Overall Score: <span id="overallScore">74</span>/100</h3>
+        <p id="overallSummary">Red Cariboo Resort has excellent technical foundations, perfect Google ratings, and strong pre-arrival information, but is not fully utilizing social media. Key opportunities include increasing posting frequency and adding operating hours to the website.</p>
+      </div>
+    </div>
   </div>
+
   <div class="content-area">
-    <!-- Summary, Recommendations, Audit sections, Social analysis rebuilt per client -->
+    <div class="grade-breakdown">
+      <h2>Score Breakdown by Category</h2>
+      <div class="grade-breakdown-grid">
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Website & Technical</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">78</span>
+            <span class="grade-breakdown-letter grade-b">B-</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>Reviews & Reputation</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">71</span>
+            <span class="grade-breakdown-letter grade-c">C</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Online Booking & Conversion</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">80</span>
+            <span class="grade-breakdown-letter grade-b">B</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            <span>Social Media & Content</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">62</span>
+            <span class="grade-breakdown-letter grade-d">D</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Digital Guest Experience</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">84</span>
+            <span class="grade-breakdown-letter grade-b">B</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Local Visibility</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">81</span>
+            <span class="grade-breakdown-letter grade-b">B</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="executive-summary" id="executiveSummary">
+      <h2>Executive Summary</h2>
+      <p class="executive-headline">Red Cariboo Resort has excellent technical foundations, perfect Google ratings, and strong pre-arrival information, but is not fully utilizing social media. Key opportunities include increasing posting frequency and adding operating hours to the website.</p>
+      <div class="executive-columns">
+        <div class="executive-column strengths">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Key Strengths
+          </h4>
+          <ul>
+            <li>Perfect 5.0 Google rating with 20 reviews demonstrates exceptional guest satisfaction</li>
+            <li>Strong technical website foundation with SSL, mobile optimization, and multi-language support (English/German)</li>
+            <li>Integrated booking system through TripAdvisor and Cloudbeds makes reservations straightforward</li>
+          </ul>
+        </div>
+        <div class="executive-column gaps">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Critical Gaps
+          </h4>
+          <ul>
+            <li>Digital Guest Experience improved to 84/100: only remaining gap is operating hours/seasonal schedule</li>
+            <li>Social media below recommended levels with only 522 total followers, 5.15% Instagram engagement, and posting just 0.1x per week</li>
+            <li>Contact information available on Location page but could be more prominent on homepage</li>
+          </ul>
+        </div>
+      </div>
+      <div class="executive-bottom-line">
+        <strong>Bottom Line:</strong> Red Cariboo Resort delivers an exceptional on-property experience (evident from perfect reviews) and has strong pre-arrival information (directions, parking, accessibility). The main opportunities are limited social media presence and adding operating hours. Consistent posting and contact visibility improvements could increase direct inquiries by 40-60% within 3 months.
+      </div>
+    </div>
+
+    <div class="quick-wins" id="quickWins">
+      <h2>Quick Wins</h2>
+      <p class="quick-wins-intro">High-impact actions you can complete this week:</p>
+      <div class="quick-wins-grid">
+        <div class="quick-win-item">
+          <div class="quick-win-number">1</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Make Contact Info More Prominent</div>
+            <div class="quick-win-impact">Make phone and email more prominent in website header/footer. Visitors to remote wilderness resorts need direct contact for questions about access, weather, and activities. Expect 20-30% increase in booking inquiries.</div>
+          </div>
+          <span class="quick-win-time">30 minutes</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">2</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Create FAQ Page</div>
+            <div class="quick-win-impact">Create simple FAQ page answering "How do I get here?", "What's included?", "Best time to visit?" Reduces repetitive inquiry emails, improves SEO for long-tail searches, and provides better GEO/AI visibility.</div>
+          </div>
+          <span class="quick-win-time">2 hours</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">3</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Increase Instagram Posting</div>
+            <div class="quick-win-impact">Post to Instagram 3x per week using existing gorgeous wilderness/cabin photos from website (37 images detected). Expect follower growth from 194 to 400-500 within 6 months.</div>
+          </div>
+          <span class="quick-win-time">15 min/post</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">4</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add Local Business Schema</div>
+            <div class="quick-win-impact">Add Local Business Schema markup to homepage with proper NAP data. Improves local search visibility and rich snippet appearance in Google results for "Anahim Lake resort" searches.</div>
+          </div>
+          <span class="quick-win-time">45 minutes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <div class="priority-item">
+          <div class="priority-item-number">1</div>
+          <div class="priority-item-content">
+            <h4>Increase posting frequency to 2-3 times per week with wilderness imagery</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Social Media & Content</span>
+              <span class="priority-item-tag time">1 hour setup, 30 min/post</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
+            </div>
+            <p class="priority-item-result">Build brand awareness in the outdoor/adventure travel community and grow your follower base from 522 to 1,000+ within 6 months.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">2</div>
+          <div class="priority-item-content">
+            <h4>Implement a post-stay review request process for guests</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Reviews & Reputation</span>
+              <span class="priority-item-tag time">30 minutes setup</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
+            </div>
+            <p class="priority-item-result">Grow from 20 to 80+ Google reviews within 12 months, improving local pack visibility and building trust with potential guests.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">3</div>
+          <div class="priority-item-content">
+            <h4>Add phone number and email to website header/footer for easier access</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Online Booking & Conversion</span>
+              <span class="priority-item-tag time">15 minutes</span>
+              <span class="priority-item-tag impact-medium">Medium Impact</span>
+            </div>
+            <p class="priority-item-result">Reduce friction for high-intent visitors seeking direct contact, expecting 20-30% increase in booking inquiries.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">4</div>
+          <div class="priority-item-content">
+            <h4>Add seasonal hours/operating dates to website</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Digital Guest Experience</span>
+              <span class="priority-item-tag time">30 minutes</span>
+              <span class="priority-item-tag impact-medium">Medium Impact</span>
+            </div>
+            <p class="priority-item-result">Eliminate uncertainty for visitors planning trips, reducing "are you open?" inquiries by 30-40%.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -3534,35 +3739,48 @@ body:not(.has-plan) .plan-content{display:none}
       <div class="strategy-goal-quote">&ldquo;</div>
       <div class="strategy-goal-inner">
         <div class="strategy-goal-label">Your 90-Day Goal</div>
-        <p class="strategy-goal-text">Red Cariboo is nearly full, and almost none of it is tourism. Work crews and travelling professionals account for 90 to 95 percent of revenue. They book direct, they know the property, and they need no marketing at all. That is a comfortable position and a fragile one. When the industrial projects around Prince Rupert and Kitimat ended, the accommodation businesses that had filled up on crew bookings emptied inside a season. The job of the next ninety days is to build leisure demand before you need it, using the $40,000 the investor has committed through spring.
-
-The data has already answered the question of who that traveller is. Over the past twelve months the website drew 2,805 active users from Canada against 1,152 from Germany, Switzerland and Austria combined, and that is before a dollar has been spent targeting Canadians. Germans engage more deeply once they arrive, averaging 165 seconds on site against 103. A German-speaking operator is a genuine advantage for a summer market that plans a year ahead, and that market is worth keeping. But the volume is domestic, the winter market is domestic, and January is the busiest month on the website in each of the last two years. The plan follows the demand: Canadian drive-market travellers for winter 2026/27, German-speaking travellers for summer 2027, seeded during the same window.
-
-Three problems currently stop that budget from working. The first is measurement. Four automatic events including page_view and first_visit are marked as key events, so every report in the account shows a conversion rate close to 100 percent, and roughly a quarter of recorded traffic is bot activity from China and Singapore that engages for under three seconds. The second is the booking path. The booking page is a bare date picker with no room types, no rates and no cancellation policy. The homepage carousel still leads with a Christmas offer that expired in January. The root domain serves German by default to an audience that is majority Canadian. The third is that the content which already works is buried. The Winter Packing List page drew 1,453 sessions last year, thirteen percent of all site traffic and more than the other 265 story pages put together. It sits in a nineteen-item dropdown alongside a page whose URL is still `duplikat-von-2023-year-in-review`. The booking page drew 72.
-
-So the order matters. Weeks 1 to 4 fix measurement and the booking path, because paid traffic sent to the current site would waste the money and produce no usable data either way. Weeks 5 to 8 build the assets: a winter photo and video shoot, the first creator visit, and the landing pages the ads will point at. Weeks 9 to 12 turn on paid acquisition against a site that can convert and measure, landing in front of the December and January planning peak. About $17,000 is committed inside the ninety days. The remaining $18,000 runs from December to April, weighted toward January.
-
-What that produces, stated honestly: at the moderate case, 90 to 135 tourist room nights for the winter season and $21,000 to $31,500 in room revenue against $35,000 of discretionary spend. Season one does not pay for itself inside the season. A plan that promised otherwise would be selling you something. What the money buys is a booking path that converts, an analytics account that tells the truth, a photo and video library you own, an email list built from zero, two creator content packages, and a live pipeline into the summer 2027 German market, which books during this winter.
-
-| Scenario | Winter room nights (Dec–Mar) | Room revenue | Email list | New Google reviews |
-|---|---|---|---|---|
-| Conservative | 35 to 45 | $8,000 to $10,500 | 150 | 10 |
-| Moderate | 90 to 135 | $21,000 to $31,500 | 300 | 25 |
-| Aggressive | 210 to 280 | $49,000 to $65,500 | 500 | 40 |</p>
+        <p class="strategy-goal-text">Build leisure demand before you need it, using the $40,000 the investor has committed through spring. The job of the next ninety days is to fix measurement and the booking path (Weeks 1-4), build the assets including a winter photo shoot and creator visit (Weeks 5-8), then turn on paid acquisition against a site that can convert and measure (Weeks 9-12), landing in front of the December and January planning peak.</p>
+        <table class="strategy-goal-table">
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>Winter room nights (Dec-Mar)</th>
+              <th>Room revenue</th>
+              <th>Email list</th>
+              <th>New Google reviews</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Conservative</td>
+              <td>35 to 45</td>
+              <td>$8,000 to $10,500</td>
+              <td>150</td>
+              <td>10</td>
+            </tr>
+            <tr>
+              <td>Moderate</td>
+              <td>90 to 135</td>
+              <td>$21,000 to $31,500</td>
+              <td>300</td>
+              <td>25</td>
+            </tr>
+            <tr>
+              <td>Aggressive</td>
+              <td>210 to 280</td>
+              <td>$49,000 to $65,500</td>
+              <td>500</td>
+              <td>40</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
     <!-- STRATEGIC POSITIONING -->
     <div class="strategy-positioning">
       <div class="strategy-positioning-label">Strategic Positioning</div>
-      <p class="strategy-positioning-text">Red Cariboo is a second Canada trip, and it should stop competing for the first one. A German traveller's opening visit is Banff, Jasper and the Icefields Parkway, and no budget this size changes that. The traveller who fits is someone who has already done that trip, found the Alps and the Rockies crowded, and now wants remoteness they can actually reach, met by an operator who answers their questions in German. That guest books in summer and plans twelve months out.
-
-The winter guest is a different person and lives much closer. They are within a day's drive, they may be towing a snowmobile, and they want ice fishing, snowshoes, cross-country trails and a sky with nothing in it. They are not weighing Red Cariboo against another Chilcotin lodge. They are weighing it against Kananaskis, and Kananaskis wins by default because they already know what happens when they arrive. The competitor is ambiguity, not price.
-
-Nimmo Bay and Clayoquot Wilderness Lodge both solve that problem, and neither is a model to copy on price, since both are all-inclusive at several times your nightly rate. What they do that Red Cariboo does not is make a complicated property feel simple. A visitor knows within thirty seconds what a stay looks like. Red Cariboo has more content than either site and less clarity. Eight units, a community kitchen in place of a restaurant, self-guided canoes and motorboats alongside guided horse and vehicle tours, and enough range that nobody has to pick one thing: that is a strong offer sitting behind nineteen unsorted story pages, a German-first homepage and a booking page with nothing on it.
-
-> **Your Strategic Positioning**
-> Red Cariboo is the reachable wilderness. Remote enough to feel like the end of the road, close enough to drive to, with enough to do that nobody has to choose. Eight cabins and apartments on the Dean River, a community kitchen instead of a dining room, and an owner who is actually there.</p>
+      <p class="strategy-positioning-text">Red Cariboo is the reachable wilderness. Remote enough to feel like the end of the road, close enough to drive to, with enough to do that nobody has to choose. Eight cabins and apartments on the Dean River, a community kitchen instead of a dining room, and an owner who is actually there.</p>
     </div>
 
     <!-- OBJECTIVES -->
