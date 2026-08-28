@@ -3069,11 +3069,11 @@ body:not(.has-plan) .plan-content{display:none}
     height:auto !important;
   }
 
-  /* Hide all pages except roadmap */
+  /* Hide all pages except the active one */
   .page{
     display:none !important;
   }
-  #page-roadmap{
+  .page.active{
     display:block !important;
   }
 
@@ -4286,37 +4286,37 @@ body:not(.has-plan) .plan-content{display:none}
 
     <div class="quick-wins" id="quickWins">
       <h2>Quick Wins</h2>
-      <p class="quick-wins-intro">High-impact actions you can complete this week:</p>
+      <p class="quick-wins-intro">Immediate actions you can complete today:</p>
       <div class="quick-wins-grid">
         <div class="quick-win-item">
           <div class="quick-win-number">1</div>
           <div class="quick-win-content">
-            <div class="quick-win-task">Make Contact Info More Prominent</div>
-            <div class="quick-win-impact">Make phone and email more prominent in website header/footer. Visitors to remote wilderness resorts need direct contact for questions about access, weather, and activities. Expect 20-30% increase in booking inquiries.</div>
+            <div class="quick-win-task">Remove Expired Homepage Offers</div>
+            <div class="quick-win-impact">Take the expired Christmas and winter specials off the homepage carousel. Outdated promotions undermine credibility and confuse visitors looking to book.</div>
           </div>
-          <span class="quick-win-time">30 minutes</span>
+          <span class="quick-win-time">15 minutes</span>
         </div>
         <div class="quick-win-item">
           <div class="quick-win-number">2</div>
           <div class="quick-win-content">
-            <div class="quick-win-task">Create FAQ Page</div>
-            <div class="quick-win-impact">Create simple FAQ page answering "How do I get here?", "What's included?", "Best time to visit?" Reduces repetitive inquiry emails, improves SEO for long-tail searches, and provides better GEO/AI visibility.</div>
+            <div class="quick-win-task">Add Seasonal Operating Dates</div>
+            <div class="quick-win-impact">Add clear seasonal hours and operating dates to the website. Eliminates "are you open?" questions and reduces inquiry friction for trip planners.</div>
           </div>
-          <span class="quick-win-time">2 hours</span>
+          <span class="quick-win-time">30 minutes</span>
         </div>
         <div class="quick-win-item">
           <div class="quick-win-number">3</div>
           <div class="quick-win-content">
-            <div class="quick-win-task">Increase Instagram Posting</div>
-            <div class="quick-win-impact">Post to Instagram 3x per week using existing gorgeous wilderness/cabin photos from website (37 images detected). Expect follower growth from 194 to 400-500 within 6 months.</div>
+            <div class="quick-win-task">Update Instagram Bio</div>
+            <div class="quick-win-impact">Add the direct booking link and contact info to Instagram bio. Currently missing, which loses potential conversions from social traffic.</div>
           </div>
-          <span class="quick-win-time">15 min/post</span>
+          <span class="quick-win-time">10 minutes</span>
         </div>
         <div class="quick-win-item">
           <div class="quick-win-number">4</div>
           <div class="quick-win-content">
             <div class="quick-win-task">Add Local Business Schema</div>
-            <div class="quick-win-impact">Add Local Business Schema markup to homepage with proper NAP data. Improves local search visibility and rich snippet appearance in Google results for "Anahim Lake resort" searches.</div>
+            <div class="quick-win-impact">Add Local Business Schema markup to homepage with proper NAP data. Improves local search visibility and rich snippet appearance for "Anahim Lake resort" searches.</div>
           </div>
           <span class="quick-win-time">45 minutes</span>
         </div>
@@ -4325,53 +4325,54 @@ body:not(.has-plan) .plan-content{display:none}
 
     <div class="priority-section">
       <h2>Priority Recommendations</h2>
+      <p style="color:#666;font-size:14px;margin:-16px 0 24px 0;">Foundation projects for the first two weeks that set up everything else:</p>
       <div class="priority-list" id="priorityList">
         <div class="priority-item">
           <div class="priority-item-number">1</div>
           <div class="priority-item-content">
-            <h4>Increase posting frequency to 2-3 times per week with wilderness imagery</h4>
+            <h4>Clean up GA4 measurement setup</h4>
             <div class="priority-item-meta">
-              <span class="priority-item-tag">Social Media & Content</span>
-              <span class="priority-item-tag time">1 hour setup, 30 min/post</span>
-              <span class="priority-item-tag impact-high">High Impact</span>
+              <span class="priority-item-tag">Analytics Foundation</span>
+              <span class="priority-item-tag time">Week 1</span>
+              <span class="priority-item-tag impact-high">Critical</span>
             </div>
-            <p class="priority-item-result">Build brand awareness in the outdoor/adventure travel community and grow your follower base from 522 to 1,000+ within 6 months.</p>
+            <p class="priority-item-result">Remove vanity events (page_view, first_visit), add internal traffic filters, and build a clean reporting view excluding bot traffic. Without clean data, you cannot measure whether anything else is working.</p>
           </div>
         </div>
         <div class="priority-item">
           <div class="priority-item-number">2</div>
           <div class="priority-item-content">
-            <h4>Implement a post-stay review request process for guests</h4>
+            <h4>Scope and hire the web contractor</h4>
             <div class="priority-item-meta">
-              <span class="priority-item-tag">Reviews & Reputation</span>
-              <span class="priority-item-tag time">30 minutes setup</span>
-              <span class="priority-item-tag impact-high">High Impact</span>
+              <span class="priority-item-tag">Website Foundation</span>
+              <span class="priority-item-tag time">Week 2</span>
+              <span class="priority-item-tag impact-high">Critical</span>
             </div>
-            <p class="priority-item-result">Grow from 20 to 80+ Google reviews within 12 months, improving local pack visibility and building trust with potential guests.</p>
+            <p class="priority-item-result">Write a fixed-price brief covering the booking bar, tracking setup, and landing page template. Get quotes from the German developer and a Canadian backup. Everything in the paid campaign strategy depends on this work.</p>
           </div>
         </div>
         <div class="priority-item">
           <div class="priority-item-number">3</div>
           <div class="priority-item-content">
-            <h4>Add phone number and email to website header/footer for easier access</h4>
+            <h4>Create the photography shot list and schedule</h4>
             <div class="priority-item-meta">
-              <span class="priority-item-tag">Online Booking & Conversion</span>
-              <span class="priority-item-tag time">15 minutes</span>
-              <span class="priority-item-tag impact-medium">Medium Impact</span>
+              <span class="priority-item-tag">Content Foundation</span>
+              <span class="priority-item-tag time">Week 2</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
             </div>
-            <p class="priority-item-result">Reduce friction for high-intent visitors seeking direct contact, expecting 20-30% increase in booking inquiries.</p>
+            <p class="priority-item-result">Walk the property, identify key shots for cabins, activities, and winter atmosphere. Set a property clear-up deadline and a shoot date. The ads and social strategy all depend on having fresh professional imagery.</p>
           </div>
         </div>
         <div class="priority-item">
           <div class="priority-item-number">4</div>
           <div class="priority-item-content">
-            <h4>Add seasonal hours/operating dates to website</h4>
+            <h4>Initiate CCCTA partnership conversation</h4>
             <div class="priority-item-meta">
-              <span class="priority-item-tag">Digital Guest Experience</span>
-              <span class="priority-item-tag time">30 minutes</span>
-              <span class="priority-item-tag impact-medium">Medium Impact</span>
+              <span class="priority-item-tag">Partnership Foundation</span>
+              <span class="priority-item-tag time">Week 1</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
             </div>
-            <p class="priority-item-result">Eliminate uncertainty for visitors planning trips, reducing "are you open?" inquiries by 30-40%.</p>
+            <p class="priority-item-result">Email your CCCTA contact with the list of places you want to promote and ask for written confirmation on the $5,000 joint-marketing spend. Get alignment early so the partnership budget is ready when ads launch.</p>
           </div>
         </div>
       </div>
@@ -5958,6 +5959,15 @@ function setScenario(scenario) {
 function printRoadmap() {
   // Navigate to roadmap page first if not already there
   navigate('roadmap');
+  // Small delay to ensure page is visible, then print
+  setTimeout(function() {
+    window.print();
+  }, 100);
+}
+
+function downloadPDF() {
+  // Navigate to assessment page first if not already there
+  navigate('assessment');
   // Small delay to ensure page is visible, then print
   setTimeout(function() {
     window.print();
