@@ -3406,7 +3406,7 @@ body:not(.has-plan) .plan-content{display:none}
   <div class="content-area">
 
     <!-- WELCOME MESSAGE -->
-    <div class="welcome-section">
+    <div class="welcome-section" id="goal-section">
       <div class="welcome-header">
         <div class="welcome-eyebrow">Getting Started</div>
         <h2 class="welcome-title">Hi Red Cariboo Resort!</h2>
@@ -3415,7 +3415,7 @@ body:not(.has-plan) .plan-content{display:none}
     </div>
 
     <!-- HOW TO USE THIS ACCELERATOR -->
-    <div class="how-to-section">
+    <div class="how-to-section" id="objectives-section">
       <div class="how-to-section-label">How to Use This Accelerator</div>
       <div class="how-to-grid">
         <div class="how-to-card">
@@ -3454,7 +3454,7 @@ body:not(.has-plan) .plan-content{display:none}
     </div>
 
     <!-- PROGRESS COMPACT -->
-    <div class="progress-section-compact plan-content">
+    <div class="progress-section-compact plan-content" id="tactic-cards-section">
       <div class="progress-ring-wrap">
         <svg class="progress-ring-svg" width="100" height="100" viewBox="0 0 100 100">
           <circle class="progress-ring-bg" cx="50" cy="50" r="45"/>
@@ -5071,23 +5071,23 @@ const TOUR_STEPS = [
   {
     targetId: 'goal-section',
     page: 'dashboard',
-    title: 'Your Goal, Always in View',
-    desc: 'Your 90-day goal lives here on the dashboard so it stays front of mind every time you open your plan.',
+    title: 'Your Personalized Welcome',
+    desc: 'This section gives you context on where you are now and what the plan is designed to achieve for Red Cariboo.',
     pos: 'below', pad: 8
   },
   {
     targetId: 'objectives-section',
     mobileTargetId: 'objectives-section',
     page: 'dashboard',
-    title: 'Your Three Objectives',
-    desc: 'These are the three outcomes the plan is built around — each one builds on the last. Tracking comes first, then paid ads, then scale.',
+    title: 'Four Ways to Navigate',
+    desc: 'These cards show you how to use the accelerator: start with your Assessment, review the Strategy, follow the Roadmap, and use Tactic guides for detailed how-tos.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
     targetId: 'tactic-cards-section',
     page: 'dashboard',
-    title: 'Three Tactics, One System',
-    desc: 'Each tactic card is a deep-dive guide for one objective — step-by-step instructions, success metrics, and tips. Tap any card to open its full guide.',
+    title: 'Track Your Progress',
+    desc: 'As you complete tasks in your roadmap, this ring fills up. Check off items to see your progress grow toward 100%.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
