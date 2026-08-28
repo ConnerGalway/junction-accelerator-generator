@@ -1234,6 +1234,252 @@ nav{flex:1;padding:12px 0}
   font-weight:500;
 }
 
+/* Assessment Grade Card */
+.assessment-grade-card{
+  display:flex;
+  align-items:center;
+  gap:32px;
+  margin-top:32px;
+  padding:24px;
+  background:rgba(255,255,255,.1);
+  border-radius:16px;
+  position:relative;
+  z-index:1;
+}
+.grade-circle{
+  width:100px;
+  height:100px;
+  border-radius:50%;
+  background:var(--mint);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-d);
+  font-size:36px;
+  font-weight:800;
+  color:var(--navy);
+  flex-shrink:0;
+}
+.grade-details h3{
+  font-family:var(--font-d);
+  font-size:18px;
+  font-weight:600;
+  margin-bottom:8px;
+}
+.grade-details p{
+  font-size:14px;
+  opacity:0.8;
+  line-height:1.5;
+}
+
+/* Grade Breakdown */
+.grade-breakdown{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:32px;
+  margin-bottom:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.grade-breakdown h2{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:24px;
+}
+.grade-breakdown-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:16px;
+}
+.grade-breakdown-item{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 20px;
+  background:var(--page-bg);
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.04);
+}
+.grade-breakdown-category{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:14px;
+  font-weight:500;
+  color:var(--navy);
+}
+.grade-breakdown-category svg{
+  width:20px;
+  height:20px;
+  color:var(--slate);
+}
+.grade-breakdown-score{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.grade-breakdown-number{
+  font-family:var(--font-d);
+  font-size:18px;
+  font-weight:700;
+  color:var(--navy);
+}
+.grade-breakdown-letter{
+  padding:4px 10px;
+  border-radius:8px;
+  font-family:var(--font-d);
+  font-size:13px;
+  font-weight:700;
+}
+.grade-breakdown-letter.grade-a{background:#d4edda;color:#155724}
+.grade-breakdown-letter.grade-b{background:#d1ecf1;color:#0c5460}
+.grade-breakdown-letter.grade-c{background:#fff3cd;color:#856404}
+.grade-breakdown-letter.grade-d{background:#f8d7da;color:#721c24}
+.grade-breakdown-letter.grade-f{background:#f5c6cb;color:#721c24}
+
+/* Executive Summary */
+.executive-summary{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:32px;
+  margin-bottom:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.executive-summary h2{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:16px;
+}
+.executive-headline{
+  font-size:16px;
+  font-weight:500;
+  color:var(--navy);
+  margin-bottom:20px;
+  padding-bottom:16px;
+  border-bottom:1px solid rgba(0,0,0,.08);
+  line-height:1.6;
+}
+.executive-columns{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:24px;
+  margin-bottom:20px;
+}
+.executive-column h4{
+  font-family:var(--font-d);
+  font-size:13px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:12px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.executive-column h4 svg{width:16px;height:16px}
+.executive-column.strengths h4{color:var(--success)}
+.executive-column.gaps h4{color:var(--danger)}
+.executive-column ul{list-style:none;padding:0;margin:0}
+.executive-column li{
+  padding:8px 0;
+  border-bottom:1px solid rgba(0,0,0,.04);
+  font-size:14px;
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  line-height:1.5;
+}
+.executive-column li:last-child{border-bottom:none}
+.executive-column li::before{
+  content:'';
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  margin-top:8px;
+  flex-shrink:0;
+}
+.executive-column.strengths li::before{background:var(--success)}
+.executive-column.gaps li::before{background:var(--danger)}
+.executive-bottom-line{
+  background:var(--page-bg);
+  padding:16px;
+  border-radius:8px;
+  font-size:14px;
+  color:#555;
+  border-left:3px solid var(--navy);
+  line-height:1.6;
+}
+
+/* Quick Wins */
+.quick-wins{
+  background:linear-gradient(135deg,#e8f5e9 0%,#c8e6c9 100%);
+  border-radius:16px;
+  padding:32px;
+  margin-bottom:24px;
+}
+.quick-wins h2{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:8px;
+}
+.quick-wins-intro{
+  font-size:14px;
+  color:#555;
+  margin-bottom:20px;
+}
+.quick-wins-grid{
+  display:grid;
+  gap:12px;
+}
+.quick-win-item{
+  background:var(--card-bg);
+  padding:16px 20px;
+  border-radius:12px;
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+.quick-win-number{
+  width:28px;
+  height:28px;
+  background:var(--success);
+  color:#fff;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-d);
+  font-size:13px;
+  font-weight:700;
+  flex-shrink:0;
+}
+.quick-win-content{flex:1}
+.quick-win-task{
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:4px;
+}
+.quick-win-impact{
+  font-size:13px;
+  color:#666;
+  line-height:1.5;
+}
+.quick-win-time{
+  background:rgba(6,124,188,.1);
+  color:var(--blue);
+  padding:4px 12px;
+  border-radius:16px;
+  font-size:12px;
+  font-weight:600;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+
 /* Summary Card */
 .assessment-summary{
   background:var(--card-bg);
@@ -2721,6 +2967,11 @@ body:not(.has-plan) .plan-content{display:none}
   .dash-hero{flex-direction:column;align-items:flex-start;gap:20px;padding:24px}
   .week-cols{grid-template-columns:1fr}
   .tabs{flex-wrap:wrap}
+  .assessment-grade-card{flex-direction:column;gap:16px;text-align:center}
+  .grade-breakdown-grid{grid-template-columns:1fr}
+  .executive-columns{grid-template-columns:1fr}
+  .quick-win-item{flex-direction:column;align-items:flex-start}
+  .quick-win-time{margin-top:8px}
 }
 @media(min-width:769px) and (max-width:1024px){
   :root{--sidebar-w:220px}
