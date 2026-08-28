@@ -2651,6 +2651,20 @@ body:not(.has-plan) .plan-content{display:none}
   border-color:var(--navy);
   color:white;
 }
+.projection-btn{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:2px;
+}
+.scenario-name{
+  font-weight:700;
+}
+.scenario-desc{
+  font-size:10px;
+  font-weight:500;
+  opacity:.7;
+}
 .projections-grid{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -4717,12 +4731,21 @@ body:not(.has-plan) .plan-content{display:none}
     <div class="projections-section">
       <div class="projections-header">
         <div class="projections-label">Winter Season Projections</div>
-        <p class="projections-subtitle">What the plan produces at three investment levels (December to March)</p>
+        <p class="projections-subtitle">Projected outcomes at <strong>$35,000 discretionary spend</strong> (December to March)</p>
       </div>
       <div class="projections-toggle">
-        <button class="projection-btn" data-scenario="conservative" onclick="setScenario('conservative')">Conservative</button>
-        <button class="projection-btn active" data-scenario="moderate" onclick="setScenario('moderate')">Moderate</button>
-        <button class="projection-btn" data-scenario="aggressive" onclick="setScenario('aggressive')">Aggressive</button>
+        <button class="projection-btn" data-scenario="conservative" onclick="setScenario('conservative')">
+          <span class="scenario-name">Conservative</span>
+          <span class="scenario-desc">Lower bound</span>
+        </button>
+        <button class="projection-btn active" data-scenario="moderate" onclick="setScenario('moderate')">
+          <span class="scenario-name">Moderate</span>
+          <span class="scenario-desc">Expected case</span>
+        </button>
+        <button class="projection-btn" data-scenario="aggressive" onclick="setScenario('aggressive')">
+          <span class="scenario-name">Aggressive</span>
+          <span class="scenario-desc">Upper bound</span>
+        </button>
       </div>
       <div class="projections-grid">
         <div class="projection-card primary">
