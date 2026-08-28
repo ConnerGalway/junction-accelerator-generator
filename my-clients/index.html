@@ -1091,10 +1091,36 @@
     // ══════════════════════════════════════════════════════════════
     function renderAssessments() {
       const gallery = document.getElementById('assessmentGallery');
+      const countEl = document.getElementById('assessmentCount');
       const isAdmin = currentUser.role === 'admin' || currentUser.role === 'psm';
 
-      gallery.innerHTML = assessments.map((a, i) => {
-        const hasPlan = projectSlugs.has(a.client_slug);
+      // Filter out assessments that have implementation plans - they show in Projects section
+      const assessmentsWithoutPlans = assessments.filter(a => !projectSlugs.has(a.client_slug));
+
+      // Update count to reflect only assessments without plans
+      countEl.textContent = assessmentsWithoutPlans.length;
+
+      if (assessmentsWithoutPlans.length === 0) {
+        gallery.innerHTML = `<div class="empty-state">
+          <svg class="empty-state__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+            <rect x="9" y="3" width="6" height="4" rx="1"/>
+          </svg>
+          <h3 class="empty-state__title">No pending assessments</h3>
+          <p class="empty-state__text">All assessments have been converted to implementation plans, or generate a new assessment to get started.</p>
+          ${(isAdmin) ? `<a href="/admin/generate-assessment/" class="btn-create">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" y1="5" x2="12" y2="19"></line>
+              <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            New Assessment
+          </a>` : ''}
+        </div>`;
+        return;
+      }
+
+      gallery.innerHTML = assessmentsWithoutPlans.map((a, i) => {
+        const hasPlan = false; // We've already filtered these out
         const gradeClass = getGradeClass(a.overall_grade);
         const statusClass = `status-${a.status}`;
         const statusLabel = a.status.charAt(0).toUpperCase() + a.status.slice(1);
@@ -1102,7 +1128,7 @@
         const url = a.website_url ? new URL(a.website_url).hostname : '';
 
         return `
-          <div class="assessment-card ${hasPlan ? 'assessment-card--has-plan' : ''}" style="animation-delay: ${i * 0.05}s" data-slug="${a.client_slug}">
+          <div class="assessment-card" style="animation-delay: ${i * 0.05}s" data-slug="${a.client_slug}">
             <div class="assessment-card__header">
               <div>
                 <h3 class="assessment-card__name">${escapeHtml(a.business_name)}</h3>
@@ -1128,14 +1154,6 @@
                 </svg>
                 ${dateStr}
               </span>
-              ${hasPlan ? `
-                <span class="assessment-card__plan-badge">
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:12px;height:12px;">
-                    <polyline points="20 6 9 17 4 12"/>
-                  </svg>
-                  Has Plan
-                </span>
-              ` : ''}
             </div>
             <div class="assessment-card__actions">
               ${a.status === 'completed' ? `
@@ -1145,7 +1163,7 @@
                     <polyline points="15 3 21 3 21 9"/>
                     <line x1="10" y1="14" x2="21" y2="3"/>
                   </svg>
-                  View
+                  View Assessment
                 </a>
               ` : `
                 <button class="btn-secondary" disabled>
@@ -1156,7 +1174,7 @@
                   ${a.status === 'processing' ? 'Processing...' : 'Pending'}
                 </button>
               `}
-              ${(a.status === 'completed' && !hasPlan && isAdmin) ? `
+              ${(a.status === 'completed' && isAdmin) ? `
                 <a href="/admin/create-project/?from=${a.client_slug}" class="btn-secondary btn-success">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/>
