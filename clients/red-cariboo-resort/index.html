@@ -1480,6 +1480,251 @@ nav{flex:1;padding:12px 0}
   flex-shrink:0;
 }
 
+/* Priority Recommendations */
+.priority-section{
+  background:var(--card-bg);
+  border-radius:16px;
+  padding:32px;
+  margin-bottom:24px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.priority-section h2{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:24px;
+}
+.priority-list{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+.priority-item{
+  display:flex;
+  gap:20px;
+  padding:20px;
+  background:var(--page-bg);
+  border-radius:12px;
+  border:1px solid rgba(0,0,0,.04);
+}
+.priority-item-number{
+  width:36px;
+  height:36px;
+  background:var(--navy);
+  color:white;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:var(--font-d);
+  font-size:14px;
+  font-weight:700;
+  flex-shrink:0;
+}
+.priority-item-content{
+  flex:1;
+}
+.priority-item-content h4{
+  font-family:var(--font-d);
+  font-size:15px;
+  font-weight:600;
+  color:var(--navy);
+  margin-bottom:10px;
+  line-height:1.4;
+}
+.priority-item-meta{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:10px;
+}
+.priority-item-tag{
+  padding:4px 10px;
+  border-radius:12px;
+  font-size:11px;
+  font-weight:600;
+  background:rgba(17,21,75,.06);
+  color:var(--navy);
+}
+.priority-item-tag.time{
+  background:rgba(6,124,188,.1);
+  color:var(--blue);
+}
+.priority-item-tag.impact-high{
+  background:rgba(34,197,94,.15);
+  color:#166534;
+}
+.priority-item-tag.impact-medium{
+  background:rgba(249,115,22,.15);
+  color:#c2410c;
+}
+.priority-item-result{
+  font-size:13px;
+  color:var(--slate);
+  line-height:1.5;
+  margin:0;
+}
+@media(max-width:600px){
+  .priority-item{flex-direction:column;gap:12px}
+}
+
+/* Category Cards (Detailed Findings) */
+.categories-section{
+  margin-bottom:24px;
+}
+.categories-section h2{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:24px;
+}
+.categories-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(360px,1fr));
+  gap:24px;
+}
+.category-card{
+  background:var(--card-bg);
+  border-radius:16px;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  overflow:hidden;
+}
+.category-header{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  padding:20px 24px;
+  border-bottom:1px solid rgba(0,0,0,.06);
+  cursor:pointer;
+  transition:background .2s;
+}
+.category-header:hover{
+  background:rgba(0,0,0,.02);
+}
+.category-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  flex-shrink:0;
+}
+.category-icon svg{width:22px;height:22px}
+.category-icon.website{background:#e3f2fd;color:#1976d2}
+.category-icon.reviews{background:#fff3e0;color:#f57c00}
+.category-icon.booking{background:#e8f5e9;color:#388e3c}
+.category-icon.social{background:#fce4ec;color:#c2185b}
+.category-icon.experience{background:#ede7f6;color:#5e35b1}
+.category-icon.local{background:#e0f7fa;color:#0097a7}
+.category-title-wrap{flex:1}
+.category-title{
+  font-family:var(--font-d);
+  font-size:15px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:4px;
+}
+.category-grade{
+  display:inline-block;
+  padding:3px 10px;
+  border-radius:10px;
+  font-family:var(--font-d);
+  font-size:13px;
+  font-weight:700;
+}
+.category-grade.grade-a{background:#d4edda;color:#155724}
+.category-grade.grade-b{background:#d1ecf1;color:#0c5460}
+.category-grade.grade-c{background:#fff3cd;color:#856404}
+.category-grade.grade-d{background:#f8d7da;color:#721c24}
+.category-chevron{
+  width:20px;
+  height:20px;
+  color:var(--slate);
+  transition:transform .2s;
+}
+.category-card.open .category-chevron{transform:rotate(180deg)}
+.category-body{
+  display:none;
+  padding:20px 24px;
+}
+.category-card.open .category-body{display:block}
+.category-summary{
+  font-size:14px;
+  color:#555;
+  line-height:1.6;
+  margin-bottom:16px;
+}
+.category-metrics{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+  margin-bottom:16px;
+}
+.metric-item{
+  padding:12px;
+  background:var(--page-bg);
+  border-radius:8px;
+}
+.metric-label{
+  font-size:10px;
+  color:#888;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+  margin-bottom:4px;
+}
+.metric-value{
+  font-family:var(--font-d);
+  font-size:15px;
+  font-weight:600;
+  color:var(--navy);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.metric-status{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+.metric-status.good{background:var(--success)}
+.metric-status.warning{background:#f59e0b}
+.metric-status.critical{background:var(--danger)}
+.category-findings h4{
+  font-family:var(--font-d);
+  font-size:12px;
+  font-weight:700;
+  color:var(--navy);
+  margin-bottom:10px;
+  text-transform:uppercase;
+  letter-spacing:.05em;
+}
+.finding-item{
+  display:flex;
+  align-items:flex-start;
+  gap:8px;
+  font-size:13px;
+  padding:8px 0;
+  border-bottom:1px solid rgba(0,0,0,.04);
+  line-height:1.5;
+}
+.finding-item:last-child{border-bottom:none}
+.finding-icon{
+  width:16px;
+  height:16px;
+  flex-shrink:0;
+  margin-top:2px;
+}
+.finding-icon.positive{color:var(--success)}
+.finding-icon.negative{color:var(--danger)}
+.finding-icon.info{color:#6b6b8a}
+@media(max-width:600px){
+  .categories-grid{grid-template-columns:1fr}
+  .category-metrics{grid-template-columns:1fr}
+}
+
 /* Summary Card */
 .assessment-summary{
   background:var(--card-bg);
@@ -4114,6 +4359,334 @@ body:not(.has-plan) .plan-content{display:none}
             <p class="priority-item-result">Eliminate uncertainty for visitors planning trips, reducing "are you open?" inquiries by 30-40%.</p>
           </div>
         </div>
+      </div>
+    </div>
+
+    <!-- DETAILED CATEGORY FINDINGS -->
+    <div class="categories-section">
+      <h2>Detailed Category Analysis</h2>
+      <div class="categories-grid">
+
+        <!-- Website & Technical -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Website & Technical</div>
+              <span class="category-grade grade-b">78 · B-</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Strong technical foundation with SSL, mobile optimization, and multi-language support. The MODX CMS provides flexibility for content updates. Main gap is the booking path UX.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">SSL Certificate</div>
+                <div class="metric-value"><span class="metric-status good"></span> Active</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Mobile Friendly</div>
+                <div class="metric-value"><span class="metric-status good"></span> Yes</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Page Speed</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 2.8s</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Languages</div>
+                <div class="metric-value"><span class="metric-status good"></span> EN/DE</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>MODX CMS allows direct content editing without developer assistance</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>37 images detected on site with good wilderness/cabin imagery</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Homepage carousel shows expired Christmas offer from January</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Root domain serves German by default to majority Canadian audience</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews & Reputation -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon reviews">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Reviews & Reputation</div>
+              <span class="category-grade grade-c">71 · C</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Perfect 5.0 Google rating demonstrates exceptional guest satisfaction. The gap is volume: only 20 reviews means lower visibility in local search results compared to competitors.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Google Rating</div>
+                <div class="metric-value"><span class="metric-status good"></span> 5.0 stars</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Review Count</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 20 reviews</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">TripAdvisor</div>
+                <div class="metric-value"><span class="metric-status good"></span> Listed</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Response Rate</div>
+                <div class="metric-value"><span class="metric-status info"></span> Unknown</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Perfect 5.0 rating indicates exceptional on-property experience</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Only 20 reviews limits local pack visibility against competitors</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>No formal post-stay review request process currently in place</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Online Booking & Conversion -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon booking">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Online Booking & Conversion</div>
+              <span class="category-grade grade-b">80 · B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Cloudbeds integration provides booking capability, but the path from interest to reservation has significant friction. The booking page lacks room types, rates, and policies.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Booking System</div>
+                <div class="metric-value"><span class="metric-status good"></span> Cloudbeds</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Booking Page</div>
+                <div class="metric-value"><span class="metric-status critical"></span> 72 sessions</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">TripAdvisor</div>
+                <div class="metric-value"><span class="metric-status good"></span> Integrated</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Booking Bar</div>
+                <div class="metric-value"><span class="metric-status warning"></span> Small box</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Cloudbeds and TripAdvisor integration in place</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Booking page is bare date picker with no room types or rates</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Small red booking box instead of full search bar under menu</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No cancellation policy visible on booking page</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media & Content -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon social">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Social Media & Content</div>
+              <span class="category-grade grade-d">62 · D</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Social presence exists but is underutilized. Instagram has good engagement rate when posts happen, but posting frequency is far below what builds an audience.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Instagram Followers</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 194</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Facebook Followers</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 328</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">IG Engagement</div>
+                <div class="metric-value"><span class="metric-status good"></span> 5.15%</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Post Frequency</div>
+                <div class="metric-value"><span class="metric-status critical"></span> 0.1x/week</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>5.15% Instagram engagement rate is excellent when content is posted</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Posting only 0.1 times per week (once every 10 weeks)</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>522 total followers across platforms is below visibility threshold</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>Wilderness imagery on website could fuel consistent social content</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Guest Experience -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon experience">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Digital Guest Experience</div>
+              <span class="category-grade grade-b">84 · B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Strong pre-arrival information with directions, parking, and accessibility details. The only gap is operating hours and seasonal schedule information.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Directions</div>
+                <div class="metric-value"><span class="metric-status good"></span> Detailed</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Parking Info</div>
+                <div class="metric-value"><span class="metric-status good"></span> Available</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Accessibility</div>
+                <div class="metric-value"><span class="metric-status good"></span> Documented</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Operating Hours</div>
+                <div class="metric-value"><span class="metric-status critical"></span> Missing</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Comprehensive directions and parking information for remote location</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Winter Packing List page drew 1,453 sessions (13% of all traffic)</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No operating hours or seasonal schedule visible on website</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>Useful content buried in 19-item dropdown menu structure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Local Visibility -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon local">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Local Visibility</div>
+              <span class="category-grade grade-b">81 · B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Good Google Business Profile presence with location information. Analytics show majority Canadian traffic, validating domestic market focus for winter season.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">GBP Claimed</div>
+                <div class="metric-value"><span class="metric-status good"></span> Yes</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Canadian Traffic</div>
+                <div class="metric-value"><span class="metric-status good"></span> 2,805 users</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">DACH Traffic</div>
+                <div class="metric-value"><span class="metric-status good"></span> 1,152 users</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Peak Month</div>
+                <div class="metric-value"><span class="metric-status info"></span> January</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Canadian traffic 2.4x higher than German-speaking markets</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>January is peak traffic month, aligning with planning behavior</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>German visitors average 165 seconds vs 103 for Canadians</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>~25% of traffic is bot activity from China/Singapore (under 3 sec engagement)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </div>
 
