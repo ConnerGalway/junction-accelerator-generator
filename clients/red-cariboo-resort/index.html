@@ -4085,6 +4085,509 @@ body:not(.has-plan) .plan-content{display:none}
 /* week-task-item howto layout */
 .week-task-text{flex:1}
 .week-task-item .howto-link{align-self:flex-start;margin-top:1px;margin-left:6px}
+
+/* ════════════════════════════════════════════════════════════════
+   TACTIC PAGE v2 STYLES (Navy Hero + Two-Column Layout)
+   ════════════════════════════════════════════════════════════════ */
+
+/* Tactic Page Container */
+.tactic-page-content{
+  padding:32px 34px 40px;
+  background:var(--cream-100);
+  border-radius:var(--radius-lg);
+  margin:24px;
+}
+
+/* Tactic Hero Card */
+.tactic-hero{
+  background:var(--navy-900);
+  border-radius:var(--radius-md);
+  padding:30px 32px;
+  margin-bottom:24px;
+  position:relative;
+}
+.tactic-hero-top{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:24px;
+  margin-bottom:16px;
+}
+.tactic-hero-meta{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.tactic-hero-label{
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:rgba(255,255,255,.65);
+  text-transform:uppercase;
+}
+.tactic-hero-status{
+  border-radius:var(--radius-pill);
+  padding:4px 12px;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.06em;
+  background:rgba(255,255,255,.12);
+  color:rgba(255,255,255,.85);
+  text-transform:uppercase;
+}
+.tactic-hero-status.in-progress{
+  background:rgba(170,218,182,.2);
+  color:var(--mint-500);
+}
+.tactic-hero-status.complete{
+  background:rgba(170,218,182,.3);
+  color:var(--mint-500);
+}
+.tactic-hero-progress{
+  flex:none;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+.tactic-hero-ring{
+  width:60px;
+  height:60px;
+}
+.tactic-hero-ring-bg{
+  fill:none;
+  stroke:rgba(255,255,255,.15);
+  stroke-width:6;
+}
+.tactic-hero-ring-bar{
+  fill:none;
+  stroke:var(--mint-500);
+  stroke-width:6;
+  stroke-linecap:round;
+  stroke-dasharray:194.8;
+  stroke-dashoffset:194.8;
+  transition:stroke-dashoffset .8s cubic-bezier(.4,0,.2,1);
+}
+.tactic-hero-pct{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:20px;
+  color:#fff;
+  line-height:1;
+}
+.tactic-hero-pct-label{
+  font-size:11.5px;
+  color:rgba(255,255,255,.6);
+}
+.tactic-hero h1{
+  margin:0 0 8px;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:28px;
+  line-height:1.2;
+  letter-spacing:-.02em;
+  color:#fff;
+}
+.tactic-hero p{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.6;
+  color:rgba(255,255,255,.72);
+  max-width:66ch;
+}
+
+/* Tactic Two-Column Overview */
+.tactic-overview-grid{
+  display:grid;
+  grid-template-columns:1.15fr 1fr;
+  gap:18px;
+  align-items:start;
+  margin-bottom:24px;
+}
+@media(max-width:900px){
+  .tactic-overview-grid{grid-template-columns:1fr}
+}
+.tactic-overview-col{
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+/* Overview Cards */
+.tactic-card-block{
+  background:var(--white);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);
+  padding:22px 24px;
+}
+.tactic-card-block.navy{
+  background:var(--navy-900);
+  border:none;
+  padding:20px 22px;
+}
+.tactic-card-label{
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.14em;
+  color:var(--slate-600);
+  margin-bottom:12px;
+  text-transform:uppercase;
+}
+.tactic-card-block.navy .tactic-card-label{
+  font-weight:700;
+  color:var(--mint-500);
+  margin-bottom:10px;
+}
+.tactic-card-block p{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.65;
+  color:var(--navy-800);
+  text-wrap:pretty;
+}
+.tactic-card-block.navy p{
+  font-size:14px;
+  line-height:1.6;
+  color:#fff;
+  font-style:italic;
+}
+
+/* What This Breaks Into Grid */
+.tactic-breakdown-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+.tactic-breakdown-item{
+  background:var(--cream-100);
+  border-radius:var(--radius-sm);
+  padding:14px 16px;
+}
+.tactic-breakdown-item.full-width{
+  grid-column:1/-1;
+}
+.tactic-breakdown-title{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:14.5px;
+  color:var(--navy-900);
+  margin-bottom:4px;
+}
+.tactic-breakdown-desc{
+  font-size:12.5px;
+  line-height:1.5;
+  color:var(--slate-600);
+}
+
+/* Time Commitment */
+.tactic-time-value{
+  font-family:var(--font-display);
+  font-weight:700;
+  font-size:28px;
+  color:var(--navy-900);
+}
+.tactic-time-context{
+  font-size:13px;
+  color:var(--slate-600);
+  margin-left:8px;
+}
+
+/* Implementation Steps Section */
+.tactic-steps-header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:10px;
+}
+.tactic-steps-label{
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.14em;
+  color:var(--slate-600);
+  text-transform:uppercase;
+}
+
+/* Flow Diagram */
+.tactic-flow-card{
+  background:var(--white);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);
+  padding:24px 26px;
+  margin-bottom:24px;
+}
+.tactic-flow-label{
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.14em;
+  color:var(--slate-600);
+  margin-bottom:18px;
+  text-transform:uppercase;
+}
+.tactic-flow-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.tactic-flow-node{
+  background:var(--navy-900);
+  color:#fff;
+  border-radius:var(--radius-sm);
+  padding:16px 14px;
+  text-align:center;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14.5px;
+  line-height:1.3;
+  flex:1;
+  min-width:120px;
+}
+.tactic-flow-arrow{
+  flex:none;
+  color:var(--slate-600);
+}
+
+/* Collapsible Parts */
+.tactic-parts-list{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+}
+.tactic-part{
+  background:var(--white);
+  border:1px solid var(--border-subtle);
+  border-radius:var(--radius-md);
+  box-shadow:var(--shadow-sm);
+  overflow:hidden;
+}
+.tactic-part-header{
+  width:100%;
+  display:flex;
+  align-items:center;
+  gap:18px;
+  padding:18px 24px;
+  background:none;
+  border:none;
+  cursor:pointer;
+  font-family:var(--font-body);
+  text-align:left;
+}
+.tactic-part-header:hover{
+  background:rgba(17,21,75,.02);
+}
+.tactic-part-tag{
+  flex:none;
+  white-space:nowrap;
+  background:var(--surface-sunken);
+  color:var(--navy-900);
+  border-radius:var(--radius-pill);
+  padding:5px 13px;
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+}
+.tactic-part-title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:19px;
+  color:var(--navy-900);
+  letter-spacing:-.01em;
+}
+.tactic-part-meta{
+  margin-left:auto;
+  font-size:12.5px;
+  color:var(--slate-600);
+  flex:none;
+}
+.tactic-part-chevron{
+  width:16px;
+  height:16px;
+  color:var(--slate-600);
+  transition:transform .2s ease;
+  flex:none;
+}
+.tactic-part.open .tactic-part-chevron{
+  transform:rotate(180deg);
+}
+.tactic-part-body{
+  display:none;
+  padding:0 24px 6px;
+}
+.tactic-part.open .tactic-part-body{
+  display:block;
+}
+
+/* Steps List inside Parts */
+.tactic-steps-list{
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+.tactic-step-item{
+  display:flex;
+  gap:16px;
+  padding:20px 0;
+  border-top:1px solid var(--border-subtle);
+}
+.tactic-step-num{
+  flex:none;
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:var(--navy-900);
+  color:#fff;
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  font-weight:700;
+}
+.tactic-step-content{
+  min-width:0;
+  flex:1;
+}
+.tactic-step-title{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:17px;
+  color:var(--navy-900);
+  margin-bottom:10px;
+}
+.tactic-step-title .cost-hint{
+  color:var(--slate-600);
+  font-weight:400;
+}
+
+/* Step Tags */
+.tactic-step-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:12px;
+}
+.tactic-step-tag{
+  flex:none;
+  border-radius:var(--radius-pill);
+  padding:4px 12px;
+  font-size:11.5px;
+  font-weight:700;
+}
+.tactic-step-tag.info{
+  background:#e3f2fa;
+  color:var(--link-blue);
+}
+.tactic-step-tag.warning{
+  background:#fbf0de;
+  color:var(--state-warning);
+}
+.tactic-step-tag.danger{
+  background:#fbe6e6;
+  color:var(--state-danger);
+}
+.tactic-step-tag.success{
+  background:#e6f4ea;
+  color:var(--state-success);
+}
+.tactic-step-tag.muted{
+  background:var(--surface-sunken);
+  color:var(--slate-600);
+}
+
+/* Step Bullets */
+.tactic-step-bullets{
+  margin:0 0 12px;
+  padding-left:20px;
+  font-size:14.5px;
+  line-height:1.65;
+  color:var(--navy-800);
+}
+.tactic-step-bullets li{
+  margin-bottom:6px;
+  text-wrap:pretty;
+}
+
+/* Step Resource Link */
+.tactic-step-resource{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--link-blue);
+}
+.tactic-step-resource:hover{
+  text-decoration:underline;
+}
+
+/* Media Placeholder */
+.tactic-step-media{
+  margin-top:16px;
+}
+.tactic-step-media-thumb{
+  background:var(--surface-sunken);
+  border-radius:var(--radius-sm);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:120px;
+}
+.tactic-step-media-badge{
+  border-radius:var(--radius-pill);
+  padding:4px 12px;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+  background:var(--mint-500);
+  color:var(--navy-900);
+  text-transform:uppercase;
+}
+.tactic-step-media-badge.video{
+  background:var(--navy-900);
+  color:#fff;
+}
+.tactic-step-media-caption{
+  font-size:12px;
+  color:var(--slate-600);
+  text-align:center;
+  padding:0 16px;
+}
+
+/* Two-column step layout */
+.tactic-step-row{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+}
+.tactic-step-text-col{
+  flex:1 1 62%;
+  min-width:0;
+}
+.tactic-step-media-col{
+  flex:1 1 36%;
+  min-width:0;
+  align-self:stretch;
+}
+@media(max-width:768px){
+  .tactic-step-row{flex-direction:column}
+  .tactic-step-text-col,.tactic-step-media-col{flex:1 1 100%}
+}
+
+/* Mobile adjustments for tactic pages */
+@media(max-width:768px){
+  .tactic-page-content{
+    padding:20px 16px 32px;
+    margin:12px;
+  }
+  .tactic-hero{padding:20px}
+  .tactic-hero h1{font-size:22px}
+  .tactic-hero-top{flex-direction:column;gap:16px}
+  .tactic-hero-progress{width:100%;justify-content:flex-end}
+  .tactic-part-header{padding:14px 16px;gap:12px}
+  .tactic-part-title{font-size:16px}
+  .tactic-part-body{padding:0 16px 6px}
+  .tactic-step-item{gap:12px;padding:16px 0}
+}
 </style>
 </head>
 <body data-client-slug="red-cariboo-resort" data-client-name="Red Cariboo Resort" data-cohort-start="2026-08-12" data-total-days="90" data-total-weeks="12">
@@ -5027,453 +5530,920 @@ body:not(.has-plan) .plan-content{display:none}
      TACTIC 1: Tracking, Website, SEO
      ════════════════════════════════════════════ -->
 <section id="page-tactic1" class="page">
-  <div class="page-header">
-    <div class="page-header-eyebrow">Tactic 1 · Foundation</div>
-    <h1>Fix the Measurement and the Booking Path</h1>
-    <p>Make the analytics tell the truth and the website take a booking, before any money goes into advertising.</p>
-  </div>
-  <div class="content-area">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(this,'t1','overview')">Overview</button>
-      <button class="tab-btn" onclick="switchTab(this,'t1','steps')">Implementation Steps</button>
-      <button class="tab-btn" onclick="switchTab(this,'t1','metrics')">Success Metrics</button>
-      <button class="tab-btn" onclick="switchTab(this,'t1','tips')">Tips &amp; Resources</button>
-    </div>
-
-    <!-- Overview tab -->
-    <div class="tab-pane active" id="t1-overview">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What We Heard From You</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+  <div class="tactic-page-content">
+    <!-- Navy Hero Card -->
+    <div class="tactic-hero" data-tactic="1">
+      <div class="tactic-hero-top">
+        <div class="tactic-hero-meta">
+          <span class="tactic-hero-label">Tactic 1 · Foundation</span>
+          <span class="tactic-hero-status" id="t1-status">Not Started</span>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>You said the problem with the website is not that it lacks information, it is that nobody can find what is there. The FAQ page exists, in the footer. The parking details exist, three scrolls down a page about the resort. You have learned MODX well enough to add menu items, change links and load photos yourself, and you asked directly for recommendations on what to change. You also told us that the Cloudbeds booking box on the site was a compromise: you wanted a full search bar under the menu with dates and guest numbers, and the small red box was what you were able to agree on. And you held the CCCTA Spotify spot back specifically because you wanted analytics working before the campaign ran.</p>
+        <div class="tactic-hero-progress">
+          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+            <circle class="tactic-hero-ring-bar" id="t1-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+          </svg>
+          <div>
+            <div class="tactic-hero-pct" id="t1-pct">0%</div>
+            <div class="tactic-hero-pct-label">of this tactic</div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What This Is</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <h1>Fix the Measurement and the Booking Path</h1>
+      <p>Make the analytics tell the truth and the website take a booking, before any money goes into advertising.</p>
+    </div>
+
+    <!-- Two-Column Overview -->
+    <div class="tactic-overview-grid">
+      <div class="tactic-overview-col">
+        <!-- What This Is -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Is</div>
+          <p>Three pieces of work that have to happen before advertising starts. First, repairing the GA4 account so its numbers mean something: removing bot traffic, correcting the key events, and adding tracking for the booking path and the enquiry forms. Second, rebuilding the path a visitor takes from landing on the site to submitting a booking, which includes a persistent search bar, a real booking page, contact details on every page, and English served by default at the root domain. Third, building a reusable landing page template so seasonal offers can be published in an afternoon instead of being rebuilt from scratch each year.</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>Three pieces of work that have to happen before advertising starts. First, repairing the GA4 account so its numbers mean something: removing bot traffic, correcting the key events, and adding tracking for the booking path and the enquiry forms. Second, rebuilding the path a visitor takes from landing on the site to submitting a booking, which includes a persistent search bar, a real booking page, contact details on every page, and English served by default at the root domain. Third, building a reusable landing page template so seasonal offers can be published in an afternoon instead of being rebuilt from scratch each year.</p>
+        <!-- What This Breaks Into -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Breaks Into</div>
+          <div class="tactic-breakdown-grid">
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Fix the Analytics</div>
+              <div class="tactic-breakdown-desc">Remove bot traffic, correct key events, track booking &amp; enquiry paths</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Rebuild the Booking Path</div>
+              <div class="tactic-breakdown-desc">Persistent search bar, real booking page, contact info everywhere, English by default</div>
+            </div>
+            <div class="tactic-breakdown-item full-width">
+              <div class="tactic-breakdown-title">Landing Page Template</div>
+              <div class="tactic-breakdown-desc">Publish seasonal offers in an afternoon instead of rebuilding from scratch each year</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">Why It Matters</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <div class="tactic-overview-col">
+        <!-- What We Heard From You -->
+        <div class="tactic-card-block navy">
+          <div class="tactic-card-label">What We Heard From You</div>
+          <p>"You said the problem with the website is not that it lacks information, it is that nobody can find what is there."</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>You are about to spend $35,000. At present the account cannot tell you whether a booking came from Google, from the Spotify ad, or from a guest who was going to book anyway, because four automatic events are marked as key events and the conversion rate reads as 100 percent for every channel. Separately, the booking page took 72 sessions in a year while the jobs pages took 408. Sending paid traffic to that page would spend the budget and produce almost nothing, and you would not be able to prove it either way. The landing page template matters because the one good conversion page on the site, the Christmas offer, took real effort to build and then went stale and stayed on the homepage for seven months.</p>
+        <!-- Why It Matters -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Why It Matters</div>
+          <p>You are about to spend $35,000. At present the account cannot tell you whether a booking came from Google, from the Spotify ad, or from a guest who was going to book anyway, because four automatic events are marked as key events and the conversion rate reads as 100 percent for every channel. Separately, the booking page took 72 sessions in a year while the jobs pages took 408. Sending paid traffic to that page would spend the budget and produce almost nothing, and you would not be able to prove it either way.</p>
+        </div>
+        <!-- Time Commitment -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Time Commitment</div>
+          <div>
+            <span class="tactic-time-value">40 min</span>
+            <span class="tactic-time-context">to fix analytics, this week</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Steps tab -->
-    <div class="tab-pane" id="t1-steps">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part A</span>
-          <span class="section-block-title">Make the Numbers Mean Something</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-1"><div class="step-num">1</div><div class="step-content"><h4>Remove the bot traffic from GA4 reporting</h4><ul><li>In GA4, open Admin → Data collection and modification → Data filters, and confirm the "Internal Traffic" filter is set to Active rather than Testing.</li><li>Add your own IP addresses and the resort office IP under Admin → Data streams → Configure tag settings → Define internal traffic, so your own visits stop counting.</li><li>Build a saved exploration that excludes Country = China and Country = Singapore. These accounted for 2,323 of 9,161 active users last year at under three seconds of engagement each, and they distort every average in the account.</li><li>Use this filtered view as the reporting view from now on. Do not delete historical data, since you will want the unfiltered baseline for comparison.</li></ul></div></li>
-            <li class="step-item" id="step-t1-2"><div class="step-num">2</div><div class="step-content"><h4>Correct the key events so conversions mean something</h4><ul><li>Go to Admin → Data display → Events → Key events. Four events are currently starred: click, file_download, first_visit and page_view.</li><li>Unstar page_view and first_visit immediately. These fire on every single page load, which is why every channel reports a key event rate of roughly 1.00 and why Direct traffic shows 12,909 key events against 5,132 sessions.</li><li>Leave click and file_download starred. Outbound clicks and the Winter Packing List PDF download are both meaningful signals, at 170 and 62 respectively over the last ninety days.</li><li>The change is not retroactive, so make a note of the date. Reports before and after will not be comparable.</li></ul></div></li>
-            <li class="step-item" id="step-t1-3"><div class="step-num">3</div><div class="step-content"><h4>Track the booking path and the enquiry forms <span style="color:#6b7280;font-weight:normal">(contractor task, $800 to $1,200)</span></h4><ul><li>Google Tag Manager is already installed on the site (container GTM-5VWH9VM), so no new tracking code is needed on the pages.</li><li>Have the contractor create four GTM triggers: booking widget opened, click through to the Cloudbeds booking engine, enquiry form submitted on any offer landing page, and contact form submitted.</li><li>Name the resulting GA4 events booking_start, booking_engine_click, offer_enquiry and contact_form. Mark all four as key events once you can see them firing in DebugView.</li><li>The Cloudbeds Immersive Experience 2.0 embed passes tracking data to GA4 and Google Tag Manager, so ask the contractor to use that rather than a plain link out to the booking engine.</li><li>Test each one yourself before signing off. Submit a real form, open the widget, and confirm the event appears in the GA4 Realtime report.</li></ul></div></li>
-            <li class="step-item" id="step-t1-4"><div class="step-num">4</div><div class="step-content"><h4>Record a clean baseline before any money is spent</h4><ul><li>Once filters and key events are corrected, export a single page of numbers dated to the end of Week 2: sessions, sessions by channel, sessions by country, top ten landing pages, and the four new key events at zero.</li><li>This is what the Spotify campaign, the Google ads and the Meta ads will all be measured against. Without it, a spike in January is indistinguishable from normal January.</li><li>Send a copy to Junction before the Week 4 coaching session.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part B</span>
-          <span class="section-block-title">Fix the Path to Booking</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-5"><div class="step-num">5</div><div class="step-content"><h4>Brief and hire the web contractor <span style="color:#6b7280;font-weight:normal">(total contractor scope, $4,100 to $6,500)</span></h4><ul><li>You need someone comfortable in MODX. Ask the current German developer for a quote first, since he knows the build, but get a second quote from a Canadian freelancer so you have a comparison and a fallback.</li><li>Scope the work as a single fixed-price package covering steps 3, 7 and 12, rather than hourly, so the cost is known before you commit.</li><li>Ask for a staging copy of the site to test on. Cloudbeds warns that self-applied customisations to the booking embed can break when the platform updates, so nothing should be tested live.</li><li>Set a delivery date of end of Week 6. Everything in Tactic 3 depends on this being finished.</li></ul></div></li>
-            <li class="step-item" id="step-t1-6"><div class="step-num">6</div><div class="step-content"><h4>Serve English by default at redcariboo.com</h4><ul><li>The root URL currently loads the German homepage and took 3,061 sessions last year, against 1,408 for /en, while Canada and the United States are the two largest audience segments.</li><li>Have this done in-house: set the root to load English, with German available from the language switcher exactly as it is now, and add browser-language detection so a German browser still lands on the German version.</li><li>Keep both hreflang tags in place. The German site is working well in German search and nothing should disturb that.</li><li>Check that the German sitemap at the root and the English sitemap at /en are both submitted in Google Search Console. Only the German one is currently the default, which is why external crawlers miss English pages.</li></ul></div></li>
-            <li class="step-item" id="step-t1-7"><div class="step-num">7</div><div class="step-content"><h4>Put a permanent booking search bar under the navigation <span style="color:#6b7280;font-weight:normal">(contractor task, $1,500 to $2,500)</span></h4><ul><li>Replace the small red pop-out widget with a full-width bar sitting directly beneath the main menu: check-in, check-out, number of guests, and a Book Now button. This is the layout you originally asked for.</li><li>Cloudbeds offers this through the Booking Engine embed options. The Immersive Experience 2.0 popup mode opens the engine as a side panel rather than sending the guest to a different domain, which is where bookings are currently lost.</li><li>Set the widget language option to "Detect by Browser" so German visitors see German.</li><li>The bar should appear on every page, not only the homepage. A guest who has just finished reading the Winter Packing List should be able to check dates without navigating anywhere.</li></ul></div></li>
-            <li class="step-item" id="step-t1-8"><div class="step-num">8</div><div class="step-content"><h4>Rebuild the booking page so it answers questions instead of asking one</h4><ul><li>The page currently contains a date picker and the address. Add: the eight units with photos and nightly rates ($204 apartments, $209 small cabins, $315 big cabins), what is included, the cancellation policy, check-in and check-out times, and the note that there is no restaurant but there is a community kitchen.</li><li>Add the full-page Cloudbeds embed here so the entire booking happens on redcariboo.com.</li><li>State the operating season and dates plainly at the top. The assessment flagged missing hours as its one remaining gap in guest experience, and a visitor planning a February trip currently has no way to know you are open.</li><li>Publish the German version within a week of the English one.</li></ul></div></li>
-            <li class="step-item" id="step-t1-9"><div class="step-num">9</div><div class="step-content"><h4>Put phone, email and office hours in the header and footer of every page</h4><ul><li>These already appear on the winter offer landing page and nowhere else. Copy that header treatment across the site: +1 250-742-3287, info@redcariboo.com, Mon to Fri 8am to 5pm Pacific.</li><li>Add a line stating which time zone the hours are in. A German enquiry arriving at 9am Berlin time is arriving at midnight in Anahim Lake, and saying so sets expectations.</li><li>Consider a WhatsApp link alongside the phone number for European guests, which avoids international call charges and is the default messaging app across the DACH region.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part C</span>
-          <span class="section-block-title">Build the Landing Page System</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-10"><div class="step-num">10</div><div class="step-content"><h4>Retire the expired offer and find the broken pages</h4><ul><li>The homepage carousel still links to the Christmas offer valid December 20, 2025 to January 4, 2026, and the winter offer that ended February 28, 2026. Take both down this week.</li><li>The testimonials on that page are TripAdvisor reviews from September and October 2020. Replace them with recent Google reviews once Tactic 4 starts producing them.</li><li>Error pages took 1,051 views over the last 24 months. Crawl the site with a free tool such as Screaming Frog (500 URLs free, enough for this site) and fix or redirect every broken link it finds.</li><li>Delete or redirect /en/stories/duplikat-von-2023-year-in-review, which is a duplicate that still ranks and still takes traffic.</li></ul></div></li>
-            <li class="step-item" id="step-t1-11"><div class="step-num">11</div><div class="step-content"><h4>Restructure the navigation around what guests search for</h4><ul><li>Do this yourself in MODX. The Stories dropdown currently lists nineteen items in no order, with four separate year-in-review posts weighted the same as the Winter Packing List.</li><li>Split Stories into two menu items: "Plan Your Trip" for the pages that answer practical questions (packing lists, getting here, shopping and self-catering, activities information, FAQ), and "Stories" for the narrative posts.</li><li>Move the FAQ out of the footer and into Plan Your Trip. You mentioned it was there and that nobody finds it, which is the whole problem.</li><li>Rename or hide the Restaurant menu item until summer 2027. A guest deciding whether to bring groceries needs to know there is a community kitchen and no dining room, and a menu item labelled Restaurant tells them the opposite.</li><li>Archive the year-in-review posts to a single "Resort News" subpage rather than four top-level entries.</li></ul></div></li>
-            <li class="step-item" id="step-t1-12"><div class="step-num">12</div><div class="step-content"><h4>Build the offer landing page template <span style="color:#6b7280;font-weight:normal">(contractor task, $1,800 to $2,800)</span></h4><ul><li>The winter offer page is the best converting layout you have: header with contact details, an offer with real rates, photography, testimonials and an enquiry widget. Have the contractor turn it into a reusable template.</li><li>Change one thing about it. The current call to action is "Make a request", which routes a ready-to-book guest into your inbox. The template needs a primary Book Now button going to the Cloudbeds engine with the dates pre-filled, and the enquiry form as the secondary option.</li><li>The template needs slots for: an offer name and validity dates, two to four rate lines, four to six images, a package inclusions list, three to five recent reviews, and both buttons.</li><li>Ask for English and German versions of the template, since every page will be published twice.</li></ul></div></li>
-            <li class="step-item" id="step-t1-13"><div class="step-num">13</div><div class="step-content"><h4>Launch the first two winter landing pages</h4><ul><li>Page one, aimed at the Canadian drive market: a winter package built around ice fishing, snowshoes and cross-country skiing, with equipment rental included rather than discounted. Axel dislikes discounting and value-adds achieve the same result without lowering the rate.</li><li>Page two, aimed at the same market for Christmas and New Year: the festive booking window, which already sells and has previously produced full-property buyouts.</li><li>Both pages need the drive time and route stated in the first two sentences. The Spotify ad never says where the resort is, and a listener in Kelowna has no idea whether Cariboo Chilcotin Coast means two hours away or ten.</li><li>Publish English first, German within a week, and add both to the Plan Your Trip menu.</li></ul></div></li>
-          </ol>
-        </div>
+    <!-- Implementation Steps Section -->
+    <div class="tactic-steps-header">
+      <span class="tactic-steps-label">Implementation Steps</span>
+    </div>
+
+    <!-- Flow Diagram -->
+    <div class="tactic-flow-card">
+      <div class="tactic-flow-label">The Path This Tactic Repairs</div>
+      <div class="tactic-flow-row">
+        <div class="tactic-flow-node">Landing Page</div>
+        <svg class="tactic-flow-arrow" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h18M13 1l6 6-6 6"></path></svg>
+        <div class="tactic-flow-node">Persistent Search Bar</div>
+        <svg class="tactic-flow-arrow" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h18M13 1l6 6-6 6"></path></svg>
+        <div class="tactic-flow-node">Booking Page</div>
+        <svg class="tactic-flow-arrow" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h18M13 1l6 6-6 6"></path></svg>
+        <div class="tactic-flow-node">Confirmation</div>
       </div>
     </div>
 
-    <!-- Metrics tab -->
-    <div class="tab-pane" id="t1-metrics">
-      <div class="card">
-        <div class="card-body" style="padding:0;overflow:auto">
-          <table class="metrics-table">
-            <thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead>
-            <tbody>
-              <tr><td>Key events firing correctly</td><td>page_view and first_visit unstarred; click and file_download retained</td><td>Four new booking and enquiry events live and marked as key events</td><td>30 days of clean conversion data available for ad measurement</td></tr>
-              <tr><td>Bot traffic in reporting</td><td>Filtered view built and in use</td><td>Reported engagement rate reflects real users only</td><td>Baseline confirmed against the pre-filter figures</td></tr>
-              <tr><td>Booking engine starts (booking_start)</td><td>Tracking live, baseline recorded</td><td>40 to 80 per month</td><td>100 to 200 per month</td></tr>
-              <tr><td>Booking page sessions</td><td>Baseline of 72 per year recorded</td><td>150 or more in the month</td><td>400 or more in the month</td></tr>
-              <tr><td>Average engagement time on the booking page</td><td>39 seconds (baseline)</td><td>60 seconds or more</td><td>90 seconds or more</td></tr>
-              <tr><td>Offer landing pages live</td><td>Template scoped and contractor booked</td><td>Template built and tested on staging</td><td>Two pages live in English and German</td></tr>
-              <tr><td>Broken pages</td><td>Site crawled, list produced</td><td>All 404s fixed or redirected</td><td>Error page views trending toward zero</td></tr>
-            </tbody>
-          </table>
+    <!-- Collapsible Parts -->
+    <div class="tactic-parts-list">
+      <!-- Part A -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part A</span>
+          <span class="tactic-part-title">Make the Numbers Mean Something</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t1-1">
+              <span class="tactic-step-num">1</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Remove the bot traffic from GA4 reporting</div>
+                <ul class="tactic-step-bullets">
+                  <li>Go to Admin → Data collection and modification → Data filters.</li>
+                  <li>Find the "Internal Traffic" filter. It is currently set to Testing, which flags matching traffic but never excludes it from reports.</li>
+                  <li>Switch the filter state to Active. This is the step that actually removes the traffic; Testing mode alone does nothing to the numbers.</li>
+                  <li>Confirm the listed IP ranges (e.g. 204.191.x.x) still match the office and any home-office connections. Re-verify if the internet provider has changed since the filter was set up.</li>
+                  <li>Do not delete any historical data. The filter only changes reporting going forward; past reports will still include the bot traffic.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-2">
+              <span class="tactic-step-num">2</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Correct the key events</div>
+                <ul class="tactic-step-bullets">
+                  <li>Go to Admin → Data display → Events → Key events.</li>
+                  <li>Unstar page_view and first_visit. GA4 marks these as key events by default, which is not appropriate here.</li>
+                  <li>With both starred, every pageview and every new visitor's first visit counts as a "conversion," which is why the current conversion rate looks inflated.</li>
+                  <li>Leave any events tied to the booking form or a real enquiry submission starred. Those are genuine conversions.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-3">
+              <span class="tactic-step-num">3</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Track the booking path and enquiry forms</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag info">Contractor</span>
+                  <span class="tactic-step-tag warning">$800 to $1,200</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Right now the booking widget click, the booking form submit, and the two enquiry forms (general and group) are not tracked as events at all.</li>
+                  <li>Contractor adds four GA4 events: booking_widget_click, booking_form_submit, enquiry_general_submit, enquiry_group_submit.</li>
+                  <li>Once live, this is what finally shows whether visitors are starting the booking flow, not just landing on the page. Today that number does not exist.</li>
+                  <li>Test each event fires exactly once per action using GA4 DebugView before calling this done.</li>
+                </ul>
+                <a href="#" class="tactic-step-resource">View related resources →</a>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-4">
+              <span class="tactic-step-num">4</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Record a clean baseline</div>
+                <ul class="tactic-step-bullets">
+                  <li>Once the filter, key events, and new tracking above are live, export 30 days of sessions, users, and bounce rate as the "before" snapshot.</li>
+                  <li>With bot traffic still mixed in, GA4 currently shows 2,323 of 9,161 users bouncing after a single pageview. That number will look completely different once traffic is cleaned up, so do not compare against it later.</li>
+                  <li>Save the export as a dated file rather than a live report. It needs to stay fixed while future numbers move.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
-    </div>
 
-    <!-- Tips tab -->
-    <div class="tab-pane" id="t1-tips">
-      <div class="section-label">Tips</div>
-      <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">1</div><div class="tip-text">Do steps 1 and 2 yourself, this week, before anything else. They take about forty minutes and cost nothing, and every number produced between now and Christmas depends on them.</div></div>
-        <div class="tip-item"><div class="tip-icon">2</div><div class="tip-text">Get the contractor quote from the German developer first. He knows the build, and if he quotes high or slow you will have the Canadian quote as leverage rather than starting the search from zero.</div></div>
-        <div class="tip-item"><div class="tip-icon">3</div><div class="tip-text">When the booking bar goes live, book a test reservation yourself from a phone on mobile data, all the way to the confirmation email. Mobile is 3,030 of your 8,746 users and the current widget is hardest to use there.</div></div>
-        <div class="tip-item"><div class="tip-icon">4</div><div class="tip-text">Resist rebuilding the whole site. Every hour spent on the homepage design is an hour not spent on the pages that already earn traffic. The Winter Packing List page did 1,453 sessions with no design work at all.</div></div>
-        <div class="tip-item"><div class="tip-icon">5</div><div class="tip-text">When you publish the German version of a page, publish it within a week of the English one. Half-translated sites are worse than single-language ones, and your German audience is the most engaged segment you have.</div></div>
+      <!-- Part B -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part B</span>
+          <span class="tactic-part-title">Fix the Path to Booking</span>
+          <span class="tactic-part-meta">5 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t1-5">
+              <span class="tactic-step-num">5</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Brief and hire the web contractor</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag info">Contractor</span>
+                  <span class="tactic-step-tag warning">$4,100 to $6,500</span>
+                  <span class="tactic-step-tag danger">Critical</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Write a one-page scope covering the four items below: default language, the permanent booking bar, the rebuilt booking page, and header/footer contact info.</li>
+                  <li>Get quotes from at least two MODX-experienced contractors. The range above reflects typical local rates for this scope.</li>
+                  <li>Nothing else in Part B can start until this contractor is hired; treat it as the blocking step.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-6">
+              <span class="tactic-step-num">6</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Serve English by default at redcariboo.com</div>
+                <ul class="tactic-step-bullets">
+                  <li>redcariboo.com currently loads in German for any visitor without a German browser/location signal. Most English-speaking visitors land on the wrong language on their very first visit.</li>
+                  <li>In MODX, the root resource's default context needs to switch from de to en.</li>
+                  <li>Keep the German site fully intact. This changes the default, not the content; the language switcher still needs to reach it.</li>
+                  <li>Test from a fresh browser session (no cookies, no saved language preference) to confirm English loads first.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-7">
+              <span class="tactic-step-num">7</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Put a permanent booking search bar under the nav</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag info">Contractor</span>
+                  <span class="tactic-step-tag warning">$1,500 to $2,500</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Add a full-width bar directly under the main navigation, present on every page, not just the homepage.</li>
+                  <li>Fields: check-in date, check-out date, number of guests, and a "Check Availability" button.</li>
+                  <li>The button should link straight into the rebuilt booking page (next step) carrying the selected dates over, not to a generic contact page.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-8">
+              <span class="tactic-step-num">8</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Rebuild the booking page</div>
+                <ul class="tactic-step-bullets">
+                  <li>Show all eight units on one page, each with photos, nightly rate, and a one-line description, not a single generic "Book Now" link.</li>
+                  <li>Include the full cancellation policy on the page itself, not linked out to a separate page.</li>
+                  <li>Embed the live booking calendar/engine directly on this page rather than routing to a third-party tab.</li>
+                  <li>Keep the same URL. The new booking bar and all existing inbound links point here.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-9">
+              <span class="tactic-step-num">9</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Put phone/email/hours in header and footer</div>
+                <ul class="tactic-step-bullets">
+                  <li>Copy the exact header treatment already used on the winter offer landing page: phone, email, and hours, left-aligned above the nav.</li>
+                  <li>Repeat the same information in the footer so it is reachable from every page, not only the ones with the winter header.</li>
+                  <li>Make the phone number a tel: link so it is tappable on mobile.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="section-label" style="margin-top:24px">Resources</div>
-      <div class="resources-list">
-        <div class="resource-item"><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/articles/218512197-Cloudbeds-Booking-Engine-overview-and-features" target="_blank">Cloudbeds Booking Engine overview and features</a></div>
-        <div class="resource-item"><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/sections/204056127-Website-Widgets" target="_blank">Cloudbeds website widget options</a></div>
-        <div class="resource-item"><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/articles/32048321731739-Cloudbeds-Booking-Engine-Immersive-Experience-2-0-Everything-you-need-to-know" target="_blank">Cloudbeds Immersive Experience 2.0 embed guide (for the contractor)</a></div>
-        <div class="resource-item"><a href="https://www.analyticsmania.com/post/track-key-events-with-google-analytics-4/" target="_blank">Setting up key events in GA4</a></div>
-        <div class="resource-item"><a href="https://support.google.com/analytics/" target="_blank">Google Analytics Help Centre</a></div>
-        <div class="resource-item"><a href="https://clayoquotwildernesslodge.com/" target="_blank">Clayoquot Wilderness Lodge (reference for how a complex property is made simple)</a></div>
+
+      <!-- Part C -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part C</span>
+          <span class="tactic-part-title">Build the Landing Page System</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t1-10">
+              <span class="tactic-step-num">10</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Retire the expired offer and find broken pages</div>
+                <ul class="tactic-step-bullets">
+                  <li>Remove or redirect the expired winter offer page. It is still live and still being linked to from old campaigns.</li>
+                  <li>Run a crawl (Screaming Frog or Google Search Console's Pages report) to find 404s and broken internal links.</li>
+                  <li>Redirect anything with existing backlinks or search traffic; delete the rest outright.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-11">
+              <span class="tactic-step-num">11</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Restructure the navigation</div>
+                <ul class="tactic-step-bullets">
+                  <li>Split the current flat nav into two groups: Plan Your Trip (rooms, booking, rates, packages) and Stories (blog, guest stories, local guides).</li>
+                  <li>Keep the total number of top-level items the same or fewer. This is a regrouping, not an expansion.</li>
+                  <li>Move seasonal offers under Plan Your Trip so they are not orphaned once the current one is retired.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-12">
+              <span class="tactic-step-num">12</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build the offer landing page template</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag info">Contractor</span>
+                  <span class="tactic-step-tag warning">$1,800 to $2,800</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Use the winter offer page's layout as the base. It is already the closest thing to a working template.</li>
+                  <li>Componentize it: hero image, offer copy block, dates/pricing table, and booking CTA, each swappable without touching the layout.</li>
+                  <li>Contractor delivers it as an actual MODX template so future offers can be built without a developer.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t1-13">
+              <span class="tactic-step-num">13</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Launch the first two winter landing pages</div>
+                <ul class="tactic-step-bullets">
+                  <li>Build both pages from the new template: one for the general winter offer, one for a specific package (e.g. a multi-night stay).</li>
+                  <li>Link both from the new Plan Your Trip nav group and from the homepage.</li>
+                  <li>Point any existing campaign links at the new pages before the old offer page is fully retired.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 2: Google Ads
+     TACTIC 2: Content and Story
      ════════════════════════════════════════════ -->
 <section id="page-tactic2" class="page">
-  <div class="page-header">
-    <div class="page-header-eyebrow">Tactic 2 · Content and Story</div>
-    <h1>Build the Content That Answers What Travellers Actually Search</h1>
-    <p>Turn the property into a photo library and a set of pages that earn search traffic, then restart social media on a schedule that survives a busy week.</p>
-  </div>
-  <div class="content-area">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(this,'t2','overview')">Overview</button>
-      <button class="tab-btn" onclick="switchTab(this,'t2','steps')">Implementation Steps</button>
-      <button class="tab-btn" onclick="switchTab(this,'t2','metrics')">Success Metrics</button>
-      <button class="tab-btn" onclick="switchTab(this,'t2','tips')">Tips &amp; Resources</button>
-    </div>
-
-    <!-- Overview tab -->
-    <div class="tab-pane active" id="t2-overview">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What We Heard From You</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+  <div class="tactic-page-content">
+    <!-- Navy Hero Card -->
+    <div class="tactic-hero" data-tactic="2">
+      <div class="tactic-hero-top">
+        <div class="tactic-hero-meta">
+          <span class="tactic-hero-label">Tactic 2 · Content and Story</span>
+          <span class="tactic-hero-status" id="t2-status">Not Started</span>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>You told us you have already written a one-week itinerary and want to extend it into three-day and five-day versions, and that you plan to hand those to your team so they can post from them. You also raised the stargazing angle yourself, said the sky at Red Cariboo has no light pollution, and mentioned that Axel talked you out of it a few years ago on the grounds that it is too cold to stand outside. Separately, you explained the approvals problem: Charlotte Lake is cleared through the recreation sites officer, Tweedsmuir is not, and the workaround you invented was to write a story about a team member skiing there and film her doing it. And you were honest that the property is not camera-ready yet, that there is material lying around the site, and that staffing has to be solved before a photographer arrives.</p>
+        <div class="tactic-hero-progress">
+          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+            <circle class="tactic-hero-ring-bar" id="t2-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+          </svg>
+          <div>
+            <div class="tactic-hero-pct" id="t2-pct">0%</div>
+            <div class="tactic-hero-pct-label">of this tactic</div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What This Is</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <h1>Build the Content That Answers What Travellers Actually Search</h1>
+      <p>Turn the property into a photo library and a set of pages that earn search traffic, then restart social media on a schedule that survives a busy week.</p>
+    </div>
+
+    <!-- Two-Column Overview -->
+    <div class="tactic-overview-grid">
+      <div class="tactic-overview-col">
+        <!-- What This Is -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Is</div>
+          <p>Two bodies of work that feed each other. The first is a photo and video library that Red Cariboo owns, shot on the property in autumn and again once snow arrives, covering the cabins, the interiors, the frozen river, the activities and the night sky. The second is a small set of pages built around the questions travellers already type into Google. Both then supply the social calendar, which restarts at three posts a week with Reels as the default format.</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>Two bodies of work that feed each other. The first is a photo and video library that Red Cariboo owns, shot on the property in autumn and again once snow arrives, covering the cabins, the interiors, the frozen river, the activities and the night sky. The second is a small set of pages built around the questions travellers already type into Google, extended from the one page on the site that has proven this works. Both then supply the social calendar, which restarts at three posts a week with Reels as the default format.</p>
+        <!-- What This Breaks Into -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Breaks Into</div>
+          <div class="tactic-breakdown-grid">
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Photo &amp; Video Library</div>
+              <div class="tactic-breakdown-desc">Cabins, interiors, the frozen river, activities, and the night sky</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Search-Earning Pages</div>
+              <div class="tactic-breakdown-desc">Itineraries and preparation pages built around what travellers already search</div>
+            </div>
+            <div class="tactic-breakdown-item full-width">
+              <div class="tactic-breakdown-title">Social Calendar</div>
+              <div class="tactic-breakdown-desc">Restarts at three posts a week, with Reels as the default format</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">Why It Matters</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <div class="tactic-overview-col">
+        <!-- What We Heard From You -->
+        <div class="tactic-card-block navy">
+          <div class="tactic-card-label">What We Heard From You</div>
+          <p>"You told us you have already written a one-week itinerary and want to extend it into three-day and five-day versions, and that you plan to hand those to your team so they can post from them."</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>The Winter Packing List page drew 1,453 sessions last year across English and German, which is thirteen percent of all traffic to the site and more than the other 265 story pages combined. That page was written for guests who had already booked, and it now brings in strangers. Nobody has repeated the format since. Meanwhile Instagram produced zero link clicks in twelve months and reach fell from 935 in April to 145 in August, because the account posts roughly once every ten weeks and the algorithm has stopped showing it to anyone. The ads in Tactic 3 need somewhere to send people and something to look like, and both of those come from here.</p>
+        <!-- Why It Matters -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Why It Matters</div>
+          <p>The Winter Packing List page drew 1,453 sessions last year. That is thirteen percent of all traffic to the site and more than the other 265 story pages combined. That page was written for guests who had already booked, and it now brings in strangers. Nobody has repeated the format since. The ads in Tactic 3 need somewhere to send people and something to look like, and both come from here.</p>
+        </div>
+        <!-- Time Commitment -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Time Commitment</div>
+          <div>
+            <span class="tactic-time-value">3 hrs</span>
+            <span class="tactic-time-context">content &amp; social, per week</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Steps tab -->
-    <div class="tab-pane" id="t2-steps">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part A</span>
-          <span class="section-block-title">Build the Asset Library</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t2-1"><div class="step-num">1</div><div class="step-content"><h4>Clear the property before anyone photographs it</h4><ul><li>Walk the site with Axel and write a specific list of what has to move: building material, offcuts, equipment stored outside cabins, anything visible from the river side.</li><li>Give the list a deadline that sits two weeks before the shoot date, not the day before.</li><li>Photograph the problem areas on your phone now and again after the clear-up, so there is an agreed record of what was done.</li><li>Ask Axel to identify the two cabins and one apartment that are in the best condition. The shoot only needs to cover units that look their best, not all eight.</li></ul></div></li>
-            <li class="step-item" id="step-t2-2"><div class="step-num">2</div><div class="step-content"><h4>Capture an interim set yourself in October</h4><ul><li>Advertising starts in Week 9 and the paid winter shoot cannot happen until snow is reliable, so you need usable images before then.</li><li>Shoot on a phone in good light: cabin interiors with lamps on, the community kitchen mid-use, the games room, the Dean River in autumn colour, the driveway and arrival, and the night sky on a clear evening.</li><li>Video matters more than stills here. Fifteen seconds of a fire beside the river is worth more on Instagram than a perfect photograph.</li><li>Aim for around forty usable images and ten short clips. This is a holding library, so quantity beats polish.</li></ul></div></li>
-            <li class="step-item" id="step-t2-3"><div class="step-num">3</div><div class="step-content"><h4>Book the professional shoot against the first reliable snow <span style="color:#6b7280;font-weight:normal">(contractor task, $3,500 to $5,000 including travel)</span></h4><ul><li>Target mid to late November, and write a weather clause into the agreement so the date can move by a week without penalty.</li><li>Brief for two days on the property with a photographer who also shoots video. One person doing both costs less than two and produces a matched set.</li><li>Shot list: exterior cabins in snow, interiors at dusk with lights on, the frozen Dean River, ice fishing with a fire, snowshoe and cross-country trails, horses in snow, the community kitchen with people cooking, arrival and driveway, and a night sky sequence.</li><li>Ask specifically for vertical video, since Reels and ad placements need 9:16 and horizontal footage cannot be cropped into it well.</li><li>Confirm in writing that Red Cariboo owns full commercial rights to everything, including paid advertising use.</li><li>Chase Axel's former staff member for the photographs she took during your visit. Those may cover the summer gap at no cost.</li></ul></div></li>
-            <li class="step-item" id="step-t2-4"><div class="step-num">4</div><div class="step-content"><h4>Organise the library so it can actually be used</h4><ul><li>Create a shared folder structure by season and subject, for example Winter/Cabins, Winter/IceFishing, Autumn/Interiors.</li><li>Rename files descriptively rather than leaving camera numbering, because you will be searching this folder every week for the next two years.</li><li>Keep a separate folder of the twenty strongest images cleared for advertising, so whoever is buying media does not have to ask.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part B</span>
-          <span class="section-block-title">Publish the Pages That Earn Search Traffic</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t2-5"><div class="step-num">5</div><div class="step-content"><h4>Settle what you are allowed to promote, and let CCCTA do the work</h4><ul><li>Send one email to your CCCTA contact listing everything you want to reference: Tweedsmuir trails, Nimpo Lake trails, Charlotte Lake, the Rainbow Range, and any fees or approvals attached to each.</li><li>Ask them to confirm in writing what can appear on a commercial website and what cannot. This is what the regional organisation exists for, and it is faster than you calling each community.</li><li>Where promotion is not permitted, use the approach you already invented: a first-person story about a team member doing the activity, with her own photographs or video. Charlotte Lake is already cleared, so lead with that.</li><li>Keep the written answers in one document. This question will come up every time you publish something.</li></ul></div></li>
-            <li class="step-item" id="step-t2-6"><div class="step-num">6</div><div class="step-content"><h4>Publish the itinerary series</h4><ul><li>Start with the one-week itinerary you have already written, then cut it down into a three-day and a five-day version. Three days is the drive-market weekend and five days is the realistic winter stay.</li><li>Each itinerary needs a day-by-day structure, an estimate of driving time from Williams Lake and Vancouver, what the guest needs to bring, and what Red Cariboo supplies.</li><li>End every itinerary with the booking bar and a link to the relevant offer landing page from Tactic 1.</li><li>Write in your own voice rather than a brochure voice. The German pages with the longest engagement times on the site are the personal ones, including the adventure story at 119 seconds and the community kitchen piece at 128 seconds.</li><li>Publish the English version first and the German version within a week.</li></ul></div></li>
-            <li class="step-item" id="step-t2-7"><div class="step-num">7</div><div class="step-content"><h4>Extend the preparation pages</h4><ul><li>The Winter Packing List proves that people search for how to prepare before they search for where to stay. Add a summer version, a "Know Before You Go" page covering cell service, fuel, groceries and road conditions, and a page on driving Highway 20 in winter.</li><li>Keep the downloadable PDF format. The existing checklist was downloaded 503 times over 24 months, and a download is a stronger signal of intent than a page view.</li><li>Link every one of these pages to the booking bar and to at least one itinerary.</li><li>Update the existing Winter Packing List page while you are in there, since it is the single highest-traffic page on the site and currently ends without a call to action.</li></ul></div></li>
-            <li class="step-item" id="step-t2-8"><div class="step-num">8</div><div class="step-content"><h4>Publish the dark skies page properly</h4><ul><li>You have a page on this already and it is buried. Rebuild it as a proper landing page: what can be seen, when, from where on the property, and what to wear so that standing outside is bearable.</li><li>Address Axel's objection directly on the page. The honest answer is that guests need a warm cabin twenty metres away and somewhere to put a hot drink, which Red Cariboo has and a roadside pullout does not.</li><li>Be accurate about the aurora. You said it appears from time to time but not with the reliability of somewhere further north, so do not promise it. Overpromising the northern lights produces bad reviews.</li><li>Add the page to Plan Your Trip and reference it from the winter offer landing page.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part C</span>
-          <span class="section-block-title">Restart Social Media</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t2-9"><div class="step-num">9</div><div class="step-content"><h4>Decide who owns social media, this month</h4><ul><li>You have three hours a week from the team in Canada and a possible fourth option in Julia, who posted three times a week last year and is now in Germany two hours from you.</li><li>If Julia takes it on, budget roughly $500 a month and draw it from the December to April allocation. Raise the LMIA question separately, since it affects her return regardless of this plan.</li><li>Whoever owns it needs the content library, the itineraries and a fixed weekly pattern, not a general instruction to post more.</li><li>Confirm the owner before the Week 4 coaching session so the calendar can be built around a real person.</li></ul></div></li>
-            <li class="step-item" id="step-t2-10"><div class="step-num">10</div><div class="step-content"><h4>Fix the Instagram profile so a visit can become a click</h4><ul><li>The account produced zero link clicks across twelve months. Check the bio link works, points to the site rather than a dead page, and goes somewhere specific such as the winter offer.</li><li>Rewrite the bio to say where the resort is in terms an outsider understands, including distance from Williams Lake and Vancouver.</li><li>Add Instagram highlights for Cabins, Winter, Getting Here and Activities, using material from the interim October shoot.</li><li>Do the same on Facebook, where 2,730 profile visits produced 64 link clicks.</li></ul></div></li>
-            <li class="step-item" id="step-t2-11"><div class="step-num">11</div><div class="step-content"><h4>Post three times a week to a fixed pattern</h4><ul><li>Set the pattern by day rather than by inspiration. For example: Tuesday a place or activity, Thursday a practical tip drawn from the packing and preparation pages, Sunday a photograph with a short story.</li><li>Schedule a month at a time in Meta Business Suite so a busy week does not break the run.</li><li>Say where the resort is in the caption at least once a week. The same gap that weakens the Spotify spot weakens the social posts.</li><li>Include one clear instruction to act each week, such as a link to the winter offer, rather than adding one to every post.</li></ul></div></li>
-            <li class="step-item" id="step-t2-12"><div class="step-num">12</div><div class="step-content"><h4>Make Reels the default format</h4><ul><li>One of the last twelve Instagram posts was a Reel. Reels reach substantially further than static posts, and reach is the specific thing that has collapsed on this account.</li><li>Target two Reels a week from the shoot footage. Simple formats work: a walk through a cabin, the drive in, the fire on the ice, a packing list to camera.</li><li>Post the same Reel to Facebook, where the audience is larger and the account produced 82,854 views last year.</li><li>Do not chase trending audio in a way that fights the material. Quiet footage of a frozen river with ambient sound performs well for this category.</li></ul></div></li>
-            <li class="step-item" id="step-t2-13"><div class="step-num">13</div><div class="step-content"><h4>Turn each itinerary into a run of content</h4><ul><li>One itinerary yields eight to twelve posts: one per day of the trip, one per activity, one on packing, one on getting there.</li><li>Write the post captions at the same time as the page, while the material is in your head, and hand the whole set to whoever runs the account.</li><li>Every post in the run links back to the itinerary page, which is where search traffic and social traffic can finally meet.</li><li>Organic social sent 295 sessions to the website last year, under one a day. The target for this system is ten times that, and it is achievable simply through posting consistently and including a link.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
+    <!-- Implementation Steps Section -->
+    <div class="tactic-steps-header">
+      <span class="tactic-steps-label">Implementation Steps</span>
     </div>
 
-    <!-- Metrics tab -->
-    <div class="tab-pane" id="t2-metrics">
-      <div class="card">
-        <div class="card-body" style="padding:0;overflow:auto">
-          <table class="metrics-table">
-            <thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead>
-            <tbody>
-              <tr><td>Owned image and video library</td><td>Interim set captured, around 40 images and 10 clips</td><td>Professional shoot booked with weather clause</td><td>Shoot completed, library organised and rights confirmed</td></tr>
-              <tr><td>New pages published</td><td>Approvals confirmed with CCCTA; three-day itinerary live</td><td>Five-day and seven-day itineraries live; summer packing list live</td><td>Six new pages live in English, four in German</td></tr>
-              <tr><td>Instagram posting frequency</td><td>3 posts per week, from 0.1</td><td>Sustained at 3 per week</td><td>Sustained, with 2 Reels per week</td></tr>
-              <tr><td>Instagram link clicks</td><td>Bio link fixed and tracked</td><td>15 or more in the month</td><td>40 or more in the month</td></tr>
-              <tr><td>Instagram reach</td><td>Arrest the decline, 300 or more</td><td>800 or more</td><td>1,500 or more</td></tr>
-              <tr><td>Sessions from organic social</td><td>Baseline of 295 per year recorded</td><td>80 or more in the month</td><td>200 or more in the month</td></tr>
-              <tr><td>Sessions to preparation and itinerary pages</td><td>Baseline recorded</td><td>300 or more in the month</td><td>700 or more in the month</td></tr>
-              <tr><td>PDF checklist downloads</td><td>Baseline of 62 per quarter recorded</td><td>100 or more per quarter</td><td>150 or more per quarter</td></tr>
-            </tbody>
-          </table>
+    <!-- Collapsible Parts -->
+    <div class="tactic-parts-list">
+      <!-- Part A -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part A</span>
+          <span class="tactic-part-title">Build the Asset Library</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t2-1">
+              <span class="tactic-step-num">1</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Clear the property before anyone photographs it</div>
+                <ul class="tactic-step-bullets">
+                  <li>Walk the site with Axel and write a list of what has to move: building material, offcuts, equipment stored outside cabins.</li>
+                  <li>Give the list a deadline two weeks before the shoot date, not the day before.</li>
+                  <li>Photograph problem areas on your phone now and after the clear-up.</li>
+                  <li>Identify the two cabins and one apartment in the best condition. The shoot only needs to cover units that look their best.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-2">
+              <span class="tactic-step-num">2</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Capture an interim set yourself in October</div>
+                <ul class="tactic-step-bullets">
+                  <li>Advertising starts in Week 9 and the paid winter shoot cannot happen until snow is reliable.</li>
+                  <li>Shoot on a phone in good light: cabin interiors with lamps on, the community kitchen, the Dean River in autumn colour, the night sky.</li>
+                  <li>Video matters more than stills. Fifteen seconds of a fire beside the river is worth more on Instagram than a perfect photograph.</li>
+                  <li>Aim for around 40 usable images and 10 short clips.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-3">
+              <span class="tactic-step-num">3</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Book the professional shoot against first reliable snow</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag info">Contractor</span>
+                  <span class="tactic-step-tag warning">$3,500 to $5,000</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Target mid to late November. Write a weather clause so the date can move by a week without penalty.</li>
+                  <li>Brief for two days with a photographer who also shoots video.</li>
+                  <li>Shot list: exterior cabins in snow, interiors at dusk, the frozen Dean River, ice fishing, snowshoe trails, horses in snow, the night sky.</li>
+                  <li>Ask specifically for vertical video (9:16) for Reels and ad placements.</li>
+                  <li>Confirm in writing that Red Cariboo owns full commercial rights to everything.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-4">
+              <span class="tactic-step-num">4</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Organise the library so it can actually be used</div>
+                <ul class="tactic-step-bullets">
+                  <li>Create a shared folder structure by season and subject (e.g. Winter/Cabins, Winter/IceFishing).</li>
+                  <li>Rename files descriptively rather than leaving camera numbering.</li>
+                  <li>Keep a separate folder of the 20 strongest images cleared for advertising.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
-    </div>
 
-    <!-- Tips tab -->
-    <div class="tab-pane" id="t2-tips">
-      <div class="section-label">Tips</div>
-      <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">1</div><div class="tip-text">Write the itineraries the way you would tell a friend what to do with four days, rather than the way a brochure would describe it. Your best-performing German pages are the ones that sound like a person.</div></div>
-        <div class="tip-item"><div class="tip-icon">2</div><div class="tip-text">Book the photographer now for a movable November date. Good winter shooters in the interior fill up early, and the weather clause costs nothing to include.</div></div>
-        <div class="tip-item"><div class="tip-icon">3</div><div class="tip-text">Do not post to Instagram and Facebook separately. Meta Business Suite publishes to both, and the extra half hour a week is the difference between the schedule holding in December and quietly stopping.</div></div>
-        <div class="tip-item"><div class="tip-icon">4</div><div class="tip-text">When you write a page, add it to a menu the same day. The FAQ has been in the footer for years, and that is the entire reason nobody has read it.</div></div>
-        <div class="tip-item"><div class="tip-icon">5</div><div class="tip-text">Keep a running list of guest questions from your inbox. Every question asked twice is a page worth writing, and that is exactly how the Winter Packing List came to exist.</div></div>
+      <!-- Part B -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part B</span>
+          <span class="tactic-part-title">Publish the Pages That Earn Search Traffic</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t2-5">
+              <span class="tactic-step-num">5</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Settle what you are allowed to promote</div>
+                <ul class="tactic-step-bullets">
+                  <li>Send one email to your CCCTA contact listing everything you want to reference: Tweedsmuir trails, Nimpo Lake, Charlotte Lake, the Rainbow Range.</li>
+                  <li>Ask them to confirm in writing what can appear on a commercial website.</li>
+                  <li>Where promotion is not permitted, use first-person stories about team members doing the activity.</li>
+                  <li>Keep the written answers in one document for future reference.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-6">
+              <span class="tactic-step-num">6</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Publish the itinerary series</div>
+                <ul class="tactic-step-bullets">
+                  <li>Start with the one-week itinerary, then cut it into three-day and five-day versions.</li>
+                  <li>Each itinerary needs: day-by-day structure, driving time from Williams Lake and Vancouver, what to bring, what Red Cariboo supplies.</li>
+                  <li>End every itinerary with the booking bar and a link to the offer landing page.</li>
+                  <li>Write in your own voice. Your best-performing German pages are the personal ones.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-7">
+              <span class="tactic-step-num">7</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Extend the preparation pages</div>
+                <ul class="tactic-step-bullets">
+                  <li>The Winter Packing List proves people search for how to prepare before where to stay. Add a summer version, a "Know Before You Go" page, and a driving Highway 20 in winter page.</li>
+                  <li>Keep the downloadable PDF format. The existing checklist was downloaded 503 times over 24 months.</li>
+                  <li>Link every page to the booking bar and at least one itinerary.</li>
+                  <li>Update the existing Winter Packing List since it ends without a call to action.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-8">
+              <span class="tactic-step-num">8</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Publish the dark skies page properly</div>
+                <ul class="tactic-step-bullets">
+                  <li>Rebuild it as a proper landing page: what can be seen, when, from where on the property, and what to wear.</li>
+                  <li>Address the cold objection directly. Guests need a warm cabin twenty metres away.</li>
+                  <li>Be accurate about the aurora. Do not overpromise.</li>
+                  <li>Add the page to Plan Your Trip and reference it from the winter offer landing page.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="section-label" style="margin-top:24px">Resources</div>
-      <div class="resources-list">
-        <div class="resource-item"><a href="https://business.facebook.com/" target="_blank">Meta Business Suite, for scheduling both accounts</a></div>
-        <div class="resource-item"><a href="https://business.instagram.com/" target="_blank">Instagram for business, including Reels guidance</a></div>
-        <div class="resource-item"><a href="https://landwithoutlimits.com/" target="_blank">Cariboo Chilcotin Coast Tourism Association, for approvals and regional content</a></div>
-        <div class="resource-item"><a href="https://www.hellobc.com/" target="_blank">Destination BC listings and content guidance</a></div>
-        <div class="resource-item"><a href="https://darksky.org/" target="_blank">DarkSky International, for dark sky positioning and language</a></div>
-        <div class="resource-item"><a href="https://www.drivebc.ca/" target="_blank">DriveBC, to link from the Highway 20 winter driving page</a></div>
+
+      <!-- Part C -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part C</span>
+          <span class="tactic-part-title">Restart Social Media</span>
+          <span class="tactic-part-meta">5 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t2-9">
+              <span class="tactic-step-num">9</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Decide who owns social media</div>
+                <ul class="tactic-step-bullets">
+                  <li>You have three hours a week from the team in Canada and Julia as a fourth option.</li>
+                  <li>If Julia takes it on, budget roughly $500 a month.</li>
+                  <li>Whoever owns it needs the content library, the itineraries, and a fixed weekly pattern.</li>
+                  <li>Confirm the owner before the Week 4 coaching session.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-10">
+              <span class="tactic-step-num">10</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Fix the Instagram profile</div>
+                <ul class="tactic-step-bullets">
+                  <li>The account produced zero link clicks across twelve months. Check the bio link works.</li>
+                  <li>Rewrite the bio to say where the resort is, including distance from Williams Lake and Vancouver.</li>
+                  <li>Add Instagram highlights for Cabins, Winter, Getting Here and Activities.</li>
+                  <li>Do the same on Facebook.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-11">
+              <span class="tactic-step-num">11</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Post three times a week to a fixed pattern</div>
+                <ul class="tactic-step-bullets">
+                  <li>Set the pattern by day: Tuesday a place or activity, Thursday a practical tip, Sunday a photograph with a short story.</li>
+                  <li>Schedule a month at a time in Meta Business Suite.</li>
+                  <li>Say where the resort is in the caption at least once a week.</li>
+                  <li>Include one clear call to action each week.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-12">
+              <span class="tactic-step-num">12</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Make Reels the default format</div>
+                <ul class="tactic-step-bullets">
+                  <li>Reels reach substantially further than static posts. Target two Reels a week.</li>
+                  <li>Simple formats work: a walk through a cabin, the drive in, the fire on the ice.</li>
+                  <li>Post the same Reel to Facebook.</li>
+                  <li>Quiet footage with ambient sound performs well for this category.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t2-13">
+              <span class="tactic-step-num">13</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Turn each itinerary into a run of content</div>
+                <ul class="tactic-step-bullets">
+                  <li>One itinerary yields 8 to 12 posts: one per day, one per activity, one on packing, one on getting there.</li>
+                  <li>Write captions at the same time as the page and hand the whole set to whoever runs the account.</li>
+                  <li>Every post links back to the itinerary page.</li>
+                  <li>Organic social sent 295 sessions last year. The target is ten times that.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 3: Meta Ads & Partnerships
+     TACTIC 3: Paid Acquisition
      ════════════════════════════════════════════ -->
 <section id="page-tactic3" class="page">
-  <div class="page-header">
-    <div class="page-header-eyebrow">Tactic 3 · Paid Acquisition</div>
-    <h1>Spend the Budget Where It Can Be Measured</h1>
-    <p>Put paid media behind the winter season across Google, Meta and the CCCTA audio spot, and bring in two creators to produce content the resort could not produce alone.</p>
-  </div>
-  <div class="content-area">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(this,'t3','overview')">Overview</button>
-      <button class="tab-btn" onclick="switchTab(this,'t3','steps')">Implementation Steps</button>
-      <button class="tab-btn" onclick="switchTab(this,'t3','metrics')">Success Metrics</button>
-      <button class="tab-btn" onclick="switchTab(this,'t3','tips')">Tips &amp; Resources</button>
-    </div>
-
-    <!-- Overview tab -->
-    <div class="tab-pane active" id="t3-overview">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What We Heard From You</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+  <div class="tactic-page-content">
+    <!-- Navy Hero Card -->
+    <div class="tactic-hero" data-tactic="3">
+      <div class="tactic-hero-top">
+        <div class="tactic-hero-meta">
+          <span class="tactic-hero-label">Tactic 3 · Paid Acquisition</span>
+          <span class="tactic-hero-status" id="t3-status">Not Started</span>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>You said you had thought about Google ads and Facebook ads but had not started, and that the CCCTA package is good value because the MRDT funding covers half the cost. You held the Spotify spot back deliberately until analytics were working, which was the right call. You were clear that the intention of that spot was awareness rather than direct bookings, and that packages, not discounts, are what will actually convert. On creators, you said you have no objection and that you cannot write all the content yourself, which is exactly the gap a creator visit fills. You also told us your realistic capacity for this programme is about ten hours a week, alongside bookkeeping and staffing.</p>
+        <div class="tactic-hero-progress">
+          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+            <circle class="tactic-hero-ring-bar" id="t3-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+          </svg>
+          <div>
+            <div class="tactic-hero-pct" id="t3-pct">0%</div>
+            <div class="tactic-hero-pct-label">of this tactic</div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">What This Is</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <h1>Spend the Budget Where It Can Be Measured</h1>
+      <p>Put paid media behind the winter season across Google, Meta and the CCCTA audio spot, and bring in two creators to produce content the resort could not produce alone.</p>
+    </div>
+
+    <!-- Two-Column Overview -->
+    <div class="tactic-overview-grid">
+      <div class="tactic-overview-col">
+        <!-- What This Is -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Is</div>
+          <p>A staged media plan running from Week 9 through April, split across three channels with different jobs. Google Search catches people already looking for somewhere to stay in the Chilcotin. Meta puts the property in front of a drive-market audience that does not yet know Anahim Lake exists. The Spotify spot runs alongside both as regional awareness. Two creator visits produce video and coverage that neither you nor a photographer can produce alone.</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>A staged media plan running from Week 9 through April, split across three channels with different jobs. Google Search catches people already looking for somewhere to stay in the Chilcotin. Meta puts the property in front of a drive-market audience that does not yet know Anahim Lake exists, and then follows the ones who visited the site. The Spotify spot runs alongside both as regional awareness with a measurement window around it. Two creator visits, one in November and one in January, produce video and written coverage that neither you nor a photographer can produce.</p>
+        <!-- What This Breaks Into -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Breaks Into</div>
+          <div class="tactic-breakdown-grid">
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Money Management</div>
+              <div class="tactic-breakdown-desc">Decide who runs the ads and lock the spend schedule</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Google Search</div>
+              <div class="tactic-breakdown-desc">Catch people already searching for Chilcotin accommodation</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Meta &amp; Spotify</div>
+              <div class="tactic-breakdown-desc">Cold campaigns and retargeting for the drive market</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Creator Visits</div>
+              <div class="tactic-breakdown-desc">Two visits producing video with paid usage rights</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-title">Why It Matters</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <div class="tactic-overview-col">
+        <!-- What We Heard From You -->
+        <div class="tactic-card-block navy">
+          <div class="tactic-card-label">What We Heard From You</div>
+          <p>"You said you had thought about Google ads and Facebook ads but had not started, and that packages, not discounts, are what will actually convert."</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>There is $35,000 to spend and ten hours a week to spend it in. That combination fails without a schedule and a named owner, because ad accounts left unattended spend evenly and learn nothing. The sequencing also matters more here than in most plans: January is the busiest month on the website in each of the last two years, and European travellers researching summer 2027 are doing it during the same window. Spending heavily in September against a broken booking path would burn the budget before either audience arrives. Spending lightly in November and heavily in December and January puts the money where the demand already is.</p>
+        <!-- Why It Matters -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Why It Matters</div>
+          <p>There is $35,000 to spend and ten hours a week to spend it in. That combination fails without a schedule and a named owner. January is the busiest month on the website in each of the last two years. Spending heavily in September against a broken booking path would burn the budget before the audience arrives. Spending lightly in November and heavily in December and January puts the money where the demand already is.</p>
+        </div>
+        <!-- Time Commitment -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Time Commitment</div>
+          <div>
+            <span class="tactic-time-value">2-3 hrs</span>
+            <span class="tactic-time-context">ads management, per week</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Steps tab -->
-    <div class="tab-pane" id="t3-steps">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part A</span>
-          <span class="section-block-title">Decide How the Money Is Managed</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t3-1"><div class="step-num">1</div><div class="step-content"><h4>Decide whether you run the ads or a media buyer does</h4><ul><li>The honest assessment: building and managing Google Search plus Meta properly takes four to six hours in the first fortnight and two to three hours a week after that, and you have ten hours a week total across everything.</li><li>The recommendation is a freelance media buyer at roughly $600 a month, with a higher setup fee of $600 to $1,200 in the first month. That is around $3,100 of the $35,000, and it buys back the hours you need for content and email.</li><li>If you engage one, keep account ownership yourself. Create the Google Ads and Meta accounts under your own login and add them as a user, so nothing walks away at the end of the engagement.</li><li>Whoever runs it reports against the four key events from Tactic 1, not against clicks or impressions.</li></ul></div></li>
-            <li class="step-item" id="step-t3-2"><div class="step-num">2</div><div class="step-content"><h4>Lock the spend schedule before the first campaign goes live</h4><ul><li>Total budget $40,000. Already committed: ~$5,100 (Junction project $3,000 + CCCTA partnership $2,125). Discretionary: ~$35,000.</li><li>Inside the ninety days, about $17,000: web contractor $4,100 to $6,500; professional shoot $3,500 to $5,000; November creator visit $2,500 to $3,500; Google Search Weeks 9 to 12 at $50 a day, $1,400; Meta Weeks 10 to 12 at $40 a day, $850; media buyer setup and November management $1,200 to $1,800; tools and subscriptions $200 to $300.</li><li>December through April, about $18,000: Google Ads $5,000; Meta $5,000; media buyer retainer at $600 a month, $2,500; January creator visit $2,500; social media management at roughly $500 a month, $2,500; reserve $500.</li><li>Weight December and January at roughly double the November daily rate. That is where the demand is, and holding money back for it is more valuable than starting bigger in November.</li><li>Write the schedule into a single sheet and check actual spend against it monthly. Ad platforms overspend quietly.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part B</span>
-          <span class="section-block-title">Google Search</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t3-3"><div class="step-num">3</div><div class="step-content"><h4>Create the Google Ads account in Expert Mode and link it to GA4</h4><ul><li>At ads.google.com, choose "Switch to Expert Mode" on the first screen. Do not accept a Smart Campaign, which hands targeting decisions to Google in ways that suit large budgets and rarely small ones.</li><li>Use the same Google account that owns the GA4 property and the Google Business Profile, which makes linking straightforward.</li><li>Link GA4 under Tools → Data manager, and import booking_start, booking_engine_click and offer_enquiry as conversions.</li><li>Set the account currency to CAD and the time zone to Pacific. Neither can be changed later without opening a new account.</li></ul></div></li>
-            <li class="step-item" id="step-t3-4"><div class="step-num">4</div><div class="step-content"><h4>Build the winter search campaign</h4><ul><li>One campaign, Search network only. Switch off Display Network expansion and search partners, both of which are on by default and spend the budget on low-intent placements.</li><li>Target British Columbia and Alberta, set to "Presence: people in or regularly in your targeted locations" rather than the default, which includes people merely showing interest.</li><li>Build two ad groups. One for accommodation intent: cabins Anahim Lake, Chilcotin accommodation, Highway 20 cabins, Dean River lodging, cabin rental Chilcotin. One for activity intent: ice fishing BC lodge, snowmobile accommodation BC, cross country skiing Chilcotin, winter cabin rental BC.</li><li>Use phrase match rather than broad. Broad match on a small budget finds every loosely related search in the province.</li><li>Write ten headlines and four descriptions per ad group. Say where the resort is in at least three headlines, since that is the single thing every listener and reader is missing.</li><li>Send accommodation traffic to the rebuilt booking page and activity traffic to the winter offer landing page. Do not send either to the homepage.</li></ul></div></li>
-            <li class="step-item" id="step-t3-5"><div class="step-num">5</div><div class="step-content"><h4>Launch at $50 a day and review the search terms weekly</h4><ul><li>Start Week 9 and run through Week 12, which spends approximately $1,400.</li><li>Check the Search Terms report on day three, then weekly. Add negative keywords for anything about jobs, employment, real estate, house rentals or long-term stays, because the site's job pages already attract that traffic.</li><li>Pause any keyword that reaches forty clicks with no booking_start event.</li><li>Expect a cost per click between $0.80 and $2.00 in this category and this region. If it runs above $2.50, the keyword set is too broad.</li></ul></div></li>
-            <li class="step-item" id="step-t3-6"><div class="step-num">6</div><div class="step-content"><h4>Decide at the end of November whether Google scales</h4><ul><li>Compare cost per booking_start and cost per booking_engine_click across the four weeks against the Meta figures from Weeks 10 to 12.</li><li>If Google is producing engine clicks below $25, raise it to $100 a day for December and January. If it is above $60, cut it back and move the money to Meta or retargeting.</li><li>Document the decision and the numbers behind it, so the same call in April is made against evidence rather than memory.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part C</span>
-          <span class="section-block-title">Meta and the Spotify Spot</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t3-7"><div class="step-num">7</div><div class="step-content"><h4>Repair the Meta setup before spending anything</h4><ul><li>The pixel is installed and has never been used for advertising, so confirm it is firing on the booking page and the offer landing pages using the Meta Pixel Helper extension.</li><li>Configure the four Tactic 1 events as custom conversions in Events Manager so Meta can optimise toward them.</li><li>Confirm the ad account has a working payment method and no billing holds. Check this before launch week, not during it.</li><li>Verify the domain redcariboo.com in Business Manager, which is required for conversion tracking to work properly under current privacy rules.</li></ul></div></li>
-            <li class="step-item" id="step-t3-8"><div class="step-num">8</div><div class="step-content"><h4>Launch the cold Meta campaign against the drive market</h4><ul><li>Objective: Sales, optimising for the booking_start event. If the event has fewer than fifty weekly occurrences, optimise for landing page views for the first fortnight and switch once volume allows.</li><li>Audience: adults 40 to 70 in British Columbia and Alberta, with interests covering ice fishing, snowmobiling, cross-country skiing, RV and road travel, and wilderness photography. Exclude Anahim Lake and the immediate area, which is where your staff and neighbours are.</li><li>Four to six creatives, at least half of them vertical video from the October interim shoot, replaced with the professional footage when it lands in December.</li><li>Every ad states the location in the first line of copy and the first three seconds of video. This audience does not know where the Chilcotin is.</li><li>Run at $40 a day from Week 10 through Week 12, then raise it for the December and January peak.</li></ul></div></li>
-            <li class="step-item" id="step-t3-9"><div class="step-num">9</div><div class="step-content"><h4>Build and run the retargeting audience</h4><ul><li>Create a Custom Audience of all website visitors in the past 180 days, plus a separate one for anyone who triggered booking_start without completing.</li><li>Retargeting is where a remote destination earns its money, because the decision takes weeks and involves a long drive. A visitor who read an itinerary in November is a realistic January booking.</li><li>Wait until the audience passes 500 people before switching it on, which should be reached in December once the cold campaign has been running.</li><li>Use different creative from the cold campaign: rates, package inclusions, cancellation policy, and recent reviews rather than scenery.</li></ul></div></li>
-            <li class="step-item" id="step-t3-10"><div class="step-num">10</div><div class="step-content"><h4>Release the Spotify spot with measurement around it</h4><ul><li>Rewrite the location line before it runs. The current spot names Cariboo Chilcotin Coast and nothing else, which means nothing to a listener in Kelowna or Calgary. Add a plain reference point such as the drive time from Williams Lake.</li><li>Give CCCTA a launch date in Week 10 and record the exact start and end dates.</li><li>Measure it as a lift in Direct and Organic Search traffic against the Week 2 baseline, since audio produces no clicks. Watch branded searches for "Red Cariboo" specifically.</li><li>Set expectations internally. This is awareness inventory and the benefit may show up months later, which makes it worth running and hard to attribute.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part D</span>
-          <span class="section-block-title">Creator Visits</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t3-11"><div class="step-num">11</div><div class="step-content"><h4>Define what a creator visit has to produce before approaching anyone</h4><ul><li>Write the deliverables into the agreement: a minimum number of vertical video clips, a set of stills with full commercial rights, one long-form piece on their own channel, and permission for Red Cariboo to use everything in paid advertising.</li><li>Paid usage rights are the part most often left out and the part you most need, since this footage is what the Meta ads will run on.</li><li>Decide what the resort supplies: accommodation, activities, and travel. At roughly $380 each way on Pacific Coastal, budget the flights explicitly rather than assuming a drive.</li><li>Total budget $2,500 to $3,500 per visit, including travel.</li></ul></div></li>
-            <li class="step-item" id="step-t3-12"><div class="step-num">12</div><div class="step-content"><h4>Source and book the November creator</h4><ul><li>Look for someone with an audience in the BC and Alberta drive market who covers fishing, backcountry travel or road trips, rather than a general travel influencer with a larger following.</li><li>Ask CCCTA first, since regional organisations maintain lists of creators who have already worked in the area and understand the access and safety issues.</li><li>Check engagement rather than follower count. A 5,000-follower account with real comments is worth more here than a 100,000-follower account with none.</li><li>Book the visit for the same week as the professional shoot where possible, so the property is cleared and camera-ready once rather than twice.</li></ul></div></li>
-            <li class="step-item" id="step-t3-13"><div class="step-num">13</div><div class="step-content"><h4>Host the visit and capture your own footage alongside</h4><ul><li>Have someone from the team shoot behind-the-scenes material during the visit. It costs nothing and doubles the output.</li><li>Give the creator the itineraries so their content follows the same structure the website uses, which makes the two reinforce each other.</li><li>Ask for raw files as well as edited pieces. Raw vertical clips are what the ad account will need in January.</li><li>Agree the publishing date in advance so the content lands while the ads are running.</li></ul></div></li>
-            <li class="step-item" id="step-t3-14"><div class="step-num">14</div><div class="step-content"><h4>Book the January creator visit against the aurora and ice fishing window</h4><ul><li>January is the highest-traffic month on the website and the deepest part of the winter season, which makes it the strongest content window of the year.</li><li>Target a different audience from the November visit. If November covered fishing and snowmobiling, January should cover the quiet end: dark skies, snowshoeing, and the cabin itself.</li><li>Book it in Week 12 rather than in December, since good creators are committed six to eight weeks out.</li><li>Budget $2,500 from the December to April allocation.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
+    <!-- Implementation Steps Section -->
+    <div class="tactic-steps-header">
+      <span class="tactic-steps-label">Implementation Steps</span>
     </div>
 
-    <!-- Metrics tab -->
-    <div class="tab-pane" id="t3-metrics">
-      <div class="card">
-        <div class="card-body" style="padding:0;overflow:auto">
-          <table class="metrics-table">
-            <thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead>
-            <tbody>
-              <tr><td>Ad management ownership</td><td>Decision made and person named</td><td>Accounts built under Red Cariboo ownership</td><td>Weekly reporting rhythm running</td></tr>
-              <tr><td>Google Ads</td><td>Account live in Expert Mode, GA4 linked</td><td>Campaign built, ad copy approved</td><td>Live and spending, cost per click under $2.00</td></tr>
-              <tr><td>Google search terms</td><td>Not yet applicable</td><td>Not yet applicable</td><td>Negative list of 10 or more, weak keywords paused</td></tr>
-              <tr><td>Meta Ads</td><td>Pixel verified and events configured</td><td>Domain verified, creative selected</td><td>Live and spending at $40 per day</td></tr>
-              <tr><td>Booking engine clicks from paid</td><td>Not yet applicable</td><td>Not yet applicable</td><td>40 to 90 across both channels</td></tr>
-              <tr><td>Retargeting audience</td><td>Not yet applicable</td><td>Audience created</td><td>500 or more users, ready to activate in December</td></tr>
-              <tr><td>Spotify spot</td><td>Location line rewritten</td><td>Launch date agreed with CCCTA</td><td>Live, with before and after traffic recorded</td></tr>
-              <tr><td>Creator visits</td><td>Deliverables and rights defined</td><td>November creator booked</td><td>November visit complete, January visit booked</td></tr>
-              <tr><td>Cost per booking engine click</td><td>Not yet applicable</td><td>Not yet applicable</td><td>Under $40 blended, with a documented scale decision</td></tr>
-            </tbody>
-          </table>
+    <!-- Collapsible Parts -->
+    <div class="tactic-parts-list">
+      <!-- Part A -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part A</span>
+          <span class="tactic-part-title">Decide How the Money Is Managed</span>
+          <span class="tactic-part-meta">2 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t3-1">
+              <span class="tactic-step-num">1</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Decide whether you run the ads or a media buyer does</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag danger">Critical</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Managing Google Search plus Meta properly takes 4-6 hours in the first fortnight and 2-3 hours a week after.</li>
+                  <li>Recommendation: a freelance media buyer at roughly $600 a month. That is around $3,100 of the $35,000.</li>
+                  <li>Keep account ownership yourself. Create the accounts under your own login and add them as a user.</li>
+                  <li>Whoever runs it reports against the four key events from Tactic 1, not clicks or impressions.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-2">
+              <span class="tactic-step-num">2</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Lock the spend schedule before the first campaign</div>
+                <ul class="tactic-step-bullets">
+                  <li>Total budget $40,000. Already committed: ~$5,100. Discretionary: ~$35,000.</li>
+                  <li>Inside ninety days (~$17,000): web contractor, professional shoot, November creator, Google + Meta ads, media buyer setup.</li>
+                  <li>December through April (~$18,000): Google Ads $5,000, Meta $5,000, media buyer retainer, January creator, social management, reserve.</li>
+                  <li>Weight December and January at double the November daily rate. That is where the demand is.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
         </div>
       </div>
-    </div>
 
-    <!-- Tips tab -->
-    <div class="tab-pane" id="t3-tips">
-      <div class="section-label">Tips</div>
-      <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">1</div><div class="tip-text">Never accept the default settings in a new Google Ads campaign. Display expansion, search partners and the broader location setting are all switched on when you create a campaign, and all three spend money outside your audience.</div></div>
-        <div class="tip-item"><div class="tip-icon">2</div><div class="tip-text">Put the location in every ad, every video and every audio spot. It is the single most consistent gap across everything Red Cariboo currently publishes, and it is the first question a stranger has.</div></div>
-        <div class="tip-item"><div class="tip-icon">3</div><div class="tip-text">Do not judge the Spotify spot by bookings. Judge it by whether branded searches for Red Cariboo rise while it is running.</div></div>
-        <div class="tip-item"><div class="tip-icon">4</div><div class="tip-text">Keep the creator agreement short but specific about paid usage rights. Content you cannot advertise with is worth a fraction of what you paid for it.</div></div>
-        <div class="tip-item"><div class="tip-icon">5</div><div class="tip-text">If a week gets away from you, pause the ads rather than letting them run unattended. Paused budget is recoverable and wasted budget is not.</div></div>
+      <!-- Part B -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part B</span>
+          <span class="tactic-part-title">Google Search</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t3-3">
+              <span class="tactic-step-num">3</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Create the Google Ads account in Expert Mode</div>
+                <ul class="tactic-step-bullets">
+                  <li>Choose "Switch to Expert Mode" on the first screen. Do not accept a Smart Campaign.</li>
+                  <li>Use the same Google account that owns GA4 and the Google Business Profile.</li>
+                  <li>Link GA4 and import booking_start, booking_engine_click and offer_enquiry as conversions.</li>
+                  <li>Set the account currency to CAD and time zone to Pacific.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-4">
+              <span class="tactic-step-num">4</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build the winter search campaign</div>
+                <ul class="tactic-step-bullets">
+                  <li>One campaign, Search network only. Switch off Display Network expansion and search partners.</li>
+                  <li>Target BC and Alberta with "Presence: people in or regularly in your targeted locations".</li>
+                  <li>Two ad groups: accommodation intent (cabins Anahim Lake, Chilcotin accommodation) and activity intent (ice fishing BC lodge, snowmobile accommodation).</li>
+                  <li>Use phrase match rather than broad. Say where the resort is in at least three headlines.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-5">
+              <span class="tactic-step-num">5</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Launch at $50 a day and review search terms weekly</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag warning">$1,400 for Weeks 9-12</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Check the Search Terms report on day three, then weekly.</li>
+                  <li>Add negative keywords for jobs, employment, real estate, house rentals.</li>
+                  <li>Pause any keyword that reaches 40 clicks with no booking_start event.</li>
+                  <li>Expect cost per click between $0.80 and $2.00.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-6">
+              <span class="tactic-step-num">6</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Decide at end of November whether Google scales</div>
+                <ul class="tactic-step-bullets">
+                  <li>Compare cost per booking_start and cost per booking_engine_click against Meta figures.</li>
+                  <li>If Google produces engine clicks below $25, raise to $100 a day for December and January.</li>
+                  <li>If above $60, cut it back and move money to Meta or retargeting.</li>
+                  <li>Document the decision and numbers so April decisions are based on evidence.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="section-label" style="margin-top:24px">Resources</div>
-      <div class="resources-list">
-        <div class="resource-item"><a href="https://support.google.com/google-ads/answer/6146252" target="_blank">Google Ads Expert Mode setup</a></div>
-        <div class="resource-item"><a href="https://support.google.com/google-ads/answer/2472708" target="_blank">Google Ads Search Terms report</a></div>
-        <div class="resource-item"><a href="https://www.facebook.com/business/help/205614130852988" target="_blank">Meta Business Help Centre, getting started with ads</a></div>
-        <div class="resource-item"><a href="https://www.facebook.com/business/help/1474662202748341" target="_blank">Meta Pixel and Custom Audiences</a></div>
-        <div class="resource-item"><a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank">Meta Pixel Helper extension for Chrome</a></div>
-        <div class="resource-item"><a href="https://landwithoutlimits.com/" target="_blank">Cariboo Chilcotin Coast Tourism Association, for creator introductions and co-op media</a></div>
+
+      <!-- Part C -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part C</span>
+          <span class="tactic-part-title">Meta and the Spotify Spot</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t3-7">
+              <span class="tactic-step-num">7</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Repair the Meta setup before spending anything</div>
+                <ul class="tactic-step-bullets">
+                  <li>Confirm the pixel is firing on the booking page using Meta Pixel Helper.</li>
+                  <li>Configure the four Tactic 1 events as custom conversions in Events Manager.</li>
+                  <li>Confirm the ad account has a working payment method and no billing holds.</li>
+                  <li>Verify the domain redcariboo.com in Business Manager.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-8">
+              <span class="tactic-step-num">8</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Launch the cold Meta campaign against the drive market</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag warning">$40/day for Weeks 10-12</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Objective: Sales, optimising for booking_start event.</li>
+                  <li>Audience: adults 40-70 in BC and Alberta with interests in ice fishing, snowmobiling, wilderness photography.</li>
+                  <li>Four to six creatives, at least half vertical video from the October shoot.</li>
+                  <li>Every ad states the location in the first line of copy and first three seconds of video.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-9">
+              <span class="tactic-step-num">9</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build and run the retargeting audience</div>
+                <ul class="tactic-step-bullets">
+                  <li>Create a Custom Audience of all website visitors in the past 180 days.</li>
+                  <li>Retargeting is where a remote destination earns its money because the decision takes weeks.</li>
+                  <li>Wait until the audience passes 500 people before switching it on.</li>
+                  <li>Use different creative: rates, package inclusions, cancellation policy, and reviews.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-10">
+              <span class="tactic-step-num">10</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Release the Spotify spot with measurement around it</div>
+                <ul class="tactic-step-bullets">
+                  <li>Rewrite the location line before it runs. Add drive time from Williams Lake.</li>
+                  <li>Give CCCTA a launch date in Week 10 and record exact start and end dates.</li>
+                  <li>Measure as a lift in Direct and Organic Search traffic. Watch branded searches for "Red Cariboo".</li>
+                  <li>Set expectations: this is awareness inventory and the benefit may show up months later.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </div>
+
+      <!-- Part D -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part D</span>
+          <span class="tactic-part-title">Creator Visits</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t3-11">
+              <span class="tactic-step-num">11</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Define what a creator visit has to produce</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag warning">$2,500 to $3,500 per visit</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Write deliverables into the agreement: vertical video clips, stills with full commercial rights, one long-form piece on their channel.</li>
+                  <li>Paid usage rights are the part most often left out and the part you most need.</li>
+                  <li>Decide what the resort supplies: accommodation, activities, and travel.</li>
+                  <li>At roughly $380 each way on Pacific Coastal, budget flights explicitly.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-12">
+              <span class="tactic-step-num">12</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Source and book the November creator</div>
+                <ul class="tactic-step-bullets">
+                  <li>Look for someone with an audience in the BC and Alberta drive market who covers fishing or backcountry travel.</li>
+                  <li>Ask CCCTA first. They maintain lists of creators who have worked in the area.</li>
+                  <li>Check engagement rather than follower count. A 5,000-follower account with real comments is worth more.</li>
+                  <li>Book the visit for the same week as the professional shoot where possible.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-13">
+              <span class="tactic-step-num">13</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Host the visit and capture your own footage alongside</div>
+                <ul class="tactic-step-bullets">
+                  <li>Have someone from the team shoot behind-the-scenes material. It costs nothing and doubles the output.</li>
+                  <li>Give the creator the itineraries so their content follows the same structure.</li>
+                  <li>Ask for raw files as well as edited pieces. Raw vertical clips are what the ad account needs.</li>
+                  <li>Agree the publishing date in advance so content lands while ads are running.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t3-14">
+              <span class="tactic-step-num">14</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Book the January creator visit</div>
+                <ul class="tactic-step-bullets">
+                  <li>January is the highest-traffic month and the deepest part of winter season.</li>
+                  <li>Target a different audience: if November covered fishing, January should cover dark skies and snowshoeing.</li>
+                  <li>Book in Week 12 since good creators are committed 6-8 weeks out.</li>
+                  <li>Budget $2,500 from the December to April allocation.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -5483,143 +6453,260 @@ body:not(.has-plan) .plan-content{display:none}
      TACTIC 4: Email Marketing & Reviews
      ════════════════════════════════════════════ -->
 <section id="page-tactic4" class="page">
-  <div class="page-header">
-    <div class="page-header-eyebrow">Tactic 4 · Retention</div>
-    <h1>Build the Email List You Do Not Have</h1>
-    <p>Start collecting guest addresses now, automate the pre-arrival and post-stay emails, and use the list to fill next winter and summer 2027.</p>
-  </div>
-  <div class="content-area">
-    <div class="tabs">
-      <button class="tab-btn active" onclick="switchTab(this,'t4','overview')">Overview</button>
-      <button class="tab-btn" onclick="switchTab(this,'t4','steps')">Implementation Steps</button>
-      <button class="tab-btn" onclick="switchTab(this,'t4','metrics')">Success Metrics</button>
-      <button class="tab-btn" onclick="switchTab(this,'t4','tips')">Tips &amp; Resources</button>
-    </div>
-
-    <!-- Overview tab -->
-    <div class="tab-pane active" id="t4-overview">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Context</span>
-          <span class="section-block-title">What We Heard From You</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+  <div class="tactic-page-content">
+    <!-- Navy Hero Card -->
+    <div class="tactic-hero" data-tactic="4">
+      <div class="tactic-hero-top">
+        <div class="tactic-hero-meta">
+          <span class="tactic-hero-label">Tactic 4 · Retention</span>
+          <span class="tactic-hero-status" id="t4-status">Not Started</span>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>You have a Mailchimp account that has not been used since the COVID-era grant project. There was a packing list download and a website pop-up, and both stopped. Axel and the investor have expressed hesitation about email marketing, describing it as newsletter spam, and that concern has prevented anything further. You currently have no guest email list and no automated emails of any kind.</p>
+        <div class="tactic-hero-progress">
+          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+            <circle class="tactic-hero-ring-bar" id="t4-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+          </svg>
+          <div>
+            <div class="tactic-hero-pct" id="t4-pct">0%</div>
+            <div class="tactic-hero-pct-label">of this tactic</div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Approach</span>
-          <span class="section-block-title">What This Is</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <h1>Build the Email List You Do Not Have</h1>
+      <p>Start collecting guest addresses now, automate the pre-arrival and post-stay emails, and use the list to fill next winter and summer 2027.</p>
+    </div>
+
+    <!-- Two-Column Overview -->
+    <div class="tactic-overview-grid">
+      <div class="tactic-overview-col">
+        <!-- What This Is -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Is</div>
+          <p>Four pieces. Getting agreement to proceed, then reactivating the Mailchimp account that already exists. Adding sign-up points to the website and booking flow so the list starts growing from zero. Building three automated emails that run without anyone touching them: pre-arrival, post-stay review request, and enquiry follow-up. Then two real campaigns timed to booking windows.</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>Four pieces. Getting agreement to proceed, then reactivating the Mailchimp account that already exists. Adding sign-up points to the website and the booking flow so the list starts growing from zero. Building three automated emails that run without anyone touching them: pre-arrival, post-stay review request, and enquiry follow-up. Then two real campaigns, one to Canadian guests in December and one to the German list in February, timed to the two booking windows that matter.</p>
+        <!-- What This Breaks Into -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">What This Breaks Into</div>
+          <div class="tactic-breakdown-grid">
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Agreement &amp; Setup</div>
+              <div class="tactic-breakdown-desc">Get buy-in from Axel, reactivate Mailchimp, add sign-up points</div>
+            </div>
+            <div class="tactic-breakdown-item">
+              <div class="tactic-breakdown-title">Automated Emails</div>
+              <div class="tactic-breakdown-desc">Pre-arrival, post-stay review request, and enquiry follow-up</div>
+            </div>
+            <div class="tactic-breakdown-item full-width">
+              <div class="tactic-breakdown-title">First Campaigns</div>
+              <div class="tactic-breakdown-desc">Winter availability in December to Canadians, summer 2027 in February to Germans</div>
+            </div>
           </div>
         </div>
       </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Rationale</span>
-          <span class="section-block-title">Why It Matters</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+      <div class="tactic-overview-col">
+        <!-- What We Heard From You -->
+        <div class="tactic-card-block navy">
+          <div class="tactic-card-label">What We Heard From You</div>
+          <p>"Axel and the investor have expressed hesitation about email marketing, describing it as newsletter spam, and that concern has prevented anything further."</p>
         </div>
-        <div class="section-block-body">
-          <div class="prose">
-            <p>The three-dollar guest whose single visit earns a booking turns into a thirty-cent guest when they come back a second time, and email is the only channel that reliably gets them there. Every dollar spent on paid advertising finds a new person and then loses them, unless there is a system that captures the address and keeps the relationship open. The pre-arrival email makes the drive less stressful, the post-stay email produces the reviews, and the December campaign fills the shoulder nights that advertising alone will miss.</p>
+        <!-- Why It Matters -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Why It Matters</div>
+          <p>The three-dollar guest whose single visit earns a booking turns into a thirty-cent guest when they come back a second time. Email is the only channel that reliably gets them there. Every dollar spent on paid advertising finds a new person and then loses them, unless there is a system that captures the address and keeps the relationship open.</p>
+        </div>
+        <!-- Time Commitment -->
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Time Commitment</div>
+          <div>
+            <span class="tactic-time-value">1 hr</span>
+            <span class="tactic-time-context">email management, per week</span>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Implementation Steps tab -->
-    <div class="tab-pane" id="t4-steps">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part A</span>
-          <span class="section-block-title">Get Agreement and Get Started</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t4-1"><div class="step-num">1</div><div class="step-content"><h4>Settle the newsletter question with Axel and the investor</h4><ul><li>Take the recommendation to them in writing rather than as a conversation, and be specific about what it is not: no monthly newsletter, no purchased lists, no sending to anyone who has not asked.</li><li>What it is: an automated email before arrival, an automated email after checkout, and two campaigns a year to people who have stayed and opted in.</li><li>Point at the numbers. Twenty reviews with two in eighteen months is a review problem, and the post-stay email is how it gets solved.</li><li>Get the decision recorded, since this has stalled before and the plan downstream depends on it.</li></ul></div></li>
-            <li class="step-item" id="step-t4-2"><div class="step-num">2</div><div class="step-content"><h4>Reactivate Mailchimp and check what still works</h4><ul><li>Log in and confirm the account status, the templates built during the COVID grant, and whether the free tier still covers the list size you expect.</li><li>Update the sender name, reply address and the physical mailing address in the footer, which anti-spam law requires in both Canada and Germany.</li><li>Send a test of each existing template to yourself and check it on a phone. Templates built in 2020 often break in current email clients.</li><li>Set the language default and prepare a German version of every template, since roughly a third of guests will be German speakers.</li></ul></div></li>
-            <li class="step-item" id="step-t4-3"><div class="step-num">3</div><div class="step-content"><h4>Add sign-up points across the site and the booking flow</h4><ul><li>Put a sign-up form in the site footer on every page, with a specific reason to subscribe rather than "subscribe to our newsletter". Something like early access to winter dates before they open publicly.</li><li>Add a checkbox to the enquiry form on the offer landing pages and to the contact form.</li><li>Add the Winter Packing List PDF as a download in exchange for an email address, keeping the existing free version live as well. That page draws 1,453 sessions a year and the checklist has been downloaded 503 times, which is the largest single source of addresses available to you.</li><li>Ask at checkout in person too. A card in each cabin with a QR code costs almost nothing.</li></ul></div></li>
-            <li class="step-item" id="step-t4-4"><div class="step-num">4</div><div class="step-content"><h4>Set the consent standard to double opt-in</h4><ul><li>Canada's rules are looser than Germany's. Canadian anti-spam law recognises implied consent for roughly six months after someone contacts you, while GDPR requires explicit consent.</li><li>Use GDPR double opt-in for everyone regardless of country. One standard is simpler to run than two, and it keeps you compliant in both markets.</li><li>Turn on double opt-in in the Mailchimp audience settings and confirm the confirmation email sends in the right language.</li><li>Record the source and date of consent for every contact, which Mailchimp does automatically when sign-ups come through its own forms.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part B</span>
-          <span class="section-block-title">The Automated Emails</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t4-5"><div class="step-num">5</div><div class="step-content"><h4>Build the pre-arrival email</h4><ul><li>Trigger it five days before arrival. Guests are driving a long way and the anxiety is about the road, the cell service and the groceries.</li><li>Contents: directions with the 13 km off Highway 20 and the 3 km driveway stated plainly, the 4x4 recommendation, the packing list link, the shopping and self-catering page, cell service warning, and check-in details.</li><li>This replaces the manual email you currently send, which frees your time and makes the information consistent.</li><li>Add one line inviting the guest to reply with questions, which creates the implied consent that makes the post-stay email straightforward.</li></ul></div></li>
-            <li class="step-item" id="step-t4-6"><div class="step-num">6</div><div class="step-content"><h4>Build the post-stay review request</h4><ul><li>Trigger it three days after checkout, which is late enough that they are home and early enough that the trip is fresh.</li><li>One purpose per email. Ask for a Google review, link directly to the review form, and say it takes a minute.</li><li>Include the QR review card in the cabins as well, since in-person requests convert several times better than email alone.</li><li>Add a second email fourteen days later inviting them to join the list for next season, sent only to people who have not already subscribed.</li></ul></div></li>
-            <li class="step-item" id="step-t4-7"><div class="step-num">7</div><div class="step-content"><h4>Build the enquiry follow-up</h4><ul><li>Anyone who submits an enquiry form and does not book should receive one follow-up three days later.</li><li>Answer the question they are most likely still weighing: whether the road is manageable, what the cabin actually includes, and what there is to do if the weather turns.</li><li>Include the booking link with a specific offer rather than a general invitation to get in touch.</li><li>Keep it to one follow-up. A second unanswered email is where the spam perception Axel worries about actually comes from.</li></ul></div></li>
-            <li class="step-item" id="step-t4-8"><div class="step-num">8</div><div class="step-content"><h4>Connect Cloudbeds to Mailchimp</h4><ul><li>Check the Cloudbeds marketplace for a direct Mailchimp integration first, since a native connection is more reliable than a workaround.</li><li>If none exists, export guest contacts from Cloudbeds monthly and import them into Mailchimp with the consent status recorded, or connect the two through Zapier.</li><li>Tag every contact by guest type: leisure, work crew, or enquiry only. Work crews should never receive winter package emails.</li><li>Tag by language as well, since the German list and the Canadian list will receive different campaigns at different times of year.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part C</span>
-          <span class="section-block-title">The First Real Campaigns</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t4-9"><div class="step-num">9</div><div class="step-content"><h4>Import and clean the past guest contacts you already hold</h4><ul><li>Pull whatever exists in Cloudbeds, in your inbox and in booking confirmations going back to 2019.</li><li>Import only those with a legitimate basis for contact and send a single re-permission email asking them to confirm they want to hear from you. Everyone who does not confirm comes off the list.</li><li>A small confirmed list is worth more than a large unconfirmed one, both legally and in deliverability terms.</li><li>Expect this to produce a modest number. The point is that the list exists and starts growing.</li></ul></div></li>
-            <li class="step-item" id="step-t4-10"><div class="step-num">10</div><div class="step-content"><h4>Send the winter availability email in December</h4><ul><li>Timed for the first week of December, ahead of the Christmas and January booking rush.</li><li>Contents: which winter dates remain, what is included in the winter package, the new photography, and a single Book Now link.</li><li>Send it to the Canadian list only. Germans do not travel to Red Cariboo in winter, and sending them a snow email trains them to ignore you.</li><li>Measure open rate, click rate and bookings attributed. This is the first evidence Axel will see, so record it carefully.</li></ul></div></li>
-            <li class="step-item" id="step-t4-11"><div class="step-num">11</div><div class="step-content"><h4>Send the summer 2027 email to the German list in February</h4><ul><li>European travellers book summer six to twelve months ahead, so February is when the summer 2027 decision is being made.</li><li>Contents in German: summer activities, the e-mountain bike programme if insurance is settled by then, the fishing, and the second-Canada-trip framing.</li><li>Include the fly-in option and the drive route, since access is the question that stops German bookings more than price.</li><li>This email is the beginning of the summer 2027 pipeline and the reason the list matters this year rather than next.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
+    <!-- Implementation Steps Section -->
+    <div class="tactic-steps-header">
+      <span class="tactic-steps-label">Implementation Steps</span>
     </div>
 
-    <!-- Success Metrics tab -->
-    <div class="tab-pane" id="t4-metrics">
-      <div class="metrics-table-wrap">
-        <table class="metrics-table">
-          <thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead>
-          <tbody>
-            <tr><td>Newsletter decision</td><td>Recommendation delivered in writing</td><td>Decision recorded</td><td>Programme running</td></tr>
-            <tr><td>Mailchimp account</td><td>Reactivated, templates tested</td><td>Sender details and German templates ready</td><td>Three automations live</td></tr>
-            <tr><td>Email list size</td><td>0 (baseline)</td><td>60 or more confirmed subscribers</td><td>150 to 300 confirmed subscribers</td></tr>
-            <tr><td>Sign-up points live</td><td>Footer form live</td><td>Enquiry and contact form checkboxes live</td><td>Packing list download gated, QR cards in cabins</td></tr>
-            <tr><td>Pre-arrival email</td><td>Drafted</td><td>Live and sending automatically</td><td>Sent to every arrival in the period</td></tr>
-            <tr><td>Post-stay review request</td><td>Drafted</td><td>Live and sending automatically</td><td>10 or more new Google reviews</td></tr>
-            <tr><td>Google reviews total</td><td>20 (baseline)</td><td>25 or more</td><td>30 or more, on a path to 50 by spring</td></tr>
-            <tr><td>December campaign</td><td>Not yet applicable</td><td>Content planned</td><td>Drafted and scheduled for the first week of December</td></tr>
-          </tbody>
-        </table>
+    <!-- Collapsible Parts -->
+    <div class="tactic-parts-list">
+      <!-- Part A -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part A</span>
+          <span class="tactic-part-title">Get Agreement and Get Started</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t4-1">
+              <span class="tactic-step-num">1</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Settle the newsletter question with Axel and the investor</div>
+                <div class="tactic-step-tags">
+                  <span class="tactic-step-tag danger">Critical</span>
+                </div>
+                <ul class="tactic-step-bullets">
+                  <li>Take the recommendation in writing, not as a conversation. Be specific about what it is not: no monthly newsletter, no purchased lists.</li>
+                  <li>What it is: an automated email before arrival, an automated email after checkout, and two campaigns a year to people who have opted in.</li>
+                  <li>Point at the numbers. Twenty reviews with two in eighteen months is a review problem, and the post-stay email is how it gets solved.</li>
+                  <li>Get the decision recorded since this has stalled before.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-2">
+              <span class="tactic-step-num">2</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Reactivate Mailchimp and check what still works</div>
+                <ul class="tactic-step-bullets">
+                  <li>Log in and confirm account status, templates from the COVID grant, and whether the free tier covers your expected list size.</li>
+                  <li>Update sender name, reply address, and physical mailing address in the footer (required by anti-spam law).</li>
+                  <li>Send a test of each existing template to yourself and check it on a phone.</li>
+                  <li>Set the language default and prepare a German version of every template.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-3">
+              <span class="tactic-step-num">3</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Add sign-up points across the site</div>
+                <ul class="tactic-step-bullets">
+                  <li>Put a sign-up form in the site footer on every page with a specific reason to subscribe (e.g. early access to winter dates).</li>
+                  <li>Add a checkbox to the enquiry form on offer landing pages and to the contact form.</li>
+                  <li>Add the Winter Packing List PDF as a download in exchange for an email address. That page draws 1,453 sessions a year.</li>
+                  <li>Ask at checkout in person too. A QR card in each cabin costs almost nothing.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-4">
+              <span class="tactic-step-num">4</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Set the consent standard to double opt-in</div>
+                <ul class="tactic-step-bullets">
+                  <li>Use GDPR double opt-in for everyone regardless of country. One standard is simpler than two.</li>
+                  <li>Turn on double opt-in in Mailchimp audience settings.</li>
+                  <li>Confirm the confirmation email sends in the right language.</li>
+                  <li>Record the source and date of consent for every contact.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-    </div>
 
-    <!-- Tips & Resources tab -->
-    <div class="tab-pane" id="t4-tips">
-      <div class="section-label">Tips</div>
-      <div class="tips-list">
-        <div class="tip-item"><div class="tip-icon">1</div><div class="tip-text">Do not describe this to Axel as a newsletter. Describe it as the email that goes out before a guest drives eight hours, and the email that asks for a review afterwards. Both are guest service, and both happen to build the list.</div></div>
-        <div class="tip-item"><div class="tip-icon">2</div><div class="tip-text">The Winter Packing List download is the best list-building asset you own. Gate the enhanced version and leave the current one free, so nobody loses access to something they already had.</div></div>
-        <div class="tip-item"><div class="tip-icon">3</div><div class="tip-text">Ask for the review in person at checkout as well as by email. A QR card in the cabin converts several times better than an email on its own.</div></div>
-        <div class="tip-item"><div class="tip-icon">4</div><div class="tip-text">Never send a winter package email to the work crew list. They book direct, they book anyway, and marketing to them risks the relationship that currently funds the business.</div></div>
-        <div class="tip-item"><div class="tip-icon">5</div><div class="tip-text">Keep the German and Canadian lists genuinely separate. Different seasons, different languages, different offers, and mixing them wastes both.</div></div>
+      <!-- Part B -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part B</span>
+          <span class="tactic-part-title">The Automated Emails</span>
+          <span class="tactic-part-meta">4 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t4-5">
+              <span class="tactic-step-num">5</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build the pre-arrival email</div>
+                <ul class="tactic-step-bullets">
+                  <li>Trigger it five days before arrival. Guests are driving a long way and the anxiety is about the road, cell service, and groceries.</li>
+                  <li>Contents: directions with the 13 km off Highway 20 stated plainly, 4x4 recommendation, packing list link, shopping page, cell service warning, check-in details.</li>
+                  <li>This replaces the manual email you currently send, freeing your time.</li>
+                  <li>Add one line inviting the guest to reply with questions.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-6">
+              <span class="tactic-step-num">6</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build the post-stay review request</div>
+                <ul class="tactic-step-bullets">
+                  <li>Trigger it three days after checkout. Late enough they are home, early enough the trip is fresh.</li>
+                  <li>One purpose per email. Ask for a Google review, link directly to the review form, say it takes a minute.</li>
+                  <li>Include QR review cards in the cabins too. In-person requests convert several times better.</li>
+                  <li>Add a second email fourteen days later inviting them to join the list for next season.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-7">
+              <span class="tactic-step-num">7</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Build the enquiry follow-up</div>
+                <ul class="tactic-step-bullets">
+                  <li>Anyone who submits an enquiry form and does not book receives one follow-up three days later.</li>
+                  <li>Answer what they are likely still weighing: whether the road is manageable, what the cabin includes.</li>
+                  <li>Include the booking link with a specific offer rather than a general invitation.</li>
+                  <li>Keep it to one follow-up. A second unanswered email is where the spam perception comes from.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-8">
+              <span class="tactic-step-num">8</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Connect Cloudbeds to Mailchimp</div>
+                <ul class="tactic-step-bullets">
+                  <li>Check the Cloudbeds marketplace for a direct Mailchimp integration first.</li>
+                  <li>If none exists, export guest contacts monthly and import them, or connect through Zapier.</li>
+                  <li>Tag every contact by guest type: leisure, work crew, or enquiry only. Work crews should never receive winter package emails.</li>
+                  <li>Tag by language too. German and Canadian lists receive different campaigns at different times.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
-      <div class="section-label" style="margin-top:24px">Resources</div>
-      <div class="resources-list">
-        <div class="resource-item"><a href="https://mailchimp.com/help/about-double-opt-in/" target="_blank">Mailchimp signup form and double opt-in settings</a></div>
-        <div class="resource-item"><a href="https://mailchimp.com/help/about-customer-journeys/" target="_blank">Mailchimp automation basics</a></div>
-        <div class="resource-item"><a href="https://fightspam.gc.ca/" target="_blank">Canada's Anti-Spam Legislation, consent requirements</a></div>
-        <div class="resource-item"><a href="https://www.cloudbeds.com/marketplace/" target="_blank">Cloudbeds integrations marketplace</a></div>
-        <div class="resource-item"><a href="https://support.google.com/business/answer/7035772" target="_blank">Google review link generator, for the post-stay email</a></div>
+
+      <!-- Part C -->
+      <div class="tactic-part open">
+        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+          <span class="tactic-part-tag">Part C</span>
+          <span class="tactic-part-title">The First Real Campaigns</span>
+          <span class="tactic-part-meta">3 steps</span>
+          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+        </button>
+        <div class="tactic-part-body">
+          <ol class="tactic-steps-list">
+            <li class="tactic-step-item" id="step-t4-9">
+              <span class="tactic-step-num">9</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Import and clean past guest contacts</div>
+                <ul class="tactic-step-bullets">
+                  <li>Pull whatever exists in Cloudbeds, your inbox, and booking confirmations going back to 2019.</li>
+                  <li>Import only those with a legitimate basis for contact. Send a re-permission email asking them to confirm.</li>
+                  <li>A small confirmed list is worth more than a large unconfirmed one, legally and in deliverability terms.</li>
+                  <li>Expect a modest number. The point is that the list exists and starts growing.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-10">
+              <span class="tactic-step-num">10</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Send the winter availability email in December</div>
+                <ul class="tactic-step-bullets">
+                  <li>Timed for the first week of December, ahead of Christmas and January booking rush.</li>
+                  <li>Contents: which winter dates remain, what is included in the winter package, the new photography, and a single Book Now link.</li>
+                  <li>Send it to the Canadian list only. Germans do not travel to Red Cariboo in winter.</li>
+                  <li>Measure open rate, click rate and bookings attributed. This is the first evidence Axel will see.</li>
+                </ul>
+              </div>
+            </li>
+            <li class="tactic-step-item" id="step-t4-11">
+              <span class="tactic-step-num">11</span>
+              <div class="tactic-step-content">
+                <div class="tactic-step-title">Send the summer 2027 email to Germans in February</div>
+                <ul class="tactic-step-bullets">
+                  <li>European travellers book summer 6 to 12 months ahead. February is when the summer 2027 decision is being made.</li>
+                  <li>Contents in German: summer activities, the e-mountain bike programme, the fishing, and the second-Canada-trip framing.</li>
+                  <li>Include the fly-in option and drive route. Access stops German bookings more than price.</li>
+                  <li>This email is the beginning of the summer 2027 pipeline.</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
       </div>
     </div>
   </div>
@@ -6313,6 +7400,11 @@ function toggleSection(header) {
   header.closest('.section-block').classList.toggle('open');
 }
 
+// ── Tactic Parts (accordion) ──────────────────────────────
+function toggleTacticPart(btn) {
+  btn.closest('.tactic-part').classList.toggle('open');
+}
+
 // ── Weeks (accordion) ─────────────────────────────────────
 function toggleWeek(n) {
   document.getElementById('wc-' + n).classList.toggle('open');
@@ -6392,7 +7484,7 @@ function updateProgress() {
     const tot = ids.length;
     const p = tot > 0 ? Math.round(d/tot*100) : 0;
 
-    // Update tactic ring SVG
+    // Update tactic ring SVG (dashboard grid)
     const tacticRing = document.getElementById('tactic'+t+'-ring');
     if (tacticRing) {
       const circ = 2 * Math.PI * 18;
@@ -6409,6 +7501,33 @@ function updateProgress() {
     // Legacy bar support
     const bar = document.getElementById('tc'+t+'-bar');
     if (bar) bar.style.width = p + '%';
+
+    // Update tactic hero page ring (radius 31, circumference ~194.8)
+    const heroRing = document.getElementById('t'+t+'-ring');
+    if (heroRing) {
+      const heroCirc = 2 * Math.PI * 31;
+      heroRing.style.strokeDasharray = heroCirc;
+      heroRing.style.strokeDashoffset = heroCirc - (heroCirc * p / 100);
+    }
+
+    // Update tactic hero page percentage
+    const heroPct = document.getElementById('t'+t+'-pct');
+    if (heroPct) heroPct.textContent = p + '%';
+
+    // Update tactic hero page status badge
+    const heroStatus = document.getElementById('t'+t+'-status');
+    if (heroStatus) {
+      if (p === 0) {
+        heroStatus.textContent = 'Not Started';
+        heroStatus.className = 'tactic-hero-status';
+      } else if (p === 100) {
+        heroStatus.textContent = 'Complete';
+        heroStatus.className = 'tactic-hero-status complete';
+      } else {
+        heroStatus.textContent = 'In Progress';
+        heroStatus.className = 'tactic-hero-status in-progress';
+      }
+    }
   });
 
   // Update current week progress in Next Step card
