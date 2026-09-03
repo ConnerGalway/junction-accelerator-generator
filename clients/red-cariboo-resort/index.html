@@ -79,24 +79,58 @@ SECTIONS REBUILT PER CLIENT BY CLAUDE (not template placeholders):
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --navy: #11154b;
-  --navy-light: #1a1f6b;
-  --mint: #aadab6;
+  /* Core colors */
+  --navy-900: #11154b;
+  --navy-800: #1a1f6b;
+  --navy: #11154b; /* alias */
+  --navy-light: #1a1f6b; /* alias */
+  --mint-500: #aadab6;
+  --mint: #aadab6; /* alias */
   --mint-dark: #7bc490;
-  --cream: #fcf5ec;
-  --blue: #067cbc;
-  --slate: #708090;
+  --cream-100: #fcf5ec;
+  --cream: #fcf5ec; /* alias */
+  --slate-600: #708090;
+  --slate: #708090; /* alias */
+  --link-blue: #067cbc;
+  --blue: #067cbc; /* alias */
   --dark: #181c2d;
   --white: #ffffff;
+
+  /* Semantic colors */
+  --state-success: #2e7d32;
+  --state-warning: #ed6c02;
+  --state-danger: #d32f2f;
+
+  /* Surfaces */
   --card-bg: #ffffff;
   --page-bg: #f0ece5;
+  --surface-sunken: #f5f1ea;
+
+  /* Borders */
+  --border-subtle: rgba(17,21,75,.12);
+  --border-strong: rgba(17,21,75,.25);
+
+  /* Layout */
   --sidebar-w: 268px;
-  --font-d: 'Raleway', sans-serif;
-  --font-b: 'Open Sans', sans-serif;
-  --r-sm: 8px;
-  --r-md: 12px;
-  --r-lg: 16px;
-  --r-xl: 24px;
+
+  /* Typography */
+  --font-display: 'Raleway', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --font-d: 'Raleway', sans-serif; /* alias */
+  --font-b: 'Open Sans', sans-serif; /* alias */
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 999px;
+  --r-sm: 8px; /* alias */
+  --r-md: 12px; /* alias */
+  --r-lg: 16px; /* alias */
+  --r-xl: 24px; /* alias */
+
+  /* Shadows */
   --shadow-sm: 0 1px 4px rgba(17,21,75,.07);
   --shadow-md: 0 4px 20px rgba(17,21,75,.11);
   --shadow-lg: 0 8px 40px rgba(17,21,75,.16);
@@ -508,6 +542,98 @@ nav{flex:1;padding:12px 0}
 }
 .tactic-card:hover .tactic-card-cta svg{
   transform:translateX(4px);
+}
+
+/* ── Dashboard V2 (Redesign) ─────────────────────────────── */
+.dash-v2{padding:22px 40px 44px}
+.dash-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}
+.dash-header-left{}
+.dash-eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px}
+.dash-greeting{margin:0;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-.02em;color:var(--navy-900)}
+.dash-days-pill{flex:none;background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:10px 20px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--navy-900);box-shadow:var(--shadow-sm)}
+
+/* Progress Hero */
+.dash-progress-hero{background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:30px 34px;display:grid;grid-template-columns:230px 1fr;gap:40px;align-items:center;margin-bottom:20px}
+.dash-ring-large-wrap{position:relative;width:200px;height:200px;justify-self:center}
+.dash-ring-large{display:block}
+.dash-ring-large-text{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.dash-ring-pct{font-family:var(--font-display);font-weight:700;font-size:48px;line-height:1;letter-spacing:-.03em;color:var(--navy-900)}
+.dash-ring-label{font-size:13px;color:var(--slate-600);margin-top:4px}
+.dash-progress-content{min-width:0}
+.dash-headline{margin:0 0 8px;font-family:var(--font-display);font-weight:600;font-size:26px;letter-spacing:-.01em;color:var(--navy-900)}
+.dash-subcopy{margin:0 0 24px;font-size:15px;line-height:1.6;color:var(--navy-800);max-width:52ch;font-weight:500}
+.dash-phases-label{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px}
+.dash-phases-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--surface-sunken)}
+.dash-phase{padding:12px 16px 0 0;border-left:2px solid transparent}
+.dash-phase[data-active="true"]{border-left-color:var(--mint-500)}
+.dash-phase-range{font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--slate-600);margin-bottom:7px}
+.dash-phase-name{font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--navy-900);margin-bottom:4px}
+.dash-phase-desc{font-size:12.5px;color:var(--slate-600);line-height:1.45}
+
+/* Next Step Card */
+.dash-next-step{display:grid;grid-template-columns:1fr 262px;background:var(--navy-900);border-radius:var(--radius-lg);box-shadow:var(--shadow-md);overflow:hidden;margin-bottom:20px}
+.dash-next-main{padding:30px 34px 28px;min-width:0}
+.dash-next-eyebrow{font-size:10.5px;font-weight:600;letter-spacing:.16em;color:var(--mint-500);margin-bottom:14px}
+.dash-next-title{margin:0 0 22px;font-family:var(--font-display);font-weight:600;font-size:32px;line-height:1.14;letter-spacing:-.02em;color:#fff;max-width:24ch}
+.dash-next-tasks{display:flex;flex-direction:column;gap:6px;margin-bottom:24px}
+.dash-next-task{display:flex;align-items:center;gap:14px;padding:10px 14px;border-radius:var(--radius-sm);cursor:pointer;transition:background .15s}
+.dash-next-task:hover{background:rgba(255,255,255,.06)}
+.dash-next-task-box{flex:none;width:22px;height:22px;border-radius:5px;border:2px solid rgba(255,255,255,.35);display:grid;place-items:center;color:#fff;background:transparent;transition:all .15s}
+.dash-next-task-box.done{background:var(--mint-500);border-color:var(--mint-500);color:var(--navy-900)}
+.dash-next-task-box svg{opacity:0;transition:opacity .15s}
+.dash-next-task-box.done svg{opacity:1}
+.dash-next-task-text{font-size:14.5px;color:rgba(255,255,255,.9);line-height:1.4}
+.dash-next-task-text.done{color:rgba(255,255,255,.5);text-decoration:line-through}
+.dash-next-actions{display:flex;align-items:center;gap:22px;flex-wrap:wrap}
+.dash-btn-primary{background:var(--mint-500);color:var(--navy-900);border:none;border-radius:var(--radius-md);padding:14px 26px;font-family:var(--font-body);font-weight:700;font-size:15px;cursor:pointer;transition:background .15s}
+.dash-btn-primary:hover{background:#9bd0a9}
+.dash-next-link{color:#fff;font-weight:600;font-size:15px;cursor:pointer;transition:color .15s}
+.dash-next-link:hover{color:var(--mint-500)}
+
+/* Next Step Sidebar */
+.dash-next-sidebar{border-left:1px solid rgba(255,255,255,.14);padding:30px 26px;display:flex;flex-direction:column;gap:22px}
+.dash-next-meta{}
+.dash-next-meta-label{font-size:10px;font-weight:600;letter-spacing:.14em;color:rgba(255,255,255,.5);margin-bottom:6px}
+.dash-next-meta-value{font-size:14.5px;font-weight:600;color:#fff;line-height:1.4}
+.dash-next-week-progress{margin-top:auto}
+.dash-next-week-header{display:flex;justify-content:space-between;font-size:12px;color:rgba(255,255,255,.62);margin-bottom:8px}
+.dash-next-week-bar{height:5px;border-radius:999px;background:rgba(255,255,255,.16);overflow:hidden}
+.dash-next-week-bar-fill{height:100%;border-radius:999px;background:var(--mint-500);transition:width .4s ease}
+
+/* Tactic Pills Grid */
+.dash-tactics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.dash-tactic-pill{background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:box-shadow .2s,transform .15s}
+.dash-tactic-pill:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.dash-tactic-ring{flex:none}
+.dash-tactic-info{min-width:0}
+.dash-tactic-name{font-family:var(--font-display);font-weight:600;font-size:15.5px;color:var(--navy-900);line-height:1.3;margin-bottom:4px}
+.dash-tactic-label{font-size:12.5px;color:var(--slate-600)}
+
+/* Dashboard V2 Responsive */
+@media(max-width:1024px){
+  .dash-progress-hero{grid-template-columns:1fr;text-align:center}
+  .dash-ring-large-wrap{justify-self:center}
+  .dash-progress-content{text-align:center}
+  .dash-subcopy{margin-left:auto;margin-right:auto}
+  .dash-phases-grid{grid-template-columns:repeat(2,1fr);gap:12px}
+  .dash-next-step{grid-template-columns:1fr}
+  .dash-next-sidebar{border-left:none;border-top:1px solid rgba(255,255,255,.14);flex-direction:row;flex-wrap:wrap;gap:24px 32px}
+  .dash-next-week-progress{width:100%}
+  .dash-tactics-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:640px){
+  .dash-v2{padding:16px 20px 32px}
+  .dash-header{flex-direction:column;align-items:flex-start;gap:12px}
+  .dash-greeting{font-size:28px}
+  .dash-progress-hero{padding:24px 20px}
+  .dash-ring-large-wrap{width:160px;height:160px}
+  .dash-ring-large{width:160px;height:160px}
+  .dash-ring-pct{font-size:36px}
+  .dash-headline{font-size:22px}
+  .dash-phases-grid{grid-template-columns:1fr}
+  .dash-next-main{padding:24px 20px}
+  .dash-next-title{font-size:24px}
+  .dash-tactics-grid{grid-template-columns:1fr}
 }
 
 .positioning-card{
@@ -3961,7 +4087,7 @@ body:not(.has-plan) .plan-content{display:none}
 .week-task-item .howto-link{align-self:flex-start;margin-top:1px;margin-left:6px}
 </style>
 </head>
-<body data-client-slug="red-cariboo-resort">
+<body data-client-slug="red-cariboo-resort" data-client-name="Red Cariboo Resort" data-cohort-start="2026-08-12" data-total-days="90" data-total-weeks="12">
 <!-- ── Sidebar ──────────────────────────────────────────────── -->
 <aside id="sidebar">
   <div class="sidebar-logo">
@@ -4043,104 +4169,141 @@ body:not(.has-plan) .plan-content{display:none}
 <main id="main">
 
 <!-- ════════════════════════════════════════════
-     DASHBOARD (Welcome/Orientation Screen)
+     DASHBOARD (Main Overview Screen)
      ════════════════════════════════════════════ -->
 <section id="page-dashboard" class="page active">
-  <div class="page-header">
-    <div class="page-header-eyebrow">eLearningU · Accelerator Program</div>
-    <h1>Welcome to Your Accelerator</h1>
-    <p>Red Cariboo is nearly full, and almost none of it is tourism. Work crews and travelling professional...</p>
-  </div>
-  <div class="content-area">
-
-    <!-- WELCOME MESSAGE -->
-    <div class="welcome-section" id="goal-section">
-      <div class="welcome-header">
-        <div class="welcome-eyebrow">Getting Started</div>
-        <h2 class="welcome-title">Hi Red Cariboo Resort!</h2>
-        <p class="welcome-message">You have built a property that guests give five stars to and an operation that runs close to full, and almost none of that is leisure travel yet. This plan is about spending the $40,000 in the right order, so that when the January planning peak arrives, travellers can find you, understand you, and book you without having to send an email first.</p>
+  <div class="dash-v2">
+    <!-- Dashboard Header -->
+    <div class="dash-header">
+      <div class="dash-header-left">
+        <div class="dash-eyebrow" id="dash-day-label">DAY 1 OF 90</div>
+        <h1 class="dash-greeting" id="dash-greeting">Good to see you, Red Cariboo</h1>
       </div>
+      <span class="dash-days-pill" id="dash-days-pill">90 days to go</span>
     </div>
 
-    <!-- HOW TO USE THIS ACCELERATOR -->
-    <div class="how-to-section" id="objectives-section">
-      <div class="how-to-section-label">How to Use This Accelerator</div>
-      <div class="how-to-grid">
-        <div class="how-to-card">
-          <div class="how-to-icon assessment">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
-          </div>
-          <h4 class="how-to-title">Start with Your Assessment</h4>
-          <p class="how-to-desc">Review your digital marketing assessment to understand your current position and the recommendations we've made.</p>
-          <button class="how-to-link" onclick="navigate('assessment')">Go to Assessment <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-        <div class="how-to-card">
-          <div class="how-to-icon strategy">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 6a3 3 0 013-3h10a1 1 0 01.8 1.6L14.25 8l2.55 3.4A1 1 0 0116 13H6a1 1 0 00-1 1v3a1 1 0 11-2 0V6z" clip-rule="evenodd"/></svg>
-          </div>
-          <h4 class="how-to-title">Review Your Strategy</h4>
-          <p class="how-to-desc">Understand your 90-day goal, strategic positioning, and the three objectives we'll achieve together.</p>
-          <button class="how-to-link" onclick="navigate('strategy')">View Strategy <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-        <div class="how-to-card">
-          <div class="how-to-icon roadmap">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-          </div>
-          <h4 class="how-to-title">Follow the Roadmap</h4>
-          <p class="how-to-desc">Work through each week of your 90-day roadmap. Check off tasks as you complete them to track your progress.</p>
-          <button class="how-to-link" onclick="navigate('roadmap')">Open Roadmap <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-        <div class="how-to-card">
-          <div class="how-to-icon tactics">
-            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
-          </div>
-          <h4 class="how-to-title">Use Tactic Guides</h4>
-          <p class="how-to-desc">When you need detailed instructions for a task, click "how to" links to jump to step-by-step guides.</p>
-          <button class="how-to-link" onclick="navigate('tactic1')">Browse Tactics <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-      </div>
-    </div>
-
-    <!-- PROGRESS COMPACT -->
-    <div class="progress-section-compact plan-content" id="tactic-cards-section">
-      <div class="progress-ring-wrap">
-        <svg class="progress-ring-svg" width="100" height="100" viewBox="0 0 100 100">
-          <circle class="progress-ring-bg" cx="50" cy="50" r="45"/>
-          <circle class="progress-ring-bar" id="dash-ring" cx="50" cy="50" r="45"/>
+    <!-- Progress Hero Card -->
+    <div class="dash-progress-hero">
+      <div class="dash-ring-large-wrap">
+        <svg class="dash-ring-large" width="200" height="200" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="85" fill="none" stroke="var(--surface-sunken)" stroke-width="17"></circle>
+          <circle id="dash-ring" cx="100" cy="100" r="85" fill="none" stroke="var(--mint-500)" stroke-width="17" stroke-linecap="round" stroke-dasharray="534.1" stroke-dashoffset="534.1" style="transition:stroke-dashoffset .5s ease;transform:rotate(-90deg);transform-origin:center"></circle>
         </svg>
-        <div class="progress-ring-text">
-          <div class="progress-ring-pct" id="dash-pct">0%</div>
-          <div class="progress-ring-label">Complete</div>
+        <div class="dash-ring-large-text">
+          <div class="dash-ring-pct" id="dash-pct">0%</div>
+          <div class="dash-ring-label"><span id="dash-done-count">0</span> of <span id="dash-total-count">43</span> tasks</div>
         </div>
       </div>
-      <div class="progress-text">
-        <h3>Your Progress</h3>
-        <p>Work through the 90-Day Roadmap week by week. Each completed checklist item moves you closer to your goal.</p>
-        <div class="progress-stats">
-          <div class="progress-stat">
-            <div class="progress-stat-value" id="dash-done-count">0</div>
-            <div class="progress-stat-label">Tasks done</div>
+      <div class="dash-progress-content">
+        <h2 class="dash-headline" id="dash-headline">Getting those foundations sorted</h2>
+        <p class="dash-subcopy" id="dash-subcopy">You're in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.</p>
+        <div class="dash-phases-label">THE 90 DAYS</div>
+        <div class="dash-phases-grid">
+          <div class="dash-phase" data-phase="1">
+            <div class="dash-phase-range">WEEKS 1-3</div>
+            <div class="dash-phase-name">Foundation</div>
+            <div class="dash-phase-desc">Fix tracking, clean up the site</div>
           </div>
-          <div class="progress-stat">
-            <div class="progress-stat-value" id="dash-total-count">55</div>
-            <div class="progress-stat-label">Total tasks</div>
+          <div class="dash-phase" data-phase="2">
+            <div class="dash-phase-range">WEEKS 4-6</div>
+            <div class="dash-phase-name">Build</div>
+            <div class="dash-phase-desc">Create content and assets</div>
+          </div>
+          <div class="dash-phase" data-phase="3">
+            <div class="dash-phase-range">WEEKS 7-9</div>
+            <div class="dash-phase-name">Launch</div>
+            <div class="dash-phase-desc">Turn on paid acquisition</div>
+          </div>
+          <div class="dash-phase" data-phase="4">
+            <div class="dash-phase-range">WEEKS 10-12</div>
+            <div class="dash-phase-name">Scale</div>
+            <div class="dash-phase-desc">Optimize and expand</div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- QUICK ACTIONS -->
-    <div class="quick-actions plan-content">
-      <button class="quick-action-btn primary" onclick="navigate('roadmap')">
-        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
-        Continue to Roadmap
-      </button>
-      <button class="quick-action-btn secondary" onclick="navigate('assessment')">
-        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm2 10a1 1 0 10-2 0v3a1 1 0 102 0v-3zm2-3a1 1 0 011 1v5a1 1 0 11-2 0v-5a1 1 0 011-1zm4-1a1 1 0 10-2 0v7a1 1 0 102 0V8z" clip-rule="evenodd"/></svg>
-        View Assessment
-      </button>
+    <!-- Next Step Card -->
+    <div class="dash-next-step">
+      <div class="dash-next-main">
+        <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · Fix the Analytics</div>
+        <h2 class="dash-next-title" id="dash-next-title">Set up clean measurement before spending anything</h2>
+        <div class="dash-next-tasks" id="dash-next-tasks">
+          <!-- Tasks populated by JavaScript -->
+        </div>
+        <div class="dash-next-actions">
+          <button class="dash-btn-primary" onclick="navigate('roadmap')">Open the roadmap</button>
+          <span class="dash-next-link" onclick="navigate('tactic1')">Open the full guide for this tactic →</span>
+        </div>
+      </div>
+      <div class="dash-next-sidebar">
+        <div class="dash-next-meta">
+          <div class="dash-next-meta-label">TACTIC</div>
+          <div class="dash-next-meta-value" id="dash-next-tactic">Measurement & Site</div>
+        </div>
+        <div class="dash-next-meta">
+          <div class="dash-next-meta-label">TIME NEEDED</div>
+          <div class="dash-next-meta-value">2-3 hours this week</div>
+        </div>
+        <div class="dash-next-meta">
+          <div class="dash-next-meta-label">WHO</div>
+          <div class="dash-next-meta-value">You + your developer</div>
+        </div>
+        <div class="dash-next-week-progress">
+          <div class="dash-next-week-header">
+            <span>Week 1 tasks</span>
+            <span id="dash-week-progress-label">0/4</span>
+          </div>
+          <div class="dash-next-week-bar">
+            <div class="dash-next-week-bar-fill" id="dash-week-bar" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Tactic Progress Cards -->
+    <div class="dash-tactics-grid">
+      <div class="dash-tactic-pill" onclick="navigate('tactic1')">
+        <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
+          <circle id="tactic1-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
+        </svg>
+        <div class="dash-tactic-info">
+          <div class="dash-tactic-name">Measurement & Site</div>
+          <div class="dash-tactic-label" id="tc1-stat">0 of 12 done</div>
+        </div>
+      </div>
+      <div class="dash-tactic-pill" onclick="navigate('tactic2')">
+        <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
+          <circle id="tactic2-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--link-blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
+        </svg>
+        <div class="dash-tactic-info">
+          <div class="dash-tactic-name">Content & Shoot</div>
+          <div class="dash-tactic-label" id="tc2-stat">0 of 10 done</div>
+        </div>
+      </div>
+      <div class="dash-tactic-pill" onclick="navigate('tactic3')">
+        <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
+          <circle id="tactic3-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--state-warning)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
+        </svg>
+        <div class="dash-tactic-info">
+          <div class="dash-tactic-name">Paid Acquisition</div>
+          <div class="dash-tactic-label" id="tc3-stat">0 of 14 done</div>
+        </div>
+      </div>
+      <div class="dash-tactic-pill" onclick="navigate('tactic4')">
+        <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
+          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
+          <circle id="tactic4-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--state-success)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
+        </svg>
+        <div class="dash-tactic-info">
+          <div class="dash-tactic-name">Email & Reviews</div>
+          <div class="dash-tactic-label" id="tc4-stat">0 of 7 done</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -6187,9 +6350,11 @@ function updateNoteBtn(id) {
 
 // ── Progress ──────────────────────────────────────────────
 // Read directly from DOM to support both localStorage and Supabase sync
+// IDs in arrays are data-key values (e.g., "week-1-check-1")
 function countChecked(ids) {
   return ids.filter(id => {
-    const el = document.getElementById(id);
+    // Query by data-key attribute since arrays use that format
+    const el = document.querySelector(`input[data-key="${id}"]`);
     return el && el.checked;
   }).length;
 }
@@ -6206,32 +6371,50 @@ function updateProgress() {
   // Roadmap badge
   document.getElementById('roadmap-badge').textContent = pct + '%';
   
-  // Dashboard ring
+  // Dashboard ring (large hero ring, radius 85)
   const ring = document.getElementById('dash-ring');
   if (ring) {
-    const circ = 2 * Math.PI * 54;
+    const circ = 2 * Math.PI * 85;
     ring.style.strokeDasharray = circ;
     ring.style.strokeDashoffset = circ - (circ * pct / 100);
   }
-  document.getElementById('dash-pct').textContent = pct + '%';
-  document.getElementById('dash-done-count').textContent = done;
-  document.getElementById('dash-total-count').textContent = total;
-  
-  // Tactic cards
-  [1,2,3].forEach(t => {
-    const ids = TACTIC_CHECKS[t];
+  const dashPct = document.getElementById('dash-pct');
+  const dashDone = document.getElementById('dash-done-count');
+  const dashTotal = document.getElementById('dash-total-count');
+  if (dashPct) dashPct.textContent = pct + '%';
+  if (dashDone) dashDone.textContent = done;
+  if (dashTotal) dashTotal.textContent = total;
+
+  // Tactic rings in dashboard grid (radius 18, circumference ~113.1)
+  [1,2,3,4].forEach(t => {
+    const ids = TACTIC_CHECKS[t] || [];
     const d = countChecked(ids);
     const tot = ids.length;
     const p = tot > 0 ? Math.round(d/tot*100) : 0;
-    const bar = document.getElementById('tc'+t+'-bar');
-    const stat = document.getElementById('tc'+t+'-stat');
-    if (bar) bar.style.width = p + '%';
-    if (stat) {
-      const labels = {1:'Foundation',2:'Paid Ads',3:'Scale'};
-      stat.textContent = d + ' of ' + tot + ' done · ' + labels[t];
+
+    // Update tactic ring SVG
+    const tacticRing = document.getElementById('tactic'+t+'-ring');
+    if (tacticRing) {
+      const circ = 2 * Math.PI * 18;
+      tacticRing.style.strokeDasharray = circ;
+      tacticRing.style.strokeDashoffset = circ - (circ * p / 100);
     }
+
+    // Update tactic stat label
+    const stat = document.getElementById('tc'+t+'-stat');
+    if (stat) {
+      stat.textContent = d + ' of ' + tot + ' done';
+    }
+
+    // Legacy bar support
+    const bar = document.getElementById('tc'+t+'-bar');
+    if (bar) bar.style.width = p + '%';
   });
-  
+
+  // Update current week progress in Next Step card
+  updateNextStepWeekProgress();
+  updateNextStepTasks();
+
   // Week pills
   for (let w=1; w<=12; w++) {
     const ids = WEEK_CHECKS[w];
@@ -6255,9 +6438,304 @@ function updateProgress() {
   });
 }
 
+// ── Dashboard Dynamic Content ──────────────────────────────
+// Cohort configuration from body data attributes
+const COHORT_START = document.body.getAttribute('data-cohort-start');
+const TOTAL_DAYS = parseInt(document.body.getAttribute('data-total-days') || '90', 10);
+const TOTAL_WEEKS = parseInt(document.body.getAttribute('data-total-weeks') || '12', 10);
+
+// Week titles for the Next Step card
+const WEEK_TITLES = {
+  1: 'Fix the Analytics',
+  2: 'Website Conversion Fixes',
+  3: 'Build the Booking Path',
+  4: 'Booking Page and Booking Bar',
+  5: 'Photo and Video Shoot',
+  6: 'Content Creation Week',
+  7: 'Launch Google Search Ads',
+  8: 'Launch Meta Ads',
+  9: 'Creator Visit Week',
+  10: 'Optimize and Scale',
+  11: 'Email List Growth',
+  12: 'Review Collection and Close'
+};
+
+// Tactic info for each week
+const WEEK_TACTICS = {
+  1: { num: 1, name: 'Measurement & Site' },
+  2: { num: 1, name: 'Measurement & Site' },
+  3: { num: 1, name: 'Measurement & Site' },
+  4: { num: 1, name: 'Measurement & Site' },
+  5: { num: 2, name: 'Content & Shoot' },
+  6: { num: 2, name: 'Content & Shoot' },
+  7: { num: 3, name: 'Paid Acquisition' },
+  8: { num: 3, name: 'Paid Acquisition' },
+  9: { num: 2, name: 'Content & Shoot' },
+  10: { num: 3, name: 'Paid Acquisition' },
+  11: { num: 3, name: 'Paid Acquisition' },
+  12: { num: 3, name: 'Paid Acquisition' }
+};
+
+// Phase definitions
+const PHASES = [
+  { num: 1, weeks: [1, 2, 3], name: 'Foundation' },
+  { num: 2, weeks: [4, 5, 6], name: 'Build' },
+  { num: 3, weeks: [7, 8, 9], name: 'Launch' },
+  { num: 4, weeks: [10, 11, 12], name: 'Scale' }
+];
+
+// Headlines based on progress percentage
+const PROGRESS_HEADLINES = [
+  { max: 10, headline: 'Getting those foundations sorted', subcopy: 'You\'re in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.' },
+  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the foundations. The tracking is taking shape and the site improvements are underway. Keep the pace going.' },
+  { max: 50, headline: 'Halfway there', subcopy: 'You\'ve crossed the halfway mark. The measurement system is in place, and now you\'re building the content and assets that will drive results.' },
+  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the groundwork is done and paid campaigns are running. Focus on optimization and scaling what\'s working.' },
+  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. You\'ve built something real: clean tracking, a converting site, and live campaigns. Finish strong.' },
+  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. You\'ve built clean measurement, a site that converts, and campaigns that are running. Time to see the results.' }
+];
+
+function getDayInfo() {
+  if (!COHORT_START) return { currentDay: 1, currentWeek: 1, daysRemaining: TOTAL_DAYS };
+
+  const start = new Date(COHORT_START + 'T00:00:00');
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+
+  const diffMs = now - start;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  // Before start
+  if (diffDays < 0) {
+    return { currentDay: 0, currentWeek: 0, daysRemaining: TOTAL_DAYS, beforeStart: true, daysUntilStart: Math.abs(diffDays) };
+  }
+
+  // After end
+  if (diffDays >= TOTAL_DAYS) {
+    return { currentDay: TOTAL_DAYS, currentWeek: TOTAL_WEEKS, daysRemaining: 0, completed: true };
+  }
+
+  const currentDay = diffDays + 1;
+  const currentWeek = Math.min(Math.ceil(currentDay / 7), TOTAL_WEEKS);
+  const daysRemaining = TOTAL_DAYS - diffDays;
+
+  return { currentDay, currentWeek, daysRemaining };
+}
+
+function getTimeGreeting() {
+  const hour = new Date().getHours();
+  if (hour < 12) return 'Good morning';
+  if (hour < 17) return 'Good afternoon';
+  return 'Good evening';
+}
+
+function getCurrentPhase(week) {
+  for (const phase of PHASES) {
+    if (phase.weeks.includes(week)) return phase.num;
+  }
+  return 1;
+}
+
+function getFirstIncompleteWeek() {
+  for (let w = 1; w <= TOTAL_WEEKS; w++) {
+    const ids = WEEK_CHECKS[w];
+    if (!ids) continue;
+    const done = countChecked(ids);
+    if (done < ids.length) return w;
+  }
+  return TOTAL_WEEKS; // All complete, show last week
+}
+
+function getProgressHeadline(pct) {
+  for (const h of PROGRESS_HEADLINES) {
+    if (pct <= h.max) return h;
+  }
+  return PROGRESS_HEADLINES[PROGRESS_HEADLINES.length - 1];
+}
+
+function updateNextStepWeekProgress() {
+  const focusWeek = getFirstIncompleteWeek();
+  const ids = WEEK_CHECKS[focusWeek] || [];
+  const done = countChecked(ids);
+  const total = ids.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+
+  const label = document.getElementById('dash-week-progress-label');
+  const bar = document.getElementById('dash-week-bar');
+
+  if (label) label.textContent = done + '/' + total;
+  if (bar) bar.style.width = pct + '%';
+}
+
+function updateNextStepTasks() {
+  // Update the visual state of task checkboxes in the Next Step card
+  const container = document.getElementById('dash-next-tasks');
+  if (!container) return;
+
+  container.querySelectorAll('.dash-next-task').forEach(taskEl => {
+    const dataKey = taskEl.getAttribute('data-key');
+    if (!dataKey) return;
+
+    const checkbox = document.querySelector(`input[data-key="${dataKey}"]`);
+    if (!checkbox) return;
+
+    const isChecked = checkbox.checked;
+    const box = taskEl.querySelector('.dash-next-task-box');
+    const text = taskEl.querySelector('.dash-next-task-text');
+
+    if (box) box.classList.toggle('done', isChecked);
+    if (text) text.classList.toggle('done', isChecked);
+  });
+}
+
+function initDashboard() {
+  const dayInfo = getDayInfo();
+  const clientName = document.body.getAttribute('data-client-name') || 'there';
+
+  // Day label
+  const dayLabel = document.getElementById('dash-day-label');
+  if (dayLabel) {
+    if (dayInfo.beforeStart) {
+      dayLabel.textContent = 'STARTING IN ' + dayInfo.daysUntilStart + ' DAYS';
+    } else if (dayInfo.completed) {
+      dayLabel.textContent = 'DAY 90 OF 90 · COMPLETE';
+    } else {
+      dayLabel.textContent = 'DAY ' + dayInfo.currentDay + ' OF ' + TOTAL_DAYS;
+    }
+  }
+
+  // Greeting
+  const greeting = document.getElementById('dash-greeting');
+  if (greeting) {
+    greeting.textContent = getTimeGreeting() + ', ' + clientName;
+  }
+
+  // Days pill
+  const pill = document.getElementById('dash-days-pill');
+  if (pill) {
+    if (dayInfo.beforeStart) {
+      pill.textContent = 'Starts soon';
+    } else if (dayInfo.completed) {
+      pill.textContent = 'Complete!';
+    } else {
+      pill.textContent = dayInfo.daysRemaining + ' days to go';
+    }
+  }
+
+  // Active phase highlighting
+  const currentPhase = getCurrentPhase(dayInfo.currentWeek || 1);
+  document.querySelectorAll('.dash-phase').forEach(el => {
+    const phaseNum = parseInt(el.getAttribute('data-phase'), 10);
+    el.setAttribute('data-active', phaseNum === currentPhase ? 'true' : 'false');
+  });
+
+  // Progress-based headline
+  const done = countChecked(ALL_CHECK_IDS);
+  const total = ALL_CHECK_IDS.length;
+  const pct = total > 0 ? Math.round(done / total * 100) : 0;
+  const headlineData = getProgressHeadline(pct);
+
+  const headline = document.getElementById('dash-headline');
+  const subcopy = document.getElementById('dash-subcopy');
+  if (headline) headline.textContent = headlineData.headline;
+  if (subcopy) subcopy.textContent = headlineData.subcopy;
+
+  // Next Step card
+  const focusWeek = getFirstIncompleteWeek();
+  const weekTitle = WEEK_TITLES[focusWeek] || 'Week ' + focusWeek;
+  const tacticInfo = WEEK_TACTICS[focusWeek] || { num: 1, name: 'Tactic' };
+
+  const eyebrow = document.getElementById('dash-next-eyebrow');
+  if (eyebrow) {
+    eyebrow.textContent = 'YOUR NEXT STEP · WEEK ' + focusWeek + ' OF ' + TOTAL_WEEKS + ' · ' + weekTitle;
+  }
+
+  const nextTitle = document.getElementById('dash-next-title');
+  if (nextTitle) {
+    // Get the first incomplete task description for the title
+    const firstTask = getFirstIncompleteTaskLabel(focusWeek);
+    nextTitle.textContent = firstTask || 'Complete your tasks for this week';
+  }
+
+  const nextTactic = document.getElementById('dash-next-tactic');
+  if (nextTactic) {
+    nextTactic.textContent = tacticInfo.name;
+  }
+
+  // Update the tactic link
+  const tacticLink = document.querySelector('.dash-next-link');
+  if (tacticLink) {
+    tacticLink.setAttribute('onclick', "navigate('tactic" + tacticInfo.num + "')");
+  }
+
+  // Populate next step tasks
+  populateNextStepTasks(focusWeek);
+
+  // Update week progress
+  updateNextStepWeekProgress();
+}
+
+function getFirstIncompleteTaskLabel(week) {
+  const ids = WEEK_CHECKS[week] || [];
+  for (const id of ids) {
+    const checkbox = document.querySelector(`input[data-key="${id}"]`);
+    if (checkbox && !checkbox.checked) {
+      const label = checkbox.closest('.check-row')?.querySelector('.check-label');
+      if (label) return label.textContent;
+    }
+  }
+  return null;
+}
+
+function populateNextStepTasks(week) {
+  const container = document.getElementById('dash-next-tasks');
+  if (!container) return;
+
+  const ids = WEEK_CHECKS[week] || [];
+  container.innerHTML = '';
+
+  // Show up to 4 tasks
+  const maxTasks = Math.min(ids.length, 4);
+  for (let i = 0; i < maxTasks; i++) {
+    const id = ids[i];
+    const checkbox = document.querySelector(`input[data-key="${id}"]`);
+    if (!checkbox) continue;
+
+    const label = checkbox.closest('.check-row')?.querySelector('.check-label');
+    const labelText = label ? label.textContent : 'Task ' + (i + 1);
+    const isChecked = checkbox.checked;
+
+    const taskEl = document.createElement('div');
+    taskEl.className = 'dash-next-task';
+    taskEl.setAttribute('data-key', id);
+    taskEl.onclick = function() {
+      // Navigate to roadmap and open the week
+      navigate('roadmap');
+      setTimeout(function() {
+        const weekCard = document.getElementById('wc-' + week);
+        if (weekCard && !weekCard.classList.contains('open')) {
+          weekCard.classList.add('open');
+        }
+        checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 100);
+    };
+
+    taskEl.innerHTML = `
+      <div class="dash-next-task-box${isChecked ? ' done' : ''}">
+        <svg width="14" height="14" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="1.5,6 4.5,9 10.5,3"/>
+        </svg>
+      </div>
+      <span class="dash-next-task-text${isChecked ? ' done' : ''}">${labelText}</span>
+    `;
+
+    container.appendChild(taskEl);
+  }
+}
+
 // ── Restore state from localStorage ───────────────────────
 function restoreState() {
-  ALL_CHECK_IDS.forEach(id => {
+  // Restore checkboxes from localStorage state (uses element IDs like rw1_d1)
+  Object.keys(state.checks).forEach(id => {
     const el = document.getElementById(id);
     if (el && state.checks[id]) {
       el.checked = true;
@@ -6552,6 +7030,7 @@ document.addEventListener('DOMContentLoaded', function() {
   loadState();
   restoreState();
   updateProgress();
+  initDashboard();
   checkOnboarding();
   
   // Open Week 1 by default on roadmap
