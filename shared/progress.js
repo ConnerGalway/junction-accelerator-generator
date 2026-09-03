@@ -18,21 +18,41 @@
 
   const storageAvailable = isStorageAvailable();
   const clientSlug = document.body.getAttribute('data-client-slug');
-  const isReadonly = document.body.getAttribute('data-readonly') === 'true';
 
   // ------------------------------------------------------------------
-  // 1. Read-only mode — disable all inputs and stop
-  //    (coaches and admins view only, no progress loading in Phase 1)
+  // Helper: Enable or disable all form inputs based on readonly state
   // ------------------------------------------------------------------
-  if (isReadonly) {
+  function setInputsDisabled(disabled) {
     document.querySelectorAll('input[type="checkbox"]').forEach(el => {
-      el.disabled = true;
+      el.disabled = disabled;
     });
     document.querySelectorAll('textarea, input[type="text"]').forEach(el => {
-      el.disabled = true;
+      el.disabled = disabled;
     });
-    return;
   }
+
+  // ------------------------------------------------------------------
+  // 1. Read-only mode handling with dynamic toggle support
+  // ------------------------------------------------------------------
+  const isReadonly = document.body.getAttribute('data-readonly') === 'true';
+
+  if (isReadonly) {
+    setInputsDisabled(true);
+  }
+
+  // Listen for mode changes from auth.js toggle
+  window.addEventListener('readonlyModeChanged', (e) => {
+    const readonly = e.detail.readonly;
+    setInputsDisabled(readonly);
+
+    // If switching to edit mode, ensure we have the latest progress loaded
+    if (!readonly && window.__loadProgressFromSupabase) {
+      window.__loadProgressFromSupabase();
+    }
+  });
+
+  // If starting in readonly mode, still set up the rest but with inputs disabled
+  // (allows instant switch to edit mode without page reload)
 
   // ------------------------------------------------------------------
   // 2. Get the current user's id from the active session
@@ -50,18 +70,26 @@
   // ------------------------------------------------------------------
   // 4. Load saved progress from Supabase and apply to checkboxes
   // ------------------------------------------------------------------
-  const { data: progressRows } = await supabaseClient
-    .from('progress')
-    .select('item_key, checked')
-    .eq('user_id', userId)
-    .eq('client_slug', clientSlug);
+  async function loadProgressFromSupabase() {
+    const { data: progressRows } = await supabaseClient
+      .from('progress')
+      .select('item_key, checked')
+      .eq('user_id', userId)
+      .eq('client_slug', clientSlug);
 
-  if (progressRows) {
-    progressRows.forEach(({ item_key, checked }) => {
-      const checkbox = document.querySelector(`input[type="checkbox"][data-key="${item_key}"]`);
-      if (checkbox) checkbox.checked = checked;
-    });
+    if (progressRows) {
+      progressRows.forEach(({ item_key, checked }) => {
+        const checkbox = document.querySelector(`input[type="checkbox"][data-key="${item_key}"]`);
+        if (checkbox) checkbox.checked = checked;
+      });
+    }
   }
+
+  // Load initial progress
+  await loadProgressFromSupabase();
+
+  // Make loadProgressFromSupabase available to the event listener
+  window.__loadProgressFromSupabase = loadProgressFromSupabase;
 
   // ------------------------------------------------------------------
   // 5. Attach change listeners to all checkboxes

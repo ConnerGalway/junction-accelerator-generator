@@ -154,11 +154,17 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 5. Coaches, PSMs, and admins get read-only mode — disable all
-    //    interactions and show a banner at the top of the page
+    // 5. Coaches, PSMs, and admins get read-only mode by default, with
+    //    a toggle to switch to edit mode for testing/demo purposes
     // ------------------------------------------------------------------
     if (matchedRole === 'coach' || matchedRole === 'psm' || matchedRole === 'admin') {
-      document.body.setAttribute('data-readonly', 'true');
+      // Check if user previously enabled edit mode this session
+      const editModeKey = `edit_mode_${clientSlug}`;
+      const savedEditMode = sessionStorage.getItem(editModeKey) === 'true';
+
+      if (!savedEditMode) {
+        document.body.setAttribute('data-readonly', 'true');
+      }
 
       const banner = document.createElement('div');
       banner.id = 'readonly-banner';
@@ -174,10 +180,67 @@ window.__authReady = (async function () {
         'padding: 10px 16px',
         'font-family: sans-serif',
         'font-size: 14px',
-        'letter-spacing: 0.01em'
+        'letter-spacing: 0.01em',
+        'display: flex',
+        'align-items: center',
+        'justify-content: center',
+        'gap: 16px'
       ].join(';');
-      banner.textContent = 'You are viewing this plan in read-only mode.';
 
+      const bannerText = document.createElement('span');
+      bannerText.id = 'readonly-banner-text';
+      bannerText.textContent = savedEditMode
+        ? 'Edit mode enabled. Changes will be saved.'
+        : 'You are viewing this plan in read-only mode.';
+
+      const toggleBtn = document.createElement('button');
+      toggleBtn.id = 'readonly-toggle';
+      toggleBtn.style.cssText = [
+        'background: rgba(255,255,255,0.15)',
+        'border: 1px solid rgba(255,255,255,0.3)',
+        'color: #ffffff',
+        'padding: 6px 14px',
+        'border-radius: 4px',
+        'font-size: 13px',
+        'cursor: pointer',
+        'transition: background 0.2s'
+      ].join(';');
+      toggleBtn.textContent = savedEditMode ? 'Switch to View Mode' : 'Switch to Edit Mode';
+      toggleBtn.onmouseover = () => toggleBtn.style.background = 'rgba(255,255,255,0.25)';
+      toggleBtn.onmouseout = () => toggleBtn.style.background = 'rgba(255,255,255,0.15)';
+
+      toggleBtn.onclick = () => {
+        const isCurrentlyReadonly = document.body.getAttribute('data-readonly') === 'true';
+
+        if (isCurrentlyReadonly) {
+          // Switch to edit mode
+          document.body.removeAttribute('data-readonly');
+          sessionStorage.setItem(editModeKey, 'true');
+          bannerText.textContent = 'Edit mode enabled. Changes will be saved.';
+          toggleBtn.textContent = 'Switch to View Mode';
+          banner.style.background = '#0d6939';
+        } else {
+          // Switch to view mode
+          document.body.setAttribute('data-readonly', 'true');
+          sessionStorage.removeItem(editModeKey);
+          bannerText.textContent = 'You are viewing this plan in read-only mode.';
+          toggleBtn.textContent = 'Switch to Edit Mode';
+          banner.style.background = '#11154b';
+        }
+
+        // Dispatch event for progress.js to react
+        window.dispatchEvent(new CustomEvent('readonlyModeChanged', {
+          detail: { readonly: !isCurrentlyReadonly }
+        }));
+      };
+
+      // Set initial banner color based on mode
+      if (savedEditMode) {
+        banner.style.background = '#0d6939';
+      }
+
+      banner.appendChild(bannerText);
+      banner.appendChild(toggleBtn);
       document.body.prepend(banner);
     }
 

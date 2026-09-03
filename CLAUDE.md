@@ -51,12 +51,13 @@ These are non-negotiable. Do not omit them even if the template doesn't show the
 ```
 Use the exact client slug (e.g. `alberni-adventure-gear`). This is how `auth.js` and `progress.js` identify which client page they're on.
 
-**3. On every week section container: week ID and data attribute**
+**3. On every week section container: data-week attribute**
 ```html
-<section id="week-N" class="week-block" data-week="N">
+<div class="week-card" id="wc-N" data-week="N">
 ```
-Both `id="week-N"` and `data-week="N"` must be on the same element. N = 1–12.
+The `data-week="N"` attribute is required on the week container element. N = 1–12.
 `data-week` is how `progress.js` knows which week a checkbox belongs to.
+The container can use any class/id naming (e.g., `week-card`, `week-block`), but must have `data-week`.
 
 **4. On every checkbox in the 90-day roadmap: data-key attribute**
 
@@ -67,6 +68,13 @@ Both `id="week-N"` and `data-week="N"` must be on the same element. N = 1–12.
 
 N = week number. M = index of that item within the week, starting at 1.
 This is the primary key used to save and load progress in Supabase.
+
+Example checkbox HTML:
+```html
+<input type="checkbox" class="check-input" id="rw1_d1" data-key="week-1-check-1" onchange="onCheck(this)">
+```
+The `id` attribute (e.g., `rw1_d1`) is used by the inline localStorage backup system.
+The `data-key` attribute (e.g., `week-1-check-1`) is used by `progress.js` for Supabase sync.
 
 **5. Before `</body>`: shared scripts (in this exact order)**
 ```html
