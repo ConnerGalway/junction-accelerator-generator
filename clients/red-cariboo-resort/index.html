@@ -4553,6 +4553,60 @@ body:not(.has-plan) .plan-content{display:none}
   padding:0 16px;
 }
 
+/* Browser Frame Mockup */
+.tactic-mockup{
+  margin-top:16px;
+  max-width:640px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #d8cdb8;
+  box-shadow:0 4px 14px rgba(30,25,15,.1);
+  background:#fff;
+}
+.tactic-mockup-chrome{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  background:#e9e2d2;
+}
+.tactic-mockup-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+.tactic-mockup-dot.red{background:#e3a99a;}
+.tactic-mockup-dot.yellow{background:#e8cf98;}
+.tactic-mockup-dot.green{background:#a9c8a2;}
+.tactic-mockup-url{
+  flex:1;
+  background:#fff;
+  border-radius:5px;
+  padding:4px 10px;
+  font:11px/1.2 ui-monospace,Menlo,monospace;
+  color:#8a7f68;
+  margin-left:6px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.tactic-mockup-body{
+  background:#f7f2e9;
+  padding:0;
+}
+.tactic-mockup-body img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.tactic-mockup-label{
+  padding:12px 16px;
+  font-size:12px;
+  color:#8a7f68;
+  text-align:center;
+  background:#f7f2e9;
+}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -5726,6 +5780,18 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Keep the German site fully intact. This changes the default, not the content; the language switcher still needs to reach it.</li>
                   <li>Test from a fresh browser session (no cookies, no saved language preference) to confirm English loads first.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">redcariboo.com</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/red-cariboo-mockups/homepage-hero-cabins.png" alt="Proposed homepage with English as default language">
+                  </div>
+                  <div class="tactic-mockup-label">Proposed homepage: English-first at the root domain</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-7">
@@ -5741,6 +5807,31 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Fields: check-in date, check-out date, number of guests, and a "Check Availability" button.</li>
                   <li>The button should link straight into the rebuilt booking page (next step) carrying the selected dates over, not to a generic contact page.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">redcariboo.com/en/activities</div>
+                  </div>
+                  <div class="tactic-mockup-body" style="background:#262019;padding:16px 24px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <span style="color:#c9c2b8;font-size:11px;font-weight:700;">CHECK IN</span>
+                      <div style="background:#fff;border-radius:4px;padding:6px 10px;font-size:12px;color:#262322;">Sep 12, 2026</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <span style="color:#c9c2b8;font-size:11px;font-weight:700;">CHECK OUT</span>
+                      <div style="background:#fff;border-radius:4px;padding:6px 10px;font-size:12px;color:#262322;">Sep 15, 2026</div>
+                    </div>
+                    <div style="display:flex;align-items:center;gap:8px;">
+                      <span style="color:#c9c2b8;font-size:11px;font-weight:700;">GUESTS</span>
+                      <div style="background:#fff;border-radius:4px;padding:6px 10px;font-size:12px;color:#262322;">2 adults</div>
+                    </div>
+                    <div style="flex:1;"></div>
+                    <div style="background:#BE1E2D;color:#fff;border-radius:4px;padding:9px 20px;font-size:13px;font-weight:700;">Book Now</div>
+                  </div>
+                  <div class="tactic-mockup-label">Persistent booking bar: shown under the nav on every page</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-8">
@@ -5753,6 +5844,49 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Embed the live booking calendar/engine directly on this page rather than routing to a third-party tab.</li>
                   <li>Keep the same URL. The new booking bar and all existing inbound links point here.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">redcariboo.com/en/booking</div>
+                  </div>
+                  <div class="tactic-mockup-body" style="padding:20px;">
+                    <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:18px;color:#262322;margin-bottom:12px;">Book your stay</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+                      <div style="border:1px solid #ececec;border-radius:6px;padding:10px 12px;display:flex;gap:10px;">
+                        <div style="width:50px;height:40px;background:#e4dfd6;border-radius:4px;flex-shrink:0;"></div>
+                        <div>
+                          <div style="font-size:12px;font-weight:700;color:#262322;">River Apartment 1</div>
+                          <div style="font-size:11px;color:#6b6560;">$204/night</div>
+                        </div>
+                      </div>
+                      <div style="border:1px solid #ececec;border-radius:6px;padding:10px 12px;display:flex;gap:10px;">
+                        <div style="width:50px;height:40px;background:#e4dfd6;border-radius:4px;flex-shrink:0;"></div>
+                        <div>
+                          <div style="font-size:12px;font-weight:700;color:#262322;">Spruce Cabin</div>
+                          <div style="font-size:11px;color:#6b6560;">$209/night</div>
+                        </div>
+                      </div>
+                      <div style="border:1px solid #ececec;border-radius:6px;padding:10px 12px;display:flex;gap:10px;">
+                        <div style="width:50px;height:40px;background:#e4dfd6;border-radius:4px;flex-shrink:0;"></div>
+                        <div>
+                          <div style="font-size:12px;font-weight:700;color:#262322;">Pine Cabin</div>
+                          <div style="font-size:11px;color:#6b6560;">$209/night</div>
+                        </div>
+                      </div>
+                      <div style="border:1px solid #ececec;border-radius:6px;padding:10px 12px;display:flex;gap:10px;">
+                        <div style="width:50px;height:40px;background:#e4dfd6;border-radius:4px;flex-shrink:0;"></div>
+                        <div>
+                          <div style="font-size:12px;font-weight:700;color:#262322;">Cariboo Cabin</div>
+                          <div style="font-size:11px;color:#6b6560;">$315/night</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div style="font-size:10px;color:#847f78;padding:8px 10px;background:#ececec;border-radius:4px;">Cancellation: Free up to 14 days before arrival</div>
+                  </div>
+                  <div class="tactic-mockup-label">Rebuilt booking page: all 8 units with photos, rates, and policy on one page</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-9">
@@ -5800,6 +5934,26 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Keep the total number of top-level items the same or fewer. This is a regrouping, not an expansion.</li>
                   <li>Move seasonal offers under Plan Your Trip so they are not orphaned once the current one is retired.</li>
                 </ul>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px;max-width:640px;">
+                  <div style="background:#fff;border:1px solid #ececec;border-radius:8px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+                    <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#8c857a;letter-spacing:.08em;margin-bottom:12px;">CURRENT</div>
+                    <div style="display:inline-block;background:#ececec;border-radius:4px;padding:6px 12px;font-size:11px;font-weight:700;color:#262322;margin-bottom:10px;">STORIES ▾</div>
+                    <div style="font-size:10px;color:#5b5650;line-height:1.8;">Packing List · Getting Here · A Day at the Lodge · Meet the Team · Shopping &amp; Self-Catering · Fishing the Dean · Winter Trails · FAQ · Our Story · Building the Lodge + more</div>
+                    <div style="margin-top:10px;font-size:10px;color:#a89970;">19 items, mixed practical and narrative</div>
+                  </div>
+                  <div style="background:#fff;border:1px solid #ececec;border-radius:8px;padding:16px;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+                    <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:11px;color:#BE1E2D;letter-spacing:.08em;margin-bottom:12px;">PROPOSED</div>
+                    <div style="display:flex;gap:8px;margin-bottom:10px;">
+                      <div style="background:#BE1E2D;color:#fff;border-radius:4px;padding:6px 10px;font-size:10px;font-weight:700;">PLAN YOUR TRIP ▾</div>
+                      <div style="background:#ececec;color:#262322;border-radius:4px;padding:6px 10px;font-size:10px;font-weight:700;">STORIES ▾</div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:9px;color:#5b5650;">
+                      <div><b style="color:#BE1E2D;">Practical:</b> Packing, Getting Here, Self-Catering, FAQ</div>
+                      <div><b style="color:#BE1E2D;">Narrative:</b> Our Story, Building the Lodge, Wildlife</div>
+                    </div>
+                    <div style="margin-top:10px;font-size:10px;color:#847f78;">Practical answers separated from narrative reading</div>
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-12">
@@ -6617,6 +6771,29 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>This replaces the manual email you currently send, freeing your time.</li>
                   <li>Add one line inviting the guest to reply with questions.</li>
                 </ul>
+                <div class="tactic-mockup" style="max-width:420px;">
+                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
+                      <div style="flex:1;">
+                        <div style="font-size:12px;font-weight:700;color:#262322;">Red Cariboo Resort</div>
+                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
+                      </div>
+                    </div>
+                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Getting ready for your stay at Red Cariboo</div>
+                  </div>
+                  <div style="padding:16px;background:#fff;">
+                    <div style="background:#ececec;border-radius:6px;padding:12px 14px;margin-bottom:12px;">
+                      <div style="font-weight:700;font-size:11px;color:#262322;margin-bottom:4px;">GETTING HERE</div>
+                      <div style="font-size:11px;color:#3f3b39;line-height:1.5;">Turn off Highway 20 at Km 13...</div>
+                    </div>
+                    <div style="background:#ececec;border-radius:6px;padding:12px 14px;">
+                      <div style="font-weight:700;font-size:11px;color:#262322;margin-bottom:4px;">CELL SERVICE</div>
+                      <div style="font-size:11px;color:#3f3b39;line-height:1.5;">Coverage is spotty between Williams Lake and Bella Coola...</div>
+                    </div>
+                  </div>
+                  <div class="tactic-mockup-label">Pre-arrival email: sent 5 days before check-in</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t4-6">
@@ -6629,6 +6806,24 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Include QR review cards in the cabins too. In-person requests convert several times better.</li>
                   <li>Add a second email fourteen days later inviting them to join the list for next season.</li>
                 </ul>
+                <div class="tactic-mockup" style="max-width:420px;">
+                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
+                      <div style="flex:1;">
+                        <div style="font-size:12px;font-weight:700;color:#262322;">Red Cariboo Resort</div>
+                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
+                      </div>
+                    </div>
+                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Got a minute for us?</div>
+                  </div>
+                  <div style="padding:24px 16px;background:#fff;text-align:center;">
+                    <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:14px;color:#262322;margin-bottom:14px;"><span style="color:#BE1E2D;">Red</span> Cariboo</div>
+                    <p style="font-size:12px;color:#3f3b39;line-height:1.6;margin:0 0 16px;">Thanks for staying with us on the Dean River. If you have about a minute, a quick Google review helps other travelers find us.</p>
+                    <div style="display:inline-block;background:#BE1E2D;color:#fff;border-radius:5px;padding:10px 24px;font-size:12px;font-weight:700;">Leave a Google Review →</div>
+                  </div>
+                  <div class="tactic-mockup-label">Review request: sent 3 days after checkout</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t4-7">
@@ -6691,6 +6886,30 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Send it to the Canadian list only. Germans do not travel to Red Cariboo in winter.</li>
                   <li>Measure open rate, click rate and bookings attributed. This is the first evidence Axel will see.</li>
                 </ul>
+                <div class="tactic-mockup" style="max-width:420px;">
+                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
+                    <div style="display:flex;align-items:center;gap:10px;">
+                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
+                      <div style="flex:1;">
+                        <div style="font-size:12px;font-weight:700;color:#262322;">Red Cariboo Resort</div>
+                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
+                      </div>
+                    </div>
+                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Winter dates are going fast</div>
+                  </div>
+                  <div style="background:#1c1c1c;height:140px;overflow:hidden;">
+                    <img src="/assets/red-cariboo-mockups/winter-email-horses.png" alt="Horses in the snow near Anahim Lake" style="width:100%;height:100%;object-fit:cover;">
+                  </div>
+                  <div style="padding:16px;background:#fff;">
+                    <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#262322;margin-bottom:8px;">A handful of winter dates left</div>
+                    <p style="font-size:11px;color:#3f3b39;line-height:1.6;margin:0 0 12px;">Our winter season runs December through March, and this year's remaining open dates are filling up.</p>
+                    <div style="background:#ececec;border-radius:6px;padding:10px 12px;font-size:11px;color:#3f3b39;margin-bottom:12px;">Dec 18–22 · Jan 8–12 · Jan 22–26 · Feb 5–9</div>
+                    <div style="text-align:center;">
+                      <div style="display:inline-block;background:#BE1E2D;color:#fff;border-radius:5px;padding:10px 24px;font-size:12px;font-weight:700;">Book Now →</div>
+                    </div>
+                  </div>
+                  <div class="tactic-mockup-label">Winter availability email: sent early December to Canadian list</div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t4-11">
