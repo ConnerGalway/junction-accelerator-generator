@@ -4642,6 +4642,13 @@ body:not(.has-plan) .plan-content{display:none}
   .tactic-part-body{padding:0 16px 6px}
   .tactic-step-item{gap:12px;padding:16px 0}
 }
+
+/* Lightbox */
+.lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lightbox-overlay.active{display:flex}
+.lightbox-overlay img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.lightbox-trigger{cursor:zoom-in;transition:transform 0.2s ease}
+.lightbox-trigger:hover{transform:scale(1.02)}
 </style>
 </head>
 <body data-client-slug="red-cariboo-resort" data-client-name="Red Cariboo Resort" data-cohort-start="2026-08-12" data-total-days="90" data-total-weeks="12">
@@ -6357,7 +6364,7 @@ body:not(.has-plan) .plan-content{display:none}
                   <li>Do the same on Facebook.</li>
                 </ul>
                 <div style="margin-top:16px;text-align:center;">
-                  <img src="/assets/red-cariboo-mockups/instagram-profile-mockup.png" alt="Red Cariboo Resort Instagram profile with updated bio and highlights" style="max-width:260px;width:100%;height:auto;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
+                  <img src="/assets/red-cariboo-mockups/instagram-profile-mockup.png" alt="Red Cariboo Resort Instagram profile with updated bio and highlights" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" style="max-width:260px;width:100%;height:auto;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.1);">
                   <div style="margin-top:8px;font-size:11px;color:var(--navy-700);">Updated bio with location and highlights</div>
                 </div>
               </div>
@@ -8650,6 +8657,29 @@ if (window.__authReady) {
     console.error('Auth not ready for user menu:', err);
   });
 }
+</script>
+
+<!-- Lightbox -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+<script>
+function openLightbox(src, alt) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  var lb = document.getElementById('lightbox');
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 </body>
 </html>
