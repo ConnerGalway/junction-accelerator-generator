@@ -83,6 +83,31 @@ The `data-key` attribute (e.g., `week-1-check-1`) is used by `progress.js` for S
 <script src="/shared/progress.js"></script>
 ```
 
+**6. Progress counting must read from DOM**
+
+The inline `countChecked()` function must read checkbox state from the DOM, not from the `state.checks` object. This ensures progress trackers update correctly when `progress.js` loads/changes checkboxes from Supabase.
+
+```javascript
+// CORRECT: Read from DOM
+function countChecked(ids) {
+  return ids.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.checked;
+  }).length;
+}
+
+// WRONG: Read from state object (won't reflect Supabase changes)
+function countChecked(ids) {
+  return ids.filter(id => state.checks[id]).length;
+}
+```
+
+Also ensure `updateProgress` is globally accessible so `progress.js` can call it:
+```javascript
+// Define at top level of script (not inside a function)
+function updateProgress() { ... }
+```
+
 ---
 
 ### Step 2:Fill the simple placeholders

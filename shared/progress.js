@@ -32,6 +32,15 @@
   }
 
   // ------------------------------------------------------------------
+  // Helper: Refresh the inline progress UI if it exists
+  // ------------------------------------------------------------------
+  function refreshProgressUI() {
+    if (typeof window.updateProgress === 'function') {
+      window.updateProgress();
+    }
+  }
+
+  // ------------------------------------------------------------------
   // 1. Read-only mode handling with dynamic toggle support
   // ------------------------------------------------------------------
   const isReadonly = document.body.getAttribute('data-readonly') === 'true';
@@ -83,6 +92,9 @@
         if (checkbox) checkbox.checked = checked;
       });
     }
+
+    // Refresh the progress UI to reflect loaded state
+    refreshProgressUI();
   }
 
   // Load initial progress
@@ -126,6 +138,9 @@
       // Save failed (likely offline) — queue for retry
       queuePendingChange(record);
     }
+
+    // Refresh progress UI after checkbox change
+    refreshProgressUI();
   }
 
 

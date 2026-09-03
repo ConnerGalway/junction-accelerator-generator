@@ -6186,8 +6186,12 @@ function updateNoteBtn(id) {
 }
 
 // ── Progress ──────────────────────────────────────────────
+// Read directly from DOM to support both localStorage and Supabase sync
 function countChecked(ids) {
-  return ids.filter(id => state.checks[id]).length;
+  return ids.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.checked;
+  }).length;
 }
 function updateProgress() {
   const done = countChecked(ALL_CHECK_IDS);
