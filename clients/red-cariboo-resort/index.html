@@ -7040,19 +7040,15 @@ body:not(.has-plan) .plan-content{display:none}
             <li class="tactic-step-item" id="step-t4-8">
               <span class="tactic-step-num">8</span>
               <div class="tactic-step-content">
-                <div class="tactic-step-title">Connect Cloudbeds to Mailchimp</div>
+                <div class="tactic-step-title">Connect Cloudbeds to Mailchimp via Zapier</div>
                 <ul class="tactic-step-bullets">
-                  <li>Check the Cloudbeds marketplace for a direct Mailchimp integration first.</li>
-                  <li>If none exists, export guest contacts monthly and import them, or connect through Zapier.</li>
-                  <li>Tag every contact by guest type: leisure, work crew, or enquiry only. Work crews should never receive winter package emails.</li>
-                  <li>Tag by language too. German and Canadian lists receive different campaigns at different times.</li>
+                  <li>The recommended setup is Cloudbeds → Zapier → Mailchimp. Zapier has a native Cloudbeds integration that supports "New Reservation" as a trigger.</li>
+                  <li>In Cloudbeds, go to Account → Apps &amp; Marketplace → Zapier → Connect App to initiate the connection.</li>
+                  <li>Create a Zap with the trigger "New Reservation in Cloudbeds" and the action "Add/Update Subscriber in Mailchimp."</li>
+                  <li>Map the guest's name and email address to Mailchimp fields. Apply a tag such as "Cloudbeds Guest" or "2026 Guest" to identify bookings.</li>
+                  <li>Alternative: if Zapier is not an option, export Cloudbeds bookings monthly and upload the list to Mailchimp manually.</li>
+                  <li>Tag every contact by guest type (leisure vs. work crew) and language (English vs. German). Work crews should never receive winter package emails.</li>
                 </ul>
-                <div class="tactic-step-media">
-                  <div class="tactic-step-media-thumb">
-                    <span class="tactic-step-media-badge">Screenshot</span>
-                    <span class="tactic-step-media-caption">Cloudbeds → Mailchimp contact sync, tagged by guest type and language</span>
-                  </div>
-                </div>
               </div>
             </li>
           </ol>
