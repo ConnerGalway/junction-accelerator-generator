@@ -215,6 +215,55 @@ Each tactic page needs full content. For each of the 3 tactics, rebuild:
 
 **Tips & Resources tab**: tips from the plan + relevant resource links
 
+### Step 4.5: Tactic Page Enhancements (Optional)
+
+The template includes CSS and JS for enhanced tactic step presentations. Use these when the plan includes screenshots, mockups, or external resources.
+
+**Resource Links** (`.tactic-step-resource`)
+Add links to official documentation below step bullets:
+```html
+<a href="https://support.google.com/..." class="tactic-step-resource" target="_blank">View GA4 documentation →</a>
+```
+
+**Browser Mockups** (`.tactic-mockup`)
+Wrap screenshots in a browser frame for context:
+```html
+<div class="tactic-mockup">
+  <div class="tactic-mockup-chrome">
+    <span class="tactic-mockup-dot red"></span>
+    <span class="tactic-mockup-dot yellow"></span>
+    <span class="tactic-mockup-dot green"></span>
+    <div class="tactic-mockup-url">analytics.google.com</div>
+  </div>
+  <div class="tactic-mockup-body">
+    <img src="/assets/client-mockups/screenshot.png" alt="Description" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
+  </div>
+  <div class="tactic-mockup-label">Caption text here</div>
+</div>
+```
+
+**Two-Column Layout** (`.tactic-step-row`)
+Place text and media side-by-side:
+```html
+<div class="tactic-step-row">
+  <div class="tactic-step-text-col">
+    <div class="tactic-step-title">Step Title</div>
+    <ul class="tactic-step-bullets">...</ul>
+  </div>
+  <div class="tactic-step-media-col">
+    <div class="tactic-mockup">...</div>
+  </div>
+</div>
+```
+
+**Lightbox Images**
+**IMPORTANT:** ALL images in tactic pages (mockups, screenshots, shot lists, galleries) MUST have lightbox functionality. Add `class="lightbox-trigger"` and `onclick="openLightbox(this.src, this.alt)"` to every content image. The only exceptions are UI elements like logos and icons.
+
+Example:
+```html
+<img src="/assets/client-mockups/screenshot.png" alt="Description" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)">
+```
+
 ### Step 5: Rebuild the 90-Day Roadmap
 For each of the 12 weeks (or however many the plan has):
 - Set the week card `id="wc-N"` and week number badge

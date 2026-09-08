@@ -3296,6 +3296,140 @@ body:not(.has-plan) .plan-content{display:none}
 /* week-task-item howto layout */
 .week-task-text{flex:1}
 .week-task-item .howto-link{align-self:flex-start;margin-top:1px;margin-left:6px}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TACTIC PAGE ENHANCEMENTS (v1.1)
+   Added: Resource links, browser mockups, two-column layouts, lightbox
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Step Resource Link */
+.tactic-step-resource{
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--blue);
+  display:inline-block;
+  margin-top:8px;
+}
+.tactic-step-resource:hover{
+  text-decoration:underline;
+}
+
+/* Media Placeholder */
+.tactic-step-media{
+  margin-top:16px;
+}
+.tactic-step-media-thumb{
+  background:var(--cream);
+  border-radius:var(--r-sm);
+  padding:16px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:120px;
+}
+.tactic-step-media-badge{
+  border-radius:999px;
+  padding:4px 12px;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.1em;
+  background:var(--mint);
+  color:var(--navy);
+  text-transform:uppercase;
+}
+.tactic-step-media-badge.video{
+  background:var(--navy);
+  color:#fff;
+}
+.tactic-step-media-caption{
+  font-size:12px;
+  color:var(--slate);
+  text-align:center;
+  padding:0 16px;
+}
+
+/* Browser Frame Mockup */
+.tactic-mockup{
+  margin-top:16px;
+  max-width:640px;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #d8cdb8;
+  box-shadow:0 4px 14px rgba(30,25,15,.1);
+  background:#fff;
+}
+.tactic-mockup-chrome{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  padding:8px 12px;
+  background:#e9e2d2;
+}
+.tactic-mockup-dot{
+  width:8px;
+  height:8px;
+  border-radius:50%;
+}
+.tactic-mockup-dot.red{background:#e3a99a;}
+.tactic-mockup-dot.yellow{background:#e8cf98;}
+.tactic-mockup-dot.green{background:#a9c8a2;}
+.tactic-mockup-url{
+  flex:1;
+  background:#fff;
+  border-radius:5px;
+  padding:4px 10px;
+  font:11px/1.2 ui-monospace,Menlo,monospace;
+  color:#8a7f68;
+  margin-left:6px;
+  overflow:hidden;
+  white-space:nowrap;
+  text-overflow:ellipsis;
+}
+.tactic-mockup-body{
+  background:#f7f2e9;
+  padding:0;
+}
+.tactic-mockup-body img{
+  width:100%;
+  height:auto;
+  display:block;
+}
+.tactic-mockup-label{
+  padding:12px 16px;
+  font-size:12px;
+  color:#8a7f68;
+  text-align:center;
+  background:#f7f2e9;
+}
+
+/* Two-column step layout */
+.tactic-step-row{
+  display:flex;
+  gap:24px;
+  align-items:flex-start;
+}
+.tactic-step-text-col{
+  flex:1 1 62%;
+  min-width:0;
+}
+.tactic-step-media-col{
+  flex:1 1 36%;
+  min-width:0;
+  align-self:stretch;
+}
+@media(max-width:768px){
+  .tactic-step-row{flex-direction:column}
+  .tactic-step-text-col,.tactic-step-media-col{flex:1 1 100%}
+}
+
+/* Lightbox */
+.lightbox-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+.lightbox-overlay.active{display:flex}
+.lightbox-overlay img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
+.lightbox-trigger{cursor:zoom-in;transition:transform 0.2s ease}
+.lightbox-trigger:hover{transform:scale(1.02)}
 </style>
 </head>
 <body data-client-slug="{{CLIENT_SLUG}}">
@@ -4964,6 +5098,29 @@ if (window.__authReady) {
     console.error('Auth not ready for user menu:', err);
   });
 }
+</script>
+
+<!-- Lightbox for tactic page images -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+<script>
+function openLightbox(src, alt) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  var lb = document.getElementById('lightbox');
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 </body>
 </html>

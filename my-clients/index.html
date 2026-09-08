@@ -442,6 +442,51 @@
       text-align: right;
     }
 
+    .project-card__header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .project-card__edit-btn {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      color: var(--muted);
+      cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, color 0.2s;
+    }
+
+    .project-card__edit-btn:hover {
+      background: rgba(17,21,75,0.04);
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+
+    .project-card__edit-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    .project-card__info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .project-card__meta {
+      font-size: 11px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
     /* ── Empty state ────────────────────────────────────── */
     .empty-state {
       text-align: center;
@@ -676,6 +721,65 @@
       border-color: #dc2626;
     }
 
+    /* ── Edit Project Modal ───────────────────────────────── */
+    .modal--edit {
+      max-width: 440px;
+    }
+
+    .modal__form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-group__label {
+      font-family: 'Raleway', sans-serif;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      letter-spacing: 0.02em;
+    }
+
+    .form-group__input {
+      height: 44px;
+      padding: 0 14px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      background: #fff;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group__input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.1);
+    }
+
+    .form-group__input:disabled {
+      background: var(--cream-mid);
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .form-group__hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .modal__actions--edit {
+      margin-top: 8px;
+    }
+
     /* ── Footer ─────────────────────────────────────────── */
     .footer {
       text-align: center;
@@ -863,6 +967,33 @@
     </div>
   </div>
 
+  <!-- ══ EDIT PROJECT MODAL ════════════════════════════════════ -->
+  <div class="modal-overlay" id="editProjectModal">
+    <div class="modal modal--edit">
+      <h3 class="modal__title">Edit Project</h3>
+      <p class="modal__text">Update project settings. Changes will take effect immediately.</p>
+      <form class="modal__form" id="editProjectForm" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-group__label" for="editProjectName">Project Name</label>
+          <input type="text" class="form-group__input" id="editProjectName" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label" for="editStartDate">Cohort Start Date</label>
+          <input type="date" class="form-group__input" id="editStartDate" required>
+          <span class="form-group__hint">Changing this will recalculate milestone due dates (30/60/90 day)</span>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label" for="editCoachEmail">Assigned Coach</label>
+          <input type="email" class="form-group__input" id="editCoachEmail" placeholder="coach@elearningu.com">
+        </div>
+        <div class="modal__actions modal__actions--edit">
+          <button type="button" class="btn-secondary" onclick="closeEditProjectModal()">Cancel</button>
+          <button type="submit" class="btn-secondary btn-success" id="saveProjectBtn" onclick="saveProjectChanges()">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <style>
     .regenerate-spinner {
       width: 48px;
@@ -993,7 +1124,7 @@
       // Fetch projects this user has access to
       let query = supabaseClient
         .from('user_plans')
-        .select('client_slug, cohort_start_date')
+        .select('client_slug, cohort_start_date, coach_email')
         .eq('active', true)
         .neq('client_slug', '*');
 
@@ -1018,7 +1149,8 @@
           projectMap.set(row.client_slug, {
             slug: row.client_slug,
             name: toTitleCase(row.client_slug),
-            cohort_start_date: row.cohort_start_date
+            cohort_start_date: row.cohort_start_date,
+            coach_email: row.coach_email
           });
           projectSlugs.add(row.client_slug);
         }
@@ -1221,15 +1353,35 @@
     // ══════════════════════════════════════════════════════════════
     function renderProjects() {
       const gallery = document.getElementById('projectGallery');
+      const canEdit = currentUser.role === 'admin' || currentUser.role === 'psm' || currentUser.role === 'coach';
 
       gallery.innerHTML = projects.map((p, i) => {
         const percent = p.totalItems > 0
           ? Math.round((p.checkedCount / p.totalItems) * 100)
           : 0;
 
+        const startDate = p.cohort_start_date
+          ? new Date(p.cohort_start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : 'Not set';
+
+        const editButton = canEdit ? `
+          <button class="project-card__edit-btn" onclick="event.preventDefault(); event.stopPropagation(); openEditProjectModal('${p.slug}')" title="Edit project settings">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+        ` : '';
+
         return `
-          <a href="/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s">
-            <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
+          <a href="/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
+            <div class="project-card__header">
+              <div class="project-card__info">
+                <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
+                <p class="project-card__meta">Started ${startDate}</p>
+              </div>
+              ${editButton}
+            </div>
             <p class="project-card__week">Week ${p.week} of 12</p>
             <div class="project-card__progress">
               <div class="project-card__bar">
@@ -1307,6 +1459,114 @@
         btn.disabled = false;
       }
     }
+
+    // ══════════════════════════════════════════════════════════════
+    // EDIT PROJECT MODAL
+    // ══════════════════════════════════════════════════════════════
+    let editTargetSlug = null;
+
+    function openEditProjectModal(slug) {
+      const project = projects.find(p => p.slug === slug);
+      if (!project) return;
+
+      editTargetSlug = slug;
+
+      // Populate the form
+      document.getElementById('editProjectName').value = project.name;
+      document.getElementById('editStartDate').value = project.cohort_start_date || '';
+      document.getElementById('editCoachEmail').value = project.coach_email || '';
+
+      // Show the modal
+      document.getElementById('editProjectModal').classList.add('modal-overlay--visible');
+    }
+
+    function closeEditProjectModal() {
+      document.getElementById('editProjectModal').classList.remove('modal-overlay--visible');
+      editTargetSlug = null;
+    }
+
+    async function saveProjectChanges() {
+      if (!editTargetSlug) return;
+
+      const btn = document.getElementById('saveProjectBtn');
+      const originalText = btn.textContent;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      const newStartDate = document.getElementById('editStartDate').value;
+      const newCoachEmail = document.getElementById('editCoachEmail').value.trim();
+
+      try {
+        // Update user_plans table
+        const { error: updateError } = await supabaseClient
+          .from('user_plans')
+          .update({
+            cohort_start_date: newStartDate,
+            coach_email: newCoachEmail || null
+          })
+          .eq('client_slug', editTargetSlug);
+
+        if (updateError) throw updateError;
+
+        // Recalculate milestone due dates if start date changed
+        const project = projects.find(p => p.slug === editTargetSlug);
+        if (project && newStartDate && newStartDate !== project.cohort_start_date) {
+          const startDate = new Date(newStartDate);
+
+          // Calculate new milestone due dates
+          const milestones = [
+            { type: '30-day', days: 30 },
+            { type: '60-day', days: 60 },
+            { type: '90-day', days: 90 }
+          ];
+
+          for (const m of milestones) {
+            const dueDate = new Date(startDate);
+            dueDate.setDate(dueDate.getDate() + m.days);
+            const dueDateStr = dueDate.toISOString().split('T')[0];
+
+            // Update the milestone record
+            await supabaseClient
+              .from('milestone_assessments')
+              .update({ due_date: dueDateStr })
+              .eq('client_slug', editTargetSlug)
+              .eq('milestone_type', m.type);
+          }
+        }
+
+        // Update local state
+        if (project) {
+          project.cohort_start_date = newStartDate;
+          project.coach_email = newCoachEmail;
+
+          // Recalculate week
+          if (newStartDate) {
+            const start = new Date(newStartDate);
+            const days = Math.floor((Date.now() - start.getTime()) / 86400000);
+            project.week = Math.min(Math.max(Math.floor(days / 7) + 1, 1), 12);
+          }
+        }
+
+        // Re-render projects and close modal
+        renderProjects();
+        closeEditProjectModal();
+
+      } catch (err) {
+        console.error('Update error:', err);
+        alert('Failed to update project. Please try again.');
+      } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeEditProjectModal();
+        closeDeleteModal();
+      }
+    });
 
     async function regenerateAssessment(slug) {
       // Close the menu

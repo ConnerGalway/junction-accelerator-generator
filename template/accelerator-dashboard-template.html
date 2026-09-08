@@ -3920,6 +3920,37 @@ button {
     color: #708090;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   LIGHTBOX - Image zoom overlay
+   ══════════════════════════════════════════════════════════════════════════ */
+.lightbox-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  z-index: 9999;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  cursor: zoom-out;
+}
+.lightbox-overlay.active {
+  display: flex;
+}
+.lightbox-overlay img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.lightbox-trigger {
+  cursor: zoom-in;
+  transition: transform 0.2s ease;
+}
+.lightbox-trigger:hover {
+  transform: scale(1.02);
+}
 </style>
 </head>
 <body data-client-slug="{{CLIENT_SLUG}}">
@@ -5788,6 +5819,31 @@ function nextTourStep() {
     init();
   }
 })();
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     LIGHTBOX - Image zoom overlay
+     ══════════════════════════════════════════════════════════════════════════ -->
+<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="">
+</div>
+<script>
+function openLightbox(src, alt) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  img.src = src;
+  img.alt = alt || '';
+  lb.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  var lb = document.getElementById('lightbox');
+  lb.classList.remove('active');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeLightbox();
+});
 </script>
 </body>
 </html>
