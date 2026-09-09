@@ -4292,6 +4292,102 @@ body:not(.has-plan) .plan-content{display:none}
   font-style:italic;
 }
 
+/* Metrics Table */
+.tactic-metrics-table{
+  overflow-x:auto;
+  margin-top:12px;
+}
+.tactic-metrics-table table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:13.5px;
+  line-height:1.5;
+}
+.tactic-metrics-table th{
+  background:var(--navy-900);
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:12px;
+  text-transform:uppercase;
+  letter-spacing:0.03em;
+  padding:12px 14px;
+  text-align:left;
+  white-space:nowrap;
+}
+.tactic-metrics-table th:first-child{
+  border-radius:var(--radius-sm) 0 0 0;
+}
+.tactic-metrics-table th:last-child{
+  border-radius:0 var(--radius-sm) 0 0;
+}
+.tactic-metrics-table td{
+  padding:12px 14px;
+  border-bottom:1px solid var(--cream-200);
+  color:var(--navy-800);
+  vertical-align:top;
+}
+.tactic-metrics-table td:first-child{
+  font-weight:600;
+  color:var(--navy-900);
+  min-width:180px;
+}
+.tactic-metrics-table tbody tr:last-child td{
+  border-bottom:none;
+}
+.tactic-metrics-table tbody tr:nth-child(even){
+  background:var(--cream-50);
+}
+
+/* Tips & Resources Lists */
+.tactic-tips-list,
+.tactic-resources-list{
+  list-style:none;
+  padding:0;
+  margin:12px 0 0 0;
+}
+.tactic-tips-list li,
+.tactic-resources-list li{
+  position:relative;
+  padding-left:20px;
+  margin-bottom:14px;
+  font-size:14px;
+  line-height:1.6;
+  color:var(--navy-800);
+}
+.tactic-tips-list li:last-child,
+.tactic-resources-list li:last-child{
+  margin-bottom:0;
+}
+.tactic-tips-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:8px;
+  width:6px;
+  height:6px;
+  background:var(--mint-500);
+  border-radius:50%;
+}
+.tactic-resources-list li::before{
+  content:"";
+  position:absolute;
+  left:0;
+  top:8px;
+  width:6px;
+  height:6px;
+  background:var(--coral-500);
+  border-radius:50%;
+}
+.tactic-resources-list a{
+  color:var(--navy-900);
+  text-decoration:underline;
+  text-underline-offset:2px;
+}
+.tactic-resources-list a:hover{
+  color:var(--coral-600);
+}
+
 /* What This Breaks Into Grid */
 .tactic-breakdown-grid{
   display:grid;
@@ -6101,16 +6197,94 @@ body:not(.has-plan) .plan-content{display:none}
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" data-tactic-content="1" data-content="metrics">
         <div class="tactic-card-block">
-          <div class="tactic-card-label">Measurement content coming soon</div>
-          <p>KPIs and success metrics for this tactic will be added here.</p>
+          <div class="tactic-card-label">Success Metrics</div>
+          <div class="tactic-metrics-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>30 Days</th>
+                  <th>60 Days</th>
+                  <th>90 Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Key events firing correctly</td>
+                  <td>page_view and first_visit unstarred; click and file_download retained</td>
+                  <td>Four new booking and enquiry events live and marked as key events</td>
+                  <td>30 days of clean conversion data available for ad measurement</td>
+                </tr>
+                <tr>
+                  <td>Bot traffic in reporting</td>
+                  <td>Filtered view built and in use</td>
+                  <td>Reported engagement rate reflects real users only</td>
+                  <td>Baseline confirmed against the pre-filter figures</td>
+                </tr>
+                <tr>
+                  <td>Booking engine starts (booking_start)</td>
+                  <td>Tracking live, baseline recorded</td>
+                  <td>40 to 80 per month</td>
+                  <td>100 to 200 per month</td>
+                </tr>
+                <tr>
+                  <td>Booking page sessions</td>
+                  <td>Baseline of 72 per year recorded</td>
+                  <td>150 or more in the month</td>
+                  <td>400 or more in the month</td>
+                </tr>
+                <tr>
+                  <td>Average engagement time on booking page</td>
+                  <td>39 seconds (baseline)</td>
+                  <td>60 seconds or more</td>
+                  <td>90 seconds or more</td>
+                </tr>
+                <tr>
+                  <td>Offer landing pages live</td>
+                  <td>Template scoped and contractor booked</td>
+                  <td>Template built and tested on staging</td>
+                  <td>Two pages live in English and German</td>
+                </tr>
+                <tr>
+                  <td>Broken pages</td>
+                  <td>Site crawled, list produced</td>
+                  <td>All 404s fixed or redirected</td>
+                  <td>Error page views trending toward zero</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- Tips & Resources Tab -->
       <div class="tactic-tab-content" data-tactic-content="1" data-content="tips">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
-          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Tips</div>
+              <ul class="tactic-tips-list">
+                <li>Do steps 1 and 2 yourself, this week, before anything else. They take about forty minutes and cost nothing, and every number produced between now and Christmas depends on them.</li>
+                <li>Get the contractor quote from the German developer first. He knows the build, and if he quotes high or slow you will have the Canadian quote as leverage rather than starting the search from zero.</li>
+                <li>When the booking bar goes live, book a test reservation yourself from a phone on mobile data, all the way to the confirmation email. Mobile is 3,030 of your 8,746 users and the current widget is hardest to use there.</li>
+                <li>Resist rebuilding the whole site. Every hour spent on the homepage design is an hour not spent on the pages that already earn traffic. The Winter Packing List page did 1,453 sessions with no design work at all.</li>
+                <li>When you publish the German version of a page, publish it within a week of the English one. Half-translated sites are worse than single-language ones, and your German audience is the most engaged segment you have.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Resources</div>
+              <ul class="tactic-resources-list">
+                <li><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/articles/218512197-Cloudbeds-Booking-Engine-overview-and-features" target="_blank">Cloudbeds Booking Engine overview and features</a></li>
+                <li><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/sections/204056127-Website-Widgets" target="_blank">Cloudbeds website widget options</a></li>
+                <li><a href="https://myfrontdesk.cloudbeds.com/hc/en-us/articles/32048321731739-Cloudbeds-Booking-Engine-Immersive-Experience-2-0-Everything-you-need-to-know" target="_blank">Cloudbeds Immersive Experience 2.0 embed guide</a></li>
+                <li><a href="https://www.analyticsmania.com/post/track-key-events-with-google-analytics-4/" target="_blank">Setting up key events in GA4</a></li>
+                <li><a href="https://support.google.com/analytics/" target="_blank">Google Analytics Help Centre</a></li>
+                <li><a href="https://clayoquotwildernesslodge.com/" target="_blank">Clayoquot Wilderness Lodge (reference for property presentation)</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -6511,16 +6685,100 @@ body:not(.has-plan) .plan-content{display:none}
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" data-tactic-content="2" data-content="metrics">
         <div class="tactic-card-block">
-          <div class="tactic-card-label">Measurement content coming soon</div>
-          <p>KPIs and success metrics for this tactic will be added here.</p>
+          <div class="tactic-card-label">Success Metrics</div>
+          <div class="tactic-metrics-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>30 Days</th>
+                  <th>60 Days</th>
+                  <th>90 Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Owned image and video library</td>
+                  <td>Interim set captured, around 40 images and 10 clips</td>
+                  <td>Professional shoot booked with weather clause</td>
+                  <td>Shoot completed, library organised and rights confirmed</td>
+                </tr>
+                <tr>
+                  <td>New pages published</td>
+                  <td>Approvals confirmed with CCCTA; three-day itinerary live</td>
+                  <td>Five-day and seven-day itineraries live; summer packing list live</td>
+                  <td>Six new pages live in English, four in German</td>
+                </tr>
+                <tr>
+                  <td>Instagram posting frequency</td>
+                  <td>3 posts per week, from 0.1</td>
+                  <td>Sustained at 3 per week</td>
+                  <td>Sustained, with 2 Reels per week</td>
+                </tr>
+                <tr>
+                  <td>Instagram link clicks</td>
+                  <td>Bio link fixed and tracked</td>
+                  <td>15 or more in the month</td>
+                  <td>40 or more in the month</td>
+                </tr>
+                <tr>
+                  <td>Instagram reach</td>
+                  <td>Arrest the decline, 300 or more</td>
+                  <td>800 or more</td>
+                  <td>1,500 or more</td>
+                </tr>
+                <tr>
+                  <td>Sessions from organic social</td>
+                  <td>Baseline of 295 per year recorded</td>
+                  <td>80 or more in the month</td>
+                  <td>200 or more in the month</td>
+                </tr>
+                <tr>
+                  <td>Sessions to preparation and itinerary pages</td>
+                  <td>Baseline recorded</td>
+                  <td>300 or more in the month</td>
+                  <td>700 or more in the month</td>
+                </tr>
+                <tr>
+                  <td>PDF checklist downloads</td>
+                  <td>Baseline of 62 per quarter recorded</td>
+                  <td>100 or more per quarter</td>
+                  <td>150 or more per quarter</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- Tips & Resources Tab -->
       <div class="tactic-tab-content" data-tactic-content="2" data-content="tips">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
-          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Tips</div>
+              <ul class="tactic-tips-list">
+                <li>Write the itineraries the way you would tell a friend what to do with four days, rather than the way a brochure would describe it. Your best-performing German pages are the ones that sound like a person.</li>
+                <li>Book the photographer now for a movable November date. Good winter shooters in the interior fill up early, and the weather clause costs nothing to include.</li>
+                <li>Do not post to Instagram and Facebook separately. Meta Business Suite publishes to both, and the extra half hour a week is the difference between the schedule holding in December and quietly stopping.</li>
+                <li>When you write a page, add it to a menu the same day. The FAQ has been in the footer for years, and that is the entire reason nobody has read it.</li>
+                <li>Keep a running list of guest questions from your inbox. Every question asked twice is a page worth writing, and that is exactly how the Winter Packing List came to exist.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Resources</div>
+              <ul class="tactic-resources-list">
+                <li><a href="https://business.facebook.com/" target="_blank">Meta Business Suite for scheduling both accounts</a></li>
+                <li><a href="https://business.instagram.com/" target="_blank">Instagram for business, including Reels guidance</a></li>
+                <li><a href="https://landwithoutlimits.com/" target="_blank">Cariboo Chilcotin Coast Tourism Association (approvals and content)</a></li>
+                <li><a href="https://www.hellobc.com/" target="_blank">Destination BC listings and content guidance</a></li>
+                <li><a href="https://darksky.org/" target="_blank">DarkSky International (dark sky positioning and language)</a></li>
+                <li><a href="https://www.drivebc.ca/" target="_blank">DriveBC (Highway 20 winter driving page link)</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -6911,16 +7169,106 @@ body:not(.has-plan) .plan-content{display:none}
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" data-tactic-content="3" data-content="metrics">
         <div class="tactic-card-block">
-          <div class="tactic-card-label">Measurement content coming soon</div>
-          <p>KPIs and success metrics for this tactic will be added here.</p>
+          <div class="tactic-card-label">Success Metrics</div>
+          <div class="tactic-metrics-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>30 Days</th>
+                  <th>60 Days</th>
+                  <th>90 Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Ad management ownership</td>
+                  <td>Decision made and person named</td>
+                  <td>Accounts built under Red Cariboo ownership</td>
+                  <td>Weekly reporting rhythm running</td>
+                </tr>
+                <tr>
+                  <td>Google Ads</td>
+                  <td>Account live in Expert Mode, GA4 linked</td>
+                  <td>Campaign built, ad copy approved</td>
+                  <td>Live and spending, cost per click under $2.00</td>
+                </tr>
+                <tr>
+                  <td>Google search terms</td>
+                  <td>Not yet applicable</td>
+                  <td>Not yet applicable</td>
+                  <td>Negative list of 10 or more, weak keywords paused</td>
+                </tr>
+                <tr>
+                  <td>Meta Ads</td>
+                  <td>Pixel verified and events configured</td>
+                  <td>Domain verified, creative selected</td>
+                  <td>Live and spending at $40 per day</td>
+                </tr>
+                <tr>
+                  <td>Booking engine clicks from paid</td>
+                  <td>Not yet applicable</td>
+                  <td>Not yet applicable</td>
+                  <td>40 to 90 across both channels</td>
+                </tr>
+                <tr>
+                  <td>Retargeting audience</td>
+                  <td>Not yet applicable</td>
+                  <td>Audience created</td>
+                  <td>500 or more users, ready to activate in December</td>
+                </tr>
+                <tr>
+                  <td>Spotify spot</td>
+                  <td>Location line rewritten</td>
+                  <td>Launch date agreed with CCCTA</td>
+                  <td>Live, with before and after traffic recorded</td>
+                </tr>
+                <tr>
+                  <td>Creator visits</td>
+                  <td>Deliverables and rights defined</td>
+                  <td>November creator booked</td>
+                  <td>November visit complete, January visit booked</td>
+                </tr>
+                <tr>
+                  <td>Cost per booking engine click</td>
+                  <td>Not yet applicable</td>
+                  <td>Not yet applicable</td>
+                  <td>Under $40 blended, with a documented scale decision</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- Tips & Resources Tab -->
       <div class="tactic-tab-content" data-tactic-content="3" data-content="tips">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
-          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Tips</div>
+              <ul class="tactic-tips-list">
+                <li>Never accept the default settings in a new Google Ads campaign. Display expansion, search partners and the broader location setting are all switched on when you create a campaign, and all three spend money outside your audience.</li>
+                <li>Put the location in every ad, every video and every audio spot. It is the single most consistent gap across everything Red Cariboo currently publishes, and it is the first question a stranger has.</li>
+                <li>Do not judge the Spotify spot by bookings. Judge it by whether branded searches for Red Cariboo rise while it is running.</li>
+                <li>Keep the creator agreement short but specific about paid usage rights. Content you cannot advertise with is worth a fraction of what you paid for it.</li>
+                <li>If a week gets away from you, pause the ads rather than letting them run unattended. Paused budget is recoverable and wasted budget is not.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Resources</div>
+              <ul class="tactic-resources-list">
+                <li><a href="https://support.google.com/google-ads/answer/6146252" target="_blank">Google Ads Expert Mode setup</a></li>
+                <li><a href="https://support.google.com/google-ads/answer/2472708" target="_blank">Google Ads Search Terms report</a></li>
+                <li><a href="https://www.facebook.com/business/help/205614130852988" target="_blank">Meta Business Help Centre (getting started with ads)</a></li>
+                <li><a href="https://www.facebook.com/business/help/1474662202748341" target="_blank">Meta Pixel and Custom Audiences</a></li>
+                <li><a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank">Meta Pixel Helper extension for Chrome</a></li>
+                <li><a href="https://landwithoutlimits.com/" target="_blank">CCCTA (creator introductions and co-op media)</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -7277,16 +7625,99 @@ body:not(.has-plan) .plan-content{display:none}
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" data-tactic-content="4" data-content="metrics">
         <div class="tactic-card-block">
-          <div class="tactic-card-label">Measurement content coming soon</div>
-          <p>KPIs and success metrics for this tactic will be added here.</p>
+          <div class="tactic-card-label">Success Metrics</div>
+          <div class="tactic-metrics-table">
+            <table>
+              <thead>
+                <tr>
+                  <th>Metric</th>
+                  <th>30 Days</th>
+                  <th>60 Days</th>
+                  <th>90 Days</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Newsletter decision</td>
+                  <td>Recommendation delivered in writing</td>
+                  <td>Decision recorded</td>
+                  <td>Programme running</td>
+                </tr>
+                <tr>
+                  <td>Mailchimp account</td>
+                  <td>Reactivated, templates tested</td>
+                  <td>Sender details and German templates ready</td>
+                  <td>Three automations live</td>
+                </tr>
+                <tr>
+                  <td>Email list size</td>
+                  <td>0 (baseline)</td>
+                  <td>60 or more confirmed subscribers</td>
+                  <td>150 to 300 confirmed subscribers</td>
+                </tr>
+                <tr>
+                  <td>Sign-up points live</td>
+                  <td>Footer form live</td>
+                  <td>Enquiry and contact form checkboxes live</td>
+                  <td>Packing list download gated, QR cards in cabins</td>
+                </tr>
+                <tr>
+                  <td>Pre-arrival email</td>
+                  <td>Drafted</td>
+                  <td>Live and sending automatically</td>
+                  <td>Sent to every arrival in the period</td>
+                </tr>
+                <tr>
+                  <td>Post-stay review request</td>
+                  <td>Drafted</td>
+                  <td>Live and sending automatically</td>
+                  <td>10 or more new Google reviews</td>
+                </tr>
+                <tr>
+                  <td>Google reviews total</td>
+                  <td>20 (baseline)</td>
+                  <td>25 or more</td>
+                  <td>30 or more, on a path to 50 by spring</td>
+                </tr>
+                <tr>
+                  <td>December campaign</td>
+                  <td>Not yet applicable</td>
+                  <td>Content planned</td>
+                  <td>Drafted and scheduled for the first week of December</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
       <!-- Tips & Resources Tab -->
       <div class="tactic-tab-content" data-tactic-content="4" data-content="tips">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
-          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Tips</div>
+              <ul class="tactic-tips-list">
+                <li>Do not describe this to Axel as a newsletter. Describe it as the email that goes out before a guest drives eight hours, and the email that asks for a review afterwards. Both are guest service, and both happen to build the list.</li>
+                <li>The Winter Packing List download is the best list-building asset you own. Gate the enhanced version and leave the current one free, so nobody loses access to something they already had.</li>
+                <li>Ask for the review in person at checkout as well as by email. A QR card in the cabin converts several times better than an email on its own.</li>
+                <li>Never send a winter package email to the work crew list. They book direct, they book anyway, and marketing to them risks the relationship that currently funds the business.</li>
+                <li>Keep the German and Canadian lists genuinely separate. Different seasons, different languages, different offers, and mixing them wastes both.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tactic-overview-col">
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Resources</div>
+              <ul class="tactic-resources-list">
+                <li><a href="https://mailchimp.com/help/about-double-opt-in/" target="_blank">Mailchimp signup form and double opt-in settings</a></li>
+                <li><a href="https://mailchimp.com/help/about-customer-journeys/" target="_blank">Mailchimp automation basics</a></li>
+                <li><a href="https://fightspam.gc.ca/" target="_blank">Canada's Anti-Spam Legislation (consent requirements)</a></li>
+                <li><a href="https://www.cloudbeds.com/marketplace/" target="_blank">Cloudbeds integrations marketplace</a></li>
+                <li><a href="https://support.google.com/business/answer/7035772" target="_blank">Google review link generator (for post-stay email)</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
