@@ -4077,9 +4077,27 @@ body:not(.has-plan) .plan-content{display:none}
   70%{background:rgba(170,218,182,.22);box-shadow:0 0 0 4px rgba(170,218,182,.12)}
   100%{background:transparent;box-shadow:none}
 }
-.step-item.step-highlight{
-  border-radius:10px;
-  animation:stepHighlight 2.4s ease forwards;
+.tactic-step-item.step-highlight{
+  border-radius:12px;
+  animation:stepHighlight 2.8s ease forwards;
+  position:relative;
+}
+.tactic-step-item.step-highlight::before{
+  content:'';
+  position:absolute;
+  left:-12px;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:var(--mint-500);
+  border-radius:2px;
+  animation:highlightBar 2.8s ease forwards;
+}
+@keyframes highlightBar{
+  0%{opacity:0}
+  12%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0}
 }
 
 /* week-task-item howto layout */
@@ -9592,27 +9610,19 @@ function howToLink(page, stepId) {
 
   // Short delay for the page transition to complete
   setTimeout(function() {
-    // Click the "Implementation Steps" tab
-    var tacticNum = page.replace('tactic', '');
-    var tacticEl = document.getElementById('page-' + page);
-    if (tacticEl) {
-      var tabBtns = tacticEl.querySelectorAll('.tab-btn');
-      tabBtns.forEach(function(btn) {
-        if (btn.textContent.indexOf('Implementation') !== -1) {
-          btn.click();
-        }
-      });
-    }
+    // Use switchTacticTab directly instead of finding/clicking buttons
+    var tacticNum = parseInt(page.replace('tactic', ''));
+    switchTacticTab(tacticNum, 'steps');
 
     // Another short delay for tab switch
     setTimeout(function() {
       var stepEl = document.getElementById(stepId);
       if (!stepEl) return;
 
-      // Ensure the containing section-block is open
-      var block = stepEl.closest('.section-block');
-      if (block && !block.classList.contains('open')) {
-        var hdr = block.querySelector('.section-block-header');
+      // Ensure the containing tactic-part is open
+      var part = stepEl.closest('.tactic-part');
+      if (part && !part.classList.contains('open')) {
+        var hdr = part.querySelector('.tactic-part-header');
         if (hdr) hdr.click();
       }
 
@@ -9622,9 +9632,9 @@ function howToLink(page, stepId) {
         stepEl.classList.remove('step-highlight');
         void stepEl.offsetWidth; // force reflow to restart animation
         stepEl.classList.add('step-highlight');
-      }, 120);
-    }, 80);
-  }, 260);
+      }, 150);
+    }, 100);
+  }, 300);
 }
 
 </script>

@@ -617,12 +617,14 @@ Month 3 Name: Paid Launch
 - Build a saved GA4 exploration that excludes China and Singapore traffic → links to: Tactic 1 / Step 1
 - Take the expired Christmas and winter offers off the homepage carousel → links to: Tactic 1 / Step 10
 - Email the CCCTA contact with the list of places you want to promote and ask for written confirmation → links to: Tactic 2 / Step 5
+- Reply personally to all twenty existing Google reviews → links to: GBP Quick Wins
 
 **Checklist:**
 - [ ] page_view and first_visit are no longer counted as key events
 - [ ] A filtered reporting view excluding bot traffic is saved and in use
 - [ ] The homepage no longer links to an offer that expired in January
 - [ ] The approvals question is with CCCTA in writing
+- [ ] All 20 existing Google reviews have a personal response
 
 ### Week 2: Scope the Contractor and Set the Baseline
 **Actions:**
@@ -631,12 +633,14 @@ Month 3 Name: Paid Launch
 - Export the clean baseline report and send a copy to Junction → links to: Tactic 1 / Step 4
 - Crawl the site with Screaming Frog and list every broken page → links to: Tactic 1 / Step 10
 - Walk the property with Axel and write the clear-up list with a deadline → links to: Tactic 2 / Step 1
+- Claim and verify the TripAdvisor listing; ensure NAP matches Google Business Profile → links to: GBP Quick Wins
 
 **Checklist:**
 - [ ] Two contractor quotes are in hand with fixed prices
 - [ ] A one-page baseline dated to this week is saved and sent to Junction
 - [ ] Every 404 has a fix or a redirect assigned to it
 - [ ] The property clear-up list has a deadline two weeks ahead of the shoot
+- [ ] TripAdvisor listing is claimed and business details match Google
 
 ### Week 3: Navigation and the German Default
 **Actions:**
@@ -688,6 +692,8 @@ Month 3 Name: Paid Launch
 - Push the booking bar and the rebuilt booking page live → links to: Tactic 1 / Step 7
 - Publish the rebuilt booking page with all eight units and the season dates → links to: Tactic 1 / Step 8
 - Add phone, email and office hours to the header and footer sitewide → links to: Tactic 1 / Step 9
+- Add WhatsApp link alongside phone number for European guests → links to: Tactic 1 / Step 9
+- Add seasonal operating dates to the homepage hero or header → links to: Tactic 1 / Step 8
 - Mark the four new events as key events in GA4 → links to: Tactic 1 / Step 3
 - Complete a test booking from a phone on mobile data, through to the confirmation email → links to: Tactic 1 / Step 7
 - Add the footer sign-up form and the enquiry form checkbox → links to: Tactic 4 / Step 3
@@ -697,6 +703,8 @@ Month 3 Name: Paid Launch
 - [ ] The booking bar appears beneath the menu on every page
 - [ ] The booking page shows all eight units with rates, policy and season dates
 - [ ] Contact details and office hours appear sitewide with the time zone stated
+- [ ] WhatsApp contact option is live for European guests
+- [ ] Operating season is visible on the homepage
 - [ ] A test booking completes on a phone without leaving redcariboo.com
 - [ ] Sign-up forms are live with double opt-in switched on
 
@@ -803,6 +811,7 @@ These are small jobs that pay back quickly and do not need the contractor or the
 - **Add the seasonal operating dates and check-in hours.** The profile does not currently state when the resort is open. A traveller planning February has no way to know, and this is the same gap the assessment flagged on the website.
 - **Start posting to Google Posts.** There is no posting activity on the profile. One post a fortnight tied to whatever is live on the site, such as the winter package, keeps the listing active in the local pack.
 - **Set a review target of 50 by spring.** You are at twenty with only two in the past eighteen months. The post-stay email from Tactic 4 and a QR card in each cabin are what will move it.
+- **Claim and optimize the TripAdvisor listing.** The booking system already integrates with TripAdvisor, but the review presence is not being actively managed. Claim the listing, ensure NAP consistency with Google, and add it to the review request process alongside Google.
 
 ### On the Website
 
