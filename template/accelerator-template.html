@@ -3289,8 +3289,26 @@ body:not(.has-plan) .plan-content{display:none}
   100%{background:transparent;box-shadow:none}
 }
 .step-item.step-highlight{
-  border-radius:10px;
-  animation:stepHighlight 2.4s ease forwards;
+  border-radius:12px;
+  animation:stepHighlight 2.8s ease forwards;
+  position:relative;
+}
+.step-item.step-highlight::before{
+  content:'';
+  position:absolute;
+  left:-12px;
+  top:0;
+  bottom:0;
+  width:4px;
+  background:var(--mint-500);
+  border-radius:2px;
+  animation:highlightBar 2.8s ease forwards;
+}
+@keyframes highlightBar{
+  0%{opacity:0}
+  12%{opacity:1}
+  70%{opacity:1}
+  100%{opacity:0}
 }
 
 /* week-task-item howto layout */
@@ -5047,9 +5065,10 @@ function howToLink(page, stepId) {
     var tacticNum = page.replace('tactic', '');
     var tacticEl = document.getElementById('page-' + page);
     if (tacticEl) {
+      // Find the Implementation Steps tab button and click it
       var tabBtns = tacticEl.querySelectorAll('.tab-btn');
       tabBtns.forEach(function(btn) {
-        if (btn.textContent.indexOf('Implementation') !== -1) {
+        if (btn.textContent.trim() === 'Implementation Steps') {
           btn.click();
         }
       });
@@ -5073,9 +5092,9 @@ function howToLink(page, stepId) {
         stepEl.classList.remove('step-highlight');
         void stepEl.offsetWidth; // force reflow to restart animation
         stepEl.classList.add('step-highlight');
-      }, 120);
-    }, 80);
-  }, 260);
+      }, 150);
+    }, 100);
+  }, 300);
 }
 
 </script>
