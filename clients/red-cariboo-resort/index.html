@@ -3174,6 +3174,7 @@ body:not(.has-plan) .plan-content{display:none}
     background:white !important;
     -webkit-print-color-adjust:exact !important;
     print-color-adjust:exact !important;
+    font-family:'Open Sans',sans-serif;
   }
 
   #main{
@@ -3201,227 +3202,430 @@ body:not(.has-plan) .plan-content{display:none}
     max-width:100% !important;
   }
 
-  /* Print document header */
-  .print-header{
+  /* ═══════════════════════════════════════════════════════════
+     COVER PAGE
+     ═══════════════════════════════════════════════════════════ */
+  .print-cover{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
     text-align:center;
-    padding:40px 50px 30px;
-    border-bottom:3px solid #11154b;
-    margin-bottom:30px;
-    page-break-after:avoid;
+    padding:60px 50px;
+    position:relative;
+    page-break-after:always;
   }
-  .print-logo{
+  .print-cover::before{
+    content:'';
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    height:8px;
+    background:linear-gradient(90deg, #11154b 0%, #11154b 70%, #aadab6 70%, #aadab6 100%);
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .print-cover-logo{
     font-family:'Raleway',sans-serif;
-    font-size:24px;
+    font-size:18px;
+    font-weight:700;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:#11154b;
+    margin-bottom:60px;
+  }
+  .print-cover-logo span{
+    color:#aadab6;
+  }
+  .print-cover-badge{
+    display:inline-block;
+    background:#11154b;
+    color:white;
+    font-family:'Raleway',sans-serif;
+    font-size:10px;
+    font-weight:600;
+    letter-spacing:1.5px;
+    text-transform:uppercase;
+    padding:8px 20px;
+    border-radius:20px;
+    margin-bottom:30px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .print-cover-title{
+    font-family:'Raleway',sans-serif;
+    font-size:42px;
     font-weight:800;
     color:#11154b;
-    margin-bottom:20px;
-    letter-spacing:1px;
+    margin:0 0 16px 0;
+    line-height:1.1;
   }
-  .print-title{
+  .print-cover-client{
+    font-family:'Raleway',sans-serif;
+    font-size:24px;
+    font-weight:600;
+    color:#4a5568;
+    margin:0 0 40px 0;
+  }
+  .print-cover-divider{
+    width:80px;
+    height:4px;
+    background:#aadab6;
+    margin:0 auto 40px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .print-cover-meta{
+    font-family:'Open Sans',sans-serif;
+    font-size:13px;
+    color:#708090;
+  }
+  .print-cover-meta strong{
+    color:#11154b;
+    font-weight:600;
+  }
+  .print-cover-footer{
+    position:absolute;
+    bottom:50px;
+    left:0;
+    right:0;
+    text-align:center;
+  }
+  .print-cover-footer p{
+    font-family:'Open Sans',sans-serif;
+    font-size:11px;
+    color:#a0aec0;
+    margin:0;
+  }
+
+  /* ═══════════════════════════════════════════════════════════
+     OVERVIEW PAGE (About + How To Use + Executive Summary)
+     ═══════════════════════════════════════════════════════════ */
+  .print-overview{
+    padding:40px 50px;
+    page-break-after:always;
+  }
+  .print-section{
+    margin-bottom:35px;
+    page-break-inside:avoid;
+  }
+  .print-section-header{
+    display:flex;
+    align-items:center;
+    margin-bottom:16px;
+  }
+  .print-section-icon{
+    width:32px;
+    height:32px;
+    background:#11154b;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:12px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .print-section-icon svg{
+    width:16px;
+    height:16px;
+    fill:white;
+  }
+  .print-section h2{
+    font-family:'Raleway',sans-serif;
+    font-size:18px;
+    font-weight:700;
+    color:#11154b;
+    margin:0;
+  }
+  .print-section p{
+    font-family:'Open Sans',sans-serif;
+    font-size:12px;
+    line-height:1.8;
+    color:#4a5568;
+    margin:0 0 12px 0;
+  }
+  .print-section ul{
+    margin:12px 0 0 0;
+    padding-left:0;
+    list-style:none;
+  }
+  .print-section li{
+    font-family:'Open Sans',sans-serif;
+    font-size:12px;
+    line-height:1.7;
+    color:#4a5568;
+    margin-bottom:8px;
+    padding-left:20px;
+    position:relative;
+  }
+  .print-section li::before{
+    content:'';
+    position:absolute;
+    left:0;
+    top:7px;
+    width:8px;
+    height:8px;
+    background:#aadab6;
+    border-radius:50%;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* Executive Summary Box */
+  .print-summary-box{
+    background:#f7fafc;
+    border:2px solid #e2e8f0;
+    border-radius:12px;
+    padding:24px 28px;
+    margin-top:20px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .print-summary-box h3{
+    font-family:'Raleway',sans-serif;
+    font-size:14px;
+    font-weight:700;
+    color:#11154b;
+    margin:0 0 16px 0;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
+  }
+  .print-summary-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:20px;
+  }
+  .print-summary-stat{
+    text-align:center;
+    padding:16px;
+    background:white;
+    border-radius:8px;
+    border:1px solid #e2e8f0;
+  }
+  .print-summary-stat-value{
     font-family:'Raleway',sans-serif;
     font-size:28px;
     font-weight:800;
     color:#11154b;
-    margin:0 0 8px 0;
+    line-height:1;
+    margin-bottom:6px;
   }
-  .print-subtitle{
-    font-family:'Raleway',sans-serif;
-    font-size:18px;
+  .print-summary-stat-label{
+    font-family:'Open Sans',sans-serif;
+    font-size:10px;
     font-weight:600;
-    color:#4a5568;
-    margin:0 0 8px 0;
-  }
-  .print-date{
-    font-family:'Open Sans',sans-serif;
-    font-size:14px;
     color:#708090;
-    margin:0;
+    text-transform:uppercase;
+    letter-spacing:0.5px;
   }
 
-  /* About section */
-  .print-about{
-    padding:25px 50px;
-    background:#f8f9fa !important;
+  /* Goal highlight box */
+  .print-goal-box{
+    background:#11154b;
+    border-radius:12px;
+    padding:28px 32px;
+    margin-top:30px;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
-    margin-bottom:25px;
-    page-break-inside:avoid;
   }
-  .print-about h2{
+  .print-goal-box h3{
     font-family:'Raleway',sans-serif;
-    font-size:16px;
-    font-weight:700;
-    color:#11154b;
-    margin:0 0 12px 0;
-  }
-  .print-about p{
-    font-family:'Open Sans',sans-serif;
     font-size:12px;
-    line-height:1.7;
-    color:#4a5568;
-    margin:0 0 10px 0;
-  }
-  .print-about p:last-child{
-    margin-bottom:0;
-  }
-
-  /* How to use section */
-  .print-howto{
-    padding:25px 50px;
-    margin-bottom:25px;
-    page-break-inside:avoid;
-  }
-  .print-howto h2{
-    font-family:'Raleway',sans-serif;
-    font-size:16px;
-    font-weight:700;
-    color:#11154b;
-    margin:0 0 12px 0;
-  }
-  .print-howto p{
-    font-family:'Open Sans',sans-serif;
-    font-size:12px;
-    line-height:1.7;
-    color:#4a5568;
-    margin:0 0 10px 0;
-  }
-  .print-howto ul{
-    margin:10px 0 0 0;
-    padding-left:20px;
-  }
-  .print-howto li{
-    font-family:'Open Sans',sans-serif;
-    font-size:12px;
-    line-height:1.7;
-    color:#4a5568;
-    margin-bottom:5px;
-  }
-
-  /* Goal section */
-  .print-goal{
-    padding:25px 50px;
-    background:#11154b !important;
-    -webkit-print-color-adjust:exact;
-    print-color-adjust:exact;
-    margin-bottom:30px;
-    page-break-inside:avoid;
-    page-break-after:always;
-  }
-  .print-goal h2{
-    font-family:'Raleway',sans-serif;
-    font-size:14px;
     font-weight:700;
     letter-spacing:1px;
     text-transform:uppercase;
     color:#aadab6;
-    margin:0 0 12px 0;
+    margin:0 0 14px 0;
   }
-  .print-goal p{
-    font-family:'Raleway',sans-serif;
-    font-size:13px;
-    line-height:1.8;
-    color:rgba(255,255,255,0.9);
+  .print-goal-box p{
+    font-family:'Open Sans',sans-serif;
+    font-size:12px;
+    line-height:1.9;
+    color:rgba(255,255,255,0.92);
     margin:0;
   }
 
-  /* Month blocks */
+  /* ═══════════════════════════════════════════════════════════
+     MONTH HEADERS
+     ═══════════════════════════════════════════════════════════ */
   .month-block{
-    margin-bottom:20px;
+    margin-bottom:24px;
     page-break-inside:avoid;
   }
   .month-header{
-    background:#11154b !important;
+    background:linear-gradient(135deg, #11154b 0%, #1a1f5c 100%) !important;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
-    padding:12px 20px;
-    margin-bottom:15px;
-    border-bottom:none;
+    padding:16px 24px;
+    margin-bottom:20px;
+    border-radius:10px;
+    display:flex;
+    align-items:center;
     page-break-after:avoid;
   }
   .month-badge{
-    background:white !important;
+    background:#aadab6 !important;
     color:#11154b !important;
+    font-family:'Raleway',sans-serif;
+    font-size:11px;
+    font-weight:700;
+    padding:6px 14px;
+    border-radius:6px;
+    margin-right:16px;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
   }
   .month-title{
+    font-family:'Raleway',sans-serif;
+    font-size:18px;
+    font-weight:700;
     color:white !important;
   }
   .month-progress{
-    color:rgba(255,255,255,0.7) !important;
-    display:none;
+    display:none !important;
   }
 
-  /* Week cards - all expanded for print */
+  /* ═══════════════════════════════════════════════════════════
+     WEEK CARDS
+     ═══════════════════════════════════════════════════════════ */
   .week-card{
-    border:1px solid #ddd;
-    margin-bottom:15px;
+    border:1px solid #e2e8f0;
+    border-radius:10px;
+    margin-bottom:16px;
     box-shadow:none;
     page-break-inside:avoid;
+    overflow:hidden;
   }
   .week-card-header{
-    background:#f8f9fa !important;
+    background:#f7fafc !important;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
-    padding:12px 16px;
+    padding:14px 20px;
+    display:flex;
+    align-items:center;
+    border-bottom:1px solid #e2e8f0;
   }
   .week-num{
     background:#11154b !important;
     color:white !important;
+    font-family:'Raleway',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    width:28px;
+    height:28px;
+    border-radius:6px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-right:14px;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
   }
   .week-title{
+    font-family:'Raleway',sans-serif;
     font-size:14px;
+    font-weight:700;
+    color:#11154b;
   }
   .week-progress-pill{
-    display:none;
+    display:none !important;
   }
   .week-card-body{
     display:block !important;
-    padding:16px;
-    border-top:1px solid #eee;
+    padding:20px;
   }
   .week-cols{
     display:grid;
     grid-template-columns:1fr 1fr;
-    gap:20px;
+    gap:24px;
+  }
+  .week-col{
+    min-width:0;
   }
   .week-col-label{
-    font-size:10px;
-    margin-bottom:8px;
+    font-family:'Raleway',sans-serif;
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:1px;
+    text-transform:uppercase;
+    color:#11154b;
+    margin-bottom:12px;
+    padding-bottom:8px;
+    border-bottom:2px solid #aadab6;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
   .week-tasks-list{
-    font-size:12px;
+    list-style:none;
+    padding:0;
+    margin:0;
   }
   .week-task-item{
-    margin-bottom:6px;
+    font-family:'Open Sans',sans-serif;
+    font-size:11px;
+    line-height:1.6;
+    color:#4a5568;
+    margin-bottom:8px;
+    padding-left:14px;
+    position:relative;
   }
+  .week-task-dot{
+    position:absolute;
+    left:0;
+    top:6px;
+    width:6px;
+    height:6px;
+    background:#cbd5e0;
+    border-radius:50%;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+
+  /* Checklist styling */
   .check-item{
-    margin-bottom:6px;
+    display:flex;
+    align-items:flex-start;
+    margin-bottom:10px;
+  }
+  .check-input{
+    position:absolute;
+    opacity:0;
   }
   .check-box{
-    border:1.5px solid #333 !important;
+    width:16px;
+    height:16px;
+    min-width:16px;
+    border:2px solid #11154b !important;
+    border-radius:4px;
+    margin-right:10px;
+    margin-top:1px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
     -webkit-print-color-adjust:exact;
     print-color-adjust:exact;
   }
   .check-box svg{
     display:none !important;
   }
+  .check-label{
+    font-family:'Open Sans',sans-serif;
+    font-size:11px;
+    line-height:1.6;
+    color:#2d3748 !important;
+    text-decoration:none !important;
+  }
   .check-input:checked + .check-box{
     background:white !important;
-    border-color:#333 !important;
-  }
-  .check-label{
-    font-size:11px;
-    line-height:1.5;
-    color:#333 !important;
-    text-decoration:none !important;
+    border-color:#11154b !important;
   }
   .check-input:checked ~ .check-label,
   .check-input:checked + .check-box + .check-label{
     text-decoration:none !important;
-    color:#333 !important;
+    color:#2d3748 !important;
   }
 
   /* Page break between months */
@@ -3434,31 +3638,52 @@ body:not(.has-plan) .plan-content{display:none}
 
   /* Callout at end */
   .callout{
-    display:none;
+    display:none !important;
   }
 
-  /* Print footer */
+  /* ═══════════════════════════════════════════════════════════
+     PRINT FOOTER
+     ═══════════════════════════════════════════════════════════ */
   .print-footer{
-    text-align:center;
-    padding:30px 50px;
-    border-top:2px solid #11154b;
-    margin-top:30px;
+    margin-top:40px;
+    padding:24px 0;
+    border-top:3px solid #11154b;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
     page-break-inside:avoid;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
-  .print-footer p{
+  .print-footer-brand{
+    font-family:'Raleway',sans-serif;
+    font-size:12px;
+    font-weight:700;
+    color:#11154b;
+    letter-spacing:1px;
+  }
+  .print-footer-brand span{
+    color:#aadab6;
+  }
+  .print-footer-contact{
     font-family:'Open Sans',sans-serif;
     font-size:11px;
     color:#708090;
-    margin:0 0 5px 0;
+    text-align:right;
   }
-  .print-footer p:last-child{
-    margin-bottom:0;
+  .print-footer-contact strong{
+    color:#11154b;
   }
 
   /* Page setup */
   @page{
     size:letter;
-    margin:0.5in;
+    margin:0.6in 0.75in;
+  }
+
+  /* Print-specific month label styling */
+  .print-month-label{
+    display:none;
   }
 }
 
@@ -8118,46 +8343,70 @@ button,
 
     <!-- PRINT-ONLY CONTENT (visible only when printing) -->
     <div class="print-only">
-      <!-- Cover/Header -->
-      <div class="print-header">
-        <div class="print-logo">eLearningU</div>
-        <h1 class="print-title">90-Day Digital Marketing Roadmap</h1>
-        <p class="print-subtitle">Red Cariboo Resort</p>
-        <p class="print-date">July 27, 2026</p>
+      <!-- ══════════════════════════════════════════════════════════
+           COVER PAGE
+           ══════════════════════════════════════════════════════════ -->
+      <div class="print-cover">
+        <div class="print-cover-logo">e<span>Learning</span>U</div>
+        <div class="print-cover-badge">Tourism Digital Marketing Accelerator</div>
+        <h1 class="print-cover-title">90-Day Roadmap</h1>
+        <p class="print-cover-client">Red Cariboo Resort</p>
+        <div class="print-cover-divider"></div>
+        <p class="print-cover-meta">
+          <strong>Cohort Start:</strong> September 27, 2026<br>
+          <strong>Program Duration:</strong> 12 Weeks
+        </p>
+        <div class="print-cover-footer">
+          <p>Prepared by eLearningU Accelerator Program</p>
+        </div>
       </div>
 
-      <!-- About This Document -->
-      <div class="print-about">
-        <h2>About This Document</h2>
-        <p>This roadmap was created as part of the eLearningU Tourism Digital Marketing Accelerator program. It's a customized 90-day action plan designed specifically for Red Cariboo Resort based on a comprehensive digital assessment and coaching session.</p>
-        <p>Questions? Contact your coach at conner@elearningu.com</p>
-      </div>
+      <!-- ══════════════════════════════════════════════════════════
+           OVERVIEW PAGE
+           ══════════════════════════════════════════════════════════ -->
+      <div class="print-overview">
+        <!-- About This Document -->
+        <div class="print-section">
+          <h2>About This Document</h2>
+          <p>This roadmap was created as part of the eLearningU Tourism Digital Marketing Accelerator program. It is a customised 90-day action plan designed specifically for Red Cariboo Resort based on a comprehensive digital assessment and strategy session with your coach.</p>
+          <p>The plan is structured as 12 weekly sprints across three phases: Foundation (Weeks 1-4), Assets and Audience (Weeks 5-8), and Paid Launch (Weeks 9-12).</p>
+        </div>
 
-      <!-- How to Use This Roadmap -->
-      <div class="print-howto">
-        <h2>How to Use This Roadmap</h2>
-        <p>This is a week-by-week action plan spanning 90 days (12 weeks). Each week has specific actions and completion checklist items that build toward your marketing goals.</p>
-        <p>Work through one week at a time, checking off items as you complete them. The tasks build on each other, so completing them in order is important.</p>
-      </div>
+        <!-- How to Use -->
+        <div class="print-section">
+          <h2>How to Use This Roadmap</h2>
+          <p>Each week contains two sections:</p>
+          <ul>
+            <li><strong>This Week's Actions:</strong> The tasks to complete, with guidance on how to do each one</li>
+            <li><strong>Completion Checklist:</strong> Specific outcomes to verify before moving to the next week</li>
+          </ul>
+          <p>Work through one week at a time. The tasks build on each other, so completing them in order matters. If you get stuck, contact your coach.</p>
+        </div>
 
-      <!-- Your Goal -->
-      <div class="print-goal">
-        <h2>Your Goal</h2>
-        <p>Red Cariboo is nearly full, and almost none of it is tourism. Work crews and travelling professionals account for 90 to 95 percent of revenue. They book direct, they know the property, and they need no marketing at all. That is a comfortable position and a fragile one. When the industrial projects around Prince Rupert and Kitimat ended, the accommodation businesses that had filled up on crew bookings emptied inside a season. The job of the next ninety days is to build leisure demand before you need it, using the $40,000 the investor has committed through spring.
+        <!-- Executive Summary -->
+        <div class="print-summary-box">
+          <h3>Program Targets (Moderate Scenario)</h3>
+          <div class="print-summary-grid">
+            <div class="print-summary-stat">
+              <div class="print-summary-stat-value">90-135</div>
+              <div class="print-summary-stat-label">Room Nights</div>
+            </div>
+            <div class="print-summary-stat">
+              <div class="print-summary-stat-value">$21-31K</div>
+              <div class="print-summary-stat-label">Room Revenue</div>
+            </div>
+            <div class="print-summary-stat">
+              <div class="print-summary-stat-value">300</div>
+              <div class="print-summary-stat-label">Email Subscribers</div>
+            </div>
+          </div>
+        </div>
 
-The data has already answered the question of who that traveller is. Over the past twelve months the website drew 2,805 active users from Canada against 1,152 from Germany, Switzerland and Austria combined, and that is before a dollar has been spent targeting Canadians. Germans engage more deeply once they arrive, averaging 165 seconds on site against 103. A German-speaking operator is a genuine advantage for a summer market that plans a year ahead, and that market is worth keeping. But the volume is domestic, the winter market is domestic, and January is the busiest month on the website in each of the last two years. The plan follows the demand: Canadian drive-market travellers for winter 2026/27, German-speaking travellers for summer 2027, seeded during the same window.
-
-Three problems currently stop that budget from working. The first is measurement. Four automatic events including page_view and first_visit are marked as key events, so every report in the account shows a conversion rate close to 100 percent, and roughly a quarter of recorded traffic is bot activity from China and Singapore that engages for under three seconds. The second is the booking path. The booking page is a bare date picker with no room types, no rates and no cancellation policy. The homepage carousel still leads with a Christmas offer that expired in January. The root domain serves German by default to an audience that is majority Canadian. The third is that the content which already works is buried. The Winter Packing List page drew 1,453 sessions last year, thirteen percent of all site traffic and more than the other 265 story pages put together. It sits in a nineteen-item dropdown alongside a page whose URL is still `duplikat-von-2023-year-in-review`. The booking page drew 72.
-
-So the order matters. Weeks 1 to 4 fix measurement and the booking path, because paid traffic sent to the current site would waste the money and produce no usable data either way. Weeks 5 to 8 build the assets: a winter photo and video shoot, the first creator visit, and the landing pages the ads will point at. Weeks 9 to 12 turn on paid acquisition against a site that can convert and measure, landing in front of the December and January planning peak. About $17,000 is committed inside the ninety days. The remaining $18,000 runs from December to April, weighted toward January.
-
-What that produces, stated honestly: at the moderate case, 90 to 135 tourist room nights for the winter season and $21,000 to $31,500 in room revenue against $35,000 of discretionary spend. Season one does not pay for itself inside the season. A plan that promised otherwise would be selling you something. What the money buys is a booking path that converts, an analytics account that tells the truth, a photo and video library you own, an email list built from zero, two creator content packages, and a live pipeline into the summer 2027 German market, which books during this winter.
-
-| Scenario | Winter room nights (Dec–Mar) | Room revenue | Email list | New Google reviews |
-|---|---|---|---|---|
-| Conservative | 35 to 45 | $8,000 to $10,500 | 150 | 10 |
-| Moderate | 90 to 135 | $21,000 to $31,500 | 300 | 25 |
-| Aggressive | 210 to 280 | $49,000 to $65,500 | 500 | 40 |</p>
+        <!-- Goal Box -->
+        <div class="print-goal-box">
+          <h3>Your Goal</h3>
+          <p>Build leisure demand before you need it, using the $40,000 the investor has committed through spring. Target Canadian drive-market travellers for winter 2026/27, and German-speaking travellers for summer 2027. Weeks 1-4 fix measurement and the booking path. Weeks 5-8 build assets: winter photo/video shoot, creator visits, and landing pages. Weeks 9-12 turn on paid acquisition against a site that can convert and measure, landing in front of the December and January planning peak.</p>
+        </div>
       </div>
     </div>
 
@@ -8503,8 +8752,10 @@ What that produces, stated honestly: at the moderate case, 90 to 135 tourist roo
 
     <!-- PRINT-ONLY FOOTER -->
     <div class="print-only print-footer">
-      <p>Created by the eLearningU Accelerator Program</p>
-      <p>Questions? Contact conner@elearningu.com</p>
+      <div class="print-footer-brand">e<span>Learning</span>U</div>
+      <div class="print-footer-contact">
+        <strong>Questions?</strong> Contact your coach at conner@elearningu.com
+      </div>
     </div>
   </div>
 </section>
