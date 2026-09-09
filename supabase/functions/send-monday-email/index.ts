@@ -64,7 +64,7 @@ async function processClient(
   const daysDiff = Math.floor((nowUTC - cohortStartUTC) / 86400000)
   const currentWeek = Math.floor(daysDiff / 7) + 1
 
-  if (currentWeek > 12) return { status: 'skipped', reason: 'programme complete' }
+  if (currentWeek > 12) return { status: 'skipped', reason: 'program complete' }
   if (currentWeek < 1)  return { status: 'skipped', reason: 'cohort not started' }
 
   // Check send window: Monday 07:45–08:15 in the client's local timezone

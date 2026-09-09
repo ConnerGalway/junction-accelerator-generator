@@ -318,7 +318,7 @@ Subtitle: Put paid media behind the winter season across Google, Meta and the CC
 
 ### What We Heard From You
 
-You said you had thought about Google ads and Facebook ads but had not started, and that the CCCTA package is good value because the MRDT funding covers half the cost. You held the Spotify spot back deliberately until analytics were working, which was the right call. You were clear that the intention of that spot was awareness rather than direct bookings, and that packages, not discounts, are what will actually convert. On creators, you said you have no objection and that you cannot write all the content yourself, which is exactly the gap a creator visit fills. You also told us your realistic capacity for this programme is about ten hours a week, alongside bookkeeping and staffing.
+You said you had thought about Google ads and Facebook ads but had not started, and that the CCCTA package is good value because the MRDT funding covers half the cost. You held the Spotify spot back deliberately until analytics were working, which was the right call. You were clear that the intention of that spot was awareness rather than direct bookings, and that packages, not discounts, are what will actually convert. On creators, you said you have no objection and that you cannot write all the content yourself, which is exactly the gap a creator visit fills. You also told us your realistic capacity for this program is about ten hours a week, alongside bookkeeping and staffing.
 
 ### What This Is
 
@@ -545,7 +545,7 @@ Axel's objection is reasonable about the wrong thing. Nobody suggests sending a 
 
 11. **Send the summer 2027 email to the German list in February.**
     - European travellers book summer six to twelve months ahead, so February is when the summer 2027 decision is being made.
-    - Contents in German: summer activities, the e-mountain bike programme if insurance is settled by then, the fishing, and the second-Canada-trip framing.
+    - Contents in German: summer activities, the e-mountain bike program if insurance is settled by then, the fishing, and the second-Canada-trip framing.
     - Include the fly-in option and the drive route, since access is the question that stops German bookings more than price.
     - This email is the beginning of the summer 2027 pipeline and the reason the list matters this year rather than next.
 

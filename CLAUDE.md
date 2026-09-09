@@ -20,6 +20,8 @@ Examples:
 - Wrong: "Week 3 — Getting Found on Google"
 - Right: "Week 3: Getting Found on Google"
 
+**Use American spelling.** Always use "program" (not "programme"), "color" (not "colour"), "optimize" (not "optimise"), etc.
+
 ---
 
 ## When asked to generate a page
