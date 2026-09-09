@@ -4195,6 +4195,46 @@ body:not(.has-plan) .plan-content{display:none}
   max-width:66ch;
 }
 
+/* Tactic Tabs */
+.tactic-tabs{
+  display:flex;
+  gap:4px;
+  margin-top:20px;
+}
+.tactic-tab{
+  padding:12px 20px;
+  border-radius:var(--radius-md) var(--radius-md) 0 0;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14px;
+  color:rgba(255,255,255,.55);
+  background:transparent;
+  border:none;
+  cursor:pointer;
+  transition:background .15s,color .15s;
+}
+.tactic-tab:hover{
+  background:rgba(255,255,255,.08);
+  color:rgba(255,255,255,.8);
+}
+.tactic-tab.active{
+  background:var(--cream-100);
+  color:var(--navy-900);
+}
+
+/* Tactic Body */
+.tactic-body{
+  background:var(--cream-100);
+  border-radius:0 var(--radius-md) var(--radius-md) var(--radius-md);
+  padding:28px 28px 32px;
+}
+.tactic-tab-content{
+  display:none;
+}
+.tactic-tab-content.active{
+  display:block;
+}
+
 /* Tactic Two-Column Overview */
 .tactic-overview-grid{
   display:grid;
@@ -5612,10 +5652,20 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
       <h1>Fix the Measurement and the Booking Path</h1>
       <p>Make the analytics tell the truth and the website take a booking, before any money goes into advertising.</p>
+      <!-- Tactic Tabs -->
+      <div class="tactic-tabs">
+        <button class="tactic-tab active" data-tactic-tab="1" data-tab="overview" onclick="switchTacticTab(1, 'overview')">Overview</button>
+        <button class="tactic-tab" data-tactic-tab="1" data-tab="steps" onclick="switchTacticTab(1, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" data-tactic-tab="1" data-tab="metrics" onclick="switchTacticTab(1, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" data-tactic-tab="1" data-tab="tips" onclick="switchTacticTab(1, 'tips')">Tips &amp; Resources</button>
+      </div>
     </div>
 
-    <!-- Two-Column Overview -->
-    <div class="tactic-overview-grid">
+    <!-- Tactic Body -->
+    <div class="tactic-body">
+      <!-- Overview Tab -->
+      <div class="tactic-tab-content active" data-tactic-content="1" data-content="overview">
+        <div class="tactic-overview-grid">
       <div class="tactic-overview-col">
         <!-- What This Is -->
         <div class="tactic-card-block">
@@ -5661,16 +5711,14 @@ body:not(.has-plan) .plan-content{display:none}
           </div>
         </div>
       </div>
-    </div>
+        </div>
+      </div>
 
-    <!-- Implementation Steps Section -->
-    <div class="tactic-steps-header">
-      <span class="tactic-steps-label">Implementation Steps</span>
-    </div>
-
-    <!-- Flow Diagram -->
-    <div class="tactic-flow-card">
-      <div class="tactic-flow-label">The Path This Tactic Repairs</div>
+      <!-- Implementation Steps Tab -->
+      <div class="tactic-tab-content" data-tactic-content="1" data-content="steps">
+        <!-- Flow Diagram -->
+        <div class="tactic-flow-card">
+          <div class="tactic-flow-label">The Path This Tactic Repairs</div>
       <div class="tactic-flow-row">
         <div class="tactic-flow-node">Landing Page</div>
         <svg class="tactic-flow-arrow" width="22" height="14" viewBox="0 0 22 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 7h18M13 1l6 6-6 6"></path></svg>
@@ -6048,6 +6096,23 @@ body:not(.has-plan) .plan-content{display:none}
           </ol>
         </div>
       </div>
+      </div>
+
+      <!-- Measurement & KPIs Tab -->
+      <div class="tactic-tab-content" data-tactic-content="1" data-content="metrics">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Measurement content coming soon</div>
+          <p>KPIs and success metrics for this tactic will be added here.</p>
+        </div>
+      </div>
+
+      <!-- Tips & Resources Tab -->
+      <div class="tactic-tab-content" data-tactic-content="1" data-content="tips">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
+          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -6077,15 +6142,25 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
       <h1>Build the Content That Answers What Travellers Actually Search</h1>
       <p>Turn the property into a photo library and a set of pages that earn search traffic, then restart social media on a schedule that survives a busy week.</p>
+      <!-- Tactic Tabs -->
+      <div class="tactic-tabs">
+        <button class="tactic-tab active" data-tactic-tab="2" data-tab="overview" onclick="switchTacticTab(2, 'overview')">Overview</button>
+        <button class="tactic-tab" data-tactic-tab="2" data-tab="steps" onclick="switchTacticTab(2, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" data-tactic-tab="2" data-tab="metrics" onclick="switchTacticTab(2, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" data-tactic-tab="2" data-tab="tips" onclick="switchTacticTab(2, 'tips')">Tips &amp; Resources</button>
+      </div>
     </div>
 
-    <!-- Two-Column Overview -->
-    <div class="tactic-overview-grid">
-      <div class="tactic-overview-col">
-        <!-- What This Is -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">What This Is</div>
-          <p>Two bodies of work that feed each other. The first is a photo and video library that Red Cariboo owns, shot on the property in autumn and again once snow arrives, covering the cabins, the interiors, the frozen river, the activities and the night sky. The second is a small set of pages built around the questions travellers already type into Google. Both then supply the social calendar, which restarts at three posts a week with Reels as the default format.</p>
+    <!-- Tactic Body -->
+    <div class="tactic-body">
+      <!-- Overview Tab -->
+      <div class="tactic-tab-content active" data-tactic-content="2" data-content="overview">
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <!-- What This Is -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">What This Is</div>
+              <p>Two bodies of work that feed each other. The first is a photo and video library that Red Cariboo owns, shot on the property in autumn and again once snow arrives, covering the cabins, the interiors, the frozen river, the activities and the night sky. The second is a small set of pages built around the questions travellers already type into Google. Both then supply the social calendar, which restarts at three posts a week with Reels as the default format.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6117,24 +6192,22 @@ body:not(.has-plan) .plan-content{display:none}
           <div class="tactic-card-label">Why It Matters</div>
           <p>The Winter Packing List page drew 1,453 sessions last year. That is thirteen percent of all traffic to the site and more than the other 265 story pages combined. That page was written for guests who had already booked, and it now brings in strangers. Nobody has repeated the format since. The ads in Tactic 3 need somewhere to send people and something to look like, and both come from here.</p>
         </div>
-        <!-- Time Commitment -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Time Commitment</div>
-          <div>
-            <span class="tactic-time-value">3 hrs</span>
-            <span class="tactic-time-context">content &amp; social, per week</span>
+            <!-- Time Commitment -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Time Commitment</div>
+              <div>
+                <span class="tactic-time-value">3 hrs</span>
+                <span class="tactic-time-context">content &amp; social, per week</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Implementation Steps Section -->
-    <div class="tactic-steps-header">
-      <span class="tactic-steps-label">Implementation Steps</span>
-    </div>
-
-    <!-- Collapsible Parts -->
-    <div class="tactic-parts-list">
+      <!-- Implementation Steps Tab -->
+      <div class="tactic-tab-content" data-tactic-content="2" data-content="steps">
+        <!-- Collapsible Parts -->
+        <div class="tactic-parts-list">
       <!-- Part A -->
       <div class="tactic-part open">
         <button class="tactic-part-header" onclick="toggleTacticPart(this)">
@@ -6433,6 +6506,23 @@ body:not(.has-plan) .plan-content{display:none}
           </ol>
         </div>
       </div>
+      </div>
+
+      <!-- Measurement & KPIs Tab -->
+      <div class="tactic-tab-content" data-tactic-content="2" data-content="metrics">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Measurement content coming soon</div>
+          <p>KPIs and success metrics for this tactic will be added here.</p>
+        </div>
+      </div>
+
+      <!-- Tips & Resources Tab -->
+      <div class="tactic-tab-content" data-tactic-content="2" data-content="tips">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
+          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -6462,15 +6552,25 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
       <h1>Spend the Budget Where It Can Be Measured</h1>
       <p>Put paid media behind the winter season across Google, Meta and the CCCTA audio spot, and bring in two creators to produce content the resort could not produce alone.</p>
+      <!-- Tactic Tabs -->
+      <div class="tactic-tabs">
+        <button class="tactic-tab active" data-tactic-tab="3" data-tab="overview" onclick="switchTacticTab(3, 'overview')">Overview</button>
+        <button class="tactic-tab" data-tactic-tab="3" data-tab="steps" onclick="switchTacticTab(3, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" data-tactic-tab="3" data-tab="metrics" onclick="switchTacticTab(3, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" data-tactic-tab="3" data-tab="tips" onclick="switchTacticTab(3, 'tips')">Tips &amp; Resources</button>
+      </div>
     </div>
 
-    <!-- Two-Column Overview -->
-    <div class="tactic-overview-grid">
-      <div class="tactic-overview-col">
-        <!-- What This Is -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">What This Is</div>
-          <p>A staged media plan running from Week 9 through April, split across three channels with different jobs. Google Search catches people already looking for somewhere to stay in the Chilcotin. Meta puts the property in front of a drive-market audience that does not yet know Anahim Lake exists. The Spotify spot runs alongside both as regional awareness. Two creator visits produce video and coverage that neither you nor a photographer can produce alone.</p>
+    <!-- Tactic Body -->
+    <div class="tactic-body">
+      <!-- Overview Tab -->
+      <div class="tactic-tab-content active" data-tactic-content="3" data-content="overview">
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <!-- What This Is -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">What This Is</div>
+              <p>A staged media plan running from Week 9 through April, split across three channels with different jobs. Google Search catches people already looking for somewhere to stay in the Chilcotin. Meta puts the property in front of a drive-market audience that does not yet know Anahim Lake exists. The Spotify spot runs alongside both as regional awareness. Two creator visits produce video and coverage that neither you nor a photographer can produce alone.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6505,30 +6605,28 @@ body:not(.has-plan) .plan-content{display:none}
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
           <p>There is $35,000 to spend and ten hours a week to spend it in. That combination fails without a schedule and a named owner. January is the busiest month on the website in each of the last two years. Spending heavily in September against a broken booking path would burn the budget before the audience arrives. Spending lightly in November and heavily in December and January puts the money where the demand already is.</p>
-        </div>
-        <!-- Time Commitment -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Time Commitment</div>
-          <div>
-            <span class="tactic-time-value">2-3 hrs</span>
-            <span class="tactic-time-context">ads management, per week</span>
+            </div>
+            <!-- Time Commitment -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Time Commitment</div>
+              <div>
+                <span class="tactic-time-value">2-3 hrs</span>
+                <span class="tactic-time-context">ads management, per week</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Implementation Steps Section -->
-    <div class="tactic-steps-header">
-      <span class="tactic-steps-label">Implementation Steps</span>
-    </div>
-
-    <!-- Collapsible Parts -->
-    <div class="tactic-parts-list">
-      <!-- Part A -->
-      <div class="tactic-part open">
-        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
-          <span class="tactic-part-tag">Part A</span>
-          <span class="tactic-part-title">Decide How the Money Is Managed</span>
+      <!-- Implementation Steps Tab -->
+      <div class="tactic-tab-content" data-tactic-content="3" data-content="steps">
+        <!-- Collapsible Parts -->
+        <div class="tactic-parts-list">
+          <!-- Part A -->
+          <div class="tactic-part open">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part A</span>
+              <span class="tactic-part-title">Decide How the Money Is Managed</span>
           <span class="tactic-part-meta">2 steps</span>
           <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
         </button>
@@ -6808,6 +6906,23 @@ body:not(.has-plan) .plan-content{display:none}
           </ol>
         </div>
       </div>
+      </div>
+
+      <!-- Measurement & KPIs Tab -->
+      <div class="tactic-tab-content" data-tactic-content="3" data-content="metrics">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Measurement content coming soon</div>
+          <p>KPIs and success metrics for this tactic will be added here.</p>
+        </div>
+      </div>
+
+      <!-- Tips & Resources Tab -->
+      <div class="tactic-tab-content" data-tactic-content="3" data-content="tips">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
+          <p>Helpful tips and resource links for this tactic will be added here.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -6837,15 +6952,25 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
       <h1>Build the Email List You Do Not Have</h1>
       <p>Start collecting guest addresses now, automate the pre-arrival and post-stay emails, and use the list to fill next winter and summer 2027.</p>
+      <!-- Tactic Tabs -->
+      <div class="tactic-tabs">
+        <button class="tactic-tab active" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
+        <button class="tactic-tab" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
+      </div>
     </div>
 
-    <!-- Two-Column Overview -->
-    <div class="tactic-overview-grid">
-      <div class="tactic-overview-col">
-        <!-- What This Is -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">What This Is</div>
-          <p>Four pieces. Getting agreement to proceed, then reactivating the Mailchimp account that already exists. Adding sign-up points to the website and booking flow so the list starts growing from zero. Building three automated emails that run without anyone touching them: pre-arrival, post-stay review request, and enquiry follow-up. Then two real campaigns timed to booking windows.</p>
+    <!-- Tactic Body -->
+    <div class="tactic-body">
+      <!-- Overview Tab -->
+      <div class="tactic-tab-content active" data-tactic-content="4" data-content="overview">
+        <div class="tactic-overview-grid">
+          <div class="tactic-overview-col">
+            <!-- What This Is -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">What This Is</div>
+              <p>Four pieces. Getting agreement to proceed, then reactivating the Mailchimp account that already exists. Adding sign-up points to the website and booking flow so the list starts growing from zero. Building three automated emails that run without anyone touching them: pre-arrival, post-stay review request, and enquiry follow-up. Then two real campaigns timed to booking windows.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6877,29 +7002,27 @@ body:not(.has-plan) .plan-content{display:none}
           <div class="tactic-card-label">Why It Matters</div>
           <p>The three-dollar guest whose single visit earns a booking turns into a thirty-cent guest when they come back a second time. Email is the only channel that reliably gets them there. Every dollar spent on paid advertising finds a new person and then loses them, unless there is a system that captures the address and keeps the relationship open.</p>
         </div>
-        <!-- Time Commitment -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Time Commitment</div>
-          <div>
-            <span class="tactic-time-value">1 hr</span>
-            <span class="tactic-time-context">email management, per week</span>
+            <!-- Time Commitment -->
+            <div class="tactic-card-block">
+              <div class="tactic-card-label">Time Commitment</div>
+              <div>
+                <span class="tactic-time-value">1 hr</span>
+                <span class="tactic-time-context">email management, per week</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- Implementation Steps Section -->
-    <div class="tactic-steps-header">
-      <span class="tactic-steps-label">Implementation Steps</span>
-    </div>
-
-    <!-- Collapsible Parts -->
-    <div class="tactic-parts-list">
-      <!-- Part A -->
-      <div class="tactic-part open">
-        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
-          <span class="tactic-part-tag">Part A</span>
-          <span class="tactic-part-title">Get Agreement and Get Started</span>
+      <!-- Implementation Steps Tab -->
+      <div class="tactic-tab-content" data-tactic-content="4" data-content="steps">
+        <!-- Collapsible Parts -->
+        <div class="tactic-parts-list">
+          <!-- Part A -->
+          <div class="tactic-part open">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part A</span>
+              <span class="tactic-part-title">Get Agreement and Get Started</span>
           <span class="tactic-part-meta">4 steps</span>
           <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
         </button>
@@ -7147,6 +7270,23 @@ body:not(.has-plan) .plan-content{display:none}
               </div>
             </li>
           </ol>
+        </div>
+      </div>
+      </div>
+
+      <!-- Measurement & KPIs Tab -->
+      <div class="tactic-tab-content" data-tactic-content="4" data-content="metrics">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Measurement content coming soon</div>
+          <p>KPIs and success metrics for this tactic will be added here.</p>
+        </div>
+      </div>
+
+      <!-- Tips & Resources Tab -->
+      <div class="tactic-tab-content" data-tactic-content="4" data-content="tips">
+        <div class="tactic-card-block">
+          <div class="tactic-card-label">Tips &amp; Resources coming soon</div>
+          <p>Helpful tips and resource links for this tactic will be added here.</p>
         </div>
       </div>
     </div>
@@ -7844,6 +7984,18 @@ function toggleSection(header) {
 // ── Tactic Parts (accordion) ──────────────────────────────
 function toggleTacticPart(btn) {
   btn.closest('.tactic-part').classList.toggle('open');
+}
+
+// ── Tactic Tabs ────────────────────────────────────────────
+function switchTacticTab(tacticNum, tabName) {
+  // Update tab active states
+  document.querySelectorAll(`[data-tactic-tab="${tacticNum}"]`).forEach(t => {
+    t.classList.toggle('active', t.dataset.tab === tabName);
+  });
+  // Update content visibility
+  document.querySelectorAll(`[data-tactic-content="${tacticNum}"]`).forEach(content => {
+    content.classList.toggle('active', content.dataset.content === tabName);
+  });
 }
 
 // ── Weeks (accordion) ─────────────────────────────────────
