@@ -126,16 +126,69 @@ a:hover{text-decoration:underline}
 .sidebar-progress-wrap{
   padding:20px 20px 16px;
   border-bottom:1px solid rgba(255,255,255,.08);
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+.sidebar-ring-wrap{
+  position:relative;
+  width:56px;
+  height:56px;
+  flex-shrink:0;
+}
+.sidebar-ring-svg{
+  width:56px;
+  height:56px;
+  transform:rotate(-90deg);
+}
+.sidebar-ring-bg{
+  fill:none;
+  stroke:rgba(255,255,255,.12);
+  stroke-width:5;
+}
+.sidebar-ring-progress{
+  fill:none;
+  stroke:var(--mint);
+  stroke-width:5;
+  stroke-linecap:round;
+  transition:stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-progress-text{
+  flex:1;
+  min-width:0;
+}
+.sidebar-progress-main{
+  display:flex;
+  align-items:baseline;
+  gap:6px;
+  margin-bottom:2px;
+}
+.sidebar-progress-count-big{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:800;
+  color:var(--mint);
+  line-height:1;
+}
+.sidebar-progress-of{
+  font-family:var(--font-d);
+  font-size:20px;
+  font-weight:800;
+  color:rgba(255,255,255,.4);
+  line-height:1;
 }
 .sidebar-progress-label{
   font-family:var(--font-d);
-  font-size:10px;
-  font-weight:700;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:rgba(255,255,255,.4);
-  margin-bottom:10px;
+  font-size:11px;
+  color:rgba(255,255,255,.5);
+  margin-bottom:4px;
 }
+.sidebar-progress-sub{
+  font-family:var(--font-d);
+  font-size:10px;
+  color:rgba(255,255,255,.35);
+}
+/* Legacy bar styles for backwards compatibility */
 .sidebar-progress-bar-wrap{
   background:rgba(255,255,255,.1);
   border-radius:100px;
@@ -3450,18 +3503,27 @@ body:not(.has-plan) .plan-content{display:none}
 .lightbox-trigger:hover{transform:scale(1.02)}
 </style>
 </head>
-<body data-client-slug="{{CLIENT_SLUG}}">
+<body data-client-slug="{{CLIENT_SLUG}}" data-client-name="{{CLIENT_NAME}}" data-cohort-start="{{COHORT_START_DATE_ISO}}" data-total-days="90" data-total-weeks="12">
 <!-- ── Sidebar ──────────────────────────────────────────────── -->
 <aside id="sidebar">
   <div class="sidebar-logo">
     <img id="sidebar-logo-img" src="/assets/elearningu-logo-white.png" alt="eLearningU">
   </div>
   <div class="sidebar-progress-wrap">
-    <div class="sidebar-progress-label">Overall Progress</div>
-    <div class="sidebar-progress-bar-wrap">
-      <div class="sidebar-progress-bar" id="sidebar-bar"></div>
+    <div class="sidebar-ring-wrap">
+      <svg class="sidebar-ring-svg" viewBox="0 0 56 56">
+        <circle class="sidebar-ring-bg" cx="28" cy="28" r="23"/>
+        <circle class="sidebar-ring-progress" id="sidebar-ring" cx="28" cy="28" r="23" stroke-dasharray="144.51" stroke-dashoffset="144.51"/>
+      </svg>
     </div>
-    <div class="sidebar-progress-count"><span id="sidebar-done">0</span> of <span id="sidebar-total">47</span> tasks complete</div>
+    <div class="sidebar-progress-text">
+      <div class="sidebar-progress-main">
+        <span class="sidebar-progress-count-big" id="sidebar-done">0</span>
+        <span class="sidebar-progress-of">of <span id="sidebar-total">{{TOTAL_TASKS}}</span></span>
+      </div>
+      <div class="sidebar-progress-label">tasks checked off</div>
+      <div class="sidebar-progress-sub" id="sidebar-day-week">Day 1 of 90 · week 1</div>
+    </div>
   </div>
   <nav>
     <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard')">
@@ -4675,6 +4737,26 @@ function updateNoteBtn(id) {
 }
 
 // ── Progress ──────────────────────────────────────────────
+// Calculate and display current day/week based on cohort start date
+function updateDayWeek() {
+  const cohortStart = document.body.dataset.cohortStart;
+  const totalDays = parseInt(document.body.dataset.totalDays) || 90;
+  const totalWeeks = parseInt(document.body.dataset.totalWeeks) || 12;
+  const el = document.getElementById('sidebar-day-week');
+  if (!el || !cohortStart) return;
+
+  const start = new Date(cohortStart + 'T00:00:00');
+  const now = new Date();
+  const diffMs = now - start;
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  // Clamp to 1-90 range
+  const day = Math.max(1, Math.min(totalDays, diffDays + 1));
+  const week = Math.max(1, Math.min(totalWeeks, Math.ceil(day / 7)));
+
+  el.textContent = 'Day ' + day + ' of ' + totalDays + ' · week ' + week;
+}
+
 function countChecked(ids) {
   return ids.filter(id => state.checks[id]).length;
 }
@@ -4682,11 +4764,19 @@ function updateProgress() {
   const done = countChecked(ALL_CHECK_IDS);
   const total = ALL_CHECK_IDS.length;
   const pct = total > 0 ? Math.round(done/total*100) : 0;
-  
-  // Sidebar
-  document.getElementById('sidebar-bar').style.width = pct + '%';
+
+  // Sidebar ring (radius 23, circumference = 2 * PI * 23 ≈ 144.51)
+  const sidebarRing = document.getElementById('sidebar-ring');
+  if (sidebarRing) {
+    const circ = 2 * Math.PI * 23;
+    sidebarRing.style.strokeDasharray = circ;
+    sidebarRing.style.strokeDashoffset = circ - (circ * pct / 100);
+  }
   document.getElementById('sidebar-done').textContent = done;
   document.getElementById('sidebar-total').textContent = total;
+
+  // Update day/week display
+  updateDayWeek();
   
   // Roadmap badge
   document.getElementById('roadmap-badge').textContent = pct + '%';
