@@ -3963,9 +3963,337 @@ button {
 .lightbox-trigger:hover {
   transform: scale(1.02);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY & INTERACTION ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Skip Link */
+.skip-link{
+  position:absolute;
+  top:-100%;
+  left:16px;
+  z-index:10000;
+  padding:12px 24px;
+  background:var(--navy-900);
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14px;
+  border-radius:var(--radius-md);
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition:top 0.15s ease;
+}
+.skip-link:focus{
+  top:16px;
+  outline:none;
+}
+
+/* Focus-Visible States */
+*:focus{outline:none}
+*:focus-visible{
+  outline:2px solid var(--mint-500);
+  outline-offset:2px;
+}
+.sidebar__nav-item:focus-visible,
+.tactic__tab:focus-visible,
+.objective-card:focus-visible{
+  outline-offset:0;
+  border-radius:var(--radius-sm);
+}
+button:focus-visible,
+.btn:focus-visible{
+  outline-offset:3px;
+}
+input[type="checkbox"]:focus-visible{
+  outline:2px solid var(--mint-500);
+  outline-offset:1px;
+}
+a:focus-visible{
+  outline-offset:2px;
+  border-radius:2px;
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.15s !important;
+  }
+  .sidebar__nav-item:hover,
+  .objective-card:hover,
+  .tactic__part-header:hover,
+  .lightbox-trigger:hover{
+    transform:none !important;
+  }
+  .page{
+    transform:none !important;
+  }
+  .sidebar__nav-item,
+  .objective-card,
+  .tactic__part-header,
+  .btn,
+  button{
+    transition:opacity 0.15s ease, background-color 0.15s ease !important;
+  }
+}
+
+/* Prefers Reduced Transparency */
+@media (prefers-reduced-transparency: reduce){
+  .tactic__tabs{
+    background:var(--navy-900) !important;
+  }
+  .sidebar{
+    background:var(--navy-900) !important;
+    backdrop-filter:none !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: more){
+  .tactic__tabs{
+    background:var(--navy-900);
+    border:2px solid var(--navy-700);
+  }
+  .tactic__tab.active{
+    border:2px solid var(--navy-900);
+  }
+  .objective-card{
+    border:2px solid var(--navy-200);
+  }
+  .sidebar__nav-item.active{
+    border:2px solid var(--mint-500);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 2: RESPONSE & FEEDBACK
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Active States - Instant feedback on press */
+.sidebar__nav-item:active{
+  transform:scale(0.98);
+  background:rgba(255,255,255,.12);
+}
+.tactic__tab:active{
+  transform:scale(0.97);
+}
+.objective-card:active{
+  transform:scale(0.985);
+}
+.tactic-card:active{
+  transform:scale(0.98);
+}
+.tactic__part-header:active{
+  background:rgba(0,0,0,.04);
+}
+.week__header:active{
+  background:rgba(0,0,0,.02);
+}
+button:active,
+.btn:active{
+  transform:scale(0.97);
+}
+.check-input:active{
+  transform:scale(0.9);
+}
+a:active{
+  opacity:0.8;
+}
+
+/* Faster micro-interaction transitions */
+.sidebar__nav-item{transition:background 0.1s ease, color 0.1s ease, transform 0.08s ease}
+.tactic__tab{transition:background 0.1s ease, color 0.1s ease, transform 0.08s ease}
+.objective-card{transition:transform 0.1s ease, box-shadow 0.15s ease}
+.tactic-card{transition:transform 0.1s ease, box-shadow 0.15s ease}
+.tactic__part-header{transition:background 0.1s ease}
+.week__header{transition:background 0.1s ease}
+.check-input{transition:transform 0.08s ease}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 3: MATERIALS & DEPTH
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Translucent Materials with Backdrop Blur */
+.sidebar{
+  background:rgba(17,21,75,0.92);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+}
+.mobile-header{
+  background:rgba(17,21,75,0.88);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+}
+.tactic__tabs{
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.lightbox-overlay{
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* Enhanced Shadow System */
+.objective-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 8px rgba(0,0,0,0.04),
+    0 8px 16px rgba(0,0,0,0.02);
+}
+.objective-card:hover{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.06),
+    0 8px 16px rgba(0,0,0,0.06),
+    0 16px 32px rgba(0,0,0,0.04);
+}
+.tactic-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 8px rgba(0,0,0,0.03),
+    0 8px 16px rgba(0,0,0,0.02);
+}
+.tactic-card:hover{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.05),
+    0 8px 16px rgba(0,0,0,0.05),
+    0 16px 32px rgba(0,0,0,0.03);
+}
+.week-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.02),
+    0 2px 4px rgba(0,0,0,0.02);
+}
+.week-card.open{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.03),
+    0 4px 12px rgba(0,0,0,0.04);
+}
+.tactic__hero{
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.08),
+    0 12px 32px rgba(0,0,0,0.06);
+}
+
+/* Subtle inner glow on active tabs */
+.tactic__tab.active{
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Card hover lift effect */
+.objective-card:hover,
+.tactic-card:hover{
+  transform:translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 4: SPRING ANIMATIONS & TRANSITIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Spring-like timing functions */
+:root{
+  --ease-spring:cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-spring-bounce:cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-snap:cubic-bezier(0.5, 0, 0.1, 1);
+}
+
+/* Apply spring timing to interactive elements */
+.objective-card{
+  transition:transform 0.25s var(--ease-spring), box-shadow 0.2s ease;
+}
+.tactic-card{
+  transition:transform 0.25s var(--ease-spring), box-shadow 0.2s ease;
+}
+.sidebar__nav-item{
+  transition:background 0.12s ease, color 0.12s ease, transform 0.15s var(--ease-spring);
+}
+
+/* Tab content transitions */
+.tactic__tab-content{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity 0.2s ease, transform 0.25s var(--ease-spring);
+  pointer-events:none;
+}
+.tactic__tab-content.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+/* Accordion expand/collapse with spring */
+.tactic__part-body{
+  transition:max-height 0.3s var(--ease-spring), padding 0.2s ease;
+}
+.week__body{
+  transition:max-height 0.3s var(--ease-spring), padding 0.2s ease;
+}
+
+/* Button press spring-back */
+button,
+.btn{
+  transition:transform 0.15s var(--ease-spring-bounce), background 0.12s ease, box-shadow 0.15s ease;
+}
+
+/* Checkbox check animation */
+.check-input{
+  transition:transform 0.12s var(--ease-spring-bounce);
+}
+.check-input:checked{
+  animation:check-pop 0.2s var(--ease-spring-bounce);
+}
+@keyframes check-pop{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
+
+/* Lightbox entrance */
+.lightbox-overlay{
+  transition:opacity 0.2s ease;
+}
+.lightbox-overlay img{
+  transition:transform 0.3s var(--ease-spring), opacity 0.2s ease;
+}
+.lightbox-overlay.active img{
+  animation:lightbox-enter 0.3s var(--ease-spring-bounce);
+}
+@keyframes lightbox-enter{
+  0%{transform:scale(0.9);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* Page transitions */
+.page{
+  transition:opacity 0.2s ease, transform 0.25s var(--ease-spring);
+}
+
+/* Progress bar fill animation */
+.sidebar__progress-bar,
+.progress-bar,
+.tactic__hero-progress-fill{
+  transition:width 0.4s var(--ease-spring);
+}
+
+/* Nav item hover lift */
+.sidebar__nav-item:hover{
+  transform:translateX(2px);
+}
+.sidebar__nav-item:active{
+  transform:translateX(0) scale(0.98);
+}
 </style>
 </head>
 <body data-client-slug="{{CLIENT_SLUG}}">
+<!-- Skip Link for Keyboard Users -->
+<a href="#main" class="skip-link">Skip to main content</a>
 
 <div class="app-shell">
   <!-- ══════════════════════════════════════════════════════════════════════
@@ -5486,9 +5814,11 @@ function nextTourStep() {
         const tacticNum = tab.dataset.tacticTab;
         const tabName = tab.dataset.tab;
 
-        // Update tab active states
+        // Update tab active states and ARIA
         document.querySelectorAll(`[data-tactic-tab="${tacticNum}"]`).forEach(t => {
-          t.classList.toggle('active', t.dataset.tab === tabName);
+          const isActive = t.dataset.tab === tabName;
+          t.classList.toggle('active', isActive);
+          t.setAttribute('aria-selected', isActive ? 'true' : 'false');
         });
 
         // Update content visibility

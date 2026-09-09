@@ -4793,9 +4793,367 @@ body:not(.has-plan) .plan-content{display:none}
 .lightbox-overlay img{max-width:90vw;max-height:90vh;border-radius:12px;box-shadow:0 8px 32px rgba(0,0,0,0.4)}
 .lightbox-trigger{cursor:zoom-in;transition:transform 0.2s ease}
 .lightbox-trigger:hover{transform:scale(1.02)}
+
+/* ═══════════════════════════════════════════════════════════════
+   ACCESSIBILITY & INTERACTION ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Skip Link */
+.skip-link{
+  position:absolute;
+  top:-100%;
+  left:16px;
+  z-index:10000;
+  padding:12px 24px;
+  background:var(--navy-900);
+  color:#fff;
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:14px;
+  border-radius:var(--radius-md);
+  text-decoration:none;
+  box-shadow:0 4px 12px rgba(0,0,0,0.3);
+  transition:top 0.15s ease;
+}
+.skip-link:focus{
+  top:16px;
+  outline:none;
+}
+
+/* Focus-Visible States */
+*:focus{outline:none}
+*:focus-visible{
+  outline:2px solid var(--mint-500);
+  outline-offset:2px;
+}
+.nav-item:focus-visible,
+.tactic-tab:focus-visible,
+.objective-card:focus-visible{
+  outline-offset:0;
+  border-radius:var(--radius-sm);
+}
+button:focus-visible,
+.btn:focus-visible,
+.download-pdf-btn:focus-visible{
+  outline-offset:3px;
+}
+input[type="checkbox"]:focus-visible{
+  outline:2px solid var(--mint-500);
+  outline-offset:1px;
+}
+a:focus-visible{
+  outline-offset:2px;
+  border-radius:2px;
+}
+
+/* Prefers Reduced Motion */
+@media (prefers-reduced-motion: reduce){
+  *,
+  *::before,
+  *::after{
+    animation-duration:0.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:0.15s !important;
+  }
+
+  /* Replace transforms with opacity fades */
+  .nav-item:hover,
+  .objective-card:hover,
+  .tactic-part-header:hover,
+  .download-pdf-btn:hover,
+  .lightbox-trigger:hover{
+    transform:none !important;
+  }
+
+  /* Disable parallax and slide animations */
+  .page{
+    transform:none !important;
+  }
+
+  /* Keep opacity transitions for feedback */
+  .nav-item,
+  .objective-card,
+  .tactic-part-header,
+  .btn,
+  button{
+    transition:opacity 0.15s ease, background-color 0.15s ease !important;
+  }
+}
+
+/* Prefers Reduced Transparency */
+@media (prefers-reduced-transparency: reduce){
+  .tactic-tabs{
+    background:var(--navy-900) !important;
+  }
+  #sidebar{
+    background:var(--navy-900) !important;
+    backdrop-filter:none !important;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: more){
+  .tactic-tabs{
+    background:var(--navy-900);
+    border:2px solid var(--navy-700);
+  }
+  .tactic-tab.active{
+    border:2px solid var(--navy-900);
+  }
+  .objective-card{
+    border:2px solid var(--navy-200);
+  }
+  .nav-item.active{
+    border:2px solid var(--mint-500);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 2: RESPONSE & FEEDBACK
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Active States - Instant feedback on press */
+.nav-item:active{
+  transform:scale(0.98);
+  background:rgba(255,255,255,.12);
+}
+.tactic-tab:active{
+  transform:scale(0.97);
+}
+.objective-card:active{
+  transform:scale(0.985);
+}
+.tactic-card:active{
+  transform:scale(0.98);
+}
+.tactic-part-header:active{
+  background:rgba(0,0,0,.04);
+}
+.week-header:active{
+  background:rgba(0,0,0,.02);
+}
+button:active,
+.btn:active{
+  transform:scale(0.97);
+}
+.download-pdf-btn:active{
+  transform:scale(0.97) translateY(0);
+}
+.check-input:active{
+  transform:scale(0.9);
+}
+.howto-link:active{
+  transform:scale(0.95);
+}
+a:active{
+  opacity:0.8;
+}
+
+/* Faster micro-interaction transitions */
+.nav-item{transition:background 0.1s ease, color 0.1s ease, transform 0.08s ease}
+.tactic-tab{transition:background 0.1s ease, color 0.1s ease, transform 0.08s ease}
+.objective-card{transition:transform 0.1s ease, box-shadow 0.15s ease}
+.tactic-card{transition:transform 0.1s ease, box-shadow 0.15s ease}
+.tactic-part-header{transition:background 0.1s ease}
+.week-header{transition:background 0.1s ease}
+.check-input{transition:transform 0.08s ease}
+.howto-link{transition:background 0.1s ease, transform 0.08s ease}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 3: MATERIALS & DEPTH
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Translucent Materials with Backdrop Blur */
+#sidebar{
+  background:rgba(17,21,75,0.92);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+}
+.mobile-header{
+  background:rgba(17,21,75,0.88);
+  backdrop-filter:blur(16px) saturate(180%);
+  -webkit-backdrop-filter:blur(16px) saturate(180%);
+}
+.tactic-tabs{
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.lightbox-overlay{
+  background:rgba(0,0,0,0.75);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+
+/* Enhanced Shadow System */
+.objective-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.04),
+    0 4px 8px rgba(0,0,0,0.04),
+    0 8px 16px rgba(0,0,0,0.02);
+}
+.objective-card:hover{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.06),
+    0 8px 16px rgba(0,0,0,0.06),
+    0 16px 32px rgba(0,0,0,0.04);
+}
+.tactic-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.03),
+    0 4px 8px rgba(0,0,0,0.03),
+    0 8px 16px rgba(0,0,0,0.02);
+}
+.tactic-card:hover{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.05),
+    0 8px 16px rgba(0,0,0,0.05),
+    0 16px 32px rgba(0,0,0,0.03);
+}
+.week-card{
+  box-shadow:
+    0 1px 2px rgba(0,0,0,0.02),
+    0 2px 4px rgba(0,0,0,0.02);
+}
+.week-card.open{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.03),
+    0 4px 12px rgba(0,0,0,0.04);
+}
+.tactic-hero{
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.08),
+    0 12px 32px rgba(0,0,0,0.06);
+}
+.download-pdf-btn{
+  box-shadow:
+    0 2px 4px rgba(0,0,0,0.08),
+    0 4px 12px rgba(170,218,182,0.3);
+}
+.download-pdf-btn:hover{
+  box-shadow:
+    0 4px 8px rgba(0,0,0,0.1),
+    0 8px 20px rgba(170,218,182,0.4);
+}
+
+/* Subtle inner glow on active tabs */
+.tactic-tab.active{
+  box-shadow:
+    0 1px 3px rgba(0,0,0,0.08),
+    inset 0 1px 0 rgba(255,255,255,0.5);
+}
+
+/* Card hover lift effect */
+.objective-card:hover,
+.tactic-card:hover{
+  transform:translateY(-2px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PHASE 4: SPRING ANIMATIONS & TRANSITIONS
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Spring-like timing functions */
+:root{
+  /* Critically damped spring (no overshoot) */
+  --ease-spring:cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Under-damped spring (slight overshoot for momentum) */
+  --ease-spring-bounce:cubic-bezier(0.34, 1.56, 0.64, 1);
+  /* Quick snap */
+  --ease-snap:cubic-bezier(0.5, 0, 0.1, 1);
+}
+
+/* Apply spring timing to interactive elements */
+.objective-card{
+  transition:transform 0.25s var(--ease-spring), box-shadow 0.2s ease;
+}
+.tactic-card{
+  transition:transform 0.25s var(--ease-spring), box-shadow 0.2s ease;
+}
+.nav-item{
+  transition:background 0.12s ease, color 0.12s ease, transform 0.15s var(--ease-spring);
+}
+
+/* Tab content transitions */
+.tactic-tab-content{
+  opacity:0;
+  transform:translateY(8px);
+  transition:opacity 0.2s ease, transform 0.25s var(--ease-spring);
+  pointer-events:none;
+}
+.tactic-tab-content.active{
+  opacity:1;
+  transform:translateY(0);
+  pointer-events:auto;
+}
+
+/* Accordion expand/collapse with spring */
+.tactic-part-body{
+  transition:max-height 0.3s var(--ease-spring), padding 0.2s ease;
+}
+.week-body{
+  transition:max-height 0.3s var(--ease-spring), padding 0.2s ease;
+}
+
+/* Button press spring-back */
+button,
+.btn,
+.download-pdf-btn{
+  transition:transform 0.15s var(--ease-spring-bounce), background 0.12s ease, box-shadow 0.15s ease;
+}
+
+/* Checkbox check animation */
+.check-input{
+  transition:transform 0.12s var(--ease-spring-bounce);
+}
+.check-input:checked{
+  animation:check-pop 0.2s var(--ease-spring-bounce);
+}
+@keyframes check-pop{
+  0%{transform:scale(1)}
+  50%{transform:scale(1.15)}
+  100%{transform:scale(1)}
+}
+
+/* Lightbox entrance */
+.lightbox-overlay{
+  transition:opacity 0.2s ease;
+}
+.lightbox-overlay img{
+  transition:transform 0.3s var(--ease-spring), opacity 0.2s ease;
+}
+.lightbox-overlay.active img{
+  animation:lightbox-enter 0.3s var(--ease-spring-bounce);
+}
+@keyframes lightbox-enter{
+  0%{transform:scale(0.9);opacity:0}
+  100%{transform:scale(1);opacity:1}
+}
+
+/* Page transitions - smoother enter */
+.page{
+  transition:opacity 0.2s ease, transform 0.25s var(--ease-spring);
+}
+
+/* Progress bar fill animation */
+.sidebar-progress-bar,
+.progress-bar,
+.tactic-hero-progress-fill{
+  transition:width 0.4s var(--ease-spring);
+}
+
+/* Nav item hover lift */
+.nav-item:hover{
+  transform:translateX(2px);
+}
+.nav-item:active{
+  transform:translateX(0) scale(0.98);
+}
 </style>
 </head>
 <body data-client-slug="red-cariboo-resort" data-client-name="Red Cariboo Resort" data-cohort-start="2026-08-12" data-total-days="90" data-total-weeks="12">
+<!-- Skip Link for Keyboard Users -->
+<a href="#main" class="skip-link">Skip to main content</a>
+
 <!-- ── Sidebar ──────────────────────────────────────────────── -->
 <aside id="sidebar">
   <div class="sidebar-logo">
@@ -5757,18 +6115,18 @@ body:not(.has-plan) .plan-content{display:none}
       <h1>Fix the Measurement and the Booking Path</h1>
       <p>Make the analytics tell the truth and the website take a booking, before any money goes into advertising.</p>
       <!-- Tactic Tabs -->
-      <div class="tactic-tabs">
-        <button class="tactic-tab active" data-tactic-tab="1" data-tab="overview" onclick="switchTacticTab(1, 'overview')">Overview</button>
-        <button class="tactic-tab" data-tactic-tab="1" data-tab="steps" onclick="switchTacticTab(1, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" data-tactic-tab="1" data-tab="metrics" onclick="switchTacticTab(1, 'metrics')">Measurement &amp; KPIs</button>
-        <button class="tactic-tab" data-tactic-tab="1" data-tab="tips" onclick="switchTacticTab(1, 'tips')">Tips &amp; Resources</button>
+      <div class="tactic-tabs" role="tablist" aria-label="Tactic 1 sections">
+        <button class="tactic-tab active" id="tab-t1-overview" role="tab" aria-selected="true" aria-controls="panel-t1-overview" data-tactic-tab="1" data-tab="overview" onclick="switchTacticTab(1, 'overview')">Overview</button>
+        <button class="tactic-tab" id="tab-t1-steps" role="tab" aria-selected="false" aria-controls="panel-t1-steps" data-tactic-tab="1" data-tab="steps" onclick="switchTacticTab(1, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" id="tab-t1-metrics" role="tab" aria-selected="false" aria-controls="panel-t1-metrics" data-tactic-tab="1" data-tab="metrics" onclick="switchTacticTab(1, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t1-tips" role="tab" aria-selected="false" aria-controls="panel-t1-tips" data-tactic-tab="1" data-tab="tips" onclick="switchTacticTab(1, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
 
     <!-- Tactic Body -->
     <div class="tactic-body">
       <!-- Overview Tab -->
-      <div class="tactic-tab-content active" data-tactic-content="1" data-content="overview">
+      <div class="tactic-tab-content active" id="panel-t1-overview" role="tabpanel" aria-labelledby="tab-t1-overview" data-tactic-content="1" data-content="overview">
         <div class="tactic-overview-grid">
       <div class="tactic-overview-col">
         <!-- What This Is -->
@@ -5819,7 +6177,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" data-tactic-content="1" data-content="steps">
+      <div class="tactic-tab-content" id="panel-t1-steps" role="tabpanel" aria-labelledby="tab-t1-steps" data-tactic-content="1" data-content="steps">
         <!-- Flow Diagram -->
         <div class="tactic-flow-card">
           <div class="tactic-flow-label">The Path This Tactic Repairs</div>
@@ -6203,7 +6561,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" data-tactic-content="1" data-content="metrics">
+      <div class="tactic-tab-content" id="panel-t1-metrics" role="tabpanel" aria-labelledby="tab-t1-metrics" data-tactic-content="1" data-content="metrics">
         <div class="tactic-card-block">
           <div class="tactic-card-label">Success Metrics</div>
           <div class="tactic-metrics-table">
@@ -6266,7 +6624,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" data-tactic-content="1" data-content="tips">
+      <div class="tactic-tab-content" id="panel-t1-tips" role="tabpanel" aria-labelledby="tab-t1-tips" data-tactic-content="1" data-content="tips">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <div class="tactic-card-block">
@@ -6325,18 +6683,18 @@ body:not(.has-plan) .plan-content{display:none}
       <h1>Build the Content That Answers What Travellers Actually Search</h1>
       <p>Turn the property into a photo library and a set of pages that earn search traffic, then restart social media on a schedule that survives a busy week.</p>
       <!-- Tactic Tabs -->
-      <div class="tactic-tabs">
-        <button class="tactic-tab active" data-tactic-tab="2" data-tab="overview" onclick="switchTacticTab(2, 'overview')">Overview</button>
-        <button class="tactic-tab" data-tactic-tab="2" data-tab="steps" onclick="switchTacticTab(2, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" data-tactic-tab="2" data-tab="metrics" onclick="switchTacticTab(2, 'metrics')">Measurement &amp; KPIs</button>
-        <button class="tactic-tab" data-tactic-tab="2" data-tab="tips" onclick="switchTacticTab(2, 'tips')">Tips &amp; Resources</button>
+      <div class="tactic-tabs" role="tablist" aria-label="Tactic 2 sections">
+        <button class="tactic-tab active" id="tab-t2-overview" role="tab" aria-selected="true" aria-controls="panel-t2-overview" data-tactic-tab="2" data-tab="overview" onclick="switchTacticTab(2, 'overview')">Overview</button>
+        <button class="tactic-tab" id="tab-t2-steps" role="tab" aria-selected="false" aria-controls="panel-t2-steps" data-tactic-tab="2" data-tab="steps" onclick="switchTacticTab(2, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" id="tab-t2-metrics" role="tab" aria-selected="false" aria-controls="panel-t2-metrics" data-tactic-tab="2" data-tab="metrics" onclick="switchTacticTab(2, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t2-tips" role="tab" aria-selected="false" aria-controls="panel-t2-tips" data-tactic-tab="2" data-tab="tips" onclick="switchTacticTab(2, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
 
     <!-- Tactic Body -->
     <div class="tactic-body">
       <!-- Overview Tab -->
-      <div class="tactic-tab-content active" data-tactic-content="2" data-content="overview">
+      <div class="tactic-tab-content active" id="panel-t2-overview" role="tabpanel" aria-labelledby="tab-t2-overview" data-tactic-content="2" data-content="overview">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <!-- What This Is -->
@@ -6387,7 +6745,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" data-tactic-content="2" data-content="steps">
+      <div class="tactic-tab-content" id="panel-t2-steps" role="tabpanel" aria-labelledby="tab-t2-steps" data-tactic-content="2" data-content="steps">
         <!-- Collapsible Parts -->
         <div class="tactic-parts-list">
       <!-- Part A -->
@@ -6691,7 +7049,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" data-tactic-content="2" data-content="metrics">
+      <div class="tactic-tab-content" id="panel-t2-metrics" role="tabpanel" aria-labelledby="tab-t2-metrics" data-tactic-content="2" data-content="metrics">
         <div class="tactic-card-block">
           <div class="tactic-card-label">Success Metrics</div>
           <div class="tactic-metrics-table">
@@ -6760,7 +7118,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" data-tactic-content="2" data-content="tips">
+      <div class="tactic-tab-content" id="panel-t2-tips" role="tabpanel" aria-labelledby="tab-t2-tips" data-tactic-content="2" data-content="tips">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <div class="tactic-card-block">
@@ -6819,18 +7177,18 @@ body:not(.has-plan) .plan-content{display:none}
       <h1>Spend the Budget Where It Can Be Measured</h1>
       <p>Put paid media behind the winter season across Google, Meta and the CCCTA audio spot, and bring in two creators to produce content the resort could not produce alone.</p>
       <!-- Tactic Tabs -->
-      <div class="tactic-tabs">
-        <button class="tactic-tab active" data-tactic-tab="3" data-tab="overview" onclick="switchTacticTab(3, 'overview')">Overview</button>
-        <button class="tactic-tab" data-tactic-tab="3" data-tab="steps" onclick="switchTacticTab(3, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" data-tactic-tab="3" data-tab="metrics" onclick="switchTacticTab(3, 'metrics')">Measurement &amp; KPIs</button>
-        <button class="tactic-tab" data-tactic-tab="3" data-tab="tips" onclick="switchTacticTab(3, 'tips')">Tips &amp; Resources</button>
+      <div class="tactic-tabs" role="tablist" aria-label="Tactic 3 sections">
+        <button class="tactic-tab active" id="tab-t3-overview" role="tab" aria-selected="true" aria-controls="panel-t3-overview" data-tactic-tab="3" data-tab="overview" onclick="switchTacticTab(3, 'overview')">Overview</button>
+        <button class="tactic-tab" id="tab-t3-steps" role="tab" aria-selected="false" aria-controls="panel-t3-steps" data-tactic-tab="3" data-tab="steps" onclick="switchTacticTab(3, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" id="tab-t3-metrics" role="tab" aria-selected="false" aria-controls="panel-t3-metrics" data-tactic-tab="3" data-tab="metrics" onclick="switchTacticTab(3, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t3-tips" role="tab" aria-selected="false" aria-controls="panel-t3-tips" data-tactic-tab="3" data-tab="tips" onclick="switchTacticTab(3, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
 
     <!-- Tactic Body -->
     <div class="tactic-body">
       <!-- Overview Tab -->
-      <div class="tactic-tab-content active" data-tactic-content="3" data-content="overview">
+      <div class="tactic-tab-content active" id="panel-t3-overview" role="tabpanel" aria-labelledby="tab-t3-overview" data-tactic-content="3" data-content="overview">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <!-- What This Is -->
@@ -6885,7 +7243,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" data-tactic-content="3" data-content="steps">
+      <div class="tactic-tab-content" id="panel-t3-steps" role="tabpanel" aria-labelledby="tab-t3-steps" data-tactic-content="3" data-content="steps">
         <!-- Collapsible Parts -->
         <div class="tactic-parts-list">
           <!-- Part A -->
@@ -7175,7 +7533,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" data-tactic-content="3" data-content="metrics">
+      <div class="tactic-tab-content" id="panel-t3-metrics" role="tabpanel" aria-labelledby="tab-t3-metrics" data-tactic-content="3" data-content="metrics">
         <div class="tactic-card-block">
           <div class="tactic-card-label">Success Metrics</div>
           <div class="tactic-metrics-table">
@@ -7250,7 +7608,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" data-tactic-content="3" data-content="tips">
+      <div class="tactic-tab-content" id="panel-t3-tips" role="tabpanel" aria-labelledby="tab-t3-tips" data-tactic-content="3" data-content="tips">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <div class="tactic-card-block">
@@ -7309,18 +7667,18 @@ body:not(.has-plan) .plan-content{display:none}
       <h1>Build the Email List You Do Not Have</h1>
       <p>Start collecting guest addresses now, automate the pre-arrival and post-stay emails, and use the list to fill next winter and summer 2027.</p>
       <!-- Tactic Tabs -->
-      <div class="tactic-tabs">
-        <button class="tactic-tab active" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
-        <button class="tactic-tab" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Measurement &amp; KPIs</button>
-        <button class="tactic-tab" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
+      <div class="tactic-tabs" role="tablist" aria-label="Tactic 4 sections">
+        <button class="tactic-tab active" id="tab-t4-overview" role="tab" aria-selected="true" aria-controls="panel-t4-overview" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
+        <button class="tactic-tab" id="tab-t4-steps" role="tab" aria-selected="false" aria-controls="panel-t4-steps" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
+        <button class="tactic-tab" id="tab-t4-metrics" role="tab" aria-selected="false" aria-controls="panel-t4-metrics" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t4-tips" role="tab" aria-selected="false" aria-controls="panel-t4-tips" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
 
     <!-- Tactic Body -->
     <div class="tactic-body">
       <!-- Overview Tab -->
-      <div class="tactic-tab-content active" data-tactic-content="4" data-content="overview">
+      <div class="tactic-tab-content active" id="panel-t4-overview" role="tabpanel" aria-labelledby="tab-t4-overview" data-tactic-content="4" data-content="overview">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <!-- What This Is -->
@@ -7371,7 +7729,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" data-tactic-content="4" data-content="steps">
+      <div class="tactic-tab-content" id="panel-t4-steps" role="tabpanel" aria-labelledby="tab-t4-steps" data-tactic-content="4" data-content="steps">
         <!-- Collapsible Parts -->
         <div class="tactic-parts-list">
           <!-- Part A -->
@@ -7631,7 +7989,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" data-tactic-content="4" data-content="metrics">
+      <div class="tactic-tab-content" id="panel-t4-metrics" role="tabpanel" aria-labelledby="tab-t4-metrics" data-tactic-content="4" data-content="metrics">
         <div class="tactic-card-block">
           <div class="tactic-card-label">Success Metrics</div>
           <div class="tactic-metrics-table">
@@ -7700,7 +8058,7 @@ body:not(.has-plan) .plan-content{display:none}
       </div>
 
       <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" data-tactic-content="4" data-content="tips">
+      <div class="tactic-tab-content" id="panel-t4-tips" role="tabpanel" aria-labelledby="tab-t4-tips" data-tactic-content="4" data-content="tips">
         <div class="tactic-overview-grid">
           <div class="tactic-overview-col">
             <div class="tactic-card-block">
@@ -8422,14 +8780,19 @@ function toggleSection(header) {
 
 // ── Tactic Parts (accordion) ──────────────────────────────
 function toggleTacticPart(btn) {
-  btn.closest('.tactic-part').classList.toggle('open');
+  const part = btn.closest('.tactic-part');
+  part.classList.toggle('open');
+  const isOpen = part.classList.contains('open');
+  btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 // ── Tactic Tabs ────────────────────────────────────────────
 function switchTacticTab(tacticNum, tabName) {
-  // Update tab active states
+  // Update tab active states and ARIA
   document.querySelectorAll(`[data-tactic-tab="${tacticNum}"]`).forEach(t => {
-    t.classList.toggle('active', t.dataset.tab === tabName);
+    const isActive = t.dataset.tab === tabName;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
   // Update content visibility
   document.querySelectorAll(`[data-tactic-content="${tacticNum}"]`).forEach(content => {
@@ -8439,7 +8802,11 @@ function switchTacticTab(tacticNum, tabName) {
 
 // ── Weeks (accordion) ─────────────────────────────────────
 function toggleWeek(n) {
-  document.getElementById('wc-' + n).classList.toggle('open');
+  const weekCard = document.getElementById('wc-' + n);
+  weekCard.classList.toggle('open');
+  const isOpen = weekCard.classList.contains('open');
+  const header = weekCard.querySelector('.week-header');
+  if (header) header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
 }
 
 // ── Checkboxes ────────────────────────────────────────────
@@ -9194,6 +9561,32 @@ document.addEventListener('DOMContentLoaded', function() {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         card.click();
+      }
+    });
+  });
+
+  // Initialize ARIA states for accordions
+  document.querySelectorAll('.tactic-part').forEach(function(part) {
+    const header = part.querySelector('.tactic-part-header');
+    if (header) {
+      const isOpen = part.classList.contains('open');
+      header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  });
+  document.querySelectorAll('.week-card').forEach(function(card) {
+    const header = card.querySelector('.week-header');
+    if (header) {
+      const isOpen = card.classList.contains('open');
+      header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    }
+  });
+
+  // Keyboard support for accordion headers
+  document.querySelectorAll('.tactic-part-header, .week-header').forEach(function(header) {
+    header.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        header.click();
       }
     });
   });
