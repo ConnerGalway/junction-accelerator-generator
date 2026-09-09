@@ -1497,16 +1497,24 @@
       const newCoachEmail = document.getElementById('editCoachEmail').value.trim();
 
       try {
-        // Update user_plans table
-        const { error: updateError } = await supabaseClient
+        // Update user_plans table - use select() to verify rows were updated
+        const { data: updatedRows, error: updateError } = await supabaseClient
           .from('user_plans')
           .update({
             cohort_start_date: newStartDate,
             coach_email: newCoachEmail || null
           })
-          .eq('client_slug', editTargetSlug);
+          .eq('client_slug', editTargetSlug)
+          .select();
 
         if (updateError) throw updateError;
+
+        // Check if any rows were actually updated (RLS may block silently)
+        if (!updatedRows || updatedRows.length === 0) {
+          throw new Error('No rows updated. You may not have permission to edit this project.');
+        }
+
+        console.log('Updated rows:', updatedRows);
 
         // Recalculate milestone due dates if start date changed
         const project = projects.find(p => p.slug === editTargetSlug);
