@@ -20,7 +20,7 @@ Examples:
 - Wrong: "Week 3 — Getting Found on Google"
 - Right: "Week 3: Getting Found on Google"
 
-**Use American spelling.** Always use "program" (not "programme"), "color" (not "colour"), "optimize" (not "optimise"), etc.
+**Use Canadian spelling.** Use Canadian/British spelling for most words (e.g., "colour", "favourite", "optimise"). Exception: always use "program" (not "programme").
 
 ---
 
