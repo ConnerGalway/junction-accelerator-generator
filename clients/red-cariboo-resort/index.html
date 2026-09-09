@@ -4198,30 +4198,29 @@ body:not(.has-plan) .plan-content{display:none}
 /* Tactic Tabs */
 .tactic-tabs{
   display:flex;
-  gap:0;
+  gap:6px;
   margin-top:24px;
-  background:rgba(30,41,59,.85);
-  border-radius:var(--radius-md);
-  padding:6px;
+  background:transparent;
+  padding:0;
 }
 .tactic-tab{
-  flex:1;
-  padding:14px 16px;
+  padding:14px 24px;
   border-radius:var(--radius-sm);
   font-family:var(--font-display);
   font-weight:600;
   font-size:14px;
   line-height:1.3;
-  color:rgba(255,255,255,.65);
-  background:transparent;
+  color:rgba(255,255,255,.85);
+  background:var(--navy-800);
   border:none;
   cursor:pointer;
   transition:background .15s,color .15s;
   text-align:center;
+  white-space:nowrap;
 }
 .tactic-tab:hover{
-  background:rgba(255,255,255,.08);
-  color:rgba(255,255,255,.9);
+  background:var(--navy-700);
+  color:#fff;
 }
 .tactic-tab.active{
   background:var(--cream-100);
@@ -4884,9 +4883,6 @@ a:focus-visible{
 
 /* Prefers Reduced Transparency */
 @media (prefers-reduced-transparency: reduce){
-  .tactic-tabs{
-    background:var(--navy-900) !important;
-  }
   #sidebar{
     background:var(--navy-900) !important;
     backdrop-filter:none !important;
@@ -4895,9 +4891,8 @@ a:focus-visible{
 
 /* High Contrast Mode */
 @media (prefers-contrast: more){
-  .tactic-tabs{
-    background:var(--navy-900);
-    border:2px solid var(--navy-700);
+  .tactic-tab{
+    border:2px solid var(--navy-600);
   }
   .tactic-tab.active{
     border:2px solid var(--navy-900);
@@ -4975,10 +4970,6 @@ a:active{
   background:rgba(17,21,75,0.88);
   backdrop-filter:blur(16px) saturate(180%);
   -webkit-backdrop-filter:blur(16px) saturate(180%);
-}
-.tactic-tabs{
-  backdrop-filter:blur(12px);
-  -webkit-backdrop-filter:blur(12px);
 }
 .lightbox-overlay{
   background:rgba(0,0,0,0.75);
@@ -6116,7 +6107,7 @@ button,
       <div class="tactic-tabs" role="tablist" aria-label="Tactic 1 sections">
         <button class="tactic-tab active" id="tab-t1-overview" role="tab" aria-selected="true" aria-controls="panel-t1-overview" data-tactic-tab="1" data-tab="overview" onclick="switchTacticTab(1, 'overview')">Overview</button>
         <button class="tactic-tab" id="tab-t1-steps" role="tab" aria-selected="false" aria-controls="panel-t1-steps" data-tactic-tab="1" data-tab="steps" onclick="switchTacticTab(1, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t1-metrics" role="tab" aria-selected="false" aria-controls="panel-t1-metrics" data-tactic-tab="1" data-tab="metrics" onclick="switchTacticTab(1, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t1-metrics" role="tab" aria-selected="false" aria-controls="panel-t1-metrics" data-tactic-tab="1" data-tab="metrics" onclick="switchTacticTab(1, 'metrics')">Success Metrics</button>
         <button class="tactic-tab" id="tab-t1-tips" role="tab" aria-selected="false" aria-controls="panel-t1-tips" data-tactic-tab="1" data-tab="tips" onclick="switchTacticTab(1, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
@@ -6685,7 +6676,7 @@ button,
       <div class="tactic-tabs" role="tablist" aria-label="Tactic 2 sections">
         <button class="tactic-tab active" id="tab-t2-overview" role="tab" aria-selected="true" aria-controls="panel-t2-overview" data-tactic-tab="2" data-tab="overview" onclick="switchTacticTab(2, 'overview')">Overview</button>
         <button class="tactic-tab" id="tab-t2-steps" role="tab" aria-selected="false" aria-controls="panel-t2-steps" data-tactic-tab="2" data-tab="steps" onclick="switchTacticTab(2, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t2-metrics" role="tab" aria-selected="false" aria-controls="panel-t2-metrics" data-tactic-tab="2" data-tab="metrics" onclick="switchTacticTab(2, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t2-metrics" role="tab" aria-selected="false" aria-controls="panel-t2-metrics" data-tactic-tab="2" data-tab="metrics" onclick="switchTacticTab(2, 'metrics')">Success Metrics</button>
         <button class="tactic-tab" id="tab-t2-tips" role="tab" aria-selected="false" aria-controls="panel-t2-tips" data-tactic-tab="2" data-tab="tips" onclick="switchTacticTab(2, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
@@ -7180,7 +7171,7 @@ button,
       <div class="tactic-tabs" role="tablist" aria-label="Tactic 3 sections">
         <button class="tactic-tab active" id="tab-t3-overview" role="tab" aria-selected="true" aria-controls="panel-t3-overview" data-tactic-tab="3" data-tab="overview" onclick="switchTacticTab(3, 'overview')">Overview</button>
         <button class="tactic-tab" id="tab-t3-steps" role="tab" aria-selected="false" aria-controls="panel-t3-steps" data-tactic-tab="3" data-tab="steps" onclick="switchTacticTab(3, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t3-metrics" role="tab" aria-selected="false" aria-controls="panel-t3-metrics" data-tactic-tab="3" data-tab="metrics" onclick="switchTacticTab(3, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t3-metrics" role="tab" aria-selected="false" aria-controls="panel-t3-metrics" data-tactic-tab="3" data-tab="metrics" onclick="switchTacticTab(3, 'metrics')">Success Metrics</button>
         <button class="tactic-tab" id="tab-t3-tips" role="tab" aria-selected="false" aria-controls="panel-t3-tips" data-tactic-tab="3" data-tab="tips" onclick="switchTacticTab(3, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
@@ -7671,7 +7662,7 @@ button,
       <div class="tactic-tabs" role="tablist" aria-label="Tactic 4 sections">
         <button class="tactic-tab active" id="tab-t4-overview" role="tab" aria-selected="true" aria-controls="panel-t4-overview" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
         <button class="tactic-tab" id="tab-t4-steps" role="tab" aria-selected="false" aria-controls="panel-t4-steps" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t4-metrics" role="tab" aria-selected="false" aria-controls="panel-t4-metrics" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Measurement &amp; KPIs</button>
+        <button class="tactic-tab" id="tab-t4-metrics" role="tab" aria-selected="false" aria-controls="panel-t4-metrics" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Success Metrics</button>
         <button class="tactic-tab" id="tab-t4-tips" role="tab" aria-selected="false" aria-controls="panel-t4-tips" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
       </div>
     </div>
