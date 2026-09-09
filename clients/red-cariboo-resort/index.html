@@ -5073,17 +5073,13 @@ a:active{
   transition:background 0.12s ease, color 0.12s ease, transform 0.15s var(--ease-spring);
 }
 
-/* Tab content transitions */
-.tactic-tab-content{
-  opacity:0;
-  transform:translateY(8px);
-  transition:opacity 0.2s ease, transform 0.25s var(--ease-spring);
-  pointer-events:none;
-}
+/* Tab content transitions - works with display:none/block */
 .tactic-tab-content.active{
-  opacity:1;
-  transform:translateY(0);
-  pointer-events:auto;
+  animation:tab-content-enter 0.25s var(--ease-spring);
+}
+@keyframes tab-content-enter{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
 }
 
 /* Accordion expand/collapse with spring */
