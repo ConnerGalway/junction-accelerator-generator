@@ -847,7 +847,9 @@ function detectBookingPlatforms(htmlLower) {
   // General scheduling
   if (htmlLower.includes('squareup') || htmlLower.includes('square appointments')) platforms.push('Square');
   if (htmlLower.includes('calendly')) platforms.push('Calendly');
-  if (htmlLower.includes('acuity')) platforms.push('Acuity Scheduling');
+  // Note: "acuity" alone is too broad - matches "Acuity Ads" tracking pixel
+  // Only match the actual booking platform (acuityscheduling.com domain)
+  if (htmlLower.includes('acuityscheduling')) platforms.push('Acuity Scheduling');
   // Direct booking widgets (check for common patterns)
   if (htmlLower.includes('bookingengine') || htmlLower.includes('booking-engine')) platforms.push('Direct Booking Engine');
   return platforms;
@@ -1951,6 +1953,13 @@ We assess these 6 categories (we have verified data for these):
 3. ONLINE BOOKING & CONVERSION (Weight: 20%)
    - Source: Website Content Analysis
    - Focus: Booking capability, platform presence, contact visibility, pricing clarity
+   - IMPORTANT FOR DMO/DIRECTORY WEBSITES: Destination Marketing Organizations (DMOs), tourism boards,
+     and regional directories function differently from direct-booking businesses. If the website
+     lists multiple partner businesses (restaurants, attractions, accommodations), it is likely a DMO:
+     * Score booking_capability as FALSE with a note explaining the DMO/directory nature
+     * Do NOT cite addresses from partner listings as the organization's address
+     * Focus on lead capture (visitor guides, email signups) rather than direct booking
+     * Assess how well the site directs visitors to partner businesses
 
 4. SOCIAL MEDIA & CONTENT (Weight: 20%)
    - Source: SociaVault API (Instagram, TikTok, YouTube, Facebook)
