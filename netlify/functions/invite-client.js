@@ -173,10 +173,10 @@ export async function handler(event, context) {
         client_slug: clientSlug,
         active: true
       };
-      // Set dashboard_state for elevated learners (Masterclass participants)
-      if (isElevated) {
-        userPlanData.dashboard_state = 'elevated';
-      }
+      // TODO: Set dashboard_state for elevated learners once column is added to user_plans
+      // if (isElevated) {
+      //   userPlanData.dashboard_state = 'elevated';
+      // }
       const { error: insertError } = await supabaseAdmin
         .from('user_plans')
         .insert(userPlanData);

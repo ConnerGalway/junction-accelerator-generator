@@ -39,11 +39,17 @@ window.__authReady = (async function () {
   // ==================================================================
   if (page === 'my-clients') {
 
-    const { data: rows } = await supabaseClient
+    const { data: rows, error: queryError } = await supabaseClient
       .from('user_plans')
-      .select('role, client_slug, dashboard_state')
+      .select('role, client_slug')
       .eq('email', userEmail)
       .eq('active', true);
+
+    if (queryError) {
+      console.error('user_plans query error:', queryError);
+      window.location.replace('/login?error=db_error');
+      return new Promise(() => {});
+    }
 
     if (!rows || rows.length === 0) {
       window.location.replace('/login');
@@ -61,9 +67,9 @@ window.__authReady = (async function () {
         // Validate slug format before redirect to prevent path traversal
         const slug = clientRow.client_slug;
         if (/^[a-z0-9-]+$/.test(slug)) {
-          // Check if this is an elevated learner (assessment-only dashboard)
-          const dashboardPath = clientRow.dashboard_state === 'elevated' ? '/elevated/' : '/clients/';
-          window.location.replace(dashboardPath + slug + '/');
+          // TODO: When dashboard_state column is added to user_plans,
+          // use it to redirect elevated learners to /elevated/ path
+          window.location.replace('/clients/' + slug + '/');
         } else {
           window.location.replace('/login?error=invalid_project');
         }
