@@ -41,7 +41,7 @@ window.__authReady = (async function () {
 
     const { data: rows, error: queryError } = await supabaseClient
       .from('user_plans')
-      .select('role, client_slug')
+      .select('role, client_slug, dashboard_state')
       .eq('email', userEmail)
       .eq('active', true);
 
@@ -67,9 +67,9 @@ window.__authReady = (async function () {
         // Validate slug format before redirect to prevent path traversal
         const slug = clientRow.client_slug;
         if (/^[a-z0-9-]+$/.test(slug)) {
-          // TODO: When dashboard_state column is added to user_plans,
-          // use it to redirect elevated learners to /elevated/ path
-          window.location.replace('/clients/' + slug + '/');
+          // Redirect elevated learners to assessment-only dashboard
+          const dashboardPath = clientRow.dashboard_state === 'elevated' ? '/elevated/' : '/clients/';
+          window.location.replace(dashboardPath + slug + '/');
         } else {
           window.location.replace('/login?error=invalid_project');
         }
