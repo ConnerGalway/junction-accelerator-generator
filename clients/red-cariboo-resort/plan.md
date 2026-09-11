@@ -553,7 +553,7 @@ Axel's objection is reasonable about the wrong thing. Nobody suggests sending a 
 
 | Metric | 30 Days | 60 Days | 90 Days |
 |---|---|---|---|
-| Newsletter decision | Recommendation delivered in writing | Decision recorded | Programme running |
+| Newsletter decision | Recommendation delivered in writing | Decision recorded | Program running |
 | Mailchimp account | Reactivated, templates tested | Sender details and German templates ready | Three automations live |
 | Email list size | 0 (baseline) | 60 or more confirmed subscribers | 150 to 300 confirmed subscribers |
 | Sign-up points live | Footer form live | Enquiry and contact form checkboxes live | Packing list download gated, QR cards in cabins |
