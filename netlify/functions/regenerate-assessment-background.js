@@ -20,8 +20,9 @@ export async function handler(event, context) {
 
   try {
     const body = JSON.parse(event.body);
-    const { businessName, slug, websiteUrl, location, social, googlePlaceId } = body;
-    console.log('[REGENERATE] Business:', businessName, 'Slug:', slug);
+    const { businessName, slug, websiteUrl, location, social, googlePlaceId, clientType } = body;
+    const isElevated = clientType === 'elevated';
+    console.log('[REGENERATE] Business:', businessName, 'Slug:', slug, 'Type:', clientType || 'accelerator');
     if (googlePlaceId) {
       console.log('[REGENERATE] Google Place ID provided:', googlePlaceId);
     }
@@ -361,7 +362,9 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Publishing to web (fetching template)');
     try {
-      const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
+      // Select template based on client type
+      const templateFile = isElevated ? 'elevated-learner-template.html' : 'assessment-only-template.html';
+      const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/${templateFile}`;
       const templateRes = await fetch(templateUrl, {
         headers: {
           'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -385,11 +388,12 @@ export async function handler(event, context) {
         html = generateBasicAssessmentHtml({ businessName, slug, websiteUrl, assessmentData: finalAssessmentData });
       }
 
-      // Commit to GitHub (update existing file)
+      // Commit to GitHub (update existing file) - use correct path for elevated vs accelerator
+      const outputPath = isElevated ? `elevated/${slug}/index.html` : `clients/${slug}/index.html`;
       await updateProgress('Publishing to web (committing)');
       await commitToGitHub([
-        { path: `clients/${slug}/index.html`, content: html }
-      ], `Regenerate assessment: ${businessName}`);
+        { path: outputPath, content: html }
+      ], `Regenerate ${isElevated ? 'elevated ' : ''}assessment: ${businessName}`);
     } catch (gitErr) {
       console.error('GitHub publish error (non-fatal):', gitErr.message);
       // Don't fail - assessment is already saved in database

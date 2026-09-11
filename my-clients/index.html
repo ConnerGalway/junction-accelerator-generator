@@ -1736,13 +1736,27 @@
       }
     });
 
-    async function regenerateAssessment(slug) {
+    async function regenerateAssessment(slug, clientType = 'accelerator') {
       // Close the menu
       document.querySelectorAll('.actions-menu--open').forEach(m => m.classList.remove('actions-menu--open'));
 
-      // Find the assessment
-      const assessment = assessments.find(a => a.client_slug === slug);
-      if (!assessment) return;
+      // Find the assessment - check both regular assessments and query DB for elevated
+      let assessment = assessments.find(a => a.client_slug === slug);
+
+      // If not found in local array, query the database directly
+      if (!assessment) {
+        const { data } = await supabaseClient
+          .from('client_assessments')
+          .select('*')
+          .eq('client_slug', slug)
+          .single();
+        assessment = data;
+      }
+
+      if (!assessment) {
+        alert('Assessment not found');
+        return;
+      }
 
       // Show progress modal
       document.getElementById('regenerateModal').classList.add('modal-overlay--visible');
@@ -1773,6 +1787,7 @@
             linkedin: assessment.social_linkedin || ''
           },
           googlePlaceId: assessment.google_place_id || null,
+          clientType: clientType,  // Pass client type for elevated vs accelerator
           regenerate: true  // Flag to indicate this is a regeneration
         };
 
