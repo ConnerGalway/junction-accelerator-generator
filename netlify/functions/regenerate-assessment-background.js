@@ -2004,7 +2004,12 @@ NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
 - Branded hashtag campaigns (e.g., "Launch #VisitOxford campaign") - low engagement, hard to track
 - Influencer partnerships or influencer marketing programs
 - TikTok presence for businesses without existing video content capacity
-- Paid social advertising without analytics tracking in place first
+
+PAID ADVERTISING GUIDELINES:
+- Installing tracking pixels (Meta, Google) is a good recommendation
+- Suggesting clients "consider" or "test" paid social ads is acceptable
+- NEVER include specific budget ranges (e.g., "$500-1000/month") - don't assume budget availability
+- Always recommend analytics/tracking be in place before any paid campaigns
 
 ═══════════════════════════════════════════════════════════════════════════════
 OUTPUT JSON STRUCTURE
