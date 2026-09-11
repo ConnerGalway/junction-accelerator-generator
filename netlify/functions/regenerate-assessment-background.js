@@ -2000,6 +2000,12 @@ Grade scale:
 - D+ (63-66), D (60-62), D- (57-59)
 - F (below 57)
 
+NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
+- Branded hashtag campaigns (e.g., "Launch #VisitOxford campaign") - low engagement, hard to track
+- Influencer partnerships or influencer marketing programs
+- TikTok presence for businesses without existing video content capacity
+- Paid social advertising without analytics tracking in place first
+
 ═══════════════════════════════════════════════════════════════════════════════
 OUTPUT JSON STRUCTURE
 ═══════════════════════════════════════════════════════════════════════════════

@@ -2964,6 +2964,12 @@ DO NOT:
 - Use different grade thresholds
 - Invent or estimate scores for any category
 
+NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
+- Branded hashtag campaigns (e.g., "Launch #VisitOxford campaign") - low engagement, hard to track
+- Influencer partnerships or influencer marketing programs
+- TikTok presence for businesses without existing video content capacity
+- Paid social advertising without analytics tracking in place first
+
 Grade reference (for your analysis, not calculation):
 - A+ (95-100), A (90-94), A- (87-89)
 - B+ (83-86), B (80-82), B- (77-79)
