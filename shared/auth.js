@@ -41,7 +41,7 @@ window.__authReady = (async function () {
 
     const { data: rows, error: queryError } = await supabaseClient
       .from('user_plans')
-      .select('role, client_slug')
+      .select('role, client_slug, dashboard_state')
       .eq('email', userEmail)
       .eq('active', true);
 
@@ -67,9 +67,9 @@ window.__authReady = (async function () {
         // Validate slug format before redirect to prevent path traversal
         const slug = clientRow.client_slug;
         if (/^[a-z0-9-]+$/.test(slug)) {
-          // Check if elevated dashboard exists for this client, otherwise use standard path
-          // For now, default to /clients/ - elevated clients can access /elevated/ directly
-          window.location.replace('/clients/' + slug + '/');
+          // Redirect elevated learners to assessment-only dashboard
+          const dashboardPath = clientRow.dashboard_state === 'elevated' ? '/elevated/' : '/clients/';
+          window.location.replace(dashboardPath + slug + '/');
         } else {
           window.location.replace('/login?error=invalid_project');
         }
