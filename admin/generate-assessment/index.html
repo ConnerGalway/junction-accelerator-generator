@@ -1295,20 +1295,21 @@
             // Assessment data is ready, now wait for page to be live
             updateProgressStep(6, 'Deploying to web...');
 
-            // Poll the actual URL to verify it's accessible
-            const assessmentUrl = `${window.location.origin}/${slug}/`;
+            // Determine the correct URL path based on client type
+            const urlPath = clientType === 'elevated' ? `/elevated/${slug}/` : `/${slug}/`;
+            const assessmentUrl = `${window.location.origin}${urlPath}`;
             const isLive = await waitForPageLive(assessmentUrl);
 
             if (isLive) {
               hideProgress();
-              showSuccessModal(slug);
+              showSuccessModal(slug, urlPath);
               document.getElementById('assessmentForm').reset();
               return;
             } else {
               // Page didn't become available in time, but assessment is ready
               // Show modal anyway with a note
               hideProgress();
-              showSuccessModal(slug);
+              showSuccessModal(slug, urlPath);
               document.getElementById('assessmentForm').reset();
               return;
             }
@@ -1490,9 +1491,11 @@
     // ══════════════════════════════════════════════════════════════
     // SUCCESS MODAL
     // ══════════════════════════════════════════════════════════════
-    function showSuccessModal(slug) {
-      const baseUrl = window.location.origin;
-      const assessmentUrl = `${baseUrl}/${slug}/`;
+    function showSuccessModal(slug, urlPath) {
+      const baseUrl = 'https://accelerator.elearningu.com';
+      // Use provided urlPath or default to /${slug}/
+      const path = urlPath || `/${slug}/`;
+      const assessmentUrl = `${baseUrl}${path}`;
 
       // Set the link in the input
       document.getElementById('assessmentLinkInput').value = assessmentUrl;
