@@ -316,6 +316,65 @@
       color: var(--muted);
     }
 
+    /* ── Client Type Selection ───────────────────────────── */
+    .client-type-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .client-type-option {
+      display: block;
+      cursor: pointer;
+    }
+
+    .client-type-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .client-type-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 20px;
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      transition: all 0.2s;
+    }
+
+    .client-type-option input[type="radio"]:checked + .client-type-card {
+      border-color: var(--navy);
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(17,21,75,0.1);
+    }
+
+    .client-type-option:hover .client-type-card {
+      border-color: var(--navy-mid);
+    }
+
+    .client-type-card strong {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+
+    .client-type-card small {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+
+    @media (max-width: 600px) {
+      .client-type-options {
+        grid-template-columns: 1fr;
+      }
+    }
+
     /* ── Submit button ──────────────────────────────────── */
     .btn-submit {
       width: 100%;
@@ -920,6 +979,29 @@
           </div>
         </div>
 
+        <!-- Client Type Selection -->
+        <div class="form-section">
+          <h2 class="form-section__title">Dashboard Type</h2>
+          <p class="form-section__desc">Choose the type of dashboard to create for this client</p>
+
+          <div class="client-type-options">
+            <label class="client-type-option">
+              <input type="radio" name="clientType" value="accelerator" checked>
+              <span class="client-type-card">
+                <strong>Accelerator Client</strong>
+                <small>Full 90-day dashboard with assessment, strategy, tactics, and roadmap</small>
+              </span>
+            </label>
+            <label class="client-type-option">
+              <input type="radio" name="clientType" value="elevated">
+              <span class="client-type-card">
+                <strong>Elevated Learner</strong>
+                <small>Assessment-only dashboard for Masterclass participants</small>
+              </span>
+            </label>
+          </div>
+        </div>
+
         <button type="submit" class="btn-submit" id="submitBtn">Generate Assessment</button>
       </form>
     </div>
@@ -1123,6 +1205,9 @@
         linkedin: document.getElementById('socialLinkedin').value.trim() || null
       };
 
+      // Get client type selection
+      const clientType = document.querySelector('input[name="clientType"]:checked')?.value || 'accelerator';
+
       // Validate
       if (!slug.match(/^[a-z0-9-]+$/)) {
         showError('Slug can only contain lowercase letters, numbers, and hyphens');
@@ -1165,7 +1250,8 @@
             websiteUrl,
             location: location || null,
             social,
-            googlePlaceId: googlePlaceId || null
+            googlePlaceId: googlePlaceId || null,
+            clientType
           })
         });
 

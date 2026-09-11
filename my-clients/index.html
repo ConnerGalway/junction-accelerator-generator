@@ -380,6 +380,22 @@
       color: var(--mint-dark);
     }
 
+    .assessment-card__badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .assessment-card__badge--elevated {
+      background: rgba(138, 117, 200, 0.15);
+      color: #6b5b95;
+    }
+
     /* ── Project cards (existing accelerator projects) ──── */
     .project-card {
       display: block;
@@ -924,6 +940,22 @@
       </div>
     </section>
 
+    <!-- ══ ELEVATED LEARNERS SECTION ══════════════════════════ -->
+    <section class="content-section" id="elevatedSection">
+      <div class="section-header">
+        <h2 class="section-header__title">
+          Elevated Learners
+          <span class="section-header__count" id="elevatedCount">0</span>
+        </h2>
+      </div>
+      <p class="section-desc" style="margin-bottom: 20px; font-size: 14px; color: var(--muted);">
+        Assessment-only dashboards for Elevated Tourism Marketing Masterclass participants
+      </p>
+      <div class="card-gallery" id="elevatedGallery">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+
     <!-- ══ ACCELERATOR PROJECTS SECTION ═══════════════════════ -->
     <section class="content-section" id="projectsSection">
       <div class="section-header">
@@ -1052,7 +1084,7 @@
       });
 
       // Load data
-      await Promise.all([loadProjects(), loadAssessments()]);
+      await Promise.all([loadProjects(), loadAssessments(), loadElevatedClients()]);
     })();
 
     // ══════════════════════════════════════════════════════════════
@@ -1066,9 +1098,11 @@
       const isPSM = currentUser.role === 'psm';
 
       // Fetch assessments from client_assessments table
+      // Exclude elevated clients (they appear in the Elevated Learners section)
       let query = supabaseClient
         .from('client_assessments')
         .select('*')
+        .or('client_type.is.null,client_type.eq.accelerator')
         .order('created_at', { ascending: false });
 
       // Non-admin/psm users only see assessments they created
@@ -1109,6 +1143,113 @@
       }
 
       renderAssessments();
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // DATA LOADING - ELEVATED LEARNERS
+    // ══════════════════════════════════════════════════════════════
+    async function loadElevatedClients() {
+      const gallery = document.getElementById('elevatedGallery');
+      const countEl = document.getElementById('elevatedCount');
+      const section = document.getElementById('elevatedSection');
+
+      const isAdmin = currentUser.role === 'admin';
+      const isPSM = currentUser.role === 'psm';
+
+      // Fetch elevated clients from client_assessments table
+      let query = supabaseClient
+        .from('client_assessments')
+        .select('*')
+        .eq('client_type', 'elevated')
+        .order('created_at', { ascending: false });
+
+      // Non-admin/psm users only see assessments they created
+      if (!isAdmin && !isPSM) {
+        query = query.eq('created_by', currentUser.email);
+      }
+
+      const { data: rows, error } = await query;
+
+      if (error) {
+        console.error('Error loading elevated clients:', error);
+        gallery.innerHTML = `<div class="empty-state">
+          <p>Could not load elevated learners. Please try refreshing the page.</p>
+        </div>`;
+        return;
+      }
+
+      const elevatedClients = rows || [];
+      countEl.textContent = elevatedClients.length;
+
+      // Hide section if no elevated clients
+      if (elevatedClients.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+      renderElevatedClients(elevatedClients);
+    }
+
+    function renderElevatedClients(clients) {
+      const gallery = document.getElementById('elevatedGallery');
+      const isAdmin = currentUser.role === 'admin';
+      const isPSM = currentUser.role === 'psm';
+
+      gallery.innerHTML = clients.map((client, i) => {
+        const grade = client.overall_grade || 'N/A';
+        const gradeClass = grade === 'N/A' ? 'na' : grade.toLowerCase().replace('+', '-plus').replace('-', '-minus');
+        const statusClass = client.status === 'completed' ? 'completed' :
+                           client.status === 'processing' ? 'processing' : 'pending';
+        const statusText = client.status === 'completed' ? 'Complete' :
+                          client.status === 'processing' ? 'Processing...' : 'Pending';
+        const assessmentDate = client.assessment_date
+          ? new Date(client.assessment_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : '';
+
+        return `
+          <div class="assessment-card" style="animation-delay: ${i * 0.05}s">
+            <div class="assessment-card__header">
+              <div class="assessment-card__title">${client.business_name || client.client_slug}</div>
+              <span class="assessment-card__badge assessment-card__badge--elevated">Elevated</span>
+            </div>
+            <div class="assessment-card__url">${client.website_url || ''}</div>
+            <div class="assessment-card__meta">
+              <span class="assessment-card__grade assessment-card__grade--${gradeClass}">${grade}</span>
+              <span class="assessment-card__date">${assessmentDate}</span>
+              <span class="assessment-card__status assessment-card__status--${statusClass}">${statusText}</span>
+            </div>
+            <div class="assessment-card__actions">
+              ${client.status === 'completed' ? `
+                <a href="/elevated/${client.client_slug}/" class="btn-view">View Assessment</a>
+              ` : `
+                <button class="btn-view" disabled>View Assessment</button>
+              `}
+              ${(isAdmin || isPSM) ? `
+                <div class="actions-menu">
+                  <button class="actions-menu__trigger" onclick="toggleActionsMenu(event)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <circle cx="12" cy="12" r="1"></circle>
+                      <circle cx="12" cy="5" r="1"></circle>
+                      <circle cx="12" cy="19" r="1"></circle>
+                    </svg>
+                  </button>
+                  <div class="actions-menu__dropdown">
+                    <button class="actions-menu__item" onclick="regenerateAssessment('${client.client_slug}', 'elevated')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M2.5 22v-6h6M2 11.5a10 10 0 0 1 18.8-4.3M22 12.5a10 10 0 0 1-18.8 4.3"/></svg>
+                      Regenerate
+                    </button>
+                    <button class="actions-menu__item actions-menu__item--danger" onclick="openDeleteModal('${client.client_slug}')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              ` : ''}
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
     // ══════════════════════════════════════════════════════════════

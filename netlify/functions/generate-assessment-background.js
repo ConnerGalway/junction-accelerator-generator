@@ -43,8 +43,9 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social, googlePlaceId } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId, clientType } = body;
     slug = body.slug;
+    const isElevated = clientType === 'elevated';
     if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
 
     // Validate required fields
@@ -123,6 +124,7 @@ export async function handler(event, context) {
         social_pinterest: social?.pinterest || null,
         social_twitter: social?.twitter || null,
         social_linkedin: social?.linkedin || null,
+        client_type: isElevated ? 'elevated' : 'accelerator',
         status: 'processing',
         error_message: 'Progress: Starting assessment',
         created_by: user.email
@@ -542,7 +544,9 @@ export async function handler(event, context) {
     // 7. FETCH TEMPLATE AND GENERATE HTML
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Publishing to web (fetching template)');
-    const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/assessment-only-template.html`;
+    // Use elevated-learner-template for Masterclass learners, assessment-only-template for accelerator clients
+    const templateFile = isElevated ? 'elevated-learner-template.html' : 'assessment-only-template.html';
+    const templateUrl = `https://api.github.com/repos/${process.env.GITHUB_OWNER}/${process.env.GITHUB_REPO}/contents/template/${templateFile}`;
     const templateRes = await fetch(templateUrl, {
       headers: {
         'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -578,10 +582,12 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Publishing to web (committing)');
     let commitResult = { commitUrl: null };
+    // Write to /elevated/ for Masterclass learners, /clients/ for accelerator clients
+    const outputPath = isElevated ? `elevated/${slug}/index.html` : `clients/${slug}/index.html`;
     try {
       commitResult = await commitToGitHub([
-        { path: `clients/${slug}/index.html`, content: html }
-      ], `Add assessment: ${businessName}`);
+        { path: outputPath, content: html }
+      ], `Add ${isElevated ? 'elevated' : ''} assessment: ${businessName}`);
 
       if (commitResult.error) {
         console.error('[STEP 8] GitHub commit error (non-fatal):', commitResult.error);
@@ -606,7 +612,8 @@ export async function handler(event, context) {
       body: JSON.stringify({
         success: true,
         slug,
-        projectUrl: `/${slug}/`,
+        clientType: isElevated ? 'elevated' : 'accelerator',
+        projectUrl: isElevated ? `/elevated/${slug}/` : `/${slug}/`,
         commitUrl: commitResult.commitUrl,
         assessmentData: {
           overallGrade: assessmentData.overall?.grade,

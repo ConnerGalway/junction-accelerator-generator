@@ -12,6 +12,7 @@
 //   data-page="my-clients"  → verify admin/psm/coach; redirect clients to their plan
 //   data-page="admin-*"     → verify admin/psm only; redirect others to my-clients
 //   data-client-slug="..."  → verify access to that specific client plan
+//   /elevated/[slug]/       → elevated learner dashboard (assessment-only)
 
 window.__authReady = (async function () {
   try {
@@ -26,9 +27,11 @@ window.__authReady = (async function () {
     return new Promise(() => {}); // redirect in flight — never resolve
   }
 
-  const userEmail  = session.user.email;
-  const clientSlug = document.body.getAttribute('data-client-slug');
-  const page       = document.body.getAttribute('data-page');
+  const userEmail   = session.user.email;
+  const clientSlug  = document.body.getAttribute('data-client-slug');
+  const clientType  = document.body.getAttribute('data-client-type'); // 'elevated' for masterclass learners
+  const page        = document.body.getAttribute('data-page');
+  const isElevated  = clientType === 'elevated' || window.location.pathname.startsWith('/elevated/');
 
   // ==================================================================
   // MY-CLIENTS PAGE
@@ -38,7 +41,7 @@ window.__authReady = (async function () {
 
     const { data: rows } = await supabaseClient
       .from('user_plans')
-      .select('role, client_slug')
+      .select('role, client_slug, dashboard_state')
       .eq('email', userEmail)
       .eq('active', true);
 
@@ -58,7 +61,9 @@ window.__authReady = (async function () {
         // Validate slug format before redirect to prevent path traversal
         const slug = clientRow.client_slug;
         if (/^[a-z0-9-]+$/.test(slug)) {
-          window.location.replace('/clients/' + slug + '/');
+          // Check if this is an elevated learner (assessment-only dashboard)
+          const dashboardPath = clientRow.dashboard_state === 'elevated' ? '/elevated/' : '/clients/';
+          window.location.replace(dashboardPath + slug + '/');
         } else {
           window.location.replace('/login?error=invalid_project');
         }
@@ -111,18 +116,21 @@ window.__authReady = (async function () {
 
     // ------------------------------------------------------------------
     // 2. Look up the user's row in user_plans for this specific client
+    //    Also fetch cohort_start_date to override the hardcoded HTML value
     // ------------------------------------------------------------------
     const { data: rows } = await supabaseClient
       .from('user_plans')
-      .select('role, active')
+      .select('role, active, cohort_start_date')
       .eq('email', userEmail)
       .eq('client_slug', clientSlug)
       .eq('active', true);
 
     let matchedRole = null;
+    let cohortStartDate = null;
 
     if (rows && rows.length > 0) {
       matchedRole = rows[0].role;
+      cohortStartDate = rows[0].cohort_start_date;
     }
 
     // ------------------------------------------------------------------
@@ -154,10 +162,39 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 5. Coaches, PSMs, and admins get read-only mode by default, with
-    //    a toggle to switch to edit mode for testing/demo purposes
+    // 4b. Fetch cohort_start_date from database and update body attribute
+    //     This ensures the dashboard uses the live date, not hardcoded HTML
     // ------------------------------------------------------------------
-    if (matchedRole === 'coach' || matchedRole === 'psm' || matchedRole === 'admin') {
+    if (!cohortStartDate) {
+      // Admins/PSMs using wildcard access won't have cohort date yet - fetch it
+      const { data: clientRows } = await supabaseClient
+        .from('user_plans')
+        .select('cohort_start_date')
+        .eq('client_slug', clientSlug)
+        .eq('active', true)
+        .not('cohort_start_date', 'is', null)
+        .limit(1);
+
+      if (clientRows && clientRows.length > 0) {
+        cohortStartDate = clientRows[0].cohort_start_date;
+      }
+    }
+
+    // Update the body attribute with the live date from database
+    if (cohortStartDate) {
+      document.body.setAttribute('data-cohort-start', cohortStartDate);
+      // Dispatch event so dashboard JS can recalculate if already initialized
+      window.dispatchEvent(new CustomEvent('cohortDateUpdated', {
+        detail: { cohortStart: cohortStartDate }
+      }));
+    }
+
+    // ------------------------------------------------------------------
+    // 5. Coaches, PSMs, and admins get read-only mode by default, with
+    //    a toggle to switch to edit mode for testing/demo purposes.
+    //    Skip this for elevated learners (assessment-only, nothing to edit).
+    // ------------------------------------------------------------------
+    if (!isElevated && (matchedRole === 'coach' || matchedRole === 'psm' || matchedRole === 'admin')) {
       // Check if user previously enabled edit mode this session
       const editModeKey = `edit_mode_${clientSlug}`;
       const savedEditMode = sessionStorage.getItem(editModeKey) === 'true';

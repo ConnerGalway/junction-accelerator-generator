@@ -18,7 +18,12 @@
 /admin/*        /admin/:splat   200
 /my-clients/*   /my-clients/:splat  200
 
-# Client plan pages
+# Elevated Learner dashboards (assessment-only)
+# Files live at elevated/[slug]/index.html but are served at /elevated/[slug]/
+/elevated/:slug     /elevated/:slug/index.html  200
+/elevated/:slug/    /elevated/:slug/index.html  200
+
+# Client plan pages (full accelerator)
 # Files live at clients/[slug]/index.html but are served at /[slug]/
 /:slug          /clients/:slug/index.html   200
 /:slug/         /clients/:slug/index.html   200

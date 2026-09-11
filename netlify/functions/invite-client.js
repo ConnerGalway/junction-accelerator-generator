@@ -52,7 +52,8 @@ export async function handler(event, context) {
   try {
     // Parse request body
     const body = JSON.parse(event.body);
-    const { email, clientSlug, clientName, inviterEmail } = body;
+    const { email, clientSlug, clientName, inviterEmail, clientType } = body;
+    const isElevated = clientType === 'elevated';
 
     // Validate required fields
     if (!email || !clientSlug || !clientName || !inviterEmail) {
@@ -166,14 +167,19 @@ export async function handler(event, context) {
       // ─────────────────────────────────────────────────────────────────────────
       // 4. CREATE NEW USER_PLANS ENTRY
       // ─────────────────────────────────────────────────────────────────────────
+      const userPlanData = {
+        email: email.toLowerCase(),
+        role: 'client',
+        client_slug: clientSlug,
+        active: true
+      };
+      // Set dashboard_state for elevated learners (Masterclass participants)
+      if (isElevated) {
+        userPlanData.dashboard_state = 'elevated';
+      }
       const { error: insertError } = await supabaseAdmin
         .from('user_plans')
-        .insert({
-          email: email.toLowerCase(),
-          role: 'client',
-          client_slug: clientSlug,
-          active: true
-        });
+        .insert(userPlanData);
 
       if (insertError) {
         console.error('Supabase insert error:', insertError);
@@ -188,7 +194,8 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 5. SEND INVITATION EMAIL VIA RESEND
     // ─────────────────────────────────────────────────────────────────────────
-    const projectUrl = `https://accelerator.elearningu.com/${encodeURIComponent(clientSlug)}/`;
+    const projectPath = isElevated ? `/elevated/${encodeURIComponent(clientSlug)}/` : `/${encodeURIComponent(clientSlug)}/`;
+    const projectUrl = `https://accelerator.elearningu.com${projectPath}`;
 
     // Escape user-provided content for HTML safety
     const safeInviterEmail = escapeHtml(inviterEmail);
