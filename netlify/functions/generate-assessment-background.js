@@ -2863,7 +2863,7 @@ async function generateAssessmentWithClaude(data) {
       body: JSON.stringify({
         model: 'claude-sonnet-4-5-20250929',
         stream: true,
-      max_tokens: 16000,  // Increased to ensure full assessment JSON is generated
+      max_tokens: 32000,  // Increased further - 16K was still truncating assessments
       messages: [
         {
           role: 'user',
