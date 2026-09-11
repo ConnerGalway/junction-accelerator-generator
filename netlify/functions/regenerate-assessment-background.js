@@ -1970,6 +1970,15 @@ We assess these 6 categories (we have verified data for these):
 5. DIGITAL GUEST EXPERIENCE (Weight: 10%)
    - Source: Website Content Analysis
    - Focus: Hours, directions, parking, accessibility info, visitor essentials
+   - IMPORTANT FOR DMO/DIRECTORY WEBSITES: For Destination Marketing Organizations, tourism boards,
+     and regional directories, the primary website purpose is showcasing local businesses and attractions,
+     NOT driving traffic to a physical visitor centre. Visitor centre info (hours, directions, parking)
+     is secondary and should NOT be scored harshly if missing:
+     * Score these items as "neutral" or minor improvements, not critical failures
+     * Focus assessment on how well the website promotes partner businesses
+     * Use softer language like "nice-to-have" rather than "critical" for visitor centre details
+     * Keep overall guest_experience score reasonable (70+) if the site serves its primary DMO
+       mission well, even when visitor centre details are missing
 
 6. LOCAL VISIBILITY (Weight: 10%)
    - Source: SEOptimer + Google Places + Website Analysis
