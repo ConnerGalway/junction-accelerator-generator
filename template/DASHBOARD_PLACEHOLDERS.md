@@ -22,8 +22,6 @@ This document maps the sample content from the Claude Design file to template pl
 | `{{TOTAL_TASKS}}` | 24 | Total roadmap tasks |
 | `{{TASKS_DONE}}` | 6 | Completed tasks count |
 | `{{PROGRESS_PCT}}` | 25% | Overall progress percentage |
-| `{{CURRENT_DAY}}` | 15 | Day number of 90 |
-| `{{DAYS_REMAINING}}` | 75 | Days remaining in 90-day plan |
 | `{{CURRENT_WEEK}}` | 3 | Current week number |
 | `{{TOTAL_WEEKS}}` | 12 | Total weeks in plan |
 | `{{CURRENT_WEEK_TITLE}}` | Set Up Foundations | Title of current week |

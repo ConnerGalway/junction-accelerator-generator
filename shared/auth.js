@@ -202,6 +202,7 @@ window.__authReady = (async function () {
     // 5. Coaches, PSMs, and admins get read-only mode by default, with
     //    a toggle to switch to edit mode for testing/demo purposes.
     //    Skip this for elevated learners (assessment-only, nothing to edit).
+    //    Toggle appears in the sidebar, above "Replay welcome tour".
     // ------------------------------------------------------------------
     if (!isElevated && (matchedRole === 'coach' || matchedRole === 'psm' || matchedRole === 'admin')) {
       // Check if user previously enabled edit mode this session
@@ -212,48 +213,21 @@ window.__authReady = (async function () {
         document.body.setAttribute('data-readonly', 'true');
       }
 
-      const banner = document.createElement('div');
-      banner.id = 'readonly-banner';
-      banner.style.cssText = [
-        'position: fixed',
-        'top: 0',
-        'left: 0',
-        'right: 0',
-        'z-index: 9999',
-        'background: #11154b',
-        'color: #ffffff',
-        'text-align: center',
-        'padding: 10px 16px',
-        'font-family: sans-serif',
-        'font-size: 14px',
-        'letter-spacing: 0.01em',
-        'display: flex',
-        'align-items: center',
-        'justify-content: center',
-        'gap: 16px'
-      ].join(';');
-
-      const bannerText = document.createElement('span');
-      bannerText.id = 'readonly-banner-text';
-      bannerText.textContent = savedEditMode
-        ? 'Edit mode enabled. Changes will be saved.'
-        : 'You are viewing this plan in read-only mode.';
-
+      // Create toggle button for sidebar (styled like other sidebar footer buttons)
       const toggleBtn = document.createElement('button');
       toggleBtn.id = 'readonly-toggle';
-      toggleBtn.style.cssText = [
-        'background: rgba(255,255,255,0.15)',
-        'border: 1px solid rgba(255,255,255,0.3)',
-        'color: #ffffff',
-        'padding: 6px 14px',
-        'border-radius: 4px',
-        'font-size: 13px',
-        'cursor: pointer',
-        'transition: background 0.2s'
-      ].join(';');
-      toggleBtn.textContent = savedEditMode ? 'Switch to View Mode' : 'Switch to Edit Mode';
-      toggleBtn.onmouseover = () => toggleBtn.style.background = 'rgba(255,255,255,0.25)';
-      toggleBtn.onmouseout = () => toggleBtn.style.background = 'rgba(255,255,255,0.15)';
+      toggleBtn.className = 'sidebar-expanded__collapse';
+
+      const iconSpan = document.createElement('span');
+      iconSpan.className = 'sidebar-expanded__collapse-icon';
+      iconSpan.textContent = savedEditMode ? '✎' : '👁';
+
+      const textSpan = document.createElement('span');
+      textSpan.id = 'readonly-toggle-text';
+      textSpan.textContent = savedEditMode ? 'Edit mode on' : 'View-only mode';
+
+      toggleBtn.appendChild(iconSpan);
+      toggleBtn.appendChild(textSpan);
 
       toggleBtn.onclick = () => {
         const isCurrentlyReadonly = document.body.getAttribute('data-readonly') === 'true';
@@ -262,16 +236,14 @@ window.__authReady = (async function () {
           // Switch to edit mode
           document.body.removeAttribute('data-readonly');
           sessionStorage.setItem(editModeKey, 'true');
-          bannerText.textContent = 'Edit mode enabled. Changes will be saved.';
-          toggleBtn.textContent = 'Switch to View Mode';
-          banner.style.background = '#0d6939';
+          iconSpan.textContent = '✎';
+          textSpan.textContent = 'Edit mode on';
         } else {
           // Switch to view mode
           document.body.setAttribute('data-readonly', 'true');
           sessionStorage.removeItem(editModeKey);
-          bannerText.textContent = 'You are viewing this plan in read-only mode.';
-          toggleBtn.textContent = 'Switch to Edit Mode';
-          banner.style.background = '#11154b';
+          iconSpan.textContent = '👁';
+          textSpan.textContent = 'View-only mode';
         }
 
         // Dispatch event for progress.js to react
@@ -280,14 +252,20 @@ window.__authReady = (async function () {
         }));
       };
 
-      // Set initial banner color based on mode
-      if (savedEditMode) {
-        banner.style.background = '#0d6939';
-      }
+      // Insert into sidebar footer, above "Replay welcome tour" button
+      const insertToggleIntoSidebar = () => {
+        const replayTourBtn = document.getElementById('replayTour');
+        if (replayTourBtn && replayTourBtn.parentNode) {
+          replayTourBtn.parentNode.insertBefore(toggleBtn, replayTourBtn);
+        }
+      };
 
-      banner.appendChild(bannerText);
-      banner.appendChild(toggleBtn);
-      document.body.prepend(banner);
+      // Try immediately, or wait for DOM
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', insertToggleIntoSidebar);
+      } else {
+        insertToggleIntoSidebar();
+      }
     }
 
     return { email: userEmail, role: matchedRole };

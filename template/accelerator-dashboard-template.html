@@ -488,23 +488,6 @@ button {
   background: var(--surface-sunken);
 }
 
-.topbar__badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  background: var(--white);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-pill);
-  padding: 7px 16px;
-  font-size: 13px;
-  color: var(--slate-600);
-}
-
-.topbar__badge svg {
-  width: 15px;
-  height: 15px;
-}
-
 .topbar__right {
   margin-left: auto;
   display: flex;
@@ -568,13 +551,6 @@ button {
   margin-bottom: 22px;
 }
 
-.dashboard__header-eyebrow {
-  font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  color: var(--slate-600);
-  margin-bottom: 10px;
-}
 
 .dashboard__header-title {
   margin: 0;
@@ -586,18 +562,6 @@ button {
   color: var(--navy-900);
 }
 
-.dashboard__header-countdown {
-  flex: none;
-  background: var(--white);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-pill);
-  padding: 10px 20px;
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 15px;
-  color: var(--navy-900);
-  box-shadow: var(--shadow-sm);
-}
 
 /* Progress Card */
 .dashboard__progress-card {
@@ -4495,13 +4459,6 @@ button,
     <!-- Top Bar -->
     <div class="topbar">
       <button class="topbar__toggle" id="toggleSidebar" aria-label="Toggle navigation menu">☰</button>
-      <span class="topbar__badge">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
-          <path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"></path>
-          <circle cx="12" cy="12" r="2.6"></circle>
-        </svg>
-        Read-only view · shared by your accelerator team
-      </span>
       <div class="topbar__right">
         <span class="topbar__streak">
           <span class="topbar__streak-dot"></span>
@@ -4516,11 +4473,7 @@ button,
          ════════════════════════════════════════════════════════════════════ -->
     <div class="page-view active" id="view-dashboard">
       <div class="dashboard__header">
-        <div>
-          <div class="dashboard__header-eyebrow" id="dashboardDay">DAY {{CURRENT_DAY}} OF 90</div>
-          <h1 class="dashboard__header-title">Good to see you, {{CLIENT_NAME}}</h1>
-        </div>
-        <span class="dashboard__header-countdown" id="dashboardCountdown">{{DAYS_REMAINING}} days to go</span>
+        <h1 class="dashboard__header-title">Good to see you, {{CLIENT_NAME}}</h1>
       </div>
 
       <div class="dashboard__progress-card">

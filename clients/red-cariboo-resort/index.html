@@ -609,10 +609,7 @@ nav{flex:1;padding:12px 0}
 /* ── Dashboard V2 (Redesign) ─────────────────────────────── */
 .dash-v2{padding:22px 40px 44px}
 .dash-header{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:22px}
-.dash-header-left{}
-.dash-eyebrow{font-size:11.5px;font-weight:600;letter-spacing:.16em;color:var(--slate-600);margin-bottom:10px}
 .dash-greeting{margin:0;font-family:var(--font-display);font-weight:600;font-size:36px;line-height:1.1;letter-spacing:-.02em;color:var(--navy-900)}
-.dash-days-pill{flex:none;background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-pill);padding:10px 20px;font-family:var(--font-display);font-weight:600;font-size:15px;color:var(--navy-900);box-shadow:var(--shadow-sm)}
 
 /* Progress Hero */
 .dash-progress-hero{background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);padding:30px 34px;display:grid;grid-template-columns:230px 1fr;gap:40px;align-items:center;margin-bottom:20px}
@@ -5544,11 +5541,7 @@ button,
   <div class="dash-v2">
     <!-- Dashboard Header -->
     <div class="dash-header">
-      <div class="dash-header-left">
-        <div class="dash-eyebrow" id="dash-day-label">DAY 1 OF 90</div>
-        <h1 class="dash-greeting" id="dash-greeting">Good to see you, Red Cariboo</h1>
-      </div>
-      <span class="dash-days-pill" id="dash-days-pill">90 days to go</span>
+      <h1 class="dash-greeting" id="dash-greeting">Good to see you, Red Cariboo</h1>
     </div>
 
     <!-- Progress Hero Card -->
@@ -9470,34 +9463,10 @@ function initDashboard() {
   const dayInfo = getDayInfo();
   const clientName = document.body.getAttribute('data-client-name') || 'there';
 
-  // Day label
-  const dayLabel = document.getElementById('dash-day-label');
-  if (dayLabel) {
-    if (dayInfo.beforeStart) {
-      dayLabel.textContent = 'STARTING IN ' + dayInfo.daysUntilStart + ' DAYS';
-    } else if (dayInfo.completed) {
-      dayLabel.textContent = 'DAY 90 OF 90 · COMPLETE';
-    } else {
-      dayLabel.textContent = 'DAY ' + dayInfo.currentDay + ' OF ' + TOTAL_DAYS;
-    }
-  }
-
   // Greeting
   const greeting = document.getElementById('dash-greeting');
   if (greeting) {
     greeting.textContent = getTimeGreeting() + ', ' + clientName;
-  }
-
-  // Days pill
-  const pill = document.getElementById('dash-days-pill');
-  if (pill) {
-    if (dayInfo.beforeStart) {
-      pill.textContent = 'Starts soon';
-    } else if (dayInfo.completed) {
-      pill.textContent = 'Complete!';
-    } else {
-      pill.textContent = dayInfo.daysRemaining + ' days to go';
-    }
   }
 
   // Active phase highlighting
