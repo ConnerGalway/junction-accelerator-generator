@@ -23,6 +23,11 @@
 /elevated/:slug     /elevated/:slug/index.html  200
 /elevated/:slug/    /elevated/:slug/index.html  200
 
+# Experience Design dashboards
+# Files live at experience/[slug]/index.html but are served at /experience/[slug]/
+/experience/:slug     /experience/:slug/index.html  200
+/experience/:slug/    /experience/:slug/index.html  200
+
 # Client plan pages (full accelerator)
 # Files live at clients/[slug]/index.html but are served at /[slug]/
 /:slug          /clients/:slug/index.html   200

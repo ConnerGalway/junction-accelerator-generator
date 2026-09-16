@@ -24,7 +24,9 @@ const path = require('path');
 
 const REPO_ROOT = path.resolve(__dirname, '..');
 const CLIENTS_DIR = path.join(REPO_ROOT, 'clients');
+const EXPERIENCE_DIR = path.join(REPO_ROOT, 'experience');
 const DEEP_LINK_BASE = 'https://accelerator.elearningu.com';
+const EXPERIENCE_LINK_BASE = 'https://experience.elearningu.com';
 
 // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -192,7 +194,54 @@ function checkSupabaseProgressMarkup(html, isDashboard, report) {
   }
 }
 
-function checkPlanJson(clientDir, slug, isDashboard, report) {
+function checkExperienceSpecific(html, allIds, report) {
+  // 1. data-client-type="experience" must be present
+  if (!html.includes('data-client-type="experience"')) {
+    report.error('Missing data-client-type="experience" on <body>');
+  }
+
+  // 2. data-cohort-start must be empty (operator sets it themselves)
+  const cohortMatch = html.match(/data-cohort-start="([^"]*)"/);
+  if (!cohortMatch) {
+    report.error('Missing data-cohort-start attribute on <body>');
+  } else if (cohortMatch[1] !== '') {
+    report.error(`data-cohort-start should be empty but is "${cohortMatch[1]}"`);
+  }
+
+  // 3. page-guide must be present with five section cards (gs1-gs5)
+  if (!html.includes('id="page-guide"')) {
+    report.error('Missing page-guide section (experience dashboards require a Guide page)');
+  } else {
+    // Check for five guide section cards
+    const guideCards = ['gs1', 'gs2', 'gs3', 'gs4', 'gs5'];
+    for (const cardId of guideCards) {
+      if (!html.includes(`id="${cardId}"`) && !html.includes(`data-key="${cardId}"`)) {
+        report.error(`Guide page missing section card: ${cardId}`);
+      }
+    }
+  }
+
+  // 4. page-materials must be present with five cards
+  if (!html.includes('id="page-materials"')) {
+    report.error('Missing page-materials section (experience dashboards require a Materials page)');
+  }
+
+  // 5. No page-assessment section (experience dashboards don't have assessments)
+  if (html.includes('id="page-assessment"')) {
+    report.error('Experience dashboard should NOT have page-assessment section');
+  }
+
+  // 6. gs1 through gs5 should NOT be in ALL_CHECK_IDS (they have separate tracking)
+  const allIdsSet = new Set(allIds);
+  const guideIds = ['gs1', 'gs2', 'gs3', 'gs4', 'gs5'];
+  for (const gid of guideIds) {
+    if (allIdsSet.has(gid)) {
+      report.error(`Guide checkbox "${gid}" should NOT be in ALL_CHECK_IDS (guide has separate tracking)`);
+    }
+  }
+}
+
+function checkPlanJson(clientDir, slug, isDashboard, isExperience, report) {
   const planPath = path.join(clientDir, 'plan.json');
   if (!fs.existsSync(planPath)) {
     if (isDashboard) {
@@ -225,6 +274,8 @@ function checkPlanJson(clientDir, slug, isDashboard, report) {
     report.error(`plan.json must have exactly 12 weeks, found ${plan.weeks.length}`);
   }
 
+  const linkBase = isExperience ? EXPERIENCE_LINK_BASE : DEEP_LINK_BASE;
+
   plan.weeks.forEach((w, i) => {
     const label = `plan.json weeks[${i}]`;
     if (w.week !== i + 1) {
@@ -234,7 +285,7 @@ function checkPlanJson(clientDir, slug, isDashboard, report) {
     if (w.month !== expectedMonth) {
       report.error(`${label}: month is ${w.month}, expected ${expectedMonth}`);
     }
-    const expectedLink = `${DEEP_LINK_BASE}/${slug}/#week-${i + 1}`;
+    const expectedLink = `${linkBase}/${slug}/#week-${i + 1}`;
     if (w.deep_link !== expectedLink) {
       report.error(`${label}: deep_link is "${w.deep_link}", expected "${expectedLink}"`);
     }
@@ -276,8 +327,9 @@ function makeReport() {
   };
 }
 
-function validateClient(slug) {
-  const clientDir = path.join(CLIENTS_DIR, slug);
+function validateClient(slug, isExperience = false) {
+  const baseDir = isExperience ? EXPERIENCE_DIR : CLIENTS_DIR;
+  const clientDir = path.join(baseDir, slug);
   const htmlPath = path.join(clientDir, 'index.html');
   const report = makeReport();
 
@@ -287,7 +339,7 @@ function validateClient(slug) {
     } else {
       report.error('index.html not found and no plan.md present');
     }
-    return { slug, type: 'not-generated', howToCount: 0, checkCount: 0, ...report };
+    return { slug, type: 'not-generated', howToCount: 0, checkCount: 0, isExperience, ...report };
   }
 
   const html = fs.readFileSync(htmlPath, 'utf8');
@@ -300,13 +352,22 @@ function validateClient(slug) {
   const howToCount = checkHowToLinks(html, report);
   checkEmDashes(html, report);
   checkSupabaseProgressMarkup(html, isDashboard, report);
-  checkPlanJson(clientDir, slug, isDashboard, report);
+
+  // Experience-specific checks (skip assessment checks for experience pages)
+  if (isExperience) {
+    checkExperienceSpecific(html, allIds, report);
+  }
+
+  checkPlanJson(clientDir, slug, isDashboard, isExperience, report);
+
+  const typeLabel = isExperience ? 'experience' : (isDashboard ? 'dashboard' : 'assessment-only');
 
   return {
     slug,
-    type: isDashboard ? 'dashboard' : 'assessment-only',
+    type: typeLabel,
     howToCount,
     checkCount: allIds.length,
+    isExperience,
     ...report,
   };
 }
@@ -315,12 +376,41 @@ function main() {
   const args = process.argv.slice(2);
   const strict = args.includes('--strict');
   const all = args.includes('--all');
-  const slugs = all
-    ? fs.readdirSync(CLIENTS_DIR).filter((d) =>
-        fs.statSync(path.join(CLIENTS_DIR, d)).isDirectory())
-    : args.filter((a) => !a.startsWith('--'));
 
-  if (slugs.length === 0) {
+  // Build list of { slug, isExperience } objects to validate
+  let toValidate = [];
+
+  if (all) {
+    // Scan clients/ directory
+    if (fs.existsSync(CLIENTS_DIR)) {
+      const clientSlugs = fs.readdirSync(CLIENTS_DIR).filter((d) =>
+        fs.statSync(path.join(CLIENTS_DIR, d)).isDirectory());
+      for (const slug of clientSlugs) {
+        toValidate.push({ slug, isExperience: false });
+      }
+    }
+    // Scan experience/ directory
+    if (fs.existsSync(EXPERIENCE_DIR)) {
+      const experienceSlugs = fs.readdirSync(EXPERIENCE_DIR).filter((d) =>
+        fs.statSync(path.join(EXPERIENCE_DIR, d)).isDirectory());
+      for (const slug of experienceSlugs) {
+        toValidate.push({ slug, isExperience: true });
+      }
+    }
+  } else {
+    // Manual slugs - check which directory they're in
+    const slugs = args.filter((a) => !a.startsWith('--'));
+    for (const slug of slugs) {
+      // Check if it exists in experience/ first, then clients/
+      if (fs.existsSync(path.join(EXPERIENCE_DIR, slug))) {
+        toValidate.push({ slug, isExperience: true });
+      } else {
+        toValidate.push({ slug, isExperience: false });
+      }
+    }
+  }
+
+  if (toValidate.length === 0) {
     console.log('Usage: node scripts/validate-client.js <slug> [slug ...] | --all [--strict]');
     process.exit(0);
   }
@@ -329,14 +419,15 @@ function main() {
   let totalWarnings = 0;
   const summary = [];
 
-  for (const slug of slugs) {
-    const r = validateClient(slug);
+  for (const { slug, isExperience } of toValidate) {
+    const r = validateClient(slug, isExperience);
     totalErrors += r.errors.length;
     totalWarnings += r.warnings.length;
     summary.push(r);
 
+    const prefix = isExperience ? 'experience/' : '';
     const status = r.errors.length > 0 ? 'FAIL' : r.warnings.length > 0 ? 'WARN' : 'PASS';
-    console.log(`\n[${status}] ${slug} (${r.type}, ${r.checkCount} checklist items, ${r.howToCount} how-to links)`);
+    console.log(`\n[${status}] ${prefix}${slug} (${r.type}, ${r.checkCount} checklist items, ${r.howToCount} how-to links)`);
     for (const e of r.errors) console.log(`  ERROR: ${e}`);
     for (const w of r.warnings) console.log(`  warn:  ${w}`);
   }
@@ -345,10 +436,12 @@ function main() {
   console.log('SUMMARY');
   console.log('='.repeat(60));
   for (const r of summary) {
+    const prefix = r.isExperience ? 'experience/' : '';
     const status = r.errors.length > 0 ? 'FAIL' : r.warnings.length > 0 ? 'WARN' : 'PASS';
-    console.log(`  ${status.padEnd(5)} ${r.slug.padEnd(30)} ${r.errors.length} errors, ${r.warnings.length} warnings`);
+    const displaySlug = `${prefix}${r.slug}`;
+    console.log(`  ${status.padEnd(5)} ${displaySlug.padEnd(40)} ${r.errors.length} errors, ${r.warnings.length} warnings`);
   }
-  console.log(`\nTotal: ${summary.length} clients, ${totalErrors} errors, ${totalWarnings} warnings`);
+  console.log(`\nTotal: ${summary.length} projects, ${totalErrors} errors, ${totalWarnings} warnings`);
 
   if (totalErrors > 0 || (strict && totalWarnings > 0)) process.exit(1);
 }

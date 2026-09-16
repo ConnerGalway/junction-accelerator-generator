@@ -941,6 +941,29 @@
       </div>
     </section>
 
+    <!-- ══ EXPERIENCE DESIGN SECTION ══════════════════════════ -->
+    <section class="content-section" id="experienceSection">
+      <div class="section-header">
+        <h2 class="section-header__title">
+          Experience Design
+          <span class="section-header__count" id="experienceCount">0</span>
+        </h2>
+        <a href="/admin/create-experience/" class="btn-create" id="createExperienceBtn" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+          Create Experience Dashboard
+        </a>
+      </div>
+      <p class="section-desc" style="margin-bottom: 20px; font-size: 14px; color: var(--muted);">
+        Launch-focused dashboards for operators designing bookable experiences
+      </p>
+      <div class="card-gallery" id="experienceGallery">
+        <!-- Will be populated by JavaScript -->
+      </div>
+    </section>
+
     <!-- ══ ACCELERATOR PROJECTS SECTION ═══════════════════════ -->
     <section class="content-section" id="projectsSection">
       <div class="section-header">
@@ -1059,6 +1082,7 @@
       // Show admin buttons for admin/psm users
       if (user.role === 'admin' || user.role === 'psm') {
         document.getElementById('generateAssessmentBtn').style.display = 'inline-flex';
+        document.getElementById('createExperienceBtn').style.display = 'inline-flex';
       }
 
       // Close action menus when clicking outside
@@ -1069,7 +1093,7 @@
       });
 
       // Load data
-      await Promise.all([loadProjects(), loadAssessments(), loadElevatedClients()]);
+      await Promise.all([loadProjects(), loadAssessments(), loadElevatedClients(), loadExperienceProjects()]);
     })();
 
     // ══════════════════════════════════════════════════════════════
@@ -1272,6 +1296,148 @@
     }
 
     // ══════════════════════════════════════════════════════════════
+    // DATA LOADING - EXPERIENCE PROJECTS
+    // ══════════════════════════════════════════════════════════════
+    async function loadExperienceProjects() {
+      const gallery = document.getElementById('experienceGallery');
+      const countEl = document.getElementById('experienceCount');
+      const section = document.getElementById('experienceSection');
+
+      const isAdmin = currentUser.role === 'admin';
+      const isPSM = currentUser.role === 'psm';
+
+      // Fetch experience projects from user_plans table
+      let query = supabaseClient
+        .from('user_plans')
+        .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+        .eq('active', true)
+        .eq('dashboard_state', 'experience')
+        .neq('client_slug', '*');
+
+      // Non-admin/psm users only see projects they coach
+      if (!isAdmin && !isPSM) {
+        query = query.eq('coach_email', currentUser.email);
+      }
+
+      const { data: rows, error } = await query;
+
+      if (error) {
+        console.error('Error loading experience projects:', error);
+        gallery.innerHTML = `<div class="empty-state">
+          <p>Could not load experience projects. Please try refreshing the page.</p>
+        </div>`;
+        return;
+      }
+
+      // Get unique projects
+      const projectMap = new Map();
+      for (const row of (rows || [])) {
+        if (!projectMap.has(row.client_slug)) {
+          projectMap.set(row.client_slug, {
+            slug: row.client_slug,
+            name: toTitleCase(row.client_slug),
+            cohort_start_date: row.cohort_start_date,
+            coach_email: row.coach_email
+          });
+        }
+      }
+
+      const experienceProjects = Array.from(projectMap.values());
+      countEl.textContent = experienceProjects.length;
+
+      // Hide section if no experience projects
+      if (experienceProjects.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
+      section.style.display = 'block';
+
+      // Load progress for each project
+      await Promise.all(experienceProjects.map(loadExperienceProjectProgress));
+
+      // Sort by name
+      experienceProjects.sort((a, b) => a.name.localeCompare(b.name));
+
+      renderExperienceProjects(experienceProjects);
+    }
+
+    async function loadExperienceProjectProgress(project) {
+      // Fetch plan.json for total item count
+      try {
+        const res = await fetch(`/experience/${project.slug}/plan.json`);
+        if (res.ok) {
+          const plan = await res.json();
+          let total = 0;
+          plan.weeks.forEach(w => {
+            total += (w.checklist || []).length;
+          });
+          project.totalItems = total;
+        }
+      } catch (_) {
+        project.totalItems = 0;
+      }
+
+      // Fetch checked count from Supabase
+      try {
+        const { data } = await supabaseClient
+          .from('progress')
+          .select('checked')
+          .eq('client_slug', project.slug);
+
+        project.checkedCount = (data || []).filter(r => r.checked).length;
+      } catch (_) {
+        project.checkedCount = 0;
+      }
+
+      // Calculate current week from cohort start date (if set by operator)
+      if (project.cohort_start_date) {
+        const start = new Date(project.cohort_start_date);
+        const days = Math.floor((Date.now() - start.getTime()) / 86400000);
+        project.week = Math.min(Math.max(Math.floor(days / 7) + 1, 1), 12);
+      } else {
+        project.week = null; // Not yet set
+      }
+    }
+
+    function renderExperienceProjects(experienceProjects) {
+      const gallery = document.getElementById('experienceGallery');
+      const canEdit = currentUser.role === 'admin' || currentUser.role === 'psm' || currentUser.role === 'coach';
+
+      gallery.innerHTML = experienceProjects.map((p, i) => {
+        const percent = p.totalItems > 0
+          ? Math.round((p.checkedCount / p.totalItems) * 100)
+          : 0;
+
+        const startDateDisplay = p.cohort_start_date
+          ? new Date(p.cohort_start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : 'Start date not set';
+
+        const weekDisplay = p.week !== null
+          ? `Week ${p.week} of 12`
+          : 'Awaiting launch date';
+
+        return `
+          <a href="/experience/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
+            <div class="project-card__header">
+              <div class="project-card__info">
+                <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
+                <p class="project-card__meta">${startDateDisplay}</p>
+              </div>
+            </div>
+            <p class="project-card__week">${weekDisplay}</p>
+            <div class="project-card__progress">
+              <div class="project-card__bar">
+                <div class="project-card__bar-fill" style="width: ${percent}%"></div>
+              </div>
+              <span class="project-card__percent">${percent}%</span>
+            </div>
+          </a>
+        `;
+      }).join('');
+    }
+
+    // ══════════════════════════════════════════════════════════════
     // DATA LOADING - PROJECTS
     // ══════════════════════════════════════════════════════════════
     async function loadProjects() {
@@ -1281,11 +1447,12 @@
       const isAdmin = currentUser.role === 'admin';
       const isPSM = currentUser.role === 'psm';
 
-      // Fetch projects this user has access to
+      // Fetch projects this user has access to (exclude experience - they have their own section)
       let query = supabaseClient
         .from('user_plans')
-        .select('client_slug, cohort_start_date, coach_email')
+        .select('client_slug, cohort_start_date, coach_email, dashboard_state')
         .eq('active', true)
+        .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
         .neq('client_slug', '*');
 
       if (!isAdmin && !isPSM) {

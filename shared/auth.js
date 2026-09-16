@@ -67,8 +67,11 @@ window.__authReady = (async function () {
         // Validate slug format before redirect to prevent path traversal
         const slug = clientRow.client_slug;
         if (/^[a-z0-9-]+$/.test(slug)) {
-          // Redirect elevated learners to assessment-only dashboard
-          const dashboardPath = clientRow.dashboard_state === 'elevated' ? '/elevated/' : '/clients/';
+          // Redirect to appropriate dashboard based on type
+          const dashboardPath =
+            clientRow.dashboard_state === 'elevated'   ? '/elevated/' :
+            clientRow.dashboard_state === 'experience' ? '/experience/' :
+            '/clients/';
           window.location.replace(dashboardPath + slug + '/');
         } else {
           window.location.replace('/login?error=invalid_project');
