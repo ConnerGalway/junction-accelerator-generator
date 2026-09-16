@@ -167,13 +167,31 @@ export async function handler(event, context) {
       // ─────────────────────────────────────────────────────────────────────────
       // 4. CREATE NEW USER_PLANS ENTRY
       // ─────────────────────────────────────────────────────────────────────────
+
+      // Fetch existing project data (cohort_start_date, coach_email, dashboard_state)
+      // from an existing user_plans row for this client
+      const { data: existingProject } = await supabaseAdmin
+        .from('user_plans')
+        .select('cohort_start_date, coach_email, dashboard_state')
+        .eq('client_slug', clientSlug)
+        .eq('active', true)
+        .limit(1)
+        .single();
+
+      // Use existing cohort_start_date, or default to today if none exists
+      // (cohort_start_date has NOT NULL constraint in database)
+      const cohortDate = existingProject?.cohort_start_date || new Date().toISOString().split('T')[0];
+
       const userPlanData = {
         email: email.toLowerCase(),
         role: 'client',
         client_slug: clientSlug,
-        active: true
+        active: true,
+        cohort_start_date: cohortDate,
+        coach_email: existingProject?.coach_email || null,
+        dashboard_state: existingProject?.dashboard_state || null
       };
-      // Set dashboard_state for elevated learners (Masterclass participants)
+      // Override dashboard_state for elevated learners (Masterclass participants)
       if (isElevated) {
         userPlanData.dashboard_state = 'elevated';
       }
