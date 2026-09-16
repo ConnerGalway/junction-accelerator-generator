@@ -12,6 +12,23 @@ These rules apply to **every dashboard type** (accelerator, experience, etc.).
 
 ---
 
+## Generation method (hard constraint)
+
+**NEVER write a dashboard file from scratch. NEVER regenerate the whole document in one pass. NEVER use a subagent task to generate the dashboard.**
+
+The templates are roughly 6,000 lines. Writing them wholesale drops sections, corrupts the JS arrays, and takes hours. Every change must be a targeted edit against a copied file.
+
+**Required procedure:**
+1. Copy the template to the output path first: `cp template/[template].html [output-dir]/[slug]/index.html`
+2. Edit that copy in place with targeted replacements, one region at a time:
+   - Placeholders
+   - The three Track/Tactic pages
+   - The twelve roadmap weeks
+   - The four JS arrays
+   - The tour text
+
+---
+
 ## Writing style rules
 
 **Never use em dashes.** All dashboards, assessments, and reports must avoid em dashes (the long dash character). Instead:
@@ -412,10 +429,22 @@ Command pattern:
 
 Note: Experience dashboards do NOT take a cohort start date. The operator sets this themselves via the UI.
 
-### Step 1: Read both files
-- Read `clients/[slug]/plan.md` (follows `PLAN_FORMAT_EXPERIENCE.md`)
-- Read `template/experience-template.html`
-- Read `brand/elearningu-brand.md`
+### Step 1: Copy template, then edit in place (hard constraint)
+
+**NEVER write the file from scratch. NEVER regenerate the whole document in one pass. NEVER use a subagent task to generate the dashboard.**
+
+The template is roughly 6,000 lines. Writing it wholesale drops sections, corrupts the JS arrays, and takes hours. Every change must be a targeted edit against the copied file.
+
+**Required procedure:**
+1. Read `clients/[slug]/plan.md` (follows `PLAN_FORMAT_EXPERIENCE.md`)
+2. Read `brand/elearningu-brand.md`
+3. Copy the template to the output path: `cp template/experience-template.html experience/[slug]/index.html`
+4. Edit that copy in place with targeted replacements, one region at a time:
+   - Placeholders
+   - The three Track pages
+   - The twelve roadmap weeks
+   - The four JS arrays
+   - The tour text
 
 ### Step 2: Fill placeholders
 

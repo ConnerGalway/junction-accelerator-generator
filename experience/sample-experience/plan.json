@@ -1,0 +1,200 @@
+{
+  "client_name": "Foothills Quarter Horses",
+  "client_slug": "sample-experience",
+  "goal": "In 90 days, Foothills Quarter Horses will launch a half-day horsemanship experience for up to six guests at $145 per person. The experience will run every Saturday morning from late May through September, with the first paying departure on May 24, 2025. By the end of June, the ranch will have welcomed at least 12 paying guests and established a repeatable booking and operations workflow.",
+  "coach_email": "coach@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Know Your Guest",
+      "actions": [
+        "Write your ideal guest persona",
+        "Identify who this experience is not for",
+        "Review competitor experiences in the region for pricing and positioning"
+      ],
+      "checklist": [
+        "Guest persona document is complete and saved",
+        "\"Not for\" statement is written",
+        "Competitor review notes are captured"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Map the Arc",
+      "actions": [
+        "Outline the beginning, middle, and end of the experience",
+        "Define what is included and what is not",
+        "Walk through the experience mentally from guest arrival to departure"
+      ],
+      "checklist": [
+        "Experience arc document is complete",
+        "Inclusions and exclusions list is finalised",
+        "Timing for each segment is estimated"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Write the Sentence",
+      "actions": [
+        "Draft three versions of your one-sentence description",
+        "Test your favourite version on someone who has never visited",
+        "Finalise and save your one-sentence description"
+      ],
+      "checklist": [
+        "Three draft sentences are written",
+        "One sentence is tested and selected",
+        "Final sentence is saved for listing copy"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Calculate Costs",
+      "actions": [
+        "List your fixed costs per departure",
+        "Calculate your time cost",
+        "Add a margin for unexpected costs"
+      ],
+      "checklist": [
+        "Fixed costs are documented with dollar amounts",
+        "Labour cost per departure is calculated",
+        "Total cost per departure (with margin) is confirmed"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Set Your Price",
+      "actions": [
+        "Calculate your break-even point",
+        "Set your final per-guest price",
+        "Decide on a minimum booking policy"
+      ],
+      "checklist": [
+        "Break-even price per guest is calculated",
+        "Final price of $145 per guest is confirmed",
+        "Minimum booking policy is documented"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Confirm Insurance",
+      "actions": [
+        "Contact your insurance broker about commercial liability",
+        "Request a certificate of insurance for booking platforms",
+        "Check permit and licence requirements with the MD of Pincher Creek"
+      ],
+      "checklist": [
+        "Insurance broker has confirmed coverage",
+        "Certificate of insurance is received",
+        "Business licence requirements are confirmed"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Safety and Policies",
+      "actions": [
+        "Write your safety protocol and emergency procedures",
+        "Draft your cancellation and weather policy",
+        "Have your waiver reviewed by your insurance broker"
+      ],
+      "checklist": [
+        "Safety protocol document is complete",
+        "Cancellation policy is written",
+        "Guest waiver is reviewed and ready"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Choose Your Platform",
+      "actions": [
+        "Evaluate booking platform options",
+        "Create your platform account and complete your host profile",
+        "Explore the platform dashboard and settings"
+      ],
+      "checklist": [
+        "Platform decision is made",
+        "Account is created and profile is complete",
+        "Dashboard navigation is understood"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Write Your Listing",
+      "actions": [
+        "Write your listing headline",
+        "Write the full listing description",
+        "Set your availability and pricing in the platform"
+      ],
+      "checklist": [
+        "Headline is under 60 characters and compelling",
+        "Full description is written and reviewed",
+        "Availability and pricing are configured"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Shoot Your Photos",
+      "actions": [
+        "Plan and shoot your listing photos",
+        "Select the 8-12 strongest photos",
+        "Edit photos for brightness and crop if needed"
+      ],
+      "checklist": [
+        "Photo shoot is complete",
+        "Photos are selected and edited",
+        "Photos are ready for upload"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Go Live",
+      "actions": [
+        "Upload photos and finalise listing",
+        "Preview listing on mobile and desktop",
+        "Publish and share your listing"
+      ],
+      "checklist": [
+        "All photos are uploaded with alt text",
+        "Listing is previewed and looks correct",
+        "Listing is live and shareable link is confirmed"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: First Booking",
+      "actions": [
+        "Share listing with your network and local tourism contacts",
+        "Follow up with interested guests",
+        "Confirm your first booking"
+      ],
+      "checklist": [
+        "Listing has been shared on social media and email",
+        "At least one booking is confirmed for May 24",
+        "Guest communication is complete and departure is ready"
+      ],
+      "deep_link": "https://experience.elearningu.com/sample-experience/#week-12"
+    }
+  ]
+}
