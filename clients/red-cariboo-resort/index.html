@@ -5545,7 +5545,7 @@ button,
     </div>
 
     <!-- Progress Hero Card -->
-    <div class="dash-progress-hero">
+    <div class="dash-progress-hero" id="goal-section">
       <div class="dash-ring-large-wrap">
         <svg class="dash-ring-large" width="200" height="200" viewBox="0 0 200 200">
           <circle cx="100" cy="100" r="85" fill="none" stroke="var(--surface-sunken)" stroke-width="17"></circle>
@@ -5586,7 +5586,7 @@ button,
     </div>
 
     <!-- Next Step Card -->
-    <div class="dash-next-step">
+    <div class="dash-next-step" id="objectives-section">
       <div class="dash-next-main">
         <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · Fix the Analytics</div>
         <h2 class="dash-next-title" id="dash-next-title">Set up clean measurement before spending anything</h2>
@@ -5624,7 +5624,7 @@ button,
     </div>
 
     <!-- Tactic Progress Cards -->
-    <div class="dash-tactics-grid">
+    <div class="dash-tactics-grid" id="tactic-cards-section">
       <div class="dash-tactic-pill" onclick="navigate('tactic1')">
         <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
           <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
@@ -9627,23 +9627,23 @@ const TOUR_STEPS = [
   {
     targetId: 'goal-section',
     page: 'dashboard',
-    title: 'Your Personalized Welcome',
-    desc: 'This section gives you context on where you are now and what the plan is designed to achieve for Red Cariboo.',
+    title: 'Your Progress Overview',
+    desc: 'This shows your overall completion and which phase of the 90-day plan you are in. The ring fills as you check off tasks.',
     pos: 'below', pad: 8
   },
   {
     targetId: 'objectives-section',
     mobileTargetId: 'objectives-section',
     page: 'dashboard',
-    title: 'Four Ways to Navigate',
-    desc: 'These cards show you how to use the accelerator: start with your Assessment, review the Strategy, follow the Roadmap, and use Tactic guides for detailed how-tos.',
+    title: 'Your Next Step',
+    desc: 'This card shows exactly what to focus on right now. It updates automatically as you complete tasks in the roadmap.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
     targetId: 'tactic-cards-section',
     page: 'dashboard',
-    title: 'Track Your Progress',
-    desc: 'As you complete tasks in your roadmap, this ring fills up. Check off items to see your progress grow toward 100%.',
+    title: 'Track Each Tactic',
+    desc: 'These pills show progress on each of your four tactics. Click any to open the detailed guide and implementation steps.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
