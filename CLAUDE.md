@@ -160,7 +160,7 @@ Determine which type to generate based on the command:
 | Command says | Plan format | Template | Output directory |
 |---|---|---|---|
 | "accelerator page" | `PLAN_FORMAT.md` | `template/accelerator-dashboard-template.html` | `clients/[slug]/` |
-| "experience dashboard" | `PLAN_FORMAT_EXPERIENCE.md` | `template/experience-template.html` | `my-clients/[slug]/` |
+| "experience dashboard" | `PLAN_FORMAT_EXPERIENCE.md` | `template/experience-template.html` | `clients/[slug]/` |
 
 ---
 
@@ -438,7 +438,7 @@ The template is roughly 6,000 lines. Writing it wholesale drops sections, corrup
 **Required procedure:**
 1. Read `clients/[slug]/plan.md` (follows `PLAN_FORMAT_EXPERIENCE.md`)
 2. Read `brand/elearningu-brand.md`
-3. Copy the template to the output path: `cp template/experience-template.html my-clients/[slug]/index.html`
+3. Copy the template to the output path: `cp template/experience-template.html clients/[slug]/index.html`
 4. Edit that copy in place with targeted replacements, one region at a time:
    - Placeholders
    - The three Track pages
@@ -604,7 +604,7 @@ If `Has Bookability Checklist: yes`, rebuild the `page-bookability` section with
 
 ### Step 9: Generate plan.json
 
-Write to `my-clients/[slug]/plan.json`:
+Write to `clients/[slug]/plan.json`:
 
 ```json
 {
@@ -626,8 +626,8 @@ Write to `my-clients/[slug]/plan.json`:
 ```
 
 ### Step 10: Output
-1. Write `my-clients/[slug]/index.html`
-2. Write `my-clients/[slug]/plan.json`
+1. Write `clients/[slug]/index.html`
+2. Write `clients/[slug]/plan.json`
 3. Report: placeholder count resolved, optional blocks included/excluded, total checklist items, total "how to" links
 
 ---
@@ -639,7 +639,7 @@ This is a supported operation for experience dashboards:
 > "Update the experience dashboard for [Operator] - the [material] is now available at [URL]. Change only that card's status, URL and button text."
 
 **Procedure:**
-1. Read `my-clients/[slug]/index.html`
+1. Read `clients/[slug]/index.html`
 2. Find the material card by its placeholder pattern (e.g., `MATERIAL_SESSION1_*`)
 3. Update only these three values:
    - URL: from `#` to the provided URL
@@ -689,7 +689,7 @@ In addition to the general quality checklist, verify these for experience dashbo
 ## Experience update
 > "Update the experience dashboard for [Operator] - [what changed]"
 
-1. Read `my-clients/[slug]/index.html` and `clients/[slug]/plan.md`
+1. Read `clients/[slug]/index.html` and `clients/[slug]/plan.md`
 2. Apply only the changes described
 3. Do NOT regenerate sections that weren't mentioned
 4. Commit with a clear message describing what changed
@@ -704,7 +704,7 @@ In addition to the general quality checklist, verify these for experience dashbo
 | `template/experience-template.html` | Experience template. Never edit directly for a client. |
 | `clients/[slug]/plan.md` | Client plan (input for both types) |
 | `clients/[slug]/index.html` | Generated accelerator page (output) |
-| `my-clients/[slug]/index.html` | Generated experience dashboard (output) |
+| `clients/[slug]/index.html` | Generated experience dashboard (output) |
 | `brand/elearningu-brand.md` | Brand colours, fonts, logo rules |
 | `PLAN_FORMAT.md` | Standard format for accelerator plans |
 | `PLAN_FORMAT_EXPERIENCE.md` | Standard format for experience design plans |

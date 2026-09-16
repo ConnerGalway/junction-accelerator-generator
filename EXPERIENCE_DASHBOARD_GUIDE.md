@@ -184,10 +184,12 @@ Example:
 https://accelerator.elearningu.com/sample-experience/
 ```
 
-The coach portal (listing all experience clients) is at:
+The coach portal is at:
 ```
 https://accelerator.elearningu.com/my-clients/
 ```
+
+Note: Dashboard files are stored in `/clients/[slug]/` alongside accelerator dashboards.
 
 ---
 

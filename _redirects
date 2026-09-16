@@ -23,13 +23,10 @@
 /elevated/:slug     /elevated/:slug/index.html  200
 /elevated/:slug/    /elevated/:slug/index.html  200
 
-# Client dashboards — served at /:slug/
-# Check my-clients/ first (Experience Design), then clients/ (Accelerator)
-# Netlify skips 200 rewrites if target file doesn't exist, so this acts as fallback
-/:slug          /my-clients/:slug/index.html   200
-/:slug/         /my-clients/:slug/index.html   200
-/:slug          /clients/:slug/index.html      200
-/:slug/         /clients/:slug/index.html      200
+# Client dashboards (Accelerator and Experience Design)
+# Files live at clients/[slug]/index.html, served at /[slug]/
+/:slug          /clients/:slug/index.html   200
+/:slug/         /clients/:slug/index.html   200
 
 # 404 fallback — any unrecognised path goes to login
 /*              /login          302
