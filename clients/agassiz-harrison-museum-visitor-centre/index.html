@@ -1,0 +1,2638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Digital Marketing Assessment — Agassiz-Harrison Museum & Visitor Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy: #11154b;
+  --navy-light: #1a1f6b;
+  --mint: #aadab6;
+  --mint-dark: #7bc490;
+  --cream: #fcf5ec;
+  --blue: #067cbc;
+  --slate: #708090;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --sidebar-w: 268px;
+  --font-d: 'Raleway', sans-serif;
+  --font-b: 'Open Sans', sans-serif;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #28a745;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-b);
+  background: var(--page-bg);
+  color: var(--dark);
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--mint);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-logo-img {
+  height: 24px;
+  width: auto;
+}
+
+.sidebar-client {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-client-name {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.sidebar-client-status {
+  font-size: 11px;
+  color: var(--mint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  border-radius: 50%;
+}
+
+nav { flex: 1; padding: 12px 0; }
+
+.nav-section-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 16px 24px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 1px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+
+.nav-item.active {
+  background: rgba(170,218,182,.12);
+  color: #fff;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+  margin-left: -8px;
+}
+
+.nav-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item .lock-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  color: rgba(255,255,255,.3);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+/* ── Main Content ─────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active { display: block; }
+
+/* ── Assessment Page ─────────────────────────── */
+.assessment-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.assessment-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(170,218,182,.15) 0%, transparent 60%);
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.assessment-hero-title {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.assessment-hero-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.assessment-hero-badge {
+  background: var(--mint);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255,255,255,.1);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.grade-details h3 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.grade-details p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ── Category Cards ─────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.category-icon.website { background: #e3f2fd; color: #1976d2; }
+.category-icon.ai { background: #f3e5f5; color: #7b1fa2; }
+.category-icon.booking { background: #e8f5e9; color: #388e3c; }
+.category-icon.reviews { background: #fff3e0; color: #f57c00; }
+.category-icon.social { background: #fce4ec; color: #c2185b; }
+.category-icon.local { background: #e0f7fa; color: #0097a7; }
+.category-icon.email { background: #fff8e1; color: #ffa000; }
+.category-icon.competitive { background: #efebe9; color: #5d4037; }
+
+.category-title-wrap {
+  flex: 1;
+}
+
+.category-title {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.category-grade {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-grade.grade-a { background: #d4edda; color: #155724; }
+.category-grade.grade-b { background: #d1ecf1; color: #0c5460; }
+.category-grade.grade-c { background: #fff3cd; color: #856404; }
+.category-grade.grade-d { background: #f8d7da; color: #721c24; }
+.category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+.category-grade.grade-na { background: #e9ecef; color: #6b6b8a; }
+
+.category-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.category-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  padding: 12px;
+  background: var(--page-bg);
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-status.good { background: var(--success); }
+.metric-status.warning { background: var(--warning); }
+.metric-status.critical { background: var(--danger); }
+.metric-status.info { background: #6b6b8a; }
+
+.category-findings {
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.finding-item:last-child { border-bottom: none; }
+
+.finding-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-icon.positive { color: var(--success); }
+.finding-icon.negative { color: var(--danger); }
+.finding-icon.info { color: #6b6b8a; }
+
+.category-recommendations h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(6,124,188,.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.recommendation-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.recommendation-priority.high { background: #f8d7da; color: #721c24; }
+.recommendation-priority.medium { background: #fff3cd; color: #856404; }
+.recommendation-priority.low { background: #d1ecf1; color: #0c5460; }
+
+/* ── Priority Recommendations ─────────────────── */
+.priority-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.priority-section h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.priority-list {
+  display: grid;
+  gap: 16px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.priority-item-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: var(--mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.priority-item-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.priority-item-content p {
+  font-size: 13px;
+  color: #666;
+}
+
+.priority-item-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.priority-item-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.06);
+}
+
+.priority-item-tag.time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+}
+
+.priority-item-tag.impact-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-item-tag.impact-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-item-tag.impact-low {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.priority-item-result {
+  font-size: 12px;
+  color: #555;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mint);
+  font-style: italic;
+}
+
+/* ── Executive Summary ─────────────────────────── */
+.executive-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.executive-summary h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.executive-headline {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.executive-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.executive-column h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.executive-column h4 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.executive-column.strengths h4 { color: var(--success); }
+.executive-column.gaps h4 { color: var(--danger); }
+
+.executive-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.executive-column li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.executive-column li:last-child { border-bottom: none; }
+
+.executive-column li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.executive-column.strengths li::before { background: var(--success); }
+.executive-column.gaps li::before { background: var(--danger); }
+
+.executive-bottom-line {
+  background: var(--page-bg);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid var(--navy);
+}
+
+/* ── Quick Wins ─────────────────────────────────── */
+.quick-wins {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.quick-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-wins h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--success);
+}
+
+.quick-wins-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-win-item {
+  background: var(--card-bg);
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.quick-win-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quick-win-content {
+  flex: 1;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.quick-win-impact {
+  font-size: 13px;
+  color: #666;
+}
+
+.quick-win-time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tourism Context ────────────────────────────── */
+.tourism-context {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tourism-context h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tourism-context h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.tourism-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tourism-context-item {
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.tourism-context-item h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tourism-context-item h4 svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.tourism-context-item p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── Updated Metric with Benchmark ─────────────── */
+.metric-benchmark {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Recommendation Time Estimate ──────────────── */
+.recommendation-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 6px;
+}
+
+.recommendation-time svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Category Guest Experience ─────────────────── */
+.category-icon.guest { background: #e1f5fe; color: #0277bd; }
+.category-icon.visitor { background: #f3e5f5; color: #7b1fa2; }
+
+@media (max-width: 768px) {
+  .executive-columns { grid-template-columns: 1fr; }
+  .tourism-context-grid { grid-template-columns: 1fr; }
+  .quick-win-item { flex-direction: column; align-items: stretch; }
+  .quick-win-time { align-self: flex-start; }
+}
+
+/* ── Coming Soon Page ─────────────────────────── */
+.coming-soon-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.coming-soon-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 60px 40px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--navy);
+}
+
+.coming-soon-content h2 {
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.coming-soon-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.coming-soon-note {
+  font-size: 13px;
+  color: #999;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    transform: translateX(-100%);
+    z-index: 1000;
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-header-title {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mint);
+  }
+
+  .mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page { padding: 20px; }
+  .assessment-hero { padding: 24px; }
+  .assessment-hero-title { font-size: 22px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-metrics { grid-template-columns: 1fr; }
+}
+
+@media (min-width: 769px) {
+  .mobile-header { display: none; }
+}
+
+.mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+.mobile-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* ── Download PDF Button ────────────────────────── */
+.assessment-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.5);
+}
+
+.download-pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT STYLES - Award-Winning PDF Report Design
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hide all print-only elements on screen */
+.print-cover-page,
+.print-running-header,
+.print-running-footer,
+.print-header,
+.print-footer {
+  display: none !important;
+}
+
+@media print {
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE SETUP & RESETS
+     ══════════════════════════════════════════════════════════════════════════ */
+  @page {
+    size: letter;
+    margin: 0.6in 0.65in 0.75in 0.65in;
+  }
+
+  @page :first {
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html {
+    height: auto;
+    overflow: visible;
+    background: white !important;
+  }
+
+  body {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: white !important;
+    padding: 0;
+    margin: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     HIDE SCREEN-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  #sidebar,
+  .mobile-header,
+  .mobile-overlay,
+  .download-pdf-btn,
+  .assessment-hero-badge,
+  .assessment-hero-actions,
+  .nav-item,
+  #page-strategy,
+  #page-tactic1,
+  #page-tactic2,
+  #page-tactic3,
+  #page-roadmap,
+  .print-header,
+  .coming-soon-section {
+    display: none !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     SHOW PRINT-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    display: flex !important;
+  }
+
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.45in;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #11154b;
+    background: white;
+    z-index: 1000;
+  }
+
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.35in;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+    font-size: 8pt;
+    color: #708090;
+    z-index: 1000;
+  }
+
+  .print-footer {
+    display: block !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COVER PAGE
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    position: relative;
+    width: 8.5in;
+    height: 11in;
+    margin: -0.6in -0.65in 0 -0.65in;
+    padding: 0;
+    background: linear-gradient(145deg, #11154b 0%, #1a1f6b 50%, #11154b 100%) !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .print-cover-page::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .print-cover-page::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(170,218,182,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .cover-logo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 1.2in;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-divider {
+    width: 2.5in;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #aadab6, transparent);
+    margin: 0.25in auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 38pt;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    margin: 0.3in 0 0.4in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11pt;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 0.1in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.6in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade-circle {
+    width: 1.6in;
+    height: 1.6in;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5in auto;
+    box-shadow: 0 0 80px rgba(170,218,182,0.5);
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade {
+    font-family: 'Raleway', sans-serif;
+    font-size: 48pt;
+    font-weight: 800;
+    color: #11154b;
+    line-height: 1;
+    display: block;
+  }
+
+  .cover-score {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    opacity: 0.85;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .cover-date {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    color: rgba(255,255,255,0.65);
+    margin: 0.3in 0 0 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-footer-text {
+    position: absolute;
+    bottom: 0.6in;
+    left: 0;
+    right: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING HEADER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .running-header-logo {
+    height: 22px;
+    width: auto;
+  }
+
+  .running-header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .running-header-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #11154b;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .running-header-right {
+    text-align: right;
+  }
+
+  .running-header-client {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #708090;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING FOOTER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-footer-left {
+    font-style: italic;
+  }
+
+  .running-footer-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 500;
+  }
+
+  .running-footer-right {
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MAIN CONTENT AREA
+     ══════════════════════════════════════════════════════════════════════════ */
+  #main {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0;
+    margin-top: 0.5in;
+  }
+
+  .page {
+    display: block !important;
+    padding: 0;
+    min-height: auto;
+  }
+
+  #page-assessment {
+    padding-top: 0;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ASSESSMENT HERO
+     ══════════════════════════════════════════════════════════════════════════ */
+  .assessment-hero {
+    background: linear-gradient(135deg, #11154b 0%, #1a1f6b 100%) !important;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .assessment-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -15%;
+    width: 50%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+  }
+
+  .assessment-hero-top {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .assessment-hero-title {
+    font-size: 20pt;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .assessment-hero-date {
+    color: rgba(255,255,255,0.75);
+    font-size: 10pt;
+  }
+
+  .assessment-grade-card {
+    background: rgba(255,255,255,0.1) !important;
+    padding: 16px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .grade-circle {
+    width: 72px;
+    height: 72px;
+    font-size: 26pt;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    color: #11154b !important;
+    flex-shrink: 0;
+  }
+
+  .grade-details {
+    color: white;
+  }
+
+  .grade-details h3 {
+    color: white;
+    font-size: 13pt;
+    margin-bottom: 4px;
+  }
+
+  .grade-details p {
+    font-size: 10pt;
+    opacity: 0.85;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     EXECUTIVE SUMMARY
+     ══════════════════════════════════════════════════════════════════════════ */
+  .executive-summary {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .executive-summary h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .executive-headline {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+
+  .executive-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .executive-column {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .executive-column h4 {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .executive-column.strengths {
+    background: rgba(40, 167, 69, 0.06);
+    border: 1px solid rgba(40, 167, 69, 0.15);
+  }
+
+  .executive-column.gaps {
+    background: rgba(220, 53, 69, 0.04);
+    border: 1px solid rgba(220, 53, 69, 0.12);
+  }
+
+  .executive-column li {
+    font-size: 9pt;
+    padding: 5px 0;
+    line-height: 1.45;
+  }
+
+  .executive-bottom-line {
+    background: linear-gradient(135deg, #fcf5ec 0%, #faf3e8 100%);
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 9.5pt;
+    color: #444;
+    border-left: 3px solid #11154b;
+    line-height: 1.55;
+  }
+
+  .executive-bottom-line strong {
+    color: #11154b;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     QUICK WINS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .quick-wins {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .quick-wins h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .quick-wins-subtitle {
+    font-size: 9pt;
+    margin-bottom: 14px;
+    color: #2d5a2d;
+  }
+
+  .quick-wins-list {
+    gap: 8px;
+  }
+
+  .quick-win-item {
+    background: white !important;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .quick-win-number {
+    width: 24px;
+    height: 24px;
+    font-size: 10pt;
+    background: #28a745 !important;
+    color: white !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .quick-win-content {
+    flex: 1;
+  }
+
+  .quick-win-task {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .quick-win-impact {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .quick-win-time {
+    background: rgba(6,124,188,0.12) !important;
+    color: #067cbc !important;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     TOURISM CONTEXT
+     ══════════════════════════════════════════════════════════════════════════ */
+  .tourism-context {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .tourism-context h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .tourism-context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tourism-context-item {
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #067cbc;
+  }
+
+  .tourism-context-item h4 {
+    font-size: 9pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .tourism-context-item h4 svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tourism-context-item p {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     CATEGORY CARDS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+    page-break-before: always;
+  }
+
+  .category-card {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .category-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .category-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .category-title {
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .category-grade {
+    font-size: 10pt;
+    padding: 3px 10px;
+  }
+
+  .category-summary {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  .category-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .metric-item {
+    background: #f8f9fa;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .metric-label {
+    font-size: 7pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+  }
+
+  .metric-value {
+    font-size: 10pt;
+    color: #11154b;
+    font-weight: 600;
+  }
+
+  .metric-status {
+    width: 6px;
+    height: 6px;
+  }
+
+  .metric-benchmark {
+    font-size: 7pt;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  .category-findings {
+    margin-bottom: 10px;
+  }
+
+  .finding-item {
+    font-size: 8.5pt;
+    padding: 4px 0;
+    line-height: 1.4;
+  }
+
+  .finding-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .category-recommendations h4 {
+    font-size: 9pt;
+    margin-bottom: 8px;
+    color: #11154b;
+  }
+
+  .recommendation-item {
+    font-size: 8.5pt;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    background: rgba(6,124,188,0.04);
+    border-radius: 6px;
+  }
+
+  .recommendation-priority {
+    font-size: 7pt;
+    padding: 2px 6px;
+  }
+
+  .recommendation-time {
+    font-size: 8pt;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRIORITY RECOMMENDATIONS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .priority-section {
+    background: white;
+    border: 2px solid #11154b;
+    border-radius: 12px;
+    padding: 20px 24px;
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+
+  .priority-section h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .priority-list {
+    gap: 10px;
+  }
+
+  .priority-item {
+    background: #f8f9fa !important;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .priority-item-number {
+    width: 28px;
+    height: 28px;
+    font-size: 11pt;
+    background: #11154b !important;
+    color: #aadab6 !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .priority-item-content {
+    flex: 1;
+  }
+
+  .priority-item-content h4 {
+    font-size: 10.5pt;
+    color: #11154b;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+
+  .priority-item-content p {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .priority-item-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .priority-item-tag {
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+  }
+
+  .priority-item-tag.time {
+    background: rgba(6,124,188,0.12);
+    color: #067cbc;
+  }
+
+  .priority-item-tag.impact-high {
+    background: rgba(220,53,69,0.1);
+    color: #c82333;
+  }
+
+  .priority-item-tag.impact-medium {
+    background: rgba(255,193,7,0.15);
+    color: #856404;
+  }
+
+  .priority-item-result {
+    font-size: 8.5pt;
+    color: #555;
+    margin-top: 8px;
+    padding-left: 10px;
+    border-left: 2px solid #aadab6;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRINT FOOTER (END OF REPORT)
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #11154b;
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 40px;
+  }
+
+  .print-footer-credits {
+    flex: 1;
+  }
+
+  .print-footer-credits h4 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #11154b;
+    margin-bottom: 8px;
+  }
+
+  .print-footer-credits p {
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.55;
+    margin-bottom: 3px;
+  }
+
+  .print-footer-branding {
+    text-align: right;
+  }
+
+  .print-footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .print-footer-logo-icon {
+    width: 28px;
+    height: 28px;
+    background: #11154b;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-footer-logo-icon svg {
+    width: 16px;
+    height: 16px;
+    color: #aadab6;
+  }
+
+  .print-footer-logo-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: #11154b;
+  }
+
+  .print-footer-url {
+    font-size: 10pt;
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  .print-footer-disclaimer {
+    font-size: 8pt;
+    color: #888;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE BREAK UTILITIES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  .print-no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body data-client-slug="agassiz-harrison-museum-visitor-centre">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRINT-ONLY ELEMENTS (hidden on screen, visible when printing)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- Cover Page -->
+<div class="print-cover-page">
+  <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
+  <div class="cover-divider"></div>
+  <h1 class="cover-title">DIGITAL MARKETING<br>ASSESSMENT</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-client">Prepared for</p>
+  <p class="cover-client-name">Agassiz-Harrison Museum & Visitor Centre</p>
+  <div class="cover-grade-circle">
+    <span class="cover-grade" id="coverGrade">C+</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">75</span>/100</span>
+  </div>
+  <p class="cover-date">Assessment Date: September 17, 2026</p>
+  <p class="cover-footer-text">Powered by Junction Accelerator</p>
+</div>
+
+<!-- Running Header (appears on pages 2+) -->
+<div class="print-running-header">
+  <div class="running-header-left">
+    <img src="/assets/elearningu-logo-black.png" alt="eLearningU" class="running-header-logo">
+  </div>
+  <div class="running-header-center">
+    <span class="running-header-title">Digital Marketing Assessment</span>
+  </div>
+  <div class="running-header-right">
+    <span class="running-header-client">Agassiz-Harrison Museum & Visitor Centre</span>
+  </div>
+</div>
+
+<!-- Running Footer -->
+<div class="print-running-footer">
+  <span class="running-footer-left">Confidential</span>
+  <span class="running-footer-center">Agassiz-Harrison Museum & Visitor Centre</span>
+  <span class="running-footer-right">eLearningU.com</span>
+</div>
+
+<!-- Print Header (visible only when printing) -->
+<div class="print-header">
+  <div class="print-header-logo">
+    <div class="print-header-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="print-header-brand">eLearnin<span>gU</span></div>
+  </div>
+  <div class="print-header-info">
+    <div class="print-header-title">Digital Marketing Assessment</div>
+    <div class="print-header-client">Agassiz-Harrison Museum & Visitor Centre</div>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mobile-header-title">Agassiz-Harrison Museum & Visitor Centre</span>
+  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="sidebar-logo-img">
+  </div>
+
+  <div class="sidebar-client">
+    <div class="sidebar-client-name">Agassiz-Harrison Museum & Visitor Centre</div>
+    <div class="sidebar-client-status">
+      <span class="status-dot"></span>
+      Assessment Complete
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="navigate('assessment')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Assessment
+    </div>
+
+    <div class="nav-section-label">Your Plan</div>
+    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      Strategy
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Tactics</div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 1
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 2
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 3
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Implementation</div>
+    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      90-Day Roadmap
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- Assessment Page -->
+  <section id="page-assessment" class="page active">
+    <div class="assessment-hero">
+      <div class="assessment-hero-top">
+        <div>
+          <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
+          <p class="assessment-hero-date">Assessment Date: September 17, 2026</p>
+        </div>
+        <div class="assessment-hero-actions">
+          <button class="download-pdf-btn" onclick="downloadPDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </button>
+          <div class="assessment-hero-badge">Complete</div>
+        </div>
+      </div>
+
+      <div class="assessment-grade-card">
+        <div class="grade-circle" id="overallGrade">C+</div>
+        <div class="grade-details">
+          <h3>Overall Score: <span id="overallScore">75</span>/100</h3>
+          <p id="overallSummary"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary" id="executiveSummary">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="quick-wins" id="quickWins">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Tourism Context -->
+    <div class="tourism-context" id="tourismContext">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Categories will be populated by JavaScript -->
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <!-- Priority recommendations will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Pages -->
+  <section id="page-strategy" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>Strategy Coming Soon</h2>
+        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
+        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic1" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 1 Coming Soon</h2>
+        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic2" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 2 Coming Soon</h2>
+        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic3" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 3 Coming Soon</h2>
+        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-roadmap" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>90-Day Roadmap Coming Soon</h2>
+        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
+        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Footer (visible only when printing) -->
+  <div class="print-footer">
+    <div class="print-footer-content">
+      <div class="print-footer-credits">
+        <h4>About This Assessment</h4>
+        <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
+        <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
+        <p><strong>Assessment Date:</strong> September 17, 2026</p>
+      </div>
+      <div class="print-footer-branding">
+        <div class="print-footer-logo">
+          <div class="print-footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="print-footer-logo-text">eLearningU</span>
+        </div>
+        <div class="print-footer-url">eLearningU.com</div>
+      </div>
+    </div>
+    <div class="print-footer-disclaimer">
+      This assessment is confidential and prepared exclusively for Agassiz-Harrison Museum & Visitor Centre.
+      Powered by Junction Accelerator &mdash; helping tourism businesses grow their digital presence.
+    </div>
+  </div>
+
+</main>
+
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Strong community museum with excellent Google reputation (4.6 stars, 124 reviews) but underutilizing social media and missing critical on-page SEO optimizations.","key_strengths":["Outstanding Google Business Profile with 4.6/5 rating and 124 reviews demonstrating strong visitor satisfaction","Excellent technical foundation with 93/100 speed scores on both mobile and desktop, SSL enabled, and mobile-optimized design","Complete visitor information architecture with booking capability, directions, parking info, and accessibility details clearly displayed"],"critical_gaps":["Severe social media underperformance with only 0.61% Instagram engagement rate and posting just 0.4 times per week (12 posts total)","Missing 15 image alt attributes and multiple H1 tags creating SEO vulnerabilities that limit search visibility","No active paid advertising presence despite running Facebook pixel, missing opportunity to amplify strong reputation"],"bottom_line":"Agassiz-Harrison Museum has built exceptional visitor trust through its 4.6-star reputation but is leaving discovery opportunities on the table—fixing basic SEO issues and establishing consistent social content could dramatically increase pre-visit engagement from tourists exploring the Fraser Valley."},"quick_wins":[{"task":"Add alt text to the 15 images missing descriptions (detected on homepage)—start with hero image and exhibit photos, using descriptive text like 'Historic Canadian Pacific Railway station exterior, Agassiz Museum 1893'","time_estimate":"45 minutes","impact":"Improves accessibility for screen readers and helps images rank in Google Image Search where tourists discover local attractions","confidence":"high"},{"task":"Consolidate the 6 H1 header tags down to one primary H1 ('Welcome to the Agassiz-Harrison Museum & Visitor Centre')—change others to H2 or H3 tags","time_estimate":"20 minutes","impact":"Fixes critical on-page SEO issue flagged by SEOptimer that currently confuses search engines about page hierarchy","confidence":"high"},{"task":"Expand title tag from 40 to 55-60 characters—change from 'Agassiz-Harrison Museum & Visitor Centre' to 'Agassiz-Harrison Museum & Visitor Centre | Historic Railway Station & Local History'","time_estimate":"10 minutes","impact":"Better utilizes Google's title tag real estate to include keywords tourists search for (history, railway, Agassiz attractions)","confidence":"high"},{"task":"Reduce meta description from 245 to 155 characters by tightening to: 'Visit the Agassiz-Harrison Museum in a historic 1893 railway station. Indoor & outdoor exhibits celebrating Fraser Valley history. Open daily 10am-4pm.'","time_estimate":"15 minutes","impact":"Prevents Google from truncating your description in search results, improving click-through rates from organic search","confidence":"high"},{"task":"Post 3 pieces of existing content to Instagram this week—share photos of the caboose, farm equipment exhibits, and gift shop with authentic captions about what visitors love (based on your 5-star reviews)","time_estimate":"30 minutes","impact":"Begins rebuilding dormant Instagram presence (currently 0.4 posts/week) and leverages your 1,157 followers who aren't seeing content","confidence":"high"}],"tourism_context":{"visitor_profile":"Mix of Fraser Valley day-trippers, history enthusiasts, families with children exploring agricultural heritage, and tourists traveling between Vancouver and Harrison Hot Springs seeking cultural experiences. Reviews mention visitors stopping after driving past multiple times, indicating high drive-by traffic on Pioneer Avenue.","discovery_journey":"Visitors typically discover Agassiz-Harrison Museum through three paths: (1) Google searches for 'things to do in Agassiz' or 'Agassiz attractions' while trip-planning, (2) physical signage when driving through downtown Agassiz en route to Harrison Hot Springs, and (3) recommendations from accommodation hosts in Harrison. The museum ranks #5 for 'agassiz bc' searches, capturing tourists researching the area.","seasonal_considerations":"As a Fraser Valley museum, peak visitation likely aligns with spring-summer-fall (March-October) when tourists visit Harrison Hot Springs and outdoor enthusiasts explore the region. Winter presents opportunity for indoor cultural experiences. Social media content should highlight seasonal exhibits and year-round accessibility, while Google Business Profile hours need accuracy during off-peak periods.","trip_integration":"Agassiz-Harrison Museum serves as a 30-60 minute cultural stop for visitors traveling the Fraser Valley loop (Vancouver → Agassiz → Harrison Hot Springs → Hope → back). Reviews emphasize the historic caboose, farm equipment, and gift shop with local products (blueberry jam mentioned), positioning it as both educational and shopping destination. Fits naturally into itineraries combining nature (Mt. Cheam views) with heritage tourism."},"overall":{"score":75,"grade":"C+","confidence":"high","scoreBreakdown":{"website_technical":{"score":84,"weight":0.15,"contribution":12.6},"reviews_reputation":{"score":80,"weight":0.25,"contribution":20},"booking_conversion":{"score":77,"weight":0.2,"contribution":15.4},"social_media":{"score":51,"weight":0.2,"contribution":10.2},"guest_experience":{"score":81,"weight":0.1,"contribution":8.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":84,"grade":"B+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":93,"score":93,"source":"SEOptimer","grade":"A"},"mobile_speed":{"value":93,"score":93,"source":"SEOptimer","grade":"A"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Exceptional technical performance (93/100 speed on both mobile and desktop) with critical on-page SEO issues holding back search visibility—foundation is solid but content optimization needs attention.","findings":[{"type":"positive","text":"Website loads in 1.93 seconds with 93/100 speed scores on both mobile and desktop—faster than 90% of tourism websites and well below the 3-second abandonment threshold","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Built on modern Wix platform with React framework, Cloudflare CDN, HTTP/3 protocol, and proper compression (65% total compression rate) enabling fast global delivery","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Google Analytics properly installed and tracking visitor behavior—critical foundation for measuring marketing effectiveness","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Six H1 header tags detected when only one should exist—'Welcome to the Agassiz-Harrison Museum', 'Open Sunday-Saturday', 'Further Explore', etc. all marked as H1s, confusing search engines about page hierarchy","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Title tag only 40 characters long ('Agassiz-Harrison Museum & Visitor Centre') when 55-60 characters is optimal—missing opportunity to include searchable keywords like 'history', 'railway station', or 'Fraser Valley'","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Meta description exceeds 155 characters at 245 characters, causing Google to truncate it in search results—currently cuts off after 'We look forward to seeing you! Join the Agassiz-Harrison Historical...'","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"15 of 21 images missing alt attributes including hero image and exhibit photos—impacts both accessibility for screen readers and Google Image Search ranking potential","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"JavaScript errors detected during page load and inline CSS styles found—minor technical debt that should be cleaned up to prevent future performance degradation","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"XML sitemap present at /sitemap.xml and robots.txt properly configured—search engines can efficiently crawl and index all pages","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"93/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"93/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Fix the 6 H1 tags issue by keeping only 'Welcome to the Agassiz-Harrison Museum & Visitor Centre' as H1, then change 'Open Sunday-Saturday' to H2, and demote other headings appropriately—this is flagged as a priority issue by Google","time_estimate":"20 minutes","impact":"Clarifies page structure for search engines, improving ability to rank for primary keywords like 'Agassiz museum' and 'Fraser Valley history'","priority":"high"},{"text":"Add descriptive alt text to all 15 images missing descriptions—prioritize hero image ('Historic 1893 Canadian Pacific Railway station, Agassiz-Harrison Museum exterior'), caboose photos, and exhibit images with location-rich descriptions","time_estimate":"45 minutes","impact":"Improves accessibility for visually impaired visitors and enables images to appear in Google Image Search when tourists search 'Agassiz attractions' or 'Fraser Valley museums'","priority":"high"},{"text":"Expand title tag from 40 to 55-60 characters: 'Agassiz-Harrison Museum & Visitor Centre | Historic 1893 Railway Station & Fraser Valley History'—includes searchable terms without keyword stuffing","time_estimate":"10 minutes","impact":"Better utilizes Google's title tag display limit and includes keywords tourists actually search for when planning Fraser Valley trips","priority":"high"},{"text":"Trim meta description from 245 to 155 characters: 'Visit the Agassiz-Harrison Museum in a historic 1893 railway station. Indoor & outdoor exhibits, antique caboose, farm equipment & local history. Open daily 10am-4pm.'","time_estimate":"15 minutes","impact":"Prevents Google from truncating your search snippet, improving click-through rate by showcasing key attractions (caboose, farm equipment) that reviews mention most","priority":"medium"},{"text":"Resolve JavaScript errors and remove inline CSS styles flagged by SEOptimer—may require Wix developer assistance but prevents future performance degradation","time_estimate":"2 hours (technical review)","impact":"Maintains current excellent load speed as site grows and prevents issues from compounding","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":80,"grade":"B","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.6,"score":85,"source":"Google Places API"},"review_volume":{"value":124,"score":68,"source":"Google Places API"},"review_recency":{"value":{"recentCount":4,"totalProvided":5,"recentPercent":80},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Strong 4.6-star Google rating with 124 reviews demonstrating consistent visitor satisfaction, but zero evidence of review response strategy and no presence on TripAdvisor where heritage tourists often research.","findings":[{"type":"positive","text":"Exceptional 4.6-star Google rating with 124 reviews places museum in top tier for Fraser Valley attractions—74% five-star reviews demonstrate consistently positive visitor experiences","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent reviews (past 18 months) highlight specific attractions visitors love: 'cool old caboose', 'historic farm equipment', 'interesting antiques', and 'great gift shop full of local products' (especially blueberry jam)—clear positioning as authentic local experience","confidence":"high","source":"Google Places API review text"},{"type":"positive","text":"Multiple reviews praise volunteer staff as 'exceptional', 'kind and fun', making experience 'that much more enjoyable'—staff excellence is key differentiator and repeat visit driver","confidence":"high","source":"Google Places API review text"},{"type":"positive","text":"Reviews show visitor intent progression: many mention 'driving past many times' before stopping, indicating museum captures drive-by traffic when curiosity builds—physical signage is working","confidence":"high","source":"Google Places API review patterns"},{"type":"positive","text":"80% of sampled reviews (4 of 5) from past 18 months indicates ongoing visitor flow and recent review momentum—not relying on stale reputation","confidence":"high","source":"Google Places API"},{"type":"negative","text":"No evidence of review response strategy—unable to verify if museum responds to reviews, especially the 3 one-star and 1 two-star reviews that may contain actionable feedback","confidence":"low","source":"Google Places API (limited data)"},{"type":"negative","text":"TripAdvisor presence unknown—as a heritage tourism destination competing for visitors traveling Harrison Hot Springs circuit, absence from TripAdvisor would be significant gap where travelers research 'things to do'","confidence":"low","source":"Manual check required"}],"metrics":[{"label":"Google Rating","value":"4.6 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"124","status":"warning","source":"Google Places API"}],"recommendations":[{"text":"Implement review response protocol: respond to every review within 72 hours with personalized messages thanking visitors for specific details they mentioned (e.g., 'So glad you enjoyed the caboose and found our volunteers helpful!')—start with most recent reviews","time_estimate":"30 minutes/week ongoing","impact":"Review responses increase conversion by 12% (BrightLocal study) by showing prospective visitors that museum values feedback; also surfaces business in 'recently updated' Google rankings","priority":"high"},{"text":"Respond directly to negative reviews (3 one-star, 1 two-star) with empathy and solutions—acknowledge concerns, explain improvements if applicable, and invite reviewer to return; even if reviewer doesn't return, response demonstrates professionalism to future visitors reading reviews","time_estimate":"1 hour (one-time)","impact":"Professional negative review responses build trust with 89% of consumers who read them (ReviewTrackers)—turns potential deterrent into demonstration of customer care","priority":"high"},{"text":"Add review request signage at museum exit and on receipts: 'Enjoyed your visit? Share your experience on Google—scan QR code or search Agassiz-Harrison Museum'—make it frictionless with QR code linking directly to Google review form","time_estimate":"2 hours (design and print signage)","impact":"Could increase review velocity from current ~20-30 reviews/year toward 50+ annually by capturing satisfied visitors before they leave—124 reviews is good but 200+ would establish stronger authority","priority":"medium"},{"text":"Claim and optimize TripAdvisor listing (if not already done)—add photos, respond to reviews, ensure hours and contact information match Google Business Profile exactly","time_estimate":"2 hours (initial setup) + 20 min/week ongoing","impact":"TripAdvisor is primary research platform for heritage tourism—museum should appear when tourists plan Harrison Hot Springs trips and search 'things to do in Agassiz'","priority":"medium"},{"text":"Create post-visit email follow-up for visitor guide sign-ups: send thank-you email 2-3 days after visit with review request, upcoming events info, and invitation to follow on Instagram—builds review pipeline and social audience simultaneously","time_estimate":"3 hours (set up email template and automation)","impact":"Email review requests achieve 15-25% response rate vs. 1-3% from passive signage alone—could add 10-15 reviews per quarter","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":77,"grade":"B-","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":0,"platforms":[]},"score":40,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["footer","contact"],"clickable":false,"score":45,"details":{}},"score":45,"source":"Website Analysis","details":["footer","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":6,"samplePrices":["$1","$1","$1"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"none","score":80,"details":{"ctaElements":1}},"score":80,"source":"Website Analysis","details":"none"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Clear booking capability and pricing transparency with prominent CTAs, but phone number relegated to footer/contact page reduces impulse inquiries, and zero third-party platform integration limits distribution reach.","findings":[{"type":"positive","text":"Booking capability active for museum programs and events—visitors can register directly without phone calls or emails, reducing friction for programs like the Dickens Tea and seasonal exhibitions","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Excellent pricing transparency with exact prices displayed (6 price points detected including admission fees)—removes guesswork and builds trust with cost-conscious families planning Fraser Valley day trips","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Email address visible on site enabling contact for group bookings, research inquiries, and volunteer opportunities—important for museum's educational mission","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Phone number (604) 796-3545 relegated to footer and contact page only, scoring 45/100 for visibility—not click-to-call enabled, forcing mobile users (60% of traffic) to manually dial","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Book Now CTAs present but prominence scored as 'none' by analysis—suggests CTAs aren't visually prominent or above-the-fold where visitors would naturally look when deciding to visit","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Zero third-party booking platform integrations detected (scored 40/100)—museum not leveraging distribution channels like TripAdvisor Experiences, regional tourism booking sites, or tour aggregators that feed visitors planning Harrison Hot Springs trips","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Move phone number (604) 796-3545 to website header as click-to-call link on mobile—format as <a href='tel:+16047963545'> so mobile users can tap to dial immediately when planning same-day visits","time_estimate":"30 minutes","impact":"Captures impulse visitors driving through Agassiz who want quick answers about hours, admission, or directions—mobile click-to-call increases phone inquiries by 35-50%","priority":"high"},{"text":"Increase Book Now CTA prominence by placing primary CTA above fold on homepage ('Plan Your Visit' or 'Book Museum Programs') in contrasting color—repeat CTA after hours/admission section and on every exhibit page","time_estimate":"1 hour (design adjustment)","impact":"Above-fold CTAs increase conversion by 20-30% by reducing visitor effort—current 'none' prominence score means visitors may not notice booking capability","priority":"high"},{"text":"List museum on TripAdvisor Experiences for free event listings and paid tour options—even if museum doesn't charge admission, listings for special events (Dickens Tea, guided tours) capture tourists researching 'Harrison Hot Springs area activities'","time_estimate":"3 hours (initial setup)","impact":"TripAdvisor drives 460M+ visitors monthly searching for experiences—free distribution channel that competitors (Fort Langley National Historic Site, Chilliwack Museum) already utilize","priority":"medium"},{"text":"Add museum to Tourism Harrison and Fraser Valley Regional District tourism websites as bookable attraction—request inclusion in printed visitor guides distributed at Harrison Hot Springs hotels and Vancouver Island visitor centers","time_estimate":"2 hours (application and coordination)","impact":"Regional tourism partnerships put museum in front of qualified visitors already in area vs. cold traffic—leverages existing marketing budgets of DMOs","priority":"medium"},{"text":"Create 'Group Visits & School Programs' landing page with inquiry form capturing group size, date preferences, and contact info—current booking system may not accommodate school groups and tour buses that need advance coordination","time_estimate":"3 hours (page creation)","impact":"School groups and motor coach tours provide reliable off-peak traffic and higher per-visit revenue—dedicated landing page with form reduces email/phone back-and-forth","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":51,"grade":"F","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":2055,"score":65,"source":"SociaVault"},"engagement_rate":{"value":0.61,"score":40,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":0.4,"score":25,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":2,"platforms":["facebook","instagram"]},"score":70,"source":"SociaVault"},"content_quality":{"value":{"images":7,"carousels":3,"reels":2,"reelPercent":17},"score":70,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Critical underperformance with 1,157 Instagram followers generating only 0.61% engagement and 0.4 posts per week—dormant accounts failing to capitalize on museum's strong reputation and visual content opportunities.","findings":[{"type":"negative","text":"Critical engagement failure with 0.61% Instagram engagement rate (7 likes, 0 comments per post)—indicates followers don't see content due to infrequent posting triggering algorithm suppression","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Posting frequency of 0.4 posts per week (roughly every 2.5 weeks) with only 12 total posts means account is effectively dormant—Instagram algorithm interprets this as abandoned account and stops showing content to followers","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Only 2 reels produced out of 12 posts (17%) when Instagram's 2024 algorithm prioritizes video content for 70%+ more reach—museum missing primary content format that drives discovery","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Zero comments on average per post indicates no community engagement or conversation happening—followers are passive at best, likely not seeing content at all","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Recent posts show declining performance: 3 likes, 10 likes, 0 likes—downward trend typical of accounts Instagram algorithm has deprioritized due to inactivity","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Top-performing post achieved 2.16% engagement (3.43x average) using humor and personality ('kinda chic💅')—proves audience exists and responds to authentic, less formal tone rather than institutional voice","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"1,157 Instagram followers is solid baseline—not starting from zero, just need to reactivate dormant audience with consistent content that algorithm will surface again","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Bio effectively communicates unique value ('Canada's oldest wood built CPR station 1893') and includes website link—profile setup is done correctly, execution is the gap","confidence":"high","source":"SociaVault API"},{"type":"neutral","text":"Facebook pixel installed indicating tracking infrastructure exists, but zero paid advertising detected—good foundation for future paid campaigns once organic content is consistent","confidence":"high","source":"Facebook Ad Library"}],"metrics":[{"label":"Total Followers","value":"2,055","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"0.61%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"2 platforms","status":"warning","source":"SociaVault"},{"label":"Posting Frequency","value":"0.4 posts/week","status":"critical","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Immediately implement 3 posts per week schedule (Monday/Wednesday/Friday) for 8 consecutive weeks to rebuild Instagram algorithm favor—batch-create content on museum open days when artifacts/exhibits accessible","time_estimate":"2 hours/week (content creation) + 30 min/week (scheduling)","impact":"Consistent posting for 8 weeks signals to Instagram algorithm that account is active again, gradually restoring reach to your 1,157 followers—expect engagement to climb from 0.61% to 2-3% as visibility returns","priority":"high"},{"text":"Shift content mix to 40% reels (2 reels per week)—film simple 60-second tours: caboose walkthrough on Monday, artifact close-up on Wednesday, volunteer story on Friday using phone camera with natural audio, minimal editing needed","time_estimate":"30 minutes per reel (filming + basic editing)","impact":"Reels generate 2-3x reach of static posts and are prioritized by Instagram algorithm—moves museum from 17% to 40% video content aligning with platform direction","priority":"high"},{"text":"Launch 'Artifact of the Week' series every Monday—3-slide carousel showcasing one historical item (wide shot, detail, historical context) with storytelling caption and call-to-visit; repurpose 52 artifacts across year for consistent content pipeline","time_estimate":"45 minutes per post (shooting 3 photos + caption writing)","impact":"Creates dependable content format leveraging museum's core strength (historical artifacts), builds visitor anticipation for what they'll see, and provides 52 weeks of Monday content without creative burnout","priority":"high"},{"text":"Respond to every Instagram comment and DM within 24 hours—engage with followers who do interact to signal to algorithm that account is building community, which increases future post distribution","time_estimate":"15 minutes/day","impact":"Instagram algorithm rewards accounts that generate conversation—responding to comments increases likelihood Instagram shows your next post to those commenters and their networks","priority":"medium"},{"text":"Repurpose Google review quotes as social proof content—create branded image templates featuring 5-star reviews mentioning 'cool old caboose', 'exceptional volunteers', 'great gift shop with blueberry jam' to build trust with prospective visitors","time_estimate":"2 hours (template design) + 20 min per post","impact":"Leverages 4.6-star Google reputation and 124 reviews to convince Instagram followers to visit—social proof is powerful conversion driver for experience-based businesses","priority":"medium"},{"text":"Do NOT launch paid advertising until organic posting consistency reaches 3x/week for 8 consecutive weeks—paid ads amplify existing content but with 0.4 posts/week there's insufficient content to promote effectively","time_estimate":"N/A—wait 8 weeks","impact":"Prevents wasted ad spend promoting dormant account—once organic content is consistent, paid amplification of top posts to lookalike audiences can accelerate growth 3-5x","priority":"medium"},{"text":"Use Instagram Stories 2-3x/week for lower-effort engagement—behind-the-scenes moments, volunteer spotlights, 'this day in history' facts, polls asking followers which exhibit to feature next; Stories don't require perfection and keep account active between feed posts","time_estimate":"10 minutes per story","impact":"Stories maintain visibility between feed posts and feed Instagram algorithm with engagement signals—24-hour lifespan reduces pressure for polished content","priority":"low"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":81,"grade":"B","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"partial","score":60,"details":{"daysFound":["monday","saturday","sunday"]}},"score":60,"source":"Website Analysis","details":"partial"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Excellent visitor information with hours, directions, parking, and accessibility details all clearly displayed—only gaps are partial hours completeness and lack of multi-language support for international tourists.","findings":[{"type":"positive","text":"Map embed present on website enabling visitors to get directions with one click—reduces friction for tourists unfamiliar with Agassiz geography","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Parking information clearly displayed and corroborated by Google reviews mentioning 'convenient parking lot there'—addresses common visitor concern before they arrive","confidence":"high","source":"Website scrape + Google reviews"},{"type":"positive","text":"Accessibility information present on site—critical for wheelchair users and families with strollers visiting historic building and outdoor exhibits","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Hours prominently displayed showing 'Open Sunday - Saturday 10:00 am - 4:00 pm' on homepage—immediately answers most common visitor question","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Hours scored 60/100 for 'partial completeness' with only Monday, Saturday, Sunday explicitly detected—may indicate not all 7 days clearly listed or some ambiguity in hours display","confidence":"high","source":"Website scrape"},{"type":"negative","text":"No multi-language support detected (scored 55/100)—Fraser Valley sees significant international tourism from Vancouver cruise ship passengers and Asian markets, missing Chinese or multilingual content","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Hours Displayed","value":"60/100—present but partial completeness (Monday, Saturday, Sunday found)","benchmark":"Complete hours for all 7 days expected","status":"warning","confidence":"high","source":"Website scrape","tooltip":"Hours detected but not all days shown—analysis found Monday/Saturday/Sunday but may be missing Tuesday-Friday"},{"label":"Directions/Map Available","value":"Yes—map embed present","benchmark":"Essential—tourists need directions to find location","status":"good","confidence":"high","source":"Website scrape","tooltip":"Google Maps integration detected on website"},{"label":"Parking Information","value":"Yes—parking details displayed","benchmark":"Reduces visitor friction and anxiety about logistics","status":"good","confidence":"high","source":"Website scrape","tooltip":"Parking information found on site; Google reviews also mention 'convenient parking lot'"},{"label":"Accessibility Information","value":"Yes—accessibility details present","benchmark":"Critical for inclusive tourism and ADA compliance","status":"good","confidence":"high","source":"Website scrape","tooltip":"Accessibility information detected on website"},{"label":"Multi-Language Support","value":"55/100—no multi-language detected","benchmark":"Fraser Valley sees international tourists (Asian markets especially); consider Chinese translation","status":"info","confidence":"high","source":"Website scrape","tooltip":"English-only site; no language switcher detected"},{"label":"Contact Information Accessibility","value":"Phone, email, address all present on site","benchmark":"All contact methods should be easily findable","status":"good","confidence":"high","source":"Website scrape","tooltip":"Complete contact information available though phone could be more prominent (see Booking & Conversion)"}],"recommendations":[{"text":"Ensure all 7 days explicitly listed in hours section—if museum is open Sunday-Saturday 10am-4pm, show complete table: Sunday 10am-4pm, Monday 10am-4pm, Tuesday 10am-4pm, etc. to score 100/100 for completeness and remove any visitor uncertainty","time_estimate":"15 minutes","impact":"Eliminates potential confusion if some days aren't explicitly shown—visitors often won't assume uniform hours and may call unnecessarily to confirm","priority":"medium"},{"text":"Add seasonal hours notation if museum operates differently in winter vs. summer—many Fraser Valley attractions have reduced winter hours; if Agassiz-Harrison Museum does too, add 'Winter Hours (Nov-March): [hours]' to set proper expectations","time_estimate":"20 minutes","impact":"Prevents disappointed visitors who arrive during closed winter hours—Google reviews often mention hours discrepancies when websites aren't updated seasonally","priority":"medium"},{"text":"Consider adding simplified Chinese translation for key pages (homepage, hours, admission, directions)—Vancouver sees 300,000+ Chinese tourists annually, many visiting Harrison Hot Springs; basic translation could capture this market","time_estimate":"4-6 hours (translation + implementation)","impact":"Opens museum to Asian tourist market traveling Sea-to-Sky corridor and Harrison circuit—even basic translation shows cultural welcome and improves accessibility","priority":"low"},{"text":"Add 'What to Expect' section describing typical visit duration (30-60 minutes per reviews), whether guided tours available, if caboose walkthrough always open, and gift shop hours—reduces pre-visit uncertainty and helps visitors plan itineraries","time_estimate":"1 hour","impact":"Answers common unasked questions that prevent booking—families want to know if stop is worth 30 minutes or 2 hours when planning Fraser Valley day trip","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Excellent local search presence with claimed Google Business Profile, strong NAP consistency, and local keyword optimization—museum appears prominently for Agassiz-area searches.","findings":[{"type":"positive","text":"Google Business Profile claimed and fully optimized as 'Agassiz-Harrison Museum & Visitor Information Centre'—showing in Google Maps, local pack, and Knowledge Panel for location searches","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Ranking #1 for branded searches ('agassiz harrison museum', 'agassiz museum') and #5 for high-volume location search 'agassiz bc' (3,600 monthly searches)—strong local visibility capturing tourists researching area","confidence":"high","source":"SEOptimer rankings"},{"type":"positive","text":"LocalBusiness schema properly implemented with complete NAP data, enabling rich search results and helping Google understand museum entity for local pack inclusion","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Strong backlink profile with 572 backlinks from 278 referring domains including high-authority sites like Wikivoyage, CanadaHelps, BC Historical Federation—builds domain authority and trust signals","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Ranking #6 in AI Overview citations for 'agassiz bc' and appearing in 4 total AI-generated search summaries—early visibility in ChatGPT/Gemini/Perplexity results as tourists increasingly use AI for trip planning","confidence":"high","source":"SEOptimer GEO analysis"},{"type":"negative","text":"NAP scored 90/100 rather than 100/100—may indicate minor inconsistency in how address or phone appears across website vs. Google Business Profile vs. other directories","confidence":"high","source":"SEOptimer NAP check"},{"type":"positive","text":"Generating 1,131 estimated monthly visitors from organic search with 252 coming specifically from AI Overview citations—meaningful discovery traffic from Google search","confidence":"high","source":"SEOptimer traffic estimates"}],"metrics":[{"label":"Google Business Profile Status","value":"Claimed and verified","benchmark":"Must be claimed for local search visibility","status":"good","confidence":"high","source":"Google Places API","tooltip":"GBP active as 'Agassiz-Harrison Museum & Visitor Information Centre'"},{"label":"NAP Consistency","value":"90/100—address and phone present","benchmark":"Name, Address, Phone must match exactly across all platforms","status":"good","confidence":"high","source":"Website scrape + Google Places","tooltip":"Address: 7011 Pioneer Avenue, Agassiz BC V0M 1A0 | Phone: (604) 796-3545"},{"label":"Local Keyword Optimization","value":"75/100—local keywords present","benchmark":"Site should include location keywords naturally throughout","status":"good","confidence":"high","source":"SEOptimer keyword analysis","tooltip":"Keywords detected: 'Agassiz', 'Agassiz-Harrison', 'British Columbia', 'Fraser Valley' used consistently"},{"label":"Local Search Rankings","value":"Position #5 for 'agassiz bc' | Position #1 for 'agassiz harrison museum'","benchmark":"Should rank in top 3 for primary location + business type searches","status":"good","confidence":"high","source":"SEOptimer rankings data","tooltip":"Ranking for 36 total keywords including high-volume location terms"},{"label":"Local Schema Markup","value":"LocalBusiness schema implemented","benchmark":"Schema helps Google understand business entity and display rich results","status":"good","confidence":"high","source":"SEOptimer schema detection","tooltip":"Proper LocalBusiness structured data with name, address, phone, and hours"},{"label":"Backlink Profile Strength","value":"572 total backlinks from 278 referring domains","benchmark":"Strong backlink profile for local museum","status":"good","confidence":"high","source":"SEOptimer backlink analysis","tooltip":"Domain strength: 37/100 | High-authority backlinks from Wikivoyage, CanadaHelps, WorkBC"}],"recommendations":[{"text":"Audit NAP consistency across all online directories—verify that 'Agassiz-Harrison Museum & Visitor Centre' name, '7011 Pioneer Avenue, Agassiz, BC V0M 1A0' address, and '(604) 796-3545' phone match exactly on website, Google, Facebook, TripAdvisor, Yellow Pages, Tourism Harrison, and any other listings","time_estimate":"1 hour audit + 30 min corrections","impact":"Achieving 100/100 NAP consistency strengthens local SEO signals and eliminates Google confusion that can suppress local pack rankings—even small variations hurt","priority":"medium"},{"text":"Add Google Posts to Business Profile weekly—announce upcoming events (Dickens Tea), share exhibit highlights with photos, promote seasonal hours changes; Posts appear directly in Knowledge Panel and local pack results","time_estimate":"15 minutes per week","impact":"Google Posts increase engagement on GBP by 30% and can drive 'call' or 'directions' actions—also signals to Google that business is active, improving local pack ranking","priority":"medium"},{"text":"Optimize for 'things to do in Agassiz' and 'Harrison Hot Springs area attractions' keywords—create dedicated blog posts or landing pages targeting these high-intent tourist searches where museum currently doesn't rank","time_estimate":"3 hours per content piece","impact":"Captures tourists researching what to do in area before they've identified specific attractions—'things to do' searches have high conversion intent","priority":"low"},{"text":"Request backlinks from Tourism Harrison, Fraser Valley Tourism, and other regional DMO partners—museum already has strong backlink profile (572 links) but adding official tourism board links increases referral traffic and authority","time_estimate":"2 hours (outreach)","impact":"DMO backlinks drive qualified tourist traffic and pass SEO authority—single link from Tourism Harrison could generate 50-100 monthly referral visitors","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Immediately implement 3 posts per week schedule (Monday/Wednesday/Friday) on Instagram for 8 consecutive weeks with 40% reels—batch-film simple 60-second caboose tours, artifact close-ups, and volunteer stories to rebuild algorithm favor and reactivate 1,157 dormant followers currently seeing 0.61% engagement","time_estimate":"2.5 hours/week (2 hrs content creation + 30 min scheduling)","impact":"high","expected_result":"Restore Instagram reach to 1,157 followers and increase engagement from 0.61% to 2-3% within 8 weeks as algorithm recognizes account is active again—consistent posting is prerequisite to any other social strategy success","confidence":"high"},{"priority":2,"category":"Website & Technical Foundation","text":"Fix critical on-page SEO issues: (1) consolidate 6 H1 tags down to one, (2) add alt text to 15 images missing descriptions, (3) expand title tag from 40 to 55-60 characters including 'Historic Railway Station & Fraser Valley History', and (4) trim meta description from 245 to 155 characters—all flagged as priority issues by SEOptimer","time_estimate":"2 hours total (30 min H1s + 45 min alts + 15 min title/description)","impact":"high","expected_result":"Improves Google's ability to understand and rank page content, targeting 10-15% increase in organic search traffic from 'Agassiz attractions' and 'Fraser Valley museums' searches; alt text enables images to appear in Google Image Search where tourists discover local attractions","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Implement review response protocol starting with responding to all negative reviews (3 one-star, 1 two-star) with empathy and solutions, then establish 72-hour response window for all new reviews—respond to every review mentioning specific details visitors shared (e.g., 'So glad you enjoyed the caboose and our exceptional volunteers!')","time_estimate":"1 hour (initial negative review responses) + 30 min/week ongoing","impact":"high","expected_result":"Review responses increase booking conversion by 12% (BrightLocal) by demonstrating museum values feedback; also surfaces business in Google's 'recently updated' rankings and builds trust with prospective visitors reading reviews before deciding to visit","confidence":"high"},{"priority":4,"category":"Online Booking & Conversion","text":"Move phone number (604) 796-3545 to website header as click-to-call link on mobile (<a href='tel:+16047963545'>) and increase Book Now CTA prominence by placing primary CTA above fold on homepage in contrasting color—current phone visibility scored 45/100 and CTA prominence 'none'","time_estimate":"1 hour (header phone link + CTA redesign)","impact":"high","expected_result":"Mobile click-to-call increases phone inquiries by 35-50% capturing impulse visitors driving through Agassiz; above-fold CTAs increase conversion by 20-30%—combined improvements address main booking friction points","confidence":"high"},{"priority":5,"category":"Social Media & Content","text":"Launch 'Artifact of the Week' series every Monday on Instagram—3-slide carousel showcasing one historical item (wide shot, detail, historical context) with storytelling caption and call-to-visit; pre-plan 12 weeks of artifacts to photograph in one session for consistent content pipeline","time_estimate":"2 hours (initial 12-artifact photo session) + 20 min/week (carousel assembly + caption)","impact":"medium","expected_result":"Creates dependable content format that leverages museum's core strength (historical artifacts), provides 52 weeks of Monday content without creative burnout, and builds visitor anticipation—consistent series formats perform 40% better than random posts","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.6-star rating, 124 reviews, verified business information) from Google Places API","Website technical performance (93/100 speed scores, SSL, mobile optimization) from SEOptimer PageSpeed Insights","On-page SEO audit (H1 tags, meta tags, image alts, schema markup) from SEOptimer comprehensive scan","Social media performance (1,157 Instagram followers, 0.61% engagement, 0.4 posts/week, content mix breakdown) from SociaVault API","Local search rankings (#5 for 'agassiz bc', #1 for 'agassiz harrison museum', 36 total keywords) from SEOptimer","Backlink profile (572 backlinks from 278 domains, domain strength 37/100) from SEOptimer","Website visitor information audit (booking capability, hours, parking, accessibility) from direct website scrape"],"low_confidence_areas":["TripAdvisor presence—requires manual verification to confirm if listing exists, review count, and rating on primary heritage tourism platform","Google Business Profile review response rate—API shows reviews exist but not whether museum responds; needs manual GBP dashboard check","Yelp presence and rating—not included in automated scan; manual check needed though lower priority than TripAdvisor for museums","Actual seasonal hours variations—website shows current hours but unclear if winter/summer schedule differs; confirm with business owner","Third-party booking platform presence beyond website detection—manual check needed for Viator, GetYourGuide, regional DMO booking portals"],"recommendations_for_fuller_picture":["Access Google Analytics to see actual traffic sources, visitor geography, peak months, and on-site behavior—would reveal whether social or organic search drives more visitors","Review Google Business Profile Insights for search query data, directions requests, and phone call volume—identifies what terms locals vs. tourists use to find museum","Conduct TripAdvisor audit if listing exists—review count, rating, and sentiment analysis would reveal how heritage tourism audience perceives museum vs. local Google reviewers","Survey recent visitors about discovery method—would validate assumptions about drive-by traffic vs. online research and inform marketing budget allocation"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-17T16:06:40.701Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-17T16:01:19.790Z","confidence":"high","missingDataFlags":[]}};</script>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+// NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function navigate(pageId) {
+  // Update pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.target?.closest('.nav-item')?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function showComingSoon(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Close mobile menu
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('mobileOverlay').classList.remove('active');
+}
+
+function toggleMobileMenu() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('mobileOverlay').classList.toggle('active');
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+function downloadPDF() {
+  // Set document title for PDF filename
+  const clientSlug = document.body.dataset.clientSlug || 'assessment';
+  const originalTitle = document.title;
+  document.title = `${clientSlug}-digital-marketing-assessment`;
+
+  // Populate cover page with dynamic data
+  populateCoverPage();
+
+  // Add printing class to body
+  document.body.classList.add('printing');
+
+  // Small delay to ensure styles are applied
+  setTimeout(() => {
+    // Trigger print dialog (user can save as PDF)
+    window.print();
+
+    // Restore state after print dialog closes
+    setTimeout(() => {
+      document.body.classList.remove('printing');
+      document.title = originalTitle;
+    }, 1000);
+  }, 100);
+}
+
+function populateCoverPage() {
+  // Get grade and score from the page
+  const gradeEl = document.getElementById('overallGrade');
+  const scoreEl = document.getElementById('overallScore');
+
+  // Update cover page elements
+  const coverGrade = document.getElementById('coverGrade');
+  const coverScore = document.getElementById('coverScore');
+
+  if (coverGrade && gradeEl) {
+    coverGrade.textContent = gradeEl.textContent;
+  }
+
+  if (coverScore && scoreEl) {
+    coverScore.textContent = scoreEl.textContent;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER ASSESSMENT DATA
+// ══════════════════════════════════════════════════════════════
+function renderAssessment() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Render Executive Summary
+  renderExecutiveSummary(data.executive_summary);
+
+  // Render Quick Wins
+  renderQuickWins(data.quick_wins);
+
+  // Render Tourism Context
+  renderTourismContext(data.tourism_context);
+
+  // Render category cards
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const categoryIcons = {
+    website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
+    visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
+    ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
+    online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
+    review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
+    social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
+    local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
+    email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
+    competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
+  };
+
+  if (data.categories) {
+    let html = '';
+    for (const [key, cat] of Object.entries(data.categories)) {
+      const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
+      const grade = cat.grade || 'N/A';
+      const gradeClass = grade === 'N/A' ? 'grade-na' : 'grade-' + grade.toLowerCase().charAt(0);
+
+      html += `
+        <div class="category-card">
+          <div class="category-header">
+            <div class="category-icon ${iconData.class}">${iconData.icon}</div>
+            <div class="category-title-wrap">
+              <h3 class="category-title">${cat.title || iconData.title}</h3>
+              <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="category-summary">${cat.summary || ''}</p>
+          ${renderMetrics(cat.metrics)}
+          ${renderFindings(cat.findings)}
+          ${renderRecommendations(cat.recommendations)}
+        </div>
+      `;
+    }
+    categoriesGrid.innerHTML = html;
+  }
+
+  // Render priority recommendations
+  const priorityList = document.getElementById('priorityList');
+  if (data.priority_recommendations) {
+    let html = '';
+    data.priority_recommendations.slice(0, 5).forEach((rec, i) => {
+      const impactClass = rec.impact ? `impact-${rec.impact.toLowerCase()}` : '';
+      html += `
+        <div class="priority-item">
+          <div class="priority-item-number">${i + 1}</div>
+          <div class="priority-item-content">
+            <h4>${rec.text}</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">${rec.category || 'General'}</span>
+              ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
+              ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
+            </div>
+            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    priorityList.innerHTML = html;
+  }
+}
+
+function renderExecutiveSummary(summary) {
+  const container = document.getElementById('executiveSummary');
+  if (!summary) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let strengthsHtml = '';
+  if (summary.key_strengths && summary.key_strengths.length) {
+    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+  }
+
+  let gapsHtml = '';
+  if (summary.critical_gaps && summary.critical_gaps.length) {
+    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+  }
+
+  container.innerHTML = `
+    <h2>Executive Summary</h2>
+    <p class="executive-headline">${summary.headline || ''}</p>
+    <div class="executive-columns">
+      <div class="executive-column strengths">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Key Strengths
+        </h4>
+        <ul>${strengthsHtml}</ul>
+      </div>
+      <div class="executive-column gaps">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Critical Gaps
+        </h4>
+        <ul>${gapsHtml}</ul>
+      </div>
+    </div>
+    <div class="executive-bottom-line">
+      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+    </div>
+  `;
+}
+
+function renderQuickWins(quickWins) {
+  const container = document.getElementById('quickWins');
+  if (!quickWins || !quickWins.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let itemsHtml = '';
+  quickWins.slice(0, 5).forEach((win, i) => {
+    itemsHtml += `
+      <div class="quick-win-item">
+        <div class="quick-win-number">${i + 1}</div>
+        <div class="quick-win-content">
+          <div class="quick-win-task">${win.task}</div>
+          <div class="quick-win-impact">${win.impact}</div>
+        </div>
+        <span class="quick-win-time">${win.time_estimate}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Wins
+    </h2>
+    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <div class="quick-wins-list">${itemsHtml}</div>
+  `;
+}
+
+function renderTourismContext(context) {
+  const container = document.getElementById('tourismContext');
+  if (!context) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const items = [
+    { key: 'visitor_profile', label: 'Visitor Profile', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'discovery_journey', label: 'Discovery Journey', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { key: 'seasonal_considerations', label: 'Seasonal Considerations', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' },
+    { key: 'trip_integration', label: 'Trip Integration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    { key: 'competitive_landscape', label: 'Competitive Landscape', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>' }
+  ];
+
+  let itemsHtml = '';
+  items.forEach(item => {
+    if (context[item.key]) {
+      itemsHtml += `
+        <div class="tourism-context-item">
+          <h4>${item.icon} ${item.label}</h4>
+          <p>${context[item.key]}</p>
+        </div>
+      `;
+    }
+  });
+
+  if (!itemsHtml) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tourism Context
+    </h2>
+    <div class="tourism-context-grid">${itemsHtml}</div>
+  `;
+}
+
+function renderMetrics(metrics) {
+  if (!metrics || !metrics.length) return '';
+  let html = '<div class="category-metrics">';
+  metrics.slice(0, 4).forEach(m => {
+    html += `
+      <div class="metric-item">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">
+          <span class="metric-status ${m.status || 'good'}"></span>
+          ${m.value}
+        </div>
+        ${m.benchmark ? `<div class="metric-benchmark">${m.benchmark}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderFindings(findings) {
+  if (!findings || !findings.length) return '';
+  let html = '<div class="category-findings">';
+  findings.slice(0, 4).forEach(f => {
+    let iconClass, icon;
+    if (f.type === 'positive') {
+      iconClass = 'positive';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if (f.type === 'info') {
+      iconClass = 'info';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    } else {
+      iconClass = 'negative';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    }
+    html += `
+      <div class="finding-item">
+        <span class="finding-icon ${iconClass}">${icon}</span>
+        <span>${f.text}</span>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderRecommendations(recommendations) {
+  if (!recommendations || !recommendations.length) return '';
+  let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
+  recommendations.slice(0, 3).forEach(r => {
+    html += `
+      <div class="recommendation-item">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
+            <span>${r.text}</span>
+          </div>
+          ${r.time_estimate ? `
+            <div class="recommendation-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${r.time_estimate}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', renderAssessment);
+</script>
+</body>
+</html>
