@@ -244,7 +244,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     console.log('[REGENERATE] Generating analysis with Claude');
     await updateProgress('Generating assessment with Claude');
-    const assessmentData = await generateAssessmentWithClaude({
+    let assessmentData = await generateAssessmentWithClaude({
       businessName,
       websiteUrl,
       location,
@@ -258,7 +258,13 @@ export async function handler(event, context) {
     await updateProgress('Claude assessment complete');
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 5b. QUALITY ASSURANCE VALIDATION
+    // 5b-1. SANITIZE ASSESSMENT DATA (remove any HTML tags from AI-generated text)
+    // ─────────────────────────────────────────────────────────────────────────
+    assessmentData = sanitizeAssessmentData(assessmentData);
+    console.log('[REGENERATE] Assessment data sanitized (HTML tags stripped)');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 5b-2. QUALITY ASSURANCE VALIDATION
     // ─────────────────────────────────────────────────────────────────────────
     const qaResult = validateAssessmentQuality(assessmentData, {
       googlePlacesData,
@@ -539,6 +545,53 @@ function doDomainsMatch(domain1, domain2) {
   if (domain1 === domain2) return true;
   if (domain1.includes(domain2) || domain2.includes(domain1)) return true;
   return false;
+}
+
+/**
+ * Strip HTML tags from text to prevent XSS and rendering issues
+ * Used to sanitize AI-generated content that may accidentally include HTML
+ */
+function stripHtmlTags(text) {
+  if (typeof text !== 'string') return text;
+  // Remove HTML tags but preserve the text content
+  return text
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/&lt;/g, '<')   // Decode common HTML entities (for display purposes)
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+/**
+ * Recursively sanitize all string values in an object to remove HTML tags
+ * Ensures AI-generated assessment content doesn't contain HTML that could render incorrectly
+ */
+function sanitizeAssessmentData(obj) {
+  if (obj === null || obj === undefined) return obj;
+
+  if (typeof obj === 'string') {
+    return stripHtmlTags(obj);
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeAssessmentData(item));
+  }
+
+  if (typeof obj === 'object') {
+    const sanitized = {};
+    for (const [key, value] of Object.entries(obj)) {
+      // Skip internal metadata fields that shouldn't be sanitized
+      if (key.startsWith('_')) {
+        sanitized[key] = value;
+      } else {
+        sanitized[key] = sanitizeAssessmentData(value);
+      }
+    }
+    return sanitized;
+  }
+
+  return obj;
 }
 
 // Fetch Google Places data directly using a Place ID (most reliable method)
@@ -2123,6 +2176,12 @@ NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
 - Branded hashtag campaigns (e.g., "Launch #VisitOxford campaign") - low engagement, hard to track
 - Influencer partnerships or influencer marketing programs
 - TikTok presence for businesses without existing video content capacity
+
+CONTENT FORMATTING RULES:
+- Do NOT include HTML markup in any text fields (no <a href>, <strong>, <em>, etc.)
+- Do NOT include code examples in recommendations - describe what to do in plain English instead
+  WRONG: "format as <a href='tel:+1234567890'>"
+  RIGHT: "make the phone number clickable using a tel: link"
 
 PAID ADVERTISING GUIDELINES:
 - Installing tracking pixels (Meta, Google) is a good recommendation

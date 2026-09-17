@@ -370,6 +370,12 @@ export async function handler(event, context) {
     await updateProgress('Claude analysis complete');
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 5a. SANITIZE ASSESSMENT DATA (remove any HTML tags from AI-generated text)
+    // ─────────────────────────────────────────────────────────────────────────
+    assessmentData = sanitizeAssessmentData(assessmentData);
+    if (DEBUG) console.log('[STEP 5a] Assessment data sanitized (HTML tags stripped)');
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 5b. QUALITY ASSURANCE VALIDATION
     // ─────────────────────────────────────────────────────────────────────────
     const qaResult = validateAssessmentQuality(assessmentData, {
@@ -785,6 +791,53 @@ function extractDomain(url) {
   } catch {
     return null;
   }
+}
+
+/**
+ * Strip HTML tags from text to prevent XSS and rendering issues
+ * Used to sanitize AI-generated content that may accidentally include HTML
+ */
+function stripHtmlTags(text) {
+  if (typeof text !== 'string') return text;
+  // Remove HTML tags but preserve the text content
+  return text
+    .replace(/<[^>]*>/g, '') // Remove HTML tags
+    .replace(/&lt;/g, '<')   // Decode common HTML entities (for display purposes)
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'");
+}
+
+/**
+ * Recursively sanitize all string values in an object to remove HTML tags
+ * Ensures AI-generated assessment content doesn't contain HTML that could render incorrectly
+ */
+function sanitizeAssessmentData(obj) {
+  if (obj === null || obj === undefined) return obj;
+
+  if (typeof obj === 'string') {
+    return stripHtmlTags(obj);
+  }
+
+  if (Array.isArray(obj)) {
+    return obj.map(item => sanitizeAssessmentData(item));
+  }
+
+  if (typeof obj === 'object') {
+    const sanitized = {};
+    for (const [key, value] of Object.entries(obj)) {
+      // Skip internal metadata fields that shouldn't be sanitized
+      if (key.startsWith('_')) {
+        sanitized[key] = value;
+      } else {
+        sanitized[key] = sanitizeAssessmentData(value);
+      }
+    }
+    return sanitized;
+  }
+
+  return obj;
 }
 
 /**
@@ -3082,6 +3135,10 @@ DO NOT:
 - Recalculate or modify any scores
 - Use different grade thresholds
 - Invent or estimate scores for any category
+- Include HTML markup in any text fields (no <a href>, <strong>, <em>, etc.)
+- Include code examples in recommendations - describe what to do in plain English instead
+  WRONG: "format as <a href='tel:+1234567890'>"
+  RIGHT: "make the phone number clickable using a tel: link"
 
 NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
 - Branded hashtag campaigns (e.g., "Launch #VisitOxford campaign") - low engagement, hard to track
