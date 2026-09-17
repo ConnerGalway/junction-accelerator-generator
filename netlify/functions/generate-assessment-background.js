@@ -1220,22 +1220,141 @@ async function analyzeWebsiteContent(websiteUrl) {
 }
 
 function detectBookingPresence(html, htmlLower) {
-  const bookingKeywords = [
-    // English
-    'book now', 'book online', 'reserve', 'reservation', 'make a booking',
-    'check availability', 'book a table', 'book a room', 'book your',
-    'schedule', 'appointment', 'buy tickets', 'purchase tickets',
-    'add to cart', 'book tour', 'reserve now', 'get tickets',
-    // German
-    'jetzt buchen', 'buchung', 'reservieren', 'reservierung', 'buchen sie',
-    'verfügbarkeit prüfen', 'zimmer buchen', 'termin buchen',
-    // French
-    'réserver', 'réservation', 'réserver maintenant', 'vérifier disponibilité',
-    // Spanish
-    'reservar', 'reserva', 'reservar ahora', 'comprobar disponibilidad'
+  // STRICT BOOKING DETECTION
+  // Only returns true if there's actual booking functionality where a guest can
+  // select dates/times and complete a reservation or purchase on the website.
+  // Contact forms and email inquiries do NOT count as booking capability.
+
+  // First, check for contact-only patterns that indicate NO real booking
+  // If the page has these patterns without actual booking UI, it's not a booking system
+  const contactOnlyPatterns = [
+    'contact us to reserve',
+    'contact us to book',
+    'email us to reserve',
+    'email us to book',
+    'call to reserve',
+    'call to book',
+    'phone to reserve',
+    'phone to book',
+    'enquire about',
+    'inquire about',
+    'request a reservation',
+    'reservation request',
+    'booking request',
+    'reservation inquiry',
+    'booking inquiry',
+    'send us a message',
+    'get in touch'
   ];
 
-  return bookingKeywords.some(kw => htmlLower.includes(kw));
+  const hasContactOnlyLanguage = contactOnlyPatterns.some(p => htmlLower.includes(p));
+
+  // Check for actual booking UI elements that indicate real booking capability
+  const bookingUIPatterns = [
+    // Date selection inputs
+    'type="date"',
+    'input-date',
+    'date-picker',
+    'datepicker',
+    'check-in',
+    'check-out',
+    'checkin',
+    'checkout',
+    'arrival-date',
+    'departure-date',
+    'select-date',
+    'choose-date',
+    'pick-date',
+    // Availability/calendar widgets
+    'availability-calendar',
+    'booking-calendar',
+    'reservation-calendar',
+    'availability-widget',
+    'booking-widget',
+    // Time slot selection
+    'select-time',
+    'time-slot',
+    'timeslot',
+    'available-times',
+    // Guest/party size selection
+    'number-of-guests',
+    'party-size',
+    'select-guests',
+    'how-many-guests',
+    // Ticket/quantity selection with purchase intent
+    'select-tickets',
+    'ticket-quantity',
+    'add-to-cart',
+    'addtocart',
+    'buy-tickets',
+    'purchase-tickets',
+    'book-tickets',
+    // Booking form identifiers
+    'booking-form',
+    'reservation-form',
+    'id="booking"',
+    'id="reservations"',
+    'class="booking-',
+    'class="reservation-',
+    // Instant booking language (distinct from inquiry)
+    'instant booking',
+    'book instantly',
+    'reserve instantly',
+    'confirm booking',
+    'complete reservation',
+    'complete your booking',
+    'finalize booking'
+  ];
+
+  const hasBookingUI = bookingUIPatterns.some(p => htmlLower.includes(p));
+
+  // Strong booking action buttons (must be specific, not generic "reserve" text)
+  const strongBookingActions = [
+    'book now',
+    'book online',
+    'book today',
+    'reserve now',
+    'reserve online',
+    'reserve today',
+    'buy tickets',
+    'get tickets',
+    'purchase tickets',
+    'book your stay',
+    'book your room',
+    'book your table',
+    'book your tour',
+    'book your experience',
+    'book this',
+    'reserve your',
+    // German
+    'jetzt buchen',
+    'online buchen',
+    // French
+    'réserver maintenant',
+    'réserver en ligne',
+    // Spanish
+    'reservar ahora',
+    'reservar en línea'
+  ];
+
+  const hasStrongBookingAction = strongBookingActions.some(p => htmlLower.includes(p));
+
+  // Decision logic:
+  // 1. If we find booking UI elements, that's strong evidence of real booking capability
+  // 2. If we find strong booking actions WITHOUT contact-only language, likely real booking
+  // 3. If we only find contact-only language, NOT a booking system
+
+  if (hasBookingUI) {
+    return true;
+  }
+
+  if (hasStrongBookingAction && !hasContactOnlyLanguage) {
+    return true;
+  }
+
+  // Loose keywords like "reserve", "reservation", "book a table" alone are NOT enough
+  // These commonly appear on sites that only offer contact/inquiry-based reservations
+  return false;
 }
 
 function detectBookingPlatforms(htmlLower) {
