@@ -111,6 +111,67 @@ body {
   width: auto;
 }
 
+/* ── Sidebar Progress Tracker ──────────────────────────────── */
+.sidebar-progress-wrap {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.sidebar-ring-wrap {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+}
+.sidebar-ring-svg {
+  width: 56px;
+  height: 56px;
+  transform: rotate(-90deg);
+}
+.sidebar-ring-bg {
+  fill: none;
+  stroke: rgba(255,255,255,.12);
+  stroke-width: 5;
+}
+.sidebar-ring-progress {
+  fill: none;
+  stroke: var(--mint);
+  stroke-width: 5;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .6s cubic-bezier(.4,0,.2,1);
+}
+.sidebar-progress-text {
+  flex: 1;
+  min-width: 0;
+}
+.sidebar-progress-main {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 2px;
+}
+.sidebar-progress-count-big {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--mint);
+  line-height: 1;
+}
+.sidebar-progress-of {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 800;
+  color: rgba(255,255,255,.4);
+  line-height: 1;
+}
+.sidebar-progress-label {
+  font-family: var(--font-d);
+  font-size: 11px;
+  color: rgba(255,255,255,.5);
+}
+
 .sidebar-client {
   padding: 16px 24px;
   border-bottom: 1px solid rgba(255,255,255,.08);
@@ -4862,6 +4923,21 @@ button:focus-visible,
   <div class="sidebar-logo">
     <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="sidebar-logo-img">
   </div>
+  <div class="sidebar-progress-wrap">
+    <div class="sidebar-ring-wrap">
+      <svg class="sidebar-ring-svg" viewBox="0 0 56 56">
+        <circle class="sidebar-ring-bg" cx="28" cy="28" r="23"/>
+        <circle class="sidebar-ring-progress" id="sidebar-ring" cx="28" cy="28" r="23" stroke-dasharray="144.51" stroke-dashoffset="144.51"/>
+      </svg>
+    </div>
+    <div class="sidebar-progress-text">
+      <div class="sidebar-progress-main">
+        <span class="sidebar-progress-count-big" id="sidebar-done">0</span>
+        <span class="sidebar-progress-of">of <span id="sidebar-total">48</span></span>
+      </div>
+      <div class="sidebar-progress-label">tasks checked off</div>
+    </div>
+  </div>
 
   <div class="sidebar-client">
     <div class="sidebar-client-name">Conner's Cabins</div>
@@ -7296,12 +7372,28 @@ function updateRoadmapProgress() {
     if (el) el.innerHTML = '<span>' + done + '</span> of ' + total + ' done';
   });
 
-  // Update roadmap badge in sidebar
+  // Update overall progress
   const allDone = countRoadmapChecked(ALL_CHECK_IDS);
   const allTotal = ALL_CHECK_IDS.length;
   const pct = allTotal > 0 ? Math.round(allDone / allTotal * 100) : 0;
+
+  // Update roadmap badge in sidebar nav
   const badge = document.getElementById('roadmap-badge');
   if (badge) badge.textContent = pct + '%';
+
+  // Update sidebar progress ring (radius 23, circumference ~144.51)
+  const sidebarRing = document.getElementById('sidebar-ring');
+  if (sidebarRing) {
+    const circ = 2 * Math.PI * 23;
+    sidebarRing.style.strokeDasharray = circ;
+    sidebarRing.style.strokeDashoffset = circ - (circ * pct / 100);
+  }
+
+  // Update sidebar done/total counts
+  const sidebarDone = document.getElementById('sidebar-done');
+  const sidebarTotal = document.getElementById('sidebar-total');
+  if (sidebarDone) sidebarDone.textContent = allDone;
+  if (sidebarTotal) sidebarTotal.textContent = allTotal;
 }
 
 // Print roadmap
