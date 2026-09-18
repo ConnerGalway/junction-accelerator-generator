@@ -5594,108 +5594,237 @@ button:focus-visible,
 
   <!-- Tactic 1: Social Media -->
   <section id="page-tactic1" class="page">
-    <div class="tactic-page">
-      <div class="tactic-header">
-        <div class="tactic-header-badge">Tactic 1 of 3</div>
+    <div class="tactic-page-content">
+      <!-- Navy Hero Card -->
+      <div class="tactic-hero" data-tactic="1">
+        <div class="tactic-hero-top">
+          <div class="tactic-hero-meta">
+            <span class="tactic-hero-label">Tactic 1 · Foundation</span>
+            <span class="tactic-hero-status" id="t1-status">Not Started</span>
+          </div>
+          <div class="tactic-hero-progress">
+            <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+              <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+              <circle class="tactic-hero-ring-bar" id="t1-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+            </svg>
+            <div>
+              <div class="tactic-hero-pct" id="t1-pct">0%</div>
+              <div class="tactic-hero-pct-label">of this tactic</div>
+            </div>
+          </div>
+        </div>
         <h1>Social Media Activation</h1>
-        <p class="tactic-subtitle">Build a consistent, engaging presence that drives discovery</p>
-        <div class="tactic-meta">
-          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 1-4</span>
-          <span class="tactic-meta-item"><strong>Phase:</strong> Foundation</span>
+        <p>Build a consistent, engaging presence that drives discovery and converts followers into guests.</p>
+        <!-- Tactic Tabs -->
+        <div class="tactic-tabs" role="tablist" aria-label="Tactic 1 sections">
+          <button class="tactic-tab active" id="tab-t1-overview" role="tab" aria-selected="true" aria-controls="panel-t1-overview" onclick="switchTacticTab(1, 'overview')">Overview</button>
+          <button class="tactic-tab" id="tab-t1-steps" role="tab" aria-selected="false" aria-controls="panel-t1-steps" onclick="switchTacticTab(1, 'steps')">Implementation Steps</button>
+          <button class="tactic-tab" id="tab-t1-metrics" role="tab" aria-selected="false" aria-controls="panel-t1-metrics" onclick="switchTacticTab(1, 'metrics')">Success Metrics</button>
+          <button class="tactic-tab" id="tab-t1-tips" role="tab" aria-selected="false" aria-controls="panel-t1-tips" onclick="switchTacticTab(1, 'tips')">Tips &amp; Resources</button>
         </div>
       </div>
 
-      <div class="tactic-section">
-        <h2>What We Heard From You</h2>
-        <div class="tactic-context">
-          <p>Your assessment revealed that while you have beautiful cabin imagery and an excellent guest experience, your social media presence isn't capturing this value. With only 522 followers and posting just once every 10 weeks, you're missing opportunities to reach new guests who discover accommodations through Instagram and Facebook.</p>
-        </div>
-      </div>
-
-      <div class="tactic-section">
-        <h2>What This Tactic Involves</h2>
-        <div class="tactic-steps">
-          <div class="tactic-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h4>Set Up Content Calendar</h4>
-              <p>Create a repeatable posting schedule: cabin features on Monday, local activities on Wednesday, guest experiences on Friday</p>
+      <!-- Tactic Body -->
+      <div class="tactic-body">
+        <!-- Overview Tab -->
+        <div class="tactic-tab-content active" id="panel-t1-overview" role="tabpanel" aria-labelledby="tab-t1-overview">
+          <div class="tactic-overview-grid">
+            <div class="tactic-overview-col">
+              <!-- What This Is -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">What This Is</div>
+                <p>A four-week sprint to transform your social media from dormant to active. You will establish a posting rhythm, repurpose your existing photography into engaging content, launch short-form video, and build the engagement habits that grow an audience organically.</p>
+              </div>
+              <!-- What This Breaks Into -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">What This Breaks Into</div>
+                <div class="tactic-breakdown-grid">
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Content Calendar</div>
+                    <div class="tactic-breakdown-desc">Cabin features Monday, local activities Wednesday, guest experiences Friday</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Batch Creation</div>
+                    <div class="tactic-breakdown-desc">4 weeks of posts in one sitting using your 37 existing photos</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Instagram Reels</div>
+                    <div class="tactic-breakdown-desc">2-3 short videos per week showcasing cabin views and cozy moments</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Engagement Habits</div>
+                    <div class="tactic-breakdown-desc">Respond within 2 hours, follow local accounts, use location hashtags</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h4>Batch Create Content</h4>
-              <p>Use your existing 37 website photos to create 4 weeks of posts in one sitting. Add captions that tell stories.</p>
+            <div class="tactic-overview-col">
+              <!-- What We Heard From You -->
+              <div class="tactic-card-block navy">
+                <div class="tactic-card-label">What We Heard From You</div>
+                <p>"You have beautiful cabin imagery and an excellent guest experience, but your social media presence isn't capturing this value. With only 522 followers and posting just once every 10 weeks, you're missing opportunities to reach new guests."</p>
+              </div>
+              <!-- Why It Matters -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">Why It Matters</div>
+                <p>Leisure travellers discover accommodations through Instagram and Facebook before they ever search Google. A dormant social presence signals a dormant business. Three posts a week for twelve straight weeks beats a burst of ten posts followed by a month of silence.</p>
+              </div>
+              <!-- Time Commitment -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">Time Commitment</div>
+                <div>
+                  <span class="tactic-time-value">2 hrs</span>
+                  <span class="tactic-time-context">per week for content + engagement</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h4>Launch Instagram Reels</h4>
-              <p>Create 2-3 short video Reels per week showcasing cabin views, nature sounds, and cozy moments</p>
-            </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h4>Engage Consistently</h4>
-              <p>Respond to comments within 2 hours, follow local tourism accounts, and use location-specific hashtags</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tactic-section">
-        <h2>Success Metrics</h2>
-        <div class="metrics-table">
-          <div class="metrics-header">
-            <span>Metric</span>
-            <span>30 Days</span>
-            <span>60 Days</span>
-            <span>90 Days</span>
-          </div>
-          <div class="metrics-row">
-            <span>Instagram Followers</span>
-            <span>350</span>
-            <span>600</span>
-            <span>1,000</span>
-          </div>
-          <div class="metrics-row">
-            <span>Posts Per Week</span>
-            <span>3</span>
-            <span>4</span>
-            <span>5</span>
-          </div>
-          <div class="metrics-row">
-            <span>Engagement Rate</span>
-            <span>5%</span>
-            <span>6%</span>
-            <span>7%</span>
-          </div>
-          <div class="metrics-row">
-            <span>Website Clicks from Social</span>
-            <span>20/week</span>
-            <span>50/week</span>
-            <span>100/week</span>
           </div>
         </div>
-      </div>
 
-      <div class="tactic-section">
-        <h2>Tips & Resources</h2>
-        <div class="tips-list">
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Post when your audience is active: 7-9am and 7-9pm for leisure travelers</span>
+        <!-- Implementation Steps Tab -->
+        <div class="tactic-tab-content" id="panel-t1-steps" role="tabpanel" aria-labelledby="tab-t1-steps">
+          <!-- Collapsible Parts -->
+          <div class="tactic-parts-list">
+            <!-- Part A -->
+            <div class="tactic-part open">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+                <span class="tactic-part-tag">Part A</span>
+                <span class="tactic-part-title">Set Up Your Content System</span>
+                <span class="tactic-part-meta">2 steps</span>
+                <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">1</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Set Up Content Calendar</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Create a repeatable posting schedule: cabin features on Monday, local activities on Wednesday, guest experiences on Friday.</li>
+                        <li>Use a free tool like Later or the Meta Business Suite to schedule posts in advance.</li>
+                        <li>Block 30 minutes each Sunday to plan the week ahead.</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">2</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Batch Create Content</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Use your existing 37 website photos to create 4 weeks of posts in one sitting.</li>
+                        <li>Write captions that tell stories, not just describe the image.</li>
+                        <li>Prepare 12-16 posts at once so you are never scrambling for content.</li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- Part B -->
+            <div class="tactic-part">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+                <span class="tactic-part-tag">Part B</span>
+                <span class="tactic-part-title">Launch Video and Build Engagement</span>
+                <span class="tactic-part-meta">2 steps</span>
+                <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">3</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Launch Instagram Reels</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Create 2-3 short video Reels per week showcasing cabin views, nature sounds, and cozy moments.</li>
+                        <li>Reels get 3-5x more reach than static posts, so prioritize short video content.</li>
+                        <li>Keep videos under 30 seconds. Show, don't tell.</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">4</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Engage Consistently</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Respond to comments within 2 hours during business hours.</li>
+                        <li>Follow local tourism accounts, restaurants, and activity providers.</li>
+                        <li>Use 5-10 relevant hashtags: #lakesidecabin #cabinlife #naturegetaway #weekendretreat</li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
           </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Use 5-10 relevant hashtags: #lakesidecabin #cabinlife #naturegetaway #weekendretreat</span>
+        </div>
+
+        <!-- Success Metrics Tab -->
+        <div class="tactic-tab-content" id="panel-t1-metrics" role="tabpanel" aria-labelledby="tab-t1-metrics">
+          <div class="tactic-card-block">
+            <div class="tactic-card-label">Targets by Checkpoint</div>
+            <div class="tactic-metrics-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>30 Days</th>
+                    <th>60 Days</th>
+                    <th>90 Days</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Instagram Followers</td>
+                    <td>350</td>
+                    <td>600</td>
+                    <td>1,000</td>
+                  </tr>
+                  <tr>
+                    <td>Posts Per Week</td>
+                    <td>3</td>
+                    <td>4</td>
+                    <td>5</td>
+                  </tr>
+                  <tr>
+                    <td>Engagement Rate</td>
+                    <td>5%</td>
+                    <td>6%</td>
+                    <td>7%</td>
+                  </tr>
+                  <tr>
+                    <td>Website Clicks from Social</td>
+                    <td>20/week</td>
+                    <td>50/week</td>
+                    <td>100/week</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Reels get 3-5x more reach than static posts. Prioritize short video content.</span>
+          <div class="tactic-card-block" style="margin-top:18px">
+            <div class="tactic-card-label">What to Measure vs. What to Ignore</div>
+            <p>Follower count is a vanity metric. Focus on engagement rate (likes + comments / followers) and website clicks. A smaller, engaged audience converts better than a large, passive one.</p>
+          </div>
+        </div>
+
+        <!-- Tips & Resources Tab -->
+        <div class="tactic-tab-content" id="panel-t1-tips" role="tabpanel" aria-labelledby="tab-t1-tips">
+          <div class="tactic-card-block">
+            <div class="tactic-card-label">Quick Tips</div>
+            <ul class="tactic-tips-list">
+              <li>Post when your audience is active: 7-9am and 7-9pm for leisure travellers.</li>
+              <li>Use 5-10 relevant hashtags: #lakesidecabin #cabinlife #naturegetaway #weekendretreat</li>
+              <li>Reels get 3-5x more reach than static posts. Prioritize short video content.</li>
+              <li>Respond to every comment. Engagement begets engagement.</li>
+            </ul>
+          </div>
+          <div class="tactic-card-block" style="margin-top:18px">
+            <div class="tactic-card-label">Helpful Resources</div>
+            <ul class="tactic-resources-list">
+              <li><a href="https://business.instagram.com/getting-started" target="_blank">Instagram for Business: Getting Started Guide</a></li>
+              <li><a href="https://later.com/blog/instagram-reels/" target="_blank">Later: Complete Guide to Instagram Reels</a></li>
+              <li><a href="https://business.facebook.com/business/tools/meta-business-suite" target="_blank">Meta Business Suite (free scheduling tool)</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -5704,108 +5833,236 @@ button:focus-visible,
 
   <!-- Tactic 2: Reviews -->
   <section id="page-tactic2" class="page">
-    <div class="tactic-page">
-      <div class="tactic-header">
-        <div class="tactic-header-badge">Tactic 2 of 3</div>
+    <div class="tactic-page-content">
+      <!-- Navy Hero Card -->
+      <div class="tactic-hero" data-tactic="2">
+        <div class="tactic-hero-top">
+          <div class="tactic-hero-meta">
+            <span class="tactic-hero-label">Tactic 2 · Growth</span>
+            <span class="tactic-hero-status" id="t2-status">Not Started</span>
+          </div>
+          <div class="tactic-hero-progress">
+            <svg class="tactic-hero-ring" viewBox="0 0 80 80">
+              <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
+              <circle class="tactic-hero-ring-bar" id="t2-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
+            </svg>
+            <div>
+              <div class="tactic-hero-pct" id="t2-pct">0%</div>
+              <div class="tactic-hero-pct-label">of this tactic</div>
+            </div>
+          </div>
+        </div>
         <h1>Review Generation</h1>
-        <p class="tactic-subtitle">Build social proof that converts browsers into bookers</p>
-        <div class="tactic-meta">
-          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 5-8</span>
-          <span class="tactic-meta-item"><strong>Phase:</strong> Growth</span>
+        <p>Build social proof that converts browsers into bookers with a systematic approach to reviews.</p>
+        <!-- Tactic Tabs -->
+        <div class="tactic-tabs" role="tablist" aria-label="Tactic 2 sections">
+          <button class="tactic-tab active" id="tab-t2-overview" role="tab" aria-selected="true" aria-controls="panel-t2-overview" onclick="switchTacticTab(2, 'overview')">Overview</button>
+          <button class="tactic-tab" id="tab-t2-steps" role="tab" aria-selected="false" aria-controls="panel-t2-steps" onclick="switchTacticTab(2, 'steps')">Implementation Steps</button>
+          <button class="tactic-tab" id="tab-t2-metrics" role="tab" aria-selected="false" aria-controls="panel-t2-metrics" onclick="switchTacticTab(2, 'metrics')">Success Metrics</button>
+          <button class="tactic-tab" id="tab-t2-tips" role="tab" aria-selected="false" aria-controls="panel-t2-tips" onclick="switchTacticTab(2, 'tips')">Tips &amp; Resources</button>
         </div>
       </div>
 
-      <div class="tactic-section">
-        <h2>What We Heard From You</h2>
-        <div class="tactic-context">
-          <p>You have a perfect 5.0 Google rating, but only 20 reviews. This limits your visibility in local search results and doesn't reflect the volume of happy guests you've hosted. With a systematic approach, you can turn satisfied guests into vocal advocates.</p>
-        </div>
-      </div>
-
-      <div class="tactic-section">
-        <h2>What This Tactic Involves</h2>
-        <div class="tactic-steps">
-          <div class="tactic-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h4>Create Review Request System</h4>
-              <p>Set up automated email 3 days post-checkout with direct link to Google review page</p>
+      <!-- Tactic Body -->
+      <div class="tactic-body">
+        <!-- Overview Tab -->
+        <div class="tactic-tab-content active" id="panel-t2-overview" role="tabpanel" aria-labelledby="tab-t2-overview">
+          <div class="tactic-overview-grid">
+            <div class="tactic-overview-col">
+              <!-- What This Is -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">What This Is</div>
+                <p>A systematic approach to turning satisfied guests into vocal advocates. You will set up automated review requests, deploy physical reminders in your cabins, establish a response protocol, and expand your presence across multiple review platforms.</p>
+              </div>
+              <!-- What This Breaks Into -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">What This Breaks Into</div>
+                <div class="tactic-breakdown-grid">
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Email System</div>
+                    <div class="tactic-breakdown-desc">Automated request 3 days post-checkout with direct Google link</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">QR Cards</div>
+                    <div class="tactic-breakdown-desc">Physical cards in cabins linking directly to review page</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Response Protocol</div>
+                    <div class="tactic-breakdown-desc">Reply to every review within 24 hours with personalized thanks</div>
+                  </div>
+                  <div class="tactic-breakdown-item">
+                    <div class="tactic-breakdown-title">Platform Expansion</div>
+                    <div class="tactic-breakdown-desc">Claim TripAdvisor and encourage reviews for broader visibility</div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h4>Deploy QR Code Cards</h4>
-              <p>Place review request cards in cabins with QR code linking directly to Google reviews</p>
+            <div class="tactic-overview-col">
+              <!-- What We Heard From You -->
+              <div class="tactic-card-block navy">
+                <div class="tactic-card-label">What We Heard From You</div>
+                <p>"You have a perfect 5.0 Google rating, but only 20 reviews. This limits your visibility in local search results and doesn't reflect the volume of happy guests you've hosted."</p>
+              </div>
+              <!-- Why It Matters -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">Why It Matters</div>
+                <p>Review count is a ranking factor. A property with 70 reviews at 4.8 stars outranks a property with 20 reviews at 5.0 stars. Volume matters as much as quality, and recency matters most of all.</p>
+              </div>
+              <!-- Time Commitment -->
+              <div class="tactic-card-block">
+                <div class="tactic-card-label">Time Commitment</div>
+                <div>
+                  <span class="tactic-time-value">30 min</span>
+                  <span class="tactic-time-context">per week for responses + monitoring</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h4>Respond to All Reviews</h4>
-              <p>Reply to every review within 24 hours with personalized thanks and invitation to return</p>
-            </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h4>Expand to Other Platforms</h4>
-              <p>Claim TripAdvisor listing and encourage reviews there for broader visibility</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="tactic-section">
-        <h2>Success Metrics</h2>
-        <div class="metrics-table">
-          <div class="metrics-header">
-            <span>Metric</span>
-            <span>30 Days</span>
-            <span>60 Days</span>
-            <span>90 Days</span>
-          </div>
-          <div class="metrics-row">
-            <span>Google Reviews</span>
-            <span>30</span>
-            <span>50</span>
-            <span>70</span>
-          </div>
-          <div class="metrics-row">
-            <span>Response Rate</span>
-            <span>100%</span>
-            <span>100%</span>
-            <span>100%</span>
-          </div>
-          <div class="metrics-row">
-            <span>Average Rating</span>
-            <span>5.0</span>
-            <span>5.0</span>
-            <span>4.9+</span>
-          </div>
-          <div class="metrics-row">
-            <span>Review Request Conversion</span>
-            <span>15%</span>
-            <span>20%</span>
-            <span>25%</span>
           </div>
         </div>
-      </div>
 
-      <div class="tactic-section">
-        <h2>Tips & Resources</h2>
-        <div class="tips-list">
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>The best time to ask for a review is 3-5 days after checkout when memories are fresh</span>
+        <!-- Implementation Steps Tab -->
+        <div class="tactic-tab-content" id="panel-t2-steps" role="tabpanel" aria-labelledby="tab-t2-steps">
+          <div class="tactic-parts-list">
+            <!-- Part A -->
+            <div class="tactic-part open">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+                <span class="tactic-part-tag">Part A</span>
+                <span class="tactic-part-title">Set Up Review Collection</span>
+                <span class="tactic-part-meta">2 steps</span>
+                <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">1</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Create Review Request System</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Set up automated email 3 days post-checkout with direct link to Google review page.</li>
+                        <li>Use your booking system or a tool like Mailchimp to automate the sequence.</li>
+                        <li>Keep the email short: thank them, ask for feedback, provide the link.</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">2</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Deploy QR Code Cards</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Place review request cards in each cabin with QR code linking directly to Google reviews.</li>
+                        <li>Position near checkout instructions or on the welcome packet.</li>
+                        <li>Keep the design simple: "Loved your stay? Leave us a review!"</li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+            <!-- Part B -->
+            <div class="tactic-part">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+                <span class="tactic-part-tag">Part B</span>
+                <span class="tactic-part-title">Respond and Expand</span>
+                <span class="tactic-part-meta">2 steps</span>
+                <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">3</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Respond to All Reviews</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Reply to every review within 24 hours with personalized thanks.</li>
+                        <li>Mention specific details from their stay to show you remember them.</li>
+                        <li>Include an invitation to return: "We hope to see you again soon!"</li>
+                      </ul>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <span class="tactic-step-num">4</span>
+                    <div class="tactic-step-content">
+                      <div class="tactic-step-title">Expand to Other Platforms</div>
+                      <ul class="tactic-step-bullets">
+                        <li>Claim and optimize your TripAdvisor listing.</li>
+                        <li>Add TripAdvisor as a second option in your review request email.</li>
+                        <li>Consider Booking.com and Airbnb if you list on those platforms.</li>
+                      </ul>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
           </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Make it easy: Include a direct link that takes guests straight to the review form</span>
+        </div>
+
+        <!-- Success Metrics Tab -->
+        <div class="tactic-tab-content" id="panel-t2-metrics" role="tabpanel" aria-labelledby="tab-t2-metrics">
+          <div class="tactic-card-block">
+            <div class="tactic-card-label">Targets by Checkpoint</div>
+            <div class="tactic-metrics-table">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Metric</th>
+                    <th>30 Days</th>
+                    <th>60 Days</th>
+                    <th>90 Days</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Google Reviews</td>
+                    <td>30</td>
+                    <td>50</td>
+                    <td>70</td>
+                  </tr>
+                  <tr>
+                    <td>Response Rate</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                    <td>100%</td>
+                  </tr>
+                  <tr>
+                    <td>Average Rating</td>
+                    <td>5.0</td>
+                    <td>5.0</td>
+                    <td>4.9+</td>
+                  </tr>
+                  <tr>
+                    <td>Review Request Conversion</td>
+                    <td>15%</td>
+                    <td>20%</td>
+                    <td>25%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Personalize responses by mentioning specific details from their stay</span>
+          <div class="tactic-card-block" style="margin-top:18px">
+            <div class="tactic-card-label">What to Measure vs. What to Ignore</div>
+            <p>Focus on review velocity (new reviews per month) rather than just total count. A steady stream of recent reviews signals an active business. Ignore negative reviews that are clearly fake or off-topic.</p>
+          </div>
+        </div>
+
+        <!-- Tips & Resources Tab -->
+        <div class="tactic-tab-content" id="panel-t2-tips" role="tabpanel" aria-labelledby="tab-t2-tips">
+          <div class="tactic-card-block">
+            <div class="tactic-card-label">Quick Tips</div>
+            <ul class="tactic-tips-list">
+              <li>The best time to ask for a review is 3-5 days after checkout when memories are fresh.</li>
+              <li>Make it easy: Include a direct link that takes guests straight to the review form.</li>
+              <li>Personalize responses by mentioning specific details from their stay.</li>
+              <li>Never offer incentives for reviews. It violates platform policies and erodes trust.</li>
+            </ul>
+          </div>
+          <div class="tactic-card-block" style="margin-top:18px">
+            <div class="tactic-card-label">Helpful Resources</div>
+            <ul class="tactic-resources-list">
+              <li><a href="https://support.google.com/business/answer/7035772" target="_blank">Google: Get more reviews for your Business Profile</a></li>
+              <li><a href="https://www.tripadvisor.com/Owners" target="_blank">TripAdvisor Management Center</a></li>
+              <li><a href="https://www.qr-code-generator.com/" target="_blank">Free QR Code Generator</a></li>
+            </ul>
           </div>
         </div>
       </div>
@@ -5814,108 +6071,302 @@ button:focus-visible,
 
   <!-- Tactic 3: Local SEO -->
   <section id="page-tactic3" class="page">
-    <div class="tactic-page">
-      <div class="tactic-header">
-        <div class="tactic-header-badge">Tactic 3 of 3</div>
+    <div class="tactic-page-content">
+      <!-- Hero Section -->
+      <div class="tactic-hero" data-tactic="3">
+        <div class="tactic-hero-top">
+          <span class="tactic-hero-badge">Tactic 3 of 3</span>
+          <div class="tactic-hero-progress">
+            <svg class="progress-ring" viewBox="0 0 36 36">
+              <circle class="progress-ring-bg" cx="18" cy="18" r="16"/>
+              <circle class="progress-ring-fill" cx="18" cy="18" r="16" stroke-dasharray="0 100"/>
+            </svg>
+            <span class="progress-text">0%</span>
+          </div>
+        </div>
         <h1>Local SEO Optimization</h1>
-        <p class="tactic-subtitle">Capture high-intent searchers ready to book</p>
-        <div class="tactic-meta">
-          <span class="tactic-meta-item"><strong>Timeline:</strong> Weeks 9-12</span>
-          <span class="tactic-meta-item"><strong>Phase:</strong> Scale</span>
+        <p>Capture high-intent searchers ready to book</p>
+        <div class="tactic-hero-meta">
+          <span><strong>Timeline:</strong> Weeks 9-12</span>
+          <span><strong>Phase:</strong> Scale</span>
+        </div>
+        <div class="tactic-tabs" role="tablist">
+          <button class="tactic-tab active" role="tab" aria-selected="true" aria-controls="panel-t3-overview" onclick="switchTacticTab(3, 'overview')">Overview</button>
+          <button class="tactic-tab" role="tab" aria-selected="false" aria-controls="panel-t3-steps" onclick="switchTacticTab(3, 'steps')">Steps</button>
+          <button class="tactic-tab" role="tab" aria-selected="false" aria-controls="panel-t3-metrics" onclick="switchTacticTab(3, 'metrics')">Metrics</button>
+          <button class="tactic-tab" role="tab" aria-selected="false" aria-controls="panel-t3-tips" onclick="switchTacticTab(3, 'tips')">Tips</button>
         </div>
       </div>
 
-      <div class="tactic-section">
-        <h2>What We Heard From You</h2>
-        <div class="tactic-context">
-          <p>Your Google Business Profile is verified but underutilized. You're missing Local Business Schema on your website, and your backlink profile is limited. These gaps are costing you visibility when potential guests search for "cabin rentals near me" or "lakeside getaway."</p>
-        </div>
-      </div>
-
-      <div class="tactic-section">
-        <h2>What This Tactic Involves</h2>
-        <div class="tactic-steps">
-          <div class="tactic-step">
-            <div class="step-number">1</div>
-            <div class="step-content">
-              <h4>Optimize Google Business Profile</h4>
-              <p>Add photos weekly, post updates, respond to Q&A, and keep hours current</p>
+      <!-- Body Content -->
+      <div class="tactic-body">
+        <!-- Overview Tab -->
+        <div class="tactic-tab-content active" id="panel-t3-overview" role="tabpanel">
+          <div class="tactic-overview-grid">
+            <div class="tactic-card-block">
+              <h3>What We Heard From You</h3>
+              <p>Your Google Business Profile is verified but underutilized. You're missing Local Business Schema on your website, and your backlink profile is limited. These gaps are costing you visibility when potential guests search for "cabin rentals near me" or "lakeside getaway."</p>
             </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">2</div>
-            <div class="step-content">
-              <h4>Add Schema Markup</h4>
-              <p>Implement LocalBusiness and LodgingBusiness schema on your website for rich snippets</p>
-            </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">3</div>
-            <div class="step-content">
-              <h4>Build Local Citations</h4>
-              <p>List your business on 20+ local directories with consistent NAP (Name, Address, Phone)</p>
-            </div>
-          </div>
-          <div class="tactic-step">
-            <div class="step-number">4</div>
-            <div class="step-content">
-              <h4>Create Local Content</h4>
-              <p>Write blog posts about local attractions, seasonal activities, and area guides</p>
+            <div class="tactic-card-block">
+              <h3>What This Tactic Involves</h3>
+              <ul>
+                <li>Optimize your Google Business Profile with photos, posts, and Q&A</li>
+                <li>Implement LocalBusiness and LodgingBusiness schema markup</li>
+                <li>Build local citations on 20+ directories with consistent NAP</li>
+                <li>Create local content about attractions and area guides</li>
+              </ul>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="tactic-section">
-        <h2>Success Metrics</h2>
-        <div class="metrics-table">
-          <div class="metrics-header">
-            <span>Metric</span>
-            <span>30 Days</span>
-            <span>60 Days</span>
-            <span>90 Days</span>
-          </div>
-          <div class="metrics-row">
-            <span>GBP Views</span>
-            <span>500/mo</span>
-            <span>1,000/mo</span>
-            <span>2,000/mo</span>
-          </div>
-          <div class="metrics-row">
-            <span>Local Pack Ranking</span>
-            <span>Top 5</span>
-            <span>Top 3</span>
-            <span>#1</span>
-          </div>
-          <div class="metrics-row">
-            <span>Directory Listings</span>
-            <span>10</span>
-            <span>20</span>
-            <span>30</span>
-          </div>
-          <div class="metrics-row">
-            <span>Organic Traffic</span>
-            <span>+25%</span>
-            <span>+75%</span>
-            <span>+150%</span>
+        <!-- Steps Tab -->
+        <div class="tactic-tab-content" id="panel-t3-steps" role="tabpanel">
+          <div class="tactic-parts-list">
+            <!-- Part A: Google Business Profile -->
+            <div class="tactic-part open">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)" aria-expanded="true">
+                <span class="part-letter">A</span>
+                <span class="part-title">Google Business Profile Optimization</span>
+                <span class="part-progress">0 of 4 complete</span>
+                <svg class="part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Upload new photos weekly</h4>
+                      <p>Add high-quality photos of cabins, amenities, and scenic views to keep your profile fresh</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Create Google Posts</h4>
+                      <p>Post weekly updates about seasonal offerings, special packages, or local events</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Monitor and respond to Q&A</h4>
+                      <p>Answer questions within 24 hours to show active engagement</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Keep business info current</h4>
+                      <p>Update hours, services, and amenities whenever they change</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Part B: Schema Markup -->
+            <div class="tactic-part">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)" aria-expanded="false">
+                <span class="part-letter">B</span>
+                <span class="part-title">Schema Markup Implementation</span>
+                <span class="part-progress">0 of 3 complete</span>
+                <svg class="part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Add LocalBusiness schema</h4>
+                      <p>Implement structured data with your business name, address, phone, and hours</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Add LodgingBusiness schema</h4>
+                      <p>Include accommodation-specific details like amenities and star rating</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Validate with Google Rich Results Test</h4>
+                      <p>Test your schema implementation to ensure it's properly detected</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Part C: Local Citations -->
+            <div class="tactic-part">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)" aria-expanded="false">
+                <span class="part-letter">C</span>
+                <span class="part-title">Build Local Citations</span>
+                <span class="part-progress">0 of 3 complete</span>
+                <svg class="part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Audit existing citations</h4>
+                      <p>Find and fix any inconsistent NAP (Name, Address, Phone) across existing listings</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Submit to major directories</h4>
+                      <p>List on Yelp, TripAdvisor, Bing Places, Apple Maps, and industry-specific sites</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Build local directory listings</h4>
+                      <p>Submit to regional tourism boards, chambers of commerce, and local business associations</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
+
+            <!-- Part D: Local Content -->
+            <div class="tactic-part">
+              <button class="tactic-part-header" onclick="toggleTacticPart(this)" aria-expanded="false">
+                <span class="part-letter">D</span>
+                <span class="part-title">Create Local Content</span>
+                <span class="part-progress">0 of 3 complete</span>
+                <svg class="part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 9l-7 7-7-7"/></svg>
+              </button>
+              <div class="tactic-part-body">
+                <ol class="tactic-steps-list">
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Write local attraction guides</h4>
+                      <p>Create blog posts about nearby hiking, fishing, restaurants, and activities</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Publish seasonal content</h4>
+                      <p>Create guides for each season highlighting relevant activities and events</p>
+                    </div>
+                  </li>
+                  <li class="tactic-step-item">
+                    <label class="step-checkbox">
+                      <input type="checkbox" onchange="updateTacticProgress(3)">
+                      <span class="checkmark"></span>
+                    </label>
+                    <div class="step-content">
+                      <h4>Optimize for local keywords</h4>
+                      <p>Target phrases like "cabin rentals in [area]" and "[area] vacation rentals"</p>
+                    </div>
+                  </li>
+                </ol>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="tactic-section">
-        <h2>Tips & Resources</h2>
-        <div class="tips-list">
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Google Posts expire after 7 days. Post weekly to maintain visibility in local results.</span>
+        <!-- Metrics Tab -->
+        <div class="tactic-tab-content" id="panel-t3-metrics" role="tabpanel">
+          <div class="tactic-metrics-table">
+            <div class="metrics-header">
+              <span>Metric</span>
+              <span>30 Days</span>
+              <span>60 Days</span>
+              <span>90 Days</span>
+            </div>
+            <div class="metrics-row">
+              <span>GBP Views</span>
+              <span>500/mo</span>
+              <span>1,000/mo</span>
+              <span>2,000/mo</span>
+            </div>
+            <div class="metrics-row">
+              <span>Local Pack Ranking</span>
+              <span>Top 5</span>
+              <span>Top 3</span>
+              <span>#1</span>
+            </div>
+            <div class="metrics-row">
+              <span>Directory Listings</span>
+              <span>10</span>
+              <span>20</span>
+              <span>30</span>
+            </div>
+            <div class="metrics-row">
+              <span>Organic Traffic</span>
+              <span>+25%</span>
+              <span>+75%</span>
+              <span>+150%</span>
+            </div>
           </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>NAP consistency is critical. Ensure your name, address, and phone match exactly everywhere.</span>
-          </div>
-          <div class="tip-item">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
-            <span>Answer every GBP Q&A within 24 hours. Unanswered questions hurt your profile.</span>
+        </div>
+
+        <!-- Tips Tab -->
+        <div class="tactic-tab-content" id="panel-t3-tips" role="tabpanel">
+          <div class="tactic-tips-list">
+            <div class="tip-card">
+              <div class="tip-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </div>
+              <p>Google Posts expire after 7 days. Post weekly to maintain visibility in local results.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </div>
+              <p>NAP consistency is critical. Ensure your name, address, and phone match exactly everywhere.</p>
+            </div>
+            <div class="tip-card">
+              <div class="tip-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+              </div>
+              <p>Answer every GBP Q&A within 24 hours. Unanswered questions hurt your profile.</p>
+            </div>
           </div>
         </div>
       </div>
@@ -6302,6 +6753,87 @@ function toggleMobileMenu() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('mobileOverlay').classList.toggle('active');
 }
+
+// ══════════════════════════════════════════════════════════════
+// TACTIC PAGE COMPONENTS
+// ══════════════════════════════════════════════════════════════
+function switchTacticTab(tacticNum, tabName) {
+  const tacticPage = document.getElementById('page-tactic' + tacticNum);
+  if (!tacticPage) return;
+
+  // Update tabs
+  tacticPage.querySelectorAll('.tactic-tab').forEach(tab => {
+    tab.classList.remove('active');
+    tab.setAttribute('aria-selected', 'false');
+  });
+
+  // Find and activate the clicked tab
+  const activeTab = tacticPage.querySelector(`.tactic-tab[aria-controls="panel-t${tacticNum}-${tabName}"]`);
+  if (activeTab) {
+    activeTab.classList.add('active');
+    activeTab.setAttribute('aria-selected', 'true');
+  }
+
+  // Update tab panels
+  tacticPage.querySelectorAll('.tactic-tab-content').forEach(panel => {
+    panel.classList.remove('active');
+  });
+
+  const activePanel = document.getElementById(`panel-t${tacticNum}-${tabName}`);
+  if (activePanel) {
+    activePanel.classList.add('active');
+  }
+}
+
+function toggleTacticPart(button) {
+  const part = button.closest('.tactic-part');
+  if (!part) return;
+
+  const isExpanded = part.classList.contains('open');
+  part.classList.toggle('open');
+  button.setAttribute('aria-expanded', !isExpanded);
+}
+
+function updateTacticProgress(tacticNum) {
+  const tacticPage = document.getElementById('page-tactic' + tacticNum);
+  if (!tacticPage) return;
+
+  // Count all checkboxes and checked checkboxes
+  const checkboxes = tacticPage.querySelectorAll('.tactic-steps-list input[type="checkbox"]');
+  const checked = tacticPage.querySelectorAll('.tactic-steps-list input[type="checkbox"]:checked');
+
+  const total = checkboxes.length;
+  const completed = checked.length;
+  const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+
+  // Update progress ring
+  const progressRing = tacticPage.querySelector('.progress-ring-fill');
+  const progressText = tacticPage.querySelector('.progress-text');
+
+  if (progressRing) {
+    progressRing.style.strokeDasharray = `${percentage} 100`;
+  }
+  if (progressText) {
+    progressText.textContent = percentage + '%';
+  }
+
+  // Update part progress counters
+  tacticPage.querySelectorAll('.tactic-part').forEach(part => {
+    const partCheckboxes = part.querySelectorAll('input[type="checkbox"]');
+    const partChecked = part.querySelectorAll('input[type="checkbox"]:checked');
+    const progressSpan = part.querySelector('.part-progress');
+    if (progressSpan) {
+      progressSpan.textContent = `${partChecked.length} of ${partCheckboxes.length} complete`;
+    }
+  });
+}
+
+// Initialize tactic progress on page load
+document.addEventListener('DOMContentLoaded', function() {
+  [1, 2, 3].forEach(tacticNum => {
+    updateTacticProgress(tacticNum);
+  });
+});
 
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
