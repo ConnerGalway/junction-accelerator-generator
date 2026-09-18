@@ -2642,161 +2642,379 @@ nav { flex: 1; padding: 12px 0; }
   line-height: 1.5;
 }
 
-/* ── Roadmap Page ─────────────────────────── */
-.roadmap-page {
-  max-width: 1000px;
-  margin: 0 auto;
+/* ── Page Header ─────────────────────────── */
+.page-header {
+  background: var(--navy);
+  padding: 36px 48px 40px;
+  color: white;
+  position: relative;
+  overflow: hidden;
+}
+.page-header::after {
+  content: '';
+  position: absolute;
+  right: -60px;
+  top: -60px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(170,218,182,.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+.page-header-eyebrow {
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--mint);
+  margin-bottom: 10px;
+}
+.page-header h1 {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+  margin-bottom: 10px;
+}
+.page-header p {
+  font-size: 14px;
+  color: rgba(255,255,255,.65);
+  max-width: 620px;
+  line-height: 1.6;
+}
+.download-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  padding: 10px 18px;
+  background: rgba(255,255,255,.1);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 8px;
+  color: white;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s, border-color .15s;
+}
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.15);
+  border-color: rgba(255,255,255,.3);
+}
+.download-pdf-btn svg {
+  width: 16px;
+  height: 16px;
 }
 
-.roadmap-header {
-  text-align: center;
+/* ── Content Area ────────────────────────── */
+.content-area {
+  padding: 36px 48px;
+  max-width: 1100px;
+}
+
+/* ── Roadmap Page ─────────────────────────── */
+.month-block {
   margin-bottom: 40px;
 }
-
-.roadmap-header h1 {
-  font-family: var(--font-d);
-  font-size: 32px;
-  font-weight: 800;
-  color: var(--navy);
-  margin-bottom: 12px;
-}
-
-.roadmap-subtitle {
-  font-size: 16px;
-  color: var(--slate);
-  margin-bottom: 24px;
-}
-
-.roadmap-progress {
-  max-width: 400px;
-  margin: 0 auto;
-}
-
-.roadmap-progress-bar {
-  height: 8px;
-  background: #e0e0e0;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 8px;
-}
-
-.roadmap-progress-fill {
-  height: 100%;
-  background: linear-gradient(90deg, var(--mint), var(--mint-dark));
-  border-radius: 4px;
-}
-
-.roadmap-progress-text {
-  font-size: 13px;
-  color: var(--slate);
-}
-
-.roadmap-grid {
+.month-header {
   display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
-.roadmap-month {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,.06);
-}
-
-.roadmap-month-header {
-  display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
-  padding-bottom: 16px;
+  gap: 16px;
+  margin-bottom: 20px;
+  padding-bottom: 14px;
   border-bottom: 2px solid var(--navy);
 }
-
-.roadmap-month-header h2 {
+.month-badge {
+  background: var(--navy);
+  color: white;
   font-family: var(--font-d);
-  font-size: 20px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  padding: 5px 14px;
+  border-radius: 100px;
+}
+.month-title {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--dark);
+}
+.month-progress {
+  margin-left: auto;
+  font-family: var(--font-d);
+  font-size: 12px;
+  color: var(--slate);
+}
+.month-progress span {
   font-weight: 700;
   color: var(--navy);
-  margin: 0;
 }
 
-.roadmap-month-focus {
-  font-size: 13px;
-  color: var(--slate);
-  background: #f8f9fa;
-  padding: 6px 12px;
-  border-radius: 20px;
-}
-
-.roadmap-week {
-  background: #f8f9fa;
-  border-radius: 12px;
-  padding: 20px;
+.week-card {
+  background: var(--card-bg);
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(17,21,75,.07);
+  box-shadow: var(--shadow-sm);
   margin-bottom: 16px;
+  overflow: hidden;
 }
-
-.roadmap-week:last-child {
-  margin-bottom: 0;
-}
-
-.roadmap-week-header {
+.week-card-header {
   display: flex;
   align-items: center;
+  padding: 16px 24px;
+  background: rgba(17,21,75,.02);
+  border-bottom: 1px solid rgba(17,21,75,.06);
   gap: 12px;
-  margin-bottom: 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s;
 }
-
-.week-badge {
+.week-card-header:hover {
+  background: rgba(17,21,75,.04);
+}
+.week-num {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-sm);
   background: var(--navy);
-  color: #fff;
-  padding: 4px 12px;
-  border-radius: 12px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.roadmap-week-header h3 {
+  color: white;
   font-family: var(--font-d);
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--navy);
-  margin: 0;
+  font-size: 12px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.week-title {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--dark);
+  flex: 1;
+}
+.week-progress-pill {
+  background: rgba(170,218,182,.2);
+  border: 1px solid rgba(170,218,182,.4);
+  border-radius: 100px;
+  padding: 3px 10px;
+  font-family: var(--font-d);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--dark);
+}
+.week-progress-pill.done {
+  background: rgba(170,218,182,.4);
+  border-color: var(--mint-dark);
+  color: var(--dark);
+}
+.week-chevron {
+  width: 16px;
+  height: 16px;
+  color: var(--slate);
+  transition: transform .25s;
+}
+.week-card.open .week-chevron {
+  transform: rotate(180deg);
+}
+.week-card-body {
+  display: none;
+  padding: 24px;
+}
+.week-card.open .week-card-body {
+  display: block;
 }
 
-.week-actions h4 {
-  font-size: 12px;
-  font-weight: 600;
+.week-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+.week-col-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
   color: var(--slate);
   margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(17,21,75,.07);
 }
-
-.week-actions ul {
+.week-tasks-list {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.week-task-item {
+  display: flex;
+  gap: 8px;
+  font-size: 13px;
+  color: #4a5568;
+  line-height: 1.5;
+}
+.week-task-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--slate);
+  flex-shrink: 0;
+  margin-top: 7px;
 }
 
-.week-actions li {
+/* ── Checkboxes ──────────────────────────── */
+.check-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.check-item {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+.check-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 8px 0;
-  font-size: 14px;
+}
+.check-input {
+  display: none;
+}
+.check-box {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(17,21,75,.2);
+  border-radius: 5px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all .2s cubic-bezier(.4,0,.2,1);
+  position: relative;
+  background: white;
+}
+.check-box:hover {
+  border-color: var(--blue);
+  background: rgba(6,124,188,.04);
+}
+.check-box svg {
+  width: 11px;
+  height: 11px;
+  color: white;
+  opacity: 0;
+  transform: scale(0.6);
+  transition: all .18s cubic-bezier(.34,1.56,.64,1);
+}
+.check-input:checked + .check-box {
+  background: var(--blue);
+  border-color: var(--blue);
+}
+.check-input:checked + .check-box svg {
+  opacity: 1;
+  transform: scale(1);
+}
+.check-label {
+  font-size: 13px;
+  color: #374151;
+  cursor: pointer;
+  line-height: 1.5;
+  flex: 1;
+  transition: color .15s;
+}
+.check-input:checked ~ .check-label,
+.check-input:checked + .check-box + .check-label {
+  color: var(--slate);
+  text-decoration: line-through;
+}
+.note-toggle-btn {
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  border: 1px solid rgba(17,21,75,.12);
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background .15s, border-color .15s;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+.note-toggle-btn:hover {
+  background: rgba(17,21,75,.05);
+  border-color: rgba(17,21,75,.25);
+}
+.note-toggle-btn svg {
+  width: 12px;
+  height: 12px;
+  color: var(--slate);
+}
+.note-toggle-btn.has-note {
+  background: rgba(6,124,188,.08);
+  border-color: rgba(6,124,188,.3);
+}
+.note-toggle-btn.has-note svg {
+  color: var(--blue);
+}
+.note-area {
+  display: none;
+  padding: 10px 10px 4px 30px;
+}
+.note-area.open {
+  display: block;
+  animation: fadeIn .15s ease;
+}
+.note-textarea {
+  width: 100%;
+  font-family: var(--font-b);
+  font-size: 12.5px;
   color: var(--dark);
-  border-bottom: 1px solid rgba(0,0,0,.06);
+  background: rgba(17,21,75,.02);
+  border: 1px solid rgba(17,21,75,.1);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  resize: vertical;
+  min-height: 60px;
+  outline: none;
+  transition: border-color .15s;
+  line-height: 1.5;
+}
+.note-textarea:focus {
+  border-color: var(--blue);
+  background: white;
+}
+.note-textarea::placeholder {
+  color: rgba(17,21,75,.25);
 }
 
-.week-actions li:last-child {
-  border-bottom: none;
+/* ── Week notes (section-level) ─────────── */
+.week-note-section {
+  border-top: 1px solid rgba(17,21,75,.06);
+  padding-top: 16px;
+}
+.week-note-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--slate);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
-.week-actions input[type="checkbox"] {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--mint-dark);
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 /* Responsive */
@@ -6375,259 +6593,440 @@ button:focus-visible,
 
   <!-- 90-Day Roadmap -->
   <section id="page-roadmap" class="page">
-    <div class="roadmap-page">
-      <div class="roadmap-header">
-        <h1>Your 90-Day Roadmap</h1>
-        <p class="roadmap-subtitle">Week-by-week actions to transform your digital presence</p>
-        <div class="roadmap-progress">
-          <div class="roadmap-progress-bar">
-            <div class="roadmap-progress-fill" style="width: 100%"></div>
+    <div class="page-header" id="roadmap-page-header">
+      <div class="page-header-eyebrow">90-Day Roadmap · Your Action Plan</div>
+      <h1>Week-by-Week Accelerator Plan</h1>
+      <p>Check off each completion item as you go. Your progress is saved automatically and will be here when you return.</p>
+      <button class="download-pdf-btn no-print" onclick="printRoadmap()">
+        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        Download PDF
+      </button>
+    </div>
+    <div class="content-area">
+
+      <!-- MONTH 1 -->
+      <div class="month-block">
+        <div class="month-header">
+          <span class="month-badge">Month 1</span>
+          <span class="month-title">Foundation</span>
+          <span class="month-progress" id="m1-prog"><span>0</span> of 16 done</span>
+        </div>
+
+        <!-- Week 1 -->
+        <div class="week-card" id="wc-1" data-week="1">
+          <div class="week-card-header" onclick="toggleWeek(1)">
+            <div class="week-num">W1</div>
+            <div class="week-title">Setup & Planning</div>
+            <div class="week-progress-pill" id="wp-1">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <span class="roadmap-progress-text">12 of 12 weeks complete</span>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Audit current social media accounts</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create content calendar template</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Gather 20 cabin photos for posting</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Set up scheduling tool (Later or Buffer)</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d1" data-key="week-1-check-1" onchange="onCheck(this)"><label class="check-box" for="rw1_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d1">Social accounts audited and documented</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d1"><textarea class="note-textarea" id="note-rw1_d1" placeholder="Add a note for this task…" oninput="saveNote('rw1_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d2" data-key="week-1-check-2" onchange="onCheck(this)"><label class="check-box" for="rw1_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d2">Content calendar template created</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d2"><textarea class="note-textarea" id="note-rw1_d2" placeholder="Add a note for this task…" oninput="saveNote('rw1_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d3" data-key="week-1-check-3" onchange="onCheck(this)"><label class="check-box" for="rw1_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d3">20+ photos collected and organized</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d3"><textarea class="note-textarea" id="note-rw1_d3" placeholder="Add a note for this task…" oninput="saveNote('rw1_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d4" data-key="week-1-check-4" onchange="onCheck(this)"><label class="check-box" for="rw1_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d4">Scheduling tool set up and connected</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d4"><textarea class="note-textarea" id="note-rw1_d4" placeholder="Add a note for this task…" oninput="saveNote('rw1_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-1" placeholder="Add general notes for this week…" oninput="saveNote('week_1',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 2 -->
+        <div class="week-card" id="wc-2" data-week="2">
+          <div class="week-card-header" onclick="toggleWeek(2)">
+            <div class="week-num">W2</div>
+            <div class="week-title">Content Creation</div>
+            <div class="week-progress-pill" id="wp-2">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Write 12 post captions for month 1</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create 4 Instagram Reels</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Schedule first 2 weeks of content</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Update Instagram bio with booking link</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d1" data-key="week-2-check-1" onchange="onCheck(this)"><label class="check-box" for="rw2_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d1">12 post captions written</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d1"><textarea class="note-textarea" id="note-rw2_d1" placeholder="Add a note…" oninput="saveNote('rw2_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d2" data-key="week-2-check-2" onchange="onCheck(this)"><label class="check-box" for="rw2_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d2">4 Reels created and ready</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d2"><textarea class="note-textarea" id="note-rw2_d2" placeholder="Add a note…" oninput="saveNote('rw2_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d3" data-key="week-2-check-3" onchange="onCheck(this)"><label class="check-box" for="rw2_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d3">2 weeks of content scheduled</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d3"><textarea class="note-textarea" id="note-rw2_d3" placeholder="Add a note…" oninput="saveNote('rw2_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d4" data-key="week-2-check-4" onchange="onCheck(this)"><label class="check-box" for="rw2_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d4">Instagram bio updated with booking link</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d4"><textarea class="note-textarea" id="note-rw2_d4" placeholder="Add a note…" oninput="saveNote('rw2_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-2" placeholder="Add general notes for this week…" oninput="saveNote('week_2',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 3 -->
+        <div class="week-card" id="wc-3" data-week="3">
+          <div class="week-card-header" onclick="toggleWeek(3)">
+            <div class="week-num">W3</div>
+            <div class="week-title">Launch & Engage</div>
+            <div class="week-progress-pill" id="wp-3">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Begin 3x weekly posting schedule</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Follow 50 local tourism accounts</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Respond to all comments within 2 hours</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Share guest photos with permission</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d1" data-key="week-3-check-1" onchange="onCheck(this)"><label class="check-box" for="rw3_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d1">3x weekly posting in effect</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d1"><textarea class="note-textarea" id="note-rw3_d1" placeholder="Add a note…" oninput="saveNote('rw3_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d2" data-key="week-3-check-2" onchange="onCheck(this)"><label class="check-box" for="rw3_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d2">50+ local accounts followed</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d2"><textarea class="note-textarea" id="note-rw3_d2" placeholder="Add a note…" oninput="saveNote('rw3_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d3" data-key="week-3-check-3" onchange="onCheck(this)"><label class="check-box" for="rw3_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d3">Comment response process established</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d3"><textarea class="note-textarea" id="note-rw3_d3" placeholder="Add a note…" oninput="saveNote('rw3_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d4" data-key="week-3-check-4" onchange="onCheck(this)"><label class="check-box" for="rw3_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d4">At least 1 guest photo shared</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d4"><textarea class="note-textarea" id="note-rw3_d4" placeholder="Add a note…" oninput="saveNote('rw3_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-3" placeholder="Add general notes for this week…" oninput="saveNote('week_3',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 4 -->
+        <div class="week-card" id="wc-4" data-week="4">
+          <div class="week-card-header" onclick="toggleWeek(4)">
+            <div class="week-num">W4</div>
+            <div class="week-title">Review & Optimize</div>
+            <div class="week-progress-pill" id="wp-4">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Review Instagram insights for top posts</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Adjust posting times based on data</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create 4 more Reels for month 2</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Document what's working, what's not</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d1" data-key="week-4-check-1" onchange="onCheck(this)"><label class="check-box" for="rw4_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d1">Top performing posts identified</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d1"><textarea class="note-textarea" id="note-rw4_d1" placeholder="Add a note…" oninput="saveNote('rw4_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d2" data-key="week-4-check-2" onchange="onCheck(this)"><label class="check-box" for="rw4_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d2">Posting times optimized</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d2"><textarea class="note-textarea" id="note-rw4_d2" placeholder="Add a note…" oninput="saveNote('rw4_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d3" data-key="week-4-check-3" onchange="onCheck(this)"><label class="check-box" for="rw4_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d3">4 new Reels ready for month 2</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d3"><textarea class="note-textarea" id="note-rw4_d3" placeholder="Add a note…" oninput="saveNote('rw4_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d4" data-key="week-4-check-4" onchange="onCheck(this)"><label class="check-box" for="rw4_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d4">Month 1 learnings documented</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d4"><textarea class="note-textarea" id="note-rw4_d4" placeholder="Add a note…" oninput="saveNote('rw4_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-4" placeholder="Add general notes for this week…" oninput="saveNote('week_4',this.value)" style="width:100%"></textarea></div>
+          </div>
         </div>
       </div>
 
-      <div class="roadmap-grid">
-        <!-- Month 1: Foundation -->
-        <div class="roadmap-month">
-          <div class="roadmap-month-header">
-            <h2>Month 1: Foundation</h2>
-            <span class="roadmap-month-focus">Focus: Social Media Activation</span>
-          </div>
+      <!-- MONTH 2 -->
+      <div class="month-block">
+        <div class="month-header">
+          <span class="month-badge">Month 2</span>
+          <span class="month-title">Growth</span>
+          <span class="month-progress" id="m2-prog"><span>0</span> of 16 done</span>
+        </div>
 
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 1</span>
-              <h3>Setup & Planning</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Audit current social media accounts</li>
-                  <li><input type="checkbox" checked disabled> Create content calendar template</li>
-                  <li><input type="checkbox" checked disabled> Gather 20 cabin photos for posting</li>
-                  <li><input type="checkbox" checked disabled> Set up scheduling tool (Later or Buffer)</li>
+        <!-- Week 5 -->
+        <div class="week-card" id="wc-5" data-week="5">
+          <div class="week-card-header" onclick="toggleWeek(5)">
+            <div class="week-num">W5</div>
+            <div class="week-title">Review System Setup</div>
+            <div class="week-progress-pill" id="wp-5">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create post-stay email template</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Generate Google review QR code</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Design review request cards for cabins</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Set up email automation (if available)</li>
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 2</span>
-              <h3>Content Creation</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Write 12 post captions for month 1</li>
-                  <li><input type="checkbox" checked disabled> Create 4 Instagram Reels</li>
-                  <li><input type="checkbox" checked disabled> Schedule first 2 weeks of content</li>
-                  <li><input type="checkbox" checked disabled> Update Instagram bio with booking link</li>
-                </ul>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d1" data-key="week-5-check-1" onchange="onCheck(this)"><label class="check-box" for="rw5_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d1">Email template created and saved</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d1"><textarea class="note-textarea" id="note-rw5_d1" placeholder="Add a note…" oninput="saveNote('rw5_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d2" data-key="week-5-check-2" onchange="onCheck(this)"><label class="check-box" for="rw5_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d2">QR code generated and tested</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d2"><textarea class="note-textarea" id="note-rw5_d2" placeholder="Add a note…" oninput="saveNote('rw5_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d3" data-key="week-5-check-3" onchange="onCheck(this)"><label class="check-box" for="rw5_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d3">Review cards designed and printed</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d3"><textarea class="note-textarea" id="note-rw5_d3" placeholder="Add a note…" oninput="saveNote('rw5_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d4" data-key="week-5-check-4" onchange="onCheck(this)"><label class="check-box" for="rw5_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d4">Email automation configured (if applicable)</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d4"><textarea class="note-textarea" id="note-rw5_d4" placeholder="Add a note…" oninput="saveNote('rw5_d4',this.value)"></textarea></div></div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 3</span>
-              <h3>Launch & Engage</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Begin 3x weekly posting schedule</li>
-                  <li><input type="checkbox" checked disabled> Follow 50 local tourism accounts</li>
-                  <li><input type="checkbox" checked disabled> Respond to all comments within 2 hours</li>
-                  <li><input type="checkbox" checked disabled> Share guest photos with permission</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 4</span>
-              <h3>Review & Optimize</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Review Instagram insights for top posts</li>
-                  <li><input type="checkbox" checked disabled> Adjust posting times based on data</li>
-                  <li><input type="checkbox" checked disabled> Create 4 more Reels for month 2</li>
-                  <li><input type="checkbox" checked disabled> Document what's working, what's not</li>
-                </ul>
-              </div>
-            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-5" placeholder="Add general notes for this week…" oninput="saveNote('week_5',this.value)" style="width:100%"></textarea></div>
           </div>
         </div>
 
-        <!-- Month 2: Growth -->
-        <div class="roadmap-month">
-          <div class="roadmap-month-header">
-            <h2>Month 2: Growth</h2>
-            <span class="roadmap-month-focus">Focus: Review Generation</span>
+        <!-- Week 6 -->
+        <div class="week-card" id="wc-6" data-week="6">
+          <div class="week-card-header" onclick="toggleWeek(6)">
+            <div class="week-num">W6</div>
+            <div class="week-title">Launch Review Requests</div>
+            <div class="week-progress-pill" id="wp-6">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 5</span>
-              <h3>Review System Setup</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Create post-stay email template</li>
-                  <li><input type="checkbox" checked disabled> Generate Google review QR code</li>
-                  <li><input type="checkbox" checked disabled> Design review request cards for cabins</li>
-                  <li><input type="checkbox" checked disabled> Set up email automation (if available)</li>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Send first batch of review request emails</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Place QR cards in all cabins</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Respond to any new reviews within 24h</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Continue 3x weekly social posting</li>
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 6</span>
-              <h3>Launch Review Requests</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Send first batch of review request emails</li>
-                  <li><input type="checkbox" checked disabled> Place QR cards in all cabins</li>
-                  <li><input type="checkbox" checked disabled> Respond to any new reviews within 24h</li>
-                  <li><input type="checkbox" checked disabled> Continue 3x weekly social posting</li>
-                </ul>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d1" data-key="week-6-check-1" onchange="onCheck(this)"><label class="check-box" for="rw6_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d1">First email batch sent</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d1"><textarea class="note-textarea" id="note-rw6_d1" placeholder="Add a note…" oninput="saveNote('rw6_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d2" data-key="week-6-check-2" onchange="onCheck(this)"><label class="check-box" for="rw6_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d2">QR cards placed in all cabins</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d2"><textarea class="note-textarea" id="note-rw6_d2" placeholder="Add a note…" oninput="saveNote('rw6_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d3" data-key="week-6-check-3" onchange="onCheck(this)"><label class="check-box" for="rw6_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d3">Review response process working</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d3"><textarea class="note-textarea" id="note-rw6_d3" placeholder="Add a note…" oninput="saveNote('rw6_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d4" data-key="week-6-check-4" onchange="onCheck(this)"><label class="check-box" for="rw6_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d4">Social posting maintained</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d4"><textarea class="note-textarea" id="note-rw6_d4" placeholder="Add a note…" oninput="saveNote('rw6_d4',this.value)"></textarea></div></div>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 7</span>
-              <h3>Expand Platforms</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Claim TripAdvisor listing</li>
-                  <li><input type="checkbox" checked disabled> Add TripAdvisor to review requests</li>
-                  <li><input type="checkbox" checked disabled> Check Facebook reviews status</li>
-                  <li><input type="checkbox" checked disabled> Add review widget to website</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 8</span>
-              <h3>Optimize & Scale</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Review conversion rate of email requests</li>
-                  <li><input type="checkbox" checked disabled> Test different email subject lines</li>
-                  <li><input type="checkbox" checked disabled> Create incentive for return guests who review</li>
-                  <li><input type="checkbox" checked disabled> Share positive reviews on social media</li>
-                </ul>
-              </div>
-            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-6" placeholder="Add general notes for this week…" oninput="saveNote('week_6',this.value)" style="width:100%"></textarea></div>
           </div>
         </div>
 
-        <!-- Month 3: Scale -->
-        <div class="roadmap-month">
-          <div class="roadmap-month-header">
-            <h2>Month 3: Scale</h2>
-            <span class="roadmap-month-focus">Focus: Local SEO Optimization</span>
+        <!-- Week 7 -->
+        <div class="week-card" id="wc-7" data-week="7">
+          <div class="week-card-header" onclick="toggleWeek(7)">
+            <div class="week-num">W7</div>
+            <div class="week-title">Expand Platforms</div>
+            <div class="week-progress-pill" id="wp-7">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 9</span>
-              <h3>GBP Optimization</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Audit Google Business Profile completeness</li>
-                  <li><input type="checkbox" checked disabled> Add 10 new photos to GBP</li>
-                  <li><input type="checkbox" checked disabled> Update business hours and services</li>
-                  <li><input type="checkbox" checked disabled> Create first Google Post</li>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Claim TripAdvisor listing</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Add TripAdvisor to review requests</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Check Facebook reviews status</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Add review widget to website</li>
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 10</span>
-              <h3>Technical SEO</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Add LocalBusiness schema to website</li>
-                  <li><input type="checkbox" checked disabled> Optimize title tags and meta descriptions</li>
-                  <li><input type="checkbox" checked disabled> Add operating hours to website</li>
-                  <li><input type="checkbox" checked disabled> Create FAQ page for common questions</li>
-                </ul>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d1" data-key="week-7-check-1" onchange="onCheck(this)"><label class="check-box" for="rw7_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d1">TripAdvisor listing claimed</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d1"><textarea class="note-textarea" id="note-rw7_d1" placeholder="Add a note…" oninput="saveNote('rw7_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d2" data-key="week-7-check-2" onchange="onCheck(this)"><label class="check-box" for="rw7_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d2">Review requests include TripAdvisor</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d2"><textarea class="note-textarea" id="note-rw7_d2" placeholder="Add a note…" oninput="saveNote('rw7_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d3" data-key="week-7-check-3" onchange="onCheck(this)"><label class="check-box" for="rw7_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d3">Facebook reviews enabled</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d3"><textarea class="note-textarea" id="note-rw7_d3" placeholder="Add a note…" oninput="saveNote('rw7_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d4" data-key="week-7-check-4" onchange="onCheck(this)"><label class="check-box" for="rw7_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d4">Review widget live on website</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d4"><textarea class="note-textarea" id="note-rw7_d4" placeholder="Add a note…" oninput="saveNote('rw7_d4',this.value)"></textarea></div></div>
+                </div>
               </div>
             </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-7" placeholder="Add general notes for this week…" oninput="saveNote('week_7',this.value)" style="width:100%"></textarea></div>
           </div>
+        </div>
 
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 11</span>
-              <h3>Citations & Listings</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Submit to 10 local directories</li>
-                  <li><input type="checkbox" checked disabled> Verify NAP consistency across all listings</li>
-                  <li><input type="checkbox" checked disabled> Create profile on tourism board site</li>
-                  <li><input type="checkbox" checked disabled> Reach out to local bloggers for features</li>
+        <!-- Week 8 -->
+        <div class="week-card" id="wc-8" data-week="8">
+          <div class="week-card-header" onclick="toggleWeek(8)">
+            <div class="week-num">W8</div>
+            <div class="week-title">Optimize & Scale</div>
+            <div class="week-progress-pill" id="wp-8">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Review conversion rate of email requests</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Test different email subject lines</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create incentive for return guests who review</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Share positive reviews on social media</li>
                 </ul>
               </div>
-            </div>
-          </div>
-
-          <div class="roadmap-week">
-            <div class="roadmap-week-header">
-              <span class="week-badge">Week 12</span>
-              <h3>Review & Plan Ahead</h3>
-            </div>
-            <div class="roadmap-week-content">
-              <div class="week-actions">
-                <h4>Actions</h4>
-                <ul>
-                  <li><input type="checkbox" checked disabled> Complete 90-day assessment</li>
-                  <li><input type="checkbox" checked disabled> Document all improvements and wins</li>
-                  <li><input type="checkbox" checked disabled> Create maintenance schedule for ongoing tasks</li>
-                  <li><input type="checkbox" checked disabled> Plan next quarter priorities</li>
-                </ul>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d1" data-key="week-8-check-1" onchange="onCheck(this)"><label class="check-box" for="rw8_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d1">Email conversion rate tracked</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d1"><textarea class="note-textarea" id="note-rw8_d1" placeholder="Add a note…" oninput="saveNote('rw8_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d2" data-key="week-8-check-2" onchange="onCheck(this)"><label class="check-box" for="rw8_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d2">A/B test on subject lines started</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d2"><textarea class="note-textarea" id="note-rw8_d2" placeholder="Add a note…" oninput="saveNote('rw8_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d3" data-key="week-8-check-3" onchange="onCheck(this)"><label class="check-box" for="rw8_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d3">Return guest incentive created</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d3"><textarea class="note-textarea" id="note-rw8_d3" placeholder="Add a note…" oninput="saveNote('rw8_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d4" data-key="week-8-check-4" onchange="onCheck(this)"><label class="check-box" for="rw8_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d4">At least 2 reviews shared on social</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d4"><textarea class="note-textarea" id="note-rw8_d4" placeholder="Add a note…" oninput="saveNote('rw8_d4',this.value)"></textarea></div></div>
+                </div>
               </div>
             </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-8" placeholder="Add general notes for this week…" oninput="saveNote('week_8',this.value)" style="width:100%"></textarea></div>
           </div>
         </div>
       </div>
+
+      <!-- MONTH 3 -->
+      <div class="month-block">
+        <div class="month-header">
+          <span class="month-badge">Month 3</span>
+          <span class="month-title">Scale</span>
+          <span class="month-progress" id="m3-prog"><span>0</span> of 16 done</span>
+        </div>
+
+        <!-- Week 9 -->
+        <div class="week-card" id="wc-9" data-week="9">
+          <div class="week-card-header" onclick="toggleWeek(9)">
+            <div class="week-num">W9</div>
+            <div class="week-title">GBP Optimization</div>
+            <div class="week-progress-pill" id="wp-9">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Audit Google Business Profile completeness</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Add 10 new photos to GBP</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Update business hours and services</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create first Google Post</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d1" data-key="week-9-check-1" onchange="onCheck(this)"><label class="check-box" for="rw9_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d1">GBP audit completed</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d1"><textarea class="note-textarea" id="note-rw9_d1" placeholder="Add a note…" oninput="saveNote('rw9_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d2" data-key="week-9-check-2" onchange="onCheck(this)"><label class="check-box" for="rw9_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d2">10+ new photos uploaded</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d2"><textarea class="note-textarea" id="note-rw9_d2" placeholder="Add a note…" oninput="saveNote('rw9_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d3" data-key="week-9-check-3" onchange="onCheck(this)"><label class="check-box" for="rw9_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d3">Hours and services updated</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d3"><textarea class="note-textarea" id="note-rw9_d3" placeholder="Add a note…" oninput="saveNote('rw9_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d4" data-key="week-9-check-4" onchange="onCheck(this)"><label class="check-box" for="rw9_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d4">First Google Post published</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d4"><textarea class="note-textarea" id="note-rw9_d4" placeholder="Add a note…" oninput="saveNote('rw9_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-9" placeholder="Add general notes for this week…" oninput="saveNote('week_9',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 10 -->
+        <div class="week-card" id="wc-10" data-week="10">
+          <div class="week-card-header" onclick="toggleWeek(10)">
+            <div class="week-num">W10</div>
+            <div class="week-title">Technical SEO</div>
+            <div class="week-progress-pill" id="wp-10">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Add LocalBusiness schema to website</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Optimize title tags and meta descriptions</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Add operating hours to website</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create FAQ page for common questions</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d1" data-key="week-10-check-1" onchange="onCheck(this)"><label class="check-box" for="rw10_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d1">Schema markup added and validated</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d1"><textarea class="note-textarea" id="note-rw10_d1" placeholder="Add a note…" oninput="saveNote('rw10_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d2" data-key="week-10-check-2" onchange="onCheck(this)"><label class="check-box" for="rw10_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d2">Title tags and metas optimized</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d2"><textarea class="note-textarea" id="note-rw10_d2" placeholder="Add a note…" oninput="saveNote('rw10_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d3" data-key="week-10-check-3" onchange="onCheck(this)"><label class="check-box" for="rw10_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d3">Operating hours visible on website</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d3"><textarea class="note-textarea" id="note-rw10_d3" placeholder="Add a note…" oninput="saveNote('rw10_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d4" data-key="week-10-check-4" onchange="onCheck(this)"><label class="check-box" for="rw10_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d4">FAQ page published</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d4"><textarea class="note-textarea" id="note-rw10_d4" placeholder="Add a note…" oninput="saveNote('rw10_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-10" placeholder="Add general notes for this week…" oninput="saveNote('week_10',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 11 -->
+        <div class="week-card" id="wc-11" data-week="11">
+          <div class="week-card-header" onclick="toggleWeek(11)">
+            <div class="week-num">W11</div>
+            <div class="week-title">Citations & Listings</div>
+            <div class="week-progress-pill" id="wp-11">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Submit to 10 local directories</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Verify NAP consistency across all listings</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create profile on tourism board site</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Reach out to local bloggers for features</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d1" data-key="week-11-check-1" onchange="onCheck(this)"><label class="check-box" for="rw11_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d1">10+ directory submissions made</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d1"><textarea class="note-textarea" id="note-rw11_d1" placeholder="Add a note…" oninput="saveNote('rw11_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d2" data-key="week-11-check-2" onchange="onCheck(this)"><label class="check-box" for="rw11_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d2">NAP consistency verified</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d2"><textarea class="note-textarea" id="note-rw11_d2" placeholder="Add a note…" oninput="saveNote('rw11_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d3" data-key="week-11-check-3" onchange="onCheck(this)"><label class="check-box" for="rw11_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d3">Tourism board profile created</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d3"><textarea class="note-textarea" id="note-rw11_d3" placeholder="Add a note…" oninput="saveNote('rw11_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d4" data-key="week-11-check-4" onchange="onCheck(this)"><label class="check-box" for="rw11_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d4">Blogger outreach initiated</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d4"><textarea class="note-textarea" id="note-rw11_d4" placeholder="Add a note…" oninput="saveNote('rw11_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-11" placeholder="Add general notes for this week…" oninput="saveNote('week_11',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+
+        <!-- Week 12 -->
+        <div class="week-card" id="wc-12" data-week="12">
+          <div class="week-card-header" onclick="toggleWeek(12)">
+            <div class="week-num">W12</div>
+            <div class="week-title">Review & Plan Ahead</div>
+            <div class="week-progress-pill" id="wp-12">0 / 4</div>
+            <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="week-card-body">
+            <div class="week-cols">
+              <div>
+                <div class="week-col-label">This Week's Actions</div>
+                <ul class="week-tasks-list">
+                  <li class="week-task-item"><div class="week-task-dot"></div>Complete 90-day assessment</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Document all improvements and wins</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Create maintenance schedule for ongoing tasks</li>
+                  <li class="week-task-item"><div class="week-task-dot"></div>Plan next quarter priorities</li>
+                </ul>
+              </div>
+              <div>
+                <div class="week-col-label">Completion Checklist</div>
+                <div class="check-list">
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d1" data-key="week-12-check-1" onchange="onCheck(this)"><label class="check-box" for="rw12_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d1">90-day assessment completed</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d1"><textarea class="note-textarea" id="note-rw12_d1" placeholder="Add a note…" oninput="saveNote('rw12_d1',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d2" data-key="week-12-check-2" onchange="onCheck(this)"><label class="check-box" for="rw12_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d2">Wins and improvements documented</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d2"><textarea class="note-textarea" id="note-rw12_d2" placeholder="Add a note…" oninput="saveNote('rw12_d2',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d3" data-key="week-12-check-3" onchange="onCheck(this)"><label class="check-box" for="rw12_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d3">Maintenance schedule created</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d3"><textarea class="note-textarea" id="note-rw12_d3" placeholder="Add a note…" oninput="saveNote('rw12_d3',this.value)"></textarea></div></div>
+                  <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d4" data-key="week-12-check-4" onchange="onCheck(this)"><label class="check-box" for="rw12_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d4">Next quarter priorities planned</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d4"><textarea class="note-textarea" id="note-rw12_d4" placeholder="Add a note…" oninput="saveNote('rw12_d4',this.value)"></textarea></div></div>
+                </div>
+              </div>
+            </div>
+            <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-12" placeholder="Add general notes for this week…" oninput="saveNote('week_12',this.value)" style="width:100%"></textarea></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -6753,6 +7152,171 @@ function toggleMobileMenu() {
   document.getElementById('sidebar').classList.toggle('open');
   document.getElementById('mobileOverlay').classList.toggle('active');
 }
+
+// ══════════════════════════════════════════════════════════════
+// ROADMAP PAGE COMPONENTS
+// ══════════════════════════════════════════════════════════════
+
+// Define check IDs for each week (4 checks per week)
+const WEEK_CHECKS = {
+  1: ['week-1-check-1','week-1-check-2','week-1-check-3','week-1-check-4'],
+  2: ['week-2-check-1','week-2-check-2','week-2-check-3','week-2-check-4'],
+  3: ['week-3-check-1','week-3-check-2','week-3-check-3','week-3-check-4'],
+  4: ['week-4-check-1','week-4-check-2','week-4-check-3','week-4-check-4'],
+  5: ['week-5-check-1','week-5-check-2','week-5-check-3','week-5-check-4'],
+  6: ['week-6-check-1','week-6-check-2','week-6-check-3','week-6-check-4'],
+  7: ['week-7-check-1','week-7-check-2','week-7-check-3','week-7-check-4'],
+  8: ['week-8-check-1','week-8-check-2','week-8-check-3','week-8-check-4'],
+  9: ['week-9-check-1','week-9-check-2','week-9-check-3','week-9-check-4'],
+  10: ['week-10-check-1','week-10-check-2','week-10-check-3','week-10-check-4'],
+  11: ['week-11-check-1','week-11-check-2','week-11-check-3','week-11-check-4'],
+  12: ['week-12-check-1','week-12-check-2','week-12-check-3','week-12-check-4']
+};
+
+// Month to weeks mapping
+const MONTH_CHECKS = {
+  1: [...WEEK_CHECKS[1], ...WEEK_CHECKS[2], ...WEEK_CHECKS[3], ...WEEK_CHECKS[4]],
+  2: [...WEEK_CHECKS[5], ...WEEK_CHECKS[6], ...WEEK_CHECKS[7], ...WEEK_CHECKS[8]],
+  3: [...WEEK_CHECKS[9], ...WEEK_CHECKS[10], ...WEEK_CHECKS[11], ...WEEK_CHECKS[12]]
+};
+
+// All check IDs
+const ALL_CHECK_IDS = Object.values(WEEK_CHECKS).flat();
+
+// State object
+const roadmapState = { checks: {}, notes: {} };
+
+// Load state from localStorage
+function loadRoadmapState() {
+  const saved = localStorage.getItem('conners_cabins_roadmap');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      roadmapState.checks = data.checks || {};
+      roadmapState.notes = data.notes || {};
+    } catch (e) { /* ignore parse errors */ }
+  }
+  // Apply saved state to DOM
+  ALL_CHECK_IDS.forEach(key => {
+    const el = document.querySelector(`input[data-key="${key}"]`);
+    if (el && roadmapState.checks[key]) {
+      el.checked = true;
+    }
+  });
+  // Apply saved notes
+  Object.keys(roadmapState.notes).forEach(id => {
+    const textarea = document.getElementById('note-' + id);
+    if (textarea) {
+      textarea.value = roadmapState.notes[id];
+    }
+    updateNoteBtn(id);
+  });
+  updateRoadmapProgress();
+}
+
+// Save state to localStorage
+function saveRoadmapState() {
+  localStorage.setItem('conners_cabins_roadmap', JSON.stringify(roadmapState));
+}
+
+// Toggle week card accordion
+function toggleWeek(n) {
+  const weekCard = document.getElementById('wc-' + n);
+  if (!weekCard) return;
+  weekCard.classList.toggle('open');
+  const isOpen = weekCard.classList.contains('open');
+  const header = weekCard.querySelector('.week-card-header');
+  if (header) header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+}
+
+// Handle checkbox change
+function onCheck(el) {
+  const key = el.dataset.key;
+  roadmapState.checks[key] = el.checked;
+  saveRoadmapState();
+  updateRoadmapProgress();
+  updateNoteBtn(el.id);
+}
+
+// Toggle note area
+function toggleNote(id) {
+  const area = document.getElementById('note-area-' + id);
+  if (!area) return;
+  area.classList.toggle('open');
+  if (area.classList.contains('open')) {
+    const ta = document.getElementById('note-' + id);
+    if (ta) ta.focus();
+  }
+}
+
+// Save note
+function saveNote(id, val) {
+  roadmapState.notes[id] = val;
+  saveRoadmapState();
+  updateNoteBtn(id);
+}
+
+// Update note button appearance
+function updateNoteBtn(id) {
+  const btn = document.querySelector(`[onclick="toggleNote('${id}')"]`);
+  if (!btn) return;
+  const hasNote = roadmapState.notes[id] && roadmapState.notes[id].trim().length > 0;
+  btn.classList.toggle('has-note', hasNote);
+}
+
+// Count checked items from DOM
+function countRoadmapChecked(ids) {
+  return ids.filter(id => {
+    const el = document.querySelector(`input[data-key="${id}"]`);
+    return el && el.checked;
+  }).length;
+}
+
+// Update all roadmap progress indicators
+function updateRoadmapProgress() {
+  // Update week progress pills
+  for (let w = 1; w <= 12; w++) {
+    const ids = WEEK_CHECKS[w];
+    if (!ids) continue;
+    const done = countRoadmapChecked(ids);
+    const total = ids.length;
+    const pill = document.getElementById('wp-' + w);
+    if (pill) {
+      pill.textContent = done + ' / ' + total;
+      pill.classList.toggle('done', done === total);
+    }
+  }
+
+  // Update month progress
+  [1, 2, 3].forEach(m => {
+    const ids = MONTH_CHECKS[m];
+    const done = countRoadmapChecked(ids);
+    const total = ids.length;
+    const el = document.getElementById('m' + m + '-prog');
+    if (el) el.innerHTML = '<span>' + done + '</span> of ' + total + ' done';
+  });
+
+  // Update roadmap badge in sidebar
+  const allDone = countRoadmapChecked(ALL_CHECK_IDS);
+  const allTotal = ALL_CHECK_IDS.length;
+  const pct = allTotal > 0 ? Math.round(allDone / allTotal * 100) : 0;
+  const badge = document.getElementById('roadmap-badge');
+  if (badge) badge.textContent = pct + '%';
+}
+
+// Print roadmap
+function printRoadmap() {
+  // Open all weeks before printing
+  document.querySelectorAll('.week-card').forEach(card => {
+    card.classList.add('open');
+  });
+  window.print();
+}
+
+// Initialize roadmap on page load
+document.addEventListener('DOMContentLoaded', function() {
+  loadRoadmapState();
+});
 
 // ══════════════════════════════════════════════════════════════
 // TACTIC PAGE COMPONENTS
