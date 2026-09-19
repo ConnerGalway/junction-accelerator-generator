@@ -17,7 +17,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>90-Day Accelerator: {{CLIENT_NAME}}</title>
 
 <!-- Fonts -->
@@ -371,13 +371,15 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 12px 12px;
+  min-height: 44px;
   border-radius: var(--radius-sm);
   font-size: 14px;
   font-weight: 500;
   color: rgba(255,255,255,0.7);
   text-align: left;
   transition: background 0.15s, color 0.15s;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .nav-item:hover {
@@ -470,8 +472,8 @@ button {
 }
 
 .topbar__toggle {
-  width: 34px;
-  height: 34px;
+  width: 44px;
+  height: 44px;
   flex: none;
   display: grid;
   place-items: center;
@@ -479,13 +481,20 @@ button {
   border: 1px solid var(--border-subtle);
   background: var(--white);
   color: var(--navy-900);
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease, transform 0.1s ease;
 }
 
 .topbar__toggle:hover {
   background: var(--surface-sunken);
+}
+
+.topbar__toggle:active {
+  transform: scale(0.96);
 }
 
 .topbar__right {
@@ -816,11 +825,17 @@ button {
   border: none;
   border-radius: var(--radius-md);
   padding: 14px 26px;
+  min-height: 44px;
   font-family: var(--font-body);
   font-weight: 700;
   font-size: 15px;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: background 0.15s, transform 0.1s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-primary:active {
+  transform: scale(0.97);
 }
 
 .btn-primary:hover {
@@ -1037,10 +1052,12 @@ button {
   background: rgba(255,255,255,0.08);
   border: 1px solid rgba(255,255,255,0.22);
   border-radius: var(--radius-pill);
-  padding: 9px 16px;
+  padding: 10px 18px;
+  min-height: 44px;
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 13px;
+  -webkit-tap-highlight-color: transparent;
   color: #fff;
 }
 
@@ -1803,14 +1820,18 @@ button {
 }
 
 .roadmap__task-checkbox {
-  width: 22px;
-  height: 22px;
-  border-radius: 5px;
+  width: 24px;
+  height: 24px;
+  min-width: 24px;
+  min-height: 24px;
+  border-radius: 6px;
   border: 2px solid var(--border-subtle);
   display: grid;
   place-items: center;
   flex: none;
   transition: background 0.15s, border-color 0.15s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .roadmap__task.done .roadmap__task-checkbox {
@@ -3105,6 +3126,86 @@ button {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
+   MOBILE HEADER
+   ══════════════════════════════════════════════════════════════════════════ */
+.mobile-header {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 56px;
+  background: var(--surface-brand);
+  align-items: center;
+  padding: 0 16px;
+  padding-top: env(safe-area-inset-top, 0);
+  gap: 12px;
+  z-index: 200;
+  box-shadow: 0 2px 12px rgba(17, 21, 75, 0.25);
+}
+
+.mobile-header__logo {
+  height: 24px;
+  width: auto;
+}
+
+.mobile-header__title {
+  flex: 1;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--fg-inverse);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-header__hamburger {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: var(--radius-md);
+  color: var(--fg-inverse);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.15s ease;
+}
+
+.mobile-header__hamburger:active {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(0.96);
+}
+
+/* Drawer Overlay */
+.drawer-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 21, 75, 0.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.drawer-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
    RESPONSIVE
    ══════════════════════════════════════════════════════════════════════════ */
 @media (max-width: 1200px) {
@@ -3131,14 +3232,26 @@ button {
 }
 
 @media (max-width: 768px) {
+  /* Show mobile header */
+  .mobile-header {
+    display: flex;
+  }
+
+  /* Hide desktop topbar toggle */
+  .topbar__toggle {
+    display: none;
+  }
+
+  /* Sidebar as drawer */
   .sidebar {
     position: fixed;
     left: 0;
     top: 0;
     bottom: 0;
-    z-index: 100;
+    z-index: 160;
     transform: translateX(-100%);
-    transition: transform 0.3s ease;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    padding-top: env(safe-area-inset-top, 0);
   }
 
   .sidebar.mobile-open {
@@ -3149,8 +3262,10 @@ button {
     width: var(--sidebar-expanded);
   }
 
+  /* Main content with header offset */
   .main-content {
     width: 100%;
+    padding-top: calc(56px + env(safe-area-inset-top, 0));
   }
 
   .topbar {
@@ -3159,6 +3274,7 @@ button {
 
   .page-view {
     padding: 22px 20px 44px;
+    padding-bottom: calc(44px + env(safe-area-inset-bottom, 0));
   }
 
   .dashboard__progress-card {
@@ -4453,6 +4569,22 @@ button,
   </nav>
 
   <!-- ══════════════════════════════════════════════════════════════════════
+       MOBILE HEADER
+       ══════════════════════════════════════════════════════════════════════ -->
+  <header class="mobile-header">
+    <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="mobile-header__logo">
+    <span class="mobile-header__title">{{CLIENT_NAME}}</span>
+    <button class="mobile-header__hamburger" id="mobileMenuBtn" aria-label="Open menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <line x1="3" y1="12" x2="21" y2="12"/>
+        <line x1="3" y1="18" x2="21" y2="18"/>
+      </svg>
+    </button>
+  </header>
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+
+  <!-- ══════════════════════════════════════════════════════════════════════
        MAIN CONTENT
        ══════════════════════════════════════════════════════════════════════ -->
   <main class="main-content">
@@ -5683,12 +5815,112 @@ function nextTourStep() {
     currentView = viewId;
   }
 
-  // ── Sidebar Toggle ────────────────────────────────────────────────────────
+  // ── Sidebar Toggle (Desktop) ──────────────────────────────────────────────
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     sidebarCollapsed = !sidebarCollapsed;
     sidebar.classList.toggle('collapsed', sidebarCollapsed);
     localStorage.setItem(`${CLIENT_SLUG}_sidebar`, sidebarCollapsed ? 'collapsed' : 'expanded');
+  }
+
+  // ── Mobile Navigation ────────────────────────────────────────────────────────
+  function openMobileDrawer() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('drawerOverlay');
+    sidebar.classList.add('mobile-open');
+    overlay.classList.add('open');
+    document.body.classList.add('drawer-open');
+  }
+
+  function closeMobileDrawer() {
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('drawerOverlay');
+    sidebar.classList.remove('mobile-open');
+    overlay.classList.remove('open');
+    document.body.classList.remove('drawer-open');
+  }
+
+  function toggleMobileDrawer() {
+    const sidebar = document.getElementById('sidebar');
+    if (sidebar.classList.contains('mobile-open')) {
+      closeMobileDrawer();
+    } else {
+      openMobileDrawer();
+    }
+  }
+
+  // ── Swipe Gesture Support ────────────────────────────────────────────────────
+  const SWIPE_THRESHOLD = 50;
+  const EDGE_ZONE = 30;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchCurrentX = 0;
+  let isSwiping = false;
+  let isEdgeSwipe = false;
+
+  function handleTouchStart(e) {
+    if (window.innerWidth > 768) return;
+
+    const touch = e.touches[0];
+    touchStartX = touch.clientX;
+    touchStartY = touch.clientY;
+    touchCurrentX = touchStartX;
+    isSwiping = false;
+
+    const sidebar = document.getElementById('sidebar');
+    isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('mobile-open');
+  }
+
+  function handleTouchMove(e) {
+    if (window.innerWidth > 768) return;
+
+    const touch = e.touches[0];
+    const deltaX = touch.clientX - touchStartX;
+    const deltaY = touch.clientY - touchStartY;
+
+    if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+      isSwiping = true;
+      touchCurrentX = touch.clientX;
+
+      const sidebar = document.getElementById('sidebar');
+      const isOpen = sidebar.classList.contains('mobile-open');
+      const sidebarWidth = 268;
+
+      if (isEdgeSwipe && deltaX > 0) {
+        const progress = Math.min(deltaX / sidebarWidth, 1);
+        sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+        sidebar.style.transition = 'none';
+      } else if (isOpen && deltaX < 0) {
+        const progress = Math.max(deltaX / sidebarWidth, -1);
+        sidebar.style.transform = `translateX(${progress * 100}%)`;
+        sidebar.style.transition = 'none';
+      }
+    }
+  }
+
+  function handleTouchEnd(e) {
+    if (window.innerWidth > 768 || !isSwiping) return;
+
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('mobile-open');
+    const deltaX = touchCurrentX - touchStartX;
+
+    sidebar.style.transform = '';
+    sidebar.style.transition = '';
+
+    if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) {
+      openMobileDrawer();
+      return;
+    }
+
+    if (isOpen && deltaX < -SWIPE_THRESHOLD) {
+      closeMobileDrawer();
+      return;
+    }
+
+    if (isEdgeSwipe && deltaX > 0) {
+      closeMobileDrawer();
+    }
   }
 
   // ── Initialize ────────────────────────────────────────────────────────────
@@ -5705,12 +5937,27 @@ function nextTourStep() {
       btn.addEventListener('click', () => navigateTo(btn.dataset.nav));
     });
 
-    // Sidebar toggle handlers
+    // Sidebar toggle handlers (desktop)
     document.getElementById('expandSidebar')?.addEventListener('click', toggleSidebar);
     document.getElementById('collapseSidebar')?.addEventListener('click', toggleSidebar);
-    document.getElementById('toggleSidebar')?.addEventListener('click', () => {
-      const sidebar = document.getElementById('sidebar');
-      sidebar.classList.toggle('mobile-open');
+    document.getElementById('toggleSidebar')?.addEventListener('click', toggleMobileDrawer);
+
+    // Mobile navigation handlers
+    document.getElementById('mobileMenuBtn')?.addEventListener('click', toggleMobileDrawer);
+    document.getElementById('drawerOverlay')?.addEventListener('click', closeMobileDrawer);
+
+    // Swipe gestures
+    document.addEventListener('touchstart', handleTouchStart, { passive: true });
+    document.addEventListener('touchmove', handleTouchMove, { passive: true });
+    document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+    // Close drawer on nav item click (mobile)
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+          closeMobileDrawer();
+        }
+      });
     });
 
     // Celebration dismiss
@@ -5724,10 +5971,15 @@ function nextTourStep() {
         dismissCelebration();
       }
     });
-    // Escape key to dismiss celebration
+    // Escape key to dismiss celebration and mobile drawer
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && document.getElementById('celebrateOverlay')?.classList.contains('visible')) {
-        dismissCelebration();
+      if (e.key === 'Escape') {
+        if (document.getElementById('celebrateOverlay')?.classList.contains('visible')) {
+          dismissCelebration();
+        }
+        if (document.getElementById('sidebar')?.classList.contains('mobile-open')) {
+          closeMobileDrawer();
+        }
       }
     });
 

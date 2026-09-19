@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Digital Marketing Assessment — Harrison Beach Hotel</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -933,19 +933,27 @@ nav { flex: 1; padding: 12px 0; }
   .mobile-header { display: none; }
 }
 
-.mobile-overlay {
+#drawerOverlay {
+  display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 999;
+  background: rgba(17, 21, 75, 0.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
-  visibility: hidden;
-  transition: opacity .3s, visibility .3s;
+  transition: opacity 0.3s ease;
 }
 
-.mobile-overlay.active {
+#drawerOverlay.open {
+  display: block;
   opacity: 1;
-  visibility: visible;
+}
+
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 /* ── Download PDF Button ────────────────────────── */
@@ -1035,7 +1043,7 @@ nav { flex: 1; padding: 12px 0; }
      ══════════════════════════════════════════════════════════════════════════ */
   #sidebar,
   .mobile-header,
-  .mobile-overlay,
+  #drawerOverlay,
   .download-pdf-btn,
   .assessment-hero-badge,
   .assessment-hero-actions,
@@ -2007,7 +2015,7 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">Harrison Beach Hotel</span>
-  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -2016,7 +2024,7 @@ nav { flex: 1; padding: 12px 0; }
   </button>
 </div>
 
-<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <!-- Sidebar -->
 <aside id="sidebar">
@@ -2299,8 +2307,7 @@ function navigate(pageId) {
   event?.target?.closest('.nav-item')?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
+  if (window.innerWidth <= 768) closeMobileDrawer();
 }
 
 function showComingSoon(pageId) {
@@ -2308,14 +2315,107 @@ function showComingSoon(pageId) {
   document.getElementById('page-' + pageId)?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
+  if (window.innerWidth <= 768) closeMobileDrawer();
 }
 
-function toggleMobileMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('mobileOverlay').classList.toggle('active');
+// ══════════════════════════════════════════════════════════════
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
 }
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// ── Swipe Gesture Support ────────────────────────────────────
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / 268, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / 268, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) {
+    openMobileDrawer();
+    return;
+  }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) {
+    closeMobileDrawer();
+    return;
+  }
+  if (isEdgeSwipe && deltaX > 0) {
+    closeMobileDrawer();
+  }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMobileDrawer(); });
+
+// Legacy alias for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
 
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
