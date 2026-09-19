@@ -2803,7 +2803,9 @@ body:not(.has-plan) .plan-content{display:none}
   #sidebar{
     position:fixed;
     left:0;top:0;bottom:0;
+    width:var(--sidebar-w);
     transform:translateX(-100%);
+    transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);
     z-index:160;
     height:100%;
   }
