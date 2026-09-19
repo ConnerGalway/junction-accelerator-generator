@@ -2822,7 +2822,21 @@ body:not(.has-plan) .plan-content{display:none}
   .dash-grid{grid-template-columns:1fr}
   .dash-hero{flex-direction:column;align-items:flex-start;gap:20px;padding:24px}
   .week-cols{grid-template-columns:1fr}
-  .tabs{flex-wrap:wrap}
+  /* Tabs - horizontal scroll on mobile */
+  .tabs{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+    flex-wrap:nowrap;
+    margin-left:-16px;
+    margin-right:-16px;
+    padding-left:16px;
+    padding-right:16px;
+    width:auto;
+  }
+  .tabs::-webkit-scrollbar{display:none}
+  .tab-btn{flex-shrink:0;padding:8px 14px;font-size:12px}
 }
 @media(min-width:769px) and (max-width:1024px){
   :root{--sidebar-w:220px}
