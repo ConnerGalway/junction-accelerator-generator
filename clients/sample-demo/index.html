@@ -3207,27 +3207,104 @@ nav { flex: 1; padding: 12px 0; }
   .categories-grid { grid-template-columns: 1fr; }
   .category-metrics { grid-template-columns: 1fr; }
 
-  /* Tactic tabs - horizontal scroll on mobile */
+  /* Hide horizontal tabs on mobile, show dropdown instead */
   .tactic-tabs {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-    margin-left: -20px;
-    margin-right: -20px;
-    padding-left: 20px;
-    padding-right: 20px;
+    display: none;
   }
-  .tactic-tabs::-webkit-scrollbar { display: none; }
-  .tactic-tab {
-    flex-shrink: 0;
-    padding: 12px 18px;
-    font-size: 13px;
+
+  /* Mobile Tab Selector Dropdown */
+  .mobile-tab-selector {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: #fff;
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+  }
+  .mobile-tab-selector:active {
+    background: rgba(255, 255, 255, 0.18);
+  }
+  .mobile-tab-selector-chevron {
+    width: 20px;
+    height: 20px;
+    opacity: 0.7;
+    transition: transform 0.2s ease;
+  }
+  .mobile-tab-selector.open .mobile-tab-selector-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Dropdown Menu */
+  .mobile-tab-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: var(--navy-900);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    padding: 6px;
+    z-index: 50;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  .mobile-tab-dropdown.open {
+    display: block;
+    animation: dropdownFadeIn 0.15s ease;
+  }
+  @keyframes dropdownFadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .mobile-tab-option {
+    display: block;
+    width: 100%;
+    padding: 14px 16px;
+    background: transparent;
+    border: none;
+    border-radius: 8px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-display);
+    font-size: 15px;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease;
+  }
+  .mobile-tab-option:hover,
+  .mobile-tab-option:focus {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+  }
+  .mobile-tab-option.active {
+    background: var(--mint);
+    color: var(--navy-900);
+    font-weight: 600;
+  }
+  .mobile-tab-option.active:hover {
+    background: var(--mint);
+    color: var(--navy-900);
+  }
+
+  /* Container for positioning dropdown */
+  .tactic-hero {
+    position: relative;
   }
 }
 
 @media (min-width: 769px) {
   .mobile-header { display: none; }
+  .mobile-tab-selector,
+  .mobile-tab-dropdown { display: none !important; }
 }
 
 #drawerOverlay {
@@ -8022,6 +8099,155 @@ function renderDashboard() {
 document.addEventListener('DOMContentLoaded', function() {
   renderDashboard();
   renderAssessment();
+});
+
+// ══════════════════════════════════════════════════════════════
+// MOBILE TAB SELECTOR
+// ══════════════════════════════════════════════════════════════
+
+function initMobileTabSelectors() {
+  // Only initialize on mobile
+  if (window.innerWidth > 768) return;
+
+  document.querySelectorAll('.tactic-tabs').forEach(tabsContainer => {
+    const tacticHero = tabsContainer.closest('.tactic-hero');
+    if (!tacticHero || tacticHero.querySelector('.mobile-tab-selector')) return;
+
+    // Get tactic number from page id
+    const tacticPage = tabsContainer.closest('.page');
+    const tacticNum = tacticPage ? tacticPage.id.replace('page-tactic', '') : '1';
+
+    // Get all tabs
+    const tabs = tabsContainer.querySelectorAll('.tactic-tab');
+    const activeTab = tabsContainer.querySelector('.tactic-tab.active');
+    const activeLabel = activeTab ? activeTab.textContent : 'Overview';
+
+    // Create mobile selector button
+    const selector = document.createElement('button');
+    selector.className = 'mobile-tab-selector';
+    selector.setAttribute('aria-haspopup', 'listbox');
+    selector.setAttribute('aria-expanded', 'false');
+    selector.innerHTML = `
+      <span class="mobile-tab-selector-label">${activeLabel}</span>
+      <svg class="mobile-tab-selector-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    `;
+
+    // Create dropdown menu
+    const dropdown = document.createElement('div');
+    dropdown.className = 'mobile-tab-dropdown';
+    dropdown.setAttribute('role', 'listbox');
+
+    tabs.forEach(tab => {
+      const option = document.createElement('button');
+      option.className = 'mobile-tab-option' + (tab.classList.contains('active') ? ' active' : '');
+      option.textContent = tab.textContent;
+      option.setAttribute('role', 'option');
+      option.setAttribute('aria-selected', tab.classList.contains('active'));
+
+      // Extract tab name from onclick or aria-controls
+      const controls = tab.getAttribute('aria-controls') || '';
+      const tabName = controls.split('-').pop() || 'overview';
+
+      option.addEventListener('click', function() {
+        // Update active state
+        dropdown.querySelectorAll('.mobile-tab-option').forEach(o => {
+          o.classList.remove('active');
+          o.setAttribute('aria-selected', 'false');
+        });
+        option.classList.add('active');
+        option.setAttribute('aria-selected', 'true');
+
+        // Update selector label
+        selector.querySelector('.mobile-tab-selector-label').textContent = option.textContent;
+
+        // Close dropdown
+        selector.classList.remove('open');
+        dropdown.classList.remove('open');
+        selector.setAttribute('aria-expanded', 'false');
+
+        // Switch tab
+        switchTacticTab(parseInt(tacticNum), tabName);
+      });
+
+      dropdown.appendChild(option);
+    });
+
+    // Toggle dropdown on selector click
+    selector.addEventListener('click', function(e) {
+      e.stopPropagation();
+      const isOpen = selector.classList.contains('open');
+
+      // Close all other dropdowns first
+      document.querySelectorAll('.mobile-tab-selector.open').forEach(s => {
+        s.classList.remove('open');
+        s.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.mobile-tab-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+      });
+
+      if (!isOpen) {
+        selector.classList.add('open');
+        dropdown.classList.add('open');
+        selector.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    // Insert into DOM
+    tacticHero.appendChild(selector);
+    tacticHero.appendChild(dropdown);
+  });
+
+  // Close dropdown when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.mobile-tab-selector') && !e.target.closest('.mobile-tab-dropdown')) {
+      document.querySelectorAll('.mobile-tab-selector.open').forEach(s => {
+        s.classList.remove('open');
+        s.setAttribute('aria-expanded', 'false');
+      });
+      document.querySelectorAll('.mobile-tab-dropdown.open').forEach(d => {
+        d.classList.remove('open');
+      });
+    }
+  });
+}
+
+// Update mobile selector when tab is switched programmatically
+const originalSwitchTacticTab = switchTacticTab;
+switchTacticTab = function(tacticNum, tabName) {
+  originalSwitchTacticTab(tacticNum, tabName);
+
+  // Update mobile selector if it exists
+  const tacticPage = document.getElementById('page-tactic' + tacticNum);
+  if (!tacticPage) return;
+
+  const selector = tacticPage.querySelector('.mobile-tab-selector');
+  const dropdown = tacticPage.querySelector('.mobile-tab-dropdown');
+  if (!selector || !dropdown) return;
+
+  const activeTab = tacticPage.querySelector('.tactic-tab.active');
+  if (activeTab) {
+    selector.querySelector('.mobile-tab-selector-label').textContent = activeTab.textContent;
+  }
+
+  dropdown.querySelectorAll('.mobile-tab-option').forEach(option => {
+    const isActive = option.textContent === (activeTab ? activeTab.textContent : '');
+    option.classList.toggle('active', isActive);
+    option.setAttribute('aria-selected', isActive);
+  });
+};
+
+// Initialize on load and resize
+document.addEventListener('DOMContentLoaded', initMobileTabSelectors);
+window.addEventListener('resize', function() {
+  // Remove selectors on desktop, add on mobile
+  if (window.innerWidth > 768) {
+    document.querySelectorAll('.mobile-tab-selector, .mobile-tab-dropdown').forEach(el => el.remove());
+  } else if (!document.querySelector('.mobile-tab-selector')) {
+    initMobileTabSelectors();
+  }
 });
 </script>
 </body>
