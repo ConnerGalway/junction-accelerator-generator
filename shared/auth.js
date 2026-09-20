@@ -18,6 +18,17 @@ window.__authReady = (async function () {
   try {
 
   // ------------------------------------------------------------------
+  // 0. Allow public access to demo/sample dashboards (no login required)
+  // ------------------------------------------------------------------
+  const publicSlugs = ['sample-demo', 'sample-experience'];
+  const currentSlug = document.body.getAttribute('data-client-slug');
+
+  if (currentSlug && publicSlugs.includes(currentSlug)) {
+    // Allow public access - return guest role
+    return { email: 'guest@demo', role: 'guest' };
+  }
+
+  // ------------------------------------------------------------------
   // 1. Check for an active session — redirect to /login if none exists
   // ------------------------------------------------------------------
   const { data: { session } } = await supabaseClient.auth.getSession();
