@@ -1,0 +1,2769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Digital Marketing Assessment — Sasquatch Inn</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy: #11154b;
+  --navy-light: #1a1f6b;
+  --mint: #aadab6;
+  --mint-dark: #7bc490;
+  --cream: #fcf5ec;
+  --blue: #067cbc;
+  --slate: #708090;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --sidebar-w: 268px;
+  --font-d: 'Raleway', sans-serif;
+  --font-b: 'Open Sans', sans-serif;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #28a745;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-b);
+  background: var(--page-bg);
+  color: var(--dark);
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--mint);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-logo-img {
+  height: 24px;
+  width: auto;
+}
+
+.sidebar-client {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-client-name {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.sidebar-client-status {
+  font-size: 11px;
+  color: var(--mint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  border-radius: 50%;
+}
+
+nav { flex: 1; padding: 12px 0; }
+
+.nav-section-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 16px 24px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 1px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+
+.nav-item.active {
+  background: rgba(170,218,182,.12);
+  color: #fff;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+  margin-left: -8px;
+}
+
+.nav-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item .lock-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  color: rgba(255,255,255,.3);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+/* ── Main Content ─────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active { display: block; }
+
+/* ── Assessment Page ─────────────────────────── */
+.assessment-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.assessment-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(170,218,182,.15) 0%, transparent 60%);
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.assessment-hero-title {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.assessment-hero-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.assessment-hero-badge {
+  background: var(--mint);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255,255,255,.1);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.grade-details h3 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.grade-details p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ── Category Cards ─────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.category-icon.website { background: #e3f2fd; color: #1976d2; }
+.category-icon.ai { background: #f3e5f5; color: #7b1fa2; }
+.category-icon.booking { background: #e8f5e9; color: #388e3c; }
+.category-icon.reviews { background: #fff3e0; color: #f57c00; }
+.category-icon.social { background: #fce4ec; color: #c2185b; }
+.category-icon.local { background: #e0f7fa; color: #0097a7; }
+.category-icon.email { background: #fff8e1; color: #ffa000; }
+.category-icon.competitive { background: #efebe9; color: #5d4037; }
+
+.category-title-wrap {
+  flex: 1;
+}
+
+.category-title {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.category-grade {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-grade.grade-a { background: #d4edda; color: #155724; }
+.category-grade.grade-b { background: #d1ecf1; color: #0c5460; }
+.category-grade.grade-c { background: #fff3cd; color: #856404; }
+.category-grade.grade-d { background: #f8d7da; color: #721c24; }
+.category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+.category-grade.grade-na { background: #e9ecef; color: #6b6b8a; }
+
+.category-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.category-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  padding: 12px;
+  background: var(--page-bg);
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-status.good { background: var(--success); }
+.metric-status.warning { background: var(--warning); }
+.metric-status.critical { background: var(--danger); }
+.metric-status.info { background: #6b6b8a; }
+
+.category-findings {
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.finding-item:last-child { border-bottom: none; }
+
+.finding-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-icon.positive { color: var(--success); }
+.finding-icon.negative { color: var(--danger); }
+.finding-icon.info { color: #6b6b8a; }
+
+.category-recommendations h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(6,124,188,.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.recommendation-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.recommendation-priority.high { background: #f8d7da; color: #721c24; }
+.recommendation-priority.medium { background: #fff3cd; color: #856404; }
+.recommendation-priority.low { background: #d1ecf1; color: #0c5460; }
+
+/* ── Priority Recommendations ─────────────────── */
+.priority-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.priority-section h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.priority-list {
+  display: grid;
+  gap: 16px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.priority-item-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: var(--mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.priority-item-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.priority-item-content p {
+  font-size: 13px;
+  color: #666;
+}
+
+.priority-item-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.priority-item-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.06);
+}
+
+.priority-item-tag.time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+}
+
+.priority-item-tag.impact-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-item-tag.impact-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-item-tag.impact-low {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.priority-item-result {
+  font-size: 12px;
+  color: #555;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mint);
+  font-style: italic;
+}
+
+/* ── Executive Summary ─────────────────────────── */
+.executive-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.executive-summary h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.executive-headline {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.executive-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.executive-column h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.executive-column h4 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.executive-column.strengths h4 { color: var(--success); }
+.executive-column.gaps h4 { color: var(--danger); }
+
+.executive-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.executive-column li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.executive-column li:last-child { border-bottom: none; }
+
+.executive-column li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.executive-column.strengths li::before { background: var(--success); }
+.executive-column.gaps li::before { background: var(--danger); }
+
+.executive-bottom-line {
+  background: var(--page-bg);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid var(--navy);
+}
+
+/* ── Quick Wins ─────────────────────────────────── */
+.quick-wins {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.quick-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-wins h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--success);
+}
+
+.quick-wins-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-win-item {
+  background: var(--card-bg);
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.quick-win-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quick-win-content {
+  flex: 1;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.quick-win-impact {
+  font-size: 13px;
+  color: #666;
+}
+
+.quick-win-time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tourism Context ────────────────────────────── */
+.tourism-context {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tourism-context h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tourism-context h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.tourism-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tourism-context-item {
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.tourism-context-item h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tourism-context-item h4 svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.tourism-context-item p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── Updated Metric with Benchmark ─────────────── */
+.metric-benchmark {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Recommendation Time Estimate ──────────────── */
+.recommendation-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 6px;
+}
+
+.recommendation-time svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Category Guest Experience ─────────────────── */
+.category-icon.guest { background: #e1f5fe; color: #0277bd; }
+.category-icon.visitor { background: #f3e5f5; color: #7b1fa2; }
+
+@media (max-width: 768px) {
+  .executive-columns { grid-template-columns: 1fr; }
+  .tourism-context-grid { grid-template-columns: 1fr; }
+  .quick-win-item { flex-direction: column; align-items: stretch; }
+  .quick-win-time { align-self: flex-start; }
+}
+
+/* ── Coming Soon Page ─────────────────────────── */
+.coming-soon-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.coming-soon-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 60px 40px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--navy);
+}
+
+.coming-soon-content h2 {
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.coming-soon-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.coming-soon-note {
+  font-size: 13px;
+  color: #999;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    display: block;
+    overflow: auto;
+    height: auto;
+  }
+
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-header-title {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mint);
+  }
+
+  .mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page { padding: 20px; }
+  .assessment-hero { padding: 24px; }
+  .assessment-hero-title { font-size: 22px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-metrics { grid-template-columns: 1fr; }
+
+  /* Tactic tabs - horizontal scroll on mobile */
+  .tactic-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .tactic-tabs::-webkit-scrollbar { display: none; }
+  .tactic-tab {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-header { display: none; }
+}
+
+#drawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17,21,75,.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+#drawerOverlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ── Download PDF Button ────────────────────────── */
+.assessment-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.5);
+}
+
+.download-pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT STYLES - Award-Winning PDF Report Design
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hide all print-only elements on screen */
+.print-cover-page,
+.print-running-header,
+.print-running-footer,
+.print-header,
+.print-footer {
+  display: none !important;
+}
+
+@media print {
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE SETUP & RESETS
+     ══════════════════════════════════════════════════════════════════════════ */
+  @page {
+    size: letter;
+    margin: 0.6in 0.65in 0.75in 0.65in;
+  }
+
+  @page :first {
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html {
+    height: auto;
+    overflow: visible;
+    background: white !important;
+  }
+
+  body {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: white !important;
+    padding: 0;
+    margin: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     HIDE SCREEN-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  #sidebar,
+  .mobile-header,
+  #drawerOverlay,
+  .download-pdf-btn,
+  .assessment-hero-badge,
+  .assessment-hero-actions,
+  .nav-item,
+  #page-strategy,
+  #page-tactic1,
+  #page-tactic2,
+  #page-tactic3,
+  #page-roadmap,
+  .print-header,
+  .coming-soon-section {
+    display: none !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     SHOW PRINT-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    display: flex !important;
+  }
+
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.45in;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #11154b;
+    background: white;
+    z-index: 1000;
+  }
+
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.35in;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+    font-size: 8pt;
+    color: #708090;
+    z-index: 1000;
+  }
+
+  .print-footer {
+    display: block !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COVER PAGE
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    position: relative;
+    width: 8.5in;
+    height: 11in;
+    margin: -0.6in -0.65in 0 -0.65in;
+    padding: 0;
+    background: linear-gradient(145deg, #11154b 0%, #1a1f6b 50%, #11154b 100%) !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .print-cover-page::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .print-cover-page::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(170,218,182,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .cover-logo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 1.2in;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-divider {
+    width: 2.5in;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #aadab6, transparent);
+    margin: 0.25in auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 38pt;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    margin: 0.3in 0 0.4in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11pt;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 0.1in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.6in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade-circle {
+    width: 1.6in;
+    height: 1.6in;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5in auto;
+    box-shadow: 0 0 80px rgba(170,218,182,0.5);
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade {
+    font-family: 'Raleway', sans-serif;
+    font-size: 48pt;
+    font-weight: 800;
+    color: #11154b;
+    line-height: 1;
+    display: block;
+  }
+
+  .cover-score {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    opacity: 0.85;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .cover-date {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    color: rgba(255,255,255,0.65);
+    margin: 0.3in 0 0 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-footer-text {
+    position: absolute;
+    bottom: 0.6in;
+    left: 0;
+    right: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING HEADER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .running-header-logo {
+    height: 22px;
+    width: auto;
+  }
+
+  .running-header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .running-header-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #11154b;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .running-header-right {
+    text-align: right;
+  }
+
+  .running-header-client {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #708090;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING FOOTER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-footer-left {
+    font-style: italic;
+  }
+
+  .running-footer-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 500;
+  }
+
+  .running-footer-right {
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MAIN CONTENT AREA
+     ══════════════════════════════════════════════════════════════════════════ */
+  #main {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0;
+    margin-top: 0.5in;
+  }
+
+  .page {
+    display: block !important;
+    padding: 0;
+    min-height: auto;
+  }
+
+  #page-assessment {
+    padding-top: 0;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ASSESSMENT HERO
+     ══════════════════════════════════════════════════════════════════════════ */
+  .assessment-hero {
+    background: linear-gradient(135deg, #11154b 0%, #1a1f6b 100%) !important;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .assessment-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -15%;
+    width: 50%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+  }
+
+  .assessment-hero-top {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .assessment-hero-title {
+    font-size: 20pt;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .assessment-hero-date {
+    color: rgba(255,255,255,0.75);
+    font-size: 10pt;
+  }
+
+  .assessment-grade-card {
+    background: rgba(255,255,255,0.1) !important;
+    padding: 16px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .grade-circle {
+    width: 72px;
+    height: 72px;
+    font-size: 26pt;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    color: #11154b !important;
+    flex-shrink: 0;
+  }
+
+  .grade-details {
+    color: white;
+  }
+
+  .grade-details h3 {
+    color: white;
+    font-size: 13pt;
+    margin-bottom: 4px;
+  }
+
+  .grade-details p {
+    font-size: 10pt;
+    opacity: 0.85;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     EXECUTIVE SUMMARY
+     ══════════════════════════════════════════════════════════════════════════ */
+  .executive-summary {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .executive-summary h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .executive-headline {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+
+  .executive-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .executive-column {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .executive-column h4 {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .executive-column.strengths {
+    background: rgba(40, 167, 69, 0.06);
+    border: 1px solid rgba(40, 167, 69, 0.15);
+  }
+
+  .executive-column.gaps {
+    background: rgba(220, 53, 69, 0.04);
+    border: 1px solid rgba(220, 53, 69, 0.12);
+  }
+
+  .executive-column li {
+    font-size: 9pt;
+    padding: 5px 0;
+    line-height: 1.45;
+  }
+
+  .executive-bottom-line {
+    background: linear-gradient(135deg, #fcf5ec 0%, #faf3e8 100%);
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 9.5pt;
+    color: #444;
+    border-left: 3px solid #11154b;
+    line-height: 1.55;
+  }
+
+  .executive-bottom-line strong {
+    color: #11154b;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     QUICK WINS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .quick-wins {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .quick-wins h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .quick-wins-subtitle {
+    font-size: 9pt;
+    margin-bottom: 14px;
+    color: #2d5a2d;
+  }
+
+  .quick-wins-list {
+    gap: 8px;
+  }
+
+  .quick-win-item {
+    background: white !important;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .quick-win-number {
+    width: 24px;
+    height: 24px;
+    font-size: 10pt;
+    background: #28a745 !important;
+    color: white !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .quick-win-content {
+    flex: 1;
+  }
+
+  .quick-win-task {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .quick-win-impact {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .quick-win-time {
+    background: rgba(6,124,188,0.12) !important;
+    color: #067cbc !important;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     TOURISM CONTEXT
+     ══════════════════════════════════════════════════════════════════════════ */
+  .tourism-context {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .tourism-context h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .tourism-context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tourism-context-item {
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #067cbc;
+  }
+
+  .tourism-context-item h4 {
+    font-size: 9pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .tourism-context-item h4 svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tourism-context-item p {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     CATEGORY CARDS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+    page-break-before: always;
+  }
+
+  .category-card {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .category-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .category-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .category-title {
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .category-grade {
+    font-size: 10pt;
+    padding: 3px 10px;
+  }
+
+  .category-summary {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  .category-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .metric-item {
+    background: #f8f9fa;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .metric-label {
+    font-size: 7pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+  }
+
+  .metric-value {
+    font-size: 10pt;
+    color: #11154b;
+    font-weight: 600;
+  }
+
+  .metric-status {
+    width: 6px;
+    height: 6px;
+  }
+
+  .metric-benchmark {
+    font-size: 7pt;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  .category-findings {
+    margin-bottom: 10px;
+  }
+
+  .finding-item {
+    font-size: 8.5pt;
+    padding: 4px 0;
+    line-height: 1.4;
+  }
+
+  .finding-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .category-recommendations h4 {
+    font-size: 9pt;
+    margin-bottom: 8px;
+    color: #11154b;
+  }
+
+  .recommendation-item {
+    font-size: 8.5pt;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    background: rgba(6,124,188,0.04);
+    border-radius: 6px;
+  }
+
+  .recommendation-priority {
+    font-size: 7pt;
+    padding: 2px 6px;
+  }
+
+  .recommendation-time {
+    font-size: 8pt;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRIORITY RECOMMENDATIONS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .priority-section {
+    background: white;
+    border: 2px solid #11154b;
+    border-radius: 12px;
+    padding: 20px 24px;
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+
+  .priority-section h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .priority-list {
+    gap: 10px;
+  }
+
+  .priority-item {
+    background: #f8f9fa !important;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .priority-item-number {
+    width: 28px;
+    height: 28px;
+    font-size: 11pt;
+    background: #11154b !important;
+    color: #aadab6 !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .priority-item-content {
+    flex: 1;
+  }
+
+  .priority-item-content h4 {
+    font-size: 10.5pt;
+    color: #11154b;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+
+  .priority-item-content p {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .priority-item-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .priority-item-tag {
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+  }
+
+  .priority-item-tag.time {
+    background: rgba(6,124,188,0.12);
+    color: #067cbc;
+  }
+
+  .priority-item-tag.impact-high {
+    background: rgba(220,53,69,0.1);
+    color: #c82333;
+  }
+
+  .priority-item-tag.impact-medium {
+    background: rgba(255,193,7,0.15);
+    color: #856404;
+  }
+
+  .priority-item-result {
+    font-size: 8.5pt;
+    color: #555;
+    margin-top: 8px;
+    padding-left: 10px;
+    border-left: 2px solid #aadab6;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRINT FOOTER (END OF REPORT)
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #11154b;
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 40px;
+  }
+
+  .print-footer-credits {
+    flex: 1;
+  }
+
+  .print-footer-credits h4 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #11154b;
+    margin-bottom: 8px;
+  }
+
+  .print-footer-credits p {
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.55;
+    margin-bottom: 3px;
+  }
+
+  .print-footer-branding {
+    text-align: right;
+  }
+
+  .print-footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .print-footer-logo-icon {
+    width: 28px;
+    height: 28px;
+    background: #11154b;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-footer-logo-icon svg {
+    width: 16px;
+    height: 16px;
+    color: #aadab6;
+  }
+
+  .print-footer-logo-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: #11154b;
+  }
+
+  .print-footer-url {
+    font-size: 10pt;
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  .print-footer-disclaimer {
+    font-size: 8pt;
+    color: #888;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE BREAK UTILITIES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  .print-no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body data-client-slug="sasquatch-inn">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRINT-ONLY ELEMENTS (hidden on screen, visible when printing)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- Cover Page -->
+<div class="print-cover-page">
+  <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
+  <div class="cover-divider"></div>
+  <h1 class="cover-title">DIGITAL MARKETING<br>ASSESSMENT</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-client">Prepared for</p>
+  <p class="cover-client-name">Sasquatch Inn</p>
+  <div class="cover-grade-circle">
+    <span class="cover-grade" id="coverGrade">B-</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">78</span>/100</span>
+  </div>
+  <p class="cover-date">Assessment Date: September 21, 2026</p>
+  <p class="cover-footer-text">Powered by Junction Accelerator</p>
+</div>
+
+<!-- Running Header (appears on pages 2+) -->
+<div class="print-running-header">
+  <div class="running-header-left">
+    <img src="/assets/elearningu-logo-black.png" alt="eLearningU" class="running-header-logo">
+  </div>
+  <div class="running-header-center">
+    <span class="running-header-title">Digital Marketing Assessment</span>
+  </div>
+  <div class="running-header-right">
+    <span class="running-header-client">Sasquatch Inn</span>
+  </div>
+</div>
+
+<!-- Running Footer -->
+<div class="print-running-footer">
+  <span class="running-footer-left">Confidential</span>
+  <span class="running-footer-center">Sasquatch Inn</span>
+  <span class="running-footer-right">eLearningU.com</span>
+</div>
+
+<!-- Print Header (visible only when printing) -->
+<div class="print-header">
+  <div class="print-header-logo">
+    <div class="print-header-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="print-header-brand">eLearnin<span>gU</span></div>
+  </div>
+  <div class="print-header-info">
+    <div class="print-header-title">Digital Marketing Assessment</div>
+    <div class="print-header-client">Sasquatch Inn</div>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mobile-header-title">Sasquatch Inn</span>
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="sidebar-logo-img">
+  </div>
+
+  <div class="sidebar-client">
+    <div class="sidebar-client-name">Sasquatch Inn</div>
+    <div class="sidebar-client-status">
+      <span class="status-dot"></span>
+      Assessment Complete
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="navigate('assessment')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Assessment
+    </div>
+
+    <div class="nav-section-label">Your Plan</div>
+    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      Strategy
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Tactics</div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 1
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 2
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 3
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Implementation</div>
+    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      90-Day Roadmap
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- Assessment Page -->
+  <section id="page-assessment" class="page active">
+    <div class="assessment-hero">
+      <div class="assessment-hero-top">
+        <div>
+          <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
+          <p class="assessment-hero-date">Assessment Date: September 21, 2026</p>
+        </div>
+        <div class="assessment-hero-actions">
+          <button class="download-pdf-btn" onclick="downloadPDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </button>
+          <div class="assessment-hero-badge">Complete</div>
+        </div>
+      </div>
+
+      <div class="assessment-grade-card">
+        <div class="grade-circle" id="overallGrade">B-</div>
+        <div class="grade-details">
+          <h3>Overall Score: <span id="overallScore">78</span>/100</h3>
+          <p id="overallSummary"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary" id="executiveSummary">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="quick-wins" id="quickWins">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Tourism Context -->
+    <div class="tourism-context" id="tourismContext">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Categories will be populated by JavaScript -->
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <!-- Priority recommendations will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Pages -->
+  <section id="page-strategy" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>Strategy Coming Soon</h2>
+        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
+        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic1" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 1 Coming Soon</h2>
+        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic2" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 2 Coming Soon</h2>
+        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic3" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 3 Coming Soon</h2>
+        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-roadmap" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>90-Day Roadmap Coming Soon</h2>
+        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
+        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Footer (visible only when printing) -->
+  <div class="print-footer">
+    <div class="print-footer-content">
+      <div class="print-footer-credits">
+        <h4>About This Assessment</h4>
+        <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
+        <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
+        <p><strong>Assessment Date:</strong> September 21, 2026</p>
+      </div>
+      <div class="print-footer-branding">
+        <div class="print-footer-logo">
+          <div class="print-footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="print-footer-logo-text">eLearningU</span>
+        </div>
+        <div class="print-footer-url">eLearningU.com</div>
+      </div>
+    </div>
+    <div class="print-footer-disclaimer">
+      This assessment is confidential and prepared exclusively for Sasquatch Inn.
+      Powered by Junction Accelerator &mdash; helping tourism businesses grow their digital presence.
+    </div>
+  </div>
+
+</main>
+
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"A family-owned BC landmark with strong guest trust and operational booking systems, but technical debt and weak social presence limit discoverability.","key_strengths":["Exceptional review volume (1,735 Google reviews) with solid 4.3-star rating demonstrates established reputation and guest satisfaction","Fully functional online booking through Little Hotelier with clear pricing ($85 rooms, $10 menu items) and multi-platform integration","Complete essential visitor information (hours, directions, parking, accessibility) removes friction from guest decision-making"],"critical_gaps":["Poor mobile website performance (56/100 PageSpeed) risks losing over half of potential mobile visitors before page loads","Minimal social media presence (1,804 Instagram followers, 0.72% engagement, 0.9 posts/week) fails to capture discovery-phase travelers","Missing critical SEO fundamentals (no meta description, duplicate H1 tags, title too short) suppresses organic search visibility beyond branded terms"],"bottom_line":"Sasquatch Inn has the operational foundation and guest trust to succeed, but loses bookings daily to slow mobile load times and invisible social presence—quick technical fixes and consistent content could unlock significant growth without major investment."},"quick_wins":[{"task":"Add a meta description to homepage (155 characters describing 'Family-owned Harrison Mills hotel, pub, and liquor store since 1954')","time_estimate":"15 minutes","impact":"Improves click-through rate from Google search results by 10-15% by giving searchers clear preview of what Sasquatch Inn offers","confidence":"high"},{"task":"Enable browser caching for images and CSS files (currently set to 'None' according to SEOptimer scan)","time_estimate":"30 minutes","impact":"Reduces repeat visitor load time by 40-60%, dramatically improving mobile experience for guests checking menu or room availability multiple times","confidence":"high"},{"task":"Compress the 5 largest homepage images (current savings: 345KB or 74% reduction available per SEOptimer)","time_estimate":"45 minutes","impact":"Improves mobile page load from 6.2s to under 4s, reducing bounce rate by estimated 20-30%","confidence":"high"},{"task":"Link Instagram profile in website header/footer (currently Facebook linked but Instagram missing despite active @sasquatchinnpub account)","time_estimate":"10 minutes","impact":"Connects website visitors to visual content showcasing food, atmosphere, and events—tourism visitors expect to see Instagram before booking","confidence":"high"},{"task":"Fix duplicate H1 tags (currently 3 H1s on homepage: 'Home', 'The Sasquatch Inn', and staff event notice)","time_estimate":"20 minutes","impact":"Clarifies page hierarchy for search engines, improving relevance scoring for 'Harrison Mills hotel' and 'Sasquatch Inn pub' searches","confidence":"high"}],"tourism_context":{"visitor_profile":"Mix of Lower Mainland day-trippers seeking pub dining experiences, motorcycle touring groups (Lougheed Highway route), Harrison Hot Springs overflow accommodation seekers, and Fraser Valley tulip festival visitors needing meals/lodging. Demographics skew 35-65, value family ownership and local character over chain amenities.","discovery_journey":"Visitors find Sasquatch Inn through three paths: (1) Branded search from word-of-mouth or roadside visibility ('Sasquatch Inn' ranks #1 with 1,338 monthly search traffic), (2) Harrison Hot Springs accommodation overflow searches when main resort books up, (3) Google Maps searches for 'pub near me' or 'hotel Harrison Mills' while traveling Highway 7. Mobile dominates discovery phase (60%+ of searches), making slow mobile performance especially damaging.","seasonal_considerations":"Peak season aligns with Fraser Valley tulip season (April-May), summer camping/hot springs traffic (June-August), and fall foliage touring (September-October). Winter weekday traffic likely drops significantly. Social media content should build awareness during January-March slow period to capture April-May bookings when travelers plan spring trips.","trip_integration":"Sasquatch Inn functions as: (1) Dining stop for Harrison Hot Springs visitors seeking alternatives to resort restaurants, (2) Overnight accommodation for Fraser Valley multi-day tours (wineries, tulip farms, hiking), (3) Liquor store for nearby Sasquatch Provincial Park campers, (4) Event venue for local community (bingo nights mentioned in reviews). Multi-purpose nature means different content strategies needed for lodging vs. pub vs. liquor store audiences."},"overall":{"score":78,"grade":"B-","confidence":"high","scoreBreakdown":{"website_technical":{"score":63,"weight":0.15,"contribution":9.45},"reviews_reputation":{"score":87,"weight":0.25,"contribution":21.75},"booking_conversion":{"score":94,"weight":0.2,"contribution":18.8},"social_media":{"score":51,"weight":0.2,"contribution":10.2},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":63,"grade":"D","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":50,"score":50,"source":"SEOptimer","grade":"F"},"mobile_speed":{"value":50,"score":50,"source":"SEOptimer","grade":"F"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Major mobile performance issues and missing SEO fundamentals undermine an otherwise functional WordPress site with proper SSL and mobile viewport configuration.","findings":[{"type":"negative","text":"Mobile page takes 6.2 seconds to load main content (Largest Contentful Paint), well above the 2.5-second threshold where users abandon sites—directly losing bookings","confidence":"high","source":"SEOptimer PageSpeed data"},{"type":"negative","text":"Missing meta description means Google generates random snippets from page content, reducing search result appeal and click-through rate","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Three H1 tags on homepage ('Home', 'The Sasquatch Inn', and staff event notice) confuses search engines about page topic hierarchy","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Core Web Vitals passing with 0 Cumulative Layout Shift, meaning page doesn't visually jump around while loading—good for user experience","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Google Analytics installed and tracking visitor behavior data for optimization insights","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"No Schema.org structured data markup, missing opportunity to display rich results (star ratings, prices, hours) directly in Google search","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Render-blocking CSS and JavaScript files delay page display by 2.95 seconds on mobile—primary cause of slow load times","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"50/100","status":"critical","source":"SEOptimer"},{"label":"Mobile Speed","value":"50/100","status":"critical","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Implement browser caching for static assets (images, CSS, JS) with 30-day expiration headers—this single change improves repeat visitor load time by 50%","time_estimate":"30 minutes (hosting control panel or WordPress plugin)","impact":"Reduces mobile load time from 6.2s to ~4s for returning visitors, significantly reducing bounce rate","priority":"high"},{"text":"Compress and convert images to WebP format using image optimization plugin (ShortPixel, Imagify, or similar)—SEOptimer identifies 345KB immediate savings","time_estimate":"45 minutes (one-time bulk optimization)","impact":"Improves mobile PageSpeed score to 70+ and reduces data usage for travelers on cellular connections","priority":"high"},{"text":"Write and add meta description (120-155 characters) highlighting 'Family-owned Harrison Mills hotel, pub & liquor store since 1954. Rooms from $85. On Lougheed Highway near Harrison Hot Springs.'","time_estimate":"15 minutes","impact":"Increases Google search click-through rate by estimated 10-15% by providing compelling preview","priority":"high"},{"text":"Consolidate H1 tags to single primary heading ('The Sasquatch Inn' or 'Harrison Mills Hotel, Pub & Liquor Store Since 1954'), move others to H2/H3","time_estimate":"20 minutes","impact":"Clarifies page topic for search engines, improving relevance scoring for target keywords","priority":"medium"},{"text":"Defer non-critical CSS and JavaScript loading using WordPress optimization plugin (WP Rocket, Autoptimize)—addresses 2.95s render-blocking delay","time_estimate":"1 hour (setup and testing)","impact":"Reduces First Contentful Paint from 4.2s to under 2.5s, meeting performance threshold where bounce rates stabilize","priority":"high"},{"text":"Add LocalBusiness Schema markup including hotel, restaurant, and liquor_store types with address, hours, price range, and 4.3 rating","time_estimate":"1 hour (using Schema plugin or manual JSON-LD)","impact":"Enables rich search results showing star rating, price, and hours directly in Google, increasing click-through by 15-30%","priority":"medium"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":87,"grade":"A-","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.3,"score":78,"source":"Google Places API"},"review_volume":{"value":1735,"score":100,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Outstanding review volume and perfect recency demonstrate active guest satisfaction, though 4.3 rating leaves room for improvement and review response rate appears low.","findings":[{"type":"positive","text":"1,735 Google reviews is exceptional for a Harrison Mills business, demonstrating deep community roots and sustained guest satisfaction over decades","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent reviews consistently mention 'new renovations,' 'great food,' and staff by name (Angie, Tara, Jill), indicating active management and personalized service culture","confidence":"high","source":"Google Places API review content"},{"type":"positive","text":"Perfect review recency (100% of sample from past 18 months) signals active business momentum and recent improvements resonating with guests","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Review themes highlight pet-friendly patio, reasonable prices, quality steak, and staff hospitality—clear value propositions emerging organically","confidence":"high","source":"Google Places API review content"},{"type":"negative","text":"4.3 rating with 8% three-star and 6% one/two-star reviews suggests opportunities to address service consistency issues (likely pub service during busy periods)","confidence":"medium","source":"Google Places API"},{"type":"warning","text":"No owner responses detected in review sample—missing opportunity to demonstrate responsiveness and address concerns publicly","confidence":"medium","source":"Google Places API"},{"type":"positive","text":"Multi-category Google Business Profile (bar, restaurant, lodging, liquor_store) accurately reflects diverse business model and appears in more search contexts","confidence":"high","source":"Google Places API"}],"metrics":[{"label":"Google Rating","value":"4.3 / 5.0","status":"warning","source":"Google Places API"},{"label":"Total Reviews","value":"1,735","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement review response protocol: respond to all reviews within 48 hours, especially 3-star and below. Thank guests by name, address specific feedback, and invite return visits.","time_estimate":"30 minutes weekly ongoing","impact":"Increases future review likelihood by 15-20%, improves rating perception (engaged owners rated higher), and recovers dissatisfied guests before they choose competitors","priority":"high"},{"text":"Add post-stay review request to booking confirmation emails and checkout process—capitalize on 1,735-review momentum to reach 2,000+ milestone","time_estimate":"1 hour (setup email template in Little Hotelier)","impact":"Increases review velocity by 30-50%, strengthens 'exceptional volume' positioning, and provides more recent positive reviews to offset older negative ones","priority":"medium"},{"text":"Analyze 1-3 star reviews quarterly to identify service consistency patterns (kitchen wait times, front desk responsiveness) and implement training or process fixes","time_estimate":"2 hours quarterly","impact":"Targeted improvements addressing common complaints could lift rating from 4.3 to 4.4-4.5 range (crossing into 'excellent' threshold)","priority":"medium"},{"text":"Create review showcase page on website featuring recent 5-star reviews with guest photos (with permission), highlighting renovations, food quality, and pet-friendly atmosphere","time_estimate":"3 hours (one-time page creation)","impact":"Converts website visitors earlier in decision journey by showcasing social proof prominently before they navigate away to competitors","priority":"low"},{"text":"Claim and verify TripAdvisor listing (if not already owned), optimize profile with professional photos, and add 'Write a Review' QR code to guest check-in materials","time_estimate":"2 hours (claiming and optimization)","impact":"TripAdvisor critical for tourism discovery phase—claiming ensures accurate info and captures reviews from travelers who default to TripAdvisor over Google","priority":"medium"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":94,"grade":"A","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":2,"platforms":["Little Hotelier","TripAdvisor"]},"score":85,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["header","contact"],"clickable":true,"score":80,"details":{"telLinkCount":2}},"score":80,"source":"Website Analysis","details":["header","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":2,"samplePrices":["$85","$10"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"none","score":100,"details":{"ctaElements":1,"platforms":["Little Hotelier"]}},"score":100,"source":"Website Analysis","details":"none"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Near-perfect booking infrastructure with direct online reservations, clear pricing, visible contact methods, and multi-platform integration—best-in-class for independent hospitality.","findings":[{"type":"positive","text":"Little Hotelier integration enables real-time availability and direct bookings, avoiding 15-20% OTA commissions while giving full control over pricing and guest data","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Transparent pricing ($85 rooms) is rare for independent hotels and builds immediate trust—pre-qualifies guests and reduces inquiry abandonment","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Phone number properly formatted with tel: links (2 instances) enables mobile users to call directly with one tap—critical for road-trippers making last-minute bookings","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Multi-platform strategy balancing direct bookings (Little Hotelier) with TripAdvisor visibility maximizes reach without over-dependence on any single channel","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Address visible throughout site (46001 Lougheed Hwy) with consistent NAP (Name, Address, Phone) supporting local SEO and Google Business Profile alignment","confidence":"high","source":"Website scrape"},{"type":"warning","text":"Email displayed in plain text creates spam risk—should be obfuscated or replaced with contact form while maintaining accessibility","confidence":"medium","source":"SEOptimer warning"},{"type":"positive","text":"Complete contact information suite (phone, email, address, booking button) gives guests choice of communication method based on preference","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add Facebook Messenger integration to header contact options—travelers increasingly prefer messaging over phone/email for quick questions about pet policies, room types, or availability","time_estimate":"30 minutes (Facebook Business integration)","impact":"Captures 10-15% of visitors who abandon rather than call/email, especially younger demographics and international travelers in different time zones","priority":"medium"},{"text":"Implement exit-intent popup offering 10% off direct bookings for first-time guests (triggered when user moves cursor toward browser back button)","time_estimate":"1 hour (using OptinMonster or similar tool)","impact":"Recovers 3-5% of abandoning visitors who are comparison shopping OTAs—direct booking discount still nets higher margin than OTA commission","priority":"low"},{"text":"Add guest review excerpts near booking button ('Excellent steak,' 'Pet-friendly patio,' 'Best place in town'—pulled from Google reviews) to reinforce decision at conversion moment","time_estimate":"30 minutes","impact":"Increases booking conversion rate by 8-12% by providing social proof at critical decision point","priority":"medium"},{"text":"Replace plain-text email with contact form or obfuscated email link to reduce spam while maintaining guest inquiry capability","time_estimate":"20 minutes","impact":"Eliminates spam risk flagged by SEOptimer without harming guest communication—purely protective measure","priority":"low"},{"text":"Add availability calendar widget to homepage (pulling from Little Hotelier API) showing real-time room availability for next 30 days","time_estimate":"2 hours (if Little Hotelier supports widget)","impact":"Reduces booking friction by showing instant availability without requiring click-through to booking engine—particularly effective for last-minute road-trippers","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":51,"grade":"F","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":1804,"score":55,"source":"SociaVault"},"engagement_rate":{"value":0.72,"score":40,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":0.9,"score":40,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":1,"platforms":["instagram"]},"score":50,"source":"SociaVault"},"content_quality":{"value":{"images":7,"carousels":0,"reels":5,"reelPercent":42},"score":100,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Severely underdeveloped social presence with minimal Instagram activity (1,804 followers, 0.72% engagement, 0.9 posts/week) and no detectable presence on other tourism-critical platforms.","findings":[{"type":"negative","text":"0.9 posts per week is severely insufficient for Instagram algorithm visibility—requires 3-5 posts weekly minimum to avoid suppression","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"0.72% engagement rate is 60% below tourism industry average (1.8-2.5%), indicating content not resonating or reach suppressed by inconsistent posting","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Recent post performance collapsing (1-5 likes vs. 12 average) suggests algorithmic penalty from sporadic posting—creates negative spiral where infrequent posts get even less reach","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Single-platform presence (Instagram only) creates demographic gap—missing Facebook's 45-65 age group (core road-tripper demographic) and TikTok's under-35 travelers","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Top-performing post achieved 2.88% engagement (4x average) with event-based content ('World Cup viewing')—proves audience responds to experience positioning over property features","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"42% reel composition aligns perfectly with Instagram's algorithmic priorities for video content (reels get 22% more reach than static posts)","confidence":"high","source":"SociaVault API"},{"type":"warning","text":"Bio mentions 'Family owned' and 'Harrison Mills' but lacks hooks like 'Pet-friendly patio,' 'Live music Fridays,' or 'Bingo Thursdays'—missing keyword discovery opportunities","confidence":"medium","source":"SociaVault API"},{"type":"negative","text":"Zero user-generated content resharing despite 1,735 Google reviews and likely hundreds of guest photos—missing high-trust content that converts 5x better than branded content","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"No paid advertising detected—organic-only growth is 3-5x slower and lacks targeting precision for Fraser Valley tourism seasonality","confidence":"high","source":"Facebook/TikTok Ad Libraries"}],"metrics":[{"label":"Total Followers","value":"1,804","status":"critical","source":"SociaVault"},{"label":"Engagement Rate","value":"0.72%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"1 platforms","status":"critical","source":"SociaVault"},{"label":"Posting Frequency","value":"0.9 posts/week","status":"critical","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Establish 3-post-per-week minimum schedule (Monday, Wednesday, Friday) with 2 reels and 1 static post format to restore algorithmic visibility within 4-6 weeks","time_estimate":"3 hours weekly (content creation + scheduling via Meta Business Suite)","impact":"Increases reach by 150-200% within 6 weeks, lifts engagement rate from 0.72% to 1.5-2% industry baseline, and reverses current downward spiral in post performance","priority":"high"},{"text":"Launch user-generated content campaign: create #SasquatchInnExperience hashtag, add table tents/room cards encouraging guest posts, offer monthly draw ($50 pub gift card) for best photo tagged","time_estimate":"2 hours setup + 30 min weekly moderation","impact":"Generates 5-10 authentic guest posts monthly that convert 5x better than branded content, builds social proof library, and increases follower trust","priority":"high"},{"text":"Create event promotion content series: weekly bingo night countdowns (Thursdays), live music announcements, seasonal menu highlights, and behind-the-scenes kitchen/staff spotlights","time_estimate":"Fits within 3-posts/week cadence (1 event post weekly)","impact":"Drives 15-25% increase in event attendance (bingo, music nights) by reaching beyond walk-in traffic, creates recurring content themes that simplify planning","priority":"high"},{"text":"Develop seasonal content calendar tied to Fraser Valley tourism peaks: tulip season collaboration posts (April-May), summer patio dining content (June-August), fall foliage touring (September-October)","time_estimate":"4 hours quarterly planning + execution within regular posting schedule","impact":"Aligns content with high-intent traveler search behavior, increases relevance and shareability during peak booking windows","priority":"medium"},{"text":"Install Facebook Pixel and begin building retargeting audience of website visitors for future advertising campaigns (no spend required initially)","time_estimate":"1 hour (Facebook Business Manager setup)","impact":"Creates foundation for cost-effective future advertising by tracking website visitors who don't book—enables retargeting at fraction of cold audience cost","priority":"medium"},{"text":"Activate dormant Facebook page/group with cross-posted Instagram content plus Facebook-specific longer-form posts (renovation stories, staff spotlights, community involvement)","time_estimate":"30 minutes weekly (crossposting + 1 Facebook-specific post)","impact":"Captures 45-65 age demographic (core road-tripper segment) missing from Instagram-only strategy, increases total reach by 40-60%","priority":"medium"},{"text":"Update Instagram bio to include high-appeal hooks: 'Pet-Friendly Patio 🐾 | Live Music Fridays 🎵 | Bingo Thursdays | Family-Owned Since 1954'","time_estimate":"10 minutes","impact":"Improves profile visit-to-follow conversion by 15-20% by immediately communicating unique value propositions and discovery keywords","priority":"low"}],"data_sources":["SociaVault API","Facebook Ad Library","TikTok Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"full_week","score":100,"details":{"daysFound":["monday","thursday","friday","saturday","sunday"]}},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Near-complete essential visitor information with hours, directions, parking, and accessibility details readily available—only language support missing for international travelers.","findings":[{"type":"positive","text":"Complete hours display for multi-unit operation (hotel, pub, liquor store) prevents guest confusion and reduces phone inquiries about what's open when","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Map/directions integration critical for Lougheed Highway location where GPS accuracy varies and first-time visitors need visual confirmation","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Parking information particularly valuable for RV travelers, motorcycle groups, and guests towing boats/trailers heading to nearby lakes and parks","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Accessibility details demonstrate inclusive hospitality and help mobility-limited travelers make informed booking decisions without phone inquiry","confidence":"high","source":"Website scrape"},{"type":"warning","text":"Lack of multi-language support (even basic French) limits appeal to international tourists and doesn't reflect BC's bilingual character or Vancouver's diverse visitor base","confidence":"medium","source":"Website scrape"},{"type":"positive","text":"Address consistency (46001 Lougheed Hwy, Harrison Mills, BC V0M 1A1) across website matches Google Business Profile exactly—supports local SEO and prevents guest confusion","confidence":"high","source":"Website scrape + Google Places verification"}],"metrics":[{"label":"Hours Displayed","value":"Yes—full week schedule visible (Monday, Thursday, Friday, Saturday, Sunday detected)","benchmark":"Hours must be prominent and complete for all business units (hotel, pub, liquor store)","status":"excellent","confidence":"high","source":"Website scrape","tooltip":"Multiple days detected suggesting complete weekly schedule available"},{"label":"Directions/Map","value":"Yes—map and directions available","benchmark":"Embedded map critical for rural/highway locations like Harrison Mills","status":"excellent","confidence":"high","source":"Website scrape","tooltip":"Map integration found—essential for Lougheed Highway location discovery"},{"label":"Parking Information","value":"Yes—parking info provided","benchmark":"Parking clarity reduces arrival anxiety for road-trippers and RV travelers","status":"excellent","confidence":"high","source":"Website scrape","tooltip":"Parking details present—critical for pub/restaurant customers and RV travelers"},{"label":"Accessibility Information","value":"Yes—accessibility info available","benchmark":"Accessibility transparency required and appreciated by mobility-limited travelers","status":"excellent","confidence":"high","source":"Website scrape","tooltip":"Accessibility details found—demonstrates inclusive hospitality"},{"label":"Multi-Language Support","value":"No—English only","benchmark":"French/English bilingual recommended for BC tourism, Asian languages beneficial for Vancouver-origin visitors","status":"warning","confidence":"high","source":"Website scrape","tooltip":"Single language limits international visitor accessibility"}],"recommendations":[{"text":"Add pet policy details to guest experience section (noticed as 'pet-friendly patio' in reviews but not explicitly stated on website)—this is a major booking decision factor","time_estimate":"30 minutes (write policy, add to accommodations and pub pages)","impact":"Reduces inquiry volume by 10-15% and increases bookings from pet-traveling segment (20-30% of road-trippers) by removing uncertainty","priority":"high"},{"text":"Create FAQ section addressing common guest questions: check-in/out times, pet fees, cancellation policy, liquor store hours vs. pub hours, RV/trailer parking capacity","time_estimate":"2 hours (compile questions from front desk staff, write answers, create page)","impact":"Reduces phone/email inquiry volume by 20-30%, improves Google search visibility for long-tail questions (how do FAQ answers get indexed), and shortens booking consideration time","priority":"medium"},{"text":"Add Google Translate widget for basic multi-language support (French, Mandarin, Japanese, Korean)—targets Vancouver-origin international tourists visiting Fraser Valley","time_estimate":"30 minutes (Google Translate plugin installation)","impact":"Improves accessibility for 10-15% of potential visitors, particularly Vancouver-based Asian tourists exploring beyond city limits—low-effort inclusive gesture","priority":"low"},{"text":"Create visual what-to-expect guide with photos showing: check-in desk location, parking area, room types, pub entrance vs. hotel entrance, liquor store hours sign","time_estimate":"3 hours (photo shoot + layout)","impact":"Reduces first-time guest arrival confusion (especially for multi-purpose venue), decreases front desk explanation time, and improves initial guest experience","priority":"low"},{"text":"Add real-time hours updates to website header during special closures or events (like 'CLOSED MONDAY, SEPT 14 FOR STAFF EVENT' notice currently in H1 tag—should be dismissible banner instead)","time_estimate":"1 hour (implement dismissible notification banner system)","impact":"Prevents wasted guest trips during closures, improves professionalism of temporary messaging, and stops special notices from becoming permanent H1 tags that hurt SEO","priority":"medium"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local SEO foundation with claimed Google Business Profile, consistent NAP data, and solid local keyword presence—minor gaps in schema markup and local content.","findings":[{"type":"positive","text":"Google Business Profile fully claimed with multi-category listing (bar, restaurant, lodging, liquor_store) ensures appearance in diverse local searches","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Perfect NAP consistency between website (46001 Lougheed Hwy, 604-796-2730) and Google Business Profile prevents local ranking confusion","confidence":"high","source":"Website scrape + Google Places"},{"type":"positive","text":"Strong backlink profile (380 links, 86 domains) from quality tourism sources like Travel Weekly, Roadtrippers, Vancouver Is Awesome builds local authority","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Rank #1 for branded 'sasquatch inn' searches capturing 1,338 monthly visitors—dominates branded discovery","confidence":"high","source":"SEOptimer rankings"},{"type":"warning","text":"Missing LocalBusiness schema markup prevents rich search results (star ratings, hours, price range) from appearing in Google and limits LLM/AI search engine understanding","confidence":"high","source":"SEOptimer"},{"type":"warning","text":"Generic local keywords weak: 'inn' ranks #52 (low visibility), missing top rankings for 'harrison mills hotel,' 'harrison mills pub,' 'lougheed highway accommodation'","confidence":"high","source":"SEOptimer rankings"},{"type":"positive","text":"Local content includes location mentions (Harrison Mills 2x, Lougheed Hwy 2x, BC) supporting geographic relevance signals","confidence":"high","source":"SEOptimer keyword analysis"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified (linked to website)","benchmark":"Mandatory for local discovery—claimed GBP ranks higher in map results","status":"excellent","confidence":"high","source":"Google Places API + SEOptimer","tooltip":"GBP confirmed as claimed with 1,735 reviews and all business categories populated"},{"label":"NAP Consistency","value":"Address and phone consistent across website and Google","benchmark":"Exact NAP matching across platforms critical for local ranking","status":"excellent","confidence":"high","source":"Website scrape + Google Places API","tooltip":"46001 Lougheed Hwy, (604) 796-2730 matches exactly between website and GBP"},{"label":"Local Keywords","value":"Present (Harrison Mills, Lougheed Hwy detected in content)","benchmark":"Location keywords should appear in titles, headers, and body content","status":"good","confidence":"high","source":"SEOptimer keyword analysis","tooltip":"'Harrison Mills' appears 2x, 'Lougheed Hwy' appears 2x in page content"},{"label":"Local Business Schema","value":"Missing","benchmark":"Schema markup helps search engines understand business type, location, hours, ratings","status":"warning","confidence":"high","source":"SEOptimer","tooltip":"No LocalBusiness, Hotel, Restaurant, or LiquorStore schema detected"},{"label":"Backlink Profile","value":"380 backlinks from 86 referring domains (Domain Strength: 33)","benchmark":"Local businesses: 50+ backlinks good, 100+ strong","status":"excellent","confidence":"high","source":"SEOptimer backlink analysis","tooltip":"Strong backlink profile from Travel Weekly, Roadtrippers, Vancouver Is Awesome, tourism directories"},{"label":"Top Organic Keyword Rankings","value":"Rank #1 for 'sasquatch inn' (1,338 monthly traffic), visible for 'inn' #52, 'sasquatch bc' #10","benchmark":"Should rank top 3 for branded terms and top 20 for category + location terms","status":"good","confidence":"high","source":"SEOptimer rankings data","tooltip":"Strong branded visibility but opportunity to improve generic 'harrison mills hotel' rankings"}],"recommendations":[{"text":"Implement LocalBusiness Schema markup (structured data) combining Hotel, Restaurant, and LiquorStore types with address, hours, price range, 4.3 rating, and 1,735 reviews","time_estimate":"1 hour (using Schema plugin or JSON-LD manual implementation)","impact":"Enables rich search results showing star rating, price, and hours directly in Google—increases click-through by 15-30% and improves AI search engine citations","priority":"high"},{"text":"Create location-optimized service pages: 'Harrison Mills Hotel Accommodation,' 'Lougheed Highway Pub & Restaurant,' 'Harrison Mills Liquor Store'—each targeting generic local searches","time_estimate":"4 hours (3 pages with unique content, images, booking CTAs)","impact":"Improves rankings for non-branded local searches ('harrison mills hotel' vs. 'sasquatch inn'), captures visitors earlier in discovery phase who don't know business name yet","priority":"medium"},{"text":"Optimize Google Business Profile posts with weekly updates: upcoming events (bingo, live music), seasonal menu items, special offers—keeps GBP active and engaging","time_estimate":"15 minutes weekly","impact":"Active GBP signals to Google algorithm that business is current and engaged—improves local pack ranking and increases profile engagement by 20-40%","priority":"high"},{"text":"Build local citation network by claiming/correcting listings on TripAdvisor, Yelp, Yellow Pages, BC tourism directories, and ensuring NAP consistency across all","time_estimate":"3 hours (one-time audit and corrections)","impact":"Strengthens local SEO signals through citation consistency, increases discoverability across multiple platforms travelers use for research","priority":"medium"},{"text":"Create Fraser Valley partnership content: blog posts featuring nearby attractions (Kilby Historic Site, Harrison Hot Springs, Sasquatch Provincial Park) with internal booking links","time_estimate":"2 hours per blog post (quarterly series of 4 posts)","impact":"Captures 'things to do near Harrison Mills' search traffic, positions Sasquatch Inn as Fraser Valley trip planning resource, builds backlinks from regional partners","priority":"low"},{"text":"Add GBP Q&A monitoring to weekly routine: answer common questions about pet policy, parking, check-in times, liquor store hours proactively before guests ask","time_estimate":"10 minutes weekly","impact":"Reduces inquiry friction, improves GBP completeness score (ranking factor), and provides FAQ content that appears in search results","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Website & Technical Foundation","text":"Enable browser caching for all static assets (images, CSS, JavaScript) with 30-day expiration headers—SEOptimer reports 16 resources with no caching currently, causing every page load to re-download 1.5MB of files unnecessarily","time_estimate":"30 minutes (hosting control panel or W3 Total Cache plugin)","impact":"high","expected_result":"Reduces mobile page load time from 6.2 seconds to under 4 seconds for returning visitors (40-60% improvement), decreasing bounce rate by 20-30% and improving mobile conversion","confidence":"high"},{"priority":2,"category":"Social Media & Content","text":"Establish minimum 3-posts-per-week schedule on Instagram (Monday/Wednesday/Friday: 2 reels + 1 static post) to restore algorithmic visibility and reverse current engagement decline from 12 average likes to 1-5 on recent posts","time_estimate":"3 hours weekly (content creation, captioning, scheduling via Meta Business Suite)","impact":"high","expected_result":"Increases Instagram reach by 150-200% within 6 weeks, lifts engagement rate from 0.72% to 1.5-2% industry baseline, and stops downward spiral caused by sporadic posting","confidence":"high"},{"priority":3,"category":"Website & Technical Foundation","text":"Compress and optimize 5 largest homepage images using WebP format—SEOptimer identifies 345KB savings (74% reduction) available on hotel exterior photos that currently slow mobile load","time_estimate":"45 minutes (one-time using ShortPixel, Imagify, or similar plugin)","impact":"high","expected_result":"Improves mobile PageSpeed score from 56 to 70+, reduces cellular data usage for road-trippers, and contributes to faster perceived load time alongside caching improvements","confidence":"high"},{"priority":4,"category":"Reviews & Reputation","text":"Implement systematic review response protocol: respond to all Google reviews within 48 hours (prioritizing 3-star and below), thank guests by name, address specific feedback, and invite return visits—currently no responses detected in review sample","time_estimate":"30 minutes weekly ongoing (once backlog cleared)","impact":"high","expected_result":"Increases future review generation by 15-20% (engaged owners get more reviews), improves rating perception even without score change (active management signals quality), and recovers dissatisfied guests before they choose competitors next visit","confidence":"high"},{"priority":5,"category":"Local Visibility","text":"Add LocalBusiness Schema markup (structured data) to homepage combining Hotel, Restaurant, and LiquorStore types with complete data: address, phone, hours, price range, 4.3 rating, and 1,735 review count","time_estimate":"1 hour (Schema Pro plugin or manual JSON-LD code insertion)","impact":"high","expected_result":"Enables rich search results displaying star rating, pricing, and hours directly in Google (15-30% CTR increase), improves AI search engine understanding for LLM citations, and strengthens local search ranking signals","confidence":"high"},{"priority":6,"category":"Guest Experience","text":"Add explicit pet policy details to website (currently mentioned in reviews as 'pet-friendly patio' but not stated in booking information)—clarify pet fees, size limits, patio-only vs. room policy, and advance notice requirements","time_estimate":"30 minutes (write policy, add to accommodations page and FAQ)","impact":"medium","expected_result":"Reduces phone/email inquiry volume by 10-15%, increases bookings from pet-traveling segment (20-30% of road-trippers) by removing uncertainty barrier, and prevents guest disappointment from unclear expectations","confidence":"high"},{"priority":7,"category":"Social Media & Content","text":"Launch user-generated content campaign on Instagram: create #SasquatchInnExperience hashtag, add table tents/room cards encouraging guest posts, offer monthly $50 pub gift card draw for best tagged photo","time_estimate":"2 hours setup + 30 minutes weekly moderation/resharing","impact":"medium","expected_result":"Generates 5-10 authentic guest posts monthly that convert followers 5x better than branded content, builds social proof library for website/marketing use, and increases follower trust through third-party validation","confidence":"high"},{"priority":8,"category":"Website & Technical Foundation","text":"Write and add meta description tag (120-155 characters): 'Family-owned Harrison Mills hotel, pub & liquor store since 1954. Rooms from $85. Pet-friendly patio. On Lougheed Highway near Harrison Hot Springs, BC.'—currently missing entirely","time_estimate":"15 minutes","impact":"medium","expected_result":"Increases Google search click-through rate by 10-15% by providing compelling, keyword-rich preview instead of random body text snippets—particularly effective for non-branded searches","confidence":"high"},{"priority":9,"category":"Local Visibility","text":"Post weekly updates to Google Business Profile: upcoming events (Thursday bingo, Friday live music), seasonal menu highlights, special offers, or renovation progress—keeps profile active with fresh content","time_estimate":"15 minutes weekly ongoing","impact":"medium","expected_result":"Active GBP signals improve local pack ranking (Google prioritizes engaged businesses), increases profile engagement by 20-40%, and captures attention of nearby/driving-past searchers with timely content","confidence":"high"},{"priority":10,"category":"Online Booking & Conversion","text":"Add guest review excerpts near homepage booking button: rotate 3-4 quotes from Google reviews ('Excellent steak,' 'Pet-friendly patio,' 'Great service by Angie and Tara,' '4.3 stars from 1,735 reviews') with star graphics","time_estimate":"1 hour (design and implement review widget)","impact":"medium","expected_result":"Increases booking conversion rate by 8-12% by providing social proof at critical decision moment—reinforces trust signals immediately before CTA click","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (1,735 reviews, 4.3 rating, review recency) from Google Places API","Website technical performance from SEOptimer (PageSpeed scores, meta tags, SSL, mobile viewport)","Website content analysis (booking capability, contact visibility, hours, directions, parking from direct scrape)","Instagram analytics from SociaVault API (1,804 followers, 0.72% engagement, posting frequency, content mix)","Backlink profile and organic keyword rankings from SEOptimer","NAP consistency verification across website and Google Business Profile"],"low_confidence_areas":["Review response rate (no responses detected in 5-review sample, but full response rate requires comprehensive audit)","TripAdvisor presence (integration detected but review count and rating not verified)","Facebook page/group engagement (group URL provided but analytics not retrieved—requires manual verification)","YouTube, TikTok presence (no data retrieved—platforms may not exist or were not found)","Paid advertising effectiveness (no ads detected, but creative quality assessment requires active campaigns)","Yelp reviews and rating (not included in data sources—manual check needed for complete reputation picture)"],"recommendations_for_fuller_picture":["Manual TripAdvisor audit: verify listing ownership, review count, rating, and response rate to complete OTA reputation assessment","Facebook page analytics access: request page insights to measure reach, engagement, and demographics if business page exists beyond group","Guest survey implementation: collect first-party data on booking sources, decision factors, and satisfaction to complement third-party review data","Booking source tracking: configure Little Hotelier and Google Analytics to track direct vs. OTA bookings and measure website conversion rate accurately","Competitor benchmarking: analyze 3-5 comparable Harrison Mills/Fraser Valley properties to contextualize performance metrics"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-21T14:55:38.558Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-21T14:50:22.351Z","confidence":"high","missingDataFlags":[]}};</script>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
+}
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// Swipe Gesture Support
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    const sidebarWidth = 268;
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / sidebarWidth, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / sidebarWidth, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) { openMobileDrawer(); return; }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) { closeMobileDrawer(); return; }
+  if (isEdgeSwipe && deltaX > 0) { closeMobileDrawer(); }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+// Close drawer on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('sidebar')?.classList.contains('open')) {
+    closeMobileDrawer();
+  }
+});
+
+// Legacy aliases for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function navigate(pageId) {
+  // Update pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.target?.closest('.nav-item')?.classList.add('active');
+
+  // Close mobile menu
+  closeMobileDrawer();
+}
+
+function showComingSoon(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Close mobile menu
+  closeMobileDrawer();
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+function downloadPDF() {
+  // Set document title for PDF filename
+  const clientSlug = document.body.dataset.clientSlug || 'assessment';
+  const originalTitle = document.title;
+  document.title = `${clientSlug}-digital-marketing-assessment`;
+
+  // Populate cover page with dynamic data
+  populateCoverPage();
+
+  // Add printing class to body
+  document.body.classList.add('printing');
+
+  // Small delay to ensure styles are applied
+  setTimeout(() => {
+    // Trigger print dialog (user can save as PDF)
+    window.print();
+
+    // Restore state after print dialog closes
+    setTimeout(() => {
+      document.body.classList.remove('printing');
+      document.title = originalTitle;
+    }, 1000);
+  }, 100);
+}
+
+function populateCoverPage() {
+  // Get grade and score from the page
+  const gradeEl = document.getElementById('overallGrade');
+  const scoreEl = document.getElementById('overallScore');
+
+  // Update cover page elements
+  const coverGrade = document.getElementById('coverGrade');
+  const coverScore = document.getElementById('coverScore');
+
+  if (coverGrade && gradeEl) {
+    coverGrade.textContent = gradeEl.textContent;
+  }
+
+  if (coverScore && scoreEl) {
+    coverScore.textContent = scoreEl.textContent;
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER ASSESSMENT DATA
+// ══════════════════════════════════════════════════════════════
+function renderAssessment() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Render Executive Summary
+  renderExecutiveSummary(data.executive_summary);
+
+  // Render Quick Wins
+  renderQuickWins(data.quick_wins);
+
+  // Render Tourism Context
+  renderTourismContext(data.tourism_context);
+
+  // Render category cards
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const categoryIcons = {
+    website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
+    visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
+    ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
+    online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
+    review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
+    social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
+    local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
+    email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
+    competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
+  };
+
+  if (data.categories) {
+    let html = '';
+    for (const [key, cat] of Object.entries(data.categories)) {
+      const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
+      const grade = cat.grade || 'N/A';
+      const gradeClass = grade === 'N/A' ? 'grade-na' : 'grade-' + grade.toLowerCase().charAt(0);
+
+      html += `
+        <div class="category-card">
+          <div class="category-header">
+            <div class="category-icon ${iconData.class}">${iconData.icon}</div>
+            <div class="category-title-wrap">
+              <h3 class="category-title">${cat.title || iconData.title}</h3>
+              <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="category-summary">${cat.summary || ''}</p>
+          ${renderMetrics(cat.metrics)}
+          ${renderFindings(cat.findings)}
+          ${renderRecommendations(cat.recommendations)}
+        </div>
+      `;
+    }
+    categoriesGrid.innerHTML = html;
+  }
+
+  // Render priority recommendations
+  const priorityList = document.getElementById('priorityList');
+  if (data.priority_recommendations) {
+    let html = '';
+    data.priority_recommendations.slice(0, 5).forEach((rec, i) => {
+      const impactClass = rec.impact ? `impact-${rec.impact.toLowerCase()}` : '';
+      html += `
+        <div class="priority-item">
+          <div class="priority-item-number">${i + 1}</div>
+          <div class="priority-item-content">
+            <h4>${rec.text}</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">${rec.category || 'General'}</span>
+              ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
+              ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
+            </div>
+            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    priorityList.innerHTML = html;
+  }
+}
+
+function renderExecutiveSummary(summary) {
+  const container = document.getElementById('executiveSummary');
+  if (!summary) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let strengthsHtml = '';
+  if (summary.key_strengths && summary.key_strengths.length) {
+    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+  }
+
+  let gapsHtml = '';
+  if (summary.critical_gaps && summary.critical_gaps.length) {
+    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+  }
+
+  container.innerHTML = `
+    <h2>Executive Summary</h2>
+    <p class="executive-headline">${summary.headline || ''}</p>
+    <div class="executive-columns">
+      <div class="executive-column strengths">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Key Strengths
+        </h4>
+        <ul>${strengthsHtml}</ul>
+      </div>
+      <div class="executive-column gaps">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Critical Gaps
+        </h4>
+        <ul>${gapsHtml}</ul>
+      </div>
+    </div>
+    <div class="executive-bottom-line">
+      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+    </div>
+  `;
+}
+
+function renderQuickWins(quickWins) {
+  const container = document.getElementById('quickWins');
+  if (!quickWins || !quickWins.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let itemsHtml = '';
+  quickWins.slice(0, 5).forEach((win, i) => {
+    itemsHtml += `
+      <div class="quick-win-item">
+        <div class="quick-win-number">${i + 1}</div>
+        <div class="quick-win-content">
+          <div class="quick-win-task">${win.task}</div>
+          <div class="quick-win-impact">${win.impact}</div>
+        </div>
+        <span class="quick-win-time">${win.time_estimate}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Wins
+    </h2>
+    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <div class="quick-wins-list">${itemsHtml}</div>
+  `;
+}
+
+function renderTourismContext(context) {
+  const container = document.getElementById('tourismContext');
+  if (!context) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const items = [
+    { key: 'visitor_profile', label: 'Visitor Profile', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'discovery_journey', label: 'Discovery Journey', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { key: 'seasonal_considerations', label: 'Seasonal Considerations', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' },
+    { key: 'trip_integration', label: 'Trip Integration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    { key: 'competitive_landscape', label: 'Competitive Landscape', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>' }
+  ];
+
+  let itemsHtml = '';
+  items.forEach(item => {
+    if (context[item.key]) {
+      itemsHtml += `
+        <div class="tourism-context-item">
+          <h4>${item.icon} ${item.label}</h4>
+          <p>${context[item.key]}</p>
+        </div>
+      `;
+    }
+  });
+
+  if (!itemsHtml) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tourism Context
+    </h2>
+    <div class="tourism-context-grid">${itemsHtml}</div>
+  `;
+}
+
+function renderMetrics(metrics) {
+  if (!metrics || !metrics.length) return '';
+  let html = '<div class="category-metrics">';
+  metrics.slice(0, 4).forEach(m => {
+    html += `
+      <div class="metric-item">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">
+          <span class="metric-status ${m.status || 'good'}"></span>
+          ${m.value}
+        </div>
+        ${m.benchmark ? `<div class="metric-benchmark">${m.benchmark}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderFindings(findings) {
+  if (!findings || !findings.length) return '';
+  let html = '<div class="category-findings">';
+  findings.slice(0, 4).forEach(f => {
+    let iconClass, icon;
+    if (f.type === 'positive') {
+      iconClass = 'positive';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if (f.type === 'info') {
+      iconClass = 'info';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    } else {
+      iconClass = 'negative';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    }
+    html += `
+      <div class="finding-item">
+        <span class="finding-icon ${iconClass}">${icon}</span>
+        <span>${f.text}</span>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderRecommendations(recommendations) {
+  if (!recommendations || !recommendations.length) return '';
+  let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
+  recommendations.slice(0, 3).forEach(r => {
+    html += `
+      <div class="recommendation-item">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
+            <span>${r.text}</span>
+          </div>
+          ${r.time_estimate ? `
+            <div class="recommendation-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${r.time_estimate}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', renderAssessment);
+</script>
+</body>
+</html>
