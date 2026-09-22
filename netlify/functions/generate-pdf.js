@@ -383,22 +383,26 @@ async function generateAssessmentHTML(clientSlug, supabase) {
 
   <!-- COVER PAGE -->
   <div class="cover-page">
-    <img src="https://accelerator.elearningu.com/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
-    <div class="cover-divider"></div>
-    <h1 class="cover-title">Digital Marketing</h1>
-    <p class="cover-subtitle">Assessment</p>
-    <div class="cover-divider"></div>
-    <p class="cover-client-name">${clientName}</p>
-    <p class="cover-date">${assessmentDate}</p>
-    <div class="cover-toc">
-      <p class="cover-toc-title">What's Inside</p>
-      <ul class="cover-toc-list">
-        <li class="cover-toc-item"><span class="cover-toc-link">Executive Summary</span></li>
-        <li class="cover-toc-item"><span class="cover-toc-link">Category Breakdown</span></li>
-        <li class="cover-toc-item"><span class="cover-toc-link">Quick Wins</span></li>
-        <li class="cover-toc-item"><span class="cover-toc-link">Priority Recommendations</span></li>
-        <li class="cover-toc-item"><span class="cover-toc-link">Next Steps</span></li>
-      </ul>
+    <div class="cover-left">
+      <img src="https://accelerator.elearningu.com/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
+      <div class="cover-divider"></div>
+      <h1 class="cover-title">Digital Marketing</h1>
+      <p class="cover-subtitle">Assessment</p>
+      <div class="cover-divider"></div>
+      <p class="cover-client-name">${clientName}</p>
+      <p class="cover-date">${assessmentDate}</p>
+    </div>
+    <div class="cover-right">
+      <div class="cover-toc">
+        <p class="cover-toc-title">What's Inside</p>
+        <ul class="cover-toc-list">
+          <li class="cover-toc-item"><span class="cover-toc-link">Executive Summary</span></li>
+          <li class="cover-toc-item"><span class="cover-toc-link">Category Breakdown</span></li>
+          <li class="cover-toc-item"><span class="cover-toc-link">Quick Wins</span></li>
+          <li class="cover-toc-item"><span class="cover-toc-link">Priority Recommendations</span></li>
+          <li class="cover-toc-item"><span class="cover-toc-link">Next Steps</span></li>
+        </ul>
+      </div>
     </div>
   </div>
 
@@ -635,9 +639,11 @@ function getBaseCSS() {
       width: 100%;
       height: 100vh;
       background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
-      padding: 2.5in 1.25in 1.5in;
+      padding: 1.5in 1in 1in;
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: stretch;
       position: relative;
       overflow: hidden;
       page-break-after: always;
@@ -653,30 +659,42 @@ function getBaseCSS() {
       background: linear-gradient(135deg, rgba(170, 218, 182, 0.15) 0%, rgba(170, 218, 182, 0.05) 100%);
       transform: rotate(-15deg);
       border-radius: 40% 60% 70% 30%;
+      z-index: 0;
     }
 
-    .cover-logo { width: 140px; margin-bottom: 2rem; }
-    .cover-divider { width: 100%; height: 3px; background: var(--mint-500); margin: 1.5rem 0; }
-    .cover-title { font-family: var(--font-display); font-size: 42pt; font-weight: 700; color: #ffffff; line-height: 1.1; margin-bottom: 0.5rem; }
-    .cover-subtitle { font-family: var(--font-display); font-size: 42pt; font-weight: 700; color: var(--mint-500); line-height: 1.1; margin-bottom: 2rem; }
-    .cover-client-name { font-family: var(--font-display); font-size: 28pt; font-weight: 400; color: #ffffff; margin-bottom: 0.25rem; }
-    .cover-date { font-size: 12pt; color: rgba(255, 255, 255, 0.7); }
+    .cover-left {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 55%;
+      z-index: 1;
+    }
+
+    .cover-right {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      z-index: 1;
+    }
+
+    .cover-logo { width: 120px; margin-bottom: 1.5rem; }
+    .cover-divider { width: 100%; height: 3px; background: var(--mint-500); margin: 1rem 0; }
+    .cover-title { font-family: var(--font-display); font-size: 36pt; font-weight: 700; color: #ffffff; line-height: 1.1; margin-bottom: 0.25rem; }
+    .cover-subtitle { font-family: var(--font-display); font-size: 36pt; font-weight: 700; color: var(--mint-500); line-height: 1.1; margin-bottom: 1.5rem; }
+    .cover-client-name { font-family: var(--font-display); font-size: 22pt; font-weight: 400; color: #ffffff; margin-bottom: 0.25rem; line-height: 1.3; }
+    .cover-date { font-size: 11pt; color: rgba(255, 255, 255, 0.7); }
 
     .cover-toc {
-      position: absolute;
-      right: 1.25in;
-      top: 50%;
-      transform: translateY(-50%);
       background: #ffffff;
       border-radius: 16px;
-      padding: 1.5rem 2rem;
-      width: 260px;
+      padding: 1.25rem 1.5rem;
+      width: 220px;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
     }
-    .cover-toc-title { font-family: var(--font-body); font-size: 10pt; font-weight: 600; color: var(--muted); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    .cover-toc-title { font-family: var(--font-body); font-size: 9pt; font-weight: 600; color: var(--muted); margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; }
     .cover-toc-list { list-style: none; }
-    .cover-toc-item { margin-bottom: 0.5rem; }
-    .cover-toc-link { display: block; padding: 10px 16px; background: linear-gradient(135deg, rgba(170, 218, 182, 0.3) 0%, rgba(170, 218, 182, 0.15) 100%); border-radius: 8px; font-family: var(--font-display); font-size: 10pt; font-weight: 600; color: var(--navy-900); }
+    .cover-toc-item { margin-bottom: 0.4rem; }
+    .cover-toc-link { display: block; padding: 8px 12px; background: linear-gradient(135deg, rgba(170, 218, 182, 0.3) 0%, rgba(170, 218, 182, 0.15) 100%); border-radius: 6px; font-family: var(--font-display); font-size: 9pt; font-weight: 600; color: var(--navy-900); }
 
     .section-title { font-family: var(--font-display); font-size: 32pt; font-weight: 700; color: var(--navy-900); margin-bottom: 0.5rem; line-height: 1.2; }
     .section-title-underline { width: 100%; height: 2px; background: linear-gradient(90deg, var(--link-blue) 0%, var(--link-blue) 30%, transparent 100%); margin-bottom: 2rem; }
