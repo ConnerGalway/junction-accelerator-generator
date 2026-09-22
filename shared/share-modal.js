@@ -21,7 +21,32 @@
   // ══════════════════════════════════════════════════════════════════════════
 
   const styles = `
-    /* Fixed Share button - top right of main content */
+    /* Inline Share button - matches hero action buttons */
+    .share-btn-inline {
+      display: none; /* Hidden by default, shown via JS for clients */
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: rgba(255,255,255,.15);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 8px;
+      color: #fff;
+      font-family: var(--font-d, 'Raleway', sans-serif);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .share-btn-inline:hover {
+      background: rgba(255,255,255,.25);
+      border-color: rgba(255,255,255,.5);
+    }
+    .share-btn-inline svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    /* Fixed Share button - fallback for pages without inline placement */
     .share-btn-fixed {
       display: none; /* Hidden by default, shown via JS for clients */
       position: fixed;
@@ -230,15 +255,26 @@
   // INJECT BUTTON AND MODAL HTML
   // ══════════════════════════════════════════════════════════════════════════
 
-  const buttonHtml = `
+  const shareIcon = `
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="18" cy="5" r="3"/>
+      <circle cx="6" cy="12" r="3"/>
+      <circle cx="18" cy="19" r="3"/>
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+    </svg>
+  `;
+
+  const inlineButtonHtml = `
+    <button class="share-btn-inline" id="shareButtonInline" onclick="window.openShareModal()">
+      ${shareIcon}
+      Share Access
+    </button>
+  `;
+
+  const fixedButtonHtml = `
     <button class="share-btn-fixed" id="shareButtonFixed" onclick="window.openShareModal()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="18" cy="5" r="3"/>
-        <circle cx="6" cy="12" r="3"/>
-        <circle cx="18" cy="19" r="3"/>
-        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
-        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
-      </svg>
+      ${shareIcon}
       <span>Share</span>
     </button>
   `;
@@ -248,7 +284,7 @@
       <div class="share-modal">
         <button type="button" class="share-modal__close" onclick="window.closeShareModal()" aria-label="Close">&times;</button>
         <h2 class="share-modal__title">Share Dashboard Access</h2>
-        <p class="share-modal__desc">Invite a team member to view this accelerator dashboard. They'll receive an email with a link to access it.</p>
+        <p class="share-modal__desc">Invite a team member to view this dashboard. They'll receive an email with a link to access it.</p>
         <form id="shareForm">
           <input type="email" class="share-modal__input" id="shareEmail" placeholder="colleague@company.com" required autocomplete="email">
           <button type="submit" class="share-modal__btn" id="shareBtn">Send Invitation</button>
@@ -258,9 +294,25 @@
     </div>
   `;
 
+  // Track which button type was injected
+  let useInlineButton = false;
+
   // Inject into body
   document.addEventListener('DOMContentLoaded', function() {
-    document.body.insertAdjacentHTML('beforeend', buttonHtml);
+    // Check if there's an inline placement container (assessment hero actions)
+    const heroActions = document.querySelector('.assessment-hero-actions');
+    const heroBadge = document.querySelector('.assessment-hero-badge');
+
+    if (heroActions && heroBadge) {
+      // Insert inline button before the badge
+      heroBadge.insertAdjacentHTML('beforebegin', inlineButtonHtml);
+      useInlineButton = true;
+    } else {
+      // Fall back to fixed button
+      document.body.insertAdjacentHTML('beforeend', fixedButtonHtml);
+    }
+
+    // Always inject the modal
     document.body.insertAdjacentHTML('beforeend', modalHtml);
 
     // Attach form handler
@@ -300,7 +352,10 @@
       return;
     }
 
-    const shareBtn = document.getElementById('shareButtonFixed');
+    const shareBtn = useInlineButton
+      ? document.getElementById('shareButtonInline')
+      : document.getElementById('shareButtonFixed');
+
     if (shareBtn) {
       shareBtn.style.display = 'inline-flex';
     }
