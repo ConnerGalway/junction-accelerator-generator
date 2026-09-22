@@ -260,6 +260,9 @@ export async function handler(event, context) {
               <p style="margin: 32px 0 0; font-size: 13px; line-height: 1.6; color: #6b6b8a;">
                 If you don't have an account yet, you'll be prompted to create one when you click the link.
               </p>
+              <p style="margin: 24px 0 0; font-size: 13px; line-height: 1.6; color: #6b6b8a;">
+                If you have any questions, or there's anything that we can help with, please let us know: <a href="mailto:support@elearningu.com" style="color: #11154b; text-decoration: none; font-weight: 600;">support@elearningu.com</a>
+              </p>
             </td>
           </tr>
           <!-- Footer -->

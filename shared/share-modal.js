@@ -403,8 +403,13 @@
 
     // Get client info from page
     const clientSlug = document.body.getAttribute('data-client-slug');
-    const clientNameEl = document.querySelector('h1');
-    const clientName = clientNameEl?.textContent?.trim() || clientSlug;
+    // Try multiple selectors to find the business name (not the page title)
+    const clientNameEl = document.querySelector('.sidebar-client-name')
+      || document.querySelector('[data-client-name]')
+      || document.querySelector('.client-name');
+    const clientName = clientNameEl?.textContent?.trim()
+      || document.body.getAttribute('data-client-name')
+      || clientSlug;
 
     if (!clientSlug) {
       showMessage('error', 'Could not determine project. Please refresh and try again.');
