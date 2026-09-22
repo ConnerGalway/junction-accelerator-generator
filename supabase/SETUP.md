@@ -240,6 +240,17 @@ This column stores social media analytics data from SociaVault API including:
 - YouTube: subscribers, total views
 - Facebook: followers, page likes
 
+### Add client_email Column (Migration for existing databases)
+
+```sql
+ALTER TABLE client_assessments ADD COLUMN IF NOT EXISTS client_email TEXT;
+```
+
+This column stores the optional client email address. When provided during assessment creation:
+- A user_plans entry is automatically created for the client (granting viewer access)
+- The client is NOT notified automatically
+- The coach/admin/PSM can later send a notification email via the "Notify Client" button
+
 ### RLS Policies for client_assessments
 
 ```sql

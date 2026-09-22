@@ -779,6 +779,81 @@
       height: 18px;
     }
 
+    /* ── Notify Section ────────────────────────────────── */
+    .success-modal__notify {
+      margin-bottom: 24px;
+    }
+
+    .success-modal__notify-box {
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+      text-align: center;
+    }
+
+    .success-modal__notify-label {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+
+    .success-modal__notify-email {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .success-modal__notify-status {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .success-modal__notify-status.sent {
+      color: #2d6a3e;
+    }
+
+    .success-modal__notify-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .success-modal__notify-btn:hover:not(:disabled) {
+      background: var(--navy-mid);
+      transform: translateY(-1px);
+    }
+
+    .success-modal__notify-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success-modal__notify-btn.sent {
+      background: var(--mint-dark);
+      color: var(--navy);
+    }
+
+    .success-modal__notify-btn svg {
+      width: 16px;
+      height: 16px;
+    }
+
     /* ── Footer ─────────────────────────────────────────── */
     .footer {
       text-align: center;
@@ -979,6 +1054,18 @@
           </div>
         </div>
 
+        <!-- Client Email (Optional) -->
+        <div class="form-section">
+          <h2 class="form-section__title">Client Access</h2>
+          <p class="form-section__desc">Optionally add the client's email to grant them viewer access</p>
+
+          <div class="form-group">
+            <label class="form-label" for="clientEmail">Client Email <span class="form-label--optional">(optional)</span></label>
+            <input type="email" class="form-input" id="clientEmail" placeholder="client@example.com">
+            <p class="form-hint">The client will be granted access but won't be notified until you choose to send them an email.</p>
+          </div>
+        </div>
+
         <!-- Client Type Selection -->
         <div class="form-section">
           <h2 class="form-section__title">Dashboard Type</h2>
@@ -1104,6 +1191,22 @@
         </div>
       </div>
 
+      <!-- Client Notification Section (shown when client email was provided) -->
+      <div class="success-modal__notify" id="notifySection" style="display: none;">
+        <div class="success-modal__notify-box">
+          <p class="success-modal__notify-label">Client Access</p>
+          <p class="success-modal__notify-email" id="notifyClientEmail"></p>
+          <p class="success-modal__notify-status" id="notifyStatus">Access granted. Client has not been notified.</p>
+          <button class="success-modal__notify-btn" id="notifyClientBtn" onclick="notifyClient()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Send Notification Email</span>
+          </button>
+        </div>
+      </div>
+
       <div class="success-modal__actions">
         <button class="success-modal__btn success-modal__btn--secondary" onclick="closeSuccessModal()">
           Create Another
@@ -1128,6 +1231,7 @@
     // STATE
     // ══════════════════════════════════════════════════════════════
     let currentUser = null;
+    let lastAssessment = null;  // Track last created assessment for notification
 
     // ══════════════════════════════════════════════════════════════
     // INITIALIZATION
@@ -1208,6 +1312,15 @@
       // Get client type selection
       const clientType = document.querySelector('input[name="clientType"]:checked')?.value || 'accelerator';
 
+      // Get optional client email
+      const clientEmail = document.getElementById('clientEmail').value.trim().toLowerCase() || null;
+
+      // Validate client email format if provided
+      if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) {
+        showError('Please enter a valid client email address');
+        return;
+      }
+
       // Validate
       if (!slug.match(/^[a-z0-9-]+$/)) {
         showError('Slug can only contain lowercase letters, numbers, and hyphens');
@@ -1251,7 +1364,8 @@
             location: location || null,
             social,
             googlePlaceId: googlePlaceId || null,
-            clientType
+            clientType,
+            clientEmail
           })
         });
 
@@ -1302,14 +1416,14 @@
 
             if (isLive) {
               hideProgress();
-              showSuccessModal(slug, urlPath);
+              showSuccessModal(slug, urlPath, { clientEmail, businessName, clientType });
               document.getElementById('assessmentForm').reset();
               return;
             } else {
               // Page didn't become available in time, but assessment is ready
               // Show modal anyway with a note
               hideProgress();
-              showSuccessModal(slug, urlPath);
+              showSuccessModal(slug, urlPath, { clientEmail, businessName, clientType });
               document.getElementById('assessmentForm').reset();
               return;
             }
@@ -1491,17 +1605,41 @@
     // ══════════════════════════════════════════════════════════════
     // SUCCESS MODAL
     // ══════════════════════════════════════════════════════════════
-    function showSuccessModal(slug, urlPath) {
+    function showSuccessModal(slug, urlPath, details = {}) {
       const baseUrl = 'https://accelerator.elearningu.com';
       // Use provided urlPath or default to /${slug}/
       const path = urlPath || `/${slug}/`;
       const assessmentUrl = `${baseUrl}${path}`;
+
+      // Store assessment details for notification
+      lastAssessment = {
+        slug,
+        urlPath: path,
+        clientEmail: details.clientEmail || null,
+        businessName: details.businessName || slug,
+        clientType: details.clientType || 'accelerator'
+      };
 
       // Set the link in the input
       document.getElementById('assessmentLinkInput').value = assessmentUrl;
 
       // Set the view button href
       document.getElementById('viewAssessmentBtn').href = assessmentUrl;
+
+      // Show/hide client notification section
+      const notifySection = document.getElementById('notifySection');
+      if (lastAssessment.clientEmail) {
+        document.getElementById('notifyClientEmail').textContent = lastAssessment.clientEmail;
+        document.getElementById('notifyStatus').textContent = 'Access granted. Client has not been notified.';
+        document.getElementById('notifyStatus').classList.remove('sent');
+        const notifyBtn = document.getElementById('notifyClientBtn');
+        notifyBtn.disabled = false;
+        notifyBtn.classList.remove('sent');
+        notifyBtn.querySelector('span').textContent = 'Send Notification Email';
+        notifySection.style.display = 'block';
+      } else {
+        notifySection.style.display = 'none';
+      }
 
       // Show the modal
       document.getElementById('successModal').classList.add('active');
@@ -1513,6 +1651,62 @@
       const copyBtn = document.getElementById('copyLinkBtn');
       copyBtn.classList.remove('copied');
       copyBtn.querySelector('span').textContent = 'Copy';
+      // Clear last assessment state
+      lastAssessment = null;
+    }
+
+    async function notifyClient() {
+      if (!lastAssessment || !lastAssessment.clientEmail) {
+        console.error('No client email to notify');
+        return;
+      }
+
+      const notifyBtn = document.getElementById('notifyClientBtn');
+      const notifyStatus = document.getElementById('notifyStatus');
+
+      // Disable button and show loading state
+      notifyBtn.disabled = true;
+      notifyBtn.querySelector('span').textContent = 'Sending...';
+
+      try {
+        // Get auth token
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        // Call the notify function
+        const response = await fetch('/.netlify/functions/notify-client-assessment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            email: lastAssessment.clientEmail,
+            clientSlug: lastAssessment.slug,
+            clientName: lastAssessment.businessName,
+            clientType: lastAssessment.clientType
+          })
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || 'Failed to send notification');
+        }
+
+        // Success: update UI
+        notifyBtn.classList.add('sent');
+        notifyBtn.querySelector('span').textContent = 'Email Sent';
+        notifyStatus.textContent = 'Client has been notified via email.';
+        notifyStatus.classList.add('sent');
+
+      } catch (err) {
+        console.error('Failed to notify client:', err);
+        notifyBtn.disabled = false;
+        notifyBtn.querySelector('span').textContent = 'Send Notification Email';
+        notifyStatus.textContent = `Failed to send: ${err.message}`;
+      }
     }
 
     function copyAssessmentLink() {

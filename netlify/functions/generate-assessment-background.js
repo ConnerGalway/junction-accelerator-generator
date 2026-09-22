@@ -43,7 +43,7 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social, googlePlaceId, clientType } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail } = body;
     slug = body.slug;
     const isElevated = clientType === 'elevated';
     if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
@@ -125,6 +125,7 @@ export async function handler(event, context) {
         social_twitter: social?.twitter || null,
         social_linkedin: social?.linkedin || null,
         client_type: isElevated ? 'elevated' : 'accelerator',
+        client_email: clientEmail || null,
         status: 'processing',
         error_message: 'Progress: Starting assessment',
         created_by: user.email
@@ -143,6 +144,55 @@ export async function handler(event, context) {
         statusCode: 500,
         body: JSON.stringify({ error: 'Failed to create assessment record: ' + insertError.message })
       };
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 2.5. CREATE CLIENT ACCESS (if clientEmail provided)
+    // ─────────────────────────────────────────────────────────────────────────
+    if (clientEmail) {
+      if (DEBUG) console.log('[STEP 2.5] Creating client access for:', clientEmail);
+
+      // Check if user already has access to this project
+      const { data: existingAccess } = await supabaseAdmin
+        .from('user_plans')
+        .select('id, active')
+        .eq('email', clientEmail.toLowerCase())
+        .eq('client_slug', slug);
+
+      if (existingAccess && existingAccess.length > 0) {
+        // User already has access, reactivate if inactive
+        if (!existingAccess[0].active) {
+          await supabaseAdmin
+            .from('user_plans')
+            .update({ active: true })
+            .eq('id', existingAccess[0].id);
+          if (DEBUG) console.log('[STEP 2.5] Reactivated existing access');
+        } else {
+          if (DEBUG) console.log('[STEP 2.5] Client already has active access');
+        }
+      } else {
+        // Create new user_plans entry for client (WITHOUT sending notification)
+        const userPlanData = {
+          email: clientEmail.toLowerCase(),
+          role: 'client',
+          client_slug: slug,
+          active: true,
+          cohort_start_date: new Date().toISOString().split('T')[0],
+          coach_email: user.email,
+          dashboard_state: isElevated ? 'elevated' : null
+        };
+
+        const { error: userPlanError } = await supabaseAdmin
+          .from('user_plans')
+          .insert(userPlanData);
+
+        if (userPlanError) {
+          // Log error but don't fail the assessment - this is a non-critical feature
+          console.error('Failed to create user_plans entry:', userPlanError);
+        } else {
+          if (DEBUG) console.log('[STEP 2.5] Client access created (no notification sent)');
+        }
+      }
     }
 
     // Helper to update progress (for debugging)
