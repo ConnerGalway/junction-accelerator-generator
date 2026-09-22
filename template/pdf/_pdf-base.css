@@ -1,0 +1,729 @@
+/**
+ * PDF Base Styles
+ * Design system for award-quality PDF reports
+ * Uses CSS Paged Media for print layout control
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FONTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600;700&display=swap');
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   DESIGN TOKENS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  /* Primary Colors */
+  --navy-900: #11154b;
+  --navy-800: #1a1f6b;
+  --navy-700: #1d2260;
+  --mint-500: #aadab6;
+  --mint-400: #7bc490;
+  --cream-100: #fcf5ec;
+  --cream-200: #f5ede0;
+  --cream-300: #f0ece5;
+
+  /* Accent Colors */
+  --link-blue: #067cbc;
+  --slate-600: #708090;
+  --muted: #6b6b8a;
+
+  /* Status Colors */
+  --success: #28a745;
+  --warning: #ffc107;
+  --danger: #dc3545;
+  --info: #17a2b8;
+
+  /* Grade Colors */
+  --grade-a: #28a745;
+  --grade-b: #5cb85c;
+  --grade-c: #ffc107;
+  --grade-d: #fd7e14;
+  --grade-f: #dc3545;
+
+  /* Typography */
+  --font-display: 'Raleway', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+
+  /* Spacing */
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE SETUP (CSS Paged Media)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@page {
+  size: letter;
+  margin: 0.75in 0.65in 0.85in 0.65in;
+}
+
+@page cover {
+  margin: 0;
+}
+
+@page :first {
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   BASE RESET
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-body);
+  font-size: 11pt;
+  line-height: 1.6;
+  color: #1a1a1a;
+  background: #fff;
+  -webkit-print-color-adjust: exact !important;
+  print-color-adjust: exact !important;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COVER PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.cover-page {
+  page: cover;
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient(135deg, var(--navy-900) 0%, var(--navy-800) 100%);
+  padding: 2.5in 1.25in 1.5in;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+  page-break-after: always;
+}
+
+/* Decorative shape on cover */
+.cover-page::before {
+  content: '';
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 50%;
+  height: 70%;
+  background: linear-gradient(135deg, rgba(170, 218, 182, 0.15) 0%, rgba(170, 218, 182, 0.05) 100%);
+  transform: rotate(-15deg);
+  border-radius: 40% 60% 70% 30%;
+}
+
+.cover-logo {
+  width: 140px;
+  margin-bottom: var(--space-xl);
+}
+
+.cover-title {
+  font-family: var(--font-display);
+  font-size: 42pt;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.1;
+  margin-bottom: var(--space-sm);
+}
+
+.cover-subtitle {
+  font-family: var(--font-display);
+  font-size: 42pt;
+  font-weight: 700;
+  color: var(--mint-500);
+  line-height: 1.1;
+  margin-bottom: var(--space-xl);
+}
+
+.cover-divider {
+  width: 100%;
+  height: 3px;
+  background: var(--mint-500);
+  margin: var(--space-lg) 0;
+}
+
+.cover-client-name {
+  font-family: var(--font-display);
+  font-size: 28pt;
+  font-weight: 400;
+  color: #ffffff;
+  margin-bottom: var(--space-xs);
+}
+
+.cover-date {
+  font-size: 12pt;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: var(--space-2xl);
+}
+
+/* Cover TOC Box */
+.cover-toc {
+  position: absolute;
+  right: 1.25in;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border-radius: 16px;
+  padding: var(--space-lg) var(--space-xl);
+  width: 260px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+}
+
+.cover-toc-title {
+  font-family: var(--font-body);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--muted);
+  margin-bottom: var(--space-md);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.cover-toc-list {
+  list-style: none;
+}
+
+.cover-toc-item {
+  margin-bottom: var(--space-sm);
+}
+
+.cover-toc-link {
+  display: block;
+  padding: 10px 16px;
+  background: linear-gradient(135deg, rgba(170, 218, 182, 0.3) 0%, rgba(170, 218, 182, 0.15) 100%);
+  border-radius: 8px;
+  font-family: var(--font-display);
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--navy-900);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SECTION HEADERS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: 32pt;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: var(--space-sm);
+  line-height: 1.2;
+}
+
+.section-title-underline {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--link-blue) 0%, var(--link-blue) 30%, transparent 100%);
+  margin-bottom: var(--space-xl);
+}
+
+.subsection-title {
+  font-family: var(--font-display);
+  font-size: 18pt;
+  font-weight: 700;
+  color: var(--link-blue);
+  margin-top: var(--space-xl);
+  margin-bottom: var(--space-md);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PHASE HEADERS (Blue banners)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.phase-header {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  color: #ffffff;
+  padding: var(--space-lg) var(--space-xl);
+  margin: var(--space-xl) calc(-0.65in) var(--space-lg);
+  page-break-after: avoid;
+}
+
+.phase-number {
+  font-family: var(--font-display);
+  font-size: 24pt;
+  font-weight: 700;
+  margin-bottom: var(--space-xs);
+}
+
+.phase-title {
+  font-family: var(--font-display);
+  font-size: 14pt;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CONTENT CARDS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.content-card {
+  background: var(--cream-100);
+  border-radius: 12px;
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+  page-break-inside: avoid;
+}
+
+.content-card-title {
+  font-family: var(--font-display);
+  font-size: 12pt;
+  font-weight: 700;
+  color: var(--link-blue);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-sm);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.content-card p {
+  font-size: 10pt;
+  line-height: 1.6;
+  color: #333;
+}
+
+/* Goal/Objective Cards */
+.goal-card {
+  background: var(--navy-900);
+  color: #ffffff;
+  border-radius: 8px;
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+.goal-card strong {
+  color: var(--mint-500);
+}
+
+.objective-card {
+  background: var(--cream-100);
+  border-left: 4px solid var(--mint-500);
+  border-radius: 0 8px 8px 0;
+  padding: var(--space-md) var(--space-lg);
+  margin-bottom: var(--space-sm);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   GRADE DISPLAYS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 36pt;
+  font-weight: 800;
+  color: var(--navy-900);
+}
+
+.grade-circle.large {
+  width: 140px;
+  height: 140px;
+  font-size: 48pt;
+}
+
+.grade-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: var(--font-display);
+  font-size: 11pt;
+  font-weight: 700;
+}
+
+.grade-badge.a { background: #d4edda; color: #155724; }
+.grade-badge.b { background: #d4edda; color: #155724; }
+.grade-badge.c { background: #fff3cd; color: #856404; }
+.grade-badge.d { background: #ffe4cc; color: #8a4500; }
+.grade-badge.f { background: #f8d7da; color: #721c24; }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TABLES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-lg) 0;
+  font-size: 10pt;
+}
+
+.data-table th {
+  background: var(--navy-900);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: left;
+  padding: 12px 16px;
+}
+
+.data-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--cream-200);
+  vertical-align: top;
+}
+
+.data-table tr:nth-child(even) {
+  background: var(--cream-100);
+}
+
+/* Timeline Table */
+.timeline-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--space-lg) 0;
+}
+
+.timeline-table th {
+  background: var(--navy-900);
+  color: #ffffff;
+  font-family: var(--font-display);
+  font-weight: 600;
+  text-align: left;
+  padding: 10px 14px;
+  font-size: 10pt;
+}
+
+.timeline-table td {
+  padding: 14px;
+  border-bottom: 1px solid var(--cream-200);
+  font-size: 10pt;
+  vertical-align: top;
+}
+
+.timeline-table .week-cell {
+  font-weight: 600;
+  color: var(--navy-900);
+  white-space: nowrap;
+}
+
+.timeline-table .phase-cell a {
+  color: var(--link-blue);
+  text-decoration: underline;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LISTS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.bullet-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.bullet-list li {
+  position: relative;
+  padding-left: 20px;
+  margin-bottom: var(--space-sm);
+  font-size: 10pt;
+  line-height: 1.5;
+}
+
+.bullet-list li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 6px;
+  height: 6px;
+  background: var(--navy-900);
+  border-radius: 50%;
+}
+
+.bullet-list.positive li::before {
+  background: var(--success);
+}
+
+.bullet-list.negative li::before {
+  background: var(--danger);
+}
+
+.numbered-list {
+  padding-left: 24px;
+}
+
+.numbered-list li {
+  margin-bottom: var(--space-sm);
+  font-size: 10pt;
+  line-height: 1.5;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   TWO COLUMN LAYOUT (Tips/Resources)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.two-column {
+  display: flex;
+  gap: var(--space-xl);
+  margin-top: var(--space-xl);
+}
+
+.two-column .column {
+  flex: 1;
+}
+
+.column-header {
+  font-family: var(--font-display);
+  font-size: 14pt;
+  font-weight: 700;
+  color: var(--link-blue);
+  margin-bottom: var(--space-md);
+  padding-bottom: var(--space-sm);
+  border-bottom: 2px solid var(--link-blue);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CATEGORY CARDS (Assessment)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+  margin: var(--space-lg) 0;
+}
+
+.category-card {
+  background: #ffffff;
+  border: 1px solid var(--cream-200);
+  border-radius: 12px;
+  padding: var(--space-md);
+  text-align: center;
+}
+
+.category-card-grade {
+  font-family: var(--font-display);
+  font-size: 24pt;
+  font-weight: 700;
+  color: var(--navy-900);
+}
+
+.category-card-name {
+  font-size: 9pt;
+  color: var(--muted);
+  margin-top: var(--space-xs);
+}
+
+.category-card-score {
+  font-size: 10pt;
+  font-weight: 600;
+  color: var(--navy-900);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   FINDINGS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.finding {
+  display: flex;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-sm);
+  font-size: 10pt;
+  line-height: 1.5;
+}
+
+.finding-icon {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.finding-icon.positive {
+  background: #d4edda;
+  color: #155724;
+}
+
+.finding-icon.negative {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.finding-icon.info {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   QUICK WINS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.quick-win {
+  background: var(--cream-100);
+  border-radius: 8px;
+  padding: var(--space-md);
+  margin-bottom: var(--space-sm);
+  page-break-inside: avoid;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy-900);
+  margin-bottom: var(--space-xs);
+  font-size: 10pt;
+}
+
+.quick-win-meta {
+  display: flex;
+  gap: var(--space-lg);
+  font-size: 9pt;
+  color: var(--muted);
+}
+
+.quick-win-meta span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   THANK YOU PAGE
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.thank-you-page {
+  page-break-before: always;
+}
+
+.thank-you-title {
+  font-family: var(--font-display);
+  font-size: 42pt;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-bottom: var(--space-lg);
+}
+
+.thank-you-content {
+  max-width: 65%;
+  font-size: 11pt;
+  line-height: 1.7;
+  color: #333;
+}
+
+.contact-box {
+  background: var(--cream-100);
+  border-radius: 8px;
+  padding: var(--space-md) var(--space-lg);
+  margin-top: var(--space-xl);
+  display: inline-block;
+}
+
+.contact-label {
+  font-size: 9pt;
+  color: var(--muted);
+  margin-bottom: var(--space-xs);
+}
+
+.contact-email {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--navy-900);
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+/* Workshop Promo */
+.workshop-promo {
+  background: var(--cream-200);
+  padding: var(--space-xl);
+  margin-top: var(--space-2xl);
+  display: flex;
+  gap: var(--space-xl);
+  align-items: center;
+}
+
+.workshop-promo-text {
+  flex: 1;
+}
+
+.workshop-code {
+  font-family: var(--font-display);
+  font-size: 24pt;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin-top: var(--space-md);
+}
+
+/* Footer */
+.page-footer {
+  background: var(--navy-900);
+  color: #ffffff;
+  padding: var(--space-lg);
+  text-align: center;
+  margin-top: var(--space-2xl);
+}
+
+.page-footer p {
+  font-size: 10pt;
+  opacity: 0.9;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PAGE BREAKS
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.page-break {
+  page-break-before: always;
+}
+
+.page-break-after {
+  page-break-after: always;
+}
+
+.avoid-break {
+  page-break-inside: avoid;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-muted { color: var(--muted); }
+.text-navy { color: var(--navy-900); }
+.text-mint { color: var(--mint-500); }
+.text-link { color: var(--link-blue); }
+
+.mt-sm { margin-top: var(--space-sm); }
+.mt-md { margin-top: var(--space-md); }
+.mt-lg { margin-top: var(--space-lg); }
+.mt-xl { margin-top: var(--space-xl); }
+
+.mb-sm { margin-bottom: var(--space-sm); }
+.mb-md { margin-bottom: var(--space-md); }
+.mb-lg { margin-bottom: var(--space-lg); }
+.mb-xl { margin-bottom: var(--space-xl); }
+
+.font-display { font-family: var(--font-display); }
+.font-body { font-family: var(--font-body); }
+
+.fw-400 { font-weight: 400; }
+.fw-500 { font-weight: 500; }
+.fw-600 { font-weight: 600; }
+.fw-700 { font-weight: 700; }
+.fw-800 { font-weight: 800; }

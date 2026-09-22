@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Marketing Assessment - {{CLIENT_NAME}}</title>
+  <link rel="stylesheet" href="_pdf-base.css">
+  <style>
+    /* Assessment-specific styles */
+
+    /* Overview Grade Section */
+    .overview-grade {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      background: var(--cream-100);
+      border-radius: 16px;
+      padding: 24px 32px;
+      margin: 24px 0;
+    }
+
+    .overview-grade .grade-circle {
+      flex-shrink: 0;
+    }
+
+    .overview-grade-details h3 {
+      font-family: var(--font-display);
+      font-size: 16pt;
+      font-weight: 600;
+      color: var(--navy-900);
+      margin-bottom: 8px;
+    }
+
+    .overview-grade-details p {
+      font-size: 11pt;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    /* Executive Summary */
+    .executive-summary {
+      background: var(--navy-900);
+      color: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 24px 0;
+    }
+
+    .executive-summary h3 {
+      font-family: var(--font-display);
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--mint-500);
+      margin-bottom: 12px;
+    }
+
+    .executive-summary p {
+      font-size: 11pt;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+
+    /* Strengths and Gaps */
+    .strengths-gaps {
+      display: flex;
+      gap: 24px;
+      margin: 24px 0;
+    }
+
+    .strengths-gaps .column {
+      flex: 1;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--cream-200);
+    }
+
+    .strengths-gaps .column h4 {
+      font-family: var(--font-display);
+      font-size: 12pt;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .strengths-gaps .column.strengths h4 {
+      color: var(--success);
+    }
+
+    .strengths-gaps .column.gaps h4 {
+      color: var(--danger);
+    }
+
+    /* Category Detail Page */
+    .category-page {
+      page-break-before: always;
+    }
+
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--cream-200);
+    }
+
+    .category-grade-large {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--mint-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 28pt;
+      font-weight: 800;
+      color: var(--navy-900);
+      flex-shrink: 0;
+    }
+
+    .category-header-text h2 {
+      font-family: var(--font-display);
+      font-size: 22pt;
+      font-weight: 700;
+      color: var(--navy-900);
+      margin-bottom: 4px;
+    }
+
+    .category-header-text .score {
+      font-size: 12pt;
+      color: var(--muted);
+    }
+
+    .category-summary {
+      font-size: 11pt;
+      line-height: 1.7;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    /* Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .metric-card {
+      background: var(--cream-100);
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: center;
+    }
+
+    .metric-card .label {
+      font-size: 9pt;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .metric-card .value {
+      font-family: var(--font-display);
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--navy-900);
+    }
+
+    .metric-card .value.good { color: var(--success); }
+    .metric-card .value.warning { color: var(--warning); }
+    .metric-card .value.critical { color: var(--danger); }
+
+    /* Recommendations List */
+    .recommendation-item {
+      background: var(--cream-100);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+
+    .recommendation-item .priority {
+      display: inline-block;
+      background: var(--navy-900);
+      color: #ffffff;
+      font-family: var(--font-display);
+      font-size: 9pt;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .recommendation-item .text {
+      font-size: 10pt;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .recommendation-item .meta {
+      display: flex;
+      gap: 20px;
+      font-size: 9pt;
+      color: var(--muted);
+    }
+
+    /* Quick Wins Section */
+    .quick-wins-section {
+      page-break-before: always;
+    }
+
+    .quick-win-card {
+      background: #ffffff;
+      border: 1px solid var(--cream-200);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+
+    .quick-win-card .number {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      background: var(--mint-500);
+      color: var(--navy-900);
+      border-radius: 50%;
+      font-family: var(--font-display);
+      font-size: 12pt;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .quick-win-card .task {
+      font-family: var(--font-display);
+      font-size: 12pt;
+      font-weight: 600;
+      color: var(--navy-900);
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .quick-win-card .details {
+      font-size: 10pt;
+      color: #555;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    .quick-win-card .meta-row {
+      display: flex;
+      gap: 24px;
+      padding-top: 12px;
+      border-top: 1px solid var(--cream-200);
+      font-size: 9pt;
+    }
+
+    .quick-win-card .meta-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .quick-win-card .meta-label {
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .quick-win-card .meta-value {
+      color: var(--navy-900);
+      font-weight: 600;
+    }
+
+    /* Priority Recommendations Section */
+    .priority-recommendations {
+      page-break-before: always;
+    }
+
+    .priority-card {
+      display: flex;
+      gap: 16px;
+      background: var(--cream-100);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+      page-break-inside: avoid;
+    }
+
+    .priority-card .rank {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      background: var(--navy-900);
+      color: #ffffff;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 16pt;
+      font-weight: 700;
+    }
+
+    .priority-card .content {
+      flex: 1;
+    }
+
+    .priority-card .category-tag {
+      display: inline-block;
+      background: rgba(6, 124, 188, 0.1);
+      color: var(--link-blue);
+      font-size: 9pt;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .priority-card .text {
+      font-size: 10pt;
+      line-height: 1.6;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    .priority-card .expected-result {
+      font-size: 9pt;
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       COVER PAGE
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="cover-page">
+    <img src="https://accelerator.elearningu.com/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
+
+    <div class="cover-divider"></div>
+
+    <h1 class="cover-title">Digital Marketing</h1>
+    <p class="cover-subtitle">Assessment</p>
+
+    <div class="cover-divider"></div>
+
+    <p class="cover-client-name">{{CLIENT_NAME}}</p>
+    <p class="cover-date">{{ASSESSMENT_DATE}}</p>
+
+    <!-- TOC Box -->
+    <div class="cover-toc">
+      <p class="cover-toc-title">What's Inside</p>
+      <ul class="cover-toc-list">
+        <li class="cover-toc-item"><span class="cover-toc-link">Executive Summary</span></li>
+        <li class="cover-toc-item"><span class="cover-toc-link">Category Breakdown</span></li>
+        <li class="cover-toc-item"><span class="cover-toc-link">Quick Wins</span></li>
+        <li class="cover-toc-item"><span class="cover-toc-link">Priority Recommendations</span></li>
+        <li class="cover-toc-item"><span class="cover-toc-link">Next Steps</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       HOW TO USE THIS REPORT
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="page-break">
+    <h1 class="section-title">How to Use This Report</h1>
+    <div class="section-title-underline"></div>
+
+    <p style="font-size: 11pt; line-height: 1.8; margin-bottom: 24px;">
+      This assessment provides a comprehensive analysis of your digital marketing presence across six key categories. It is designed to give you a clear picture of where you stand today and what actions will have the greatest impact on attracting and converting visitors.
+    </p>
+
+    <div class="subsection-title">The Overall Grade</div>
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 20px;">
+      Your overall grade reflects the weighted average of all category scores, emphasizing the areas that matter most for tourism businesses: reviews and reputation, booking conversion, and local visibility.
+    </p>
+
+    <div class="subsection-title">The Category Breakdown</div>
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 20px;">
+      Each category includes a detailed analysis of what's working, what needs attention, and specific recommendations to improve. Focus on one category at a time rather than trying to address everything at once.
+    </p>
+
+    <div class="subsection-title">Quick Wins</div>
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 20px;">
+      These are high-impact, low-effort actions you can take immediately. Many can be completed in under an hour and will start improving your digital presence right away.
+    </p>
+
+    <div class="subsection-title">Priority Recommendations</div>
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 20px;">
+      A ranked list of the most impactful improvements you can make over the next 90 days, prioritized by expected return on investment.
+    </p>
+
+    <div class="content-card" style="margin-top: 32px;">
+      <p style="font-size: 10pt; line-height: 1.6;">
+        <strong>Need help implementing these recommendations?</strong> Our Tourism Digital Marketing Accelerator program provides hands-on coaching to turn this assessment into a working marketing system. Contact us at <span style="color: var(--link-blue);">support@elearningu.com</span> to learn more.
+      </p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       EXECUTIVE SUMMARY
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="page-break">
+    <h1 class="section-title">Executive Summary</h1>
+    <div class="section-title-underline"></div>
+
+    <!-- Overall Grade -->
+    <div class="overview-grade">
+      <div class="grade-circle large">{{OVERALL_GRADE}}</div>
+      <div class="overview-grade-details">
+        <h3>Overall Score: {{OVERALL_SCORE}}/100</h3>
+        <p>{{EXECUTIVE_HEADLINE}}</p>
+      </div>
+    </div>
+
+    <!-- Category Grid -->
+    <div class="category-grid">
+      {{#each CATEGORIES}}
+      <div class="category-card">
+        <div class="category-card-grade">{{grade}}</div>
+        <div class="category-card-name">{{title}}</div>
+        <div class="category-card-score">{{score}}/100</div>
+      </div>
+      {{/each}}
+    </div>
+
+    <!-- Strengths and Gaps -->
+    <div class="strengths-gaps">
+      <div class="column strengths">
+        <h4>Key Strengths</h4>
+        <ul class="bullet-list positive">
+          {{#each KEY_STRENGTHS}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      <div class="column gaps">
+        <h4>Critical Gaps</h4>
+        <ul class="bullet-list negative">
+          {{#each CRITICAL_GAPS}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Bottom Line -->
+    <div class="executive-summary">
+      <h3>The Bottom Line</h3>
+      <p>{{BOTTOM_LINE}}</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       CATEGORY DETAIL PAGES
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  {{#each CATEGORIES_DETAIL}}
+  <div class="category-page">
+    <div class="category-header">
+      <div class="category-grade-large">{{grade}}</div>
+      <div class="category-header-text">
+        <h2>{{title}}</h2>
+        <p class="score">Score: {{score}}/100 | Weight: {{weight}}%</p>
+      </div>
+    </div>
+
+    <p class="category-summary">{{summary}}</p>
+
+    <!-- Metrics -->
+    {{#if metrics}}
+    <div class="metrics-grid">
+      {{#each metrics}}
+      <div class="metric-card">
+        <div class="label">{{label}}</div>
+        <div class="value {{status}}">{{value}}</div>
+      </div>
+      {{/each}}
+    </div>
+    {{/if}}
+
+    <!-- Findings -->
+    <div class="subsection-title">Key Findings</div>
+    {{#each findings}}
+    <div class="finding">
+      <div class="finding-icon {{type}}">{{#if (eq type 'positive')}}+{{else if (eq type 'negative')}}-{{else}}i{{/if}}</div>
+      <div>{{text}}</div>
+    </div>
+    {{/each}}
+
+    <!-- Recommendations -->
+    <div class="subsection-title">Recommendations</div>
+    {{#each recommendations}}
+    <div class="recommendation-item">
+      <span class="priority">{{priority}}</span>
+      <p class="text">{{text}}</p>
+      <div class="meta">
+        <span>Time: {{time_estimate}}</span>
+        <span>Impact: {{impact}}</span>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  {{/each}}
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       QUICK WINS
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="quick-wins-section">
+    <h1 class="section-title">Quick Wins</h1>
+    <div class="section-title-underline"></div>
+
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 24px;">
+      These are high-impact improvements you can make quickly. Most take under an hour and will start improving your digital presence immediately.
+    </p>
+
+    {{#each QUICK_WINS}}
+    <div class="quick-win-card">
+      <div class="number">{{@index_plus_one}}</div>
+      <div class="task">{{task}}</div>
+      {{#if impact}}
+      <div class="details">{{impact}}</div>
+      {{/if}}
+      <div class="meta-row">
+        <div class="meta-item">
+          <span class="meta-label">Time Required</span>
+          <span class="meta-value">{{time_estimate}}</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Confidence</span>
+          <span class="meta-value">{{confidence}}</span>
+        </div>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       PRIORITY RECOMMENDATIONS
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="priority-recommendations">
+    <h1 class="section-title">Priority Recommendations</h1>
+    <div class="section-title-underline"></div>
+
+    <p style="font-size: 11pt; line-height: 1.7; margin-bottom: 24px;">
+      The following recommendations are ranked by expected impact on your business. Focus on addressing these in order over the next 90 days.
+    </p>
+
+    {{#each PRIORITY_RECOMMENDATIONS}}
+    <div class="priority-card">
+      <div class="rank">{{priority}}</div>
+      <div class="content">
+        <span class="category-tag">{{category}}</span>
+        <p class="text">{{text}}</p>
+        {{#if expected_result}}
+        <p class="expected-result">Expected result: {{expected_result}}</p>
+        {{/if}}
+      </div>
+    </div>
+    {{/each}}
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════════
+       THANK YOU PAGE
+       ═══════════════════════════════════════════════════════════════════════════ -->
+  <div class="thank-you-page">
+    <h1 class="thank-you-title">Thank You</h1>
+    <div class="section-title-underline"></div>
+
+    <div class="thank-you-content">
+      <p style="margin-bottom: 16px;">
+        This assessment is just the beginning. The real value comes from taking action on the recommendations and building a sustainable marketing system for your business.
+      </p>
+      <p style="margin-bottom: 16px;">
+        If you have questions about any of the findings or recommendations in this report, or if you would like help implementing them, please reach out. We are here to support your success.
+      </p>
+    </div>
+
+    <div class="contact-box">
+      <p class="contact-label">Questions? Reach out any time:</p>
+      <span class="contact-email">support@elearningu.com</span>
+    </div>
+
+    <div class="workshop-promo">
+      <div class="workshop-promo-text">
+        <p style="font-size: 11pt; margin-bottom: 8px;">
+          Ready to turn these recommendations into a working marketing system? Join our <strong>Tourism Digital Marketing Accelerator</strong> program for hands-on coaching over 90 days.
+        </p>
+        <p style="font-size: 10pt; color: var(--muted);">
+          Visit <span style="color: var(--link-blue);">accelerator.elearningu.com</span> to learn more
+        </p>
+      </div>
+    </div>
+
+    <div class="page-footer">
+      <p>Powered by eLearningU | accelerator.elearningu.com</p>
+    </div>
+  </div>
+
+</body>
+</html>

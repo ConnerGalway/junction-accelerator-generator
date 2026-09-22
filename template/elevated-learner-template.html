@@ -981,6 +981,38 @@ nav { flex: 1; padding: 12px 0; }
   height: 18px;
 }
 
+.download-pdf-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-pdf-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.download-pdf-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpinner 0.8s linear infinite;
+}
+
+.download-pdf-btn.loading svg {
+  visibility: hidden;
+}
+
+@keyframes pdfSpinner {
+  to { transform: rotate(360deg); }
+}
+
 /* ═══════════════════════════════════════════════════════════════════════════
    PRINT STYLES - Award-Winning PDF Report Design
    ═══════════════════════════════════════════════════════════════════════════ */
@@ -2152,46 +2184,66 @@ function toggleMobileMenu() {
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
 // ══════════════════════════════════════════════════════════════
-function downloadPDF() {
-  // Set document title for PDF filename
-  const clientSlug = document.body.dataset.clientSlug || 'assessment';
-  const originalTitle = document.title;
-  document.title = `${clientSlug}-digital-marketing-assessment`;
+async function downloadPDF() {
+  const btn = document.querySelector('.download-pdf-btn');
+  const clientSlug = document.body.dataset.clientSlug;
 
-  // Populate cover page with dynamic data
-  populateCoverPage();
-
-  // Add printing class to body
-  document.body.classList.add('printing');
-
-  // Small delay to ensure styles are applied
-  setTimeout(() => {
-    // Trigger print dialog (user can save as PDF)
-    window.print();
-
-    // Restore state after print dialog closes
-    setTimeout(() => {
-      document.body.classList.remove('printing');
-      document.title = originalTitle;
-    }, 1000);
-  }, 100);
-}
-
-function populateCoverPage() {
-  // Get grade and score from the page
-  const gradeEl = document.getElementById('overallGrade');
-  const scoreEl = document.getElementById('overallScore');
-
-  // Update cover page elements
-  const coverGrade = document.getElementById('coverGrade');
-  const coverScore = document.getElementById('coverScore');
-
-  if (coverGrade && gradeEl) {
-    coverGrade.textContent = gradeEl.textContent;
+  if (!clientSlug) {
+    alert('Unable to generate PDF: client not identified.');
+    return;
   }
 
-  if (coverScore && scoreEl) {
-    coverScore.textContent = scoreEl.textContent;
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+  }
+
+  try {
+    // Get auth token
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      throw new Error('Please log in to download the PDF.');
+    }
+
+    // Call PDF generation API
+    const response = await fetch('/.netlify/functions/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        pdfType: 'assessment',
+        clientSlug: clientSlug
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+    }
+
+    // Get PDF blob and trigger download
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientSlug}-digital-marketing-assessment.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('PDF download error:', err);
+    alert(err.message || 'Failed to generate PDF. Please try again.');
+  } finally {
+    // Reset button state
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
   }
 }
 
