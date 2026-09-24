@@ -225,7 +225,7 @@ const RUBRICS = {
     subMetrics: {
       // Booking capability present
       booking_capability: {
-        weight: 0.35,
+        weight: 0.40,
         source: 'websiteAnalysis.hasBookingLink',
         type: 'boolean',
         trueScore: 100,
@@ -235,7 +235,7 @@ const RUBRICS = {
 
       // Booking platform integration count
       platform_integration: {
-        weight: 0.15,
+        weight: 0.20,
         source: 'websiteAnalysis.bookingPlatforms',
         type: 'threshold',
         thresholds: [
@@ -247,13 +247,13 @@ const RUBRICS = {
         benchmark: 'Multiple booking channels increase reach'
       },
 
-      // Phone visibility and quality
+      // Phone visibility and quality (minor factor - nice to have, not critical)
       phone_visibility: {
-        weight: 0.20,
+        weight: 0.10,
         source: 'websiteAnalysis',
         type: 'custom',
         calculator: 'calculatePhoneVisibilityScore',
-        benchmark: 'Phone should be visible in header/footer'
+        benchmark: 'Phone visible is helpful but not critical for most tourism businesses'
       },
 
       // Pricing information visible

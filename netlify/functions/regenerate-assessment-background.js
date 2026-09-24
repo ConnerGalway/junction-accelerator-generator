@@ -640,7 +640,7 @@ async function searchGooglePlaces(query, apiKey) {
 async function getPlaceDetails(placeId, apiKey) {
   const detailsUrl = new URL('https://maps.googleapis.com/maps/api/place/details/json');
   detailsUrl.searchParams.set('place_id', placeId);
-  detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types');
+  detailsUrl.searchParams.set('fields', 'name,rating,user_ratings_total,reviews,price_level,website,formatted_phone_number,opening_hours,types,business_status');
   detailsUrl.searchParams.set('key', apiKey);
 
   console.log('[Google Places] Calling Place Details API for:', placeId);
@@ -662,6 +662,10 @@ async function getPlaceDetails(placeId, apiKey) {
 }
 
 function formatPlaceData(place, matchInfo = {}) {
+  // Check business status - Google returns: OPERATIONAL, CLOSED_TEMPORARILY, CLOSED_PERMANENTLY
+  const businessStatus = place.business_status || 'UNKNOWN';
+  const isClosed = businessStatus === 'CLOSED_PERMANENTLY' || businessStatus === 'CLOSED_TEMPORARILY';
+
   return {
     name: place.name,
     rating: place.rating || null,
@@ -671,6 +675,8 @@ function formatPlaceData(place, matchInfo = {}) {
     phone: place.formatted_phone_number || null,
     businessTypes: place.types || [],
     isOpen: place.opening_hours?.open_now || null,
+    businessStatus: businessStatus,
+    isClosed: isClosed,
     recentReviews: (place.reviews || []).slice(0, 5).map(r => ({
       rating: r.rating,
       text: r.text?.substring(0, 300) || '',
@@ -769,6 +775,17 @@ async function fetchGooglePlacesData(businessName, location, websiteUrl = null) 
   }
 
   if (!bestMatch) {
+    return null;
+  }
+
+  // CRITICAL: Reject matches that have neither domain nor name match
+  // This prevents returning wrong businesses that just happen to be in the same area
+  if (!bestMatch.matchInfo.domainMatch && !bestMatch.matchInfo.nameMatch) {
+    console.log('[Google Places] Best match rejected: no domain or name match', {
+      candidateName: bestMatch.details.name,
+      score: bestMatchScore,
+      searchedFor: businessName
+    });
     return null;
   }
 
@@ -2177,6 +2194,14 @@ NEVER RECOMMEND THESE (they rarely provide ROI for small tourism businesses):
 - Influencer partnerships or influencer marketing programs
 - TikTok presence for businesses without existing video content capacity
 
+PHONE NUMBER PRIORITY GUIDELINES:
+Phone visibility is a MINOR issue, not a critical priority. Most tourism bookings happen online.
+- Do NOT list phone number placement (header, clickable link) as a high-priority recommendation
+- Phone issues should be listed as quick wins (if at all), not priority recommendations
+- If phone is missing entirely, mention it in the booking_conversion findings, but as a minor note
+- NEVER make "add phone to header" or "make phone clickable" a Priority 1, 2, or 3 recommendation
+- Focus priority recommendations on: Google Business Profile, booking capability, reviews, and social media
+
 CONTENT FORMATTING RULES:
 - Do NOT include HTML markup in any text fields (no <a href>, <strong>, <em>, etc.)
 - Do NOT include code examples in recommendations - describe what to do in plain English instead
@@ -2767,37 +2792,81 @@ CRITICAL INSTRUCTIONS FOR CLAUDE:
   // Add Google Places data (reviews, rating) with verification status
   if (data.googlePlacesData && !data.googlePlacesData._error) {
     const gp = data.googlePlacesData;
-    const verificationNote = gp._verification?.verified
-      ? 'VERIFIED - USE THESE EXACT NUMBERS'
-      : `CAUTION - ${gp._verification?.warnings?.join('; ') || 'Verification pending'}`;
 
-    context += `\n\n## Google Business Profile Data (${verificationNote})
+    // Check if the business is marked as closed on Google
+    if (gp.isClosed) {
+      const closedType = gp.businessStatus === 'CLOSED_PERMANENTLY' ? 'PERMANENTLY CLOSED' : 'TEMPORARILY CLOSED';
+      context += `\n\n## Google Business Profile Data (WARNING: ${closedType})
+- Business Status: ${closedType}
+- This Google listing exists but is marked as CLOSED
+- Google Rating: ${gp.rating || 'N/A'} out of 5 stars (historical)
+- Total Google Reviews: ${gp.totalReviews} (historical)
+
+### CRITICAL: Google Business Profile Marked as Closed
+This business's Google listing is marked as "${closedType}".
+This is a HIGH PRIORITY issue that MUST be addressed immediately.
+
+**Impact:**
+- Potential guests searching on Google will see this business as CLOSED
+- This severely damages trust and will cause immediate booking loss
+- Google Maps will show the business as unavailable
+- Review data shown is historical and may not reflect current operations
+
+**Required actions:**
+1. Include "Update Google Business Profile status to OPEN" as Priority #1 in priority_recommendations
+2. In executive_summary.critical_gaps, include "Google Business Profile marked as ${closedType.toLowerCase()}"
+3. Frame this as URGENT: the business appears closed to all Google searchers
+4. If legitimately closed temporarily, recommend adding accurate closure dates and reopening info`;
+    } else {
+      const verificationNote = gp._verification?.verified
+        ? 'VERIFIED - USE THESE EXACT NUMBERS'
+        : `CAUTION - ${gp._verification?.warnings?.join('; ') || 'Verification pending'}`;
+
+      context += `\n\n## Google Business Profile Data (${verificationNote})
 - Google Rating: ${gp.rating || 'N/A'} out of 5 stars
 - Total Google Reviews: ${gp.totalReviews}
 - Business Types: ${gp.businessTypes?.join(', ') || 'N/A'}
 - Price Level: ${gp.priceLevel ? '$'.repeat(gp.priceLevel) : 'N/A'}
 - Phone: ${gp.phone || 'N/A'}`;
 
-    // Add review recency analysis
-    if (gp._reviewAnalysis) {
-      context += `\n- Review Recency: ${gp._reviewAnalysis.recentCount} of ${gp._reviewAnalysis.totalProvided} reviews are from past 18 months`;
-      if (gp._reviewAnalysis.recencyWarning) {
-        context += ` (WARNING: Most reviews are old - may indicate declining activity)`;
+      // Add review recency analysis
+      if (gp._reviewAnalysis) {
+        context += `\n- Review Recency: ${gp._reviewAnalysis.recentCount} of ${gp._reviewAnalysis.totalProvided} reviews are from past 18 months`;
+        if (gp._reviewAnalysis.recencyWarning) {
+          context += ` (WARNING: Most reviews are old - may indicate declining activity)`;
+        }
       }
-    }
 
-    if (gp.recentReviews && gp.recentReviews.length > 0) {
-      context += `\n\n### Recent Google Reviews (${gp.recentReviews.length} samples):`;
-      gp.recentReviews.forEach((review, i) => {
-        context += `\n\n**Review ${i + 1}** (${review.rating}/5 stars, ${review.relativeTime}):
+      if (gp.recentReviews && gp.recentReviews.length > 0) {
+        context += `\n\n### Recent Google Reviews (${gp.recentReviews.length} samples):`;
+        gp.recentReviews.forEach((review, i) => {
+          context += `\n\n**Review ${i + 1}** (${review.rating}/5 stars, ${review.relativeTime}):
 "${review.text}"`;
-      });
+        });
+      }
     }
   } else {
     context += `\n\n## Google Business Profile Data
-- NOT AVAILABLE (Google Places API not configured or business not found)
+- NOT AVAILABLE (No verified Google Business Profile found for this business)
 - For Reviews & Reputation category: state "Manual verification recommended" for all review metrics
-- DO NOT fabricate any review numbers`;
+- DO NOT fabricate any review numbers
+
+### CRITICAL: Missing Google Business Profile
+This business does NOT have a verified Google Business Profile (or one could not be found).
+This is a HIGH PRIORITY issue that MUST be included in the priority_recommendations.
+
+**Why this matters for tourism businesses:**
+- Google is the #1 way travelers discover local businesses
+- Potential guests searching for "${data.businessName}" or related services in ${data.location || 'this area'} will not find this business on Google Maps
+- Without a GBP listing, the business is invisible to the vast majority of travelers who use Google to plan trips
+- Competitors WITH Google profiles are capturing these potential guests instead
+- Reviews and ratings on Google directly influence booking decisions
+
+**Required actions:**
+1. Include "Claim or create your Google Business Profile" as Priority #1 in the priority_recommendations array
+2. In the executive_summary.critical_gaps, include "No Google Business Profile listing" as a critical gap
+3. In the reviews_reputation category, note that this business is not findable on Google Maps
+4. Frame this as URGENT: every day without a GBP listing means lost visibility to potential guests`;
   }
 
   // Add Website Content Analysis
