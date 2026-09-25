@@ -3341,6 +3341,36 @@ CRITICAL DATA ACCURACY RULES - FOLLOW EXACTLY
    - If something is detected (e.g., hasPhone=YES) but could be better placed (e.g., not in header), say "Phone is present but could be more prominent" instead of "Phone is absent"
 
 ═══════════════════════════════════════════════════════════════════════════════
+WRITING TONE - EXPERT COACH VOICE
+═══════════════════════════════════════════════════════════════════════════════
+
+Write as an expert coach who is knowledgeable, supportive, and constructive. Your tone should be:
+
+1. PROFESSIONAL AND ENCOURAGING - not dramatic or alarmist
+   - AVOID: "Catastrophic social media abandonment", "Severely underutilized", "Critical failure"
+   - USE: "Room for growth", "Opportunity to strengthen", "Not yet optimized"
+
+2. FACTUAL AND OBJECTIVE - not judgmental
+   - AVOID: "Neglected", "Abandoned", "Failing", "Dismal", "Terrible"
+   - USE: "Currently inactive", "Limited activity", "Below benchmark", "Needs attention"
+
+3. SOLUTION-FOCUSED - frame gaps as opportunities
+   - AVOID: "The business is failing at social media"
+   - USE: "Social media presents a significant growth opportunity"
+
+4. SPECIFIC WITHOUT EXAGGERATION
+   - AVOID: "Massive untapped potential", "Huge missed opportunity"
+   - USE: "Clear opportunity to improve", "Potential to increase engagement"
+
+5. FINDINGS LANGUAGE
+   - For "negative" type findings, state the fact constructively
+   - AVOID: "Social media has been completely abandoned"
+   - USE: "Social media posting frequency is below industry benchmarks at 0.4 posts per week"
+
+Remember: This assessment will be read by business owners who are trying to improve.
+Be the coach who helps them see the path forward, not the critic who makes them feel bad.
+
+═══════════════════════════════════════════════════════════════════════════════
 ASSESSMENT STRUCTURE - 6 CATEGORIES
 ═══════════════════════════════════════════════════════════════════════════════
 
@@ -3447,9 +3477,9 @@ Return ONLY valid JSON:
 
 {
   "executive_summary": {
-    "headline": "One sentence verdict specific to this business",
+    "headline": "One sentence summary specific to this business (factual, not dramatic)",
     "key_strengths": ["Strength 1 with specific detail", "Strength 2", "Strength 3"],
-    "critical_gaps": ["Gap 1 with specific impact", "Gap 2", "Gap 3"],
+    "critical_gaps": ["Priority area needing attention (use constructive language)", "Area 2", "Area 3"],
     "bottom_line": "What this means for ${data.businessName} in terms of visitor discovery and bookings"
   },
   "quick_wins": [
