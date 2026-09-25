@@ -1486,13 +1486,12 @@
       }
 
       // Check which projects actually have implementation plans (plan.json exists)
-      // Use redirect: 'manual' to prevent following redirects - if file doesn't exist,
-      // Netlify redirects to /login which returns 200, giving false positives
+      // Files are stored at /clients/{slug}/plan.json, not /{slug}/plan.json
+      // Use redirect: 'manual' because missing files redirect to /login (200)
       const projectCandidates = Array.from(projectMap.values());
       await Promise.all(projectCandidates.map(async (project) => {
         try {
-          const res = await fetch(`/${project.slug}/plan.json`, { method: 'HEAD', redirect: 'manual' });
-          // Only 200 means file exists; 302/404 means it doesn't
+          const res = await fetch(`/clients/${project.slug}/plan.json`, { method: 'HEAD', redirect: 'manual' });
           project.hasPlan = res.status === 200;
           if (project.hasPlan) {
             projectSlugs.add(project.slug); // Only add to projectSlugs if plan exists
