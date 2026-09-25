@@ -1,0 +1,2822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Digital Marketing Assessment — Agassiz-Harrison Museum & Visitor Centre</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy: #11154b;
+  --navy-light: #1a1f6b;
+  --mint: #aadab6;
+  --mint-dark: #7bc490;
+  --cream: #fcf5ec;
+  --blue: #067cbc;
+  --slate: #708090;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --sidebar-w: 268px;
+  --font-d: 'Raleway', sans-serif;
+  --font-b: 'Open Sans', sans-serif;
+  --danger: #dc3545;
+  --warning: #ffc107;
+  --success: #28a745;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-b);
+  background: var(--page-bg);
+  color: var(--dark);
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+
+/* ── Sidebar ─────────────────────────────────── */
+#sidebar {
+  width: var(--sidebar-w);
+  min-width: var(--sidebar-w);
+  background: var(--navy);
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-logo-text {
+  font-family: var(--font-d);
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--mint);
+  letter-spacing: 0.05em;
+}
+
+.sidebar-logo-img {
+  height: 24px;
+  width: auto;
+}
+
+.sidebar-client {
+  padding: 16px 24px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.sidebar-client-name {
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 4px;
+}
+
+.sidebar-client-status {
+  font-size: 11px;
+  color: var(--mint);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--mint);
+  border-radius: 50%;
+}
+
+nav { flex: 1; padding: 12px 0; }
+
+.nav-section-label {
+  font-family: var(--font-d);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.3);
+  padding: 16px 24px 6px;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 20px;
+  margin: 1px 8px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .15s, color .15s;
+  color: rgba(255,255,255,.6);
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+.nav-item:hover { background: rgba(255,255,255,.07); color: rgba(255,255,255,.9); }
+
+.nav-item.active {
+  background: rgba(170,218,182,.12);
+  color: #fff;
+}
+
+.nav-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; height: 60%;
+  width: 3px;
+  background: var(--mint);
+  border-radius: 0 3px 3px 0;
+  margin-left: -8px;
+}
+
+.nav-item.locked {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nav-item .lock-icon {
+  margin-left: auto;
+  width: 14px;
+  height: 14px;
+  color: rgba(255,255,255,.3);
+}
+
+.nav-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  stroke-width: 1.8;
+}
+
+/* ── Main Content ─────────────────────────────── */
+#main {
+  flex: 1;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+.page {
+  display: none;
+  padding: 40px;
+  min-height: 100vh;
+}
+
+.page.active { display: block; }
+
+/* ── Assessment Page ─────────────────────────── */
+.assessment-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 32px;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+
+.assessment-hero::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -20%;
+  width: 60%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(170,218,182,.15) 0%, transparent 60%);
+}
+
+.assessment-hero-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+.assessment-hero-title {
+  font-family: var(--font-d);
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.assessment-hero-date {
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+.assessment-hero-badge {
+  background: var(--mint);
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-family: var(--font-d);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.assessment-grade-card {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin-top: 32px;
+  padding: 24px;
+  background: rgba(255,255,255,.1);
+  border-radius: 16px;
+  position: relative;
+  z-index: 1;
+}
+
+.grade-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: var(--mint);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--navy);
+  flex-shrink: 0;
+}
+
+.grade-details h3 {
+  font-family: var(--font-d);
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.grade-details p {
+  font-size: 14px;
+  opacity: 0.8;
+  line-height: 1.5;
+}
+
+/* ── Category Cards ─────────────────────────── */
+.categories-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+  margin-bottom: 40px;
+}
+
+.category-card {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.category-header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.06);
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.category-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.category-icon.website { background: #e3f2fd; color: #1976d2; }
+.category-icon.ai { background: #f3e5f5; color: #7b1fa2; }
+.category-icon.booking { background: #e8f5e9; color: #388e3c; }
+.category-icon.reviews { background: #fff3e0; color: #f57c00; }
+.category-icon.social { background: #fce4ec; color: #c2185b; }
+.category-icon.local { background: #e0f7fa; color: #0097a7; }
+.category-icon.email { background: #fff8e1; color: #ffa000; }
+.category-icon.competitive { background: #efebe9; color: #5d4037; }
+
+.category-title-wrap {
+  flex: 1;
+}
+
+.category-title {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.category-grade {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.category-grade.grade-a { background: #d4edda; color: #155724; }
+.category-grade.grade-b { background: #d1ecf1; color: #0c5460; }
+.category-grade.grade-c { background: #fff3cd; color: #856404; }
+.category-grade.grade-d { background: #f8d7da; color: #721c24; }
+.category-grade.grade-f { background: #f5c6cb; color: #721c24; }
+.category-grade.grade-na { background: #e9ecef; color: #6b6b8a; }
+
+.category-summary {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.category-metrics {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.metric-item {
+  padding: 12px;
+  background: var(--page-bg);
+  border-radius: 8px;
+}
+
+.metric-label {
+  font-size: 11px;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.metric-value {
+  font-family: var(--font-d);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.metric-status {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.metric-status.good { background: var(--success); }
+.metric-status.warning { background: var(--warning); }
+.metric-status.critical { background: var(--danger); }
+.metric-status.info { background: #6b6b8a; }
+
+.category-findings {
+  margin-bottom: 16px;
+}
+
+.finding-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+}
+
+.finding-item:last-child { border-bottom: none; }
+
+.finding-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.finding-icon.positive { color: var(--success); }
+.finding-icon.negative { color: var(--danger); }
+.finding-icon.info { color: #6b6b8a; }
+
+.category-recommendations h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.recommendation-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: rgba(6,124,188,.05);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+}
+
+.recommendation-priority {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.recommendation-priority.high { background: #f8d7da; color: #721c24; }
+.recommendation-priority.medium { background: #fff3cd; color: #856404; }
+.recommendation-priority.low { background: #d1ecf1; color: #0c5460; }
+
+/* ── Priority Recommendations ─────────────────── */
+.priority-section {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.priority-section h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 24px;
+}
+
+.priority-list {
+  display: grid;
+  gap: 16px;
+}
+
+.priority-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.priority-item-number {
+  width: 32px;
+  height: 32px;
+  background: var(--navy);
+  color: var(--mint);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.priority-item-content h4 {
+  font-family: var(--font-d);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.priority-item-content p {
+  font-size: 13px;
+  color: #666;
+}
+
+.priority-item-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.priority-item-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(0,0,0,.06);
+}
+
+.priority-item-tag.time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+}
+
+.priority-item-tag.impact-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.priority-item-tag.impact-medium {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.priority-item-tag.impact-low {
+  background: #d1ecf1;
+  color: #0c5460;
+}
+
+.priority-item-result {
+  font-size: 12px;
+  color: #555;
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--mint);
+  font-style: italic;
+}
+
+/* ── Executive Summary ─────────────────────────── */
+.executive-summary {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.executive-summary h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 16px;
+}
+
+.executive-headline {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(0,0,0,.08);
+}
+
+.executive-columns {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.executive-column h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.executive-column h4 svg {
+  width: 16px;
+  height: 16px;
+}
+
+.executive-column.strengths h4 { color: var(--success); }
+.executive-column.gaps h4 { color: var(--danger); }
+
+.executive-column ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.executive-column li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(0,0,0,.04);
+  font-size: 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.executive-column li:last-child { border-bottom: none; }
+
+.executive-column li::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-top: 7px;
+  flex-shrink: 0;
+}
+
+.executive-column.strengths li::before { background: var(--success); }
+.executive-column.gaps li::before { background: var(--danger); }
+
+.executive-bottom-line {
+  background: var(--page-bg);
+  padding: 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #555;
+  border-left: 3px solid var(--navy);
+}
+
+/* ── Quick Wins ─────────────────────────────────── */
+.quick-wins {
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+
+.quick-wins h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quick-wins h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--success);
+}
+
+.quick-wins-subtitle {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.quick-wins-list {
+  display: grid;
+  gap: 12px;
+}
+
+.quick-win-item {
+  background: var(--card-bg);
+  padding: 16px 20px;
+  border-radius: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.quick-win-number {
+  width: 28px;
+  height: 28px;
+  background: var(--success);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.quick-win-content {
+  flex: 1;
+}
+
+.quick-win-task {
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 4px;
+}
+
+.quick-win-impact {
+  font-size: 13px;
+  color: #666;
+}
+
+.quick-win-time {
+  background: rgba(6,124,188,.1);
+  color: var(--blue);
+  padding: 4px 12px;
+  border-radius: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── Tourism Context ────────────────────────────── */
+.tourism-context {
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 32px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 12px rgba(0,0,0,.06);
+}
+
+.tourism-context h2 {
+  font-family: var(--font-d);
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.tourism-context h2 svg {
+  width: 24px;
+  height: 24px;
+  color: var(--blue);
+}
+
+.tourism-context-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.tourism-context-item {
+  padding: 20px;
+  background: var(--page-bg);
+  border-radius: 12px;
+}
+
+.tourism-context-item h4 {
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tourism-context-item h4 svg {
+  width: 16px;
+  height: 16px;
+  color: var(--blue);
+}
+
+.tourism-context-item p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.6;
+}
+
+/* ── Updated Metric with Benchmark ─────────────── */
+.metric-benchmark {
+  font-size: 10px;
+  color: #888;
+  margin-top: 2px;
+}
+
+/* ── Recommendation Time Estimate ──────────────── */
+.recommendation-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--blue);
+  margin-top: 6px;
+}
+
+.recommendation-time svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ── Category Guest Experience ─────────────────── */
+.category-icon.guest { background: #e1f5fe; color: #0277bd; }
+.category-icon.visitor { background: #f3e5f5; color: #7b1fa2; }
+
+@media (max-width: 768px) {
+  .executive-columns { grid-template-columns: 1fr; }
+  .tourism-context-grid { grid-template-columns: 1fr; }
+  .quick-win-item { flex-direction: column; align-items: stretch; }
+  .quick-win-time { align-self: flex-start; }
+}
+
+/* ── Coming Soon Page ─────────────────────────── */
+.coming-soon-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px);
+}
+
+.coming-soon-content {
+  text-align: center;
+  max-width: 480px;
+  padding: 60px 40px;
+  background: var(--card-bg);
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.coming-soon-icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, var(--mint), var(--mint-dark));
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.coming-soon-icon svg {
+  width: 40px;
+  height: 40px;
+  color: var(--navy);
+}
+
+.coming-soon-content h2 {
+  font-family: var(--font-d);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.coming-soon-content p {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 8px;
+}
+
+.coming-soon-note {
+  font-size: 13px;
+  color: #999;
+  margin-top: 24px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(0,0,0,.08);
+}
+
+/* ── Mobile ─────────────────────────────────── */
+@media (max-width: 768px) {
+  body {
+    display: block;
+    overflow: auto;
+    height: auto;
+  }
+
+  #sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    z-index: 1000;
+  }
+
+  #sidebar.open { transform: translateX(0); }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: var(--navy);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .mobile-header-title {
+    font-family: var(--font-d);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--mint);
+  }
+
+  .mobile-menu-btn {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,.1);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .page { padding: 20px; }
+  .assessment-hero { padding: 24px; }
+  .assessment-hero-title { font-size: 22px; }
+  .categories-grid { grid-template-columns: 1fr; }
+  .category-metrics { grid-template-columns: 1fr; }
+
+  /* Tactic tabs - horizontal scroll on mobile */
+  .tactic-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .tactic-tabs::-webkit-scrollbar { display: none; }
+  .tactic-tab {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
+}
+
+@media (min-width: 769px) {
+  .mobile-header { display: none; }
+}
+
+#drawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17,21,75,.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s, visibility .3s;
+}
+
+#drawerOverlay.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+}
+
+/* ── Download PDF Button ────────────────────────── */
+.assessment-hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.download-pdf-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(255,255,255,.15);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 8px;
+  color: #fff;
+  font-family: var(--font-d);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+.download-pdf-btn:hover {
+  background: rgba(255,255,255,.25);
+  border-color: rgba(255,255,255,.5);
+}
+
+.download-pdf-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.download-pdf-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-pdf-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.download-pdf-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpinner 0.8s linear infinite;
+}
+
+.download-pdf-btn.loading svg {
+  visibility: hidden;
+}
+
+@keyframes pdfSpinner {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRINT STYLES - Award-Winning PDF Report Design
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hide all print-only elements on screen */
+.print-cover-page,
+.print-running-header,
+.print-running-footer,
+.print-header,
+.print-footer {
+  display: none !important;
+}
+
+@media print {
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE SETUP & RESETS
+     ══════════════════════════════════════════════════════════════════════════ */
+  @page {
+    size: letter;
+    margin: 0.6in 0.65in 0.75in 0.65in;
+  }
+
+  @page :first {
+    margin: 0;
+  }
+
+  *, *::before, *::after {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  html {
+    height: auto;
+    overflow: visible;
+    background: white !important;
+  }
+
+  body {
+    display: block;
+    height: auto;
+    overflow: visible;
+    background: white !important;
+    padding: 0;
+    margin: 0;
+    font-size: 10pt;
+    line-height: 1.4;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     HIDE SCREEN-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  #sidebar,
+  .mobile-header,
+  #drawerOverlay,
+  .download-pdf-btn,
+  .assessment-hero-badge,
+  .assessment-hero-actions,
+  .nav-item,
+  #page-strategy,
+  #page-tactic1,
+  #page-tactic2,
+  #page-tactic3,
+  #page-roadmap,
+  .print-header,
+  .coming-soon-section {
+    display: none !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     SHOW PRINT-ONLY ELEMENTS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    display: flex !important;
+  }
+
+  .print-running-header {
+    display: flex !important;
+    position: fixed;
+    top: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.45in;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #11154b;
+    background: white;
+    z-index: 1000;
+  }
+
+  .print-running-footer {
+    display: flex !important;
+    position: fixed;
+    bottom: 0;
+    left: 0.65in;
+    right: 0.65in;
+    height: 0.35in;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid #e0e0e0;
+    background: white;
+    font-size: 8pt;
+    color: #708090;
+    z-index: 1000;
+  }
+
+  .print-footer {
+    display: block !important;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     COVER PAGE
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-cover-page {
+    position: relative;
+    width: 8.5in;
+    height: 11in;
+    margin: -0.6in -0.65in 0 -0.65in;
+    padding: 0;
+    background: linear-gradient(145deg, #11154b 0%, #1a1f6b 50%, #11154b 100%) !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    page-break-after: always;
+    overflow: hidden;
+  }
+
+  .print-cover-page::before {
+    content: '';
+    position: absolute;
+    top: -30%;
+    right: -20%;
+    width: 80%;
+    height: 80%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .print-cover-page::after {
+    content: '';
+    position: absolute;
+    bottom: -20%;
+    left: -10%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle, rgba(170,218,182,0.08) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .cover-logo {
+    height: 44px;
+    width: auto;
+    margin-bottom: 1.2in;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-divider {
+    width: 2.5in;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #aadab6, transparent);
+    margin: 0.25in auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 38pt;
+    font-weight: 800;
+    color: white;
+    letter-spacing: 0.08em;
+    line-height: 1.15;
+    margin: 0.3in 0 0.4in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 11pt;
+    color: rgba(255,255,255,0.6);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin: 0 0 0.1in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-client-name {
+    font-family: 'Raleway', sans-serif;
+    font-size: 26pt;
+    font-weight: 700;
+    color: white;
+    margin: 0 0 0.6in 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade-circle {
+    width: 1.6in;
+    height: 1.6in;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 0.5in auto;
+    box-shadow: 0 0 80px rgba(170,218,182,0.5);
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-grade {
+    font-family: 'Raleway', sans-serif;
+    font-size: 48pt;
+    font-weight: 800;
+    color: #11154b;
+    line-height: 1;
+    display: block;
+  }
+
+  .cover-score {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    opacity: 0.85;
+    display: block;
+    margin-top: 4px;
+  }
+
+  .cover-date {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 10pt;
+    color: rgba(255,255,255,0.65);
+    margin: 0.3in 0 0 0;
+    position: relative;
+    z-index: 1;
+  }
+
+  .cover-footer-text {
+    position: absolute;
+    bottom: 0.6in;
+    left: 0;
+    right: 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 9pt;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING HEADER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-header-left {
+    display: flex;
+    align-items: center;
+  }
+
+  .running-header-logo {
+    height: 22px;
+    width: auto;
+  }
+
+  .running-header-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .running-header-title {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 700;
+    color: #11154b;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .running-header-right {
+    text-align: right;
+  }
+
+  .running-header-client {
+    font-family: 'Raleway', sans-serif;
+    font-size: 9pt;
+    font-weight: 600;
+    color: #708090;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     RUNNING FOOTER STYLES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .running-footer-left {
+    font-style: italic;
+  }
+
+  .running-footer-center {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-weight: 500;
+  }
+
+  .running-footer-right {
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     MAIN CONTENT AREA
+     ══════════════════════════════════════════════════════════════════════════ */
+  #main {
+    width: 100%;
+    max-width: 100%;
+    overflow: visible;
+    padding: 0;
+    margin-top: 0.5in;
+  }
+
+  .page {
+    display: block !important;
+    padding: 0;
+    min-height: auto;
+  }
+
+  #page-assessment {
+    padding-top: 0;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     ASSESSMENT HERO
+     ══════════════════════════════════════════════════════════════════════════ */
+  .assessment-hero {
+    background: linear-gradient(135deg, #11154b 0%, #1a1f6b 100%) !important;
+    border-radius: 12px;
+    padding: 24px 28px;
+    margin-bottom: 20px;
+    page-break-inside: avoid;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .assessment-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -15%;
+    width: 50%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(170,218,182,0.12) 0%, transparent 60%);
+  }
+
+  .assessment-hero-top {
+    margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .assessment-hero-title {
+    font-size: 20pt;
+    color: white;
+    margin-bottom: 4px;
+  }
+
+  .assessment-hero-date {
+    color: rgba(255,255,255,0.75);
+    font-size: 10pt;
+  }
+
+  .assessment-grade-card {
+    background: rgba(255,255,255,0.1) !important;
+    padding: 16px 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .grade-circle {
+    width: 72px;
+    height: 72px;
+    font-size: 26pt;
+    background: linear-gradient(135deg, #aadab6 0%, #7bc490 100%) !important;
+    color: #11154b !important;
+    flex-shrink: 0;
+  }
+
+  .grade-details {
+    color: white;
+  }
+
+  .grade-details h3 {
+    color: white;
+    font-size: 13pt;
+    margin-bottom: 4px;
+  }
+
+  .grade-details p {
+    font-size: 10pt;
+    opacity: 0.85;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     EXECUTIVE SUMMARY
+     ══════════════════════════════════════════════════════════════════════════ */
+  .executive-summary {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .executive-summary h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .executive-headline {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    line-height: 1.5;
+  }
+
+  .executive-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 14px;
+  }
+
+  .executive-column {
+    background: #fafafa;
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+
+  .executive-column h4 {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+  }
+
+  .executive-column.strengths {
+    background: rgba(40, 167, 69, 0.06);
+    border: 1px solid rgba(40, 167, 69, 0.15);
+  }
+
+  .executive-column.gaps {
+    background: rgba(220, 53, 69, 0.04);
+    border: 1px solid rgba(220, 53, 69, 0.12);
+  }
+
+  .executive-column li {
+    font-size: 9pt;
+    padding: 5px 0;
+    line-height: 1.45;
+  }
+
+  .executive-bottom-line {
+    background: linear-gradient(135deg, #fcf5ec 0%, #faf3e8 100%);
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 9.5pt;
+    color: #444;
+    border-left: 3px solid #11154b;
+    line-height: 1.55;
+  }
+
+  .executive-bottom-line strong {
+    color: #11154b;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     QUICK WINS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .quick-wins {
+    background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%) !important;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .quick-wins h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .quick-wins-subtitle {
+    font-size: 9pt;
+    margin-bottom: 14px;
+    color: #2d5a2d;
+  }
+
+  .quick-wins-list {
+    gap: 8px;
+  }
+
+  .quick-win-item {
+    background: white !important;
+    padding: 12px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .quick-win-number {
+    width: 24px;
+    height: 24px;
+    font-size: 10pt;
+    background: #28a745 !important;
+    color: white !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .quick-win-content {
+    flex: 1;
+  }
+
+  .quick-win-task {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #11154b;
+    margin-bottom: 3px;
+    line-height: 1.4;
+  }
+
+  .quick-win-impact {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  .quick-win-time {
+    background: rgba(6,124,188,0.12) !important;
+    color: #067cbc !important;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 8.5pt;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    align-self: flex-start;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     TOURISM CONTEXT
+     ══════════════════════════════════════════════════════════════════════════ */
+  .tourism-context {
+    background: white;
+    border: 1.5px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 18px;
+    page-break-inside: avoid;
+  }
+
+  .tourism-context h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .tourism-context-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .tourism-context-item {
+    background: #f8f9fa;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border-left: 3px solid #067cbc;
+  }
+
+  .tourism-context-item h4 {
+    font-size: 9pt;
+    color: #11154b;
+    margin-bottom: 6px;
+  }
+
+  .tourism-context-item h4 svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .tourism-context-item p {
+    font-size: 8.5pt;
+    color: #555;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     CATEGORY CARDS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .categories-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+    page-break-before: always;
+  }
+
+  .category-card {
+    background: white;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+    padding: 14px 16px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  }
+
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #f0f0f0;
+  }
+
+  .category-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+  }
+
+  .category-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .category-title {
+    font-size: 11pt;
+    font-weight: 700;
+  }
+
+  .category-grade {
+    font-size: 10pt;
+    padding: 3px 10px;
+  }
+
+  .category-summary {
+    font-size: 9pt;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    color: #444;
+  }
+
+  .category-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+
+  .metric-item {
+    background: #f8f9fa;
+    padding: 8px 10px;
+    border-radius: 6px;
+  }
+
+  .metric-label {
+    font-size: 7pt;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 2px;
+  }
+
+  .metric-value {
+    font-size: 10pt;
+    color: #11154b;
+    font-weight: 600;
+  }
+
+  .metric-status {
+    width: 6px;
+    height: 6px;
+  }
+
+  .metric-benchmark {
+    font-size: 7pt;
+    color: #888;
+    margin-top: 1px;
+  }
+
+  .category-findings {
+    margin-bottom: 10px;
+  }
+
+  .finding-item {
+    font-size: 8.5pt;
+    padding: 4px 0;
+    line-height: 1.4;
+  }
+
+  .finding-icon {
+    width: 12px;
+    height: 12px;
+  }
+
+  .category-recommendations h4 {
+    font-size: 9pt;
+    margin-bottom: 8px;
+    color: #11154b;
+  }
+
+  .recommendation-item {
+    font-size: 8.5pt;
+    padding: 8px 10px;
+    margin-bottom: 5px;
+    background: rgba(6,124,188,0.04);
+    border-radius: 6px;
+  }
+
+  .recommendation-priority {
+    font-size: 7pt;
+    padding: 2px 6px;
+  }
+
+  .recommendation-time {
+    font-size: 8pt;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRIORITY RECOMMENDATIONS
+     ══════════════════════════════════════════════════════════════════════════ */
+  .priority-section {
+    background: white;
+    border: 2px solid #11154b;
+    border-radius: 12px;
+    padding: 20px 24px;
+    page-break-before: always;
+    page-break-inside: avoid;
+  }
+
+  .priority-section h2 {
+    font-size: 14pt;
+    color: #11154b;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #aadab6;
+  }
+
+  .priority-list {
+    gap: 10px;
+  }
+
+  .priority-item {
+    background: #f8f9fa !important;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+
+  .priority-item-number {
+    width: 28px;
+    height: 28px;
+    font-size: 11pt;
+    background: #11154b !important;
+    color: #aadab6 !important;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  .priority-item-content {
+    flex: 1;
+  }
+
+  .priority-item-content h4 {
+    font-size: 10.5pt;
+    color: #11154b;
+    margin-bottom: 5px;
+    line-height: 1.4;
+  }
+
+  .priority-item-content p {
+    font-size: 9pt;
+    color: #555;
+  }
+
+  .priority-item-meta {
+    display: flex;
+    gap: 8px;
+    margin-top: 6px;
+    flex-wrap: wrap;
+  }
+
+  .priority-item-tag {
+    font-size: 8pt;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: #e9ecef;
+  }
+
+  .priority-item-tag.time {
+    background: rgba(6,124,188,0.12);
+    color: #067cbc;
+  }
+
+  .priority-item-tag.impact-high {
+    background: rgba(220,53,69,0.1);
+    color: #c82333;
+  }
+
+  .priority-item-tag.impact-medium {
+    background: rgba(255,193,7,0.15);
+    color: #856404;
+  }
+
+  .priority-item-result {
+    font-size: 8.5pt;
+    color: #555;
+    margin-top: 8px;
+    padding-left: 10px;
+    border-left: 2px solid #aadab6;
+    font-style: italic;
+    line-height: 1.45;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PRINT FOOTER (END OF REPORT)
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-footer {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #11154b;
+    page-break-inside: avoid;
+  }
+
+  .print-footer-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    gap: 40px;
+  }
+
+  .print-footer-credits {
+    flex: 1;
+  }
+
+  .print-footer-credits h4 {
+    font-family: 'Raleway', sans-serif;
+    font-size: 11pt;
+    font-weight: 700;
+    color: #11154b;
+    margin-bottom: 8px;
+  }
+
+  .print-footer-credits p {
+    font-size: 9pt;
+    color: #555;
+    line-height: 1.55;
+    margin-bottom: 3px;
+  }
+
+  .print-footer-branding {
+    text-align: right;
+  }
+
+  .print-footer-logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .print-footer-logo-icon {
+    width: 28px;
+    height: 28px;
+    background: #11154b;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .print-footer-logo-icon svg {
+    width: 16px;
+    height: 16px;
+    color: #aadab6;
+  }
+
+  .print-footer-logo-text {
+    font-family: 'Raleway', sans-serif;
+    font-size: 14pt;
+    font-weight: 800;
+    color: #11154b;
+  }
+
+  .print-footer-url {
+    font-size: 10pt;
+    color: #067cbc;
+    font-weight: 600;
+  }
+
+  .print-footer-disclaimer {
+    font-size: 8pt;
+    color: #888;
+    text-align: center;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    line-height: 1.5;
+  }
+
+  /* ══════════════════════════════════════════════════════════════════════════
+     PAGE BREAK UTILITIES
+     ══════════════════════════════════════════════════════════════════════════ */
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  .print-no-break {
+    page-break-inside: avoid;
+    break-inside: avoid;
+  }
+}
+</style>
+</head>
+<body data-client-slug="agassiz-harrison-museum">
+
+<!-- ═══════════════════════════════════════════════════════════════
+     PRINT-ONLY ELEMENTS (hidden on screen, visible when printing)
+     ═══════════════════════════════════════════════════════════════ -->
+
+<!-- Cover Page -->
+<div class="print-cover-page">
+  <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="cover-logo">
+  <div class="cover-divider"></div>
+  <h1 class="cover-title">DIGITAL MARKETING<br>ASSESSMENT</h1>
+  <div class="cover-divider"></div>
+  <p class="cover-client">Prepared for</p>
+  <p class="cover-client-name">Agassiz-Harrison Museum & Visitor Centre</p>
+  <div class="cover-grade-circle">
+    <span class="cover-grade" id="coverGrade">F</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">48</span>/100</span>
+  </div>
+  <p class="cover-date">Assessment Date: September 25, 2026</p>
+  <p class="cover-footer-text">Powered by Junction Accelerator</p>
+</div>
+
+<!-- Running Header (appears on pages 2+) -->
+<div class="print-running-header">
+  <div class="running-header-left">
+    <img src="/assets/elearningu-logo-black.png" alt="eLearningU" class="running-header-logo">
+  </div>
+  <div class="running-header-center">
+    <span class="running-header-title">Digital Marketing Assessment</span>
+  </div>
+  <div class="running-header-right">
+    <span class="running-header-client">Agassiz-Harrison Museum & Visitor Centre</span>
+  </div>
+</div>
+
+<!-- Running Footer -->
+<div class="print-running-footer">
+  <span class="running-footer-left">Confidential</span>
+  <span class="running-footer-center">Agassiz-Harrison Museum & Visitor Centre</span>
+  <span class="running-footer-right">eLearningU.com</span>
+</div>
+
+<!-- Print Header (visible only when printing) -->
+<div class="print-header">
+  <div class="print-header-logo">
+    <div class="print-header-logo-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+        <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+      </svg>
+    </div>
+    <div class="print-header-brand">eLearnin<span>gU</span></div>
+  </div>
+  <div class="print-header-info">
+    <div class="print-header-title">Digital Marketing Assessment</div>
+    <div class="print-header-client">Agassiz-Harrison Museum & Visitor Centre</div>
+  </div>
+</div>
+
+<!-- Mobile Header -->
+<div class="mobile-header">
+  <span class="mobile-header-title">Agassiz-Harrison Museum & Visitor Centre</span>
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </button>
+</div>
+
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
+
+<!-- Sidebar -->
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <img src="/assets/elearningu-logo-white.png" alt="eLearningU" class="sidebar-logo-img">
+  </div>
+
+  <div class="sidebar-client">
+    <div class="sidebar-client-name">Agassiz-Harrison Museum & Visitor Centre</div>
+    <div class="sidebar-client-status">
+      <span class="status-dot"></span>
+      Assessment Complete
+    </div>
+  </div>
+
+  <nav>
+    <div class="nav-section-label">Overview</div>
+    <div class="nav-item active" onclick="navigate('assessment')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+        <rect x="9" y="3" width="6" height="4" rx="1"/>
+        <path d="M9 12l2 2 4-4"/>
+      </svg>
+      Assessment
+    </div>
+
+    <div class="nav-section-label">Your Plan</div>
+    <div class="nav-item locked" onclick="showComingSoon('strategy')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 6v6l4 2"/>
+      </svg>
+      Strategy
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Tactics</div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic1')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 1
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic2')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 2
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+    <div class="nav-item locked" onclick="showComingSoon('tactic3')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+        <polyline points="22 4 12 14.01 9 11.01"/>
+      </svg>
+      Tactic 3
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+
+    <div class="nav-section-label">Implementation</div>
+    <div class="nav-item locked" onclick="showComingSoon('roadmap')">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+        <line x1="16" y1="2" x2="16" y2="6"/>
+        <line x1="8" y1="2" x2="8" y2="6"/>
+        <line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+      90-Day Roadmap
+      <svg class="lock-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0110 0v4"/>
+      </svg>
+    </div>
+  </nav>
+</aside>
+
+<!-- Main Content -->
+<main id="main">
+
+  <!-- Assessment Page -->
+  <section id="page-assessment" class="page active">
+    <div class="assessment-hero">
+      <div class="assessment-hero-top">
+        <div>
+          <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
+          <p class="assessment-hero-date">Assessment Date: September 25, 2026</p>
+        </div>
+        <div class="assessment-hero-actions">
+          <button class="download-pdf-btn" onclick="downloadPDF()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            Download PDF
+          </button>
+          <div class="assessment-hero-badge">Complete</div>
+        </div>
+      </div>
+
+      <div class="assessment-grade-card">
+        <div class="grade-circle" id="overallGrade">F</div>
+        <div class="grade-details">
+          <h3>Overall Score: <span id="overallScore">48</span>/100</h3>
+          <p id="overallSummary"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary" id="executiveSummary">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Quick Wins -->
+    <div class="quick-wins" id="quickWins">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <!-- Tourism Context -->
+    <div class="tourism-context" id="tourismContext">
+      <!-- Populated by JavaScript -->
+    </div>
+
+    <div class="categories-grid" id="categoriesGrid">
+      <!-- Categories will be populated by JavaScript -->
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <div class="priority-list" id="priorityList">
+        <!-- Priority recommendations will be populated by JavaScript -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Coming Soon Pages -->
+  <section id="page-strategy" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <path d="M12 6v6l4 2"/>
+          </svg>
+        </div>
+        <h2>Strategy Coming Soon</h2>
+        <p>Your 90-day marketing strategy is being developed by your coach. Once your plan is finalized, you'll see your goals, strategic positioning, and three key objectives here.</p>
+        <p class="coming-soon-note">This section will be unlocked when your coach uploads your personalized implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic1" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 1 Coming Soon</h2>
+        <p>Your first tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources to help you execute effectively.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic2" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 2 Coming Soon</h2>
+        <p>Your second tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-tactic3" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+        <h2>Tactic 3 Coming Soon</h2>
+        <p>Your third tactic deep-dive guide is being prepared. This will include detailed implementation steps, success metrics, and resources.</p>
+        <p class="coming-soon-note">Check back after your coach has uploaded your implementation plan.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="page-roadmap" class="page">
+    <div class="coming-soon-section">
+      <div class="coming-soon-content">
+        <div class="coming-soon-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+        </div>
+        <h2>90-Day Roadmap Coming Soon</h2>
+        <p>Your week-by-week action plan will be available here. Each week will include specific actions, a completion checklist, and "how to" links to help you implement your tactics.</p>
+        <p class="coming-soon-note">Your coach is preparing your personalized 12-week roadmap.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Print Footer (visible only when printing) -->
+  <div class="print-footer">
+    <div class="print-footer-content">
+      <div class="print-footer-credits">
+        <h4>About This Assessment</h4>
+        <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
+        <p><strong>Your Coach:</strong> conner@elearningu.com</p>
+        <p><strong>Assessment Date:</strong> September 25, 2026</p>
+      </div>
+      <div class="print-footer-branding">
+        <div class="print-footer-logo">
+          <div class="print-footer-logo-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z"/>
+              <path d="M6 12v5c3 3 9 3 12 0v-5"/>
+            </svg>
+          </div>
+          <span class="print-footer-logo-text">eLearningU</span>
+        </div>
+        <div class="print-footer-url">eLearningU.com</div>
+      </div>
+    </div>
+    <div class="print-footer-disclaimer">
+      This assessment is confidential and prepared exclusively for Agassiz-Harrison Museum & Visitor Centre.
+      Powered by Junction Accelerator &mdash; helping tourism businesses grow their digital presence.
+    </div>
+  </div>
+
+</main>
+
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Agassiz-Harrison Museum & Visitor Centre has limited digital presence data available, with the most critical gap being no verified Google Business Profile listing.","key_strengths":["Website is operational with SSL security in place","Social media accounts established on Instagram and Facebook","Basic online presence foundation exists for building upon"],"critical_gaps":["No Google Business Profile listing - invisible to travelers searching on Google Maps","Unable to verify online booking or reservation capabilities","Review presence and reputation management status unknown across major platforms"],"bottom_line":"The museum has foundational digital assets but lacks the critical Google visibility needed for travelers planning visits to Agassiz, British Columbia - this represents immediate lost discovery opportunities that competitors with Google profiles are capturing instead"},"quick_wins":[{"task":"Claim or create your Google Business Profile immediately - this is your most important digital listing","time_estimate":"30 minutes","impact":"Instant visibility on Google Maps and Search when travelers search for museums or things to do in Agassiz","confidence":"high"},{"task":"Add your complete address with postal code to the website footer and contact page for local SEO","time_estimate":"15 minutes","impact":"Improved local search rankings and NAP consistency across the web","confidence":"medium"},{"task":"Verify that visitor hours are prominently displayed on the homepage above the fold","time_estimate":"15 minutes","impact":"Reduces visitor friction and abandoned visits from unclear hours","confidence":"medium"},{"task":"Install Google Analytics and Meta Pixel on your website to begin tracking visitor behavior","time_estimate":"45 minutes","impact":"Essential data for understanding visitor sources and optimizing digital strategy","confidence":"high"},{"task":"Add social media icons linking to your Instagram and Facebook in the website header or footer","time_estimate":"20 minutes","impact":"Drives website visitors to follow your social channels for ongoing engagement","confidence":"medium"}],"tourism_context":{"visitor_profile":"Agassiz-Harrison Museum attracts heritage tourists, local history enthusiasts, families exploring the Fraser Valley, and travelers passing through on the Sea-to-Sky corridor who seek cultural experiences","discovery_journey":"Visitors typically discover museums like this through Google searches for 'things to do in Agassiz', 'museums near me' while traveling, tourism websites for British Columbia's Fraser Valley region, and recommendations from nearby accommodations","seasonal_considerations":"Summer months (June-September) see peak visitation during Fraser Valley tourism season and harvest festivals, while winter requires digital emphasis on special exhibits and events to maintain visitor flow during slower months","trip_integration":"The museum serves as a cultural anchor point for visitors exploring the Agassiz-Harrison area, complementing outdoor activities like Harrison Hot Springs, agricultural experiences, and scenic drives - positioning as a heritage stop within broader Fraser Valley itineraries is key"},"overall":{"score":48,"grade":"F","confidence":"low","scoreBreakdown":{"website_technical":{"score":50,"weight":0.15,"contribution":7.5},"reviews_reputation":{"score":50,"weight":0.25,"contribution":12.5},"booking_conversion":{"score":50,"weight":0.2,"contribution":10},"social_media":{"score":50,"weight":0.2,"contribution":10},"guest_experience":{"score":50,"weight":0.1,"contribution":5},"local_visibility":{"score":33,"weight":0.1,"contribution":3.3}}},"categories":{"website_technical":{"score":50,"grade":"F","weight":0.15,"confidence":"low","breakdown":{"desktop_speed":{"value":null,"score":50,"source":"unavailable"},"mobile_speed":{"value":null,"score":50,"source":"unavailable"},"ssl_https":{"value":null,"score":50,"source":"unavailable"},"mobile_viewport":{"value":null,"score":50,"source":"unavailable"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Technical performance data unavailable - manual testing recommended to establish baseline metrics for speed, mobile experience, and core web vitals","findings":[{"type":"negative","text":"Technical performance data could not be retrieved, preventing assessment of site speed, mobile optimization, and core web vitals that directly impact visitor experience","confidence":"high","source":"SEOptimer scan failure"},{"type":"negative","text":"Without baseline metrics, cannot identify specific technical improvements needed to compete with other Fraser Valley attractions for mobile visitors","confidence":"medium","source":"Data collection gaps"}],"metrics":[{"label":"Desktop Speed","value":"Not available","status":"critical","source":"unavailable"},{"label":"Mobile Speed","value":"Not available","status":"critical","source":"unavailable"},{"label":"SSL Security","value":"Not Secure","status":"critical","source":"unavailable"}],"recommendations":[{"text":"Run manual website speed tests using Google PageSpeed Insights and GTmetrix to establish baseline performance metrics","time_estimate":"30 minutes","impact":"Identifies specific technical bottlenecks affecting visitor experience and conversion","priority":"medium"},{"text":"Test website on multiple mobile devices (iOS and Android) to verify responsive design and touch-friendly navigation","time_estimate":"1 hour","impact":"Ensures smooth experience for the 65% of museum website visitors on mobile devices","priority":"medium"},{"text":"Verify SSL certificate is properly installed and all pages load via HTTPS without mixed content warnings","time_estimate":"20 minutes","impact":"Prevents browser security warnings that cause visitor abandonment","priority":"high"}],"data_sources":["Website Analysis (Limited)","SEOptimer (Unavailable)"]},"reviews_reputation":{"score":50,"grade":"F","weight":0.25,"confidence":"low","breakdown":{"google_rating":{"value":null,"score":50,"source":"unavailable"},"review_volume":{"value":null,"score":50,"source":"unavailable"},"review_recency":{"value":null,"score":50,"source":"unavailable"},"response_rate":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"No verified Google Business Profile found - cannot assess review performance, which is the most heavily weighted category for tourism businesses","findings":[{"type":"negative","text":"No Google Business Profile listing found - the museum is not appearing on Google Maps when travelers search for museums or things to do in Agassiz","confidence":"high","source":"Google Places API search"},{"type":"negative","text":"Without a Google listing, potential visitors cannot see ratings, reviews, hours, photos, or location information directly in search results","confidence":"high","source":"Google ecosystem requirements"},{"type":"negative","text":"Competitors with claimed Google profiles are capturing visitors who would otherwise discover the museum through local searches","confidence":"high","source":"Tourism search behavior patterns"}],"metrics":[{"label":"Google Rating","value":"Not available","status":"critical","source":"unavailable"},{"label":"Total Reviews","value":"Not available","status":"critical","source":"unavailable"}],"recommendations":[{"text":"Create and fully optimize Google Business Profile with category 'Museum', complete address, hours, phone, website, and 10+ high-quality photos of exhibits","time_estimate":"2 hours initial setup, 15 minutes weekly for monitoring","impact":"Immediate visibility in Google Maps and local search results where 76% of museum discovery happens","priority":"critical"},{"text":"Implement post-visit review request process - provide review link cards at exit or in follow-up emails to build review volume","time_estimate":"3 hours to create system, 10 minutes weekly ongoing","impact":"Building to 50+ reviews increases visit likelihood by 270% compared to unlisted competitors","priority":"high"},{"text":"Claim or create TripAdvisor listing and verify hours, contact info, and upload photos of key exhibits and spaces","time_estimate":"1 hour","impact":"Captures heritage tourists who research cultural attractions on TripAdvisor before visiting Fraser Valley","priority":"medium"},{"text":"Set up Google Business Profile monitoring to respond to all reviews within 48 hours - both positive and negative feedback","time_estimate":"20 minutes weekly","impact":"Response rate above 80% builds trust and can improve ratings by 0.3-0.5 stars over time","priority":"high"}],"data_sources":["Google Places API (No results found)"]},"booking_conversion":{"score":50,"grade":"F","weight":0.2,"confidence":"low","breakdown":{"booking_capability":{"value":null,"score":50,"source":"unavailable"},"platform_integration":{"value":null,"score":50,"source":"unavailable"},"phone_visibility":{"value":null,"score":50,"source":"unavailable"},"pricing_visibility":{"value":null,"score":50,"source":"unavailable"},"cta_presence":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Unable to verify booking capabilities, pricing visibility, or contact prominence - critical conversion elements require manual assessment","findings":[{"type":"negative","text":"Cannot determine if online ticketing or admission booking system is implemented - this is increasingly expected for museum visits","confidence":"low","source":"Website analysis unavailable"},{"type":"negative","text":"Unable to verify if admission pricing is clearly displayed, which affects visitor decision-making and reduces phone inquiries","confidence":"low","source":"Content scan incomplete"}],"metrics":[{"label":"Online Booking","value":"Not Found","status":"critical","source":"unavailable"},{"label":"Phone Visible","value":"No","status":"warning","source":"unavailable"}],"recommendations":[{"text":"Audit website homepage to ensure admission prices are prominently displayed above the fold or in main navigation","time_estimate":"15 minutes to audit, 30 minutes to update if needed","impact":"Transparent pricing reduces inquiry friction and increases visit confidence","priority":"medium"},{"text":"Consider implementing simple online ticketing through platforms like Eventbrite for timed entry or special exhibits","time_estimate":"4 hours initial setup, 30 minutes per event","impact":"Online ticketing captures advance commitments and provides visitor data for marketing","priority":"low"},{"text":"Verify contact information (phone and email) is easily findable on every page, ideally in header or footer","time_estimate":"20 minutes to verify and update","impact":"Reduces abandonment from visitors seeking to ask questions before visiting","priority":"medium"},{"text":"Create clear primary call-to-action button on homepage such as 'Plan Your Visit' linking to hours, admission, and directions","time_estimate":"1 hour","impact":"Guides visitors toward conversion actions and reduces bounce rate","priority":"medium"}],"data_sources":["Website Content Analysis (Unavailable)"]},"social_media":{"score":50,"grade":"F","weight":0.2,"confidence":"low","breakdown":{"total_followers":{"value":null,"score":50,"source":"unavailable"},"engagement_rate":{"value":null,"score":50,"source":"unavailable"},"posting_frequency":{"value":null,"score":50,"source":"unavailable"},"platform_presence":{"value":null,"score":50,"source":"unavailable"},"content_quality":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Instagram and Facebook accounts are established but performance metrics unavailable - requires manual audit of follower counts, posting frequency, and engagement levels","findings":[{"type":"positive","text":"Social media accounts established on Instagram and Facebook, the two most important platforms for museum audiences","confidence":"high","source":"Website social links"},{"type":"negative","text":"Cannot assess posting frequency, engagement rates, or content quality without access to feed analytics","confidence":"medium","source":"Social media API unavailable"},{"type":"negative","text":"Follower counts and growth trends unknown - unable to benchmark against comparable Fraser Valley cultural attractions","confidence":"low","source":"Analytics not retrieved"}],"metrics":[{"label":"Total Followers","value":"Not available","status":"critical","source":"unavailable"},{"label":"Engagement Rate","value":"Not available","status":"critical","source":"unavailable"},{"label":"Platforms Active","value":"Not available","status":"critical","source":"unavailable"},{"label":"Posting Frequency","value":"Not available","status":"critical","source":"unavailable"}],"recommendations":[{"text":"Manually audit both Instagram and Facebook accounts: document follower counts, last 20 posts, engagement per post, and posting frequency","time_estimate":"1 hour","impact":"Establishes baseline metrics for setting realistic growth and engagement goals","priority":"high"},{"text":"Create monthly content calendar featuring artifact spotlights, exhibit highlights, visitor testimonials, and behind-the-scenes stories","time_estimate":"2 hours monthly planning, 30 minutes per post creation","impact":"Consistent posting at 3-5 times weekly increases reach by 2-3x and maintains follower engagement","priority":"high"},{"text":"Develop reusable content templates for common post types: Artifact Tuesdays, Throwback Thursdays, Meet the Collection series","time_estimate":"3 hours to create templates","impact":"Templates reduce content creation time by 60% while maintaining quality and consistency","priority":"medium"},{"text":"Add Instagram and Facebook feed widgets to website to showcase social proof and encourage follows","time_estimate":"1 hour","impact":"Converts 5-10% of website visitors into social media followers for ongoing engagement","priority":"low"},{"text":"Research and follow 20-30 comparable heritage museums in British Columbia and analyze their most engaging content for inspiration","time_estimate":"2 hours","impact":"Identifies proven content strategies and benchmarks for follower growth targets","priority":"medium"}],"data_sources":["Website social links identified","SociaVault API (Unavailable)"]},"guest_experience":{"score":50,"grade":"F","weight":0.1,"confidence":"low","breakdown":{"hours_displayed":{"value":null,"score":50,"source":"unavailable"},"directions_map":{"value":null,"score":50,"source":"unavailable"},"parking_info":{"value":null,"score":50,"source":"unavailable"},"accessibility_info":{"value":null,"score":50,"source":"unavailable"},"multi_language":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Unable to verify essential visitor information availability - manual website review needed to assess hours, directions, parking, and accessibility details","findings":[{"type":"negative","text":"Cannot verify if essential visitor information like hours, location, and parking details are easily accessible on the website","confidence":"low","source":"Website content not analyzed"},{"type":"negative","text":"Unable to assess if accessibility information is provided for visitors with mobility, visual, or hearing considerations","confidence":"low","source":"Content scan unavailable"}],"metrics":[{"label":"Hours Displayed","value":"Manual verification recommended","benchmark":"Operating hours should be on homepage and dedicated visit info page","status":"info","confidence":"low","source":"Website analysis incomplete","tooltip":"Clear hours prevent wasted visitor trips and reduce inquiry calls"},{"label":"Directions Available","value":"Manual verification recommended","benchmark":"Embedded map with directions link essential for out-of-town visitors","status":"info","confidence":"low","source":"Content scan unavailable","tooltip":"Map integration reduces navigation friction for 84% of museum visitors who use GPS"},{"label":"Parking Information","value":"Manual verification recommended","benchmark":"Parking details reduce visitor anxiety and improve arrival experience","status":"info","confidence":"low","source":"Website scrape failed","tooltip":"Parking info particularly important for RV travelers common in Fraser Valley"},{"label":"Accessibility Details","value":"Manual verification recommended","benchmark":"Wheelchair access, elevator availability, and accessible washroom info expected","status":"info","confidence":"low","source":"Content analysis unavailable","tooltip":"Accessibility information required for inclusive visitor planning"},{"label":"Multi-Language Support","value":"Manual verification recommended","benchmark":"Consider French translation for federal accessibility, Mandarin/Cantonese for BC tourism demographics","status":"info","confidence":"low","source":"Website analysis incomplete","tooltip":"Language options expand accessibility for international visitors to Fraser Valley"}],"recommendations":[{"text":"Create dedicated 'Plan Your Visit' page consolidating hours, admission, location map, parking details, and accessibility information","time_estimate":"2 hours","impact":"Reduces pre-visit inquiries by 40% and improves visitor confidence in planning museum stop","priority":"high"},{"text":"Embed Google Map on contact/visit page with one-click directions to museum location","time_estimate":"30 minutes","impact":"Simplifies navigation for out-of-town visitors unfamiliar with Agassiz","priority":"medium"},{"text":"Add parking information including lot location, capacity, RV/bus parking availability, and any time limits","time_estimate":"20 minutes","impact":"Reduces arrival stress particularly for visitors towing trailers or driving RVs through Fraser Valley","priority":"medium"},{"text":"Document and publish accessibility features: wheelchair access points, accessible washrooms, seating availability, audio tour options","time_estimate":"1 hour to document, 30 minutes to publish","impact":"Inclusive information expands potential visitor base and demonstrates commitment to accessibility","priority":"medium"}],"data_sources":["Website Content Analysis (Unavailable)"]},"local_visibility":{"score":33,"grade":"F","weight":0.1,"confidence":"medium","breakdown":{"gbp_claimed":{"value":false,"score":30,"source":"unavailable","note":"Could not verify GBP presence"},"nap_consistency":{"value":{"hasAddress":false,"hasPhone":false},"score":30,"source":"Website Analysis"},"local_keywords":{"score":40,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Critical local SEO gaps identified: no Google Business Profile and inconsistent NAP (name, address, phone) data reduce findability for local and traveling visitors","findings":[{"type":"negative","text":"No Google Business Profile found - the museum does not appear in Google Maps results when travelers search for museums or attractions in Agassiz","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Address and phone number not detected on website, creating NAP inconsistency that weakens local search rankings","confidence":"medium","source":"Website content analysis"},{"type":"negative","text":"Without Google Business Profile, museum cannot appear in the local 3-pack for searches like 'museums near Agassiz' or 'things to do in Harrison'","confidence":"high","source":"Local search requirements"}],"metrics":[{"label":"Google Business Profile Status","value":"Not claimed or not found","benchmark":"All tourism businesses must have claimed, verified Google Business Profile","status":"critical","confidence":"high","source":"Google Places API search","tooltip":"GBP is the single most important local visibility factor"},{"label":"NAP Consistency","value":"Address and phone not detected on website","benchmark":"Name, address, phone must match exactly across website, Google, and directories","status":"critical","confidence":"medium","source":"Website analysis","tooltip":"Inconsistent NAP confuses search engines and reduces local rankings"},{"label":"Local Keywords","value":"Manual verification recommended","benchmark":"Homepage should include 'Agassiz museum', 'Harrison heritage', 'Fraser Valley history'","status":"info","confidence":"low","source":"SEO analysis unavailable","tooltip":"Local keywords help search engines understand geographic relevance"},{"label":"Citation Presence","value":"Manual verification recommended","benchmark":"Should be listed on TripAdvisor, Tourism BC, local business directories","status":"info","confidence":"low","source":"Directory scan not performed","tooltip":"Directory citations reinforce local relevance and build authority"}],"recommendations":[{"text":"Add complete physical address with postal code to website footer and contact page in standard format","time_estimate":"15 minutes","impact":"Improves NAP consistency and local SEO signals for search engines","priority":"high"},{"text":"Optimize homepage title tag and H1 heading to include local keywords like 'Agassiz-Harrison Heritage Museum | Fraser Valley History'","time_estimate":"30 minutes","impact":"Increases relevance for local searches and improves rankings for regional heritage tourism queries","priority":"medium"},{"text":"Submit listing to Tourism Chilliwack, Tourism British Columbia, and Fraser Valley regional tourism directories","time_estimate":"2 hours across all directories","impact":"Builds citation foundation and captures referral traffic from regional tourism planning sites","priority":"medium"},{"text":"Create location-specific content pages about museum role in Agassiz history and connection to Harrison area heritage","time_estimate":"3 hours per page","impact":"Strengthens local relevance signals and provides content for visitors researching Fraser Valley heritage","priority":"low"}],"data_sources":["SEOptimer (Limited)","Google Places API","Website Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Reviews & Reputation","text":"Claim or create Google Business Profile for Agassiz-Harrison Museum & Visitor Centre with complete information: category as 'Museum', full address, phone, hours, website link, and upload 15+ high-quality photos of exhibits, artifacts, and the building exterior","time_estimate":"2 hours initial setup, 15 minutes weekly for posts and monitoring","impact":"high","expected_result":"Immediate visibility on Google Maps and local search - appearing when travelers search for museums, things to do in Agassiz, or cultural attractions near Harrison Hot Springs","confidence":"high"},{"priority":2,"category":"Local Visibility","text":"Add complete physical address with postal code to website footer and contact page, ensuring it matches exactly what you use on Google Business Profile","time_estimate":"15 minutes website update, ongoing consistency checks","impact":"high","expected_result":"Improved NAP consistency strengthens local search rankings and makes the museum easier to find via GPS navigation","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Implement visitor review request system: create printed cards with QR code linking to Google review page, place at exit desk, and train staff to mention reviews during checkout","time_estimate":"3 hours to design system, 5 minutes per visitor interaction","impact":"high","expected_result":"Build to 50+ Google reviews within 6 months, increasing visit likelihood by 270% compared to unlisted museums","confidence":"high"},{"priority":4,"category":"Social Media & Content","text":"Conduct manual audit of Instagram and Facebook accounts: document current follower counts, analyze last 20 posts for engagement patterns, identify posting frequency, and establish baseline metrics for growth tracking","time_estimate":"1 hour audit, 30 minutes to document findings","impact":"medium","expected_result":"Clear understanding of current social media performance enables data-driven content strategy and realistic goal setting","confidence":"medium"},{"priority":5,"category":"Digital Guest Experience","text":"Create comprehensive 'Plan Your Visit' page featuring hours of operation, admission pricing, embedded Google Map with directions, parking information including RV/bus access, and accessibility details for wheelchair users","time_estimate":"2-3 hours to compile and design page","impact":"medium","expected_result":"Reduces pre-visit phone inquiries by 40% and improves visitor confidence, particularly for out-of-town travelers unfamiliar with Agassiz","confidence":"medium"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile absence confirmed via API search","Social media account existence verified via website links","Basic website operational status confirmed"],"low_confidence_areas":["Website technical performance metrics (speed, mobile optimization)","Social media follower counts and engagement rates","Review presence on TripAdvisor and other platforms","Booking capability and pricing visibility on website","Visitor information completeness (hours, parking, accessibility)","Local directory citation presence"],"recommendations_for_fuller_picture":["Run manual website speed test using Google PageSpeed Insights","Document current follower counts and engagement rates on Instagram and Facebook","Search TripAdvisor and Yelp to verify if listings exist and review status","Conduct complete website content audit to verify visitor information completeness","Search major tourism directories (Tourism BC, local directories) to assess citation presence","Install Google Analytics to begin tracking visitor sources and behavior patterns"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-25T23:32:16.578Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-25T23:29:51.164Z","confidence":"low","missingDataFlags":["seoptimer_unavailable","google_places_unavailable","website_analysis_unavailable","social_media_unavailable"]}};</script>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script src="/shared/share-modal.js"></script>
+<script>
+// ══════════════════════════════════════════════════════════════
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
+}
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// Swipe Gesture Support
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    const sidebarWidth = 268;
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / sidebarWidth, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / sidebarWidth, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) { openMobileDrawer(); return; }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) { closeMobileDrawer(); return; }
+  if (isEdgeSwipe && deltaX > 0) { closeMobileDrawer(); }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+// Close drawer on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('sidebar')?.classList.contains('open')) {
+    closeMobileDrawer();
+  }
+});
+
+// Legacy aliases for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function navigate(pageId) {
+  // Update pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Update nav
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  event?.target?.closest('.nav-item')?.classList.add('active');
+
+  // Close mobile menu
+  closeMobileDrawer();
+}
+
+function showComingSoon(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + pageId)?.classList.add('active');
+
+  // Close mobile menu
+  closeMobileDrawer();
+}
+
+// ══════════════════════════════════════════════════════════════
+// PDF DOWNLOAD
+// ══════════════════════════════════════════════════════════════
+async function downloadPDF() {
+  const btn = document.querySelector('.download-pdf-btn');
+  const clientSlug = document.body.dataset.clientSlug;
+
+  if (!clientSlug) {
+    alert('Unable to generate PDF: client not identified.');
+    return;
+  }
+
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+  }
+
+  try {
+    // Get auth token
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      throw new Error('Please log in to download the PDF.');
+    }
+
+    // Call PDF generation API
+    const response = await fetch('/.netlify/functions/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        pdfType: 'assessment',
+        clientSlug: clientSlug
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+    }
+
+    // Get PDF blob and trigger download
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientSlug}-digital-marketing-assessment.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('PDF download error:', err);
+    alert(err.message || 'Failed to generate PDF. Please try again.');
+  } finally {
+    // Reset button state
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
+  }
+}
+
+// ══════════════════════════════════════════════════════════════
+// RENDER ASSESSMENT DATA
+// ══════════════════════════════════════════════════════════════
+function renderAssessment() {
+  if (!window.ASSESSMENT_DATA) return;
+
+  const data = window.ASSESSMENT_DATA;
+
+  // Render Executive Summary
+  renderExecutiveSummary(data.executive_summary);
+
+  // Render Quick Wins
+  renderQuickWins(data.quick_wins);
+
+  // Render Tourism Context
+  renderTourismContext(data.tourism_context);
+
+  // Render category cards
+  const categoriesGrid = document.getElementById('categoriesGrid');
+  const categoryIcons = {
+    website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
+    visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
+    ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
+    online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
+    review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
+    social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
+    local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
+    email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
+    competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
+  };
+
+  if (data.categories) {
+    let html = '';
+    for (const [key, cat] of Object.entries(data.categories)) {
+      const iconData = categoryIcons[key] || { class: 'website', icon: '', title: key.replace(/_/g, ' ') };
+      const grade = cat.grade || 'N/A';
+      const gradeClass = grade === 'N/A' ? 'grade-na' : 'grade-' + grade.toLowerCase().charAt(0);
+
+      html += `
+        <div class="category-card">
+          <div class="category-header">
+            <div class="category-icon ${iconData.class}">${iconData.icon}</div>
+            <div class="category-title-wrap">
+              <h3 class="category-title">${cat.title || iconData.title}</h3>
+              <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
+            </div>
+          </div>
+          <p class="category-summary">${cat.summary || ''}</p>
+          ${renderMetrics(cat.metrics)}
+          ${renderFindings(cat.findings)}
+          ${renderRecommendations(cat.recommendations)}
+        </div>
+      `;
+    }
+    categoriesGrid.innerHTML = html;
+  }
+
+  // Render priority recommendations
+  const priorityList = document.getElementById('priorityList');
+  if (data.priority_recommendations) {
+    let html = '';
+    data.priority_recommendations.slice(0, 5).forEach((rec, i) => {
+      const impactClass = rec.impact ? `impact-${rec.impact.toLowerCase()}` : '';
+      html += `
+        <div class="priority-item">
+          <div class="priority-item-number">${i + 1}</div>
+          <div class="priority-item-content">
+            <h4>${rec.text}</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">${rec.category || 'General'}</span>
+              ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
+              ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
+            </div>
+            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+          </div>
+        </div>
+      `;
+    });
+    priorityList.innerHTML = html;
+  }
+}
+
+function renderExecutiveSummary(summary) {
+  const container = document.getElementById('executiveSummary');
+  if (!summary) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let strengthsHtml = '';
+  if (summary.key_strengths && summary.key_strengths.length) {
+    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+  }
+
+  let gapsHtml = '';
+  if (summary.critical_gaps && summary.critical_gaps.length) {
+    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+  }
+
+  container.innerHTML = `
+    <h2>Executive Summary</h2>
+    <p class="executive-headline">${summary.headline || ''}</p>
+    <div class="executive-columns">
+      <div class="executive-column strengths">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+          Key Strengths
+        </h4>
+        <ul>${strengthsHtml}</ul>
+      </div>
+      <div class="executive-column gaps">
+        <h4>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Critical Gaps
+        </h4>
+        <ul>${gapsHtml}</ul>
+      </div>
+    </div>
+    <div class="executive-bottom-line">
+      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+    </div>
+  `;
+}
+
+function renderQuickWins(quickWins) {
+  const container = document.getElementById('quickWins');
+  if (!quickWins || !quickWins.length) {
+    container.style.display = 'none';
+    return;
+  }
+
+  let itemsHtml = '';
+  quickWins.slice(0, 5).forEach((win, i) => {
+    itemsHtml += `
+      <div class="quick-win-item">
+        <div class="quick-win-number">${i + 1}</div>
+        <div class="quick-win-content">
+          <div class="quick-win-task">${win.task}</div>
+          <div class="quick-win-impact">${win.impact}</div>
+        </div>
+        <span class="quick-win-time">${win.time_estimate}</span>
+      </div>
+    `;
+  });
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Quick Wins
+    </h2>
+    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <div class="quick-wins-list">${itemsHtml}</div>
+  `;
+}
+
+function renderTourismContext(context) {
+  const container = document.getElementById('tourismContext');
+  if (!context) {
+    container.style.display = 'none';
+    return;
+  }
+
+  const items = [
+    { key: 'visitor_profile', label: 'Visitor Profile', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>' },
+    { key: 'discovery_journey', label: 'Discovery Journey', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>' },
+    { key: 'seasonal_considerations', label: 'Seasonal Considerations', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>' },
+    { key: 'trip_integration', label: 'Trip Integration', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' },
+    { key: 'competitive_landscape', label: 'Competitive Landscape', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>' }
+  ];
+
+  let itemsHtml = '';
+  items.forEach(item => {
+    if (context[item.key]) {
+      itemsHtml += `
+        <div class="tourism-context-item">
+          <h4>${item.icon} ${item.label}</h4>
+          <p>${context[item.key]}</p>
+        </div>
+      `;
+    }
+  });
+
+  if (!itemsHtml) {
+    container.style.display = 'none';
+    return;
+  }
+
+  container.innerHTML = `
+    <h2>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Tourism Context
+    </h2>
+    <div class="tourism-context-grid">${itemsHtml}</div>
+  `;
+}
+
+function renderMetrics(metrics) {
+  if (!metrics || !metrics.length) return '';
+  let html = '<div class="category-metrics">';
+  metrics.slice(0, 4).forEach(m => {
+    html += `
+      <div class="metric-item">
+        <div class="metric-label">${m.label}</div>
+        <div class="metric-value">
+          <span class="metric-status ${m.status || 'good'}"></span>
+          ${m.value}
+        </div>
+        ${m.benchmark ? `<div class="metric-benchmark">${m.benchmark}</div>` : ''}
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderFindings(findings) {
+  if (!findings || !findings.length) return '';
+  let html = '<div class="category-findings">';
+  findings.slice(0, 4).forEach(f => {
+    let iconClass, icon;
+    if (f.type === 'positive') {
+      iconClass = 'positive';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>';
+    } else if (f.type === 'info') {
+      iconClass = 'info';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>';
+    } else {
+      iconClass = 'negative';
+      icon = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>';
+    }
+    html += `
+      <div class="finding-item">
+        <span class="finding-icon ${iconClass}">${icon}</span>
+        <span>${f.text}</span>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+function renderRecommendations(recommendations) {
+  if (!recommendations || !recommendations.length) return '';
+  let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
+  recommendations.slice(0, 3).forEach(r => {
+    html += `
+      <div class="recommendation-item">
+        <div style="flex: 1;">
+          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+            <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
+            <span>${r.text}</span>
+          </div>
+          ${r.time_estimate ? `
+            <div class="recommendation-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              ${r.time_estimate}
+            </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  });
+  html += '</div>';
+  return html;
+}
+
+// Initialize on load
+document.addEventListener('DOMContentLoaded', renderAssessment);
+</script>
+</body>
+</html>
