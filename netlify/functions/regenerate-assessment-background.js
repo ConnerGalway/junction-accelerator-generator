@@ -1259,6 +1259,33 @@ async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClien
   return freshData;
 }
 
+/**
+ * Fetch with timeout - wraps fetch with an AbortController for API calls
+ * Used for SociaVault and other external API calls to prevent hanging
+ * @param {string} url - The URL to fetch
+ * @param {object} options - Fetch options (headers, method, body, etc.)
+ * @param {number} timeout - Timeout in milliseconds (default 30 seconds)
+ */
+async function fetchWithTimeout(url, options = {}, timeout = 30000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      throw new Error(`Request timed out after ${timeout / 1000}s: ${url}`);
+    }
+    throw err;
+  }
+}
+
 async function fetchSocialMediaData(socialUrls) {
   if (!process.env.SOCIAVAULT_API_KEY) {
     console.log('[SociaVault] API key not configured, skipping social media analysis');
@@ -1345,9 +1372,10 @@ async function fetchInstagramData(url, headers) {
 
   console.log('[SociaVault] Fetching Instagram profile:', handle);
 
-  const profileRes = await fetch(
+  const profileRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/instagram/profile?handle=${encodeURIComponent(handle)}&trim=true`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!profileRes.ok) {
@@ -1379,9 +1407,10 @@ async function fetchInstagramData(url, headers) {
 
   try {
     console.log('[SociaVault] Fetching Instagram posts for:', handle);
-    const postsRes = await fetch(
+    const postsRes = await fetchWithTimeout(
       `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
-      { headers }
+      { headers },
+      30000 // 30 second timeout
     );
 
     if (postsRes.ok) {
@@ -1531,9 +1560,10 @@ async function fetchTikTokData(url, headers) {
 
   console.log('[SociaVault] Fetching TikTok profile:', handle);
 
-  const profileRes = await fetch(
+  const profileRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/tiktok/profile?handle=${encodeURIComponent(handle)}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!profileRes.ok) {
@@ -1635,9 +1665,10 @@ async function fetchTikTokData(url, headers) {
     if (businessName) {
       console.log('[SociaVault] Searching TikTok Ad Library for:', businessName);
 
-      const adSearchRes = await fetch(
+      const adSearchRes = await fetchWithTimeout(
         `https://api.sociavault.com/v1/scrape/tiktok-ad-library/search?keyword=${encodeURIComponent(businessName)}`,
-        { headers }
+        { headers },
+        30000 // 30 second timeout
       );
 
       if (adSearchRes.ok) {
@@ -1722,9 +1753,10 @@ async function fetchYouTubeData(url, headers) {
     ? `handle=${encodeURIComponent(channelInfo.value)}`
     : `channelId=${encodeURIComponent(channelInfo.value)}`;
 
-  const channelRes = await fetch(
+  const channelRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/youtube/channel?${queryParam}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!channelRes.ok) {
@@ -1749,9 +1781,10 @@ async function fetchYouTubeData(url, headers) {
 
   try {
     console.log('[SociaVault] Fetching YouTube channel videos...');
-    const videosRes = await fetch(
+    const videosRes = await fetchWithTimeout(
       `https://api.sociavault.com/v1/scrape/youtube/channel/videos?${queryParam}`,
-      { headers }
+      { headers },
+      30000 // 30 second timeout
     );
 
     if (videosRes.ok) {
@@ -1846,9 +1879,10 @@ async function fetchYouTubeData(url, headers) {
 async function fetchFacebookData(url, headers) {
   console.log('[SociaVault] Fetching Facebook page:', url);
 
-  const fbRes = await fetch(
+  const fbRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/facebook/profile?url=${encodeURIComponent(url)}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!fbRes.ok) {
@@ -1877,9 +1911,10 @@ async function fetchFacebookData(url, headers) {
     if (pageName) {
       console.log('[SociaVault] Searching Facebook Ad Library for:', pageName);
 
-      const searchRes = await fetch(
+      const searchRes = await fetchWithTimeout(
         `https://api.sociavault.com/v1/scrape/facebook/ads/search-companies?query=${encodeURIComponent(pageName)}`,
-        { headers }
+        { headers },
+        30000 // 30 second timeout
       );
 
       if (searchRes.ok) {
@@ -1894,9 +1929,10 @@ async function fetchFacebookData(url, headers) {
           if (company?.pageId) {
             console.log('[SociaVault] Found ad library page ID:', company.pageId);
 
-            const adsRes = await fetch(
+            const adsRes = await fetchWithTimeout(
               `https://api.sociavault.com/v1/scrape/facebook/ads/company?pageId=${encodeURIComponent(company.pageId)}`,
-              { headers }
+              { headers },
+              30000 // 30 second timeout
             );
 
             if (adsRes.ok) {
