@@ -13,13 +13,18 @@
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export const VERIFICATION_ENGINE_VERSION = '1.0.0';
+export const VERIFICATION_ENGINE_VERSION = '1.1.0';
 
 // Thresholds for flagging suspicious data
 const THRESHOLDS = {
   // If API returns few posts but claims high total, flag it
   POST_COUNT_MIN_FOR_CHECK: 50,      // Only check accounts claiming 50+ posts
   POST_COUNT_RETURNED_THRESHOLD: 15, // Flag if API returned fewer than this
+
+  // Suspiciously low post count for established accounts
+  // If followers >= this and posts <= LOW_POST threshold, flag for manual verification
+  LOW_POST_FOLLOWER_MIN: 500,        // Only check accounts with 500+ followers
+  LOW_POST_COUNT_THRESHOLD: 25,      // Flag if posts <= this with significant followers
 
   // Engagement rate bounds (tourism industry: typically 1-5%)
   ENGAGEMENT_RATE_MAX: 15,           // Flag if above this (suspicious)
@@ -245,7 +250,29 @@ export async function verifySocialMediaData(socialMediaData, socialUrls = {}) {
       }
     }
 
-    // Check 3: Cross-check with direct fetch (if not rate limited)
+    // Check 3: Suspiciously low post count for established accounts
+    // Tourism businesses with 500+ followers typically have accumulated more than 25 posts.
+    // This catches API bugs like SociaVault reporting truncated data (e.g., 12 posts when actual is 503)
+    if (followers >= THRESHOLDS.LOW_POST_FOLLOWER_MIN &&
+        totalPosts <= THRESHOLDS.LOW_POST_COUNT_THRESHOLD) {
+      const discrepancy = {
+        platform: 'instagram',
+        metric: 'posts',
+        reported: totalPosts,
+        expected_minimum: THRESHOLDS.LOW_POST_COUNT_THRESHOLD + 1,
+        severity: 'high',
+        message: `Instagram shows only ${totalPosts} posts for an account with ${followers.toLocaleString()} followers. This is unusually low and may indicate incorrect data from the API. Please verify the actual post count.`
+      };
+      result.verified = false;
+      result.discrepancies.push(discrepancy);
+      result.instagram.checks.push({
+        check: 'low_post_count_suspicious',
+        status: 'failed',
+        ...discrepancy
+      });
+    }
+
+    // Check 4: Cross-check with direct fetch (if not rate limited)
     if (socialUrls.instagram) {
       try {
         result.cross_check_attempted = true;

@@ -1469,7 +1469,7 @@
         return;
       }
 
-      // Get unique projects
+      // Get unique projects - but only if they have a plan.json (actual implementation plan)
       const projectMap = new Map();
       for (const row of (rows || [])) {
         if (!projectMap.has(row.client_slug)) {
@@ -1477,13 +1477,28 @@
             slug: row.client_slug,
             name: toTitleCase(row.client_slug),
             cohort_start_date: row.cohort_start_date,
-            coach_email: row.coach_email
+            coach_email: row.coach_email,
+            hasPlan: false // Will be set true if plan.json exists
           });
-          projectSlugs.add(row.client_slug);
         }
       }
 
-      projects = Array.from(projectMap.values());
+      // Check which projects actually have implementation plans (plan.json exists)
+      const projectCandidates = Array.from(projectMap.values());
+      await Promise.all(projectCandidates.map(async (project) => {
+        try {
+          const res = await fetch(`/${project.slug}/plan.json`, { method: 'HEAD' });
+          project.hasPlan = res.ok;
+          if (res.ok) {
+            projectSlugs.add(project.slug); // Only add to projectSlugs if plan exists
+          }
+        } catch (_) {
+          project.hasPlan = false;
+        }
+      }));
+
+      // Filter to only projects with actual plans
+      projects = projectCandidates.filter(p => p.hasPlan);
       countEl.textContent = projects.length;
 
       if (projects.length === 0) {

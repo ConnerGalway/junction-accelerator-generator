@@ -463,32 +463,37 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     let manualOverrides = null;
 
-    if (!isRegeneration) {
-      if (DEBUG) console.log('[STEP 4.5] Verifying assessment data');
-      await updateProgress('Verifying data accuracy');
+    // Check if manual overrides already exist
+    if (isRegeneration && existingAssessment) {
+      manualOverrides = existingAssessment.manual_overrides;
+    } else {
+      const { data: currentAssessment } = await supabaseAdmin
+        .from('client_assessments')
+        .select('manual_overrides, verification_status')
+        .eq('client_slug', slug)
+        .single();
+      manualOverrides = currentAssessment?.manual_overrides;
+    }
 
-    // Check if manual overrides exist (from previous verification failure)
-    const { data: currentAssessment } = await supabaseAdmin
-      .from('client_assessments')
-      .select('manual_overrides, verification_status')
-      .eq('client_slug', slug)
-      .single();
-
-    manualOverrides = currentAssessment?.manual_overrides;
+    // ALWAYS run verification (both new assessments and regenerations)
+    // This ensures discrepancies are caught even if missed initially
+    if (DEBUG) console.log('[STEP 4.5] Verifying assessment data');
+    await updateProgress('Verifying data accuracy');
 
     // Run verification
     const verificationResult = await verifyAssessmentData(
       { seoptData, googlePlacesData, websiteAnalysis, socialMediaData },
-      social,
-      businessName,
-      websiteUrl
+      effectiveSocial || social,
+      effectiveBusinessName || businessName,
+      effectiveWebsiteUrl || websiteUrl
     );
 
     if (DEBUG) console.log('[STEP 4.5] Verification result:', {
       status: verificationResult.verification_status,
       verified: verificationResult.verified,
       discrepancies: verificationResult.discrepancies?.length || 0,
-      warnings: verificationResult.warnings?.length || 0
+      warnings: verificationResult.warnings?.length || 0,
+      isRegeneration
     });
 
     // Store verification result
@@ -524,18 +529,23 @@ export async function handler(event, context) {
       };
     }
 
-    // Apply manual overrides if present
+    // Apply manual overrides if present (for both new and regeneration)
     if (manualOverrides) {
       if (DEBUG) console.log('[STEP 4.5] Applying manual overrides');
       socialMediaData = applyManualOverrides(socialMediaData, manualOverrides);
+
+      // Also apply Google Places overrides
+      if (manualOverrides.google_places && googlePlacesData) {
+        const gpOverrides = manualOverrides.google_places;
+        if (gpOverrides.rating !== undefined) googlePlacesData.rating = gpOverrides.rating;
+        if (gpOverrides.reviews !== undefined) {
+          googlePlacesData.reviews_count = gpOverrides.reviews;
+          googlePlacesData.user_ratings_total = gpOverrides.reviews;
+        }
+      }
     }
 
     await updateProgress('Data verification complete');
-    } else {
-      // Regeneration: Skip verification, data already verified
-      if (DEBUG) console.log('[STEP 4.5] Skipping verification for regeneration');
-      await updateProgress('Using pre-verified data');
-    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 5. CALCULATE DETERMINISTIC SCORES
