@@ -369,8 +369,11 @@ export async function handler(event, context) {
       }
 
       if (DEBUG) console.log('[STEP 3] Regeneration data ready');
+    console.log('[PATH] Using REGENERATION path - reusing existing API data, fetching fresh social only');
     } else {
       // New assessment: Fetch all data from APIs
+    console.log('[PATH] Using NEW ASSESSMENT path - fetching ALL fresh API data');
+    console.log('[PATH] isRegeneration:', isRegeneration, 'isOverwrite:', isOverwrite);
 
     if (DEBUG) console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
