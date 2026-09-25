@@ -13,7 +13,7 @@
 // CONSTANTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export const VERIFICATION_ENGINE_VERSION = '1.1.0';
+export const VERIFICATION_ENGINE_VERSION = '1.1.1';
 
 // Thresholds for flagging suspicious data
 const THRESHOLDS = {
@@ -191,7 +191,8 @@ export async function verifySocialMediaData(socialMediaData, socialUrls = {}) {
   // ─────────────────────────────────────────────────────────────────────────────
   const instagram = socialMediaData?.platforms?.instagram;
 
-  if (socialUrls?.instagram && instagram) {
+  // Run verification if we have Instagram data (URL is only needed for cross-check)
+  if (instagram && !instagram._error) {
     result.instagram = {
       reported: {
         followers: instagram.followers,
@@ -272,8 +273,8 @@ export async function verifySocialMediaData(socialMediaData, socialUrls = {}) {
       });
     }
 
-    // Check 4: Cross-check with direct fetch (if not rate limited)
-    if (socialUrls.instagram) {
+    // Check 4: Cross-check with direct fetch (if URL provided and not rate limited)
+    if (socialUrls?.instagram) {
       try {
         result.cross_check_attempted = true;
         const crossCheck = await attemptInstagramCrossCheck(socialUrls.instagram);
