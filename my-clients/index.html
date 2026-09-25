@@ -1926,6 +1926,13 @@
       // Close the menu
       document.querySelectorAll('.actions-menu--open').forEach(m => m.classList.remove('actions-menu--open'));
 
+      // Redirect to the assessment form with edit parameter
+      // The form will pre-populate with existing data and create a fresh assessment
+      window.location.href = `/admin/generate-assessment/?edit=${encodeURIComponent(slug)}`;
+    }
+
+    // Legacy regeneration function kept for reference but no longer used
+    async function _legacyRegenerateAssessment(slug, clientType = 'accelerator') {
       // Find the assessment - check both regular assessments and query DB for elevated
       let assessment = assessments.find(a => a.client_slug === slug);
 

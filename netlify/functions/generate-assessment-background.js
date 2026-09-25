@@ -50,11 +50,12 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail, regenerate } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail, regenerate, overwrite } = body;
     slug = body.slug;
     const isElevated = clientType === 'elevated';
     const isRegeneration = regenerate === true;
-    if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug, 'Regenerate:', isRegeneration);
+    const isOverwrite = overwrite === true;
+    if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug, 'Regenerate:', isRegeneration, 'Overwrite:', isOverwrite);
 
     // Validate required fields (regeneration only needs slug)
     if (isRegeneration) {
@@ -165,6 +166,27 @@ export async function handler(event, context) {
       // New assessment: Create record
       if (DEBUG) console.log('[STEP 2] Creating assessment record for:', slug);
 
+      // If overwrite mode, delete any existing assessment first
+      if (isOverwrite) {
+        if (DEBUG) console.log('[STEP 2] Overwrite mode - deleting existing assessment if any');
+        const { error: deleteError } = await supabaseAdmin
+          .from('client_assessments')
+          .delete()
+          .eq('client_slug', slug);
+
+        if (deleteError) {
+          console.warn('[STEP 2] Failed to delete existing assessment (may not exist):', deleteError.message);
+        } else {
+          if (DEBUG) console.log('[STEP 2] Existing assessment deleted, creating fresh record');
+        }
+
+        // Also clear any cached social media data for this slug
+        await supabaseAdmin
+          .from('social_media_cache')
+          .delete()
+          .eq('client_slug', slug);
+      }
+
       const { error: insertError } = await supabaseAdmin
         .from('client_assessments')
         .insert({
@@ -192,7 +214,7 @@ export async function handler(event, context) {
         if (insertError.code === '23505' || insertError.message?.includes('duplicate')) {
           return {
             statusCode: 409,
-            body: JSON.stringify({ error: 'An assessment with this slug already exists' })
+            body: JSON.stringify({ error: 'An assessment with this slug already exists. Use overwrite=true to replace it.' })
           };
         }
         console.error('Failed to create assessment record:', insertError);
