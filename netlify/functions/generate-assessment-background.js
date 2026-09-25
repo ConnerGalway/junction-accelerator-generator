@@ -2207,6 +2207,33 @@ async function fetchPage(url, timeout = 10000) {
 }
 
 /**
+ * Fetch with timeout - wraps fetch with an AbortController for API calls
+ * Used for SociaVault and other external API calls to prevent hanging
+ * @param {string} url - The URL to fetch
+ * @param {object} options - Fetch options (headers, method, body, etc.)
+ * @param {number} timeout - Timeout in milliseconds (default 30 seconds)
+ */
+async function fetchWithTimeout(url, options = {}, timeout = 30000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (err.name === 'AbortError') {
+      throw new Error(`Request timed out after ${timeout / 1000}s: ${url}`);
+    }
+    throw err;
+  }
+}
+
+/**
  * Crawl a website starting from the homepage
  * Extracts links from homepage and visits important pages first
  */
@@ -2412,6 +2439,42 @@ async function fetchSocialMediaData(socialUrls) {
     );
   }
 
+  // LinkedIn (NEW)
+  if (socialUrls?.linkedin) {
+    platformPromises.push(
+      fetchLinkedInData(socialUrls.linkedin, headers)
+        .then(data => { results.platforms.linkedin = data; })
+        .catch(err => { results.platforms.linkedin = { _error: err.message }; })
+    );
+  }
+
+  // Twitter/X (NEW)
+  if (socialUrls?.twitter) {
+    platformPromises.push(
+      fetchTwitterData(socialUrls.twitter, headers)
+        .then(data => { results.platforms.twitter = data; })
+        .catch(err => { results.platforms.twitter = { _error: err.message }; })
+    );
+  }
+
+  // Pinterest (NEW)
+  if (socialUrls?.pinterest) {
+    platformPromises.push(
+      fetchPinterestData(socialUrls.pinterest, headers)
+        .then(data => { results.platforms.pinterest = data; })
+        .catch(err => { results.platforms.pinterest = { _error: err.message }; })
+    );
+  }
+
+  // Threads (NEW - Phase 3)
+  if (socialUrls?.threads) {
+    platformPromises.push(
+      fetchThreadsData(socialUrls.threads, headers)
+        .then(data => { results.platforms.threads = data; })
+        .catch(err => { results.platforms.threads = { _error: err.message }; })
+    );
+  }
+
   // Wait for all platforms to complete
   await Promise.all(platformPromises);
 
@@ -2423,6 +2486,85 @@ async function fetchSocialMediaData(socialUrls) {
       results.summary.totalFollowers += data.followers || 0;
     }
   });
+
+  // NEW: Fetch Google Ad Library data using business name from Facebook or other platforms
+  let googleAds = {
+    isAdvertising: false,
+    adsFound: 0,
+    advertiserInfo: null,
+    recentAds: []
+  };
+
+  try {
+    // Get business name from available platform data
+    const businessName = results.platforms.facebook?.name ||
+                         results.platforms.linkedin?.name ||
+                         results.platforms.youtube?.displayName || '';
+
+    if (businessName) {
+      console.log('[SociaVault] Searching Google Ad Library for:', businessName);
+
+      // First search for the advertiser
+      const searchRes = await fetchWithTimeout(
+        `https://api.sociavault.com/v1/scrape/google-ad-library/search-advertisers?query=${encodeURIComponent(businessName)}`,
+        { headers },
+        30000 // 30 second timeout
+      );
+
+      if (searchRes.ok) {
+        const searchData = await searchRes.json();
+
+        if (searchData.success && searchData.data?.advertisers?.length > 0) {
+          // Find best matching advertiser
+          const advertiser = searchData.data.advertisers.find(a =>
+            a.name?.toLowerCase().includes(businessName.toLowerCase()) ||
+            businessName.toLowerCase().includes(a.name?.toLowerCase() || '')
+          ) || searchData.data.advertisers[0];
+
+          if (advertiser) {
+            googleAds.advertiserInfo = {
+              name: advertiser.name || '',
+              id: advertiser.advertiserId || advertiser.id || '',
+              verificationStatus: advertiser.verificationStatus || ''
+            };
+
+            // Fetch ads for this advertiser
+            const adsRes = await fetchWithTimeout(
+              `https://api.sociavault.com/v1/scrape/google-ad-library/company-ads?advertiserId=${encodeURIComponent(advertiser.advertiserId || advertiser.id)}`,
+              { headers },
+              30000 // 30 second timeout
+            );
+
+            if (adsRes.ok) {
+              const adsData = await adsRes.json();
+
+              if (adsData.success && adsData.data?.ads) {
+                const ads = adsData.data.ads || [];
+                googleAds.isAdvertising = ads.length > 0;
+                googleAds.adsFound = ads.length;
+
+                googleAds.recentAds = ads.slice(0, 5).map(ad => ({
+                  id: ad.adId || ad.id || '',
+                  format: ad.format || ad.type || '',
+                  headline: ad.headline || ad.title || '',
+                  description: ad.description?.substring(0, 200) || '',
+                  lastShown: ad.lastShownDate || ad.lastSeen || '',
+                  regions: ad.regions || ad.targetedCountries || []
+                }));
+
+                console.log(`[SociaVault] Found ${googleAds.adsFound} Google Ads`);
+              }
+            }
+          }
+        }
+      }
+    }
+  } catch (googleAdsError) {
+    console.log('[SociaVault] Google Ad Library error:', googleAdsError.message);
+  }
+
+  // Add Google Ads to results
+  results.googleAds = googleAds;
 
   // Aggregate top content across platforms
   results.topContent = aggregateTopContent(results.platforms);
@@ -2442,9 +2584,10 @@ async function fetchInstagramData(url, headers) {
   console.log('[SociaVault] Fetching Instagram profile:', handle);
 
   // Fetch profile
-  const profileRes = await fetch(
+  const profileRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/instagram/profile?handle=${encodeURIComponent(handle)}&trim=true`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!profileRes.ok) {
@@ -2495,9 +2638,10 @@ async function fetchInstagramData(url, headers) {
   const getTimestamp = (p) => p.taken_at || p.timestamp || p.created_at || p.taken_at_timestamp || 0;
 
   try {
-    const postsRes = await fetch(
+    const postsRes = await fetchWithTimeout(
       `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
-      { headers }
+      { headers },
+      30000 // 30 second timeout
     );
 
     if (postsRes.ok) {
@@ -2623,6 +2767,112 @@ async function fetchInstagramData(url, headers) {
     console.error('[SociaVault] Instagram posts fetch error (non-fatal):', postsErr.message);
   }
 
+  // NEW: Fetch dedicated Reels data for better short-form video analysis
+  let reelsData = {
+    hasReels: false,
+    reelCount: 0,
+    avgViews: 0,
+    avgLikes: 0,
+    avgComments: 0,
+    engagementRate: 0,
+    topReels: []
+  };
+
+  try {
+    console.log('[SociaVault] Fetching Instagram reels for:', handle);
+    const reelsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/instagram/reels?handle=${encodeURIComponent(handle)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (reelsRes.ok) {
+      const reelsResponse = await reelsRes.json();
+      console.log('[SociaVault] Reels response received');
+
+      const reels = reelsResponse.data?.items || reelsResponse.data?.reels || reelsResponse.items || [];
+
+      if (reels.length > 0) {
+        reelsData.hasReels = true;
+        reelsData.reelCount = reels.length;
+
+        // Calculate reel-specific metrics
+        const totalViews = reels.reduce((sum, r) => sum + (r.play_count || r.view_count || 0), 0);
+        const totalLikes = reels.reduce((sum, r) => sum + (r.like_count || r.likes || 0), 0);
+        const totalComments = reels.reduce((sum, r) => sum + (r.comment_count || r.comments || 0), 0);
+
+        reelsData.avgViews = Math.round(totalViews / reels.length);
+        reelsData.avgLikes = Math.round(totalLikes / reels.length);
+        reelsData.avgComments = Math.round(totalComments / reels.length);
+
+        if (followers > 0) {
+          reelsData.engagementRate = ((reelsData.avgLikes + reelsData.avgComments) / followers * 100).toFixed(2);
+        }
+
+        // Get top 3 performing reels by views
+        reelsData.topReels = reels
+          .map(r => ({
+            id: r.id || r.code,
+            views: r.play_count || r.view_count || 0,
+            likes: r.like_count || r.likes || 0,
+            comments: r.comment_count || r.comments || 0,
+            duration: r.video_duration || r.duration || 0,
+            caption: r.caption?.text?.substring(0, 100) || ''
+          }))
+          .sort((a, b) => b.views - a.views)
+          .slice(0, 3);
+
+        console.log('[SociaVault] Reels analysis complete:', {
+          count: reelsData.reelCount,
+          avgViews: reelsData.avgViews,
+          engagementRate: reelsData.engagementRate
+        });
+      }
+    }
+  } catch (reelsErr) {
+    console.error('[SociaVault] Instagram reels fetch error (non-fatal):', reelsErr.message);
+  }
+
+  // NEW: Fetch Instagram Story Highlights (Phase 3)
+  let storyHighlights = {
+    hasHighlights: false,
+    highlightCount: 0,
+    highlights: []
+  };
+
+  try {
+    console.log('[SociaVault] Fetching Instagram story highlights for:', handle);
+    const highlightsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/instagram/story-highlights?handle=${encodeURIComponent(handle)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (highlightsRes.ok) {
+      const highlightsData = await highlightsRes.json();
+
+      if (highlightsData.success && highlightsData.data?.highlights) {
+        const highlights = highlightsData.data.highlights || [];
+
+        if (highlights.length > 0) {
+          storyHighlights.hasHighlights = true;
+          storyHighlights.highlightCount = highlights.length;
+
+          storyHighlights.highlights = highlights.slice(0, 10).map(h => ({
+            id: h.id || h.highlightId || '',
+            title: h.title || h.name || '',
+            coverUrl: h.cover_media?.cropped_image_version?.url || h.coverUrl || '',
+            itemCount: h.media_count || h.itemCount || 0
+          }));
+
+          console.log(`[SociaVault] Found ${storyHighlights.highlightCount} Instagram story highlights`);
+        }
+      }
+    }
+  } catch (highlightsErr) {
+    console.log('[SociaVault] Instagram highlights fetch error (non-fatal):', highlightsErr.message);
+  }
+
   return {
     platform: 'instagram',
     handle: user.username || handle,
@@ -2652,7 +2902,9 @@ async function fetchInstagramData(url, headers) {
       timestamp: getTimestamp(p),
       caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || ''
     })),
-    _creditsUsed: 2 // profile + posts
+    reels: reelsData, // NEW: dedicated Reels analytics
+    storyHighlights, // NEW: Story Highlights (Phase 3)
+    _creditsUsed: 4 // profile + posts + reels + highlights
   };
 }
 
@@ -2662,9 +2914,10 @@ async function fetchTikTokData(url, headers) {
 
   console.log('[SociaVault] Fetching TikTok profile:', handle);
 
-  const profileRes = await fetch(
+  const profileRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/tiktok/profile?handle=${encodeURIComponent(handle)}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!profileRes.ok) {
@@ -2766,9 +3019,10 @@ async function fetchTikTokData(url, headers) {
     if (businessName) {
       console.log('[SociaVault] Searching TikTok Ad Library for:', businessName);
 
-      const adSearchRes = await fetch(
+      const adSearchRes = await fetchWithTimeout(
         `https://api.sociavault.com/v1/scrape/tiktok-ad-library/search?keyword=${encodeURIComponent(businessName)}`,
-        { headers }
+        { headers },
+        30000 // 30 second timeout
       );
 
       if (adSearchRes.ok) {
@@ -2810,6 +3064,39 @@ async function fetchTikTokData(url, headers) {
     // Continue without ad data
   }
 
+  // NEW: Fetch audience demographics (geographic distribution)
+  let demographics = {
+    topCountries: [],
+    hasData: false
+  };
+
+  try {
+    console.log('[SociaVault] Fetching TikTok demographics for:', handle);
+    const demoRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/tiktok/demographics?handle=${encodeURIComponent(handle)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (demoRes.ok) {
+      const demoData = await demoRes.json();
+      creditsUsed++;
+
+      if (demoData.success && demoData.data?.audienceLocations?.length > 0) {
+        demographics.hasData = true;
+        demographics.topCountries = demoData.data.audienceLocations.slice(0, 5).map(loc => ({
+          country: loc.country,
+          countryCode: loc.countryCode,
+          percentage: loc.percentage,
+          count: loc.count
+        }));
+        console.log(`[SociaVault] TikTok demographics: ${demographics.topCountries.length} countries`);
+      }
+    }
+  } catch (demoError) {
+    console.log('[SociaVault] TikTok demographics error:', demoError.message);
+  }
+
   return {
     platform: 'tiktok',
     handle: user.uniqueId || handle,
@@ -2827,11 +3114,12 @@ async function fetchTikTokData(url, headers) {
       avgLikes,
       avgComments,
       engagementRate: parseFloat(engagementRate) || 0,
-      postingFrequency, // NEW: videos per week
+      postingFrequency,
     },
-    viralContent, // NEW: videos with 10x+ average views
-    bestContent, // NEW: top 3 performing videos
-    advertising, // NEW: TikTok ad library data
+    demographics, // NEW: audience geographic distribution
+    viralContent,
+    bestContent,
+    advertising,
     recentVideos: videos.slice(0, 5).map(v => ({
       id: v.id,
       views: v.stats?.playCount || 0,
@@ -2855,9 +3143,10 @@ async function fetchYouTubeData(url, headers) {
     ? `handle=${encodeURIComponent(channelInfo.value)}`
     : `channelId=${encodeURIComponent(channelInfo.value)}`;
 
-  const channelRes = await fetch(
+  const channelRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/youtube/channel?${queryParam}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!channelRes.ok) {
@@ -2882,9 +3171,10 @@ async function fetchYouTubeData(url, headers) {
 
   try {
     console.log('[SociaVault] Fetching YouTube channel videos...');
-    const videosRes = await fetch(
+    const videosRes = await fetchWithTimeout(
       `https://api.sociavault.com/v1/scrape/youtube/channel/videos?${queryParam}`,
-      { headers }
+      { headers },
+      30000 // 30 second timeout
     );
 
     if (videosRes.ok) {
@@ -2952,10 +3242,127 @@ async function fetchYouTubeData(url, headers) {
     // Continue with channel data only
   }
 
+  // NEW: Fetch dedicated Shorts data for short-form video analysis
+  let shortsData = {
+    hasShorts: false,
+    shortsCount: 0,
+    avgViews: 0,
+    avgLikes: 0,
+    engagementRate: 0,
+    topShorts: []
+  };
+
+  try {
+    console.log('[SociaVault] Fetching YouTube Shorts...');
+    const shortsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/youtube/channel/shorts?${queryParam}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (shortsRes.ok) {
+      const shortsResponse = await shortsRes.json();
+      creditsUsed++;
+
+      if (shortsResponse.success && shortsResponse.data?.items) {
+        const shorts = shortsResponse.data.items.slice(0, 12);
+
+        if (shorts.length > 0) {
+          shortsData.hasShorts = true;
+          shortsData.shortsCount = shorts.length;
+
+          // Calculate Shorts-specific metrics
+          const totalViews = shorts.reduce((sum, s) => sum + (s.viewCount || s.views || 0), 0);
+          const totalLikes = shorts.reduce((sum, s) => sum + (s.likeCount || s.likes || 0), 0);
+
+          shortsData.avgViews = Math.round(totalViews / shorts.length);
+          shortsData.avgLikes = Math.round(totalLikes / shorts.length);
+
+          // Shorts engagement: likes relative to views
+          if (totalViews > 0) {
+            shortsData.engagementRate = ((totalLikes / totalViews) * 100).toFixed(2);
+          }
+
+          // Get top 3 performing Shorts by views
+          shortsData.topShorts = shorts
+            .map(s => ({
+              id: s.videoId || s.id || '',
+              title: s.title?.substring(0, 80) || '',
+              views: s.viewCount || s.views || 0,
+              likes: s.likeCount || s.likes || 0,
+              viewSubRatio: subscribers > 0 ? Math.round(((s.viewCount || 0) / subscribers) * 100) / 100 : 0
+            }))
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 3);
+
+          console.log('[SociaVault] Shorts analysis complete:', {
+            count: shortsData.shortsCount,
+            avgViews: shortsData.avgViews,
+            engagementRate: shortsData.engagementRate
+          });
+        }
+      }
+    }
+  } catch (shortsError) {
+    console.log('[SociaVault] YouTube Shorts fetch error (non-fatal):', shortsError.message);
+  }
+
+  // NEW: Fetch YouTube Community Posts for engagement analysis
+  let communityPosts = {
+    hasCommunityPosts: false,
+    postCount: 0,
+    avgLikes: 0,
+    avgComments: 0,
+    recentPosts: []
+  };
+
+  try {
+    console.log('[SociaVault] Fetching YouTube community posts...');
+    const communityRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/youtube/channel/community?${queryParam}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (communityRes.ok) {
+      const communityData = await communityRes.json();
+      creditsUsed++;
+
+      if (communityData.success && communityData.data?.posts) {
+        const posts = communityData.data.posts.slice(0, 10);
+
+        if (posts.length > 0) {
+          communityPosts.hasCommunityPosts = true;
+          communityPosts.postCount = posts.length;
+
+          const totalLikes = posts.reduce((sum, p) => sum + (p.likeCount || p.likes || 0), 0);
+          const totalComments = posts.reduce((sum, p) => sum + (p.commentCount || p.comments || 0), 0);
+
+          communityPosts.avgLikes = Math.round(totalLikes / posts.length);
+          communityPosts.avgComments = Math.round(totalComments / posts.length);
+
+          communityPosts.recentPosts = posts.slice(0, 5).map(p => ({
+            id: p.postId || p.id || '',
+            text: p.text?.substring(0, 200) || p.content?.substring(0, 200) || '',
+            likes: p.likeCount || p.likes || 0,
+            comments: p.commentCount || p.comments || 0,
+            hasImage: !!p.image || !!p.images,
+            hasPoll: !!p.poll,
+            timestamp: p.publishedTimeText || p.timestamp || ''
+          }));
+
+          console.log(`[SociaVault] Found ${communityPosts.postCount} YouTube community posts`);
+        }
+      }
+    }
+  } catch (communityError) {
+    console.log('[SociaVault] YouTube community posts fetch error (non-fatal):', communityError.message);
+  }
+
   // Calculate content mix (videos vs shorts)
   const contentMix = {
     videos: videos.filter(v => !v.isShort).length,
-    shorts: videos.filter(v => v.isShort).length
+    shorts: shortsData.hasShorts ? shortsData.shortsCount : videos.filter(v => v.isShort).length
   };
 
   return {
@@ -2979,6 +3386,8 @@ async function fetchYouTubeData(url, headers) {
     },
     contentMix, // NEW: videos vs shorts breakdown
     bestContent, // NEW: top 3 performing videos
+    shorts: shortsData, // NEW: dedicated Shorts analytics
+    communityPosts, // NEW: YouTube Community posts engagement
     recentVideos: videos.slice(0, 5).map(v => ({
       id: v.videoId || v.id || '',
       title: v.title?.substring(0, 100) || '',
@@ -2995,9 +3404,10 @@ async function fetchYouTubeData(url, headers) {
 async function fetchFacebookData(url, headers) {
   console.log('[SociaVault] Fetching Facebook page:', url);
 
-  const fbRes = await fetch(
+  const fbRes = await fetchWithTimeout(
     `https://api.sociavault.com/v1/scrape/facebook/profile?url=${encodeURIComponent(url)}`,
-    { headers }
+    { headers },
+    30000 // 30 second timeout
   );
 
   if (!fbRes.ok) {
@@ -3026,10 +3436,11 @@ async function fetchFacebookData(url, headers) {
     if (pageName) {
       console.log('[SociaVault] Searching Facebook Ad Library for:', pageName);
 
-      // Search for the company in the ad library
-      const searchRes = await fetch(
-        `https://api.sociavault.com/v1/scrape/facebook/ads/search-companies?query=${encodeURIComponent(pageName)}`,
-        { headers }
+      // Search for the company in the ad library (correct endpoint)
+      const searchRes = await fetchWithTimeout(
+        `https://api.sociavault.com/v1/scrape/facebook-ad-library/search-companies?query=${encodeURIComponent(pageName)}`,
+        { headers },
+        30000 // 30 second timeout
       );
 
       if (searchRes.ok) {
@@ -3045,10 +3456,11 @@ async function fetchFacebookData(url, headers) {
           if (company?.pageId) {
             console.log('[SociaVault] Found ad library page ID:', company.pageId);
 
-            // Fetch ads for this company
-            const adsRes = await fetch(
-              `https://api.sociavault.com/v1/scrape/facebook/ads/company?pageId=${encodeURIComponent(company.pageId)}`,
-              { headers }
+            // Fetch ads for this company (correct endpoint)
+            const adsRes = await fetchWithTimeout(
+              `https://api.sociavault.com/v1/scrape/facebook-ad-library/company-ads?pageId=${encodeURIComponent(company.pageId)}`,
+              { headers },
+              30000 // 30 second timeout
             );
 
             if (adsRes.ok) {
@@ -3091,6 +3503,105 @@ async function fetchFacebookData(url, headers) {
     // Continue without ad data
   }
 
+  // NEW: Fetch Facebook Posts for engagement analysis
+  let posts = [];
+  let postMetrics = {
+    avgLikes: 0,
+    avgComments: 0,
+    avgShares: 0,
+    engagementRate: 0,
+    postingFrequency: 0
+  };
+
+  try {
+    console.log('[SociaVault] Fetching Facebook posts for:', url);
+    const postsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/facebook/profile-posts?url=${encodeURIComponent(url)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (postsRes.ok) {
+      const postsData = await postsRes.json();
+      creditsUsed++;
+
+      if (postsData.success && postsData.data?.posts) {
+        posts = postsData.data.posts.slice(0, 10);
+        console.log(`[SociaVault] Found ${posts.length} Facebook posts`);
+
+        if (posts.length > 0) {
+          const totalLikes = posts.reduce((sum, p) => sum + (p.likes || p.likeCount || 0), 0);
+          const totalComments = posts.reduce((sum, p) => sum + (p.comments || p.commentCount || 0), 0);
+          const totalShares = posts.reduce((sum, p) => sum + (p.shares || p.shareCount || 0), 0);
+
+          postMetrics.avgLikes = Math.round(totalLikes / posts.length);
+          postMetrics.avgComments = Math.round(totalComments / posts.length);
+          postMetrics.avgShares = Math.round(totalShares / posts.length);
+
+          const followers = data.followerCount || 0;
+          if (followers > 0) {
+            postMetrics.engagementRate = (((postMetrics.avgLikes + postMetrics.avgComments + postMetrics.avgShares) / followers) * 100).toFixed(2);
+          }
+        }
+      }
+    }
+  } catch (postsError) {
+    console.log('[SociaVault] Facebook posts fetch error:', postsError.message);
+  }
+
+  // NEW: Fetch Facebook Reels
+  let reels = {
+    hasReels: false,
+    reelCount: 0,
+    avgViews: 0,
+    avgLikes: 0,
+    topReels: []
+  };
+
+  try {
+    console.log('[SociaVault] Fetching Facebook reels for:', url);
+    const reelsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/facebook/profile-reels?url=${encodeURIComponent(url)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (reelsRes.ok) {
+      const reelsData = await reelsRes.json();
+      creditsUsed++;
+
+      if (reelsData.success && reelsData.data?.reels) {
+        const reelsList = reelsData.data.reels.slice(0, 10);
+
+        if (reelsList.length > 0) {
+          reels.hasReels = true;
+          reels.reelCount = reelsList.length;
+
+          const totalViews = reelsList.reduce((sum, r) => sum + (r.views || r.viewCount || 0), 0);
+          const totalLikes = reelsList.reduce((sum, r) => sum + (r.likes || r.likeCount || 0), 0);
+
+          reels.avgViews = Math.round(totalViews / reelsList.length);
+          reels.avgLikes = Math.round(totalLikes / reelsList.length);
+
+          reels.topReels = reelsList
+            .map(r => ({
+              id: r.id || '',
+              views: r.views || r.viewCount || 0,
+              likes: r.likes || r.likeCount || 0,
+              comments: r.comments || r.commentCount || 0,
+              description: r.description?.substring(0, 100) || ''
+            }))
+            .sort((a, b) => b.views - a.views)
+            .slice(0, 3);
+
+          console.log(`[SociaVault] Found ${reels.reelCount} Facebook reels`);
+        }
+      }
+    }
+  } catch (reelsError) {
+    console.log('[SociaVault] Facebook reels fetch error:', reelsError.message);
+  }
+
   return {
     platform: 'facebook',
     name: data.name || '',
@@ -3103,7 +3614,315 @@ async function fetchFacebookData(url, headers) {
     phone: data.phone || '',
     address: data.address || '',
     adStatus: data.adLibrary?.adStatus || null,
-    advertising, // NEW: detailed ad library data
+    advertising,
+    postMetrics, // NEW: post engagement metrics
+    recentPosts: posts.slice(0, 5).map(p => ({
+      id: p.id || '',
+      text: p.text?.substring(0, 200) || p.message?.substring(0, 200) || '',
+      likes: p.likes || p.likeCount || 0,
+      comments: p.comments || p.commentCount || 0,
+      shares: p.shares || p.shareCount || 0,
+      timestamp: p.timestamp || p.createdAt || ''
+    })),
+    reels, // NEW: Facebook Reels data
+    _creditsUsed: creditsUsed
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// LINKEDIN DATA FETCHING (NEW)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchLinkedInData(url, headers) {
+  const companyHandle = extractLinkedInCompany(url);
+  if (!companyHandle) throw new Error('Could not extract LinkedIn company handle from URL');
+
+  console.log('[SociaVault] Fetching LinkedIn company:', companyHandle);
+
+  const companyRes = await fetchWithTimeout(
+    `https://api.sociavault.com/v1/scrape/linkedin/company?handle=${encodeURIComponent(companyHandle)}`,
+    { headers },
+    30000 // 30 second timeout
+  );
+
+  if (!companyRes.ok) {
+    const errorText = await companyRes.text();
+    throw new Error(`LinkedIn company fetch failed: ${companyRes.status} - ${errorText}`);
+  }
+
+  const companyData = await companyRes.json();
+  if (!companyData.success) {
+    throw new Error('LinkedIn company fetch unsuccessful');
+  }
+
+  const data = companyData.data || {};
+  let creditsUsed = 1;
+
+  // Extract recent posts for engagement analysis
+  const posts = data.posts || [];
+  let avgEngagement = 0;
+  let postingFrequency = 0;
+
+  if (posts.length > 0) {
+    const totalEngagement = posts.reduce((sum, p) => {
+      return sum + (p.likes || 0) + (p.comments || 0);
+    }, 0);
+    avgEngagement = Math.round(totalEngagement / posts.length);
+
+    // Calculate posting frequency if we have timestamps
+    const timestamps = posts.map(p => new Date(p.postedAt || p.timestamp).getTime()).filter(t => !isNaN(t));
+    if (timestamps.length >= 2) {
+      timestamps.sort((a, b) => b - a);
+      const daySpan = (timestamps[0] - timestamps[timestamps.length - 1]) / (1000 * 60 * 60 * 24);
+      if (daySpan > 0) {
+        postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10;
+      }
+    }
+  }
+
+  // Search LinkedIn Ad Library for company ads
+  let advertising = {
+    isAdvertising: false,
+    adsFound: 0,
+    recentAds: []
+  };
+
+  try {
+    const companyName = data.name || companyHandle;
+    console.log('[SociaVault] Searching LinkedIn Ad Library for:', companyName);
+
+    const adSearchRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/linkedin-ad-library/search?keyword=${encodeURIComponent(companyName)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (adSearchRes.ok) {
+      const adSearchData = await adSearchRes.json();
+      creditsUsed++;
+
+      if (adSearchData.success && adSearchData.data?.ads?.length > 0) {
+        const ads = adSearchData.data.ads;
+        // Filter to ads from this company
+        const matchingAds = ads.filter(ad =>
+          ad.advertiser?.toLowerCase().includes(companyName.toLowerCase()) ||
+          companyName.toLowerCase().includes(ad.advertiser?.toLowerCase() || '')
+        );
+
+        advertising.isAdvertising = matchingAds.length > 0;
+        advertising.adsFound = matchingAds.length;
+
+        advertising.recentAds = matchingAds.slice(0, 5).map(ad => ({
+          headline: ad.headline || '',
+          description: ad.description?.substring(0, 200) || '',
+          adType: ad.adType || '',
+          impressions: ad.totalImpressions || '',
+          targeting: {
+            locations: ad.targeting?.location || [],
+            language: ad.targeting?.language || ''
+          }
+        }));
+
+        console.log(`[SociaVault] LinkedIn Ad Library found ${matchingAds.length} matching ads`);
+      }
+    }
+  } catch (adError) {
+    console.log('[SociaVault] LinkedIn Ad Library error:', adError.message);
+  }
+
+  return {
+    platform: 'linkedin',
+    name: data.name || '',
+    handle: data.handle || companyHandle,
+    followers: data.followers || 0,
+    employeeCount: data.employeeCount || 0,
+    industry: data.industry || '',
+    companySize: data.size || '',
+    companyType: data.type || '',
+    founded: data.founded || '',
+    specialties: data.specialties || [],
+    description: data.description?.substring(0, 500) || '',
+    website: data.website || '',
+    headquarters: data.headquarters || data.location || '',
+    profilePicUrl: data.logo || '',
+    metrics: {
+      avgEngagement,
+      postingFrequency,
+      recentPostCount: posts.length
+    },
+    recentPosts: posts.slice(0, 5).map(p => ({
+      text: p.text?.substring(0, 200) || '',
+      likes: p.likes || 0,
+      comments: p.comments || 0,
+      timestamp: p.postedAt || p.timestamp || ''
+    })),
+    advertising,
+    _creditsUsed: creditsUsed
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// TWITTER/X DATA FETCHING (NEW)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchTwitterData(url, headers) {
+  const handle = extractTwitterHandle(url);
+  if (!handle) throw new Error('Could not extract Twitter handle from URL');
+
+  console.log('[SociaVault] Fetching Twitter profile:', handle);
+
+  // Fetch profile
+  const profileRes = await fetchWithTimeout(
+    `https://api.sociavault.com/v1/scrape/twitter/profile?handle=${encodeURIComponent(handle)}`,
+    { headers },
+    30000 // 30 second timeout
+  );
+
+  if (!profileRes.ok) {
+    const errorText = await profileRes.text();
+    throw new Error(`Twitter profile fetch failed: ${profileRes.status} - ${errorText}`);
+  }
+
+  const profileData = await profileRes.json();
+  if (!profileData.success) {
+    throw new Error('Twitter profile fetch unsuccessful');
+  }
+
+  const user = profileData.data || {};
+  const legacy = user.legacy || {};
+  let creditsUsed = 1;
+
+  // Fetch recent tweets for engagement analysis
+  let tweets = [];
+  let avgEngagement = 0;
+  let engagementRate = 0;
+  let postingFrequency = 0;
+
+  try {
+    console.log('[SociaVault] Fetching Twitter user tweets for:', handle);
+    const tweetsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/twitter/user-tweets?handle=${encodeURIComponent(handle)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (tweetsRes.ok) {
+      const tweetsData = await tweetsRes.json();
+      creditsUsed++;
+
+      if (tweetsData.success && tweetsData.data?.tweets?.length > 0) {
+        tweets = tweetsData.data.tweets.slice(0, 20);
+
+        const totalEngagement = tweets.reduce((sum, t) => {
+          return sum + (t.likes || t.favorite_count || 0) +
+                 (t.retweets || t.retweet_count || 0) +
+                 (t.replies || t.reply_count || 0);
+        }, 0);
+
+        avgEngagement = Math.round(totalEngagement / tweets.length);
+
+        const followers = legacy.followers_count || 0;
+        if (followers > 0 && tweets.length > 0) {
+          engagementRate = ((avgEngagement / followers) * 100).toFixed(2);
+        }
+
+        // Calculate posting frequency
+        const timestamps = tweets.map(t => new Date(t.created_at).getTime()).filter(ts => !isNaN(ts));
+        if (timestamps.length >= 2) {
+          timestamps.sort((a, b) => b - a);
+          const daySpan = (timestamps[0] - timestamps[timestamps.length - 1]) / (1000 * 60 * 60 * 24);
+          if (daySpan > 0) {
+            postingFrequency = Math.round((tweets.length / daySpan) * 7 * 10) / 10;
+          }
+        }
+      }
+    }
+  } catch (tweetsError) {
+    console.log('[SociaVault] Twitter tweets fetch error:', tweetsError.message);
+  }
+
+  return {
+    platform: 'twitter',
+    handle: legacy.screen_name || handle,
+    displayName: user.core?.name || legacy.name || '',
+    bio: legacy.description || '',
+    followers: legacy.followers_count || 0,
+    following: legacy.friends_count || 0,
+    tweetCount: legacy.statuses_count || 0,
+    likesCount: legacy.favourites_count || 0,
+    verified: user.is_blue_verified || user.verification?.verified || false,
+    profilePicUrl: legacy.profile_image_url_https || user.avatar?.image_url || '',
+    bannerUrl: legacy.profile_banner_url || '',
+    website: legacy.url || '',
+    location: legacy.location || user.location?.location || '',
+    joinedDate: user.core?.created_at || '',
+    isBusinessAccount: user.business_account || false,
+    metrics: {
+      avgEngagement,
+      engagementRate: parseFloat(engagementRate) || 0,
+      postingFrequency
+    },
+    recentTweets: tweets.slice(0, 5).map(t => ({
+      text: (t.full_text || t.text)?.substring(0, 200) || '',
+      likes: t.likes || t.favorite_count || 0,
+      retweets: t.retweets || t.retweet_count || 0,
+      replies: t.replies || t.reply_count || 0,
+      timestamp: t.created_at || ''
+    })),
+    _creditsUsed: creditsUsed
+  };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// PINTEREST DATA FETCHING (NEW)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchPinterestData(url, headers) {
+  const username = extractPinterestUsername(url);
+  if (!username) throw new Error('Could not extract Pinterest username from URL');
+
+  console.log('[SociaVault] Fetching Pinterest boards for:', username);
+
+  const boardsRes = await fetchWithTimeout(
+    `https://api.sociavault.com/v1/scrape/pinterest/user-boards?username=${encodeURIComponent(username)}`,
+    { headers },
+    30000 // 30 second timeout
+  );
+
+  if (!boardsRes.ok) {
+    const errorText = await boardsRes.text();
+    throw new Error(`Pinterest boards fetch failed: ${boardsRes.status} - ${errorText}`);
+  }
+
+  const boardsData = await boardsRes.json();
+  if (!boardsData.success) {
+    throw new Error('Pinterest boards fetch unsuccessful');
+  }
+
+  const boards = boardsData.data?.boards || boardsData.data || [];
+  let creditsUsed = 1;
+
+  // Calculate aggregate metrics
+  const totalPins = boards.reduce((sum, b) => sum + (b.pin_count || 0), 0);
+  const totalBoardFollowers = boards.reduce((sum, b) => sum + (b.follower_count || 0), 0);
+  const avgPinsPerBoard = boards.length > 0 ? Math.round(totalPins / boards.length) : 0;
+
+  // Get owner info from first board if available
+  const owner = boards[0]?.owner || {};
+
+  return {
+    platform: 'pinterest',
+    username: owner.username || username,
+    followers: owner.follower_count || totalBoardFollowers,
+    verified: owner.is_verified || false,
+    boardCount: boards.length,
+    totalPins,
+    avgPinsPerBoard,
+    boards: boards.slice(0, 10).map(b => ({
+      name: b.name || '',
+      pinCount: b.pin_count || 0,
+      followerCount: b.follower_count || 0,
+      description: b.description?.substring(0, 150) || '',
+      url: b.url || '',
+      coverImageUrl: b.image_cover_url || b.image_cover_hd_url || ''
+    })),
     _creditsUsed: creditsUsed
   };
 }
@@ -3143,6 +3962,142 @@ function extractYouTubeChannel(url) {
   if (match) return { type: 'handle', value: match[1] };
 
   return null;
+}
+
+function extractLinkedInCompany(url) {
+  if (!url) return null;
+  // Handle formats: linkedin.com/company/companyname, linkedin.com/company/companyname/
+  const match = url.match(/linkedin\.com\/company\/([^\/\?]+)/i);
+  return match ? match[1] : null;
+}
+
+function extractTwitterHandle(url) {
+  if (!url) return null;
+  // Handle formats: twitter.com/username, x.com/username, @username
+  const match = url.match(/(?:twitter|x)\.com\/([^\/\?]+)/i) || url.match(/^@?([a-zA-Z0-9_]+)$/);
+  return match ? match[1].replace('@', '') : null;
+}
+
+function extractPinterestUsername(url) {
+  if (!url) return null;
+  // Handle formats: pinterest.com/username, pinterest.ca/username, @username
+  const match = url.match(/pinterest\.[a-z]+\/([^\/\?]+)/i) || url.match(/^@?([a-zA-Z0-9_]+)$/);
+  return match ? match[1].replace('@', '') : null;
+}
+
+function extractThreadsHandle(url) {
+  if (!url) return null;
+  // Handle formats: threads.net/@username, threads.net/username, @username
+  const match = url.match(/threads\.net\/@?([^\/\?]+)/i) || url.match(/^@?([a-zA-Z0-9._]+)$/);
+  return match ? match[1].replace('@', '') : null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// THREADS DATA FETCHING (NEW - Phase 3)
+// ═══════════════════════════════════════════════════════════════════════════
+async function fetchThreadsData(url, headers) {
+  const handle = extractThreadsHandle(url);
+  if (!handle) throw new Error('Could not extract Threads handle from URL');
+
+  console.log('[SociaVault] Fetching Threads profile:', handle);
+
+  // Fetch profile
+  const profileRes = await fetchWithTimeout(
+    `https://api.sociavault.com/v1/scrape/threads/profile?handle=${encodeURIComponent(handle)}`,
+    { headers },
+    30000 // 30 second timeout
+  );
+
+  if (!profileRes.ok) {
+    const errorText = await profileRes.text();
+    throw new Error(`Threads profile fetch failed: ${profileRes.status} - ${errorText}`);
+  }
+
+  const profileData = await profileRes.json();
+  if (!profileData.success) {
+    throw new Error('Threads profile fetch unsuccessful');
+  }
+
+  const user = profileData.data || {};
+  let creditsUsed = 1;
+
+  // Fetch recent posts for engagement analysis
+  let posts = [];
+  let avgLikes = 0;
+  let avgReplies = 0;
+  let engagementRate = 0;
+  let postingFrequency = 0;
+
+  try {
+    console.log('[SociaVault] Fetching Threads posts for:', handle);
+    const postsRes = await fetchWithTimeout(
+      `https://api.sociavault.com/v1/scrape/threads/posts?handle=${encodeURIComponent(handle)}`,
+      { headers },
+      30000 // 30 second timeout
+    );
+
+    if (postsRes.ok) {
+      const postsData = await postsRes.json();
+      creditsUsed++;
+
+      if (postsData.success && postsData.data?.posts) {
+        posts = postsData.data.posts.slice(0, 20);
+
+        if (posts.length > 0) {
+          const totalLikes = posts.reduce((sum, p) => sum + (p.likes || p.likeCount || 0), 0);
+          const totalReplies = posts.reduce((sum, p) => sum + (p.replies || p.replyCount || 0), 0);
+
+          avgLikes = Math.round(totalLikes / posts.length);
+          avgReplies = Math.round(totalReplies / posts.length);
+
+          const followers = user.followerCount || user.followers || 0;
+          if (followers > 0) {
+            engagementRate = (((avgLikes + avgReplies) / followers) * 100).toFixed(2);
+          }
+
+          // Calculate posting frequency
+          const timestamps = posts.map(p => new Date(p.createdAt || p.timestamp).getTime()).filter(ts => !isNaN(ts));
+          if (timestamps.length >= 2) {
+            timestamps.sort((a, b) => b - a);
+            const daySpan = (timestamps[0] - timestamps[timestamps.length - 1]) / (1000 * 60 * 60 * 24);
+            if (daySpan > 0) {
+              postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10;
+            }
+          }
+        }
+      }
+    }
+  } catch (postsError) {
+    console.log('[SociaVault] Threads posts fetch error:', postsError.message);
+  }
+
+  return {
+    platform: 'threads',
+    handle: user.username || handle,
+    displayName: user.displayName || user.fullName || '',
+    bio: user.biography || user.bio || '',
+    followers: user.followerCount || user.followers || 0,
+    following: user.followingCount || user.following || 0,
+    verified: user.isVerified || user.verified || false,
+    profilePicUrl: user.profilePicUrl || user.avatar || '',
+    isPrivate: user.isPrivate || false,
+    metrics: {
+      avgLikes,
+      avgReplies,
+      engagementRate: parseFloat(engagementRate) || 0,
+      postingFrequency
+    },
+    recentPosts: posts.slice(0, 5).map(p => ({
+      id: p.id || p.postId || '',
+      text: (p.text || p.caption)?.substring(0, 200) || '',
+      likes: p.likes || p.likeCount || 0,
+      replies: p.replies || p.replyCount || 0,
+      reposts: p.reposts || p.repostCount || 0,
+      hasMedia: !!(p.image || p.video || p.media),
+      timestamp: p.createdAt || p.timestamp || ''
+    })),
+    _creditsUsed: creditsUsed
+  };
 }
 
 function aggregateTopContent(platforms) {
@@ -3443,9 +4398,19 @@ We assess these 6 categories (we have verified data for these):
      * Assess how well the site directs visitors to partner businesses
 
 4. SOCIAL MEDIA & CONTENT (Weight: 20%)
-   - Source: SociaVault API (Instagram, TikTok, YouTube, Facebook)
-   - Focus: Follower counts, engagement rates, posting frequency, content performance
-   - Key metrics: Total followers, engagement rate per platform, top performing content
+   - Source: SociaVault API - MULTIPLE PLATFORMS AND DATA TYPES:
+     * Instagram: Profile, Posts, Reels (views, engagement), Story Highlights
+     * TikTok: Profile, Videos, Demographics (audience countries), Ad Library
+     * YouTube: Channel, Videos, Shorts (dedicated analytics), Community Posts
+     * Facebook: Profile, Posts (engagement metrics), Reels, Ad Library
+     * LinkedIn: Company profile, Posts, Engagement, Ad Library
+     * Twitter/X: Profile, Tweets, Engagement rate
+     * Pinterest: Boards, Pins, Follower data
+     * Threads: Profile, Posts, Engagement metrics
+   - ADVERTISING DATA: Facebook Ad Library, TikTok Ad Library, LinkedIn Ad Library, Google Ad Library
+   - Focus: Follower counts, engagement rates, posting frequency, content performance, short-form video metrics
+   - Key metrics: Total followers, engagement rate per platform, Reels/Shorts performance, top performing content
+   - Advertising insights: Which platforms they're running ads on, ad creative analysis
    - If no social data: Note which platforms are missing and recommend setup
 
 5. DIGITAL GUEST EXPERIENCE (Weight: 10%)
@@ -3662,7 +4627,7 @@ Return ONLY valid JSON:
       "weight": 0.20,
       "title": "Social Media & Content",
       "summary": "Social presence, content strategy, engagement, and advertising across platforms",
-      "data_sources": ["SociaVault API", "Facebook Ad Library", "TikTok Ad Library"],
+      "data_sources": ["SociaVault API", "Instagram", "TikTok", "YouTube", "Facebook", "LinkedIn", "Twitter/X", "Pinterest", "Threads", "Facebook Ad Library", "TikTok Ad Library", "LinkedIn Ad Library", "Google Ad Library"],
       "metrics": [
         {
           "label": "Total Followers",
@@ -3681,6 +4646,15 @@ Return ONLY valid JSON:
           "confidence": "high if Instagram data present",
           "source": "SociaVault API",
           "tooltip": "(Avg likes + comments) / followers × 100"
+        },
+        {
+          "label": "Short-Form Video Performance",
+          "value": "USE Reels and Shorts data - e.g., 'IG Reels: 5K avg views, YT Shorts: 2K avg views'",
+          "benchmark": "Tourism: Short-form videos should get 2-10x the reach of static posts",
+          "status": "good if active with Reels/Shorts, warning if no short-form content",
+          "confidence": "high if Reels/Shorts data present",
+          "source": "SociaVault API - Instagram Reels, YouTube Shorts, TikTok Videos",
+          "tooltip": "Performance of short-form video content (Reels, Shorts, TikToks)"
         },
         {
           "label": "Posting Consistency",
@@ -3711,7 +4685,7 @@ Return ONLY valid JSON:
         },
         {
           "label": "Active Platforms",
-          "value": "List platforms with verified presence",
+          "value": "List platforms with verified presence (Instagram, TikTok, YouTube, Facebook, LinkedIn, Twitter, Pinterest, Threads)",
           "benchmark": "Tourism businesses should be on 2-3 platforms minimum",
           "status": "based on count",
           "confidence": "high",
@@ -3720,12 +4694,12 @@ Return ONLY valid JSON:
         },
         {
           "label": "Paid Advertising Status",
-          "value": "USE advertising data - 'Running X ads on Facebook/Instagram' or 'No active paid campaigns detected'",
+          "value": "USE advertising data from ALL ad libraries - 'Running X ads on Facebook, Y on Google' or 'No active paid campaigns detected'",
           "benchmark": "Tourism businesses with ad budgets see 3-5x faster follower growth",
           "status": "info if no ads, good if running targeted campaigns",
           "confidence": "high",
-          "source": "Facebook/TikTok Ad Libraries",
-          "tooltip": "Based on public ad library data"
+          "source": "Facebook/TikTok/LinkedIn/Google Ad Libraries",
+          "tooltip": "Based on public ad library data from multiple platforms"
         }
       ],
       "content_strategy_analysis": {
@@ -4454,6 +5428,34 @@ ${JSON.stringify(seo, null, 2)}`;
           context += `\n- Post ${i + 1}: ${post.likes?.toLocaleString() || 0} likes, ${post.comments || 0} comments${post.views ? `, ${post.views.toLocaleString()} views` : ''} (${post.type})`;
         });
       }
+
+      // Instagram Reels Analysis (NEW)
+      if (ig.reels?.hasReels) {
+        context += `\n\n#### Reels Performance Analysis:
+- Total Reels Analyzed: ${ig.reels.reelCount || 0}
+- Avg Views per Reel: ${ig.reels.avgViews?.toLocaleString() || 0}
+- Avg Likes per Reel: ${ig.reels.avgLikes?.toLocaleString() || 0}
+- Avg Comments per Reel: ${ig.reels.avgComments || 0}
+- Reels Engagement Rate: ${ig.reels.engagementRate || 0}%`;
+        if (ig.reels.topReels?.length > 0) {
+          context += `\n\n##### Top Performing Reels:`;
+          ig.reels.topReels.forEach((reel, i) => {
+            context += `\n${i + 1}. ${reel.views?.toLocaleString() || 0} views, ${reel.likes?.toLocaleString() || 0} likes (${reel.duration || 0}s)`;
+          });
+        }
+      }
+
+      // Instagram Story Highlights (NEW - Phase 3)
+      if (ig.storyHighlights?.hasHighlights) {
+        context += `\n\n#### Story Highlights:
+- Total Highlights: ${ig.storyHighlights.highlightCount || 0}`;
+        if (ig.storyHighlights.highlights?.length > 0) {
+          context += `\n- Highlight Categories:`;
+          ig.storyHighlights.highlights.forEach((h, i) => {
+            context += `\n  ${i + 1}. "${h.title}" (${h.itemCount || 0} items)`;
+          });
+        }
+      }
     }
 
     // TikTok
@@ -4509,6 +5511,17 @@ ${JSON.stringify(seo, null, 2)}`;
           context += `\n- Video ${i + 1}: ${video.views?.toLocaleString() || 0} views, ${video.likes?.toLocaleString() || 0} likes, ${video.comments || 0} comments, ${video.shares || 0} shares`;
         });
       }
+
+      // TikTok Audience Demographics (NEW)
+      if (tt.demographics?.hasData) {
+        context += `\n\n#### Audience Demographics (Geographic Distribution):`;
+        if (tt.demographics.topCountries?.length > 0) {
+          context += `\n- Top Audience Countries:`;
+          tt.demographics.topCountries.forEach((loc, i) => {
+            context += `\n  ${i + 1}. ${loc.country} (${loc.countryCode}): ${loc.percentage}%${loc.count ? ` (~${loc.count.toLocaleString()} followers)` : ''}`;
+          });
+        }
+      }
     }
 
     // YouTube
@@ -4549,6 +5562,43 @@ ${JSON.stringify(seo, null, 2)}`;
           context += `\n- Video ${i + 1}: "${video.title?.substring(0, 40) || 'Untitled'}..." - ${video.views?.toLocaleString() || 0} views, ${video.likes?.toLocaleString() || 0} likes`;
         });
       }
+
+      // YouTube Shorts Analysis (NEW)
+      if (yt.shorts?.hasShorts) {
+        context += `\n\n#### Shorts Performance Analysis:
+- Total Shorts Analyzed: ${yt.shorts.shortsCount || 0}
+- Avg Views per Short: ${yt.shorts.avgViews?.toLocaleString() || 0}
+- Avg Likes per Short: ${yt.shorts.avgLikes?.toLocaleString() || 0}
+- Shorts Engagement Rate: ${yt.shorts.engagementRate || 0}%`;
+        if (yt.shorts.topShorts?.length > 0) {
+          context += `\n\n##### Top Performing Shorts:`;
+          yt.shorts.topShorts.forEach((short, i) => {
+            context += `\n${i + 1}. "${short.title?.substring(0, 40) || 'Untitled'}..." - ${short.views?.toLocaleString() || 0} views, ${short.likes?.toLocaleString() || 0} likes`;
+            if (short.viewSubRatio) {
+              context += ` (${short.viewSubRatio}x subscribers)`;
+            }
+          });
+        }
+      }
+
+      // YouTube Community Posts (NEW - Phase 2)
+      if (yt.communityPosts?.hasCommunityPosts) {
+        context += `\n\n#### Community Posts:
+- Total Community Posts: ${yt.communityPosts.postCount || 0}
+- Avg Likes per Post: ${yt.communityPosts.avgLikes?.toLocaleString() || 0}
+- Avg Comments per Post: ${yt.communityPosts.avgComments || 0}`;
+        if (yt.communityPosts.recentPosts?.length > 0) {
+          context += `\n\n##### Recent Community Posts:`;
+          yt.communityPosts.recentPosts.slice(0, 3).forEach((post, i) => {
+            context += `\n${i + 1}. ${post.likes?.toLocaleString() || 0} likes, ${post.comments || 0} comments`;
+            if (post.hasImage) context += ' [Image]';
+            if (post.hasPoll) context += ' [Poll]';
+            if (post.text) {
+              context += `\n   "${post.text.substring(0, 80)}..."`;
+            }
+          });
+        }
+      }
     }
 
     // Facebook
@@ -4559,6 +5609,40 @@ ${JSON.stringify(seo, null, 2)}`;
 - Page Likes: ${fb.likes?.toLocaleString() || 0}
 - Category: ${fb.category || 'Unknown'}
 - Basic Ad Status: ${fb.adStatus ? 'YES - Running Ads' : 'NO or Unknown'}`;
+
+      // Facebook Post Engagement (NEW - Phase 2)
+      if (fb.postMetrics) {
+        context += `\n\n#### Post Engagement Metrics:
+- Avg Likes per Post: ${fb.postMetrics.avgLikes || 0}
+- Avg Comments per Post: ${fb.postMetrics.avgComments || 0}
+- Avg Shares per Post: ${fb.postMetrics.avgShares || 0}
+- Engagement Rate: ${fb.postMetrics.engagementRate || 0}%`;
+      }
+
+      // Facebook Recent Posts (NEW - Phase 2)
+      if (fb.recentPosts?.length > 0) {
+        context += `\n\n#### Recent Posts:`;
+        fb.recentPosts.slice(0, 3).forEach((post, i) => {
+          context += `\n- Post ${i + 1}: ${post.likes || 0} likes, ${post.comments || 0} comments, ${post.shares || 0} shares`;
+          if (post.text) {
+            context += `\n  "${post.text.substring(0, 80)}..."`;
+          }
+        });
+      }
+
+      // Facebook Reels (NEW - Phase 2)
+      if (fb.reels?.hasReels) {
+        context += `\n\n#### Facebook Reels Performance:
+- Total Reels: ${fb.reels.reelCount || 0}
+- Avg Views per Reel: ${fb.reels.avgViews?.toLocaleString() || 0}
+- Avg Likes per Reel: ${fb.reels.avgLikes?.toLocaleString() || 0}`;
+        if (fb.reels.topReels?.length > 0) {
+          context += `\n\n##### Top Performing Reels:`;
+          fb.reels.topReels.forEach((reel, i) => {
+            context += `\n${i + 1}. ${reel.views?.toLocaleString() || 0} views, ${reel.likes?.toLocaleString() || 0} likes`;
+          });
+        }
+      }
 
       // Facebook Advertising Details
       if (fb.advertising) {
@@ -4581,6 +5665,145 @@ ${JSON.stringify(seo, null, 2)}`;
       }
     }
 
+    // LinkedIn (NEW)
+    if (sm.platforms?.linkedin && !sm.platforms.linkedin._error) {
+      const li = sm.platforms.linkedin;
+      context += `\n\n### LinkedIn (${li.name || li.handle})
+- Company Followers: ${li.followers?.toLocaleString() || 0}
+- Employee Count: ${li.employeeCount?.toLocaleString() || 0}
+- Industry: ${li.industry || 'Unknown'}
+- Company Size: ${li.companySize || 'Unknown'}
+- Company Type: ${li.companyType || 'Unknown'}
+- Founded: ${li.founded || 'Unknown'}
+- Headquarters: ${li.headquarters || 'Unknown'}
+- Website: ${li.website || 'None'}`;
+
+      if (li.specialties?.length > 0) {
+        context += `\n- Specialties: ${li.specialties.join(', ')}`;
+      }
+
+      // LinkedIn Engagement Metrics
+      if (li.metrics) {
+        context += `\n\n#### Engagement Metrics:
+- Avg Engagement per Post: ${li.metrics.avgEngagement || 0}
+- Posting Frequency: ${li.metrics.postingFrequency || 0} posts/week
+- Recent Post Count: ${li.metrics.recentPostCount || 0}`;
+      }
+
+      // LinkedIn Recent Posts
+      if (li.recentPosts?.length > 0) {
+        context += `\n\n#### Recent Posts:`;
+        li.recentPosts.slice(0, 3).forEach((post, i) => {
+          context += `\n- Post ${i + 1}: ${post.likes || 0} likes, ${post.comments || 0} comments`;
+          if (post.text) {
+            context += `\n  "${post.text.substring(0, 80)}..."`;
+          }
+        });
+      }
+
+      // LinkedIn Advertising
+      if (li.advertising) {
+        context += `\n\n#### LinkedIn Advertising:
+- Running LinkedIn Ads: ${li.advertising.isAdvertising ? 'YES' : 'NO'}
+- Ads Found: ${li.advertising.adsFound || 0}`;
+        if (li.advertising.recentAds?.length > 0) {
+          context += `\n\n##### Recent LinkedIn Ad Creatives:`;
+          li.advertising.recentAds.forEach((ad, i) => {
+            context += `\n${i + 1}. "${ad.headline?.substring(0, 50) || 'No headline'}"`;
+            if (ad.impressions) {
+              context += ` - ${ad.impressions} impressions`;
+            }
+          });
+        }
+      }
+    }
+
+    // Twitter/X (NEW)
+    if (sm.platforms?.twitter && !sm.platforms.twitter._error) {
+      const tw = sm.platforms.twitter;
+      context += `\n\n### Twitter/X (@${tw.handle})
+- Followers: ${tw.followers?.toLocaleString() || 0}
+- Following: ${tw.following?.toLocaleString() || 0}
+- Total Tweets: ${tw.tweetCount?.toLocaleString() || 0}
+- Likes Given: ${tw.likesCount?.toLocaleString() || 0}
+- Verified: ${tw.verified ? 'YES' : 'NO'}
+- Business Account: ${tw.isBusinessAccount ? 'YES' : 'NO'}
+- Location: ${tw.location || 'Unknown'}
+- Website: ${tw.website || 'None'}
+- Joined: ${tw.joinedDate || 'Unknown'}
+- Bio: "${tw.bio?.substring(0, 150) || 'N/A'}"`;
+
+      // Twitter Engagement Metrics
+      if (tw.metrics) {
+        context += `\n\n#### Engagement Metrics:
+- Avg Engagement per Tweet: ${tw.metrics.avgEngagement || 0}
+- Engagement Rate: ${tw.metrics.engagementRate || 0}%
+- Posting Frequency: ${tw.metrics.postingFrequency || 0} tweets/week`;
+      }
+
+      // Twitter Recent Tweets
+      if (tw.recentTweets?.length > 0) {
+        context += `\n\n#### Recent Tweets:`;
+        tw.recentTweets.slice(0, 3).forEach((tweet, i) => {
+          context += `\n- Tweet ${i + 1}: ${tweet.likes || 0} likes, ${tweet.retweets || 0} retweets, ${tweet.replies || 0} replies`;
+          if (tweet.text) {
+            context += `\n  "${tweet.text.substring(0, 80)}..."`;
+          }
+        });
+      }
+    }
+
+    // Pinterest (NEW)
+    if (sm.platforms?.pinterest && !sm.platforms.pinterest._error) {
+      const pin = sm.platforms.pinterest;
+      context += `\n\n### Pinterest (@${pin.username})
+- Followers: ${pin.followers?.toLocaleString() || 0}
+- Verified: ${pin.verified ? 'YES' : 'NO'}
+- Total Boards: ${pin.boardCount || 0}
+- Total Pins: ${pin.totalPins?.toLocaleString() || 0}
+- Avg Pins per Board: ${pin.avgPinsPerBoard || 0}`;
+
+      // Pinterest Boards
+      if (pin.boards?.length > 0) {
+        context += `\n\n#### Top Boards:`;
+        pin.boards.slice(0, 5).forEach((board, i) => {
+          context += `\n${i + 1}. "${board.name}" - ${board.pinCount || 0} pins, ${board.followerCount || 0} followers`;
+        });
+      }
+    }
+
+    // Threads (NEW - Phase 3)
+    if (sm.platforms?.threads && !sm.platforms.threads._error) {
+      const th = sm.platforms.threads;
+      context += `\n\n### Threads (@${th.handle})
+- Followers: ${th.followers?.toLocaleString() || 0}
+- Following: ${th.following?.toLocaleString() || 0}
+- Verified: ${th.verified ? 'YES' : 'NO'}
+- Private Account: ${th.isPrivate ? 'YES' : 'NO'}
+- Bio: "${th.bio?.substring(0, 150) || 'N/A'}"`;
+
+      // Threads Engagement Metrics
+      if (th.metrics) {
+        context += `\n\n#### Engagement Metrics:
+- Avg Likes per Post: ${th.metrics.avgLikes || 0}
+- Avg Replies per Post: ${th.metrics.avgReplies || 0}
+- Engagement Rate: ${th.metrics.engagementRate || 0}%
+- Posting Frequency: ${th.metrics.postingFrequency || 0} posts/week`;
+      }
+
+      // Threads Recent Posts
+      if (th.recentPosts?.length > 0) {
+        context += `\n\n#### Recent Posts:`;
+        th.recentPosts.slice(0, 3).forEach((post, i) => {
+          context += `\n- Post ${i + 1}: ${post.likes || 0} likes, ${post.replies || 0} replies, ${post.reposts || 0} reposts`;
+          if (post.hasMedia) context += ' [Media]';
+          if (post.text) {
+            context += `\n  "${post.text.substring(0, 80)}..."`;
+          }
+        });
+      }
+    }
+
     // Top performing content
     if (sm.topContent?.length > 0) {
       context += `\n\n### Top Performing Content (by engagement):`;
@@ -4593,7 +5816,9 @@ ${JSON.stringify(seo, null, 2)}`;
     context += `\n\n### Advertising Summary`;
     const fbAds = sm.platforms?.facebook?.advertising;
     const ttAds = sm.platforms?.tiktok?.advertising;
-    const hasAnyAds = fbAds?.isAdvertising || ttAds?.isAdvertising;
+    const liAds = sm.platforms?.linkedin?.advertising;
+    const googleAds = sm.googleAds;
+    const hasAnyAds = fbAds?.isAdvertising || ttAds?.isAdvertising || liAds?.isAdvertising || googleAds?.isAdvertising;
 
     if (hasAnyAds) {
       context += `\n- PAID ADVERTISING DETECTED`;
@@ -4603,9 +5828,29 @@ ${JSON.stringify(seo, null, 2)}`;
       if (ttAds?.isAdvertising) {
         context += `\n- TikTok: Ads found matching business name`;
       }
+      if (liAds?.isAdvertising) {
+        context += `\n- LinkedIn: ${liAds.adsFound || 0} ads found`;
+      }
+      if (googleAds?.isAdvertising) {
+        context += `\n- Google Ads: ${googleAds.adsFound || 0} ads found`;
+        if (googleAds.advertiserInfo?.verificationStatus) {
+          context += ` (Advertiser: ${googleAds.advertiserInfo.name}, Status: ${googleAds.advertiserInfo.verificationStatus})`;
+        }
+      }
     } else {
-      context += `\n- NO PAID ADVERTISING DETECTED on Facebook or TikTok`;
-      context += `\n- Consider: Paid social advertising could accelerate growth`;
+      context += `\n- NO PAID ADVERTISING DETECTED on Facebook, TikTok, LinkedIn, or Google`;
+      context += `\n- Consider: Paid social and search advertising could accelerate growth`;
+    }
+
+    // Google Ads Details (if found)
+    if (googleAds?.recentAds?.length > 0) {
+      context += `\n\n#### Google Ads Creatives:`;
+      googleAds.recentAds.forEach((ad, i) => {
+        context += `\n${i + 1}. "${ad.headline?.substring(0, 50) || 'No headline'}" (${ad.format || 'Unknown format'})`;
+        if (ad.regions?.length > 0) {
+          context += `\n   Regions: ${ad.regions.slice(0, 3).join(', ')}`;
+        }
+      });
     }
 
   } else if (data.socialMediaData?._error) {
