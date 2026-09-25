@@ -7,6 +7,13 @@ import { createClient } from '@supabase/supabase-js';
 import { calculateAllScores } from '../../shared/scoring-engine.js';
 import { SCORING_ENGINE_VERSION } from '../../shared/rubrics.js';
 
+// Import verification engine
+import {
+  verifyAssessmentData,
+  applyManualOverrides,
+  VERIFICATION_ENGINE_VERSION
+} from '../../shared/verification-engine.js';
+
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════════════════════════════
@@ -67,11 +74,11 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 2. VERIFY ASSESSMENT EXISTS
+    // 2. VERIFY ASSESSMENT EXISTS & GET MANUAL OVERRIDES
     // ─────────────────────────────────────────────────────────────────────────
     const { data: existingAssessment } = await supabaseAdmin
       .from('client_assessments')
-      .select('id')
+      .select('id, manual_overrides, verification_status')
       .eq('client_slug', slug)
       .single();
 
@@ -81,6 +88,9 @@ export async function handler(event, context) {
         body: JSON.stringify({ error: 'Assessment not found' })
       };
     }
+
+    // Preserve existing manual overrides for re-verification
+    let manualOverrides = existingAssessment.manual_overrides;
 
     // ─────────────────────────────────────────────────────────────────────────
     // 3. UPDATE STATUS TO PROCESSING
@@ -196,6 +206,66 @@ export async function handler(event, context) {
     } else {
       console.log('[REGENERATE] No social media URLs provided, skipping');
       await updateProgress('No social media URLs provided');
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4f. VERIFY DATA QUALITY (same as new assessments)
+    // ─────────────────────────────────────────────────────────────────────────
+    console.log('[REGENERATE] Running data verification');
+    await updateProgress('Verifying data quality');
+
+    // Run verification
+    const verificationResult = await verifyAssessmentData(
+      { seoptData, googlePlacesData, websiteAnalysis, socialMediaData },
+      social,
+      businessName,
+      websiteUrl
+    );
+
+    console.log('[REGENERATE] Verification result:', {
+      status: verificationResult.verification_status,
+      verified: verificationResult.verified,
+      discrepancies: verificationResult.discrepancies?.length || 0,
+      warnings: verificationResult.warnings?.length || 0
+    });
+
+    // Update verification status in database
+    await supabaseAdmin.from('client_assessments')
+      .update({
+        verification_status: verificationResult.verification_status,
+        verification_data: verificationResult,
+        verification_engine_version: VERIFICATION_ENGINE_VERSION
+      })
+      .eq('client_slug', slug);
+
+    // If verification failed and no manual overrides exist, stop and wait for manual entry
+    if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
+      console.log('[REGENERATE] Verification failed, awaiting manual entry');
+      await updateProgress('Verification failed - manual entry required');
+
+      // Update status to indicate waiting for verification
+      await supabaseAdmin.from('client_assessments')
+        .update({
+          status: 'needs_manual',
+          error_message: 'Data verification failed - manual input required for flagged items'
+        })
+        .eq('client_slug', slug);
+
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success: true,
+          status: 'needs_manual',
+          message: 'Verification found discrepancies that require manual confirmation',
+          verification_data: verificationResult
+        })
+      };
+    }
+
+    // If we have manual overrides, apply them to the social media data
+    if (manualOverrides && Object.keys(manualOverrides).length > 0) {
+      console.log('[REGENERATE] Applying manual overrides:', Object.keys(manualOverrides));
+      socialMediaData = applyManualOverrides(socialMediaData, manualOverrides);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
