@@ -593,12 +593,22 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 5] Calculating deterministic scores');
     await updateProgress('Calculating assessment scores');
 
+    // DEBUG: Log data availability before scoring
+    console.log('[SCORING DEBUG] Data availability check:');
+    console.log('[SCORING DEBUG] seoptData:', seoptData ? (seoptData._error ? 'HAS_ERROR: ' + seoptData._error : 'OK - has keys: ' + Object.keys(seoptData).slice(0, 5).join(',')) : 'NULL');
+    console.log('[SCORING DEBUG] googlePlacesData:', googlePlacesData ? (googlePlacesData._error ? 'HAS_ERROR: ' + googlePlacesData._error : 'OK - rating: ' + googlePlacesData.rating) : 'NULL');
+    console.log('[SCORING DEBUG] websiteAnalysis:', websiteAnalysis ? (websiteAnalysis._error ? 'HAS_ERROR: ' + websiteAnalysis._error : 'OK - pages: ' + websiteAnalysis.pagesAnalyzed) : 'NULL');
+    console.log('[SCORING DEBUG] socialMediaData:', socialMediaData ? (socialMediaData._error ? 'HAS_ERROR: ' + socialMediaData._error : 'OK - platforms: ' + socialMediaData.summary?.platformsFound) : 'NULL');
+
     const scoringResult = calculateAllScores({
       seoptData,
       googlePlacesData,
       websiteAnalysis,
       socialMediaData
     });
+
+    // DEBUG: Log scoring result
+    console.log('[SCORING DEBUG] Result missingDataFlags:', scoringResult.missingDataFlags);
 
     if (DEBUG) console.log('[STEP 5] Scores calculated:', {
       overall: scoringResult.overall.score,
