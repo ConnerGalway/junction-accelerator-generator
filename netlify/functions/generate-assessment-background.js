@@ -20,6 +20,9 @@ import {
 // ═══════════════════════════════════════════════════════════════════════════
 
 export async function handler(event, context) {
+  console.log('[FUNCTION START] generate-assessment-background invoked at', new Date().toISOString());
+  console.log('[FUNCTION START] Method:', event.httpMethod, 'Path:', event.path);
+
   const DEBUG = process.env.DEBUG === 'true';
 
   // Debug: Add test mode to verify function works
