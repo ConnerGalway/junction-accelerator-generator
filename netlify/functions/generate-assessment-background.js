@@ -291,29 +291,12 @@ export async function handler(event, context) {
 
     if (isRegeneration && existingAssessment) {
       if (DEBUG) console.log('[STEP 3] Using existing data for regeneration');
-      await updateProgress('Using verified data for regeneration');
+      await updateProgress('Regenerating with fresh social media data');
 
-      // Use existing raw data
+      // Use existing raw data for expensive API calls (SEOptimer, Google Places, Website)
       seoptData = existingAssessment.seoptimer_raw || null;
       googlePlacesData = existingAssessment.google_places_raw || null;
       websiteAnalysis = existingAssessment.website_analysis_raw || null;
-      socialMediaData = existingAssessment.social_media_raw || null;
-
-      // Apply manual overrides if present
-      if (existingAssessment.manual_overrides) {
-        if (DEBUG) console.log('[STEP 3] Applying manual overrides:', existingAssessment.manual_overrides);
-        socialMediaData = applyManualOverrides(socialMediaData, existingAssessment.manual_overrides);
-
-        // Apply Google Places overrides if present
-        if (existingAssessment.manual_overrides.google_places && googlePlacesData) {
-          const gpOverrides = existingAssessment.manual_overrides.google_places;
-          if (gpOverrides.rating !== undefined) googlePlacesData.rating = gpOverrides.rating;
-          if (gpOverrides.reviews !== undefined) {
-            googlePlacesData.reviews_count = gpOverrides.reviews;
-            googlePlacesData.user_ratings_total = gpOverrides.reviews;
-          }
-        }
-      }
 
       // Use existing business info
       effectiveBusinessName = existingAssessment.business_name;
@@ -331,7 +314,39 @@ export async function handler(event, context) {
         linkedin: existingAssessment.social_linkedin
       };
 
-      if (DEBUG) console.log('[STEP 3] Regeneration data ready, skipping API fetches');
+      // FETCH FRESH SOCIAL MEDIA DATA - this is critical for verification
+      // Social media data is the most likely to be incorrect/outdated
+      if (effectiveSocial && Object.values(effectiveSocial).some(url => url)) {
+        if (DEBUG) console.log('[STEP 3] Fetching FRESH social media data for regeneration');
+        await updateProgress('Fetching fresh social media data');
+        try {
+          // Force refresh = true to bypass cache and get latest data
+          socialMediaData = await getSocialMediaDataWithCache(slug, effectiveSocial, supabaseAdmin, true);
+          const cacheStatus = socialMediaData?._cached ? '(cached)' : '(fresh)';
+          if (DEBUG) console.log('[STEP 3] Social media data fetched:', socialMediaData?.summary, cacheStatus);
+          await updateProgress('Social media data refreshed');
+        } catch (err) {
+          console.error('[STEP 3] Social media fetch error (non-fatal):', err.message);
+          await updateProgress('Social media refresh failed, using cached data');
+          // Fall back to cached data if fresh fetch fails
+          socialMediaData = existingAssessment.social_media_raw || null;
+        }
+      } else {
+        if (DEBUG) console.log('[STEP 3] No social media URLs, using cached data');
+        socialMediaData = existingAssessment.social_media_raw || null;
+      }
+
+      // Apply Google Places manual overrides if present (social overrides applied after verification)
+      if (existingAssessment.manual_overrides?.google_places && googlePlacesData) {
+        const gpOverrides = existingAssessment.manual_overrides.google_places;
+        if (gpOverrides.rating !== undefined) googlePlacesData.rating = gpOverrides.rating;
+        if (gpOverrides.reviews !== undefined) {
+          googlePlacesData.reviews_count = gpOverrides.reviews;
+          googlePlacesData.user_ratings_total = gpOverrides.reviews;
+        }
+      }
+
+      if (DEBUG) console.log('[STEP 3] Regeneration data ready');
     } else {
       // New assessment: Fetch all data from APIs
 
@@ -2235,37 +2250,46 @@ async function crawlWebsite(websiteUrl, options = {}) {
 /**
  * Get social media data with caching (24-hour cache)
  * Checks Supabase cache first, fetches fresh data if cache is expired or missing
+ * @param {string} clientSlug - The client slug
+ * @param {object} socialUrls - Object with social media URLs
+ * @param {object} supabaseClient - Supabase client
+ * @param {boolean} forceRefresh - If true, bypasses cache and fetches fresh data
  */
-async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClient) {
+async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClient, forceRefresh = false) {
   if (!socialUrls || !Object.values(socialUrls).some(url => url)) {
     console.log('[SociaVault] No social URLs provided, skipping');
     return null;
   }
 
-  // Try to get cached data
-  try {
-    const now = new Date().toISOString();
-    const { data: cached, error: cacheError } = await supabaseClient
-      .from('social_media_cache')
-      .select('payload, fetched_at, expires_at')
-      .eq('client_slug', clientSlug)
-      .single();
+  // Skip cache if forcing refresh (e.g., during regeneration to verify data)
+  if (!forceRefresh) {
+    // Try to get cached data
+    try {
+      const now = new Date().toISOString();
+      const { data: cached, error: cacheError } = await supabaseClient
+        .from('social_media_cache')
+        .select('payload, fetched_at, expires_at')
+        .eq('client_slug', clientSlug)
+        .single();
 
-    if (!cacheError && cached && cached.expires_at > now) {
-      console.log('[SociaVault] Cache hit for:', clientSlug,
-        '(fetched:', new Date(cached.fetched_at).toISOString(), ')');
-      return {
-        ...cached.payload,
-        _cached: true,
-        _cachedAt: cached.fetched_at
-      };
-    }
+      if (!cacheError && cached && cached.expires_at > now) {
+        console.log('[SociaVault] Cache hit for:', clientSlug,
+          '(fetched:', new Date(cached.fetched_at).toISOString(), ')');
+        return {
+          ...cached.payload,
+          _cached: true,
+          _cachedAt: cached.fetched_at
+        };
+      }
 
-    if (cached) {
-      console.log('[SociaVault] Cache expired for:', clientSlug);
+      if (cached) {
+        console.log('[SociaVault] Cache expired for:', clientSlug);
+      }
+    } catch (err) {
+      console.log('[SociaVault] Cache check failed (non-fatal):', err.message);
     }
-  } catch (err) {
-    console.log('[SociaVault] Cache check failed (non-fatal):', err.message);
+  } else {
+    console.log('[SociaVault] Force refresh enabled, bypassing cache for:', clientSlug);
   }
 
   // Cache miss or expired - fetch fresh data
