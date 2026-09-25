@@ -1092,8 +1092,10 @@
         }
       });
 
-      // Load data
-      await Promise.all([loadProjects(), loadAssessments(), loadElevatedClients(), loadExperienceProjects()]);
+      // Load data - loadProjects must complete first to populate projectSlugs
+      // (used by loadAssessments to filter out clients that have implementation plans)
+      await loadProjects();
+      await Promise.all([loadAssessments(), loadElevatedClients(), loadExperienceProjects()]);
     })();
 
     // ══════════════════════════════════════════════════════════════
