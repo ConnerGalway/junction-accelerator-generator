@@ -7,6 +7,13 @@ import { createClient } from '@supabase/supabase-js';
 import { calculateAllScores } from '../../shared/scoring-engine.js';
 import { SCORING_ENGINE_VERSION } from '../../shared/rubrics.js';
 
+// Import verification engine
+import {
+  verifyAssessmentData,
+  applyManualOverrides,
+  VERIFICATION_ENGINE_VERSION
+} from '../../shared/verification-engine.js';
+
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
@@ -43,17 +50,27 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail, regenerate } = body;
     slug = body.slug;
     const isElevated = clientType === 'elevated';
-    if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug);
+    const isRegeneration = regenerate === true;
+    if (DEBUG) console.log('[STEP 1] Business:', businessName, 'Slug:', slug, 'Regenerate:', isRegeneration);
 
-    // Validate required fields
-    if (!businessName || !slug || !websiteUrl) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Missing required fields: businessName, slug, websiteUrl' })
-      };
+    // Validate required fields (regeneration only needs slug)
+    if (isRegeneration) {
+      if (!slug) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Missing required field: slug' })
+        };
+      }
+    } else {
+      if (!businessName || !slug || !websiteUrl) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Missing required fields: businessName, slug, websiteUrl' })
+        };
+      }
     }
 
     // Validate slug format
@@ -64,14 +81,16 @@ export async function handler(event, context) {
       };
     }
 
-    // Validate URL
-    try {
-      new URL(websiteUrl);
-    } catch {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'Invalid website URL' })
-      };
+    // Validate URL (only for new assessments)
+    if (!isRegeneration && websiteUrl) {
+      try {
+        new URL(websiteUrl);
+      } catch {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Invalid website URL' })
+        };
+      }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -105,45 +124,83 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Auth verified for:', user.email);
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 2. CREATE RECORD (now that auth is verified)
+    // 2. CREATE OR FETCH RECORD (now that auth is verified)
     // ─────────────────────────────────────────────────────────────────────────
-    if (DEBUG) console.log('[STEP 2] Creating assessment record for:', slug);
+    let existingAssessment = null;
 
-    const { error: insertError } = await supabaseAdmin
-      .from('client_assessments')
-      .insert({
-        client_slug: slug,
-        business_name: businessName,
-        website_url: websiteUrl,
-        location: location || null,
-        google_place_id: googlePlaceId || null,
-        social_instagram: social?.instagram || null,
-        social_facebook: social?.facebook || null,
-        social_tiktok: social?.tiktok || null,
-        social_youtube: social?.youtube || null,
-        social_pinterest: social?.pinterest || null,
-        social_twitter: social?.twitter || null,
-        social_linkedin: social?.linkedin || null,
-        client_type: isElevated ? 'elevated' : 'accelerator',
-        client_email: clientEmail || null,
-        status: 'processing',
-        error_message: 'Progress: Starting assessment',
-        created_by: user.email
-      });
+    if (isRegeneration) {
+      // Regeneration: Fetch existing record and update status
+      if (DEBUG) console.log('[STEP 2] Fetching existing assessment for regeneration:', slug);
 
-    if (insertError) {
-      // Check if it's a duplicate key error
-      if (insertError.code === '23505' || insertError.message?.includes('duplicate')) {
+      const { data: existing, error: fetchError } = await supabaseAdmin
+        .from('client_assessments')
+        .select('*')
+        .eq('client_slug', slug)
+        .single();
+
+      if (fetchError || !existing) {
         return {
-          statusCode: 409,
-          body: JSON.stringify({ error: 'An assessment with this slug already exists' })
+          statusCode: 404,
+          body: JSON.stringify({ error: 'Assessment not found for regeneration' })
         };
       }
-      console.error('Failed to create assessment record:', insertError);
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to create assessment record: ' + insertError.message })
-      };
+
+      existingAssessment = existing;
+
+      // Update status to processing
+      const { error: updateError } = await supabaseAdmin
+        .from('client_assessments')
+        .update({
+          status: 'processing',
+          error_message: 'Progress: Regenerating with verified data'
+        })
+        .eq('client_slug', slug);
+
+      if (updateError) {
+        console.error('Failed to update assessment status:', updateError);
+      }
+
+      if (DEBUG) console.log('[STEP 2] Found existing assessment, regenerating');
+    } else {
+      // New assessment: Create record
+      if (DEBUG) console.log('[STEP 2] Creating assessment record for:', slug);
+
+      const { error: insertError } = await supabaseAdmin
+        .from('client_assessments')
+        .insert({
+          client_slug: slug,
+          business_name: businessName,
+          website_url: websiteUrl,
+          location: location || null,
+          google_place_id: googlePlaceId || null,
+          social_instagram: social?.instagram || null,
+          social_facebook: social?.facebook || null,
+          social_tiktok: social?.tiktok || null,
+          social_youtube: social?.youtube || null,
+          social_pinterest: social?.pinterest || null,
+          social_twitter: social?.twitter || null,
+          social_linkedin: social?.linkedin || null,
+          client_type: isElevated ? 'elevated' : 'accelerator',
+          client_email: clientEmail || null,
+          status: 'processing',
+          error_message: 'Progress: Starting assessment',
+          created_by: user.email
+        });
+
+      if (insertError) {
+        // Check if it's a duplicate key error
+        if (insertError.code === '23505' || insertError.message?.includes('duplicate')) {
+          return {
+            statusCode: 409,
+            body: JSON.stringify({ error: 'An assessment with this slug already exists' })
+          };
+        }
+        console.error('Failed to create assessment record:', insertError);
+        return {
+          statusCode: 500,
+          body: JSON.stringify({ error: 'Failed to create assessment record: ' + insertError.message })
+        };
+      }
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -220,6 +277,63 @@ export async function handler(event, context) {
     };
 
     if (DEBUG) console.log('[STEP 2] Record created, proceeding with assessment');
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 3. REGENERATION: Use existing data with manual overrides
+    // ─────────────────────────────────────────────────────────────────────────
+    let seoptData, googlePlacesData, websiteAnalysis, socialMediaData;
+    let effectiveBusinessName = businessName;
+    let effectiveWebsiteUrl = websiteUrl;
+    let effectiveSocial = social;
+    let effectiveLocation = location;
+    let effectiveGooglePlaceId = googlePlaceId;
+    let effectiveClientType = clientType;
+
+    if (isRegeneration && existingAssessment) {
+      if (DEBUG) console.log('[STEP 3] Using existing data for regeneration');
+      await updateProgress('Using verified data for regeneration');
+
+      // Use existing raw data
+      seoptData = existingAssessment.seoptimer_raw || null;
+      googlePlacesData = existingAssessment.google_places_raw || null;
+      websiteAnalysis = existingAssessment.website_analysis_raw || null;
+      socialMediaData = existingAssessment.social_media_raw || null;
+
+      // Apply manual overrides if present
+      if (existingAssessment.manual_overrides) {
+        if (DEBUG) console.log('[STEP 3] Applying manual overrides:', existingAssessment.manual_overrides);
+        socialMediaData = applyManualOverrides(socialMediaData, existingAssessment.manual_overrides);
+
+        // Apply Google Places overrides if present
+        if (existingAssessment.manual_overrides.google_places && googlePlacesData) {
+          const gpOverrides = existingAssessment.manual_overrides.google_places;
+          if (gpOverrides.rating !== undefined) googlePlacesData.rating = gpOverrides.rating;
+          if (gpOverrides.reviews !== undefined) {
+            googlePlacesData.reviews_count = gpOverrides.reviews;
+            googlePlacesData.user_ratings_total = gpOverrides.reviews;
+          }
+        }
+      }
+
+      // Use existing business info
+      effectiveBusinessName = existingAssessment.business_name;
+      effectiveWebsiteUrl = existingAssessment.website_url;
+      effectiveLocation = existingAssessment.location;
+      effectiveGooglePlaceId = existingAssessment.google_place_id;
+      effectiveClientType = existingAssessment.client_type;
+      effectiveSocial = {
+        instagram: existingAssessment.social_instagram,
+        facebook: existingAssessment.social_facebook,
+        tiktok: existingAssessment.social_tiktok,
+        youtube: existingAssessment.social_youtube,
+        pinterest: existingAssessment.social_pinterest,
+        twitter: existingAssessment.social_twitter,
+        linkedin: existingAssessment.social_linkedin
+      };
+
+      if (DEBUG) console.log('[STEP 3] Regeneration data ready, skipping API fetches');
+    } else {
+      // New assessment: Fetch all data from APIs
 
     if (DEBUG) console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
@@ -342,6 +456,87 @@ export async function handler(event, context) {
       await updateProgress('No social media URLs provided');
     }
 
+    } // End of else block for new assessment API fetching
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4.5 VERIFY ASSESSMENT DATA (pre-publish check) - Skip for regeneration
+    // ─────────────────────────────────────────────────────────────────────────
+    let manualOverrides = null;
+
+    if (!isRegeneration) {
+      if (DEBUG) console.log('[STEP 4.5] Verifying assessment data');
+      await updateProgress('Verifying data accuracy');
+
+    // Check if manual overrides exist (from previous verification failure)
+    const { data: currentAssessment } = await supabaseAdmin
+      .from('client_assessments')
+      .select('manual_overrides, verification_status')
+      .eq('client_slug', slug)
+      .single();
+
+    manualOverrides = currentAssessment?.manual_overrides;
+
+    // Run verification
+    const verificationResult = await verifyAssessmentData(
+      { seoptData, googlePlacesData, websiteAnalysis, socialMediaData },
+      social,
+      businessName,
+      websiteUrl
+    );
+
+    if (DEBUG) console.log('[STEP 4.5] Verification result:', {
+      status: verificationResult.verification_status,
+      verified: verificationResult.verified,
+      discrepancies: verificationResult.discrepancies?.length || 0,
+      warnings: verificationResult.warnings?.length || 0
+    });
+
+    // Store verification result
+    await supabaseAdmin.from('client_assessments')
+      .update({
+        verification_status: verificationResult.verification_status,
+        verification_data: verificationResult
+      })
+      .eq('client_slug', slug);
+
+    // If verification failed and no manual overrides exist, stop and wait for manual entry
+    if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
+      console.log('[STEP 4.5] Verification failed, awaiting manual entry');
+      await updateProgress('Verification failed - manual entry required');
+
+      // Update status to indicate waiting for verification
+      await supabaseAdmin.from('client_assessments')
+        .update({
+          status: 'needs_verification',
+          error_message: 'Data verification failed. Please verify and enter correct data.'
+        })
+        .eq('client_slug', slug);
+
+      // Return early - don't publish
+      return {
+        statusCode: 200,
+        body: JSON.stringify({
+          success: false,
+          status: 'needs_verification',
+          verification: verificationResult,
+          message: 'Data discrepancies detected. Please verify and enter correct data on the generator page.'
+        })
+      };
+    }
+
+    // Apply manual overrides if present
+    if (manualOverrides) {
+      if (DEBUG) console.log('[STEP 4.5] Applying manual overrides');
+      socialMediaData = applyManualOverrides(socialMediaData, manualOverrides);
+    }
+
+    await updateProgress('Data verification complete');
+    } else {
+      // Regeneration: Skip verification, data already verified
+      if (DEBUG) console.log('[STEP 4.5] Skipping verification for regeneration');
+      await updateProgress('Using pre-verified data');
+    }
+
     // ─────────────────────────────────────────────────────────────────────────
     // 5. CALCULATE DETERMINISTIC SCORES
     // ─────────────────────────────────────────────────────────────────────────
@@ -396,10 +591,10 @@ export async function handler(event, context) {
       try {
         console.log(`[Claude] Attempt ${attempt}/${maxRetries}`);
         assessmentData = await generateAssessmentWithClaude({
-          businessName,
-          websiteUrl,
-          location,
-          social,
+          businessName: effectiveBusinessName,
+          websiteUrl: effectiveWebsiteUrl,
+          location: effectiveLocation,
+          social: effectiveSocial,
           seoptData,
           googlePlacesData,
           websiteAnalysis,
@@ -611,23 +806,24 @@ export async function handler(event, context) {
     });
 
     let html;
+    const effectiveIsElevated = isRegeneration ? (effectiveClientType === 'elevated') : isElevated;
     if (templateRes.ok) {
       const templateData = await templateRes.json();
       const templateContent = Buffer.from(templateData.content, 'base64').toString('utf-8');
       html = processAssessmentTemplate(templateContent, {
-        businessName,
+        businessName: effectiveBusinessName,
         slug,
-        websiteUrl,
-        location,
+        websiteUrl: effectiveWebsiteUrl,
+        location: effectiveLocation,
         assessmentData: finalAssessmentData,
         coachEmail: user.email
       });
     } else {
       // Generate basic HTML if template not found
       html = generateBasicAssessmentHtml({
-        businessName,
+        businessName: effectiveBusinessName,
         slug,
-        websiteUrl,
+        websiteUrl: effectiveWebsiteUrl,
         assessmentData: finalAssessmentData
       });
     }
@@ -639,11 +835,11 @@ export async function handler(event, context) {
     await updateProgress('Publishing to web (committing)');
     let commitResult = { commitUrl: null };
     // Write to /elevated/ for Masterclass learners, /clients/ for accelerator clients
-    const outputPath = isElevated ? `elevated/${slug}/index.html` : `clients/${slug}/index.html`;
+    const outputPath = effectiveIsElevated ? `elevated/${slug}/index.html` : `clients/${slug}/index.html`;
     try {
       commitResult = await commitToGitHub([
         { path: outputPath, content: html }
-      ], `Add ${isElevated ? 'elevated' : ''} assessment: ${businessName}`);
+      ], `Add ${effectiveIsElevated ? 'elevated' : ''} assessment: ${effectiveBusinessName}`);
 
       if (commitResult.error) {
         console.error('[STEP 8] GitHub commit error (non-fatal):', commitResult.error);

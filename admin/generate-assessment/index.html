@@ -882,6 +882,221 @@
       .topbar__email { display: none; }
       .progress-card { padding: 32px 24px; }
     }
+
+    /* ── Verification Modal ─────────────────────────────── */
+    .verification-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,21,75,0.92);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+
+    .verification-modal.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .verification-modal__card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      transform: scale(0.95);
+      transition: transform 0.3s;
+    }
+
+    .verification-modal.active .verification-modal__card {
+      transform: scale(1);
+    }
+
+    .verification-modal__icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #ffd89b, #f5a623);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .verification-modal__icon svg {
+      width: 32px;
+      height: 32px;
+      color: var(--navy);
+    }
+
+    .verification-modal__title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      text-align: center;
+    }
+
+    .verification-modal__subtitle {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 24px;
+      line-height: 1.5;
+      text-align: center;
+    }
+
+    .verification-discrepancies {
+      background: rgba(176,48,48,0.06);
+      border: 1px solid rgba(176,48,48,0.15);
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 24px;
+    }
+
+    .verification-discrepancies__title {
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--danger);
+      margin-bottom: 12px;
+    }
+
+    .discrepancy-item {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(176,48,48,0.1);
+      font-size: 13px;
+    }
+
+    .discrepancy-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .discrepancy-item strong {
+      color: var(--navy);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .discrepancy-item p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .verification-form {
+      margin-bottom: 24px;
+    }
+
+    .verification-form__section {
+      background: var(--cream);
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+
+    .verification-form__section:last-child {
+      margin-bottom: 0;
+    }
+
+    .verification-form__section-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .verification-form__section-hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .verification-form__section-hint a {
+      color: var(--navy);
+      text-decoration: underline;
+    }
+
+    .verification-form__row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .verification-form__group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+
+    .verification-form__group input {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      border: 1.5px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .verification-form__group input:focus {
+      outline: none;
+      border-color: var(--navy);
+    }
+
+    .verification-modal__actions {
+      display: flex;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+
+    .verification-modal__btn {
+      height: 44px;
+      padding: 0 24px;
+      border-radius: 8px;
+      font-family: 'Raleway', sans-serif;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .verification-modal__btn--skip {
+      background: transparent;
+      color: var(--muted);
+      border: 1.5px solid var(--border);
+    }
+
+    .verification-modal__btn--skip:hover {
+      background: var(--cream);
+      border-color: var(--muted);
+    }
+
+    .verification-modal__btn--save {
+      background: var(--navy);
+      color: var(--mint);
+      border: none;
+    }
+
+    .verification-modal__btn--save:hover {
+      background: var(--navy-mid);
+    }
+
+    .verification-modal__btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
   </style>
 </head>
 <body data-page="admin-generate-assessment">
@@ -1223,6 +1438,74 @@
     </div>
   </div>
 
+  <!-- ══ VERIFICATION MODAL ══════════════════════════════════ -->
+  <div class="verification-modal" id="verificationModal">
+    <div class="verification-modal__card">
+      <div class="verification-modal__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <h2 class="verification-modal__title">Data Verification Required</h2>
+      <p class="verification-modal__subtitle">
+        Our automated checks detected potential issues with the API data.
+        Please verify the values below or skip to use the API data as-is.
+      </p>
+
+      <div class="verification-discrepancies" id="discrepancyList">
+        <p class="verification-discrepancies__title">Issues Detected</p>
+        <!-- Discrepancies will be populated here by JavaScript -->
+      </div>
+
+      <form class="verification-form" id="verificationForm" onsubmit="submitManualOverride(event)">
+        <div class="verification-form__section" id="instagramSection" style="display: none;">
+          <h4 class="verification-form__section-title">Instagram</h4>
+          <p class="verification-form__section-hint">
+            Verify at: <a href="#" id="instagramLink" target="_blank">instagram.com/handle</a>
+          </p>
+          <div class="verification-form__row">
+            <div class="verification-form__group">
+              <label for="verifyIgFollowers">Follower Count</label>
+              <input type="number" id="verifyIgFollowers" min="0" placeholder="e.g., 1156">
+            </div>
+            <div class="verification-form__group">
+              <label for="verifyIgPosts">Total Posts</label>
+              <input type="number" id="verifyIgPosts" min="0" placeholder="e.g., 503">
+            </div>
+          </div>
+        </div>
+
+        <div class="verification-form__section" id="googleSection" style="display: none;">
+          <h4 class="verification-form__section-title">Google Reviews</h4>
+          <p class="verification-form__section-hint">
+            Verify on Google Maps for: <span id="googleBusinessName"></span>
+          </p>
+          <div class="verification-form__row">
+            <div class="verification-form__group">
+              <label for="verifyGoogleRating">Rating (1.0-5.0)</label>
+              <input type="number" id="verifyGoogleRating" min="1" max="5" step="0.1" placeholder="e.g., 4.7">
+            </div>
+            <div class="verification-form__group">
+              <label for="verifyGoogleReviews">Review Count</label>
+              <input type="number" id="verifyGoogleReviews" min="0" placeholder="e.g., 42">
+            </div>
+          </div>
+        </div>
+      </form>
+
+      <div class="verification-modal__actions">
+        <button type="button" class="verification-modal__btn verification-modal__btn--skip" onclick="skipVerification()">
+          Skip & Use API Data
+        </button>
+        <button type="button" class="verification-modal__btn verification-modal__btn--save" id="saveVerificationBtn" onclick="submitManualOverride()">
+          Save & Continue
+        </button>
+      </div>
+    </div>
+  </div>
+
   <script src="/shared/supabase-client.js"></script>
   <script src="/shared/auth.js?v=2"></script>
   <script src="/shared/user-menu.js?v=2"></script>
@@ -1232,6 +1515,7 @@
     // ══════════════════════════════════════════════════════════════
     let currentUser = null;
     let lastAssessment = null;  // Track last created assessment for notification
+    let verificationContext = null;  // Track verification state for manual override
 
     // ══════════════════════════════════════════════════════════════
     // INITIALIZATION
@@ -1396,13 +1680,28 @@
 
           const { data: assessment, error } = await supabaseClient
             .from('client_assessments')
-            .select('status, error_message')
+            .select('status, error_message, verification_status, verification_data, social_instagram')
             .eq('client_slug', slug)
             .single();
 
           if (error) {
             console.log('Polling - no record yet, attempt:', i + 1);
             continue;
+          }
+
+          // Check if verification is needed
+          if (assessment.verification_status === 'needs_manual') {
+            hideProgress();
+            verificationContext = {
+              slug,
+              clientEmail,
+              businessName,
+              clientType,
+              instagramUrl: assessment.social_instagram,
+              verificationData: assessment.verification_data
+            };
+            showVerificationModal(assessment.verification_data, businessName, assessment.social_instagram);
+            return;
           }
 
           if (assessment.status === 'completed') {
@@ -1738,6 +2037,290 @@
           copyBtn.querySelector('span').textContent = 'Copy';
         }, 2000);
       });
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // VERIFICATION MODAL
+    // ══════════════════════════════════════════════════════════════
+    function showVerificationModal(verificationData, businessName, instagramUrl) {
+      const modal = document.getElementById('verificationModal');
+      const discrepancyList = document.getElementById('discrepancyList');
+      const instagramSection = document.getElementById('instagramSection');
+      const googleSection = document.getElementById('googleSection');
+
+      // Reset form fields
+      document.getElementById('verifyIgFollowers').value = '';
+      document.getElementById('verifyIgPosts').value = '';
+      document.getElementById('verifyGoogleRating').value = '';
+      document.getElementById('verifyGoogleReviews').value = '';
+
+      // Hide all sections initially
+      instagramSection.style.display = 'none';
+      googleSection.style.display = 'none';
+
+      // Build discrepancy list HTML
+      let discrepancyHtml = '<p class="verification-discrepancies__title">Issues Detected</p>';
+      const discrepancies = verificationData?.discrepancies || [];
+
+      if (discrepancies.length === 0) {
+        discrepancyHtml += '<div class="discrepancy-item"><p>Verification checks flagged potential data quality issues.</p></div>';
+      } else {
+        discrepancies.forEach(d => {
+          discrepancyHtml += `
+            <div class="discrepancy-item">
+              <strong>${d.field || 'Unknown'}</strong>
+              <p>${d.message || d.reason || 'Data may be inaccurate'}</p>
+            </div>
+          `;
+
+          // Show relevant sections based on discrepancy
+          if (d.field?.toLowerCase().includes('instagram') || d.platform === 'instagram') {
+            instagramSection.style.display = 'block';
+          }
+          if (d.field?.toLowerCase().includes('google') || d.platform === 'google_places') {
+            googleSection.style.display = 'block';
+          }
+        });
+      }
+
+      // If no specific discrepancies but needs_manual, show Instagram section if URL exists
+      if (instagramUrl && instagramSection.style.display === 'none') {
+        instagramSection.style.display = 'block';
+      }
+
+      discrepancyList.innerHTML = discrepancyHtml;
+
+      // Set up Instagram link
+      if (instagramUrl) {
+        const instagramLink = document.getElementById('instagramLink');
+        instagramLink.href = instagramUrl;
+        instagramLink.textContent = instagramUrl.replace('https://www.instagram.com/', 'instagram.com/').replace('https://instagram.com/', 'instagram.com/');
+      }
+
+      // Set up Google business name
+      if (businessName) {
+        document.getElementById('googleBusinessName').textContent = businessName;
+      }
+
+      // Show the modal
+      modal.classList.add('active');
+    }
+
+    function closeVerificationModal() {
+      document.getElementById('verificationModal').classList.remove('active');
+      verificationContext = null;
+    }
+
+    async function skipVerification() {
+      if (!verificationContext) {
+        console.error('No verification context available');
+        return;
+      }
+
+      const saveBtn = document.getElementById('saveVerificationBtn');
+      const skipBtn = document.querySelector('.verification-modal__btn--skip');
+      saveBtn.disabled = true;
+      skipBtn.disabled = true;
+      skipBtn.textContent = 'Skipping...';
+
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        // Call verify endpoint to skip verification
+        const response = await fetch('/.netlify/functions/verify-assessment-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            client_slug: verificationContext.slug,
+            skip_verification: true
+          })
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || 'Failed to skip verification');
+        }
+
+        // Close modal and trigger regeneration
+        closeVerificationModal();
+        showProgress();
+        await triggerRegeneration(verificationContext);
+
+      } catch (err) {
+        console.error('Failed to skip verification:', err);
+        showError(err.message);
+      } finally {
+        saveBtn.disabled = false;
+        skipBtn.disabled = false;
+        skipBtn.textContent = 'Skip & Use API Data';
+      }
+    }
+
+    async function submitManualOverride(e) {
+      if (e) e.preventDefault();
+
+      if (!verificationContext) {
+        console.error('No verification context available');
+        return;
+      }
+
+      const saveBtn = document.getElementById('saveVerificationBtn');
+      const skipBtn = document.querySelector('.verification-modal__btn--skip');
+      saveBtn.disabled = true;
+      skipBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+
+      // Collect manual values
+      const manualOverride = {};
+
+      const igFollowers = document.getElementById('verifyIgFollowers').value;
+      const igPosts = document.getElementById('verifyIgPosts').value;
+      if (igFollowers || igPosts) {
+        manualOverride.instagram = {};
+        if (igFollowers) manualOverride.instagram.followers = parseInt(igFollowers, 10);
+        if (igPosts) manualOverride.instagram.posts = parseInt(igPosts, 10);
+      }
+
+      const googleRating = document.getElementById('verifyGoogleRating').value;
+      const googleReviews = document.getElementById('verifyGoogleReviews').value;
+      if (googleRating || googleReviews) {
+        manualOverride.google_places = {};
+        if (googleRating) manualOverride.google_places.rating = parseFloat(googleRating);
+        if (googleReviews) manualOverride.google_places.reviews = parseInt(googleReviews, 10);
+      }
+
+      // Check if any values were entered
+      if (Object.keys(manualOverride).length === 0) {
+        showError('Please enter at least one value to verify');
+        saveBtn.disabled = false;
+        skipBtn.disabled = false;
+        saveBtn.textContent = 'Save & Continue';
+        return;
+      }
+
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        // Call verify endpoint with manual override
+        const response = await fetch('/.netlify/functions/verify-assessment-data', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            client_slug: verificationContext.slug,
+            manual_override: manualOverride
+          })
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          throw new Error(result.error || 'Failed to save manual data');
+        }
+
+        // Close modal and trigger regeneration
+        closeVerificationModal();
+        showProgress();
+        await triggerRegeneration(verificationContext);
+
+      } catch (err) {
+        console.error('Failed to submit manual override:', err);
+        showError(err.message);
+      } finally {
+        saveBtn.disabled = false;
+        skipBtn.disabled = false;
+        saveBtn.textContent = 'Save & Continue';
+      }
+    }
+
+    async function triggerRegeneration(context) {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          throw new Error('Not authenticated');
+        }
+
+        simulateProgress();
+
+        // Call the background function to regenerate
+        const response = await fetch('/.netlify/functions/generate-assessment-background', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            businessName: context.businessName,
+            slug: context.slug,
+            regenerate: true,  // Flag to indicate regeneration with existing data
+            clientType: context.clientType,
+            clientEmail: context.clientEmail
+          })
+        });
+
+        if (response.status !== 202 && response.status !== 200) {
+          let errorMsg = `Server returned ${response.status}`;
+          try {
+            const result = await response.json();
+            errorMsg = result.error || errorMsg;
+          } catch (e) {}
+          throw new Error(errorMsg);
+        }
+
+        // Poll for completion
+        const maxPolls = 180;
+        const pollInterval = 2000;
+
+        for (let i = 0; i < maxPolls; i++) {
+          await new Promise(r => setTimeout(r, pollInterval));
+
+          const { data: assessment, error } = await supabaseClient
+            .from('client_assessments')
+            .select('status, error_message, verification_status')
+            .eq('client_slug', context.slug)
+            .single();
+
+          if (error) continue;
+
+          if (assessment.status === 'completed') {
+            updateProgressStep(6, 'Deploying to web...');
+            const urlPath = context.clientType === 'elevated' ? `/elevated/${context.slug}/` : `/${context.slug}/`;
+            const assessmentUrl = `${window.location.origin}${urlPath}`;
+            await waitForPageLive(assessmentUrl);
+
+            hideProgress();
+            showSuccessModal(context.slug, urlPath, {
+              clientEmail: context.clientEmail,
+              businessName: context.businessName,
+              clientType: context.clientType
+            });
+            document.getElementById('assessmentForm').reset();
+            return;
+          }
+
+          if (assessment.status === 'failed') {
+            throw new Error(assessment.error_message || 'Regeneration failed');
+          }
+
+          updateProgressFromStatus(i);
+        }
+
+        throw new Error('Regeneration timed out');
+
+      } catch (err) {
+        hideProgress();
+        showError(err.message);
+      }
     }
   </script>
 </body>
