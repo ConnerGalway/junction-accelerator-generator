@@ -2286,11 +2286,26 @@
 
           const { data: assessment, error } = await supabaseClient
             .from('client_assessments')
-            .select('status, error_message, verification_status')
+            .select('status, error_message, verification_status, verification_data, social_instagram')
             .eq('client_slug', context.slug)
             .single();
 
           if (error) continue;
+
+          // Check if verification is needed (same as new assessment flow)
+          if (assessment.verification_status === 'needs_manual') {
+            hideProgress();
+            verificationContext = {
+              slug: context.slug,
+              clientEmail: context.clientEmail,
+              businessName: context.businessName,
+              clientType: context.clientType,
+              instagramUrl: assessment.social_instagram,
+              verificationData: assessment.verification_data
+            };
+            showVerificationModal(assessment.verification_data, context.businessName, assessment.social_instagram);
+            return;
+          }
 
           if (assessment.status === 'completed') {
             updateProgressStep(6, 'Deploying to web...');
