@@ -758,6 +758,7 @@ export async function handler(event, context) {
     // Check if manual overrides already exist
     if (isRegeneration && existingAssessment) {
       manualOverrides = existingAssessment.manual_overrides;
+      console.log('[STEP 4.5] Loaded manual_overrides from existingAssessment:', JSON.stringify(manualOverrides, null, 2));
     } else {
       const { data: currentAssessment } = await supabaseAdmin
         .from('client_assessments')
@@ -765,6 +766,7 @@ export async function handler(event, context) {
         .eq('client_slug', slug)
         .single();
       manualOverrides = currentAssessment?.manual_overrides;
+      console.log('[STEP 4.5] Loaded manual_overrides from fresh query:', JSON.stringify(manualOverrides, null, 2));
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -947,6 +949,16 @@ export async function handler(event, context) {
     await updateProgress('Generating analysis with Claude (this may take 30-60 seconds)');
 
     // Retry logic for Claude API calls (handles network timeouts)
+    // CRITICAL DEBUG: Log what Claude will receive for Instagram
+    console.log('[CLAUDE INPUT] Instagram data being sent to Claude:', JSON.stringify({
+      followers: socialMediaData?.platforms?.instagram?.followers,
+      postCount: socialMediaData?.platforms?.instagram?.postCount,
+      totalPosts: socialMediaData?.platforms?.instagram?.totalPosts,
+      _manual_override_followers: socialMediaData?.platforms?.instagram?._manual_override_followers,
+      _manual_override_posts: socialMediaData?.platforms?.instagram?._manual_override_posts,
+      _created_from_override: socialMediaData?.platforms?.instagram?._created_from_override
+    }, null, 2));
+
     let assessmentData;
     const maxRetries = 2;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {

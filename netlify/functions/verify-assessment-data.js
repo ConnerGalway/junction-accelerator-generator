@@ -166,6 +166,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     if (manual_override) {
       console.log('[VERIFY] Processing manual override');
+      console.log('[VERIFY] Received manual_override:', JSON.stringify(manual_override, null, 2));
 
       // Add audit information
       const auditedOverride = {
@@ -174,9 +175,23 @@ export async function handler(event, context) {
         verified_at: new Date().toISOString()
       };
 
+      console.log('[VERIFY] auditedOverride to save:', JSON.stringify(auditedOverride, null, 2));
+
       // Apply overrides to existing social media data
       const existingSocialData = assessment.social_media_raw || {};
+      console.log('[VERIFY] existingSocialData Instagram BEFORE:', JSON.stringify({
+        followers: existingSocialData?.platforms?.instagram?.followers,
+        postCount: existingSocialData?.platforms?.instagram?.postCount
+      }));
+
       const updatedSocialData = applyManualOverrides(existingSocialData, auditedOverride);
+
+      console.log('[VERIFY] updatedSocialData Instagram AFTER:', JSON.stringify({
+        followers: updatedSocialData?.platforms?.instagram?.followers,
+        postCount: updatedSocialData?.platforms?.instagram?.postCount,
+        _manual_override_followers: updatedSocialData?.platforms?.instagram?._manual_override_followers,
+        _manual_override_posts: updatedSocialData?.platforms?.instagram?._manual_override_posts
+      }));
 
       // Update assessment with manual data
       const { error: updateError } = await supabaseAdmin
@@ -203,7 +218,7 @@ export async function handler(event, context) {
         };
       }
 
-      console.log('[VERIFY] Manual override saved, triggering regeneration');
+      console.log('[VERIFY] Manual override saved successfully to database');
 
       // Return success - caller should trigger regeneration
       return {
