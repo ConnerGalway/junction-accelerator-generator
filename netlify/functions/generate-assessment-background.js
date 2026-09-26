@@ -518,8 +518,11 @@ export async function handler(event, context) {
       manualOverrides = currentAssessment?.manual_overrides;
     }
 
-    // ALWAYS run verification (both new assessments and regenerations)
-    // This ensures discrepancies are caught even if missed initially
+    // ─────────────────────────────────────────────────────────────────────────
+    // 4.5 VERIFICATION (optional - gracefully skip if columns don't exist)
+    // ─────────────────────────────────────────────────────────────────────────
+    let verificationColumnsExist = true;
+
     if (DEBUG) console.log('[STEP 4.5] Verifying assessment data');
     await updateProgress('Verifying data accuracy');
 
@@ -539,7 +542,7 @@ export async function handler(event, context) {
       isRegeneration
     });
 
-    // Store verification result - with error handling
+    // Try to store verification result - gracefully handle missing columns
     const { error: verifyUpdateError } = await supabaseAdmin.from('client_assessments')
       .update({
         verification_status: verificationResult.verification_status,
@@ -548,19 +551,24 @@ export async function handler(event, context) {
       .eq('client_slug', slug);
 
     if (verifyUpdateError) {
-      console.error('[STEP 4.5] Failed to update verification_status:', verifyUpdateError);
+      // Check if error is due to missing columns (migration not applied)
+      if (verifyUpdateError.code === 'PGRST204' || verifyUpdateError.message?.includes('column')) {
+        console.log('[STEP 4.5] Verification columns not found in database - skipping verification step');
+        console.log('[STEP 4.5] To enable verification, run migration: supabase/migrations/008_verification_status.sql');
+        verificationColumnsExist = false;
+      } else {
+        console.error('[STEP 4.5] Failed to update verification_status:', verifyUpdateError);
+      }
     } else {
       console.log('[STEP 4.5] verification_status updated to:', verificationResult.verification_status);
     }
 
-    // If verification failed and no manual overrides exist, stop and wait for manual entry
-    if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
+    // Only block for manual entry if verification columns exist AND verification failed
+    if (verificationColumnsExist && verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
       console.log('[STEP 4.5] Verification failed, awaiting manual entry');
       await updateProgress('Verification failed - manual entry required');
 
-      // Update error_message to indicate waiting for verification - with error handling
-      // Note: status stays as 'processing' because the CHECK constraint only allows specific values
-      // The verification_status field (already updated above) indicates the need for manual entry
+      // Update error_message to indicate waiting for verification
       const { error: statusUpdateError } = await supabaseAdmin.from('client_assessments')
         .update({
           error_message: 'Verification required: Please verify and enter correct data.'

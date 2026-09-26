@@ -229,7 +229,8 @@ export async function handler(event, context) {
       warnings: verificationResult.warnings?.length || 0
     });
 
-    // Update verification status in database - with error handling
+    // Try to update verification status - gracefully handle missing columns
+    let verificationColumnsExist = true;
     const { error: verifyUpdateError } = await supabaseAdmin.from('client_assessments')
       .update({
         verification_status: verificationResult.verification_status,
@@ -239,18 +240,23 @@ export async function handler(event, context) {
       .eq('client_slug', slug);
 
     if (verifyUpdateError) {
-      console.error('[REGENERATE] Failed to update verification_status:', verifyUpdateError);
+      // Check if error is due to missing columns (migration not applied)
+      if (verifyUpdateError.code === 'PGRST204' || verifyUpdateError.message?.includes('column')) {
+        console.log('[REGENERATE] Verification columns not found - skipping verification step');
+        console.log('[REGENERATE] To enable verification, run migration: supabase/migrations/008_verification_status.sql');
+        verificationColumnsExist = false;
+      } else {
+        console.error('[REGENERATE] Failed to update verification_status:', verifyUpdateError);
+      }
     } else {
       console.log('[REGENERATE] verification_status updated to:', verificationResult.verification_status);
     }
 
-    // If verification failed and no manual overrides exist, stop and wait for manual entry
-    if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
+    // Only block for manual entry if verification columns exist AND verification failed
+    if (verificationColumnsExist && verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
       console.log('[REGENERATE] Verification failed, awaiting manual entry');
       await updateProgress('Verification failed - manual entry required');
 
-      // Update error_message to indicate waiting for verification - with error handling
-      // Note: status stays as 'processing' because the CHECK constraint only allows specific values
       const { error: msgUpdateError } = await supabaseAdmin.from('client_assessments')
         .update({
           error_message: 'Verification required: Please verify and enter correct data.'
