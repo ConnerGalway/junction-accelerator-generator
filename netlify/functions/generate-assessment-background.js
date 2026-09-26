@@ -692,10 +692,18 @@ export async function handler(event, context) {
       isRegeneration
     });
 
+    // Determine the effective verification status
+    // If manual overrides exist, the data has been manually verified - don't set needs_manual
+    let effectiveVerificationStatus = verificationResult.verification_status;
+    if (manualOverrides && verificationResult.verification_status === 'needs_manual') {
+      effectiveVerificationStatus = 'verified_with_overrides';
+      console.log('[STEP 4.5] Manual overrides exist - setting status to verified_with_overrides instead of needs_manual');
+    }
+
     // Try to store verification result - gracefully handle missing columns
     const { error: verifyUpdateError } = await supabaseAdmin.from('client_assessments')
       .update({
-        verification_status: verificationResult.verification_status,
+        verification_status: effectiveVerificationStatus,
         verification_data: verificationResult
       })
       .eq('client_slug', slug);
@@ -710,10 +718,10 @@ export async function handler(event, context) {
         console.error('[STEP 4.5] Failed to update verification_status:', verifyUpdateError);
       }
     } else {
-      console.log('[STEP 4.5] verification_status updated to:', verificationResult.verification_status);
+      console.log('[STEP 4.5] verification_status updated to:', effectiveVerificationStatus);
     }
 
-    // Only block for manual entry if verification columns exist AND verification failed
+    // Only block for manual entry if verification columns exist AND verification failed AND no manual overrides
     if (verificationColumnsExist && verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
       console.log('[STEP 4.5] Verification failed, awaiting manual entry');
       await updateProgress('Verification failed - manual entry required');
