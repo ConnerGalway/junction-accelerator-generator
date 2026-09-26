@@ -14,6 +14,73 @@ import {
   VERIFICATION_ENGINE_VERSION
 } from '../../shared/verification-engine.js';
 
+
+// ═══════════════════════════════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Fetch with retry and exponential backoff
+ */
+async function fetchWithRetry(url, options = {}, retryConfig = {}) {
+  const {
+    maxRetries = 3,
+    baseDelayMs = 1000,
+    timeoutMs = 30000,
+    logPrefix = '[Fetch]'
+  } = retryConfig;
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        if (attempt > 1) {
+          console.log(`${logPrefix} Succeeded on attempt ${attempt}`);
+        }
+        return response;
+      }
+
+      if (response.status >= 500 && attempt < maxRetries) {
+        console.warn(`${logPrefix} Server error ${response.status} on attempt ${attempt}, retrying...`);
+        lastError = new Error(`HTTP ${response.status}`);
+        const delay = baseDelayMs * Math.pow(2, attempt - 1);
+        await new Promise(r => setTimeout(r, delay));
+        continue;
+      }
+
+      return response;
+
+    } catch (err) {
+      lastError = err;
+
+      if (err.name === 'AbortError') {
+        console.warn(`${logPrefix} Timeout on attempt ${attempt}/${maxRetries}`);
+      } else {
+        console.warn(`${logPrefix} Network error on attempt ${attempt}/${maxRetries}:`, err.message);
+      }
+
+      if (attempt < maxRetries) {
+        const delay = baseDelayMs * Math.pow(2, attempt - 1);
+        console.log(`${logPrefix} Retrying in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
+      }
+    }
+  }
+
+  throw lastError || new Error(`${logPrefix} All ${maxRetries} attempts failed`);
+}
+
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════════════════════════════
@@ -497,7 +564,13 @@ export async function handler(event, context) {
     };
 
   } catch (err) {
-    console.error('Regenerate error:', err);
+    // Enhanced error logging for debugging
+    console.error('═══════════════════════════════════════════════════════════════');
+    console.error('[CRITICAL ERROR] Assessment regeneration failed');
+    console.error('[ERROR] Type:', err?.name || 'Unknown');
+    console.error('[ERROR] Message:', err?.message || 'No message');
+    console.error('[ERROR] Stack:', err?.stack || 'No stack trace');
+    console.error('═══════════════════════════════════════════════════════════════');
 
     // Update Supabase status to 'failed' so frontend stops polling
     try {
@@ -1256,20 +1329,27 @@ async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClien
   if (freshData && !freshData._error) {
     const fetchedAt = new Date();
     const expiresAt = new Date(fetchedAt.getTime() + 24 * 60 * 60 * 1000); // 24 hours
-    supabaseClient
-      .from('social_media_cache')
-      .upsert({
-        client_slug: clientSlug,
-        payload: freshData,
-        fetched_at: fetchedAt.toISOString(),
-        expires_at: expiresAt.toISOString(),
-        source_api: 'sociavault',
-        source_version: '1.0'
-      }, { onConflict: 'client_slug' })
-      .then(({ error }) => {
-        if (!error) console.log('[SociaVault] Cached data for:', clientSlug);
-      })
-      .catch(() => {});
+    // Properly await cache save to prevent fire-and-forget async issues
+    try {
+      const { error } = await supabaseClient
+        .from('social_media_cache')
+        .upsert({
+          client_slug: clientSlug,
+          payload: freshData,
+          fetched_at: fetchedAt.toISOString(),
+          expires_at: expiresAt.toISOString(),
+          source_api: 'sociavault',
+          source_version: '1.0'
+        }, { onConflict: 'client_slug' });
+
+      if (error) {
+        console.log('[SociaVault] Cache save failed:', error.message);
+      } else {
+        console.log('[SociaVault] Cached data for:', clientSlug);
+      }
+    } catch (cacheErr) {
+      console.log('[SociaVault] Cache save error:', cacheErr.message);
+    }
   }
 
   return freshData;
@@ -1423,18 +1503,35 @@ async function fetchInstagramData(url, headers) {
 
   try {
     console.log('[SociaVault] Fetching Instagram posts for:', handle);
-    const postsRes = await fetchWithTimeout(
-      `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
-      { headers },
-      30000 // 30 second timeout
-    );
 
-    if (postsRes.ok) {
+    // Pagination configuration - fetch more posts for better analysis
+    const MAX_POSTS = 50;  // Get up to 50 posts for accurate engagement/frequency calculation
+    const MAX_PAGES = 4;   // Limit pagination requests to avoid rate limiting
+    let endCursor = null;
+    let pageCount = 0;
+    let allPosts = [];
+
+    while (allPosts.length < MAX_POSTS && pageCount < MAX_PAGES) {
+      pageCount++;
+      const paginationParam = endCursor ? `&cursor=${encodeURIComponent(endCursor)}` : '';
+      const postsUrl = `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true${paginationParam}`;
+
+      console.log(`[SociaVault] Fetching posts page ${pageCount}${endCursor ? ' (cursor: ' + endCursor.substring(0, 20) + '...)' : ''}`);
+
+      const postsRes = await fetchWithTimeout(postsUrl, { headers }, 30000);
+
+      if (!postsRes.ok) {
+        console.warn(`[SociaVault] Posts fetch failed on page ${pageCount}:`, postsRes.status);
+        break;
+      }
+
       const postsData = await postsRes.json();
 
-      // Debug: Log the raw posts response
-      const rawPostsResponse = JSON.stringify(postsData);
-      console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
+      // Debug: Log the raw posts response (first page only to reduce noise)
+      if (pageCount === 1) {
+        const rawPostsResponse = JSON.stringify(postsData);
+        console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
+      }
 
       // Get items - could be array or object with numeric keys
       let rawItems = postsData.data?.items || postsData.items || [];
@@ -1446,10 +1543,35 @@ async function fetchInstagramData(url, headers) {
         rawItems = Object.values(rawItems);
       }
 
-      posts = (rawItems || []).slice(0, 12);
-      console.log(`[SociaVault] Found ${posts.length} Instagram posts to analyze`);
+      if (!rawItems || rawItems.length === 0) {
+        console.log(`[SociaVault] No more posts found on page ${pageCount}`);
+        break;
+      }
 
-      if (posts.length > 0) {
+      allPosts = allPosts.concat(rawItems);
+      console.log(`[SociaVault] Page ${pageCount}: Got ${rawItems.length} posts, total now: ${allPosts.length}`);
+
+      // Check for pagination cursor
+      const nextCursor = postsData.data?.end_cursor || postsData.end_cursor || postsData.data?.cursor || postsData.cursor;
+      const hasMore = postsData.data?.has_next_page || postsData.has_next_page || postsData.data?.more_available || postsData.more_available;
+
+      if (!nextCursor || !hasMore) {
+        console.log('[SociaVault] No more pages available');
+        break;
+      }
+
+      endCursor = nextCursor;
+
+      // Small delay between pagination requests to be nice to the API
+      if (allPosts.length < MAX_POSTS && pageCount < MAX_PAGES) {
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+
+    posts = allPosts.slice(0, MAX_POSTS);
+    console.log(`[SociaVault] Final: ${posts.length} Instagram posts to analyze (from ${pageCount} page(s))`);
+
+    if (posts.length > 0) {
         // Log first post to see field names
         const firstPost = posts[0];
         console.log('[SociaVault] First post keys:', Object.keys(firstPost).join(', '));
@@ -1532,7 +1654,6 @@ async function fetchInstagramData(url, headers) {
           .sort((a, b) => b.engagementRate - a.engagementRate)
           .slice(0, 3)
           .map(p => ({ ...p, isTopPerformer: true }));
-      }
     }
   } catch (e) {
     console.log('[SociaVault] Instagram posts fetch error:', e.message);
@@ -2858,6 +2979,15 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
 }
 
 function buildAssessmentContext(data) {
+  // CRITICAL: Guard against null/undefined data
+  if (!data) {
+    console.error('[buildAssessmentContext] CRITICAL: data parameter is null/undefined');
+    return `ERROR: Assessment data unavailable. Cannot build context.`;
+  }
+
+  // Log data structure for debugging
+  console.log('[buildAssessmentContext] Building context for:', data.businessName || 'UNKNOWN');
+
   let context = '';
 
   // Add pre-calculated scores section if available
@@ -2892,8 +3022,8 @@ CRITICAL INSTRUCTIONS FOR CLAUDE:
   }
 
   context += `## Business Information
-- Name: ${data.businessName}
-- Website: ${data.websiteUrl}
+- Name: ${data.businessName || 'Unknown Business'}
+- Website: ${data.websiteUrl || 'Not provided'}
 - Location: ${data.location || 'Not specified'}
 
 ## Social Media Accounts (URLs provided - follower counts require manual verification)`;

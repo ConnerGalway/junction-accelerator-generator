@@ -16,6 +16,92 @@ import {
 
 
 // ═══════════════════════════════════════════════════════════════════════════
+// UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Fetch with retry and exponential backoff
+ * @param {string} url - URL to fetch
+ * @param {object} options - Fetch options
+ * @param {object} retryConfig - Retry configuration
+ * @param {number} retryConfig.maxRetries - Maximum number of retries (default: 3)
+ * @param {number} retryConfig.baseDelayMs - Base delay in milliseconds (default: 1000)
+ * @param {number} retryConfig.timeoutMs - Request timeout in milliseconds (default: 30000)
+ * @param {string} retryConfig.logPrefix - Prefix for log messages (default: '[Fetch]')
+ * @returns {Promise<Response>}
+ */
+async function fetchWithRetry(url, options = {}, retryConfig = {}) {
+  const {
+    maxRetries = 3,
+    baseDelayMs = 1000,
+    timeoutMs = 30000,
+    logPrefix = '[Fetch]'
+  } = retryConfig;
+
+  let lastError = null;
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      // Create abort controller for timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+
+      clearTimeout(timeoutId);
+
+      // Success - return response
+      if (response.ok) {
+        if (attempt > 1) {
+          console.log(`${logPrefix} Succeeded on attempt ${attempt}`);
+        }
+        return response;
+      }
+
+      // Server errors (5xx) - retry
+      if (response.status >= 500 && attempt < maxRetries) {
+        console.warn(`${logPrefix} Server error ${response.status} on attempt ${attempt}, retrying...`);
+        lastError = new Error(`HTTP ${response.status}`);
+        const delay = baseDelayMs * Math.pow(2, attempt - 1); // Exponential backoff
+        await new Promise(r => setTimeout(r, delay));
+        continue;
+      }
+
+      // Client errors (4xx) or final attempt - return as-is
+      return response;
+
+    } catch (err) {
+      lastError = err;
+
+      // Timeout or network error
+      if (err.name === 'AbortError') {
+        console.warn(`${logPrefix} Timeout on attempt ${attempt}/${maxRetries}`);
+      } else {
+        console.warn(`${logPrefix} Network error on attempt ${attempt}/${maxRetries}:`, err.message);
+      }
+
+      if (attempt < maxRetries) {
+        const delay = baseDelayMs * Math.pow(2, attempt - 1);
+        console.log(`${logPrefix} Retrying in ${delay}ms...`);
+        await new Promise(r => setTimeout(r, delay));
+      }
+    }
+  }
+
+  // All retries exhausted
+  throw lastError || new Error(`${logPrefix} All ${maxRetries} attempts failed`);
+}
+
+/**
+ * Sleep utility
+ * @param {number} ms - Milliseconds to sleep
+ */
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+// ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════════════════════════════
 
@@ -88,14 +174,47 @@ export async function handler(event, context) {
     // Validate URL (only for new assessments)
     if (!isRegeneration && websiteUrl) {
       try {
-        new URL(websiteUrl);
+        const parsedUrl = new URL(websiteUrl);
+        // Ensure it's http or https
+        if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+          return {
+            statusCode: 400,
+            body: JSON.stringify({ error: 'Website URL must use http or https protocol' })
+          };
+        }
       } catch {
         return {
           statusCode: 400,
-          body: JSON.stringify({ error: 'Invalid website URL' })
+          body: JSON.stringify({ error: 'Invalid website URL format' })
         };
       }
     }
+
+    // Validate social media URLs if provided (non-fatal - just log warnings)
+    if (social && typeof social === 'object') {
+      const socialPlatforms = ['instagram', 'facebook', 'tiktok', 'youtube', 'pinterest', 'twitter', 'linkedin'];
+      for (const platform of socialPlatforms) {
+        const url = social[platform];
+        if (url && typeof url === 'string' && url.trim()) {
+          // Basic URL validation for social URLs
+          if (!url.startsWith('http://') && !url.startsWith('https://') && !url.startsWith('@')) {
+            console.warn(`[VALIDATION] Social URL for ${platform} may be malformed:`, url.substring(0, 50));
+          }
+        }
+      }
+    }
+
+    // Validate email format if provided
+    if (clientEmail && typeof clientEmail === 'string' && clientEmail.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(clientEmail)) {
+        console.warn('[VALIDATION] Client email format appears invalid:', clientEmail);
+        // Non-fatal - continue but log warning
+      }
+    }
+
+    // Log validation complete
+    if (DEBUG) console.log('[STEP 1] Input validation passed');
 
     // ─────────────────────────────────────────────────────────────────────────
     // 1. VERIFY AUTH FIRST (before creating any database records)
@@ -277,13 +396,44 @@ export async function handler(event, context) {
       }
     }
 
-    // Helper to update progress (for debugging)
-    const updateProgress = async (step) => {
+    // Progress tracking with step numbers and timestamps
+    const progressSteps = {
+      'Fetching SEOptimer data': { step: 1, total: 8, pct: 10 },
+      'SEOptimer complete': { step: 1, total: 8, pct: 15 },
+      'Fetching Google Places data': { step: 2, total: 8, pct: 20 },
+      'Google Places complete': { step: 2, total: 8, pct: 25 },
+      'Analyzing website content': { step: 3, total: 8, pct: 30 },
+      'Website analysis complete': { step: 3, total: 8, pct: 40 },
+      'Analyzing social media profiles': { step: 4, total: 8, pct: 45 },
+      'Social media analysis complete': { step: 4, total: 8, pct: 55 },
+      'Verifying data accuracy': { step: 5, total: 8, pct: 60 },
+      'Data verification complete': { step: 5, total: 8, pct: 65 },
+      'Calculating assessment scores': { step: 6, total: 8, pct: 70 },
+      'Scores calculated': { step: 6, total: 8, pct: 75 },
+      'Generating analysis with Claude': { step: 7, total: 8, pct: 80 },
+      'Claude analysis complete': { step: 7, total: 8, pct: 90 },
+      'Saving assessment to database': { step: 8, total: 8, pct: 95 },
+      'Publishing to web': { step: 8, total: 8, pct: 98 }
+    };
+
+    let currentStepNumber = 0;
+    const startTime = Date.now();
+
+    // Helper to update progress with structured data
+    const updateProgress = async (stepName) => {
       try {
+        const stepInfo = progressSteps[stepName] || { step: currentStepNumber, total: 8, pct: 50 };
+        currentStepNumber = stepInfo.step;
+        const elapsed = Math.round((Date.now() - startTime) / 1000);
+
+        const progressMessage = `Step ${stepInfo.step}/${stepInfo.total}: ${stepName} (${stepInfo.pct}%, ${elapsed}s elapsed)`;
+
         await supabaseAdmin
           .from('client_assessments')
-          .update({ error_message: `Progress: ${step}` })
+          .update({ error_message: progressMessage })
           .eq('client_slug', slug);
+
+        console.log(`[PROGRESS] ${progressMessage}`);
       } catch (e) {
         console.error('Failed to update progress:', e);
       }
@@ -959,26 +1109,59 @@ export async function handler(event, context) {
     };
 
   } catch (err) {
-    console.error('Unexpected error:', err);
+    // ═══════════════════════════════════════════════════════════════════════════
+    // COMPREHENSIVE ERROR LOGGING
+    // ═══════════════════════════════════════════════════════════════════════════
+    console.error('═══════════════════════════════════════════════════════════════');
+    console.error('[CRITICAL ERROR] Assessment generation failed');
+    console.error('═══════════════════════════════════════════════════════════════');
+    console.error('[ERROR] Type:', err?.name || 'Unknown');
+    console.error('[ERROR] Message:', err?.message || 'No message');
+    console.error('[ERROR] Stack:', err?.stack || 'No stack trace');
+
+    // Log state of key variables for debugging
+    console.error('[STATE] slug:', slug || 'undefined');
+    console.error('[STATE] businessName:', typeof businessName !== 'undefined' ? businessName : 'undefined');
+    console.error('[STATE] effectiveBusinessName:', typeof effectiveBusinessName !== 'undefined' ? effectiveBusinessName : 'undefined');
+    console.error('[STATE] isRegeneration:', typeof isRegeneration !== 'undefined' ? isRegeneration : 'undefined');
+    console.error('[STATE] isOverwrite:', typeof isOverwrite !== 'undefined' ? isOverwrite : 'undefined');
+
+    // Log data collection state
+    console.error('[STATE] seoptData:', seoptData ? (seoptData._error ? 'ERROR' : 'OK') : 'null/undefined');
+    console.error('[STATE] googlePlacesData:', googlePlacesData ? (googlePlacesData._error ? 'ERROR' : 'OK') : 'null/undefined');
+    console.error('[STATE] websiteAnalysis:', websiteAnalysis ? (websiteAnalysis._error ? 'ERROR' : 'OK') : 'null/undefined');
+    console.error('[STATE] socialMediaData:', socialMediaData ? (socialMediaData._error ? 'ERROR' : 'OK') : 'null/undefined');
+    console.error('═══════════════════════════════════════════════════════════════');
 
     // Update Supabase status to 'failed' so frontend stops polling
     if (slug) {
       try {
+        const errorDetails = {
+          type: err?.name || 'Unknown',
+          message: err?.message || 'Unknown error',
+          timestamp: new Date().toISOString()
+        };
         await supabaseAdmin
           .from('client_assessments')
           .update({
             status: 'failed',
-            error_message: `Error: ${err.message || 'Unknown error'}`
+            error_message: `Error: ${err.message || 'Unknown error'}`,
+            // Store detailed error in a structured way if the column supports JSONB
+            verification_data: { _lastError: errorDetails }
           })
           .eq('client_slug', slug);
       } catch (updateErr) {
-        console.error('Failed to update error status:', updateErr);
+        console.error('[ERROR] Failed to update error status:', updateErr);
       }
     }
 
     return {
       statusCode: 500,
-      body: JSON.stringify({ error: err.message || 'Internal server error' })
+      body: JSON.stringify({
+        error: err.message || 'Internal server error',
+        errorType: err?.name || 'Unknown',
+        slug: slug || null
+      })
     };
   }
 }
@@ -1007,16 +1190,25 @@ async function fetchSEOptimerReport(websiteUrl) {
 
   console.log('[SEOptimer] Using API key starting with:', process.env.SEOPTIMER_API_KEY?.substring(0, 8) + '...');
 
-  // Step 1: Create the report
+  // Step 1: Create the report (with retry for transient failures)
   console.log('[SEOptimer] Calling create endpoint with URL:', cleanUrl);
-  const createResponse = await fetch('https://api.seoptimer.com/v1/report/create', {
-    method: 'POST',
-    headers,
-    body: JSON.stringify({
-      url: cleanUrl,
-      pdf: 0  // Don't need PDF
-    })
-  });
+  const createResponse = await fetchWithRetry(
+    'https://api.seoptimer.com/v1/report/create',
+    {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({
+        url: cleanUrl,
+        pdf: 0  // Don't need PDF
+      })
+    },
+    {
+      maxRetries: 3,
+      baseDelayMs: 2000,
+      timeoutMs: 30000,
+      logPrefix: '[SEOptimer Create]'
+    }
+  );
 
   if (!createResponse.ok) {
     const text = await createResponse.text();
@@ -1192,7 +1384,12 @@ async function searchGooglePlaces(query, apiKey) {
   findPlaceUrl.searchParams.set('fields', 'place_id,name,formatted_address');
   findPlaceUrl.searchParams.set('key', apiKey);
 
-  const findResponse = await fetch(findPlaceUrl.toString());
+  const findResponse = await fetchWithRetry(
+    findPlaceUrl.toString(),
+    {},
+    { maxRetries: 2, baseDelayMs: 1000, timeoutMs: 15000, logPrefix: '[Google Places Find]' }
+  );
+
   if (!findResponse.ok) {
     throw new Error(`Google Places Find failed: ${findResponse.status}`);
   }
@@ -1217,7 +1414,12 @@ async function getPlaceDetails(placeId, apiKey) {
 
   console.log('[Google Places] API URL:', detailsUrl.toString().replace(apiKey, 'API_KEY_HIDDEN'));
 
-  const detailsResponse = await fetch(detailsUrl.toString());
+  const detailsResponse = await fetchWithRetry(
+    detailsUrl.toString(),
+    {},
+    { maxRetries: 2, baseDelayMs: 1000, timeoutMs: 15000, logPrefix: '[Google Places Details]' }
+  );
+
   if (!detailsResponse.ok) {
     throw new Error(`Google Places Details failed: ${detailsResponse.status}`);
   }
@@ -2382,30 +2584,30 @@ async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClien
   console.log('[SociaVault] Fetching fresh data for:', clientSlug);
   const freshData = await fetchSocialMediaData(socialUrls);
 
-  // Cache the fresh data (don't await - fire and forget to avoid blocking)
+  // Cache the fresh data (properly awaited to prevent async errors after function returns)
   if (freshData && !freshData._error) {
     const fetchedAt = new Date();
     const expiresAt = new Date(fetchedAt.getTime() + 24 * 60 * 60 * 1000); // 24 hours
-    supabaseClient
-      .from('social_media_cache')
-      .upsert({
-        client_slug: clientSlug,
-        payload: freshData,
-        fetched_at: fetchedAt.toISOString(),
-        expires_at: expiresAt.toISOString(),
-        source_api: 'sociavault',
-        source_version: '1.0'
-      }, { onConflict: 'client_slug' })
-      .then(({ error }) => {
-        if (error) {
-          console.log('[SociaVault] Cache save failed (non-fatal):', error.message);
-        } else {
-          console.log('[SociaVault] Cached data for:', clientSlug);
-        }
-      })
-      .catch(err => {
-        console.log('[SociaVault] Cache save error (non-fatal):', err.message);
-      });
+    try {
+      const { error } = await supabaseClient
+        .from('social_media_cache')
+        .upsert({
+          client_slug: clientSlug,
+          payload: freshData,
+          fetched_at: fetchedAt.toISOString(),
+          expires_at: expiresAt.toISOString(),
+          source_api: 'sociavault',
+          source_version: '1.0'
+        }, { onConflict: 'client_slug' });
+
+      if (error) {
+        console.log('[SociaVault] Cache save failed (non-fatal):', error.message);
+      } else {
+        console.log('[SociaVault] Cached data for:', clientSlug);
+      }
+    } catch (err) {
+      console.log('[SociaVault] Cache save error (non-fatal):', err.message);
+    }
   }
 
   return freshData;
@@ -2675,18 +2877,36 @@ async function fetchInstagramData(url, headers) {
   const getTimestamp = (p) => p.taken_at || p.timestamp || p.created_at || p.taken_at_timestamp || 0;
 
   try {
-    const postsRes = await fetchWithTimeout(
-      `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true`,
-      { headers },
-      30000 // 30 second timeout
-    );
+    // Pagination configuration - fetch more posts for better analysis
+    const MAX_POSTS = 50;  // Get up to 50 posts for accurate engagement/frequency calculation
+    const MAX_PAGES = 4;   // Limit pagination requests to avoid rate limiting
+    let endCursor = null;
+    let pageCount = 0;
+    let allPosts = [];
 
-    if (postsRes.ok) {
+    console.log('[SociaVault] Starting paginated Instagram posts fetch (max:', MAX_POSTS, 'posts)');
+
+    while (allPosts.length < MAX_POSTS && pageCount < MAX_PAGES) {
+      pageCount++;
+      const paginationParam = endCursor ? `&cursor=${encodeURIComponent(endCursor)}` : '';
+      const postsUrl = `https://api.sociavault.com/v1/scrape/instagram/posts?handle=${encodeURIComponent(handle)}&trim=true${paginationParam}`;
+
+      console.log('[SociaVault] Fetching posts page', pageCount, endCursor ? '(with cursor)' : '(initial)');
+
+      const postsRes = await fetchWithTimeout(postsUrl, { headers }, 30000);
+
+      if (!postsRes.ok) {
+        console.log('[SociaVault] Posts fetch failed on page', pageCount, '- status:', postsRes.status);
+        break;
+      }
+
       const postsData = await postsRes.json();
 
-      // Debug: Log the FULL raw posts response
-      const rawPostsResponse = JSON.stringify(postsData);
-      console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
+      // Debug: Log raw response on first page only
+      if (pageCount === 1) {
+        const rawPostsResponse = JSON.stringify(postsData);
+        console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
+      }
 
       // Get items from response - could be array or object with numeric keys
       let rawItems = postsData.data?.items
@@ -2703,102 +2923,135 @@ async function fetchInstagramData(url, headers) {
         rawItems = Object.values(rawItems);
       }
 
-      posts = (rawItems || []).slice(0, 12);
-
       // Handle edge/node structure if present
-      if (posts.length > 0 && posts[0]?.node) {
-        posts = posts.map(p => p.node);
+      let pagePosts = rawItems || [];
+      if (pagePosts.length > 0 && pagePosts[0]?.node) {
+        pagePosts = pagePosts.map(p => p.node);
       }
 
-      console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length);
-      if (posts.length > 0) {
-        console.log('[SociaVault] First post keys:', Object.keys(posts[0]).join(', '));
-        // Log first post details to see actual field names and values
-        const firstPost = posts[0];
-        console.log('[SociaVault] First post sample:', JSON.stringify({
-          like_count: firstPost.like_count,
-          likes: firstPost.likes,
-          likes_count: firstPost.likes_count,
-          comment_count: firstPost.comment_count,
-          comments: firstPost.comments,
-          comments_count: firstPost.comments_count,
-          taken_at: firstPost.taken_at,
-          timestamp: firstPost.timestamp,
-          created_at: firstPost.created_at
-        }));
+      console.log('[SociaVault] Page', pageCount, 'returned', pagePosts.length, 'posts');
+
+      if (pagePosts.length === 0) {
+        console.log('[SociaVault] No more posts available, stopping pagination');
+        break;
       }
 
-      if (posts.length > 0) {
-        const totalLikes = posts.reduce((sum, p) => sum + getLikes(p), 0);
-        const totalComments = posts.reduce((sum, p) => sum + getComments(p), 0);
+      allPosts = allPosts.concat(pagePosts);
 
-        console.log('[SociaVault] Calculated totals - likes:', totalLikes, 'comments:', totalComments);
-        avgLikes = Math.round(totalLikes / posts.length);
-        avgComments = Math.round(totalComments / posts.length);
+      // Check for pagination cursor
+      const hasNextPage = postsData.data?.page_info?.has_next_page
+        || postsData.data?.edge_owner_to_timeline_media?.page_info?.has_next_page
+        || postsData.page_info?.has_next_page
+        || false;
 
-        if (followers > 0) {
-          engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
-          console.log('[SociaVault] Engagement calculation:', {
-            avgLikes,
-            avgComments,
-            followers,
-            engagementRate
-          });
-        }
+      const nextCursor = postsData.data?.page_info?.end_cursor
+        || postsData.data?.edge_owner_to_timeline_media?.page_info?.end_cursor
+        || postsData.page_info?.end_cursor
+        || null;
 
-        // Calculate content mix
-        posts.forEach(p => {
-          const mediaType = p.media_type;
-          if (mediaType === 2 || p.product_type === 'clips') {
-            contentMix.reels++;
-          } else if (mediaType === 8) {
-            contentMix.carousels++;
-          } else {
-            contentMix.images++;
-          }
+      if (!hasNextPage || !nextCursor) {
+        console.log('[SociaVault] No more pages available (has_next_page:', hasNextPage, ')');
+        break;
+      }
+
+      endCursor = nextCursor;
+
+      // Small delay between pagination requests to avoid rate limiting
+      if (allPosts.length < MAX_POSTS) {
+        await new Promise(r => setTimeout(r, 500));
+      }
+    }
+
+    // Use all fetched posts (up to MAX_POSTS)
+    posts = allPosts.slice(0, MAX_POSTS);
+
+    console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length, '(fetched', allPosts.length, 'total across', pageCount, 'pages)');
+
+    if (posts.length > 0) {
+      console.log('[SociaVault] First post keys:', Object.keys(posts[0]).join(', '));
+      // Log first post details to see actual field names and values
+      const firstPost = posts[0];
+      console.log('[SociaVault] First post sample:', JSON.stringify({
+        like_count: firstPost.like_count,
+        likes: firstPost.likes,
+        likes_count: firstPost.likes_count,
+        comment_count: firstPost.comment_count,
+        comments: firstPost.comments,
+        comments_count: firstPost.comments_count,
+        taken_at: firstPost.taken_at,
+        timestamp: firstPost.timestamp,
+        created_at: firstPost.created_at
+      }));
+
+      const totalLikes = posts.reduce((sum, p) => sum + getLikes(p), 0);
+      const totalComments = posts.reduce((sum, p) => sum + getComments(p), 0);
+
+      console.log('[SociaVault] Calculated totals - likes:', totalLikes, 'comments:', totalComments);
+      avgLikes = Math.round(totalLikes / posts.length);
+      avgComments = Math.round(totalComments / posts.length);
+
+      if (followers > 0) {
+        engagementRate = ((avgLikes + avgComments) / followers * 100).toFixed(2);
+        console.log('[SociaVault] Engagement calculation:', {
+          avgLikes,
+          avgComments,
+          followers,
+          engagementRate
         });
-
-        // Calculate posting frequency (posts per week)
-        const timestamps = posts.map(p => getTimestamp(p)).filter(t => t).sort((a, b) => b - a);
-        console.log('[SociaVault] Timestamps found:', timestamps.length, 'First:', timestamps[0], 'Last:', timestamps[timestamps.length - 1]);
-        if (timestamps.length >= 2) {
-          const newest = timestamps[0];
-          const oldest = timestamps[timestamps.length - 1];
-          const daySpan = (newest - oldest) / (60 * 60 * 24);
-          console.log('[SociaVault] Day span:', daySpan);
-          if (daySpan > 0) {
-            postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10; // Posts per week
-            console.log('[SociaVault] Calculated posting frequency:', postingFrequency, 'posts/week');
-          }
-        }
-
-        // Identify best performing content (top 3 by engagement rate)
-        const postsWithEngagement = posts.map(p => {
-          const likes = getLikes(p);
-          const comments = getComments(p);
-          const postEngagement = likes + comments;
-          const postEngagementRate = followers > 0 ? (postEngagement / followers * 100) : 0;
-          return {
-            id: p.id || p.code,
-            type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
-                  (p.media_type === 8 ? 'carousel' : 'image'),
-            likes: likes,
-            comments: comments,
-            views: p.play_count || p.view_count || null,
-            engagement: postEngagement,
-            engagementRate: Math.round(postEngagementRate * 100) / 100,
-            timestamp: getTimestamp(p),
-            caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || '',
-            performanceVsAverage: avgLikes > 0 ? Math.round(likes / avgLikes * 100) / 100 : 1
-          };
-        });
-
-        // Sort by engagement rate and take top 3
-        bestContent = postsWithEngagement
-          .sort((a, b) => b.engagementRate - a.engagementRate)
-          .slice(0, 3)
-          .map(p => ({ ...p, isTopPerformer: true }));
       }
+
+      // Calculate content mix
+      posts.forEach(p => {
+        const mediaType = p.media_type;
+        if (mediaType === 2 || p.product_type === 'clips') {
+          contentMix.reels++;
+        } else if (mediaType === 8) {
+          contentMix.carousels++;
+        } else {
+          contentMix.images++;
+        }
+      });
+
+      // Calculate posting frequency (posts per week)
+      const timestamps = posts.map(p => getTimestamp(p)).filter(t => t).sort((a, b) => b - a);
+      console.log('[SociaVault] Timestamps found:', timestamps.length, 'First:', timestamps[0], 'Last:', timestamps[timestamps.length - 1]);
+      if (timestamps.length >= 2) {
+        const newest = timestamps[0];
+        const oldest = timestamps[timestamps.length - 1];
+        const daySpan = (newest - oldest) / (60 * 60 * 24);
+        console.log('[SociaVault] Day span:', daySpan);
+        if (daySpan > 0) {
+          postingFrequency = Math.round((posts.length / daySpan) * 7 * 10) / 10; // Posts per week
+          console.log('[SociaVault] Calculated posting frequency:', postingFrequency, 'posts/week');
+        }
+      }
+
+      // Identify best performing content (top 3 by engagement rate)
+      const postsWithEngagement = posts.map(p => {
+        const likes = getLikes(p);
+        const comments = getComments(p);
+        const postEngagement = likes + comments;
+        const postEngagementRate = followers > 0 ? (postEngagement / followers * 100) : 0;
+        return {
+          id: p.id || p.code,
+          type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
+                (p.media_type === 8 ? 'carousel' : 'image'),
+          likes: likes,
+          comments: comments,
+          views: p.play_count || p.view_count || null,
+          engagement: postEngagement,
+          engagementRate: Math.round(postEngagementRate * 100) / 100,
+          timestamp: getTimestamp(p),
+          caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || '',
+          performanceVsAverage: avgLikes > 0 ? Math.round(likes / avgLikes * 100) / 100 : 1
+        };
+      });
+
+      // Sort by engagement rate and take top 3
+      bestContent = postsWithEngagement
+        .sort((a, b) => b.engagementRate - a.engagementRate)
+        .slice(0, 3)
+        .map(p => ({ ...p, isTopPerformer: true }));
     }
   } catch (postsErr) {
     console.error('[SociaVault] Instagram posts fetch error (non-fatal):', postsErr.message);
@@ -4528,7 +4781,7 @@ Return ONLY valid JSON:
     "headline": "One sentence summary specific to this business (factual, not dramatic)",
     "key_strengths": ["Strength 1 with specific detail", "Strength 2", "Strength 3"],
     "critical_gaps": ["Priority area needing attention (use constructive language)", "Area 2", "Area 3"],
-    "bottom_line": "What this means for ${data.businessName} in terms of visitor discovery and bookings"
+    "bottom_line": "What this means for ${data.businessName || 'this business'} in terms of visitor discovery and bookings"
   },
   "quick_wins": [
     {
@@ -4539,10 +4792,10 @@ Return ONLY valid JSON:
     }
   ],
   "tourism_context": {
-    "visitor_profile": "Who visits ${data.businessName} - tourists, locals, demographics",
+    "visitor_profile": "Who visits ${data.businessName || 'this business'} - tourists, locals, demographics",
     "discovery_journey": "How people find businesses like this in ${data.location || 'this area'}",
     "seasonal_considerations": "Seasonality impact on digital strategy",
-    "trip_integration": "How ${data.businessName} fits into visitor itineraries"
+    "trip_integration": "How ${data.businessName || 'this business'} fits into visitor itineraries"
   },
   "overall": {
     "grade": "B+",
@@ -5179,6 +5432,16 @@ Output ONLY the JSON object. No markdown code blocks, no explanation.`
 }
 
 function buildAssessmentContext(data) {
+  // CRITICAL: Guard against null/undefined data
+  if (!data) {
+    console.error('[buildAssessmentContext] CRITICAL: data parameter is null/undefined');
+    return `ERROR: Assessment data unavailable. Cannot build context.`;
+  }
+
+  // Log data state for debugging
+  console.log('[buildAssessmentContext] Data keys:', Object.keys(data));
+  console.log('[buildAssessmentContext] businessName:', data.businessName || 'MISSING');
+
   let context = '';
 
   // Add pre-calculated scores if available
@@ -5233,8 +5496,8 @@ RAW DATA FOR CONTEXT (use for analysis and recommendations)
   }
 
   context += `## Business Information
-- Name: ${data.businessName}
-- Website: ${data.websiteUrl}
+- Name: ${data.businessName || 'Unknown Business'}
+- Website: ${data.websiteUrl || 'Not provided'}
 - Location: ${data.location || 'Not specified'}
 
 ## Social Media Accounts (URLs provided - follower counts require manual verification)`;
@@ -5320,7 +5583,7 @@ This is a HIGH PRIORITY issue that MUST be included in the priority_recommendati
 
 **Why this matters for tourism businesses:**
 - Google is the #1 way travelers discover local businesses
-- Potential guests searching for "${data.businessName}" or related services in ${data.location || 'this area'} will not find this business on Google Maps
+- Potential guests searching for "${data.businessName || 'this business'}" or related services in ${data.location || 'this area'} will not find this business on Google Maps
 - Without a GBP listing, the business is invisible to the vast majority of travelers who use Google to plan trips
 - Competitors WITH Google profiles are capturing these potential guests instead
 - Reviews and ratings on Google directly influence booking decisions
