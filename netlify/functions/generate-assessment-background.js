@@ -489,6 +489,80 @@ export async function handler(event, context) {
         linkedin: existingAssessment.social_linkedin
       };
 
+      // ─────────────────────────────────────────────────────────────────────────
+      // CRITICAL FIX: Re-fetch missing data if not saved from previous run
+      // This handles the case where the first run failed before saving raw data
+      // ─────────────────────────────────────────────────────────────────────────
+      const missingData = [];
+      if (!seoptData) missingData.push('SEOptimer');
+      if (!googlePlacesData) missingData.push('Google Places');
+      if (!websiteAnalysis) missingData.push('Website Analysis');
+
+      if (missingData.length > 0) {
+        console.log('[STEP 3] CRITICAL: Missing raw data detected:', missingData.join(', '));
+        console.log('[STEP 3] Re-fetching missing data to ensure complete assessment');
+        await updateProgress('Re-fetching missing API data...');
+
+        // Re-fetch SEOptimer if missing
+        if (!seoptData && effectiveWebsiteUrl) {
+          try {
+            console.log('[STEP 3] Re-fetching SEOptimer data');
+            await updateProgress('Re-fetching SEOptimer data...');
+            seoptData = await fetchSEOptimerReport(effectiveWebsiteUrl);
+            console.log('[STEP 3] SEOptimer data re-fetched successfully');
+          } catch (err) {
+            console.error('[STEP 3] SEOptimer re-fetch failed (non-fatal):', err.message);
+          }
+        }
+
+        // Re-fetch Google Places if missing
+        if (!googlePlacesData && (effectiveGooglePlaceId || effectiveBusinessName)) {
+          try {
+            console.log('[STEP 3] Re-fetching Google Places data');
+            await updateProgress('Re-fetching Google Places data...');
+            googlePlacesData = await fetchGooglePlacesData(
+              effectiveGooglePlaceId,
+              effectiveBusinessName,
+              effectiveLocation
+            );
+            console.log('[STEP 3] Google Places data re-fetched successfully');
+          } catch (err) {
+            console.error('[STEP 3] Google Places re-fetch failed (non-fatal):', err.message);
+          }
+        }
+
+        // Re-fetch Website Analysis if missing
+        if (!websiteAnalysis && effectiveWebsiteUrl) {
+          try {
+            console.log('[STEP 3] Re-fetching Website Analysis');
+            await updateProgress('Re-fetching Website Analysis...');
+            websiteAnalysis = await analyzeWebsite(effectiveWebsiteUrl);
+            console.log('[STEP 3] Website Analysis re-fetched successfully');
+          } catch (err) {
+            console.error('[STEP 3] Website Analysis re-fetch failed (non-fatal):', err.message);
+          }
+        }
+
+        // Save the re-fetched data so future regenerations don't need to re-fetch
+        console.log('[STEP 3] Saving re-fetched raw data to database');
+        const { error: saveError } = await supabaseAdmin
+          .from('client_assessments')
+          .update({
+            seoptimer_raw: seoptData,
+            google_places_raw: googlePlacesData,
+            website_analysis_raw: websiteAnalysis
+          })
+          .eq('client_slug', slug);
+
+        if (saveError) {
+          console.error('[STEP 3] Failed to save re-fetched data:', saveError.message);
+        } else {
+          console.log('[STEP 3] Re-fetched data saved successfully');
+        }
+
+        await updateProgress('Missing data re-fetched');
+      }
+
       // FETCH FRESH SOCIAL MEDIA DATA - this is critical for verification
       // Social media data is the most likely to be incorrect/outdated
       if (effectiveSocial && Object.values(effectiveSocial).some(url => url)) {
