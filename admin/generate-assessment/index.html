@@ -2256,10 +2256,13 @@
           throw new Error(result.error || 'Failed to skip verification');
         }
 
+        // Save context before closing modal (closeVerificationModal nulls it out)
+        const savedContext = { ...verificationContext };
+
         // Close modal and trigger regeneration
         closeVerificationModal();
         showProgress();
-        await triggerRegeneration(verificationContext);
+        await triggerRegeneration(savedContext);
 
       } catch (err) {
         console.error('Failed to skip verification:', err);
@@ -2337,10 +2340,13 @@
           throw new Error(result.error || 'Failed to save manual data');
         }
 
+        // Save context before closing modal (closeVerificationModal nulls it out)
+        const savedContext = { ...verificationContext };
+
         // Close modal and trigger regeneration
         closeVerificationModal();
         showProgress();
-        await triggerRegeneration(verificationContext);
+        await triggerRegeneration(savedContext);
 
       } catch (err) {
         console.error('Failed to submit manual override:', err);
