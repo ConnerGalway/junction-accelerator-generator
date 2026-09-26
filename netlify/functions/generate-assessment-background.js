@@ -3032,7 +3032,27 @@ async function fetchInstagramData(url, headers) {
     || user.followerCount
     || 0;
 
-  console.log('[SociaVault] EXTRACTED: followers=' + followers + ', username=' + (user.username || user.full_name || 'N/A'));
+  // Extract post count with comprehensive fallbacks and logging
+  const extractedPostCount = user.edge_owner_to_timeline_media?.count
+    || user.media_count
+    || user.posts_count
+    || user.total_media_count
+    || user.mediaCount
+    || user.postsCount
+    || 0;
+
+  console.log('[SociaVault] EXTRACTED: followers=' + followers + ', username=' + (user.username || user.full_name || 'N/A') + ', postCount=' + extractedPostCount);
+
+  // Debug: Log all post-count-related fields for diagnosis
+  console.log('[SociaVault] POST COUNT DEBUG:', JSON.stringify({
+    edge_owner_to_timeline_media_count: user.edge_owner_to_timeline_media?.count,
+    media_count: user.media_count,
+    posts_count: user.posts_count,
+    total_media_count: user.total_media_count,
+    mediaCount: user.mediaCount,
+    postsCount: user.postsCount,
+    extracted: extractedPostCount
+  }));
 
   // Fetch recent posts for engagement calculation (up to 12 for better analysis)
   let posts = [];
@@ -3342,7 +3362,8 @@ async function fetchInstagramData(url, headers) {
     bio: user.biography || '',
     followers,
     following: user.edge_follow?.count || user.following_count || 0,
-    postCount: user.edge_owner_to_timeline_media?.count || user.media_count || 0,
+    postCount: extractedPostCount,
+    totalPosts: extractedPostCount, // Alias for clarity
     verified: user.is_verified || false,
     profilePicUrl: user.profile_pic_url_hd || user.profile_pic_url || '',
     externalUrl: user.external_url || '',
