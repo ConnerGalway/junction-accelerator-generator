@@ -805,6 +805,22 @@ export function applyManualOverrides(socialMediaData, manualOverrides) {
       ig.totalPosts = manualOverrides.instagram.posts;
       ig._manual_override_posts = true;
       console.log('[OVERRIDE] Instagram posts:', beforePosts, '->', ig.postCount);
+
+      // If we have a significantly different post count, recalculate estimated posting frequency
+      // Most Instagram accounts are roughly 1-10 years old, so we estimate based on average account age
+      if (manualOverrides.instagram.posts > 0 && beforePosts !== manualOverrides.instagram.posts) {
+        // Estimate: assume account has been active for ~3 years (156 weeks)
+        // This gives a reasonable estimate for established accounts
+        const estimatedWeeks = 156; // ~3 years
+        const estimatedFrequency = manualOverrides.instagram.posts / estimatedWeeks;
+
+        if (!ig.metrics) ig.metrics = {};
+        const oldFrequency = ig.metrics.postingFrequency || ig.postingFrequency;
+        ig.metrics.postingFrequency = parseFloat(estimatedFrequency.toFixed(1));
+        ig.postingFrequency = ig.metrics.postingFrequency;
+        ig._estimated_posting_frequency = true;
+        console.log('[OVERRIDE] Recalculated posting frequency from', oldFrequency, 'to', ig.metrics.postingFrequency, 'posts/week (estimated from', manualOverrides.instagram.posts, 'posts over ~3 years)');
+      }
     }
 
     if (manualOverrides.instagram.engagement_rate !== undefined) {

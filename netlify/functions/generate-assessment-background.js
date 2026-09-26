@@ -986,8 +986,11 @@ export async function handler(event, context) {
       followers: socialMediaData?.platforms?.instagram?.followers,
       postCount: socialMediaData?.platforms?.instagram?.postCount,
       totalPosts: socialMediaData?.platforms?.instagram?.totalPosts,
+      postingFrequency: socialMediaData?.platforms?.instagram?.metrics?.postingFrequency || socialMediaData?.platforms?.instagram?.postingFrequency,
+      engagementRate: socialMediaData?.platforms?.instagram?.metrics?.engagementRate,
       _manual_override_followers: socialMediaData?.platforms?.instagram?._manual_override_followers,
       _manual_override_posts: socialMediaData?.platforms?.instagram?._manual_override_posts,
+      _estimated_posting_frequency: socialMediaData?.platforms?.instagram?._estimated_posting_frequency,
       _created_from_override: socialMediaData?.platforms?.instagram?._created_from_override
     }, null, 2));
 
