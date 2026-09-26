@@ -1788,12 +1788,18 @@
             .single();
 
           if (error) {
-            console.log('Polling - no record yet, attempt:', i + 1);
+            console.log('Polling error, attempt:', i + 1, 'Error:', error.message, 'Code:', error.code);
             continue;
           }
 
-          // Check if verification is needed
-          if (assessment.verification_status === 'needs_manual') {
+          // Log every 10th poll to track progress without flooding console
+          if (i % 10 === 0 || assessment.verification_status === 'needs_manual') {
+            console.log(`[Poll ${i}] status: ${assessment.status}, verification_status: ${assessment.verification_status}`);
+          }
+
+          // Check if verification is needed (check both verification_status and status for robustness)
+          if (assessment.verification_status === 'needs_manual' || assessment.status === 'needs_verification') {
+            console.log('[Verification needed] verification_status:', assessment.verification_status, 'status:', assessment.status);
             hideProgress();
             verificationContext = {
               slug,
@@ -2393,10 +2399,19 @@
             .eq('client_slug', context.slug)
             .single();
 
-          if (error) continue;
+          if (error) {
+            console.log('Regeneration polling error, attempt:', i + 1, 'Error:', error.message, 'Code:', error.code);
+            continue;
+          }
 
-          // Check if verification is needed (same as new assessment flow)
-          if (assessment.verification_status === 'needs_manual') {
+          // Log every 10th poll to track progress without flooding console
+          if (i % 10 === 0 || assessment.verification_status === 'needs_manual') {
+            console.log(`[Regen Poll ${i}] status: ${assessment.status}, verification_status: ${assessment.verification_status}`);
+          }
+
+          // Check if verification is needed (check both verification_status and status for robustness)
+          if (assessment.verification_status === 'needs_manual' || assessment.status === 'needs_verification') {
+            console.log('[Verification needed] verification_status:', assessment.verification_status, 'status:', assessment.status);
             hideProgress();
             verificationContext = {
               slug: context.slug,

@@ -229,8 +229,8 @@ export async function handler(event, context) {
       warnings: verificationResult.warnings?.length || 0
     });
 
-    // Update verification status in database
-    await supabaseAdmin.from('client_assessments')
+    // Update verification status in database - with error handling
+    const { error: verifyUpdateError } = await supabaseAdmin.from('client_assessments')
       .update({
         verification_status: verificationResult.verification_status,
         verification_data: verificationResult,
@@ -238,24 +238,34 @@ export async function handler(event, context) {
       })
       .eq('client_slug', slug);
 
+    if (verifyUpdateError) {
+      console.error('[REGENERATE] Failed to update verification_status:', verifyUpdateError);
+    } else {
+      console.log('[REGENERATE] verification_status updated to:', verificationResult.verification_status);
+    }
+
     // If verification failed and no manual overrides exist, stop and wait for manual entry
     if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
       console.log('[REGENERATE] Verification failed, awaiting manual entry');
       await updateProgress('Verification failed - manual entry required');
 
-      // Update status to indicate waiting for verification
-      await supabaseAdmin.from('client_assessments')
+      // Update error_message to indicate waiting for verification - with error handling
+      // Note: status stays as 'processing' because the CHECK constraint only allows specific values
+      const { error: msgUpdateError } = await supabaseAdmin.from('client_assessments')
         .update({
-          status: 'needs_manual',
-          error_message: 'Data verification failed - manual input required for flagged items'
+          error_message: 'Verification required: Please verify and enter correct data.'
         })
         .eq('client_slug', slug);
+
+      if (msgUpdateError) {
+        console.error('[REGENERATE] Failed to update error_message:', msgUpdateError);
+      }
 
       return {
         statusCode: 200,
         body: JSON.stringify({
           success: true,
-          status: 'needs_manual',
+          status: 'needs_verification',
           message: 'Verification found discrepancies that require manual confirmation',
           verification_data: verificationResult
         })

@@ -539,26 +539,39 @@ export async function handler(event, context) {
       isRegeneration
     });
 
-    // Store verification result
-    await supabaseAdmin.from('client_assessments')
+    // Store verification result - with error handling
+    const { error: verifyUpdateError } = await supabaseAdmin.from('client_assessments')
       .update({
         verification_status: verificationResult.verification_status,
         verification_data: verificationResult
       })
       .eq('client_slug', slug);
 
+    if (verifyUpdateError) {
+      console.error('[STEP 4.5] Failed to update verification_status:', verifyUpdateError);
+    } else {
+      console.log('[STEP 4.5] verification_status updated to:', verificationResult.verification_status);
+    }
+
     // If verification failed and no manual overrides exist, stop and wait for manual entry
     if (verificationResult.verification_status === 'needs_manual' && !manualOverrides) {
       console.log('[STEP 4.5] Verification failed, awaiting manual entry');
       await updateProgress('Verification failed - manual entry required');
 
-      // Update status to indicate waiting for verification
-      await supabaseAdmin.from('client_assessments')
+      // Update error_message to indicate waiting for verification - with error handling
+      // Note: status stays as 'processing' because the CHECK constraint only allows specific values
+      // The verification_status field (already updated above) indicates the need for manual entry
+      const { error: statusUpdateError } = await supabaseAdmin.from('client_assessments')
         .update({
-          status: 'needs_verification',
-          error_message: 'Data verification failed. Please verify and enter correct data.'
+          error_message: 'Verification required: Please verify and enter correct data.'
         })
         .eq('client_slug', slug);
+
+      if (statusUpdateError) {
+        console.error('[STEP 4.5] Failed to update error_message:', statusUpdateError);
+      } else {
+        console.log('[STEP 4.5] error_message updated for verification prompt');
+      }
 
       // Return early - don't publish
       return {
