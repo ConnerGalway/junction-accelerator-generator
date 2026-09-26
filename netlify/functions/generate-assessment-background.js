@@ -288,9 +288,23 @@ export async function handler(event, context) {
       // New assessment: Create record
       if (DEBUG) console.log('[STEP 2] Creating assessment record for:', slug);
 
-      // If overwrite mode, delete any existing assessment first
+      // If overwrite mode, preserve manual_overrides before deleting
+      let preservedManualOverrides = null;
       if (isOverwrite) {
-        if (DEBUG) console.log('[STEP 2] Overwrite mode - deleting existing assessment if any');
+        if (DEBUG) console.log('[STEP 2] Overwrite mode - checking for existing manual_overrides to preserve');
+
+        // Fetch existing assessment to preserve manual_overrides
+        const { data: existingForOverwrite } = await supabaseAdmin
+          .from('client_assessments')
+          .select('manual_overrides, verification_status')
+          .eq('client_slug', slug)
+          .single();
+
+        if (existingForOverwrite?.manual_overrides) {
+          preservedManualOverrides = existingForOverwrite.manual_overrides;
+          console.log('[STEP 2] Preserving manual_overrides for overwrite:', JSON.stringify(preservedManualOverrides, null, 2));
+        }
+
         const { error: deleteError } = await supabaseAdmin
           .from('client_assessments')
           .delete()
@@ -344,6 +358,24 @@ export async function handler(event, context) {
           statusCode: 500,
           body: JSON.stringify({ error: 'Failed to create assessment record: ' + insertError.message })
         };
+      }
+
+      // If we preserved manual_overrides from overwrite, restore them to the new record
+      if (preservedManualOverrides) {
+        console.log('[STEP 2] Restoring preserved manual_overrides to new record');
+        const { error: restoreError } = await supabaseAdmin
+          .from('client_assessments')
+          .update({
+            manual_overrides: preservedManualOverrides,
+            verification_status: 'verified_with_overrides'
+          })
+          .eq('client_slug', slug);
+
+        if (restoreError) {
+          console.warn('[STEP 2] Failed to restore manual_overrides (non-fatal):', restoreError.message);
+        } else {
+          console.log('[STEP 2] Manual overrides restored successfully');
+        }
       }
     }
 
