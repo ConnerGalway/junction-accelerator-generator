@@ -394,7 +394,7 @@ export async function handler(event, context) {
     }
 
     await updateProgress('Fetching SEOptimer data (this may take 1-2 minutes)');
-    let seoptData = null;
+    seoptData = null;
     try {
       seoptData = await fetchSEOptimerReport(websiteUrl);
       await updateProgress('SEOptimer complete');
@@ -415,7 +415,7 @@ export async function handler(event, context) {
     // 4b. FETCH GOOGLE PLACES DATA (REVIEWS)
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Fetching Google Places data');
-    let googlePlacesData = null;
+    googlePlacesData = null;
     if (process.env.GOOGLE_PLACES_KEY) {
       if (DEBUG) console.log('[STEP 4b] Fetching Google Places data');
       try {
@@ -444,7 +444,7 @@ export async function handler(event, context) {
     // 4c. ANALYZE WEBSITE CONTENT (Tourism-specific signals)
     // ─────────────────────────────────────────────────────────────────────────
     await updateProgress('Analyzing website content');
-    let websiteAnalysis = null;
+    websiteAnalysis = null;
     if (DEBUG) console.log('[STEP 4c] Analyzing website content');
     try {
       websiteAnalysis = await analyzeWebsiteContent(websiteUrl);
@@ -475,7 +475,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 4e. FETCH SOCIAL MEDIA DATA (SociaVault) with caching
     // ─────────────────────────────────────────────────────────────────────────
-    let socialMediaData = null;
+    socialMediaData = null;
     if (social && Object.values(social).some(url => url)) {
       if (DEBUG) console.log('[STEP 4e] Fetching social media data from SociaVault (with cache)');
       await updateProgress('Analyzing social media profiles');
