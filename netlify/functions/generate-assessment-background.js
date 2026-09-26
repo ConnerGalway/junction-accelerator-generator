@@ -652,6 +652,31 @@ export async function handler(event, context) {
     } // End of else block for new assessment API fetching
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 4.4 SAVE RAW API DATA (CRITICAL: Must happen BEFORE verification)
+    // ─────────────────────────────────────────────────────────────────────────
+    // This ensures that if verification fails and we return early, the raw data
+    // is still saved and available for the regeneration run after manual entry.
+    if (!isRegeneration) {
+      console.log('[STEP 4.4] Saving raw API data before verification');
+      const { error: rawDataSaveError } = await supabaseAdmin
+        .from('client_assessments')
+        .update({
+          seoptimer_raw: seoptData,
+          google_places_raw: googlePlacesData,
+          website_analysis_raw: websiteAnalysis,
+          social_media_raw: socialMediaData
+        })
+        .eq('client_slug', slug);
+
+      if (rawDataSaveError) {
+        console.error('[STEP 4.4] Failed to save raw API data:', rawDataSaveError);
+        // Non-fatal - continue with verification
+      } else {
+        console.log('[STEP 4.4] Raw API data saved successfully');
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 4.5 VERIFY ASSESSMENT DATA (pre-publish check) - Skip for regeneration
     // ─────────────────────────────────────────────────────────────────────────
     let manualOverrides = null;
