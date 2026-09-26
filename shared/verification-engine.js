@@ -757,31 +757,62 @@ export function verifyCrossReferences(data) {
  * @returns {object} Updated social media data
  */
 export function applyManualOverrides(socialMediaData, manualOverrides) {
-  if (!manualOverrides) return socialMediaData;
+  if (!manualOverrides) {
+    console.log('[OVERRIDE] No manual overrides provided, returning original data');
+    return socialMediaData;
+  }
 
-  const updated = JSON.parse(JSON.stringify(socialMediaData)); // Deep clone
+  console.log('[OVERRIDE] Applying manual overrides:', JSON.stringify(manualOverrides, null, 2));
+
+  // Handle null/undefined socialMediaData by creating a minimal structure
+  const updated = socialMediaData
+    ? JSON.parse(JSON.stringify(socialMediaData)) // Deep clone
+    : { platforms: {}, summary: { totalFollowers: 0, platformsFound: 0, platformsAnalyzed: [] } };
+
+  // Ensure platforms structure exists
+  if (!updated.platforms) {
+    console.log('[OVERRIDE] Creating missing platforms object');
+    updated.platforms = {};
+  }
 
   // Apply Instagram overrides
-  if (manualOverrides.instagram && updated.platforms?.instagram) {
+  if (manualOverrides.instagram) {
+    console.log('[OVERRIDE] Processing Instagram overrides');
+
+    // Create Instagram object if it doesn't exist
+    if (!updated.platforms.instagram) {
+      console.log('[OVERRIDE] Creating missing instagram object in platforms');
+      updated.platforms.instagram = {
+        _created_from_override: true,
+        followers: 0,
+        postCount: 0,
+        metrics: {}
+      };
+    }
+
     const ig = updated.platforms.instagram;
+    const beforeFollowers = ig.followers;
+    const beforePosts = ig.postCount || ig.totalPosts;
 
     if (manualOverrides.instagram.followers !== undefined) {
       ig.followers = manualOverrides.instagram.followers;
       ig._manual_override_followers = true;
+      console.log('[OVERRIDE] Instagram followers:', beforeFollowers, '->', ig.followers);
     }
 
     if (manualOverrides.instagram.posts !== undefined) {
       ig.postCount = manualOverrides.instagram.posts;
       ig.totalPosts = manualOverrides.instagram.posts;
       ig._manual_override_posts = true;
+      console.log('[OVERRIDE] Instagram posts:', beforePosts, '->', ig.postCount);
     }
 
     if (manualOverrides.instagram.engagement_rate !== undefined) {
       ig.engagementRate = manualOverrides.instagram.engagement_rate;
-      if (ig.metrics) {
-        ig.metrics.engagementRate = manualOverrides.instagram.engagement_rate;
-      }
+      if (!ig.metrics) ig.metrics = {};
+      ig.metrics.engagementRate = manualOverrides.instagram.engagement_rate;
       ig._manual_override_engagement = true;
+      console.log('[OVERRIDE] Instagram engagement_rate set to:', ig.engagementRate);
     }
 
     // Calculate posting frequency if posts provided
@@ -789,12 +820,21 @@ export function applyManualOverrides(socialMediaData, manualOverrides) {
       ig.postingFrequency = manualOverrides.instagram.posts_per_week;
       ig._manual_override_frequency = true;
     }
+
+    console.log('[OVERRIDE] Instagram after overrides:', {
+      followers: ig.followers,
+      postCount: ig.postCount,
+      _manual_override_followers: ig._manual_override_followers,
+      _manual_override_posts: ig._manual_override_posts
+    });
   }
 
   // Mark data as manually verified
   updated._manually_verified = true;
   updated._verified_by = manualOverrides.verified_by;
   updated._verified_at = manualOverrides.verified_at || new Date().toISOString();
+
+  console.log('[OVERRIDE] Manual overrides applied successfully');
 
   return updated;
 }

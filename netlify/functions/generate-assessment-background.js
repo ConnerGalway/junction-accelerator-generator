@@ -852,8 +852,27 @@ export async function handler(event, context) {
 
     // Apply manual overrides if present (for both new and regeneration)
     if (manualOverrides) {
-      if (DEBUG) console.log('[STEP 4.5] Applying manual overrides');
+      console.log('[STEP 4.5] Applying manual overrides');
+      console.log('[STEP 4.5] Manual overrides structure:', JSON.stringify(manualOverrides, null, 2));
+
+      // Log Instagram data BEFORE override
+      const igBefore = socialMediaData?.platforms?.instagram;
+      console.log('[STEP 4.5] Instagram BEFORE override:', {
+        followers: igBefore?.followers,
+        postCount: igBefore?.postCount,
+        exists: !!igBefore
+      });
+
       socialMediaData = applyManualOverrides(socialMediaData, manualOverrides);
+
+      // Log Instagram data AFTER override
+      const igAfter = socialMediaData?.platforms?.instagram;
+      console.log('[STEP 4.5] Instagram AFTER override:', {
+        followers: igAfter?.followers,
+        postCount: igAfter?.postCount,
+        _manual_override_followers: igAfter?._manual_override_followers,
+        _manual_override_posts: igAfter?._manual_override_posts
+      });
 
       // Also apply Google Places overrides
       if (manualOverrides.google_places && googlePlacesData) {
@@ -864,6 +883,8 @@ export async function handler(event, context) {
           googlePlacesData.user_ratings_total = gpOverrides.reviews;
         }
       }
+    } else {
+      console.log('[STEP 4.5] No manual overrides to apply');
     }
 
     await updateProgress('Data verification complete');
