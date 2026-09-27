@@ -548,7 +548,7 @@ export async function handler(event, context) {
             seoptData = await fetchSEOptimerReport(effectiveWebsiteUrl);
             console.log('[STEP 3] SEOptimer data re-fetched successfully');
           } catch (err) {
-            console.error('[STEP 3] SEOptimer re-fetch failed (non-fatal):', err.message);
+            console.error('[STEP 3] SEOptimer re-fetch failed:', err.message);
             // Try PageSpeed Insights as fallback
             try {
               console.log('[STEP 3] Trying PageSpeed Insights as fallback');
@@ -557,9 +557,45 @@ export async function handler(event, context) {
               if (pageSpeedData) {
                 seoptData = pageSpeedData;
                 console.log('[STEP 3] PageSpeed data fetched successfully');
+              } else {
+                // Both failed - FATAL error
+                console.error('[STEP 3] FATAL: Both SEOptimer and PageSpeed failed');
+                await supabaseAdmin
+                  .from('client_assessments')
+                  .update({
+                    status: 'failed',
+                    error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
+                  })
+                  .eq('client_slug', slug);
+
+                return {
+                  statusCode: 503,
+                  body: JSON.stringify({
+                    error: 'Website analysis unavailable',
+                    message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
+                    details: err.message
+                  })
+                };
               }
             } catch (psErr) {
-              console.error('[STEP 3] PageSpeed fallback also failed:', psErr.message);
+              // Both failed - FATAL error
+              console.error('[STEP 3] FATAL: PageSpeed fallback also failed:', psErr.message);
+              await supabaseAdmin
+                .from('client_assessments')
+                .update({
+                  status: 'failed',
+                  error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
+                })
+                .eq('client_slug', slug);
+
+              return {
+                statusCode: 503,
+                body: JSON.stringify({
+                  error: 'Website analysis unavailable',
+                  message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
+                  details: `SEOptimer: ${err.message}, PageSpeed: ${psErr.message}`
+                })
+              };
             }
           }
         }
@@ -672,7 +708,7 @@ export async function handler(event, context) {
       seoptData = await fetchSEOptimerReport(websiteUrl);
       await updateProgress('SEOptimer complete');
     } catch (err) {
-      console.error('SEOptimer error (non-fatal):', err.message);
+      console.error('SEOptimer error:', err.message);
       await updateProgress('SEOptimer failed, trying PageSpeed Insights...');
 
       // Try Google PageSpeed Insights as fallback for speed data
@@ -683,20 +719,44 @@ export async function handler(event, context) {
           seoptData = pageSpeedData;
           await updateProgress('PageSpeed Insights complete (SEOptimer fallback)');
         } else {
-          // Both failed - continue without speed data
-          seoptData = {
-            _error: err.message,
-            _note: 'SEOptimer and PageSpeed unavailable - assessment generated with limited technical data'
+          // Both failed - this is FATAL, cannot generate valid assessment
+          console.error('FATAL: Both SEOptimer and PageSpeed failed to return data');
+          await supabaseAdmin
+            .from('client_assessments')
+            .update({
+              status: 'failed',
+              error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
+            })
+            .eq('client_slug', slug);
+
+          return {
+            statusCode: 503,
+            body: JSON.stringify({
+              error: 'Website analysis unavailable',
+              message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
+              details: err.message
+            })
           };
-          await updateProgress('Speed data unavailable (non-fatal), continuing...');
         }
       } catch (pageSpeedErr) {
-        console.error('PageSpeed fallback also failed:', pageSpeedErr.message);
-        seoptData = {
-          _error: err.message,
-          _note: 'SEOptimer and PageSpeed unavailable - assessment generated with limited technical data'
+        // Both failed - this is FATAL, cannot generate valid assessment
+        console.error('FATAL: SEOptimer failed and PageSpeed fallback also failed:', pageSpeedErr.message);
+        await supabaseAdmin
+          .from('client_assessments')
+          .update({
+            status: 'failed',
+            error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
+          })
+          .eq('client_slug', slug);
+
+        return {
+          statusCode: 503,
+          body: JSON.stringify({
+            error: 'Website analysis unavailable',
+            message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
+            details: `SEOptimer: ${err.message}, PageSpeed: ${pageSpeedErr.message}`
+          })
         };
-        await updateProgress('Speed data unavailable (non-fatal), continuing...');
       }
     }
 
