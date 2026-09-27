@@ -118,12 +118,16 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
     performanceScore = gradeToScore(scores.performance.grade);
   }
 
-  // Desktop Speed - use performance score (SEOptimer combines desktop/mobile into one performance grade)
-  if (seoptData && !seoptData._error && performanceScore != null) {
+  // Determine data source (SEOptimer or PageSpeed Insights fallback)
+  const dataSource = seoptData?._source || 'SEOptimer';
+
+  // Desktop Speed - check for PageSpeed specific field first, then SEOptimer format
+  let desktopScore = seoptData?.performance_desktop ?? performanceScore;
+  if (seoptData && !seoptData._error && desktopScore != null) {
     breakdown.desktop_speed = {
-      value: performanceScore,
-      score: Math.min(100, Math.max(0, performanceScore)),
-      source: 'SEOptimer',
+      value: desktopScore,
+      score: Math.min(100, Math.max(0, desktopScore)),
+      source: dataSource,
       grade: scores?.performance?.grade || null
     };
     hasData = true;
@@ -131,8 +135,8 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
     breakdown.desktop_speed = { value: null, score: 50, source: 'unavailable' };
   }
 
-  // Mobile Speed - use usability score if available, otherwise use performance
-  let mobileScore = seoptData?.performance?.mobile_score ?? null;
+  // Mobile Speed - check for PageSpeed specific field first, then SEOptimer format
+  let mobileScore = seoptData?.performance_mobile ?? seoptData?.performance?.mobile_score ?? null;
   if (mobileScore == null && scores?.usability?.grade) {
     mobileScore = gradeToScore(scores.usability.grade);
   }
@@ -144,7 +148,7 @@ function calculateWebsiteTechnicalScore(seoptData, websiteAnalysis) {
     breakdown.mobile_speed = {
       value: mobileScore,
       score: Math.min(100, Math.max(0, mobileScore)),
-      source: 'SEOptimer',
+      source: dataSource,
       grade: scores?.usability?.grade || scores?.performance?.grade || null
     };
     hasData = true;

@@ -656,13 +656,31 @@ export async function handler(event, context) {
       await updateProgress('SEOptimer complete');
     } catch (err) {
       console.error('SEOptimer error (non-fatal):', err.message);
-      await updateProgress('SEOptimer failed (non-fatal), continuing...');
-      // SEOptimer failure is non-fatal - continue without SEO data
-      // The assessment will still be generated with available information
-      seoptData = {
-        _error: err.message,
-        _note: 'SEOptimer data unavailable - assessment generated with limited technical SEO data'
-      };
+      await updateProgress('SEOptimer failed, trying PageSpeed Insights...');
+
+      // Try Google PageSpeed Insights as fallback for speed data
+      try {
+        const pageSpeedData = await fetchPageSpeedData(websiteUrl);
+        if (pageSpeedData) {
+          console.log('[PageSpeed] Successfully fetched as SEOptimer fallback');
+          seoptData = pageSpeedData;
+          await updateProgress('PageSpeed Insights complete (SEOptimer fallback)');
+        } else {
+          // Both failed - continue without speed data
+          seoptData = {
+            _error: err.message,
+            _note: 'SEOptimer and PageSpeed unavailable - assessment generated with limited technical data'
+          };
+          await updateProgress('Speed data unavailable (non-fatal), continuing...');
+        }
+      } catch (pageSpeedErr) {
+        console.error('PageSpeed fallback also failed:', pageSpeedErr.message);
+        seoptData = {
+          _error: err.message,
+          _note: 'SEOptimer and PageSpeed unavailable - assessment generated with limited technical data'
+        };
+        await updateProgress('Speed data unavailable (non-fatal), continuing...');
+      }
     }
 
     if (DEBUG) console.log('[STEP 4] SEOptimer data received');
@@ -1470,6 +1488,98 @@ async function fetchSEOptimerReport(websiteUrl) {
   }
 
   throw new Error('SEOptimer report timed out - took too long to generate');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// GOOGLE PAGESPEED INSIGHTS API (fallback for speed data)
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Fetch website speed data from Google PageSpeed Insights API (free)
+ * Used as fallback when SEOptimer is unavailable
+ */
+async function fetchPageSpeedData(websiteUrl) {
+  // Use the same API key as Google Places (both are Google Cloud APIs)
+  const apiKey = process.env.GOOGLE_PLACES_KEY;
+  if (!apiKey) {
+    console.log('[PageSpeed] No Google API key available, skipping');
+    return null;
+  }
+
+  // Ensure URL has protocol
+  const fullUrl = websiteUrl.startsWith('http') ? websiteUrl : `https://${websiteUrl}`;
+
+  console.log('[PageSpeed] Fetching speed data for:', fullUrl);
+
+  try {
+    // Fetch both mobile and desktop scores
+    const [mobileRes, desktopRes] = await Promise.all([
+      fetchWithTimeout(
+        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(fullUrl)}&strategy=mobile&key=${apiKey}`,
+        {},
+        30000
+      ),
+      fetchWithTimeout(
+        `https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=${encodeURIComponent(fullUrl)}&strategy=desktop&key=${apiKey}`,
+        {},
+        30000
+      )
+    ]);
+
+    const mobileData = mobileRes.ok ? await mobileRes.json() : null;
+    const desktopData = desktopRes.ok ? await desktopRes.json() : null;
+
+    // Extract performance scores (0-100)
+    const mobileScore = mobileData?.lighthouseResult?.categories?.performance?.score;
+    const desktopScore = desktopData?.lighthouseResult?.categories?.performance?.score;
+
+    // Convert from 0-1 to 0-100 if needed
+    const mobilePerf = mobileScore !== undefined ? Math.round(mobileScore * 100) : null;
+    const desktopPerf = desktopScore !== undefined ? Math.round(desktopScore * 100) : null;
+
+    console.log('[PageSpeed] Results:', { mobile: mobilePerf, desktop: desktopPerf });
+
+    if (mobilePerf === null && desktopPerf === null) {
+      console.log('[PageSpeed] No valid scores returned');
+      return null;
+    }
+
+    // Return in a format compatible with our scoring engine
+    return {
+      _source: 'PageSpeed Insights',
+      scores: {
+        performance: {
+          grade: scoreToLetterGrade(desktopPerf || mobilePerf),
+          value: desktopPerf || mobilePerf
+        },
+        usability: {
+          grade: scoreToLetterGrade(mobilePerf || desktopPerf),
+          value: mobilePerf || desktopPerf
+        }
+      },
+      performance_desktop: desktopPerf,
+      performance_mobile: mobilePerf,
+      _pageSpeedData: {
+        mobile: mobileData?.lighthouseResult,
+        desktop: desktopData?.lighthouseResult
+      }
+    };
+  } catch (err) {
+    console.error('[PageSpeed] Error fetching data:', err.message);
+    return null;
+  }
+}
+
+/**
+ * Convert numeric score to letter grade
+ */
+function scoreToLetterGrade(score) {
+  if (score === null || score === undefined) return 'N/A';
+  if (score >= 90) return 'A';
+  if (score >= 80) return 'B';
+  if (score >= 70) return 'C';
+  if (score >= 60) return 'D';
+  return 'F';
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
