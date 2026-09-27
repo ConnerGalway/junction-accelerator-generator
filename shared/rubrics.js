@@ -288,73 +288,76 @@ const RUBRICS = {
     subMetrics: {
       // Total followers across platforms
       total_followers: {
-        weight: 0.25,
+        weight: 0.20,
         source: 'socialMediaData.summary.totalFollowers',
         type: 'threshold',
         thresholds: [
           { min: 50000, score: 100 },  // 50k+ = strong authority
           { min: 20000, score: 92 },   // 20k-50k = established
           { min: 10000, score: 85 },   // 10k-20k = growing
-          { min: 5000, score: 75 },    // 5k-10k = developing
-          { min: 2000, score: 65 },    // 2k-5k = emerging
-          { min: 1000, score: 55 },    // 1k-2k = early stage
-          { min: 500, score: 45 },     // 500-1k = starting
-          { min: 0, score: 30 }        // Under 500 = needs work
+          { min: 5000, score: 78 },    // 5k-10k = developing
+          { min: 2000, score: 72 },    // 2k-5k = emerging (C range)
+          { min: 1000, score: 65 },    // 1k-2k = early stage
+          { min: 500, score: 55 },     // 500-1k = starting
+          { min: 0, score: 40 }        // Under 500 = needs work
         ],
         benchmark: 'Local tourism: 1k+ good, 5k+ strong'
       },
 
       // Average engagement rate (Instagram primary)
+      // REDUCED WEIGHT: Engagement is less controllable than posting consistency
       engagement_rate: {
-        weight: 0.30,
+        weight: 0.15,
         source: 'socialMediaData.platforms.instagram.metrics.engagementRate',
         type: 'threshold',
         thresholds: [
           { min: 6, score: 100 },    // 6%+ = exceptional
           { min: 4, score: 90 },     // 4-6% = excellent
           { min: 3, score: 80 },     // 3-4% = good
-          { min: 2, score: 70 },     // 2-3% = average
-          { min: 1, score: 55 },     // 1-2% = below average
-          { min: 0.5, score: 40 },   // 0.5-1% = low
-          { min: 0, score: 25 }      // Under 0.5% = very low
+          { min: 2, score: 72 },     // 2-3% = average
+          { min: 1, score: 65 },     // 1-2% = below average (still C range)
+          { min: 0.5, score: 55 },   // 0.5-1% = low
+          { min: 0, score: 45 }      // Under 0.5% = very low (but not failing)
         ],
         benchmark: 'Tourism: 1-3% average, 3-6% good, 6%+ excellent'
       },
 
       // Posting frequency (posts per week)
+      // INCREASED WEIGHT: Consistent posting is key for active presence
       posting_frequency: {
-        weight: 0.20,
+        weight: 0.30,
         source: 'socialMediaData.platforms.instagram.metrics.postingFrequency',
         type: 'threshold',
         thresholds: [
           { min: 5, score: 100 },    // 5+/week = very active
-          { min: 3, score: 85 },     // 3-5/week = active
-          { min: 2, score: 70 },     // 2-3/week = consistent
-          { min: 1, score: 55 },     // 1-2/week = sporadic
-          { min: 0.5, score: 40 },   // Bi-weekly = infrequent
-          { min: 0, score: 25 }      // Less = inactive
+          { min: 3, score: 88 },     // 3-5/week = active
+          { min: 2, score: 78 },     // 2-3/week = consistent (C+ range)
+          { min: 1, score: 70 },     // 1-2/week = regular (C range)
+          { min: 0.5, score: 55 },   // Bi-weekly = infrequent
+          { min: 0, score: 35 }      // Less = inactive
         ],
         benchmark: '3-5 posts/week recommended for tourism'
       },
 
       // Platform presence (number of active platforms)
+      // INCREASED WEIGHT: Having active accounts is foundational
       platform_presence: {
-        weight: 0.15,
+        weight: 0.20,
         source: 'socialMediaData.summary.platformsAnalyzed',
         type: 'threshold',
         thresholds: [
           { min: 4, score: 100 },   // 4+ platforms = comprehensive
-          { min: 3, score: 85 },    // 3 platforms = solid
-          { min: 2, score: 70 },    // 2 platforms = basic
-          { min: 1, score: 50 },    // 1 platform = limited
-          { min: 0, score: 20 }     // No presence = critical
+          { min: 3, score: 88 },    // 3 platforms = solid
+          { min: 2, score: 78 },    // 2 platforms = basic (C+ range)
+          { min: 1, score: 65 },    // 1 platform = limited
+          { min: 0, score: 25 }     // No presence = critical
         ],
         benchmark: 'Tourism needs 2-3 platforms minimum'
       },
 
       // Content quality (video presence as proxy)
       content_quality: {
-        weight: 0.10,
+        weight: 0.15,
         source: 'socialMediaData',
         type: 'custom',
         calculator: 'calculateContentQualityScore',

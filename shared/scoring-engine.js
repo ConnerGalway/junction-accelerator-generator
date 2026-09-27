@@ -522,14 +522,29 @@ function calculateSocialMediaScore(socialMediaData) {
   // Calculate weighted score
   const weightedScore = applySubMetricWeights(breakdown, rubric.subMetrics);
 
+  // FLOOR SCORE: Active social media presence deserves at least a C- (70)
+  // If they have followers AND regular posting, don't let low engagement tank the score
+  const hasActivePresence = totalFollowers >= 500 && platformCount >= 1;
+  const hasRegularPosting = postingFrequency >= 1; // At least 1 post/week
+  const ACTIVE_PRESENCE_FLOOR = 70; // C- minimum for active accounts
+
+  let finalScore = weightedScore;
+  let floorApplied = false;
+
+  if (hasActivePresence && hasRegularPosting && weightedScore < ACTIVE_PRESENCE_FLOOR) {
+    finalScore = ACTIVE_PRESENCE_FLOOR;
+    floorApplied = true;
+  }
+
   return {
     title: rubric.title,
-    score: Math.round(weightedScore),
-    grade: scoreToGrade(weightedScore),
+    score: Math.round(finalScore),
+    grade: scoreToGrade(finalScore),
     weight: rubric.weight,
     confidence: totalFollowers > 0 ? 'high' : 'medium',
     breakdown,
-    dataSources: rubric.dataSources
+    dataSources: rubric.dataSources,
+    ...(floorApplied && { note: 'Floor score applied for active social media presence' })
   };
 }
 
