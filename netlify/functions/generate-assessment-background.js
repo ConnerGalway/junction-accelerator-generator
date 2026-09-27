@@ -526,17 +526,22 @@ export async function handler(event, context) {
       // This handles the case where the first run failed before saving raw data
       // ─────────────────────────────────────────────────────────────────────────
       const missingData = [];
-      if (!seoptData) missingData.push('SEOptimer');
-      if (!googlePlacesData) missingData.push('Google Places');
-      if (!websiteAnalysis) missingData.push('Website Analysis');
+      // Check for missing OR errored data
+      const seoptMissing = !seoptData || seoptData._error;
+      const googlePlacesMissing = !googlePlacesData || googlePlacesData._error;
+      const websiteMissing = !websiteAnalysis || websiteAnalysis._error;
+
+      if (seoptMissing) missingData.push('SEOptimer');
+      if (googlePlacesMissing) missingData.push('Google Places');
+      if (websiteMissing) missingData.push('Website Analysis');
 
       if (missingData.length > 0) {
-        console.log('[STEP 3] CRITICAL: Missing raw data detected:', missingData.join(', '));
+        console.log('[STEP 3] CRITICAL: Missing or errored raw data detected:', missingData.join(', '));
         console.log('[STEP 3] Re-fetching missing data to ensure complete assessment');
         await updateProgress('Re-fetching missing API data...');
 
-        // Re-fetch SEOptimer if missing
-        if (!seoptData && effectiveWebsiteUrl) {
+        // Re-fetch SEOptimer if missing or errored (with PageSpeed fallback)
+        if (seoptMissing && effectiveWebsiteUrl) {
           try {
             console.log('[STEP 3] Re-fetching SEOptimer data');
             await updateProgress('Re-fetching SEOptimer data...');
@@ -544,6 +549,18 @@ export async function handler(event, context) {
             console.log('[STEP 3] SEOptimer data re-fetched successfully');
           } catch (err) {
             console.error('[STEP 3] SEOptimer re-fetch failed (non-fatal):', err.message);
+            // Try PageSpeed Insights as fallback
+            try {
+              console.log('[STEP 3] Trying PageSpeed Insights as fallback');
+              await updateProgress('Trying PageSpeed Insights...');
+              const pageSpeedData = await fetchPageSpeedData(effectiveWebsiteUrl);
+              if (pageSpeedData) {
+                seoptData = pageSpeedData;
+                console.log('[STEP 3] PageSpeed data fetched successfully');
+              }
+            } catch (psErr) {
+              console.error('[STEP 3] PageSpeed fallback also failed:', psErr.message);
+            }
           }
         }
 
