@@ -519,21 +519,25 @@ async function generateAssessmentHTML(clientSlug, supabase) {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// ACCELERATOR PDF GENERATOR (Placeholder)
+// ACCELERATOR PDF GENERATOR
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function generateAcceleratorHTML(clientSlug, supabase) {
-  // TODO: Implement accelerator plan PDF generation
-  throw new Error('Accelerator PDF generation not yet implemented');
+  // Accelerator plan PDFs are generated via the dashboard's built-in print function
+  // This endpoint is reserved for future server-side PDF generation
+  console.log(`[PDF] Accelerator PDF requested for ${clientSlug} - feature not available`);
+  throw new Error('Accelerator plan PDFs are available via the dashboard print function. Server-side generation is not yet available.');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// EXPERIENCE PDF GENERATOR (Placeholder)
+// EXPERIENCE PDF GENERATOR
 // ═══════════════════════════════════════════════════════════════════════════
 
 async function generateExperienceHTML(clientSlug, supabase) {
-  // TODO: Implement experience plan PDF generation
-  throw new Error('Experience PDF generation not yet implemented');
+  // Experience plan PDFs are generated via the dashboard's built-in print function
+  // This endpoint is reserved for future server-side PDF generation
+  console.log(`[PDF] Experience PDF requested for ${clientSlug} - feature not available`);
+  throw new Error('Experience plan PDFs are available via the dashboard print function. Server-side generation is not yet available.');
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
