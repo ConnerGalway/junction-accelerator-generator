@@ -14,92 +14,15 @@ import {
   VERIFICATION_ENGINE_VERSION
 } from '../../shared/verification-engine.js';
 
-
-// ═══════════════════════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-/**
- * Fetch with retry and exponential backoff
- * @param {string} url - URL to fetch
- * @param {object} options - Fetch options
- * @param {object} retryConfig - Retry configuration
- * @param {number} retryConfig.maxRetries - Maximum number of retries (default: 3)
- * @param {number} retryConfig.baseDelayMs - Base delay in milliseconds (default: 1000)
- * @param {number} retryConfig.timeoutMs - Request timeout in milliseconds (default: 30000)
- * @param {string} retryConfig.logPrefix - Prefix for log messages (default: '[Fetch]')
- * @returns {Promise<Response>}
- */
-async function fetchWithRetry(url, options = {}, retryConfig = {}) {
-  const {
-    maxRetries = 3,
-    baseDelayMs = 1000,
-    timeoutMs = 30000,
-    logPrefix = '[Fetch]'
-  } = retryConfig;
-
-  let lastError = null;
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      // Create abort controller for timeout
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      // Success - return response
-      if (response.ok) {
-        if (attempt > 1) {
-          console.log(`${logPrefix} Succeeded on attempt ${attempt}`);
-        }
-        return response;
-      }
-
-      // Server errors (5xx) - retry
-      if (response.status >= 500 && attempt < maxRetries) {
-        console.warn(`${logPrefix} Server error ${response.status} on attempt ${attempt}, retrying...`);
-        lastError = new Error(`HTTP ${response.status}`);
-        const delay = baseDelayMs * Math.pow(2, attempt - 1); // Exponential backoff
-        await new Promise(r => setTimeout(r, delay));
-        continue;
-      }
-
-      // Client errors (4xx) or final attempt - return as-is
-      return response;
-
-    } catch (err) {
-      lastError = err;
-
-      // Timeout or network error
-      if (err.name === 'AbortError') {
-        console.warn(`${logPrefix} Timeout on attempt ${attempt}/${maxRetries}`);
-      } else {
-        console.warn(`${logPrefix} Network error on attempt ${attempt}/${maxRetries}:`, err.message);
-      }
-
-      if (attempt < maxRetries) {
-        const delay = baseDelayMs * Math.pow(2, attempt - 1);
-        console.log(`${logPrefix} Retrying in ${delay}ms...`);
-        await new Promise(r => setTimeout(r, delay));
-      }
-    }
-  }
-
-  // All retries exhausted
-  throw lastError || new Error(`${logPrefix} All ${maxRetries} attempts failed`);
-}
-
-/**
- * Sleep utility
- * @param {number} ms - Milliseconds to sleep
- */
-const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+// Import shared API helpers
+import {
+  fetchWithRetry,
+  fetchWithTimeout,
+  sleep,
+  extractDomain,
+  stripHtmlTags,
+  sanitizeAssessmentData
+} from '../../shared/api-helpers.js';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
@@ -1664,67 +1587,6 @@ function scoreToLetterGrade(score) {
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * Extract domain from a URL for comparison
- */
-function extractDomain(url) {
-  if (!url) return null;
-  try {
-    const hostname = new URL(url).hostname.toLowerCase();
-    // Remove www. and common subdomains
-    return hostname.replace(/^(www|m|mobile)\./, '');
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Strip HTML tags from text to prevent XSS and rendering issues
- * Used to sanitize AI-generated content that may accidentally include HTML
- */
-function stripHtmlTags(text) {
-  if (typeof text !== 'string') return text;
-  // Remove HTML tags but preserve the text content
-  return text
-    .replace(/<[^>]*>/g, '') // Remove HTML tags
-    .replace(/&lt;/g, '<')   // Decode common HTML entities (for display purposes)
-    .replace(/&gt;/g, '>')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'");
-}
-
-/**
- * Recursively sanitize all string values in an object to remove HTML tags
- * Ensures AI-generated assessment content doesn't contain HTML that could render incorrectly
- */
-function sanitizeAssessmentData(obj) {
-  if (obj === null || obj === undefined) return obj;
-
-  if (typeof obj === 'string') {
-    return stripHtmlTags(obj);
-  }
-
-  if (Array.isArray(obj)) {
-    return obj.map(item => sanitizeAssessmentData(item));
-  }
-
-  if (typeof obj === 'object') {
-    const sanitized = {};
-    for (const [key, value] of Object.entries(obj)) {
-      // Skip internal metadata fields that shouldn't be sanitized
-      if (key.startsWith('_')) {
-        sanitized[key] = value;
-      } else {
-        sanitized[key] = sanitizeAssessmentData(value);
-      }
-    }
-    return sanitized;
-  }
-
-  return obj;
-}
-
-/**
  * Check if two domains match (handles subdomain variations)
  */
 function doDomainsMatch(domain1, domain2) {
@@ -2804,33 +2666,6 @@ async function fetchPage(url, timeout = 10000) {
   } catch (err) {
     console.log(`[Crawler] Failed to fetch ${url}: ${err.message}`);
     return null;
-  }
-}
-
-/**
- * Fetch with timeout - wraps fetch with an AbortController for API calls
- * Used for SociaVault and other external API calls to prevent hanging
- * @param {string} url - The URL to fetch
- * @param {object} options - Fetch options (headers, method, body, etc.)
- * @param {number} timeout - Timeout in milliseconds (default 30 seconds)
- */
-async function fetchWithTimeout(url, options = {}, timeout = 30000) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-    return response;
-  } catch (err) {
-    clearTimeout(timeoutId);
-    if (err.name === 'AbortError') {
-      throw new Error(`Request timed out after ${timeout / 1000}s: ${url}`);
-    }
-    throw err;
   }
 }
 

@@ -14,72 +14,8 @@ import {
   VERIFICATION_ENGINE_VERSION
 } from '../../shared/verification-engine.js';
 
-
-// ═══════════════════════════════════════════════════════════════════════════
-// UTILITY FUNCTIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-/**
- * Fetch with retry and exponential backoff
- */
-async function fetchWithRetry(url, options = {}, retryConfig = {}) {
-  const {
-    maxRetries = 3,
-    baseDelayMs = 1000,
-    timeoutMs = 30000,
-    logPrefix = '[Fetch]'
-  } = retryConfig;
-
-  let lastError = null;
-
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-      const response = await fetch(url, {
-        ...options,
-        signal: controller.signal
-      });
-
-      clearTimeout(timeoutId);
-
-      if (response.ok) {
-        if (attempt > 1) {
-          console.log(`${logPrefix} Succeeded on attempt ${attempt}`);
-        }
-        return response;
-      }
-
-      if (response.status >= 500 && attempt < maxRetries) {
-        console.warn(`${logPrefix} Server error ${response.status} on attempt ${attempt}, retrying...`);
-        lastError = new Error(`HTTP ${response.status}`);
-        const delay = baseDelayMs * Math.pow(2, attempt - 1);
-        await new Promise(r => setTimeout(r, delay));
-        continue;
-      }
-
-      return response;
-
-    } catch (err) {
-      lastError = err;
-
-      if (err.name === 'AbortError') {
-        console.warn(`${logPrefix} Timeout on attempt ${attempt}/${maxRetries}`);
-      } else {
-        console.warn(`${logPrefix} Network error on attempt ${attempt}/${maxRetries}:`, err.message);
-      }
-
-      if (attempt < maxRetries) {
-        const delay = baseDelayMs * Math.pow(2, attempt - 1);
-        console.log(`${logPrefix} Retrying in ${delay}ms...`);
-        await new Promise(r => setTimeout(r, delay));
-      }
-    }
-  }
-
-  throw lastError || new Error(`${logPrefix} All ${maxRetries} attempts failed`);
-}
+// Import shared API helpers
+import { fetchWithRetry } from '../../shared/api-helpers.js';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
