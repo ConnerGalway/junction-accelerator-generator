@@ -17,6 +17,22 @@ import {
 // Import shared API helpers
 import { fetchWithRetry } from '../../shared/api-helpers.js';
 
+// Import shared HTML parsers
+import {
+  detectBookingPresence,
+  detectBookingPlatforms,
+  detectPhone,
+  detectEmail,
+  detectAddress,
+  detectHours,
+  detectPricing,
+  detectVideo,
+  detectDirections,
+  detectAccessibility,
+  detectMultiLanguage,
+  detectSocialLinks
+} from '../../shared/html-parsers.js';
+
 // ═══════════════════════════════════════════════════════════════════════════
 // MAIN HANDLER
 // ═══════════════════════════════════════════════════════════════════════════
@@ -964,278 +980,10 @@ async function analyzeWebsiteContent(websiteUrl) {
   }
 }
 
-function detectBookingPresence(html, htmlLower) {
-  // STRICT BOOKING DETECTION
-  // Only returns true if there's actual booking functionality where a guest can
-  // select dates/times and complete a reservation or purchase on the website.
-  // Contact forms and email inquiries do NOT count as booking capability.
-
-  // First, check for contact-only patterns that indicate NO real booking
-  // If the page has these patterns without actual booking UI, it's not a booking system
-  const contactOnlyPatterns = [
-    'contact us to reserve',
-    'contact us to book',
-    'email us to reserve',
-    'email us to book',
-    'call to reserve',
-    'call to book',
-    'phone to reserve',
-    'phone to book',
-    'enquire about',
-    'inquire about',
-    'request a reservation',
-    'reservation request',
-    'booking request',
-    'reservation inquiry',
-    'booking inquiry',
-    'send us a message',
-    'get in touch'
-  ];
-
-  const hasContactOnlyLanguage = contactOnlyPatterns.some(p => htmlLower.includes(p));
-
-  // Check for actual booking UI elements that indicate real booking capability
-  const bookingUIPatterns = [
-    // Date selection inputs
-    'type="date"',
-    'input-date',
-    'date-picker',
-    'datepicker',
-    'check-in',
-    'check-out',
-    'checkin',
-    'checkout',
-    'arrival-date',
-    'departure-date',
-    'select-date',
-    'choose-date',
-    'pick-date',
-    // Availability/calendar widgets
-    'availability-calendar',
-    'booking-calendar',
-    'reservation-calendar',
-    'availability-widget',
-    'booking-widget',
-    // Time slot selection
-    'select-time',
-    'time-slot',
-    'timeslot',
-    'available-times',
-    // Guest/party size selection
-    'number-of-guests',
-    'party-size',
-    'select-guests',
-    'how-many-guests',
-    // Ticket/quantity selection with purchase intent
-    'select-tickets',
-    'ticket-quantity',
-    'add-to-cart',
-    'addtocart',
-    'buy-tickets',
-    'purchase-tickets',
-    'book-tickets',
-    // Booking form identifiers
-    'booking-form',
-    'reservation-form',
-    'id="booking"',
-    'id="reservations"',
-    'class="booking-',
-    'class="reservation-',
-    // Instant booking language (distinct from inquiry)
-    'instant booking',
-    'book instantly',
-    'reserve instantly',
-    'confirm booking',
-    'complete reservation',
-    'complete your booking',
-    'finalize booking'
-  ];
-
-  const hasBookingUI = bookingUIPatterns.some(p => htmlLower.includes(p));
-
-  // Strong booking action buttons (must be specific, not generic "reserve" text)
-  const strongBookingActions = [
-    'book now',
-    'book online',
-    'book today',
-    'reserve now',
-    'reserve online',
-    'reserve today',
-    'buy tickets',
-    'get tickets',
-    'purchase tickets',
-    'book your stay',
-    'book your room',
-    'book your table',
-    'book your tour',
-    'book your experience',
-    'book this',
-    'reserve your',
-    // German
-    'jetzt buchen',
-    'online buchen',
-    // French
-    'réserver maintenant',
-    'réserver en ligne',
-    // Spanish
-    'reservar ahora',
-    'reservar en línea'
-  ];
-
-  const hasStrongBookingAction = strongBookingActions.some(p => htmlLower.includes(p));
-
-  // Decision logic:
-  // 1. If we find booking UI elements, that's strong evidence of real booking capability
-  // 2. If we find strong booking actions WITHOUT contact-only language, likely real booking
-  // 3. If we only find contact-only language, NOT a booking system
-
-  if (hasBookingUI) {
-    return true;
-  }
-
-  if (hasStrongBookingAction && !hasContactOnlyLanguage) {
-    return true;
-  }
-
-  // Loose keywords like "reserve", "reservation", "book a table" alone are NOT enough
-  // These commonly appear on sites that only offer contact/inquiry-based reservations
-  return false;
-}
-
-function detectBookingPlatforms(htmlLower) {
-  const platforms = [];
-  // Major OTAs and booking platforms
-  if (htmlLower.includes('booking.com')) platforms.push('Booking.com');
-  if (htmlLower.includes('expedia')) platforms.push('Expedia');
-  if (htmlLower.includes('tripadvisor')) platforms.push('TripAdvisor');
-  if (htmlLower.includes('viator')) platforms.push('Viator');
-  if (htmlLower.includes('getyourguide')) platforms.push('GetYourGuide');
-  if (htmlLower.includes('airbnb')) platforms.push('Airbnb');
-  if (htmlLower.includes('vrbo')) platforms.push('VRBO');
-  if (htmlLower.includes('hotels.com')) platforms.push('Hotels.com');
-  // Restaurant reservations
-  if (htmlLower.includes('opentable')) platforms.push('OpenTable');
-  if (htmlLower.includes('resy')) platforms.push('Resy');
-  if (htmlLower.includes('yelp.com/reservations')) platforms.push('Yelp Reservations');
-  // Tour & activity booking
-  if (htmlLower.includes('fareharbor')) platforms.push('FareHarbor');
-  if (htmlLower.includes('checkfront')) platforms.push('Checkfront');
-  if (htmlLower.includes('rezdy')) platforms.push('Rezdy');
-  if (htmlLower.includes('bookeo')) platforms.push('Bookeo');
-  if (htmlLower.includes('peek.com')) platforms.push('Peek');
-  if (htmlLower.includes('xola')) platforms.push('Xola');
-  if (htmlLower.includes('bokun')) platforms.push('Bokun');
-  // Hotel/lodging PMS systems
-  if (htmlLower.includes('cloudbeds')) platforms.push('Cloudbeds');
-  if (htmlLower.includes('littlehotelier')) platforms.push('Little Hotelier');
-  if (htmlLower.includes('mews.com') || htmlLower.includes('mews.li')) platforms.push('Mews');
-  if (htmlLower.includes('webrezpro')) platforms.push('WebRezPro');
-  if (htmlLower.includes('roomraccoon')) platforms.push('RoomRaccoon');
-  if (htmlLower.includes('sirvoy')) platforms.push('Sirvoy');
-  if (htmlLower.includes('innroad')) platforms.push('innRoad');
-  if (htmlLower.includes('lodgify')) platforms.push('Lodgify');
-  if (htmlLower.includes('guesty')) platforms.push('Guesty');
-  if (htmlLower.includes('hostaway')) platforms.push('Hostaway');
-  // General scheduling
-  if (htmlLower.includes('squareup') || htmlLower.includes('square appointments')) platforms.push('Square');
-  if (htmlLower.includes('calendly')) platforms.push('Calendly');
-  // Note: "acuity" alone is too broad - matches "Acuity Ads" tracking pixel
-  // Only match the actual booking platform (acuityscheduling.com domain)
-  if (htmlLower.includes('acuityscheduling')) platforms.push('Acuity Scheduling');
-  // Direct booking widgets (check for common patterns)
-  if (htmlLower.includes('bookingengine') || htmlLower.includes('booking-engine')) platforms.push('Direct Booking Engine');
-  return platforms;
-}
-
-function detectPhone(html) {
-  const phonePatterns = [
-    /tel:[\d\+\-\(\)\s]+/i,
-    /\b\d{3}[-.\s]?\d{3}[-.\s]?\d{4}\b/,
-    /\b\(\d{3}\)\s?\d{3}[-.\s]?\d{4}\b/,
-    /\+1[-.\s]?\d{3}[-.\s]?\d{3}[-.\s]?\d{4}/
-  ];
-  return phonePatterns.some(pattern => pattern.test(html));
-}
-
-function detectEmail(html) {
-  const emailPattern = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
-  return emailPattern.test(html);
-}
-
-function detectAddress(htmlLower) {
-  const addressKeywords = ['street', 'avenue', 'road', 'drive', 'boulevard',
-    'suite', 'floor', 'address', 'located at', 'find us', 'visit us'];
-  return addressKeywords.some(kw => htmlLower.includes(kw));
-}
-
-function detectHours(htmlLower) {
-  const hoursKeywords = ['hours', 'open daily', 'monday', 'tuesday', 'wednesday',
-    'thursday', 'friday', 'saturday', 'sunday', 'am -', 'pm -', 'a.m.', 'p.m.',
-    'opening hours', 'business hours', 'we are open', 'open from'];
-  return hoursKeywords.some(kw => htmlLower.includes(kw));
-}
-
-function detectPricing(html, htmlLower) {
-  const pricePatterns = [
-    /\$\d+/,
-    /\d+\s?(CAD|USD|EUR|GBP)/i,
-    /price/i,
-    /rate/i,
-    /from \$/i,
-    /starting at/i,
-    /per person/i,
-    /per night/i
-  ];
-  const hasPricePattern = pricePatterns.some(p => p.test(html));
-  const hasPriceKeywords = ['pricing', 'rates', 'menu prices', 'admission', 'ticket price'].some(kw => htmlLower.includes(kw));
-  return hasPricePattern || hasPriceKeywords;
-}
-
 function countImages(html) {
   const imgTags = (html.match(/<img/gi) || []).length;
   const bgImages = (html.match(/background-image/gi) || []).length;
   return imgTags + bgImages;
-}
-
-function detectVideo(htmlLower) {
-  return htmlLower.includes('youtube') ||
-         htmlLower.includes('vimeo') ||
-         htmlLower.includes('<video') ||
-         htmlLower.includes('wistia');
-}
-
-function detectDirections(htmlLower) {
-  return htmlLower.includes('direction') ||
-         htmlLower.includes('how to get') ||
-         htmlLower.includes('google.com/maps') ||
-         htmlLower.includes('maps.google') ||
-         htmlLower.includes('get directions');
-}
-
-function detectAccessibility(htmlLower) {
-  return htmlLower.includes('accessibility') ||
-         htmlLower.includes('wheelchair') ||
-         htmlLower.includes('accessible') ||
-         htmlLower.includes('ada compliant');
-}
-
-function detectMultiLanguage(html) {
-  const hasHreflang = html.includes('hreflang');
-  const hasLangSwitcher = /lang(uage)?[-_]?(switch|select|choose)/i.test(html);
-  const hasTranslateWidget = html.includes('translate.google') || html.includes('gtranslate');
-  return hasHreflang || hasLangSwitcher || hasTranslateWidget;
-}
-
-function detectSocialLinks(htmlLower) {
-  const socials = [];
-  if (htmlLower.includes('instagram.com') || htmlLower.includes('instagram')) socials.push('Instagram');
-  if (htmlLower.includes('facebook.com') || htmlLower.includes('fb.com')) socials.push('Facebook');
-  if (htmlLower.includes('twitter.com') || htmlLower.includes('x.com')) socials.push('Twitter/X');
-  if (htmlLower.includes('tiktok.com')) socials.push('TikTok');
-  if (htmlLower.includes('youtube.com')) socials.push('YouTube');
-  if (htmlLower.includes('linkedin.com')) socials.push('LinkedIn');
-  if (htmlLower.includes('pinterest.com')) socials.push('Pinterest');
-  return socials;
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
