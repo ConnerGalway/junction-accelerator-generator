@@ -15,7 +15,7 @@ import {
 } from '../../shared/verification-engine.js';
 
 // Import shared API helpers
-import { fetchWithRetry } from '../../shared/api-helpers.js';
+import { fetchWithRetry, fetchWithTimeout } from '../../shared/api-helpers.js';
 
 // Import shared HTML parsers
 import {
@@ -30,7 +30,9 @@ import {
   detectDirections,
   detectAccessibility,
   detectMultiLanguage,
-  detectSocialLinks
+  detectSocialLinks,
+  extractInstagramHandle,
+  extractTikTokHandle
 } from '../../shared/html-parsers.js';
 
 // ═══════════════════════════════════════════════════════════════════════════
@@ -1047,33 +1049,6 @@ async function getSocialMediaDataWithCache(clientSlug, socialUrls, supabaseClien
   return freshData;
 }
 
-/**
- * Fetch with timeout - wraps fetch with an AbortController for API calls
- * Used for SociaVault and other external API calls to prevent hanging
- * @param {string} url - The URL to fetch
- * @param {object} options - Fetch options (headers, method, body, etc.)
- * @param {number} timeout - Timeout in milliseconds (default 30 seconds)
- */
-async function fetchWithTimeout(url, options = {}, timeout = 30000) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeout);
-
-  try {
-    const response = await fetch(url, {
-      ...options,
-      signal: controller.signal
-    });
-    clearTimeout(timeoutId);
-    return response;
-  } catch (err) {
-    clearTimeout(timeoutId);
-    if (err.name === 'AbortError') {
-      throw new Error(`Request timed out after ${timeout / 1000}s: ${url}`);
-    }
-    throw err;
-  }
-}
-
 async function fetchSocialMediaData(socialUrls) {
   if (!process.env.SOCIAVAULT_API_KEY) {
     console.log('[SociaVault] API key not configured, skipping social media analysis');
@@ -1816,18 +1791,6 @@ async function fetchFacebookData(url, headers) {
     advertising,
     _creditsUsed: creditsUsed
   };
-}
-
-function extractInstagramHandle(url) {
-  if (!url) return null;
-  const match = url.match(/instagram\.com\/([^\/\?]+)/i) || url.match(/^@?([a-zA-Z0-9._]+)$/);
-  return match ? match[1].replace('@', '') : null;
-}
-
-function extractTikTokHandle(url) {
-  if (!url) return null;
-  const match = url.match(/tiktok\.com\/@([^\/\?]+)/i) || url.match(/^@([a-zA-Z0-9._]+)$/);
-  return match ? match[1] : null;
 }
 
 function extractYouTubeChannel(url) {
