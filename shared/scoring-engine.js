@@ -759,8 +759,12 @@ function calculateOverallScore(categoryScores) {
  * Determine overall confidence level
  */
 function determineOverallConfidence(confidenceLevels) {
-  const lowCount = confidenceLevels.filter(c => c === 'low').length;
-  const highCount = confidenceLevels.filter(c => c === 'high').length;
+  // Single pass counting instead of two separate .filter() calls
+  let lowCount = 0, highCount = 0;
+  for (const c of confidenceLevels) {
+    if (c === 'low') lowCount++;
+    else if (c === 'high') highCount++;
+  }
 
   if (lowCount >= 3) return 'low';
   if (highCount >= 4) return 'high';

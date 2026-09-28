@@ -765,8 +765,9 @@ export function applyManualOverrides(socialMediaData, manualOverrides) {
   console.log('[OVERRIDE] Applying manual overrides:', JSON.stringify(manualOverrides, null, 2));
 
   // Handle null/undefined socialMediaData by creating a minimal structure
+  // Use structuredClone for fast deep cloning (avoids slow JSON.parse/stringify)
   const updated = socialMediaData
-    ? JSON.parse(JSON.stringify(socialMediaData)) // Deep clone
+    ? structuredClone(socialMediaData)
     : { platforms: {}, summary: { totalFollowers: 0, platformsFound: 0, platformsAnalyzed: [] } };
 
   // Ensure platforms structure exists
