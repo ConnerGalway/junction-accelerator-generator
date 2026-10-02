@@ -141,6 +141,143 @@
 
     // Refresh progress UI after checkbox change
     refreshProgressUI();
+
+    // Check for week completion (only when checking, not unchecking)
+    if (checked && week) {
+      checkWeekCompletion(week);
+    }
+  }
+
+  // ------------------------------------------------------------------
+  // Week completion detection and PSM notification
+  // ------------------------------------------------------------------
+
+  // Track which weeks we've already notified (to avoid duplicate API calls)
+  const NOTIFIED_KEY = `week_completions_notified_${clientSlug}`;
+  const notifiedWeeks = new Set(getNotifiedWeeks());
+
+  function getNotifiedWeeks() {
+    if (!storageAvailable) return [];
+    try {
+      return JSON.parse(sessionStorage.getItem(NOTIFIED_KEY) || '[]');
+    } catch {
+      return [];
+    }
+  }
+
+  function markWeekNotified(week) {
+    notifiedWeeks.add(week);
+    if (storageAvailable) {
+      try {
+        sessionStorage.setItem(NOTIFIED_KEY, JSON.stringify([...notifiedWeeks]));
+      } catch (e) {
+        console.warn('Failed to save notified weeks:', e);
+      }
+    }
+  }
+
+  function isWeekComplete(weekNum) {
+    // Find all checkboxes in this week's section
+    const weekSection = document.querySelector(`[data-week="${weekNum}"]`);
+    if (!weekSection) return false;
+
+    const checkboxes = weekSection.querySelectorAll('input[type="checkbox"][data-key]');
+    if (checkboxes.length === 0) return false;
+
+    // Check if all checkboxes are checked
+    return Array.from(checkboxes).every(cb => cb.checked);
+  }
+
+  function getWeekTasks(weekNum) {
+    // Get task names from the checklist items
+    const weekSection = document.querySelector(`[data-week="${weekNum}"]`);
+    if (!weekSection) return [];
+
+    const tasks = [];
+    weekSection.querySelectorAll('input[type="checkbox"][data-key]').forEach(cb => {
+      // Find the label or text associated with this checkbox
+      const label = cb.closest('label');
+      if (label) {
+        // Get text content, excluding the checkbox itself
+        const text = label.textContent.trim();
+        if (text) tasks.push(text);
+      } else {
+        // Try to find adjacent label by 'for' attribute
+        const id = cb.getAttribute('id');
+        if (id) {
+          const labelFor = document.querySelector(`label[for="${id}"]`);
+          if (labelFor) {
+            tasks.push(labelFor.textContent.trim());
+          }
+        }
+      }
+    });
+
+    return tasks;
+  }
+
+  async function checkWeekCompletion(weekNum) {
+    // Skip if already notified this session
+    if (notifiedWeeks.has(weekNum)) return;
+
+    // Check if all tasks in this week are complete
+    if (!isWeekComplete(weekNum)) return;
+
+    // Mark as notified locally to prevent duplicate calls
+    markWeekNotified(weekNum);
+
+    // Get user role - only notify for client role
+    const userRole = await getUserRole();
+    if (userRole !== 'client') {
+      // Coaches/Admins/PSMs don't trigger completion notifications
+      return;
+    }
+
+    // Get task names for the notification
+    const tasks = getWeekTasks(weekNum);
+
+    // Get client name from body attribute or derive from slug
+    const clientName = document.body.getAttribute('data-client-name') ||
+      clientSlug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+
+    // Call the notification function
+    try {
+      const { data: { session: currentSession } } = await supabaseClient.auth.getSession();
+      if (!currentSession) return;
+
+      const response = await fetch('/.netlify/functions/notify-week-complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${currentSession.access_token}`
+        },
+        body: JSON.stringify({
+          clientSlug: clientSlug,
+          week: weekNum,
+          tasksCompleted: tasks,
+          clientName: clientName
+        })
+      });
+
+      if (!response.ok) {
+        console.warn('Week completion notification failed:', await response.text());
+      }
+    } catch (err) {
+      console.warn('Failed to send week completion notification:', err);
+    }
+  }
+
+  async function getUserRole() {
+    // Check if auth.js has already provided the role
+    if (window.__authReady) {
+      try {
+        const authData = await window.__authReady;
+        return authData?.role || null;
+      } catch {
+        return null;
+      }
+    }
+    return null;
   }
 
 
