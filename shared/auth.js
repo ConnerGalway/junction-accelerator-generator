@@ -229,21 +229,91 @@ window.__authReady = (async function () {
         document.body.setAttribute('data-readonly', 'true');
       }
 
-      // Create toggle button for sidebar (styled like other sidebar footer buttons)
+      // Inject styles for the edit mode toggle
+      const toggleStyles = document.createElement('style');
+      toggleStyles.textContent = `
+        .edit-mode-toggle {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 10px 20px;
+          margin: 4px 8px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: background 0.15s ease;
+          background: transparent;
+          border: none;
+          width: calc(100% - 16px);
+          text-align: left;
+        }
+        .edit-mode-toggle:hover {
+          background: rgba(255,255,255,0.07);
+        }
+        .edit-mode-toggle__switch {
+          position: relative;
+          width: 36px;
+          height: 20px;
+          background: rgba(255,255,255,0.15);
+          border-radius: 10px;
+          transition: background 0.2s ease;
+          flex-shrink: 0;
+        }
+        .edit-mode-toggle__switch::after {
+          content: '';
+          position: absolute;
+          top: 2px;
+          left: 2px;
+          width: 16px;
+          height: 16px;
+          background: rgba(255,255,255,0.6);
+          border-radius: 50%;
+          transition: transform 0.2s ease, background 0.2s ease;
+        }
+        .edit-mode-toggle.active .edit-mode-toggle__switch {
+          background: #aadab6;
+        }
+        .edit-mode-toggle.active .edit-mode-toggle__switch::after {
+          transform: translateX(16px);
+          background: #11154b;
+        }
+        .edit-mode-toggle__label {
+          font-family: 'Raleway', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: rgba(255,255,255,0.6);
+          transition: color 0.15s ease;
+        }
+        .edit-mode-toggle:hover .edit-mode-toggle__label {
+          color: rgba(255,255,255,0.9);
+        }
+        .edit-mode-toggle.active .edit-mode-toggle__label {
+          color: #aadab6;
+        }
+        .edit-mode-toggle__container {
+          margin-top: auto;
+          padding: 12px 0;
+          border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        @media print {
+          .edit-mode-toggle, .edit-mode-toggle__container { display: none !important; }
+        }
+      `;
+      document.head.appendChild(toggleStyles);
+
+      // Create the toggle element
       const toggleBtn = document.createElement('button');
       toggleBtn.id = 'readonly-toggle';
-      toggleBtn.className = 'sidebar-expanded__collapse';
+      toggleBtn.className = 'edit-mode-toggle' + (savedEditMode ? ' active' : '');
 
-      const iconSpan = document.createElement('span');
-      iconSpan.className = 'sidebar-expanded__collapse-icon';
-      iconSpan.textContent = savedEditMode ? '✎' : '👁';
+      const switchEl = document.createElement('span');
+      switchEl.className = 'edit-mode-toggle__switch';
 
-      const textSpan = document.createElement('span');
-      textSpan.id = 'readonly-toggle-text';
-      textSpan.textContent = savedEditMode ? 'Edit mode on' : 'View-only mode';
+      const labelEl = document.createElement('span');
+      labelEl.className = 'edit-mode-toggle__label';
+      labelEl.textContent = savedEditMode ? 'Edit mode' : 'View only';
 
-      toggleBtn.appendChild(iconSpan);
-      toggleBtn.appendChild(textSpan);
+      toggleBtn.appendChild(switchEl);
+      toggleBtn.appendChild(labelEl);
 
       toggleBtn.onclick = () => {
         const isCurrentlyReadonly = document.body.getAttribute('data-readonly') === 'true';
@@ -252,24 +322,24 @@ window.__authReady = (async function () {
           // Switch to edit mode
           document.body.removeAttribute('data-readonly');
           sessionStorage.setItem(editModeKey, 'true');
-          iconSpan.textContent = '✎';
-          textSpan.textContent = 'Edit mode on';
+          toggleBtn.classList.add('active');
+          labelEl.textContent = 'Edit mode';
         } else {
           // Switch to view mode
           document.body.setAttribute('data-readonly', 'true');
           sessionStorage.removeItem(editModeKey);
-          iconSpan.textContent = '👁';
-          textSpan.textContent = 'View-only mode';
+          toggleBtn.classList.remove('active');
+          labelEl.textContent = 'View only';
         }
 
-        // Dispatch event for progress.js to react
+        // Dispatch event for progress.js and content-editor.js to react
         window.dispatchEvent(new CustomEvent('readonlyModeChanged', {
           detail: { readonly: !isCurrentlyReadonly }
         }));
       };
 
       // Insert into sidebar footer, above "Replay welcome tour" button
-      // Fallback: append to sidebar nav or sidebar itself if replayTour doesn't exist
+      // Fallback: append to sidebar itself if replayTour doesn't exist
       const insertToggleIntoSidebar = () => {
         const replayTourBtn = document.getElementById('replayTour');
         if (replayTourBtn && replayTourBtn.parentNode) {
@@ -278,12 +348,10 @@ window.__authReady = (async function () {
           // Fallback for pages without replayTour button (e.g., assessment-only pages)
           const sidebar = document.getElementById('sidebar');
           if (sidebar) {
-            // Create a container for the toggle if needed
-            let toggleContainer = sidebar.querySelector('.sidebar-toggle-container');
+            let toggleContainer = sidebar.querySelector('.edit-mode-toggle__container');
             if (!toggleContainer) {
               toggleContainer = document.createElement('div');
-              toggleContainer.className = 'sidebar-toggle-container';
-              toggleContainer.style.cssText = 'padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);';
+              toggleContainer.className = 'edit-mode-toggle__container';
               sidebar.appendChild(toggleContainer);
             }
             toggleContainer.appendChild(toggleBtn);
