@@ -19,20 +19,25 @@ window.__authReady = (async function () {
 
   // ------------------------------------------------------------------
   // 0. Allow public access to demo/sample dashboards (no login required)
+  //    But if user IS logged in, check their role first so admins/coaches
+  //    can see analytics and other role-gated features on demo pages.
   // ------------------------------------------------------------------
   const publicSlugs = ['sample-demo', 'sample-experience'];
   const currentSlug = document.body.getAttribute('data-client-slug');
+  const isPublicDemo = currentSlug && publicSlugs.includes(currentSlug);
 
-  if (currentSlug && publicSlugs.includes(currentSlug)) {
-    // Allow public access - return guest role
+  // Check for session first (even on public demos)
+  const { data: { session } } = await supabaseClient.auth.getSession();
+
+  if (isPublicDemo && !session) {
+    // No login - allow public guest access to demo
     return { email: 'guest@demo', role: 'guest' };
   }
 
   // ------------------------------------------------------------------
   // 1. Check for an active session — redirect to /login if none exists
+  //    (session already fetched above for public demo check)
   // ------------------------------------------------------------------
-  const { data: { session } } = await supabaseClient.auth.getSession();
-
   if (!session) {
     window.location.replace('/login');
     return new Promise(() => {}); // redirect in flight — never resolve
