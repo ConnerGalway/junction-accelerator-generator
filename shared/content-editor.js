@@ -372,6 +372,19 @@
     }
   });
 
+  // Listen for dynamically rendered content (e.g., assessments)
+  // This allows content-editor to apply edits after dynamic content is rendered
+  window.addEventListener('contentRendered', async () => {
+    console.log('content-editor: Content rendered event received, re-applying edits');
+    await loadAndApplyEdits();
+
+    // Re-setup editable state if edit mode is on
+    const isReadonly = document.body.getAttribute('data-readonly') === 'true';
+    if (!isReadonly && canEdit) {
+      setEditableState(true);
+    }
+  });
+
   console.log('content-editor: Initialized', { clientSlug, canEdit, userRole });
 
 })();

@@ -2360,6 +2360,7 @@ body.drawer-open {
 <script src="/shared/auth.js"></script>
 <script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
 // MOBILE NAVIGATION
@@ -2656,7 +2657,7 @@ function renderExecutiveSummary(summary) {
 
   container.innerHTML = `
     <h2>Executive Summary</h2>
-    <p class="executive-headline">${summary.headline || ''}</p>
+    <p class="executive-headline" data-editable-key="assessment-headline">${summary.headline || ''}</p>
     <div class="executive-columns">
       <div class="executive-column strengths">
         <h4>
@@ -2674,7 +2675,7 @@ function renderExecutiveSummary(summary) {
       </div>
     </div>
     <div class="executive-bottom-line">
-      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+      <strong>Bottom Line:</strong> <span data-editable-key="assessment-bottom-line">${summary.bottom_line || ''}</span>
     </div>
   `;
 }
@@ -2822,7 +2823,11 @@ function renderRecommendations(recommendations) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', renderAssessment);
+document.addEventListener('DOMContentLoaded', () => {
+  renderAssessment();
+  // Dispatch event for content-editor.js to apply saved edits
+  window.dispatchEvent(new CustomEvent('contentRendered'));
+});
 </script>
 </body>
 </html>
