@@ -3775,6 +3775,120 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
 .week-card.current-week{
   border-left:3px solid var(--mint);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ACTIVITY TAB STYLES (Admin/PSM/Coach only)
+   ══════════════════════════════════════════════════════════════════════════ */
+.activity-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.activity-stat-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.activity-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1.2;
+}
+.activity-stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--slate);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.activity-loading {
+  text-align: center;
+  padding: 32px;
+  color: var(--slate);
+}
+.activity-timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.activity-timeline-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.activity-timeline-item:last-child {
+  border-bottom: none;
+}
+.activity-timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.activity-timeline-dot--session {
+  background: var(--blue, #3b82f6);
+}
+.activity-timeline-dot--tour {
+  background: var(--slate);
+}
+.activity-timeline-content {
+  flex: 1;
+}
+.activity-timeline-title {
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 2px;
+}
+.activity-timeline-time {
+  font-size: 12px;
+  color: var(--slate);
+}
+.activity-sessions {
+  display: flex;
+  flex-direction: column;
+}
+.activity-session-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 14px;
+}
+.activity-session-row:last-child {
+  border-bottom: none;
+}
+.activity-session-user {
+  color: var(--navy);
+  font-weight: 500;
+}
+.activity-session-date {
+  color: var(--slate);
+  text-align: right;
+}
+.activity-session-duration {
+  color: var(--slate);
+  text-align: right;
+}
+.activity-empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--slate);
+}
+.activity-empty-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  opacity: 0.5;
+}
 </style>
 </head>
 <body data-client-slug="{{CLIENT_SLUG}}"
@@ -3844,6 +3958,11 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
     <div class="nav-item" data-page="bookability" onclick="navigate('bookability')" class="if-bookability">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
       Bookability Checklist
+    </div>
+    <!-- Activity tab - visible only to Admin/PSM/Coach -->
+    <div class="nav-item" id="nav-activity" data-page="activity" onclick="navigate('activity')" style="display:none;">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
+      Activity
     </div>
   </nav>
   <div class="sidebar-footer">
@@ -4973,6 +5092,58 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
 <!-- /IF:BOOKABILITY_CHECKLIST -->
 
 <!-- ════════════════════════════════════════════
+     ACTIVITY PAGE (Admin/PSM/Coach only)
+     ════════════════════════════════════════════ -->
+<section id="page-activity" class="page" style="display:none;">
+  <div class="page-header">
+    <div class="page-header-eyebrow">Client Insights</div>
+    <h1>Activity</h1>
+    <p>Track engagement and progress for this client</p>
+  </div>
+  <div class="content-area">
+    <!-- Summary Stats -->
+    <div class="activity-stats" id="activityStats">
+      <div class="activity-stat-card">
+        <div class="activity-stat-value" id="statSessions">-</div>
+        <div class="activity-stat-label">Total Sessions</div>
+      </div>
+      <div class="activity-stat-card">
+        <div class="activity-stat-value" id="statDuration">-</div>
+        <div class="activity-stat-label">Avg. Duration</div>
+      </div>
+      <div class="activity-stat-card">
+        <div class="activity-stat-value" id="statTasks">-</div>
+        <div class="activity-stat-label">Tasks Completed</div>
+      </div>
+      <div class="activity-stat-card">
+        <div class="activity-stat-value" id="statLastVisit">-</div>
+        <div class="activity-stat-label">Last Visit</div>
+      </div>
+    </div>
+
+    <!-- Recent Activity Timeline -->
+    <div class="card">
+      <div class="card-body">
+        <h3 style="margin:0 0 16px">Recent Activity</h3>
+        <div class="activity-timeline" id="activityTimeline">
+          <div class="activity-loading">Loading activity data...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Session History -->
+    <div class="card" style="margin-top:20px">
+      <div class="card-body">
+        <h3 style="margin:0 0 16px">Session History</h3>
+        <div class="activity-sessions" id="activitySessions">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════════
      WELCOME MODAL
      ════════════════════════════════════════════ -->
 <div id="wm-overlay" class="wm-overlay" style="display:none" onclick="handleOverlayClick(event)">
@@ -5929,6 +6100,7 @@ function howToLink(page, stepId) {
 <script src="/shared/progress.js"></script>
 <script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
+<script src="/shared/analytics.js"></script>
 <script>
 // Initialize user menu when auth is ready
 if (window.__authReady) {
@@ -5964,6 +6136,212 @@ function closeLightbox() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeLightbox();
 });
+</script>
+
+<!-- ════════════════════════════════════════════
+     ACTIVITY TAB (Admin/PSM/Coach only)
+     ════════════════════════════════════════════ -->
+<script>
+(function() {
+  // Show Activity tab only for Admin/PSM/Coach
+  if (!window.__authReady) return;
+
+  window.__authReady.then(function(user) {
+    const allowedRoles = ['admin', 'psm', 'coach'];
+    if (!allowedRoles.includes(user.role)) return;
+
+    // Show the nav item and page
+    const navItem = document.getElementById('nav-activity');
+    const activityPage = document.getElementById('page-activity');
+    if (navItem) navItem.style.display = '';
+    if (activityPage) activityPage.style.display = '';
+
+    // Load activity data
+    loadActivityData();
+  }).catch(function(err) {
+    console.warn('Activity tab: auth error', err);
+  });
+
+  async function loadActivityData() {
+    const clientSlug = document.body.getAttribute('data-client-slug');
+    if (!clientSlug || !window.supabaseClient) return;
+
+    try {
+      const { data: events, error } = await window.supabaseClient
+        .from('analytics_events')
+        .select('*')
+        .eq('client_slug', clientSlug)
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      if (error) {
+        console.warn('Activity: failed to load events', error);
+        showEmptyState();
+        return;
+      }
+
+      if (!events || events.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      renderStats(events);
+      renderTimeline(events);
+      renderSessions(events);
+    } catch (e) {
+      console.warn('Activity: error loading data', e);
+      showEmptyState();
+    }
+  }
+
+  function showEmptyState() {
+    const timeline = document.getElementById('activityTimeline');
+    if (timeline) {
+      timeline.innerHTML = '<div class="activity-empty">' +
+        '<svg class="activity-empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+        '<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>' +
+        '</svg>' +
+        '<p>No activity data yet.</p>' +
+        '<p style="font-size:13px;margin-top:8px;">Activity will appear here once users start interacting with the dashboard.</p>' +
+        '</div>';
+    }
+  }
+
+  function renderStats(events) {
+    var sessions = events.filter(function(e) { return e.event_type === 'session_start'; }).length;
+    document.getElementById('statSessions').textContent = sessions;
+
+    var sessionEnds = events.filter(function(e) { return e.event_type === 'session_end' && e.event_data.duration_seconds; });
+    if (sessionEnds.length > 0) {
+      var avgSeconds = sessionEnds.reduce(function(sum, e) { return sum + e.event_data.duration_seconds; }, 0) / sessionEnds.length;
+      document.getElementById('statDuration').textContent = Math.round(avgSeconds / 60) + ' min';
+    } else {
+      document.getElementById('statDuration').textContent = '-';
+    }
+
+    var tasksChecked = events.filter(function(e) { return e.event_type === 'checkbox_change' && e.event_data.checked; }).length;
+    document.getElementById('statTasks').textContent = tasksChecked;
+
+    var lastSession = events.find(function(e) { return e.event_type === 'session_start'; });
+    if (lastSession) {
+      var date = new Date(lastSession.created_at);
+      var now = new Date();
+      var diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      if (diffDays === 0) {
+        document.getElementById('statLastVisit').textContent = 'Today';
+      } else if (diffDays === 1) {
+        document.getElementById('statLastVisit').textContent = 'Yesterday';
+      } else {
+        document.getElementById('statLastVisit').textContent = diffDays + ' days ago';
+      }
+    }
+  }
+
+  function renderTimeline(events) {
+    var timeline = document.getElementById('activityTimeline');
+    if (!timeline) return;
+
+    var meaningfulEvents = events.filter(function(e) {
+      return ['checkbox_change', 'session_start', 'tour_complete'].indexOf(e.event_type) !== -1;
+    }).slice(0, 20);
+
+    if (meaningfulEvents.length === 0) {
+      showEmptyState();
+      return;
+    }
+
+    var html = meaningfulEvents.map(function(e) {
+      var title = '';
+      var dotClass = '';
+
+      if (e.event_type === 'checkbox_change') {
+        var action = e.event_data.checked ? 'Completed' : 'Unchecked';
+        var itemKey = e.event_data.item_key || 'item';
+        title = action + ' task: ' + itemKey.replace(/-/g, ' ');
+      } else if (e.event_type === 'session_start') {
+        title = 'Started session';
+        dotClass = 'activity-timeline-dot--session';
+      } else if (e.event_type === 'tour_complete') {
+        title = 'Completed welcome tour';
+        dotClass = 'activity-timeline-dot--tour';
+      } else {
+        title = e.event_type.replace(/_/g, ' ');
+      }
+
+      var date = new Date(e.created_at);
+      var timeStr = formatRelativeTime(date);
+
+      return '<div class="activity-timeline-item">' +
+        '<div class="activity-timeline-dot ' + dotClass + '"></div>' +
+        '<div class="activity-timeline-content">' +
+        '<div class="activity-timeline-title">' + escapeHtml(title) + '</div>' +
+        '<div class="activity-timeline-time">' + escapeHtml(e.user_email) + ' · ' + timeStr + '</div>' +
+        '</div></div>';
+    }).join('');
+
+    timeline.innerHTML = html;
+  }
+
+  function renderSessions(events) {
+    var container = document.getElementById('activitySessions');
+    if (!container) return;
+
+    var sessionStarts = events.filter(function(e) { return e.event_type === 'session_start'; }).slice(0, 10);
+
+    if (sessionStarts.length === 0) {
+      container.innerHTML = '<p class="activity-empty">No sessions recorded yet.</p>';
+      return;
+    }
+
+    var sessionEnds = events.filter(function(e) { return e.event_type === 'session_end'; });
+
+    var html = sessionStarts.map(function(start) {
+      var date = new Date(start.created_at);
+      var dateStr = date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+
+      var duration = '-';
+      var nearbyEnd = sessionEnds.find(function(end) {
+        return end.user_email === start.user_email &&
+          Math.abs(new Date(end.created_at) - date) < 4 * 60 * 60 * 1000;
+      });
+      if (nearbyEnd && nearbyEnd.event_data.duration_seconds) {
+        duration = Math.round(nearbyEnd.event_data.duration_seconds / 60) + ' min';
+      }
+
+      return '<div class="activity-session-row">' +
+        '<div class="activity-session-user">' + escapeHtml(start.user_email) + '</div>' +
+        '<div class="activity-session-date">' + dateStr + '</div>' +
+        '<div class="activity-session-duration">' + duration + '</div>' +
+        '</div>';
+    }).join('');
+
+    container.innerHTML = html;
+  }
+
+  function formatRelativeTime(date) {
+    var now = new Date();
+    var diffMs = now - date;
+    var diffMins = Math.floor(diffMs / (1000 * 60));
+    var diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    var diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return diffMins + ' min ago';
+    if (diffHours < 24) return diffHours + ' hours ago';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return diffDays + ' days ago';
+    return date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+})();
 </script>
 </body>
 </html>

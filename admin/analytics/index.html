@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — eLearningU</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:      #11154b;
+      --navy-mid:  #1d2260;
+      --mint:      #aadab6;
+      --mint-dark: #7fbf8e;
+      --cream:     #fcf5ec;
+      --cream-mid: #f5ede0;
+      --muted:     #6b6b8a;
+      --text:      #1a1a2e;
+      --border:    rgba(17,21,75,0.1);
+      --danger:    #b03030;
+    }
+
+    html, body {
+      min-height: 100%;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--cream);
+      color: var(--text);
+    }
+
+    /* ── Top bar ────────────────────────────────────────── */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      box-shadow: 0 2px 16px rgba(17,21,75,0.18);
+    }
+
+    .topbar__logo {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--mint);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .topbar__right {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .topbar__email {
+      font-size: 13px;
+      color: rgba(255,255,255,0.55);
+      letter-spacing: 0.01em;
+    }
+
+    .topbar__back {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s;
+    }
+
+    .topbar__back:hover {
+      color: #fff;
+    }
+
+    .topbar__back svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* ── Main content ───────────────────────────────────── */
+    .main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px;
+    }
+
+    /* ── Page header ────────────────────────────────────── */
+    .page-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 32px;
+    }
+
+    .page-header__content {
+      flex: 1;
+    }
+
+    .page-header__eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--mint-dark);
+      margin-bottom: 8px;
+    }
+
+    .page-header__title {
+      font-family: 'Raleway', sans-serif;
+      font-weight: 700;
+      font-size: 28px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .page-header__sub {
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── Filters ────────────────────────────────────────── */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .filter-select {
+      padding: 10px 16px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .filter-select:focus {
+      outline: none;
+      border-color: var(--mint-dark);
+    }
+
+    /* ── Metrics grid ───────────────────────────────────── */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .metric-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      text-align: center;
+    }
+
+    .metric-value {
+      font-family: 'Raleway', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.2;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+    }
+
+    /* ── Sections ───────────────────────────────────────── */
+    .analytics-section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-family: 'Raleway', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--navy);
+      margin-bottom: 16px;
+    }
+
+    /* ── Activity table ─────────────────────────────────── */
+    .activity-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .activity-table th,
+    .activity-table td {
+      padding: 12px 16px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .activity-table th {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .activity-table td {
+      font-size: 14px;
+      color: var(--text);
+    }
+
+    .activity-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .activity-table__time {
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .activity-table__action {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .activity-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    .activity-dot--session { background: #3b82f6; }
+    .activity-dot--checkbox { background: var(--mint-dark); }
+    .activity-dot--tour { background: var(--muted); }
+
+    /* ── Client ranking ─────────────────────────────────── */
+    .client-ranking {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .client-rank-row {
+      display: grid;
+      grid-template-columns: 40px 1fr 80px 80px;
+      gap: 16px;
+      align-items: center;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .client-rank-row:last-child {
+      border-bottom: none;
+    }
+
+    .client-rank-num {
+      font-weight: 600;
+      color: var(--navy);
+    }
+
+    .client-rank-name {
+      color: var(--text);
+    }
+
+    .client-rank-sessions,
+    .client-rank-tasks {
+      text-align: right;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* ── Empty state ────────────────────────────────────── */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .empty-state svg {
+      width: 48px;
+      height: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    /* ── Loading state ──────────────────────────────────── */
+    .loading {
+      text-align: center;
+      padding: 48px;
+      color: var(--muted);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body data-page="admin-analytics">
+
+<header class="topbar">
+  <a href="/my-clients/" class="topbar__back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M19 12H5M12 19l-7-7 7-7"/>
+    </svg>
+    Back to Dashboard
+  </a>
+  <div class="topbar__logo">eLearningU</div>
+  <div class="topbar__right">
+    <span class="topbar__email" id="topbarEmail"></span>
+    <div id="userMenuContainer"></div>
+  </div>
+</header>
+
+<main class="main">
+  <div class="page-header">
+    <div class="page-header__content">
+      <div class="page-header__eyebrow">Admin</div>
+      <h1 class="page-header__title">Analytics Overview</h1>
+      <p class="page-header__sub">Activity across all client dashboards</p>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="filters">
+    <select class="filter-select" id="dateRange">
+      <option value="7">Last 7 days</option>
+      <option value="30" selected>Last 30 days</option>
+      <option value="90">Last 90 days</option>
+    </select>
+    <select class="filter-select" id="clientFilter">
+      <option value="">All clients</option>
+    </select>
+  </div>
+
+  <!-- Metrics -->
+  <div class="metrics-grid" id="metricsGrid">
+    <div class="metric-card">
+      <div class="metric-value" id="metricSessions">-</div>
+      <div class="metric-label">Total Sessions</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="metricUsers">-</div>
+      <div class="metric-label">Unique Users</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="metricTasks">-</div>
+      <div class="metric-label">Tasks Completed</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-value" id="metricDuration">-</div>
+      <div class="metric-label">Avg. Session</div>
+    </div>
+  </div>
+
+  <!-- Recent Activity -->
+  <div class="analytics-section">
+    <h2 class="section-title">Recent Activity</h2>
+    <div id="activityTableContainer">
+      <div class="loading">Loading activity...</div>
+    </div>
+  </div>
+
+  <!-- Most Active Clients -->
+  <div class="analytics-section">
+    <h2 class="section-title">Most Active Clients</h2>
+    <div id="clientRanking">
+      <div class="loading">Loading...</div>
+    </div>
+  </div>
+</main>
+
+<script src="/shared/supabase-client.js"></script>
+<script src="/shared/auth.js"></script>
+<script src="/shared/user-menu.js"></script>
+<script>
+(async function() {
+  // Wait for auth
+  const user = await window.__authReady;
+
+  // Admin/PSM only
+  if (user.role !== 'admin' && user.role !== 'psm') {
+    window.location.replace('/my-clients/');
+    return;
+  }
+
+  document.getElementById('topbarEmail').textContent = user.email;
+  if (window.initUserMenu) {
+    window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
+  }
+
+  // Load initial data
+  await loadAnalytics();
+
+  // Filter change handlers
+  document.getElementById('dateRange').addEventListener('change', loadAnalytics);
+  document.getElementById('clientFilter').addEventListener('change', loadAnalytics);
+
+  async function loadAnalytics() {
+    const days = parseInt(document.getElementById('dateRange').value);
+    const clientFilter = document.getElementById('clientFilter').value;
+    const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
+
+    try {
+      let query = window.supabaseClient
+        .from('analytics_events')
+        .select('*')
+        .gte('created_at', since)
+        .order('created_at', { ascending: false })
+        .limit(500);
+
+      if (clientFilter) {
+        query = query.eq('client_slug', clientFilter);
+      }
+
+      const { data: events, error } = await query;
+
+      if (error) {
+        console.error('Analytics load error:', error);
+        return;
+      }
+
+      renderMetrics(events);
+      renderActivityTable(events);
+      renderClientRanking(events);
+      populateClientFilter(events);
+    } catch (e) {
+      console.error('Analytics error:', e);
+    }
+  }
+
+  function renderMetrics(events) {
+    // Total sessions
+    const sessions = events.filter(e => e.event_type === 'session_start').length;
+    document.getElementById('metricSessions').textContent = sessions;
+
+    // Unique users
+    const uniqueUsers = new Set(events.map(e => e.user_email)).size;
+    document.getElementById('metricUsers').textContent = uniqueUsers;
+
+    // Tasks completed
+    const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data.checked).length;
+    document.getElementById('metricTasks').textContent = tasks;
+
+    // Average session duration
+    const sessionEnds = events.filter(e => e.event_type === 'session_end' && e.event_data.duration_seconds);
+    if (sessionEnds.length > 0) {
+      const avgSeconds = sessionEnds.reduce((sum, e) => sum + e.event_data.duration_seconds, 0) / sessionEnds.length;
+      const mins = Math.round(avgSeconds / 60);
+      document.getElementById('metricDuration').textContent = mins + ' min';
+    } else {
+      document.getElementById('metricDuration').textContent = '-';
+    }
+  }
+
+  function renderActivityTable(events) {
+    const container = document.getElementById('activityTableContainer');
+
+    // Filter to meaningful events and take top 30
+    const displayEvents = events.filter(e =>
+      ['session_start', 'checkbox_change', 'tour_complete'].includes(e.event_type)
+    ).slice(0, 30);
+
+    if (displayEvents.length === 0) {
+      container.innerHTML = '<div class="empty-state">' +
+        '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+        '<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>' +
+        '</svg>' +
+        '<p>No activity data yet.</p>' +
+        '</div>';
+      return;
+    }
+
+    let html = '<table class="activity-table">' +
+      '<thead><tr>' +
+      '<th>Time</th>' +
+      '<th>User</th>' +
+      '<th>Client</th>' +
+      '<th>Action</th>' +
+      '</tr></thead><tbody>';
+
+    displayEvents.forEach(e => {
+      const date = new Date(e.created_at);
+      const timeStr = formatRelativeTime(date);
+
+      let action = '';
+      let dotClass = '';
+
+      if (e.event_type === 'session_start') {
+        action = 'Started session';
+        dotClass = 'activity-dot--session';
+      } else if (e.event_type === 'checkbox_change') {
+        const verb = e.event_data.checked ? 'Completed' : 'Unchecked';
+        const item = (e.event_data.item_key || 'item').replace(/-/g, ' ');
+        action = verb + ': ' + item;
+        dotClass = 'activity-dot--checkbox';
+      } else if (e.event_type === 'tour_complete') {
+        action = 'Completed welcome tour';
+        dotClass = 'activity-dot--tour';
+      }
+
+      html += '<tr>' +
+        '<td class="activity-table__time">' + timeStr + '</td>' +
+        '<td>' + escapeHtml(e.user_email) + '</td>' +
+        '<td>' + escapeHtml(e.client_slug) + '</td>' +
+        '<td class="activity-table__action">' +
+        '<span class="activity-dot ' + dotClass + '"></span>' +
+        escapeHtml(action) +
+        '</td></tr>';
+    });
+
+    html += '</tbody></table>';
+    container.innerHTML = html;
+  }
+
+  function renderClientRanking(events) {
+    const container = document.getElementById('clientRanking');
+
+    // Aggregate by client
+    const clientStats = {};
+    events.forEach(e => {
+      if (!clientStats[e.client_slug]) {
+        clientStats[e.client_slug] = { sessions: 0, tasks: 0 };
+      }
+      if (e.event_type === 'session_start') {
+        clientStats[e.client_slug].sessions++;
+      }
+      if (e.event_type === 'checkbox_change' && e.event_data.checked) {
+        clientStats[e.client_slug].tasks++;
+      }
+    });
+
+    // Sort by sessions
+    const sorted = Object.entries(clientStats)
+      .sort((a, b) => b[1].sessions - a[1].sessions)
+      .slice(0, 10);
+
+    if (sorted.length === 0) {
+      container.innerHTML = '<div class="empty-state"><p>No client data yet.</p></div>';
+      return;
+    }
+
+    let html = '<div class="client-ranking">';
+    sorted.forEach(([slug, stats], i) => {
+      html += '<div class="client-rank-row">' +
+        '<div class="client-rank-num">#' + (i + 1) + '</div>' +
+        '<div class="client-rank-name">' + escapeHtml(slug) + '</div>' +
+        '<div class="client-rank-sessions">' + stats.sessions + ' sessions</div>' +
+        '<div class="client-rank-tasks">' + stats.tasks + ' tasks</div>' +
+        '</div>';
+    });
+    html += '</div>';
+
+    container.innerHTML = html;
+  }
+
+  function populateClientFilter(events) {
+    const select = document.getElementById('clientFilter');
+    const currentValue = select.value;
+
+    // Get unique client slugs
+    const slugs = [...new Set(events.map(e => e.client_slug))].sort();
+
+    // Keep the "All clients" option
+    let html = '<option value="">All clients</option>';
+    slugs.forEach(slug => {
+      const selected = slug === currentValue ? ' selected' : '';
+      html += '<option value="' + escapeHtml(slug) + '"' + selected + '>' + escapeHtml(slug) + '</option>';
+    });
+
+    select.innerHTML = html;
+  }
+
+  function formatRelativeTime(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return diffMins + ' min ago';
+    if (diffHours < 24) return diffHours + ' hours ago';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return diffDays + ' days ago';
+    return date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+})();
+</script>
+</body>
+</html>

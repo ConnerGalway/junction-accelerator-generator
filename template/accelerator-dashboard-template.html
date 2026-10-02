@@ -4376,6 +4376,168 @@ button,
 .sidebar__nav-item:active{
   transform:translateX(0) scale(0.98);
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ACTIVITY TAB STYLES (Admin/PSM/Coach only)
+   ══════════════════════════════════════════════════════════════════════════ */
+.activity {
+  padding: 32px;
+  max-width: 1000px;
+}
+.activity__header {
+  margin-bottom: 32px;
+}
+.activity__eyebrow {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--slate-500);
+  margin-bottom: 8px;
+}
+.activity__title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy-900);
+  margin: 0 0 8px 0;
+}
+.activity__subtitle {
+  font-size: 15px;
+  color: var(--slate-600);
+  margin: 0;
+}
+.activity__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.activity__stat-card {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+}
+.activity__stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--navy-900);
+  line-height: 1.2;
+}
+.activity__stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--slate-500);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 4px;
+}
+.activity__section {
+  background: var(--white);
+  border: 1px solid var(--border-subtle);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+}
+.activity__section-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--navy-900);
+  margin: 0 0 16px 0;
+}
+.activity__loading {
+  text-align: center;
+  padding: 32px;
+  color: var(--slate-500);
+}
+.activity__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.activity__timeline-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.activity__timeline-item:last-child {
+  border-bottom: none;
+}
+.activity__timeline-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--mint-500);
+  margin-top: 5px;
+  flex-shrink: 0;
+}
+.activity__timeline-dot--checkbox {
+  background: var(--mint-500);
+}
+.activity__timeline-dot--session {
+  background: var(--blue-500);
+}
+.activity__timeline-dot--tour {
+  background: var(--slate-400);
+}
+.activity__timeline-content {
+  flex: 1;
+}
+.activity__timeline-title {
+  font-weight: 500;
+  color: var(--navy-900);
+  margin-bottom: 2px;
+}
+.activity__timeline-time {
+  font-size: 12px;
+  color: var(--slate-500);
+}
+.activity__sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.activity__session-row {
+  display: grid;
+  grid-template-columns: 1fr 100px 80px;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-subtle);
+  font-size: 14px;
+}
+.activity__session-row:last-child {
+  border-bottom: none;
+}
+.activity__session-user {
+  color: var(--navy-900);
+  font-weight: 500;
+}
+.activity__session-date {
+  color: var(--slate-600);
+  text-align: right;
+}
+.activity__session-duration {
+  color: var(--slate-500);
+  text-align: right;
+}
+.activity__empty {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--slate-500);
+}
+.activity__empty-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  opacity: 0.5;
+}
+.nav-item__icon {
+  width: 16px;
+  height: 16px;
+  margin-right: 8px;
+  opacity: 0.7;
+}
 </style>
 </head>
 <body data-client-slug="{{CLIENT_SLUG}}">
@@ -4572,6 +4734,19 @@ button,
           <span class="nav-item__left">GBP Quick Wins</span>
         </button>
         <!-- /IF:GBP_QUICK_WINS -->
+      </div>
+
+      <!-- Activity tab - visible only to Admin/PSM/Coach -->
+      <div class="nav-group" id="nav-group-activity" style="display:none;">
+        <div class="nav-group__label">INSIGHTS</div>
+        <button class="nav-item" data-nav="activity">
+          <span class="nav-item__left">
+            <svg class="nav-item__icon" width="16" height="16" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+            </svg>
+            <span>Activity</span>
+          </span>
+        </button>
       </div>
 
       <div class="sidebar-expanded__footer">
@@ -5436,6 +5611,55 @@ button,
     </div>
     <!-- /IF:GBP_QUICK_WINS -->
 
+    <!-- ══════════════════════════════════════════════════════════════════════
+         ACTIVITY VIEW (Admin/PSM/Coach only)
+         ══════════════════════════════════════════════════════════════════════ -->
+    <div class="page-view" id="view-activity" style="display:none;">
+      <div class="activity">
+        <div class="activity__header">
+          <div class="activity__eyebrow">CLIENT INSIGHTS</div>
+          <h1 class="activity__title">Activity</h1>
+          <p class="activity__subtitle">Track engagement and progress for this client</p>
+        </div>
+
+        <!-- Summary Stats -->
+        <div class="activity__stats" id="activityStats">
+          <div class="activity__stat-card">
+            <div class="activity__stat-value" id="statSessions">-</div>
+            <div class="activity__stat-label">Total Sessions</div>
+          </div>
+          <div class="activity__stat-card">
+            <div class="activity__stat-value" id="statDuration">-</div>
+            <div class="activity__stat-label">Avg. Duration</div>
+          </div>
+          <div class="activity__stat-card">
+            <div class="activity__stat-value" id="statTasks">-</div>
+            <div class="activity__stat-label">Tasks Completed</div>
+          </div>
+          <div class="activity__stat-card">
+            <div class="activity__stat-value" id="statLastVisit">-</div>
+            <div class="activity__stat-label">Last Visit</div>
+          </div>
+        </div>
+
+        <!-- Recent Activity Timeline -->
+        <div class="activity__section">
+          <h2 class="activity__section-title">Recent Activity</h2>
+          <div class="activity__timeline" id="activityTimeline">
+            <div class="activity__loading">Loading activity data...</div>
+          </div>
+        </div>
+
+        <!-- Session History -->
+        <div class="activity__section">
+          <h2 class="activity__section-title">Session History</h2>
+          <div class="activity__sessions" id="activitySessions">
+            <!-- Populated by JavaScript -->
+          </div>
+        </div>
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -5498,6 +5722,7 @@ button,
 <script src="/shared/share-modal.js"></script>
 <script src="/shared/progress.js"></script>
 <script src="/shared/content-editor.js"></script>
+<script src="/shared/analytics.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
 // PRINT ROADMAP
@@ -6400,6 +6625,228 @@ function closeLightbox() {
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeLightbox();
 });
+</script>
+
+<!-- ══════════════════════════════════════════════════════════════════════════
+     ACTIVITY TAB (Admin/PSM/Coach only)
+     ══════════════════════════════════════════════════════════════════════════ -->
+<script>
+(function() {
+  // Show Activity tab only for Admin/PSM/Coach
+  if (!window.__authReady) return;
+
+  window.__authReady.then(function(user) {
+    const allowedRoles = ['admin', 'psm', 'coach'];
+    if (!allowedRoles.includes(user.role)) return;
+
+    // Show the nav group and view
+    const navGroup = document.getElementById('nav-group-activity');
+    const activityView = document.getElementById('view-activity');
+    if (navGroup) navGroup.style.display = '';
+    if (activityView) activityView.style.display = '';
+
+    // Load activity data
+    loadActivityData();
+  }).catch(function(err) {
+    console.warn('Activity tab: auth error', err);
+  });
+
+  async function loadActivityData() {
+    const clientSlug = document.body.getAttribute('data-client-slug');
+    if (!clientSlug || !window.supabaseClient) return;
+
+    try {
+      // Fetch recent analytics events
+      const { data: events, error } = await window.supabaseClient
+        .from('analytics_events')
+        .select('*')
+        .eq('client_slug', clientSlug)
+        .order('created_at', { ascending: false })
+        .limit(100);
+
+      if (error) {
+        console.warn('Activity: failed to load events', error);
+        showEmptyState();
+        return;
+      }
+
+      if (!events || events.length === 0) {
+        showEmptyState();
+        return;
+      }
+
+      renderStats(events);
+      renderTimeline(events);
+      renderSessions(events);
+    } catch (e) {
+      console.warn('Activity: error loading data', e);
+      showEmptyState();
+    }
+  }
+
+  function showEmptyState() {
+    const timeline = document.getElementById('activityTimeline');
+    if (timeline) {
+      timeline.innerHTML = '<div class="activity__empty">' +
+        '<svg class="activity__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">' +
+        '<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>' +
+        '</svg>' +
+        '<p>No activity data yet.</p>' +
+        '<p style="font-size:13px;margin-top:8px;">Activity will appear here once users start interacting with the dashboard.</p>' +
+        '</div>';
+    }
+  }
+
+  function renderStats(events) {
+    // Count sessions
+    const sessions = events.filter(e => e.event_type === 'session_start').length;
+    document.getElementById('statSessions').textContent = sessions;
+
+    // Average duration
+    const sessionEnds = events.filter(e => e.event_type === 'session_end' && e.event_data.duration_seconds);
+    if (sessionEnds.length > 0) {
+      const avgSeconds = sessionEnds.reduce((sum, e) => sum + e.event_data.duration_seconds, 0) / sessionEnds.length;
+      const mins = Math.round(avgSeconds / 60);
+      document.getElementById('statDuration').textContent = mins + ' min';
+    } else {
+      document.getElementById('statDuration').textContent = '-';
+    }
+
+    // Tasks completed (checkbox changes with checked: true)
+    const tasksChecked = events.filter(e => e.event_type === 'checkbox_change' && e.event_data.checked).length;
+    document.getElementById('statTasks').textContent = tasksChecked;
+
+    // Last visit
+    const lastSession = events.find(e => e.event_type === 'session_start');
+    if (lastSession) {
+      const date = new Date(lastSession.created_at);
+      const now = new Date();
+      const diffDays = Math.floor((now - date) / (1000 * 60 * 60 * 24));
+      if (diffDays === 0) {
+        document.getElementById('statLastVisit').textContent = 'Today';
+      } else if (diffDays === 1) {
+        document.getElementById('statLastVisit').textContent = 'Yesterday';
+      } else {
+        document.getElementById('statLastVisit').textContent = diffDays + ' days ago';
+      }
+    }
+  }
+
+  function renderTimeline(events) {
+    const timeline = document.getElementById('activityTimeline');
+    if (!timeline) return;
+
+    // Show most recent 20 meaningful events
+    const meaningfulEvents = events.filter(e =>
+      ['checkbox_change', 'session_start', 'tour_complete'].includes(e.event_type)
+    ).slice(0, 20);
+
+    if (meaningfulEvents.length === 0) {
+      showEmptyState();
+      return;
+    }
+
+    const html = meaningfulEvents.map(e => {
+      let title = '';
+      let dotClass = '';
+
+      switch (e.event_type) {
+        case 'checkbox_change':
+          const action = e.event_data.checked ? 'Completed' : 'Unchecked';
+          const itemKey = e.event_data.item_key || 'item';
+          title = action + ' task: ' + itemKey.replace(/-/g, ' ');
+          dotClass = 'activity__timeline-dot--checkbox';
+          break;
+        case 'session_start':
+          title = 'Started session';
+          dotClass = 'activity__timeline-dot--session';
+          break;
+        case 'tour_complete':
+          title = 'Completed welcome tour';
+          dotClass = 'activity__timeline-dot--tour';
+          break;
+        default:
+          title = e.event_type.replace(/_/g, ' ');
+      }
+
+      const date = new Date(e.created_at);
+      const timeStr = formatRelativeTime(date);
+
+      return '<div class="activity__timeline-item">' +
+        '<div class="activity__timeline-dot ' + dotClass + '"></div>' +
+        '<div class="activity__timeline-content">' +
+        '<div class="activity__timeline-title">' + escapeHtml(title) + '</div>' +
+        '<div class="activity__timeline-time">' + escapeHtml(e.user_email) + ' · ' + timeStr + '</div>' +
+        '</div></div>';
+    }).join('');
+
+    timeline.innerHTML = html;
+  }
+
+  function renderSessions(events) {
+    const container = document.getElementById('activitySessions');
+    if (!container) return;
+
+    // Group session starts with their durations
+    const sessionStarts = events.filter(e => e.event_type === 'session_start').slice(0, 10);
+
+    if (sessionStarts.length === 0) {
+      container.innerHTML = '<p class="activity__empty">No sessions recorded yet.</p>';
+      return;
+    }
+
+    // Find matching session ends
+    const sessionEnds = events.filter(e => e.event_type === 'session_end');
+
+    const html = sessionStarts.map(start => {
+      const date = new Date(start.created_at);
+      const dateStr = date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+
+      // Find approximate duration from nearby session_end
+      let duration = '-';
+      const nearbyEnd = sessionEnds.find(end =>
+        end.user_email === start.user_email &&
+        Math.abs(new Date(end.created_at) - date) < 4 * 60 * 60 * 1000 // Within 4 hours
+      );
+      if (nearbyEnd && nearbyEnd.event_data.duration_seconds) {
+        const mins = Math.round(nearbyEnd.event_data.duration_seconds / 60);
+        duration = mins + ' min';
+      }
+
+      return '<div class="activity__session-row">' +
+        '<div class="activity__session-user">' + escapeHtml(start.user_email) + '</div>' +
+        '<div class="activity__session-date">' + dateStr + '</div>' +
+        '<div class="activity__session-duration">' + duration + '</div>' +
+        '</div>';
+    }).join('');
+
+    container.innerHTML = html;
+  }
+
+  function formatRelativeTime(date) {
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / (1000 * 60));
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return diffMins + ' min ago';
+    if (diffHours < 24) return diffHours + ' hours ago';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays < 7) return diffDays + ' days ago';
+    return date.toLocaleDateString('en-CA', { month: 'short', day: 'numeric' });
+  }
+
+  function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+})();
 </script>
 </body>
 </html>

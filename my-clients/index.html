@@ -70,6 +70,27 @@
       letter-spacing: 0.01em;
     }
 
+    .topbar__link {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: rgba(255,255,255,0.7);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .topbar__link:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+    }
+
+    .topbar__link svg {
+      opacity: 0.8;
+    }
+
     /* ── Main content ───────────────────────────────────── */
     .main {
       max-width: 1000px;
@@ -827,6 +848,12 @@
   <header class="topbar">
     <div class="topbar__logo">eLearningU</div>
     <div class="topbar__right">
+      <a href="/admin/analytics/" class="topbar__link" id="analyticsLink" style="display:none;">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+          <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+        </svg>
+        Analytics
+      </a>
       <span class="topbar__email" id="topbarEmail"></span>
       <div id="userMenuContainer"></div>
     </div>
@@ -1083,6 +1110,7 @@
       if (user.role === 'admin' || user.role === 'psm') {
         document.getElementById('generateAssessmentBtn').style.display = 'inline-flex';
         document.getElementById('createExperienceBtn').style.display = 'inline-flex';
+        document.getElementById('analyticsLink').style.display = '';
       }
 
       // Close action menus when clicking outside

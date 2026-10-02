@@ -4960,6 +4960,170 @@ button:focus-visible,
     break-inside: avoid;
   }
 }
+
+/* ══════════════════════════════════════════════════════════════════════════
+   ACTIVITY PAGE STYLES (Admin/PSM/Coach only)
+   ══════════════════════════════════════════════════════════════════════════ */
+.activity {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.activity__header {
+  margin-bottom: 2rem;
+}
+
+.activity__title {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin: 0 0 0.5rem 0;
+}
+
+.activity__subtitle {
+  color: var(--slate);
+  margin: 0;
+}
+
+.activity__stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.activity__stat-card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.activity__stat-label {
+  font-size: 0.875rem;
+  color: var(--slate);
+  margin-bottom: 0.5rem;
+}
+
+.activity__stat-value {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.activity__section {
+  background: var(--card-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.activity__section-title {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 0 0 1rem 0;
+}
+
+.activity__loading {
+  color: var(--slate);
+  padding: 2rem;
+  text-align: center;
+}
+
+.activity__timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity__event {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  background: var(--surface-sunken);
+}
+
+.activity__event-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.activity__event-icon--page { background: #e3f2fd; color: #1976d2; }
+.activity__event-icon--check { background: #e8f5e9; color: #388e3c; }
+.activity__event-icon--session { background: #fff3e0; color: #f57c00; }
+.activity__event-icon--tour { background: #f3e5f5; color: #7b1fa2; }
+
+.activity__event-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.activity__event-title {
+  font-weight: 500;
+  color: var(--navy);
+  margin-bottom: 0.25rem;
+}
+
+.activity__event-meta {
+  font-size: 0.8125rem;
+  color: var(--slate);
+}
+
+.activity__sessions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.activity__session-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 8px;
+  background: var(--surface-sunken);
+}
+
+.activity__session-user {
+  font-weight: 500;
+  color: var(--navy);
+}
+
+.activity__session-details {
+  font-size: 0.875rem;
+  color: var(--slate);
+}
+
+.activity__empty {
+  text-align: center;
+  padding: 3rem;
+  color: var(--slate);
+}
+
+@media (max-width: 768px) {
+  .activity {
+    padding: 1rem;
+  }
+  .activity__stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .activity__stat-value {
+    font-size: 1.5rem;
+  }
+}
 </style>
 </head>
 <body data-client-slug="sample-demo">
@@ -5147,6 +5311,15 @@ button:focus-visible,
         <line x1="3" y1="10" x2="21" y2="10"/>
       </svg>
       90-Day Roadmap
+    </div>
+
+    <!-- Activity Nav (Admin/PSM/Coach only) -->
+    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
+    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+      </svg>
+      Activity
     </div>
   </nav>
 </aside>
@@ -7223,6 +7396,54 @@ button:focus-visible,
     </div>
   </section>
 
+  <!-- ══════════════════════════════════════════════════════════════════════
+       ACTIVITY PAGE (Admin/PSM/Coach only)
+       ══════════════════════════════════════════════════════════════════════ -->
+  <section id="page-activity" class="page">
+    <div class="activity">
+      <div class="activity__header">
+        <h1 class="activity__title">Client Activity</h1>
+        <p class="activity__subtitle">View engagement and progress for this client</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="activity__stats" id="activity-stats">
+        <div class="activity__stat-card">
+          <div class="activity__stat-label">Total Sessions</div>
+          <div class="activity__stat-value" id="stat-sessions">-</div>
+        </div>
+        <div class="activity__stat-card">
+          <div class="activity__stat-label">Unique Users</div>
+          <div class="activity__stat-value" id="stat-users">-</div>
+        </div>
+        <div class="activity__stat-card">
+          <div class="activity__stat-label">Tasks Completed</div>
+          <div class="activity__stat-value" id="stat-tasks">-</div>
+        </div>
+        <div class="activity__stat-card">
+          <div class="activity__stat-label">Avg Session</div>
+          <div class="activity__stat-value" id="stat-duration">-</div>
+        </div>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="activity__section">
+        <h2 class="activity__section-title">Recent Activity</h2>
+        <div class="activity__timeline" id="activity-timeline">
+          <div class="activity__loading">Loading activity...</div>
+        </div>
+      </div>
+
+      <!-- Session History -->
+      <div class="activity__section">
+        <h2 class="activity__section-title">Session History</h2>
+        <div class="activity__sessions" id="activity-sessions">
+          <div class="activity__loading">Loading sessions...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Print Footer (visible only when printing) -->
   <div class="print-footer">
     <div class="print-footer-content">
@@ -7257,6 +7478,7 @@ button:focus-visible,
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/analytics.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -8250,6 +8472,196 @@ window.addEventListener('resize', function() {
     initMobileTabSelectors();
   }
 });
+
+// ══════════════════════════════════════════════════════════════
+// ACTIVITY TAB (Admin/PSM/Coach only)
+// ══════════════════════════════════════════════════════════════
+window.__authReady.then(function(user) {
+  const allowedRoles = ['admin', 'psm', 'coach'];
+  if (!allowedRoles.includes(user.role)) return;
+
+  // Show the nav items (page visibility is handled by CSS .page class)
+  document.getElementById('nav-activity-label').style.display = '';
+  document.getElementById('nav-activity').style.display = '';
+
+  // Load activity data when Activity page is shown
+  loadActivityData();
+});
+
+async function loadActivityData() {
+  const clientSlug = document.body.getAttribute('data-client-slug');
+  if (!clientSlug) return;
+
+  try {
+    // Fetch recent events
+    const { data: events, error } = await supabaseClient
+      .from('analytics_events')
+      .select('*')
+      .eq('client_slug', clientSlug)
+      .order('created_at', { ascending: false })
+      .limit(50);
+
+    if (error) {
+      console.warn('Failed to load analytics:', error);
+      document.getElementById('activity-timeline').innerHTML =
+        '<div class="activity__empty">Unable to load activity data</div>';
+      return;
+    }
+
+    if (!events || events.length === 0) {
+      document.getElementById('activity-timeline').innerHTML =
+        '<div class="activity__empty">No activity recorded yet</div>';
+      document.getElementById('activity-sessions').innerHTML =
+        '<div class="activity__empty">No sessions recorded yet</div>';
+      return;
+    }
+
+    renderActivityStats(events);
+    renderActivityTimeline(events);
+    renderSessionHistory(events);
+  } catch (e) {
+    console.warn('Error loading activity:', e);
+  }
+}
+
+function renderActivityStats(events) {
+  const sessions = events.filter(e => e.event_type === 'session_start').length;
+  const users = new Set(events.map(e => e.user_email)).size;
+  const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data?.checked).length;
+
+  const sessionEnds = events.filter(e => e.event_type === 'session_end');
+  const avgDuration = sessionEnds.length > 0
+    ? Math.round(sessionEnds.reduce((sum, e) => sum + (e.event_data?.duration_seconds || 0), 0) / sessionEnds.length)
+    : 0;
+
+  document.getElementById('stat-sessions').textContent = sessions;
+  document.getElementById('stat-users').textContent = users;
+  document.getElementById('stat-tasks').textContent = tasks;
+  document.getElementById('stat-duration').textContent = avgDuration > 0 ? formatDuration(avgDuration) : '-';
+}
+
+function formatDuration(seconds) {
+  if (seconds < 60) return seconds + 's';
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return mins + 'm ' + secs + 's';
+}
+
+function renderActivityTimeline(events) {
+  const timeline = document.getElementById('activity-timeline');
+  const recentEvents = events.slice(0, 20);
+
+  if (recentEvents.length === 0) {
+    timeline.innerHTML = '<div class="activity__empty">No recent activity</div>';
+    return;
+  }
+
+  timeline.innerHTML = recentEvents.map(event => {
+    const iconClass = getEventIconClass(event.event_type);
+    const title = getEventTitle(event);
+    const time = formatRelativeTime(new Date(event.created_at));
+
+    return `
+      <div class="activity__event">
+        <div class="activity__event-icon ${iconClass}">
+          ${getEventIcon(event.event_type)}
+        </div>
+        <div class="activity__event-content">
+          <div class="activity__event-title">${title}</div>
+          <div class="activity__event-meta">${event.user_email} &middot; ${time}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getEventIconClass(type) {
+  switch (type) {
+    case 'page_view': return 'activity__event-icon--page';
+    case 'checkbox_change': return 'activity__event-icon--check';
+    case 'session_start':
+    case 'session_end': return 'activity__event-icon--session';
+    case 'tour_start':
+    case 'tour_complete':
+    case 'tour_skip': return 'activity__event-icon--tour';
+    default: return '';
+  }
+}
+
+function getEventIcon(type) {
+  switch (type) {
+    case 'page_view':
+      return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
+    case 'checkbox_change':
+      return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>';
+    case 'session_start':
+    case 'session_end':
+      return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    default:
+      return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>';
+  }
+}
+
+function getEventTitle(event) {
+  switch (event.event_type) {
+    case 'page_view':
+      return 'Viewed ' + (event.event_data?.page || 'page');
+    case 'checkbox_change':
+      return (event.event_data?.checked ? 'Completed' : 'Unchecked') + ' task';
+    case 'session_start':
+      return 'Started session';
+    case 'session_end':
+      const dur = event.event_data?.duration_seconds;
+      return 'Ended session' + (dur ? ' (' + formatDuration(dur) + ')' : '');
+    case 'tour_start':
+      return 'Started tour';
+    case 'tour_complete':
+      return 'Completed tour';
+    case 'tour_skip':
+      return 'Skipped tour';
+    default:
+      return event.event_type;
+  }
+}
+
+function formatRelativeTime(date) {
+  const now = new Date();
+  const diff = now - date;
+  const mins = Math.floor(diff / 60000);
+  const hours = Math.floor(diff / 3600000);
+  const days = Math.floor(diff / 86400000);
+
+  if (mins < 1) return 'just now';
+  if (mins < 60) return mins + 'm ago';
+  if (hours < 24) return hours + 'h ago';
+  if (days < 7) return days + 'd ago';
+  return date.toLocaleDateString();
+}
+
+function renderSessionHistory(events) {
+  const container = document.getElementById('activity-sessions');
+  const sessionStarts = events.filter(e => e.event_type === 'session_start').slice(0, 10);
+
+  if (sessionStarts.length === 0) {
+    container.innerHTML = '<div class="activity__empty">No sessions recorded</div>';
+    return;
+  }
+
+  container.innerHTML = sessionStarts.map(session => {
+    const date = new Date(session.created_at);
+    return `
+      <div class="activity__session-card">
+        <div>
+          <div class="activity__session-user">${session.user_email}</div>
+          <div class="activity__session-details">${session.user_role}</div>
+        </div>
+        <div class="activity__session-details">
+          ${date.toLocaleDateString()} ${date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
 </script>
 </body>
 </html>
