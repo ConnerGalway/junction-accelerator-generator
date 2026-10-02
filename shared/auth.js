@@ -264,10 +264,25 @@ window.__authReady = (async function () {
       };
 
       // Insert into sidebar footer, above "Replay welcome tour" button
+      // Fallback: append to sidebar nav or sidebar itself if replayTour doesn't exist
       const insertToggleIntoSidebar = () => {
         const replayTourBtn = document.getElementById('replayTour');
         if (replayTourBtn && replayTourBtn.parentNode) {
           replayTourBtn.parentNode.insertBefore(toggleBtn, replayTourBtn);
+        } else {
+          // Fallback for pages without replayTour button (e.g., assessment-only pages)
+          const sidebar = document.getElementById('sidebar');
+          if (sidebar) {
+            // Create a container for the toggle if needed
+            let toggleContainer = sidebar.querySelector('.sidebar-toggle-container');
+            if (!toggleContainer) {
+              toggleContainer = document.createElement('div');
+              toggleContainer.className = 'sidebar-toggle-container';
+              toggleContainer.style.cssText = 'padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.08);';
+              sidebar.appendChild(toggleContainer);
+            }
+            toggleContainer.appendChild(toggleBtn);
+          }
         }
       };
 
