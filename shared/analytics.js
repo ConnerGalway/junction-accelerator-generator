@@ -53,6 +53,12 @@
     return;
   }
 
+  // Only track client and guest activity (exclude admin, psm, coach)
+  const trackedRoles = ['client', 'guest'];
+  if (!trackedRoles.includes(userRole)) {
+    return;
+  }
+
   // ──────────────────────────────────────────────────────────────────────────
   // GET USER SESSION
   // ──────────────────────────────────────────────────────────────────────────
