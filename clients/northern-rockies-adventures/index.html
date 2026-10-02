@@ -2016,6 +2016,9 @@ body.drawer-open {
     break-inside: avoid;
   }
 }
+
+/* Activity Page Styles */
+.activity__stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center}.activity__stat-value{font-size:2rem;font-weight:700;color:var(--text)}.activity__stat-label{font-size:0.875rem;color:var(--text-muted);margin-top:0.25rem}.activity__container{display:grid;grid-template-columns:1fr 320px;gap:2rem}@media(max-width:900px){.activity__container{grid-template-columns:1fr}}.activity__timeline{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__loading{color:var(--text-muted);text-align:center;padding:2rem}.activity__event{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}.activity__event:last-child{border-bottom:none}.activity__event-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}.activity__event-icon.page_view{background:#e0f2fe;color:#0284c7}.activity__event-icon.checkbox_change{background:#dcfce7;color:#16a34a}.activity__event-icon.session_start{background:#f3e8ff;color:#9333ea}.activity__event-icon.session_end{background:#fee2e2;color:#dc2626}.activity__event-icon.default{background:#f3f4f6;color:#6b7280}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--text);margin-bottom:0.25rem}.activity__event-meta{font-size:0.813rem;color:var(--text-muted)}.activity__event-time{font-size:0.75rem;color:var(--text-muted);white-space:nowrap}.activity__sessions{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__sessions h3{margin:0 0 1rem;font-size:1rem;font-weight:600}.activity__sessions-container{display:flex;flex-direction:column;gap:0.75rem}.activity__session-card{padding:0.75rem;background:var(--bg);border-radius:8px;border:1px solid var(--border)}.activity__session-card h4{margin:0 0 0.5rem;font-size:0.875rem;font-weight:500}.activity__session-card p{margin:0;font-size:0.75rem;color:var(--text-muted)}
 </style>
 </head>
 <body data-client-slug="northern-rockies-adventures">
@@ -2177,6 +2180,14 @@ body.drawer-open {
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
+    </div>
+    <!-- Activity Nav (Admin/PSM/Coach only) -->
+    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
+    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+      </svg>
+      Activity
     </div>
   </nav>
 </aside>
@@ -2352,12 +2363,50 @@ body.drawer-open {
     </div>
   </div>
 
+        <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
+        <section id="page-activity" class="page">
+            <div class="page-header">
+                <h1>Client Activity</h1>
+                <p class="subtitle">Real-time engagement analytics</p>
+            </div>
+
+            <div class="activity__stats-grid">
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-sessions">--</div>
+                    <div class="activity__stat-label">Sessions (7d)</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-users">--</div>
+                    <div class="activity__stat-label">Unique Users</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-tasks">--</div>
+                    <div class="activity__stat-label">Tasks Completed</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-duration">--</div>
+                    <div class="activity__stat-label">Avg. Duration</div>
+                </div>
+            </div>
+
+            <div class="activity__container">
+                <div class="activity__timeline" id="activity-timeline">
+                    <p class="activity__loading">Loading activity...</p>
+                </div>
+                <div class="activity__sessions" id="activity-sessions-list">
+                    <h3>Recent Sessions</h3>
+                    <div class="activity__sessions-container"></div>
+                </div>
+            </div>
+        </section>
+
 </main>
 
 <script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Northern Rockies Adventures has a solid digital foundation with strong technical performance and excellent Google reputation (4.9 stars), but faces growth opportunities in review volume and social media content consistency.","key_strengths":["Outstanding Google rating of 4.9 stars with recent review activity (80% from past 18 months) demonstrates consistent service quality","Strong technical foundation with 93/100 page speed on both mobile and desktop, SSL security, and mobile optimization","Complete booking integration with clear pricing visibility and established presence across Instagram (3,222 followers), Facebook (4,300 followers), and YouTube channels"],"critical_gaps":["Limited review volume with only 15 Google reviews - needs 50+ to build stronger trust signals for high-value adventure bookings","Inconsistent social media posting at 1.1 posts per week on Instagram falls below tourism benchmark of 3-5 posts weekly","Review response rate not visible, missing opportunity to showcase customer service and engage potential guests reading reviews"],"bottom_line":"Northern Rockies Adventures has the technical infrastructure and service quality to compete effectively for fly-in fishing and northern adventure bookings, but needs to amplify social proof through more reviews and maintain consistent social media presence to capture the growing market of adventure travelers researching remote BC experiences"},"quick_wins":[{"task":"Add alt text to the 1 image missing it (found on homepage) - improves accessibility and SEO for image searches like 'BC fly fishing lodge'","time_estimate":"5 minutes","impact":"Better visibility in Google Image searches and improved accessibility compliance","confidence":"high"},{"task":"Shorten meta title from 69 to 60 characters (currently: 'Premium Fly-In Fishing, Nahanni, Northern Lights & Nature Tours in BC') to prevent truncation in mobile search results","time_estimate":"10 minutes","impact":"Full title displays in mobile search results, improving click-through rates","confidence":"high"},{"task":"Reduce meta description from 232 to 155 characters to prevent search result truncation - focus on key differentiators like '40+ years expertise' and 'all-inclusive from Vancouver'","time_estimate":"15 minutes","impact":"Complete description visible in search results, better communicates value proposition","confidence":"high"},{"task":"Create review request email template to send 3-5 days after guest departure - leverage existing 4.9 star satisfaction to grow from 15 to 50+ Google reviews","time_estimate":"30 minutes","impact":"Double review volume within 6 months, strengthening trust signals for $7,300 adventure packages","confidence":"high"},{"task":"Remove duplicate H1 tags (currently 5 H1s on homepage) - keep only 'Northern Rockies Adventures' as single H1 and convert others to H2","time_estimate":"20 minutes","impact":"Improved SEO structure and clearer content hierarchy for search engines","confidence":"high"}],"tourism_context":{"visitor_profile":"High-value adventure travelers (typically 45-65 years old) seeking premium fly-in fishing experiences, aurora viewing, and wilderness tours in remote Northern BC. Mix of domestic Canadian travelers and international visitors (primarily US) booking 3-7 day all-inclusive packages averaging $7,300. These are experienced outdoors enthusiasts researching extensively before committing to remote lodge experiences.","discovery_journey":"Potential guests typically research 3-6 months before booking, comparing BC fishing lodges through Google searches ('BC fly-in fishing', 'Muncho Lake lodge', 'Northern Lights BC tours'), reading detailed reviews on Google and TripAdvisor, watching YouTube videos of the experience, and reviewing social media for recent guest photos. The long research cycle means consistent social content and strong review presence are critical - one guest booking represents significant revenue at $7,300+ per trip.","seasonal_considerations":"Northern Rockies Adventures operates distinct seasonal offerings: summer fly-in fishing (peak June-September), fall Northern Lights viewing (September-October), and winter aurora/New Year tours (December-January). Digital strategy needs year-round content showing all seasons, with social media emphasis shifting 3-4 months before each season to capture research-phase travelers. Off-season content maintains engagement and captures early planners.","trip_integration":"Guests typically access Northern Rockies Adventures as a dedicated multi-day destination experience rather than a day-trip component of a larger BC itinerary. The all-inclusive nature (includes flights from Vancouver) means the business must communicate complete trip details, pricing transparency, and what's included. Digital presence must build confidence in the remote location, showcase accommodations, demonstrate flight safety, and highlight the premium nature of the experience to justify the investment for this bucket-list adventure."},"overall":{"score":82,"grade":"B","confidence":"high","scoreBreakdown":{"website_technical":{"score":84,"weight":0.15,"contribution":12.6},"reviews_reputation":{"score":77,"weight":0.25,"contribution":19.25},"booking_conversion":{"score":86,"weight":0.2,"contribution":17.2},"social_media":{"score":80,"weight":0.2,"contribution":16},"guest_experience":{"score":84,"weight":0.1,"contribution":8.4},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":84,"grade":"B+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":93,"score":93,"source":"SEOptimer","grade":"A"},"mobile_speed":{"value":93,"score":93,"source":"SEOptimer","grade":"A"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Strong technical performance with excellent page speed and mobile optimization, with minor SEO improvements needed in meta tags and header structure","findings":[{"type":"positive","text":"Exceptional page speed performance with 93/100 scores on both mobile and desktop, significantly above tourism industry averages","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Website properly configured for mobile devices with viewport settings and responsive design handling 677 homepage images efficiently","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Strong security foundation with SSL certificate, HTTPS redirect, and DMARC email security record in place","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Analytics infrastructure properly implemented with Google Analytics, Google Tag Manager, Hotjar, and Facebook Pixel for tracking visitor behavior","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Meta title tag too long at 69 characters (should be 60 max) causing truncation in mobile search results","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Meta description exceeds recommended length at 232 characters (should be 155 max) getting cut off in search engine results","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Multiple H1 tags detected (5 instances) when only one should be present - dilutes SEO focus on primary page topic","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"One image missing alt text attribute, reducing accessibility and image search visibility","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Email address visible in plain text on website, increasing spam risk - detected by SEOptimer scan","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"SPF mail record not configured, which can affect email deliverability for booking confirmations and guest communications","confidence":"high","source":"SEOptimer API"}],"metrics":[{"label":"Desktop Speed","value":"93/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"93/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Consolidate to single H1 tag on homepage - keep 'Northern Rockies Adventures' as the H1 and convert the other 4 instances to H2 or H3 tags for proper content hierarchy","time_estimate":"20 minutes","impact":"Improved SEO signal clarity, helping search engines understand primary page topic","priority":"medium"},{"text":"Optimize meta tags for search result display - shorten title to 60 characters and description to 155 characters while maintaining key terms like 'fly-in fishing', 'Northern Lights', and 'BC'","time_estimate":"30 minutes","impact":"Complete visibility in mobile search results, improved click-through rates from search","priority":"medium"},{"text":"Add alt text to missing image and audit remaining 677 images for descriptive alt attributes using location and activity keywords","time_estimate":"2 hours for full image audit","impact":"Better Google Image search visibility for terms like 'BC fishing lodge', 'Muncho Lake', and improved accessibility","priority":"low"},{"text":"Implement email obfuscation or contact form for email addresses currently in plain text to reduce spam","time_estimate":"30 minutes","impact":"Reduced spam emails, maintains guest communication quality","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":77,"grade":"C+","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.9,"score":98,"source":"Google Places API"},"review_volume":{"value":15,"score":38,"source":"Google Places API"},"review_recency":{"value":{"recentCount":4,"totalProvided":5,"recentPercent":80},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Outstanding 4.9-star Google rating with strong recent review activity demonstrates excellent service quality, but limited review volume of 15 total reviews holds back trust-building potential for high-value adventure bookings","findings":[{"type":"positive","text":"Exceptional 4.9-star Google rating with 14 five-star reviews demonstrates consistent delivery of premium adventure experiences over time","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent review activity strong with 80% of sampled reviews from past 18 months, indicating active business operations and continued guest satisfaction","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Reviews consistently mention specific staff names (Urs, Marianne, Daniel, Michael) and highlight coordinated service, seamless planning, and accommodations for special needs (mobility assistance noted)","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Review content emphasizes key differentiators: quality of fishing (pike, lake trout, rainbow trout, grayling), spectacular flight experiences, and bucket-list activities like Northern Lights and Liard Hot Springs","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Review volume of 15 is significantly below benchmark for adventure lodges - needs 50+ reviews to build adequate trust for potential guests considering $7,300 packages","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Review response rate not visible in data - missing opportunity to demonstrate customer service publicly and address questions future guests may have","confidence":"medium","source":"Google Places API - response data not provided"},{"type":"negative","text":"No TripAdvisor verification in scan data - this platform is critical for fly-in fishing lodge research and should be claimed with active reviews","confidence":"low","source":"TripAdvisor not included in scan"}],"metrics":[{"label":"Google Rating","value":"4.9 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"15","status":"critical","source":"Google Places API"}],"recommendations":[{"text":"Implement systematic review request process - send personalized email 3-5 days after guest departure with direct Google review link, aiming to grow from 15 to 50+ reviews within 12 months","time_estimate":"30 minutes to create template, 5 minutes per guest ongoing","impact":"Triple review volume within a year, significantly strengthening trust signals for high-value bookings","priority":"high"},{"text":"Create review response protocol to respond to all Google reviews within 48 hours - thank guests, mention specific trip details they shared, and invite them back for different seasonal experiences","time_estimate":"15 minutes per review response","impact":"Demonstrates active customer engagement, shows potential guests that the team is responsive and caring","priority":"high"},{"text":"Verify TripAdvisor presence and claim listing if not already done - this platform is critical for adventure lodge research and should have 30+ reviews to complement Google presence","time_estimate":"1 hour initial setup, then include in review request emails","impact":"Captures travelers who research primarily on TripAdvisor for fishing and adventure lodge experiences","priority":"medium"},{"text":"Add review highlight reel to homepage - feature 3-4 recent five-star reviews mentioning specific experiences (fishing success, Northern Lights, staff names) to leverage existing social proof","time_estimate":"1 hour","impact":"Immediate trust-building for website visitors, converts existing reviews into marketing content","priority":"medium"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":86,"grade":"B+","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":1,"platforms":["OpenTable"]},"score":70,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"score":65,"details":{"telLinkCount":2},"clickable":true,"locations":["footer","contact"]},"score":65,"source":"Website Analysis","details":["footer","contact"]},"pricing_visibility":{"value":{"found":true,"score":100,"details":{"priceCount":4,"samplePrices":["$7300","$7300","$7300"]},"transparency":"exact"},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"type":"book_now","found":true,"score":70,"details":{"platforms":["OpenTable"],"ctaElements":1},"prominence":"none"},"score":70,"source":"Website Analysis","details":"none"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Strong conversion foundation with clear pricing transparency and visible booking capability, with room to enhance platform integration and phone prominence","findings":[{"type":"positive","text":"Excellent pricing transparency with exact package costs displayed ($7,300 pricing visible) - critical for high-ticket adventure bookings where travelers need to budget and compare options","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Booking capability present on website with platform integration, enabling direct online reservations","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Phone number (800) 663-5269 is clickable with tel: links in footer and contact sections, enabling one-tap calling from mobile devices","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Multiple contact methods available - phone, email, and booking system - reducing friction for different guest preferences","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Business address visible on website, building credibility and supporting local SEO signals","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"OpenTable detected as booking platform - this is typically for restaurants, not multi-day adventure lodge packages. Verify if this is correct integration or if specialized lodge booking system is primary method","confidence":"medium","source":"Website Content Analysis"},{"type":"negative","text":"CTA prominence scored at 70/100 with no rating as 'high prominence' - booking buttons may not be visually prominent enough on key pages for $7,300 packages","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Phone number present in footer and contact page but not in header - for high-consideration $7,300 purchases, phone access should be immediately visible throughout browsing","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Verify OpenTable integration accuracy - if this is incorrect detection and you use custom booking system or inquiry forms for multi-day packages, ensure that system is prominently featured with clear CTAs on each package page","time_estimate":"30 minutes to verify, potentially 2-4 hours to optimize if changes needed","impact":"Ensure booking system matches guest expectations for adventure lodge reservations versus restaurant reservations","priority":"medium"},{"text":"Enhance CTA visibility on package pages - make Book Now buttons larger, use contrasting colors, and place above the fold on Fly-in Fishing, Northern Lights, and Nahanni tour pages","time_estimate":"1 hour","impact":"Reduce booking friction, increase conversion rate from package page views to booking inquiries","priority":"medium"},{"text":"Add inquiry vs booking clarity - for $7,300 packages, many guests want to ask questions before booking. Consider two-CTA approach: 'Request Information' for questions and 'Book Now' for ready buyers","time_estimate":"2 hours to implement dual CTA strategy","impact":"Capture both ready-to-book travelers and those in research phase, increasing total conversions","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":80,"grade":"B-","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":7522,"score":78,"source":"SociaVault"},"engagement_rate":{"value":5.56,"score":90,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":1.1,"score":70,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","youtube","instagram"]},"score":88,"source":"SociaVault"},"content_quality":{"value":{"images":1,"carousels":4,"reels":7,"reelPercent":58},"score":80,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Solid follower base of 7,522 across three platforms with strong Instagram engagement (5.56%), but posting frequency of 1.1 per week falls below tourism benchmarks and content strategy favors Reels (58% of recent content) which is positive for reach","findings":[{"type":"positive","text":"Instagram engagement rate of 5.56% significantly exceeds tourism industry benchmarks (1-3% average), indicating highly engaged audience interested in adventure content","confidence":"high","source":"SociaVault API - Instagram"},{"type":"positive","text":"Strong content strategy with 58% Reels in recent posts aligns with platform algorithm preferences and showcases adventure experiences effectively through short-form video","confidence":"high","source":"SociaVault API - Instagram"},{"type":"positive","text":"Solid total follower base of 7,522 across three platforms provides foundation for content distribution, with Facebook (4,300) as largest channel","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"YouTube channel demonstrates strong video performance with 7,935 average views per video across 35 videos (277,713 total views), serving as valuable evergreen content library","confidence":"high","source":"SociaVault API - YouTube"},{"type":"positive","text":"Top-performing Instagram content achieves 5.92x average engagement (32.99% rate, 1,025 likes, 38 comments), proving capability to create highly shareable adventure content","confidence":"high","source":"SociaVault API - Instagram"},{"type":"negative","text":"Posting frequency of 1.1 posts per week on Instagram falls significantly below tourism benchmark of 3-5 posts weekly, risking audience disengagement and reduced algorithm visibility","confidence":"high","source":"SociaVault API - Instagram"},{"type":"negative","text":"YouTube channel appears inactive with 0 videos per month posting frequency despite strong historical performance - missing opportunity to maintain video content momentum","confidence":"high","source":"SociaVault API - YouTube"},{"type":"negative","text":"Facebook engagement metrics not provided in scan data - cannot assess if 4,300-follower audience is actively engaged or if content strategy needs adjustment on this platform","confidence":"medium","source":"SociaVault API - Facebook data incomplete"},{"type":"negative","text":"No active paid advertising detected despite Facebook Pixel installed on website - missing opportunity to accelerate growth during booking research phase 3-6 months before trips","confidence":"medium","source":"Facebook Ad Library"}],"metrics":[{"label":"Total Followers","value":"7,522","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"5.56%","status":"good","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"1.1 posts/week","status":"warning","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Increase Instagram posting frequency from 1.1 to 3 posts per week - create content batches during summer fishing season (June-September) to maintain year-round consistency. Focus on mix of Reels (fishing action, flights, scenery), carousel posts (trip itineraries, packing guides), and static posts (catch photos, testimonials)","time_estimate":"2 hours per week for content creation and posting (ongoing)","impact":"Improved algorithm visibility, reduced audience drop-off between posts, and consistent presence during travelers' 3-6 month research phase","priority":"high"},{"text":"Reactivate YouTube channel with monthly video uploads - repurpose existing footage from trips into 5-8 minute videos showcasing seasonal experiences, guest testimonials, and 'what to expect' guides for first-time fly-in lodge guests","time_estimate":"4 hours per video (editing and uploading)","impact":"Capture research-phase travelers watching lodge comparison videos, leverage existing 7,935 average views per video performance","priority":"medium"},{"text":"Cross-post Instagram Reels to Facebook Reels to activate dormant 4,300-follower Facebook audience with minimal additional effort - this doubles content distribution with same creation time","time_estimate":"5 minutes per Reel (already created for Instagram)","impact":"Reactivate Facebook audience, increase total reach without additional content creation burden","priority":"medium"},{"text":"Develop content calendar aligned with booking seasonality - emphasize fishing content January-March (before summer bookings), Northern Lights content June-August (before fall/winter bookings), and off-season behind-the-scenes content to maintain engagement","time_estimate":"2 hours quarterly to plan calendar","impact":"Strategic content timing captures travelers in research phase 3-6 months before their desired trip dates","priority":"medium"},{"text":"Create Instagram Story Highlights for key trip types (Fishing, Northern Lights, Nahanni, Outpost Cabins) using existing content - helps visitors quickly find relevant information for their interests","time_estimate":"1 hour to organize existing content into Highlights","impact":"Improved visitor experience on Instagram, easier content discovery for trip research","priority":"low"}],"data_sources":["SociaVault API","Instagram Analytics","YouTube Analytics","Facebook Analytics","Facebook Ad Library"]},"guest_experience":{"score":84,"grade":"B+","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]},"completeness":"full_week"},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":false,"score":50,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Strong visitor information foundation with complete hours display, directions/maps, and accessibility information, with parking details as only minor gap","findings":[{"type":"positive","text":"Complete operating hours displayed for full week (Monday-Sunday, 7:00-19:00) using LocalBusiness Schema markup, helping visitors plan communication and arrivals","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Map and directions functionality available on website - particularly important for remote Northern BC location at Mile 462 Alaska Highway, Muncho Lake","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Accessibility information provided on website, aligning with Google review mentioning accommodations for guests with mobility issues - demonstrates inclusive approach","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Video content present on website to showcase experiences - essential for fly-in lodge where guests cannot easily visit before booking $7,300 packages","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Rich visual content with 677 images on homepage provides extensive visual preview of facilities, activities, and scenery for research-phase travelers","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Parking information not detected on website - though less critical for fly-in lodge, some guests may drive to departure point in Pitt Meadows (18799 Airport Way address)","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"No multi-language support detected - website is English-only, potentially limiting reach to international adventure travelers from non-English speaking countries","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Hours Displayed","value":"Yes - full week schedule shown (Monday-Sunday, 7:00-19:00)","benchmark":"Essential for tourism businesses","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Complete operating hours visible for all seven days of the week"},{"label":"Directions & Map","value":"Yes - map and directions available","benchmark":"Critical for remote locations","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Map functionality present to help visitors find location"},{"label":"Parking Information","value":"No - parking details not detected","benchmark":"Helpful for visitor planning","status":"info","confidence":"high","source":"Website Content Analysis","tooltip":"Parking information not found on website - less critical for fly-in lodge where guests arrive by plane"},{"label":"Accessibility Information","value":"Yes - accessibility details provided","benchmark":"Important for inclusive tourism","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Accessibility information present - consistent with review mentioning mobility assistance"},{"label":"Multi-Language Support","value":"No - English only","benchmark":"Nice-to-have for international visitors","status":"info","confidence":"high","source":"Website Content Analysis","tooltip":"Single language detected - may limit reach to non-English speaking international travelers"},{"label":"Video Content","value":"Yes - video present on website","benchmark":"Video critical for showcasing remote adventure experiences","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Video content helps communicate experience for visitors who cannot visit in person before booking"}],"recommendations":[{"text":"Add parking information for Pitt Meadows departure point (18799 Airport Way) - clarify where guests should park when arriving for their flight to Muncho Lake, including any overnight parking options for multi-day trips","time_estimate":"20 minutes","impact":"Reduces pre-trip anxiety and questions about departure logistics, smoother check-in process","priority":"low"},{"text":"Create comprehensive FAQ section addressing common first-time fly-in lodge questions - what to pack, weather expectations, fishing license requirements, accessibility accommodations, flight experience details","time_estimate":"3 hours to compile and write","impact":"Reduces pre-booking questions, builds confidence for first-time adventure lodge guests","priority":"low"},{"text":"Add 'What to Expect' video to homepage showing complete guest experience from Vancouver departure through lodge arrival, activities, and return - helps set expectations for $7,300 investment","time_estimate":"8 hours for video production if footage exists","impact":"Increases booking confidence by demystifying fly-in experience for first-time guests","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Excellent local SEO foundation with claimed Google Business Profile, consistent NAP information, and strong local keyword presence","findings":[{"type":"positive","text":"Google Business Profile fully claimed and verified with website link, enabling discovery through Google Maps and local search results","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Strong NAP consistency with phone number (800) 663-5269 and address visible on both website and Google Business Profile, supporting local SEO signals","confidence":"high","source":"Google Places API + Website Content Analysis"},{"type":"positive","text":"Local keywords properly implemented with 'Northern British Columbia' appearing 4 times, plus specific place names like Muncho Lake in content","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"LocalBusiness structured data schema implemented with complete information including name, address, hours, and business type","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Domain authority of 49 (domain strength) with 95 referring domains and 410 backlinks provides solid foundation for local search visibility","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Business ranking #1 for branded search 'northern rockies adventures' in both Canadian and US markets, capturing brand-aware traffic","confidence":"high","source":"SEOptimer API"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified (Northern Rockies Adventures)","benchmark":"Essential for local discovery","status":"good","confidence":"high","source":"Google Places API","tooltip":"GBP properly claimed and linked to website"},{"label":"NAP Consistency","value":"Address and phone visible on website, matching GBP data","benchmark":"NAP must be consistent across all platforms","status":"good","confidence":"high","source":"Website Content Analysis + Google Places API","tooltip":"Name, Address, Phone consistency between website and Google Business Profile verified"},{"label":"Local Keywords","value":"Present - 'Northern British Columbia' (4 mentions), local place names used","benchmark":"Location keywords important for geographic targeting","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Website content includes relevant geographic keywords for Northern BC targeting"},{"label":"Local Business Schema","value":"Implemented - LocalBusiness and Organization schema detected","benchmark":"Schema helps search engines understand business type and location","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Structured data markup properly implemented with address and hours"},{"label":"GBP Completeness","value":"Phone, website, and address present on Google Business Profile","benchmark":"Complete GBP profiles rank higher in local search","status":"good","confidence":"high","source":"Google Places API","tooltip":"Key business details populated in Google Business Profile"}],"recommendations":[{"text":"Add Google Business Profile posts monthly highlighting seasonal offerings, recent guest catches, Northern Lights sightings, and booking availability - GBP posts appear in local search results and improve engagement","time_estimate":"15 minutes per post, 1x per month","impact":"Increased visibility in local pack results, provides fresh content signaling active business","priority":"medium"},{"text":"Expand local keyword targeting to include specific activities and nearby landmarks - add phrases like 'Muncho Lake fishing lodge', 'Alaska Highway tours', 'Liard Hot Springs access', 'Northern Rockies BC'","time_estimate":"2 hours for keyword research and content optimization","impact":"Improved rankings for non-branded geographic searches by adventure travelers researching the region","priority":"low"},{"text":"Verify business is listed in regional tourism directories - Tourism Northern BC, BC Adventure Tourism, Alaska Highway tourism guides - with consistent NAP and link back to website","time_estimate":"2 hours to research and submit listings","impact":"Additional local citations strengthen geographic relevance signals, potential referral traffic from regional tourism planning","priority":"low"}],"data_sources":["SEOptimer API","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Reviews & Reputation","text":"Implement systematic Google review request process - create email template and send to guests 3-5 days post-departure with direct Google review link, aiming to grow from 15 to 50+ reviews within 12 months. With 4.9-star satisfaction, converting more guests to reviewers is lowest-friction way to strengthen trust signals for $7,300 bookings.","time_estimate":"30 minutes to create template, 5 minutes per guest ongoing","impact":"high","expected_result":"Triple review volume to 45+ reviews within a year, significantly improving trust signals and search visibility for high-value adventure bookings where social proof is critical","confidence":"high"},{"priority":2,"category":"Social Media & Content","text":"Increase Instagram posting frequency from 1.1 to 3 posts per week - batch-create content during summer fishing season (June-September) using guest catches, scenic flights, and Northern Lights footage. Focus on 50-60% Reels to maintain algorithm favor. Given strong 5.56% engagement rate, audience is ready for more content.","time_estimate":"2 hours per week for content creation and scheduling","impact":"high","expected_result":"Improved algorithm visibility, reduced follower drop-off, and consistent presence during travelers' 3-6 month research phase. Expect 20-30% follower growth within 6 months with consistent posting.","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Establish review response protocol - respond to all Google reviews within 48 hours, thanking guests by name, mentioning specific details from their review (fishing species caught, Northern Lights viewing, staff interactions), and inviting return visits for different seasonal experiences. Demonstrates active engagement to potential guests reading reviews.","time_estimate":"15 minutes per review response","impact":"high","expected_result":"Increased trust perception for potential guests researching reviews, improved Google Business Profile engagement signals, and stronger relationships with past guests for potential referrals","confidence":"high"},{"priority":4,"category":"Website & Technical Foundation","text":"Fix on-page SEO issues - reduce title tag to 60 characters, shorten meta description to 155 characters, consolidate to single H1 tag, and add alt text to missing image. These technical fixes take minimal time but improve search result display and SEO structure.","time_estimate":"1 hour total for all fixes","impact":"medium","expected_result":"Better search result click-through rates from complete title/description display, improved SEO clarity for search engines, and enhanced accessibility","confidence":"high"},{"priority":5,"category":"Social Media & Content","text":"Reactivate YouTube channel with monthly video uploads - repurpose existing footage from trips into 5-8 minute videos showcasing seasonal experiences and 'what to expect' guides. With existing 7,935 average views per video, channel has proven audience ready for new content.","time_estimate":"4 hours per video (monthly)","impact":"medium","expected_result":"Capture research-phase travelers watching lodge comparison videos, leverage YouTube SEO for long-tail searches like 'Northern BC fly-in fishing lodge', provide evergreen content that works 24/7","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.9 rating, 15 reviews, verified presence)","Website technical performance (93/100 speed scores, SSL, mobile optimization)","Social media analytics (Instagram: 3,222 followers, 5.56% engagement, YouTube: 277,713 views)","Website content analysis (booking capability, pricing visibility, contact information)","SEOptimer technical SEO data (page structure, schema markup, backlink profile)"],"low_confidence_areas":["TripAdvisor presence and review volume - not included in automated scan, requires manual verification","Review response rate - data not provided by Google Places API, needs manual GBP check","Facebook engagement metrics - follower count verified but posting activity and engagement rates not provided","Booking platform accuracy - OpenTable detected but may be false positive for adventure lodge packages","Paid advertising status - conflicting signals between basic ad status and Ad Library findings"],"recommendations_for_fuller_picture":["Manual TripAdvisor audit - verify claimed listing status, review count, and rating (critical platform for adventure lodge research)","Review Google Business Profile dashboard for actual response rate percentage and detailed review analytics","Check Facebook Page Insights for engagement metrics, reach data, and audience demographics for the 4,300 followers","Verify booking system integration - confirm if OpenTable detection is accurate or if custom inquiry/booking system is primary method","Audit all tourism directory listings (Tourism Northern BC, BC Adventure Tourism, Alaska Highway guides) for NAP consistency and opportunities"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-29T22:01:13.474Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-29T21:56:53.292Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/analytics.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -2822,6 +2871,189 @@ function renderRecommendations(recommendations) {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', renderAssessment);
+
+// ══════════════════════════════════════════════════════════════
+// ACTIVITY PAGE FUNCTIONS
+// ══════════════════════════════════════════════════════════════
+
+async function loadActivityData() {
+    const clientSlug = document.body.dataset.clientSlug;
+    if (!clientSlug || !window.supabase) return;
+
+    try {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const { data: events, error } = await window.supabase
+            .from('analytics_events')
+            .select('*')
+            .eq('client_slug', clientSlug)
+            .gte('created_at', sevenDaysAgo.toISOString())
+            .order('created_at', { ascending: false })
+            .limit(100);
+
+        if (error) throw error;
+
+        renderActivityStats(events || []);
+        renderActivityTimeline(events || []);
+        renderSessionHistory(events || []);
+    } catch (err) {
+        console.error('Error loading activity data:', err);
+        document.getElementById('activity-timeline').innerHTML =
+            '<p class="activity__loading">Unable to load activity data</p>';
+    }
+}
+
+function renderActivityStats(events) {
+    const sessions = new Set(events.filter(e => e.session_id).map(e => e.session_id)).size;
+    const users = new Set(events.filter(e => e.user_id).map(e => e.user_id)).size;
+    const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data?.checked).length;
+
+    const sessionDurations = [];
+    const sessionMap = {};
+    events.forEach(e => {
+        if (e.session_id) {
+            if (!sessionMap[e.session_id]) sessionMap[e.session_id] = [];
+            sessionMap[e.session_id].push(new Date(e.created_at).getTime());
+        }
+    });
+    Object.values(sessionMap).forEach(times => {
+        if (times.length > 1) {
+            sessionDurations.push(Math.max(...times) - Math.min(...times));
+        }
+    });
+    const avgDuration = sessionDurations.length > 0
+        ? Math.round(sessionDurations.reduce((a, b) => a + b, 0) / sessionDurations.length / 60000)
+        : 0;
+
+    document.getElementById('activity-sessions').textContent = sessions;
+    document.getElementById('activity-users').textContent = users;
+    document.getElementById('activity-tasks').textContent = tasks;
+    document.getElementById('activity-duration').textContent = avgDuration > 0 ? avgDuration + 'm' : '--';
+}
+
+function renderActivityTimeline(events) {
+    const timeline = document.getElementById('activity-timeline');
+    if (!events.length) {
+        timeline.innerHTML = '<p class="activity__loading">No recent activity</p>';
+        return;
+    }
+
+    const html = events.slice(0, 20).map(event => {
+        const iconClass = getEventIconClass(event.event_type);
+        const icon = getEventIcon(event.event_type);
+        const title = getEventTitle(event);
+        const time = formatRelativeTime(event.created_at);
+        const meta = event.event_data?.page || event.event_type;
+
+        return `
+            <div class="activity__event">
+                <div class="activity__event-icon ${iconClass}">${icon}</div>
+                <div class="activity__event-content">
+                    <div class="activity__event-title">${title}</div>
+                    <div class="activity__event-meta">${meta}</div>
+                </div>
+                <div class="activity__event-time">${time}</div>
+            </div>
+        `;
+    }).join('');
+
+    timeline.innerHTML = html;
+}
+
+function getEventIconClass(eventType) {
+    const classes = {
+        'page_view': 'page_view',
+        'checkbox_change': 'checkbox_change',
+        'session_start': 'session_start',
+        'session_end': 'session_end'
+    };
+    return classes[eventType] || 'default';
+}
+
+function getEventIcon(eventType) {
+    const icons = {
+        'page_view': '👁',
+        'checkbox_change': '✓',
+        'session_start': '→',
+        'session_end': '←'
+    };
+    return icons[eventType] || '•';
+}
+
+function getEventTitle(event) {
+    switch (event.event_type) {
+        case 'page_view': return `Viewed ${event.event_data?.page || 'page'}`;
+        case 'checkbox_change': return event.event_data?.checked ? 'Completed task' : 'Unchecked task';
+        case 'session_start': return 'Started session';
+        case 'session_end': return 'Ended session';
+        default: return event.event_type;
+    }
+}
+
+function formatRelativeTime(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return `${diffDays}d ago`;
+}
+
+function formatDuration(ms) {
+    const mins = Math.floor(ms / 60000);
+    if (mins < 60) return `${mins}m`;
+    const hours = Math.floor(mins / 60);
+    return `${hours}h ${mins % 60}m`;
+}
+
+function renderSessionHistory(events) {
+    const container = document.querySelector('.activity__sessions-container');
+    if (!container) return;
+
+    const sessionMap = {};
+    events.forEach(e => {
+        if (e.session_id) {
+            if (!sessionMap[e.session_id]) {
+                sessionMap[e.session_id] = { events: [], start: null, end: null };
+            }
+            sessionMap[e.session_id].events.push(e);
+            const time = new Date(e.created_at).getTime();
+            if (!sessionMap[e.session_id].start || time < sessionMap[e.session_id].start) {
+                sessionMap[e.session_id].start = time;
+            }
+            if (!sessionMap[e.session_id].end || time > sessionMap[e.session_id].end) {
+                sessionMap[e.session_id].end = time;
+            }
+        }
+    });
+
+    const sessions = Object.entries(sessionMap)
+        .sort((a, b) => b[1].end - a[1].end)
+        .slice(0, 5);
+
+    if (!sessions.length) {
+        container.innerHTML = '<p class="activity__loading">No sessions recorded</p>';
+        return;
+    }
+
+    container.innerHTML = sessions.map(([id, data]) => {
+        const duration = formatDuration(data.end - data.start);
+        const eventCount = data.events.length;
+        const time = formatRelativeTime(new Date(data.end).toISOString());
+        return `
+            <div class="activity__session-card">
+                <h4>Session</h4>
+                <p>${eventCount} events · ${duration} · ${time}</p>
+            </div>
+        `;
+    }).join('');
+}
 </script>
 </body>
 </html>

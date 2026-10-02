@@ -1943,6 +1943,9 @@ nav { flex: 1; padding: 12px 0; }
     break-inside: avoid;
   }
 }
+
+/* ACTIVITY PAGE STYLES */
+.activity{max-width:1200px;margin:0 auto;padding:2rem}.activity__header{margin-bottom:2rem}.activity__title{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);margin:0 0 .5rem}.activity__subtitle{color:var(--slate);margin:0}.activity__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__stat-label{font-size:.875rem;color:var(--slate);margin-bottom:.5rem}.activity__stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy)}.activity__section{background:var(--card-bg);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__section-title{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy);margin:0 0 1rem}.activity__loading{color:var(--slate);padding:2rem;text-align:center}.activity__timeline{display:flex;flex-direction:column;gap:.75rem}.activity__event{display:flex;align-items:flex-start;gap:1rem;padding:.75rem;border-radius:8px;background:var(--surface-sunken)}.activity__event-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity__event-icon--page{background:#e3f2fd;color:#1976d2}.activity__event-icon--check{background:#e8f5e9;color:#388e3c}.activity__event-icon--session{background:#fff3e0;color:#f57c00}.activity__event-icon--tour{background:#f3e5f5;color:#7b1fa2}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--navy);margin-bottom:.25rem}.activity__event-meta{font-size:.8125rem;color:var(--slate)}.activity__sessions{display:flex;flex-direction:column;gap:.75rem}.activity__session-card{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-radius:8px;background:var(--surface-sunken)}.activity__session-user{font-weight:500;color:var(--navy)}.activity__session-details{font-size:.875rem;color:var(--slate)}.activity__empty{text-align:center;padding:3rem;color:var(--slate)}@media(max-width:768px){.activity{padding:1rem}.activity__stats{grid-template-columns:repeat(2,1fr)}.activity__stat-value{font-size:1.5rem}}
 </style>
 </head>
 <body data-client-slug="shoreline-tours">
@@ -2104,6 +2107,15 @@ nav { flex: 1; padding: 12px 0; }
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
+    </div>
+
+    <!-- Activity Nav (Admin/PSM/Coach only) -->
+    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
+    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+      </svg>
+      Activity
     </div>
   </nav>
 </aside>
@@ -2279,12 +2291,37 @@ nav { flex: 1; padding: 12px 0; }
     </div>
   </div>
 
+  <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
+  <section id="page-activity" class="page">
+    <div class="activity">
+      <div class="activity__header">
+        <h1 class="activity__title">Client Activity</h1>
+        <p class="activity__subtitle">View engagement and progress for this client</p>
+      </div>
+      <div class="activity__stats" id="activity-stats">
+        <div class="activity__stat-card"><div class="activity__stat-label">Total Sessions</div><div class="activity__stat-value" id="stat-sessions">-</div></div>
+        <div class="activity__stat-card"><div class="activity__stat-label">Unique Users</div><div class="activity__stat-value" id="stat-users">-</div></div>
+        <div class="activity__stat-card"><div class="activity__stat-label">Tasks Completed</div><div class="activity__stat-value" id="stat-tasks">-</div></div>
+        <div class="activity__stat-card"><div class="activity__stat-label">Avg Session</div><div class="activity__stat-value" id="stat-duration">-</div></div>
+      </div>
+      <div class="activity__section">
+        <h2 class="activity__section-title">Recent Activity</h2>
+        <div class="activity__timeline" id="activity-timeline"><div class="activity__loading">Loading activity...</div></div>
+      </div>
+      <div class="activity__section">
+        <h2 class="activity__section-title">Session History</h2>
+        <div class="activity__sessions" id="activity-sessions"><div class="activity__loading">Loading sessions...</div></div>
+      </div>
+    </div>
+  </section>
+
 </main>
 
 <script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Shoreline Tours has strong operational fundamentals with excellent reviews and booking systems, but social media inconsistency and technical SEO gaps limit discovery potential.","key_strengths":["Outstanding Google reputation with 4.8 stars from 263 reviews and 100% recent review activity showing sustained quality","Exceptional booking infrastructure with 3 integrated platforms (TripAdvisor, FareHarbor, OpenTable) and clear pricing transparency","Strong website performance with 97/100 speed scores on both mobile and desktop, ensuring fast loading for visitors"],"critical_gaps":["Low social media posting frequency at only 1.1 posts per week on Instagram undermines engagement potential despite 10,430 total followers","Multiple H1 tags and heading structure issues confuse search engines and dilute local SEO effectiveness for Harrison Hot Springs searches","Weak backlink profile (D+ grade) and keyword inconsistency reduce organic search visibility during peak trip-planning season"],"bottom_line":"Shoreline Tours has built an excellent foundation for converting visitors who find them, but inconsistent content marketing and technical SEO weaknesses mean fewer potential guests discover them during the critical online research phase—fixing posting cadence and on-page SEO could significantly increase bookings without additional ad spend."},"quick_wins":[{"task":"Fix duplicate H1 tags on homepage—reduce from 4 H1 tags to 1 primary H1 ('Shoreline Tours | Harrison Hot Springs Tours') and convert others to H2/H3 tags to improve search engine clarity","time_estimate":"30 minutes","impact":"Improved search engine understanding of page hierarchy, helping Google better rank the site for 'Harrison Hot Springs tours' searches","confidence":"high"},{"task":"Add alt text to the 4 missing image alt attributes (specifically the adventure category images) using descriptive text like 'Harrison Lake waterfall cruise boat tour'","time_estimate":"15 minutes","impact":"Better image search visibility and improved accessibility for screen readers, plus stronger keyword signals for local search","confidence":"high"},{"task":"Shorten the title tag from 72 characters to 60 characters by removing '| Private Charters & Events' to prevent truncation in Google search results","time_estimate":"10 minutes","impact":"Full business name visible in search results, improving click-through rates from organic searches","confidence":"high"},{"task":"Increase meta description from 119 to 140-155 characters by adding seasonal details like 'Waterfall tours Feb-Apr, Lake cruises May-Sept' to improve search snippet appeal","time_estimate":"15 minutes","impact":"More compelling search result snippets that communicate seasonal offerings, increasing click-through rates by 10-15%","confidence":"high"},{"task":"Create a simple FAQ section on the homepage answering common questions like 'What should I bring on the tour?' and 'Are tours weather-dependent?' to capture conversational search queries","time_estimate":"1 hour","impact":"Better visibility in voice search and Google's AI-generated answers, plus reduced customer service inquiries","confidence":"high"}],"tourism_context":{"visitor_profile":"Shoreline Tours serves Harrison Hot Springs resort visitors (mix of Vancouver day-trippers, weekend tourists, and international travelers), typically families and couples aged 30-65 seeking scenic, accessible nature experiences without strenuous hiking—the 2-hour cruise format appeals to multi-generational groups and those with mobility considerations","discovery_journey":"Most potential guests discover Harrison Hot Springs tours through three paths: pre-trip Google searches for 'things to do Harrison Hot Springs' (2-4 weeks before arrival), last-minute mobile searches from the resort ('boat tours near me'), and recommendations from hotel concierges or tourism offices—strong Google Business Profile and Instagram presence are critical at different stages of this journey","seasonal_considerations":"Harrison Hot Springs has distinct tourism seasons: waterfall tours (Feb-Apr) attract spring break visitors, peak summer lake cruises (May-Sept) serve family vacations and wedding season, fall foliage river cruises (Oct-Nov) target couples and photographers—digital marketing must shift messaging and imagery quarterly to match visitor intent and seasonal inventory","trip_integration":"Shoreline Tours typically functions as a half-day activity within a 2-3 day Harrison Hot Springs itinerary that includes hot springs bathing, lakeside dining, and resort relaxation—tours are often booked 1-7 days in advance rather than same-day, making online visibility and easy booking essential for capturing planners during their pre-arrival research phase"},"overall":{"score":86,"grade":"B+","confidence":"high","scoreBreakdown":{"website_technical":{"score":86,"weight":0.15,"contribution":12.9},"reviews_reputation":{"score":87,"weight":0.25,"contribution":21.75},"booking_conversion":{"score":93,"weight":0.2,"contribution":18.6},"social_media":{"score":72,"weight":0.2,"contribution":14.4},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":86,"grade":"B+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"mobile_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Excellent performance scores and mobile optimization, but on-page SEO elements need cleanup to maximize search visibility","findings":[{"type":"positive","text":"Outstanding page speed (97/100 mobile and desktop) far exceeds tourism industry averages and ensures visitors don't abandon during loading—particularly important for mobile users searching on-site","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Website built on Squarespace with proper HTTPS, mobile viewport, and responsive design—solid technical foundation for booking conversions","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Google Analytics and Tag Manager properly installed for tracking visitor behavior and conversion funnel performance","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Four H1 tags on homepage ('Shoreline Tours | Harrison Hot Springs Tours', 'CHOOSE YOUR ADVENTURE', 'Come cruise with us', and one empty H1) dilute SEO focus—search engines can't determine primary page topic","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Keyword consistency score flagged—important terms like 'Harrison Hot Springs' and 'lake tours' not consistently used across title, description, and headers, weakening local search signals","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Missing llms.txt file means the site isn't optimized for AI search engines (ChatGPT, Perplexity, Google AI Overviews) which are increasingly used for travel planning","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Email address visible in plain text (info@shorelinetours.ca) in footer makes it vulnerable to spam bots—should use contact form or obfuscation","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Consolidate to single H1 tag—keep 'Shoreline Tours | Harrison Hot Springs Tours' as H1, convert 'CHOOSE YOUR ADVENTURE' to H2 and tour category headings to H3 for proper hierarchy","time_estimate":"30 minutes","impact":"Clearer content structure for search engines, improving rankings for primary keywords like 'Harrison Hot Springs tours'","priority":"high"},{"text":"Shorten title tag to 60 characters by trimming to 'Shoreline Tours | Harrison Hot Springs Lake & River Cruises' to prevent truncation in search results","time_estimate":"10 minutes","impact":"Full business name visible in Google search results, improving click-through rates by 8-12%","priority":"high"},{"text":"Expand meta description to 145 characters adding seasonal offerings: 'Shoreline Tours is The #1 Tour Company In Harrison Hot Springs. Waterfall cruises, lake tours, private charters. Book your adventure today.'","time_estimate":"10 minutes","impact":"More compelling search snippets that communicate variety of offerings, increasing organic CTR","priority":"high"},{"text":"Add descriptive alt text to 4 missing images, using location and activity keywords like 'Shoreline Tours boat on Harrison Lake waterfall cruise' and 'Private charter boat on Harrison River fall foliage tour'","time_estimate":"20 minutes","impact":"Improved image search visibility for 'Harrison Lake tours' and accessibility compliance","priority":"medium"},{"text":"Create llms.txt file in website root with structured information about tour offerings, seasonal schedules, and booking details to improve visibility in AI search engines like ChatGPT and Perplexity","time_estimate":"45 minutes","impact":"Better positioning in AI-generated travel recommendations as this channel grows","priority":"medium"},{"text":"Replace plain-text email address with contact form or use email obfuscation technique to reduce spam while maintaining contact accessibility","time_estimate":"30 minutes","impact":"Reduced spam emails and improved security","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":87,"grade":"A-","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.8,"score":92,"source":"Google Places API"},"review_volume":{"value":263,"score":82,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Outstanding Google reputation with excellent rating, strong volume, and 100% recent review activity demonstrating consistent quality—TripAdvisor presence needs verification","findings":[{"type":"positive","text":"Exceptional 4.8-star Google rating from 263 reviews positions Shoreline Tours in the top tier of Harrison Hot Springs tour operators and significantly influences booking decisions","confidence":"high","source":"Google Places API"},{"type":"positive","text":"All 5 sample reviews from past 18 months (100% recency) show consistent quality across different tour types, with specific praise for staff friendliness, beautiful views, and organized operations","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent reviews specifically mention staff by name (Alisa noted as 'top notch') and highlight personalized touches like birthday celebrations—indicates strong service culture","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Reviews cover multiple tour types (2-hour cruise, Rainbow Falls trip, waterfall cruises) demonstrating consistent quality across product line","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Google Business Profile properly claimed and verified with accurate NAP (name, address, phone) information and complete business hours","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Review response rate data not available in scan—responding to reviews (especially detailed 5-star and all critical reviews) improves future customer confidence and Google ranking signals","confidence":"medium","source":"Google Places API limitation"}],"metrics":[{"label":"Google Rating","value":"4.8 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"263","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement systematic review response process—respond to all reviews within 48 hours, especially those mentioning staff by name, thanking guests and reinforcing key selling points like scenic views and knowledgeable guides","time_estimate":"15 minutes per week ongoing","impact":"Review responses increase conversion rates by 12-18% by demonstrating active ownership and customer care","priority":"high"},{"text":"Verify and optimize TripAdvisor listing since website shows TripAdvisor booking integration—ensure photos, descriptions, and seasonal offerings match website, and aim for 100+ reviews to match Google presence","time_estimate":"2 hours initial setup, 30 minutes monthly maintenance","impact":"TripAdvisor is critical for international tourists researching Harrison Hot Springs activities—optimized listing can drive 15-25% of bookings","priority":"high"},{"text":"Create post-tour email automation asking guests to review on Google (primary) or TripAdvisor within 24-48 hours while experience is fresh—include direct review links to reduce friction","time_estimate":"3 hours to set up email automation, then automatic","impact":"Increase review velocity from 5 per 18 months to 2-3 per month, accelerating reputation building and local search rankings","priority":"medium"},{"text":"Claim and optimize Yelp listing if not already done—while less critical for Canadian tourism than US markets, Vancouver-area visitors often check Yelp for activity recommendations","time_estimate":"1 hour initial setup","impact":"Additional review platform visibility for Greater Vancouver market segment","priority":"low"},{"text":"Develop review showcase on website—feature rotating Google reviews on homepage with star rating prominently displayed to leverage social proof for direct website conversions","time_estimate":"2 hours for initial implementation","impact":"Displaying reviews on-site increases booking conversions by 8-15% by building trust before visitors leave to book","priority":"medium"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":93,"grade":"A","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":3,"platforms":["TripAdvisor","FareHarbor","OpenTable"]},"score":100,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["footer","contact"],"clickable":true,"score":65,"details":{"telLinkCount":1}},"score":65,"source":"Website Analysis","details":["footer","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":3,"samplePrices":["$79.00","$70.00","$70.00"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"header","score":100,"details":{"ctaElements":3,"platforms":["TripAdvisor","FareHarbor","OpenTable"]}},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Excellent booking infrastructure with three integrated platforms, prominent CTAs, and transparent pricing—phone placement could be more prominent for last-minute bookers","findings":[{"type":"positive","text":"Three booking platform integrations (TripAdvisor, FareHarbor, OpenTable) provide customers multiple booking paths and likely reduce abandoned reservations—FareHarbor is industry-standard for tour operators","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Transparent pricing ($79.00, $70.00) with exact tour descriptions eliminates guesswork and pre-qualifies guests—critical for converting price-conscious families and couples planning budgets","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Multiple prominent Book Now CTAs (3 elements detected) in header area ensure booking is always accessible regardless of where visitor lands on site","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Phone number is clickable (tel: link detected) making it easy for mobile users to call directly—critical for last-minute same-day bookings common in resort destinations","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Phone number (604-796-3100) only appears in footer and contact page, not in header—many mobile visitors searching on-site want to call immediately to confirm availability, but need to scroll to find number","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add phone number to website header (top right corner) as clickable button alongside Book Now CTA—format as '(604) 796-3100' with phone icon for mobile prominence","time_estimate":"30 minutes","impact":"Increase phone bookings by 20-30% by reducing friction for last-minute and same-day callers who are already in Harrison Hot Springs","priority":"high"},{"text":"Add Facebook Pixel conversion tracking (already installed: 514399410953650) to booking flow to measure which traffic sources drive actual reservations—essential for future paid advertising decisions","time_estimate":"1 hour to configure events","impact":"Data-driven understanding of booking sources enables smarter marketing budget allocation","priority":"medium"},{"text":"Consider adding seasonal availability calendar widget on homepage showing open/sold-out dates for next 30 days—creates urgency and reduces back-and-forth questions about availability","time_estimate":"2-3 hours if FareHarbor supports widget integration","impact":"Transparency about limited availability drives faster booking decisions during peak summer months","priority":"medium"},{"text":"Add trust signals near booking CTAs—display '4.8 stars from 263 Google reviews' badge and 'Licensed by Transport Canada' certification to reinforce safety and quality","time_estimate":"1 hour for design and implementation","impact":"Trust indicators can increase conversion rates by 10-15% by reducing purchase anxiety for first-time visitors","priority":"medium"},{"text":"Test simplified booking flow—audit which platform (FareHarbor, TripAdvisor, OpenTable) converts best and consider making one primary CTA more prominent than others to reduce choice paralysis","time_estimate":"2 hours for A/B test setup plus 2-week testing period","impact":"Streamlined booking options can reduce abandonment by 8-12% by simplifying decision-making","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":72,"grade":"C","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":10430,"score":85,"source":"SociaVault"},"engagement_rate":{"value":2.13,"score":70,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":1.1,"score":55,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":2,"platforms":["facebook","instagram"]},"score":70,"source":"SociaVault"},"content_quality":{"value":{"images":1,"carousels":3,"reels":8,"reelPercent":67},"score":80,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Strong follower base of 10,430 across Facebook and Instagram with good engagement rate of 2.13%, but critically inconsistent posting frequency at only 1.1 posts/week severely limits growth potential and seasonal marketing effectiveness","findings":[{"type":"positive","text":"Healthy total follower base of 10,430 (Instagram 2,530 + Facebook 7,900) provides strong foundation for organic reach if posting consistency improves—larger than many Harrison Hot Springs competitors","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Good engagement rate of 2.13% on Instagram shows audience is interested and responsive when content is published—indicates high-quality content that resonates with followers","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Strong Reels focus (67% of content) demonstrates understanding of Instagram algorithm preferences—Reels receive 22% more engagement than static posts for tourism accounts","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Top-performing FLUXX Summer Series event content (8.62% engagement, 3.66x average) shows special events and sunset experiences significantly outperform standard tour posts—actionable insight for future content strategy","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Appropriate platform selection—Instagram for younger demographics and visual content, Facebook for 35+ family demographic typical of tour operators","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Critical posting frequency gap—only 1.1 posts per week far below tourism benchmark of 3-5 weekly posts, causing Instagram algorithm to deprioritize content in follower feeds and explore pages","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Recent posts show dramatically declining engagement (6 likes, 20 likes)—likely result of inconsistent posting causing follower attrition and algorithm penalty","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"No active paid advertising despite having Facebook Pixel installed—missing opportunity to capture Vancouver day-trippers and weekend tourists during peak booking windows","confidence":"high","source":"Facebook Ad Library"},{"type":"negative","text":"Only 12 total Instagram posts tracked—extremely low output for a business with 2,530 followers suggests account has been neglected or content creation capacity is limited","confidence":"high","source":"SociaVault API"}],"metrics":[{"label":"Total Followers","value":"10,430","status":"good","source":"SociaVault"},{"label":"Engagement Rate","value":"2.13%","status":"warning","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"2 platforms","status":"warning","source":"SociaVault"},{"label":"Posting Frequency","value":"1.1 posts/week","status":"critical","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Immediately implement consistent posting schedule—minimum 3 posts per week (Monday/Wednesday/Friday) year-round, increasing to 5 posts weekly March-September. Batch-create content during tours to reduce time burden.","time_estimate":"2 hours weekly for content creation and scheduling (ongoing)","impact":"Consistent posting will rebuild algorithm favor within 4-6 weeks, increasing organic reach by 40-60% and engagement by 25-35%","priority":"high"},{"text":"Create 90-day seasonal content calendar aligned with tour availability—waterfall Reels and scenic frozen lake content Jan-Apr, lake cruise and wildlife content May-Sept, fall foliage Oct-Nov. Schedule posts in advance using Meta Business Suite.","time_estimate":"4 hours to build calendar template, then 1 hour monthly to populate","impact":"Strategic seasonal content matches visitor search intent during trip planning phases, increasing profile visits by 30-50%","priority":"high"},{"text":"Develop user-generated content program—create branded hashtag like #ShorelineAdventures, ask guests to tag photos, repost best content to Stories and feed with permission. Feature 2-3 guest posts per week.","time_estimate":"30 minutes weekly to curate and repost UGC","impact":"Fills content gaps with authentic social proof, reduces content creation burden, and increases guest engagement by 20-30%","priority":"high"},{"text":"Replicate FLUXX Summer Series event success—create 2-3 special events per season (sunset cruises, themed tours, private charter showcases) and document extensively with Reels since event content generated 3.66x average engagement","time_estimate":"4 hours per event for planning and content capture","impact":"Event content drives higher engagement and provides compelling booking differentiators from standard tours","priority":"medium"},{"text":"Add Instagram Story Highlights for each tour type (Lake Cruises $79, Waterfall Tours, Private Charters, FAQs) with booking links—provides instant information for profile visitors without scrolling feed","time_estimate":"2 hours initial setup, 30 minutes quarterly updates","impact":"Story Highlights reduce friction for visitors researching options, increasing DM inquiries and booking clicks by 15-20%","priority":"medium"},{"text":"Test seasonal Facebook/Instagram ads for April-June booking window—use top-performing FLUXX Reel and scenic lake content as ad creative, target Vancouver/Fraser Valley users 25-55 interested in day trips and outdoor activities. Start with conversion objective optimized for FareHarbor bookings.","time_estimate":"3 hours initial campaign setup, 1 hour weekly monitoring","impact":"Paid campaigns during peak booking windows can drive 15-25 incremental bookings per month with proper targeting","priority":"medium"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"full_week","score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Excellent visitor information with comprehensive hours, directions, parking, and accessibility details—only missing multi-language support for international tourists","findings":[{"type":"positive","text":"Complete operating hours (Mon-Sun 8:00-18:00) prominently displayed and structured in Local Business schema helps Google show accurate information in search results and maps","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Map and directions functionality addresses critical visitor need—100 Esplanade Avenue departure location must be easy to find for guests unfamiliar with Harrison Hot Springs waterfront layout","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Parking information provided proactively reduces pre-arrival anxiety and phone calls—important since Harrison Hot Springs waterfront parking can be limited during peak season","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Accessibility information transparency helps families with elderly members or mobility considerations determine tour suitability before booking—reduces disappointment and cancellations","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Multiple contact methods (phone, email, address) accommodate different guest communication preferences—phone for urgent questions, email for detailed inquiries","confidence":"high","source":"Website scrape"},{"type":"negative","text":"No multi-language support (English only)—Harrison Hot Springs attracts significant Asian international tourist market, particularly Chinese visitors who may struggle with English-only website","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Hours Displayed","value":"Yes—full week schedule shown (Mon-Sun 8:00-18:00)","benchmark":"Hours must be prominently displayed—reduces calls and booking friction","status":"good","confidence":"high","source":"Website scrape","tooltip":"Complete operating hours for all 7 days detected on website and in Local Business schema"},{"label":"Directions & Map","value":"Yes—map and directions available","benchmark":"Essential for resort destination—visitors need clear departure point location","status":"good","confidence":"high","source":"Website scrape","tooltip":"Map functionality detected to help visitors locate departure dock at 100 Esplanade Avenue"},{"label":"Parking Information","value":"Yes—parking details provided","benchmark":"Critical for Harrison Hot Springs—parking logistics affect arrival time planning","status":"good","confidence":"high","source":"Website scrape","tooltip":"Parking information addresses common visitor concern about waterfront parking availability"},{"label":"Accessibility Information","value":"Yes—accessibility details available","benchmark":"Required for inclusive tourism—wheelchairs, mobility aids, age restrictions need to be clear","status":"good","confidence":"high","source":"Website scrape","tooltip":"Accessibility information helps families with elderly members or mobility considerations plan appropriately"},{"label":"Multi-Language Support","value":"No—English only","benchmark":"Harrison Hot Springs attracts Asian international tourists—Chinese language option valuable","status":"warning","confidence":"high","source":"Website scrape","tooltip":"Website does not offer translation options for non-English speakers"},{"label":"Contact Information Completeness","value":"Excellent—phone, email, address all visible","benchmark":"All contact methods should be easy to find","status":"good","confidence":"high","source":"Website scrape","tooltip":"Multiple contact options provide flexibility for different guest preferences"}],"recommendations":[{"text":"Add simplified Chinese language option to website—target key pages (homepage, tour descriptions, booking, FAQs) rather than full site translation to capture international Asian tourist market visiting Harrison Hot Springs","time_estimate":"8-12 hours for professional translation of key pages plus Squarespace multi-language setup","impact":"Harrison Hot Springs has significant Chinese tourist market—language accessibility could increase international bookings by 10-15%","priority":"medium"},{"text":"Add What to Bring section to each tour page—recommend sunscreen, hat, camera, layers for weather changes to improve guest preparedness and reduce day-of friction","time_estimate":"1 hour to write and add to tour pages","impact":"Better-prepared guests have more enjoyable experiences and leave better reviews","priority":"low"},{"text":"Create Weather Policy FAQ answering common questions about tour cancellations, refunds, and rescheduling due to weather—reduces pre-booking anxiety and customer service inquiries","time_estimate":"1 hour to write policy and add to FAQ section","impact":"Clear weather policies reduce booking hesitation and set appropriate expectations for mountain weather variability","priority":"low"},{"text":"Add real-time availability indicator or calendar showing sold-out dates for next 30 days if FareHarbor integration supports it—creates urgency and transparency","time_estimate":"2 hours if FareHarbor widget available","impact":"Availability transparency drives faster booking decisions during peak season","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local SEO foundation with claimed Google Business Profile, consistent NAP, and local keywords, but backlink profile needs strengthening for better organic visibility","findings":[{"type":"positive","text":"Google Business Profile properly claimed and optimized with 4.8-star rating, 263 reviews, complete business information, and regular hours—appears prominently in 'boat tours harrison hot springs' local searches","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Strong NAP consistency—100 Esplanade Avenue and (604) 796-3100 match exactly across website, Google Business Profile, and Local Business schema markup","confidence":"high","source":"Google Places API + Website scrape"},{"type":"positive","text":"Ranking #1 for primary keywords 'harrison boat tours', 'harrison hot springs boat tours', 'shoreline tours harrison'—capturing high-intent search traffic during trip planning","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"LocalBusiness structured data properly implemented with address, operating hours, and business name in machine-readable format helping Google display rich results","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Estimated 626 monthly organic visitors from Google search—strong baseline traffic for local tourism operator","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Weak backlink profile (D+ grade) with only 370 backlinks from 139 domains—needs more links from Tourism Harrison, BC tourism sites, hotel partners, and local directories to improve authority","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Ranking position drops significantly for broader terms—'shoreline sightseeing' (#3), 'shoreline travel' (#4)—indicates opportunity to strengthen content for non-branded searches","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified—Shoreline Tours appears in Google Maps and local search","benchmark":"Absolutely essential—unclaimed GBP means invisibility in local searches","status":"good","confidence":"high","source":"Google Places API","tooltip":"Verified GBP with accurate business information and 4.8-star rating"},{"label":"NAP Consistency","value":"Strong—address and phone match across website and GBP","benchmark":"Name, Address, Phone must be identical everywhere for local SEO","status":"good","confidence":"high","source":"Google Places API + Website scrape","tooltip":"100 Esplanade Avenue and (604) 796-3100 consistent across platforms"},{"label":"Local Keywords","value":"Present—'Harrison Hot Springs' and location terms used on site","benchmark":"Location keywords must appear in title, headers, and content","status":"good","confidence":"high","source":"Website scrape","tooltip":"Local geography terms detected throughout site content"},{"label":"Local Business Schema","value":"Yes—LocalBusiness structured data properly implemented","benchmark":"Schema markup helps Google understand business type and location","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Structured data includes address, hours, name in machine-readable format"},{"label":"Backlink Profile","value":"Moderate—370 backlinks from 139 domains (D+ grade)","benchmark":"Tour operators need strong local backlinks from tourism boards, hotels, directories","status":"warning","confidence":"high","source":"SEOptimer","tooltip":"Backlink volume is moderate but quality needs improvement for competitive local rankings"},{"label":"Top Organic Keywords","value":"Ranking #1 for 'shoreline tours', 'harrison boat tours', 'harrison hot springs boat tours'","benchmark":"Should rank top 3 for primary location + service keywords","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Strong rankings for branded and primary service keywords driving 626 estimated monthly visits"}],"recommendations":[{"text":"Build local tourism backlinks—request listings on Tourism Harrison official site, Tourism British Columbia, TripAdvisor Things to Do, and regional travel blogs covering Harrison Hot Springs itineraries","time_estimate":"4 hours to research and submit to 15-20 relevant directories and tourism sites","impact":"Quality local backlinks improve domain authority and Google Maps ranking, potentially increasing organic visibility by 20-30%","priority":"high"},{"text":"Develop hotel partnership program—provide booking flyers or commission arrangements to Harrison Hot Springs resorts and hotels, securing backlinks from partner accommodation websites","time_estimate":"6 hours to create partnership materials and contact 10-15 properties","impact":"Hotel website links drive qualified referral traffic and strengthen local SEO authority","priority":"medium"},{"text":"Create location-based content—write blog posts about 'Best Time to Visit Harrison Lake', 'Harrison Hot Springs Itinerary Guide', 'Wildlife on Harrison Lake' to capture broader informational searches beyond direct tour queries","time_estimate":"3-4 hours per blog post, aim for 1 per month","impact":"Content marketing attracts earlier-stage trip planners and builds topical authority for Harrison Hot Springs searches","priority":"medium"},{"text":"Optimize Google Business Profile posts—publish weekly GBP updates during peak season (May-Sept) showcasing available tours, weather conditions, recent sightings (wildlife, scenery) to improve local search visibility","time_estimate":"15 minutes weekly","impact":"Active GBP posts increase visibility in local search results and Google Maps by 15-25%","priority":"medium"},{"text":"Request backlinks from past media coverage—if Shoreline Tours has been featured in Vancouver Sun, Daily Hive, Narcity, or tourism publications, ask publications to add or update website links in archived articles","time_estimate":"2 hours to identify past coverage and send requests","impact":"High-authority media backlinks significantly boost domain authority and search rankings","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Fix critical social media posting inconsistency—implement minimum 3 posts per week on Instagram (Monday/Wednesday/Friday) increasing to daily during May-September peak season. Batch-create Reels content during tours to reduce time burden, focusing on scenic views, guest experiences, and behind-the-scenes crew moments.","time_estimate":"2 hours weekly for content creation and scheduling (ongoing)","impact":"high","expected_result":"Consistent posting will rebuild Instagram algorithm favor within 4-6 weeks, increasing organic reach by 40-60% and engagement by 25-35%, ultimately driving more profile visits and booking inquiries from social channels","confidence":"high"},{"priority":2,"category":"Website & Technical Foundation","text":"Fix on-page SEO issues blocking search visibility—consolidate to single H1 tag, shorten title tag to 60 characters, expand meta description to 145 characters with seasonal offerings, and add alt text to 4 missing images using descriptive keywords like 'Harrison Lake waterfall cruise boat tour'.","time_estimate":"2 hours total (30 min H1 fix, 20 min title/description, 20 min alt text, 50 min testing)","impact":"high","expected_result":"Improved on-page SEO signals will help Google better understand and rank pages for 'Harrison Hot Springs tours' and related searches, potentially increasing organic traffic by 15-25% within 3-4 months","confidence":"high"},{"priority":3,"category":"Online Booking & Conversion","text":"Add phone number (604-796-3100) to website header as prominent clickable button alongside Book Now CTA—format with phone icon for mobile visibility. Currently phone only appears in footer, requiring scrolling for last-minute callers already in Harrison Hot Springs.","time_estimate":"30 minutes","impact":"high","expected_result":"Header phone placement will increase phone bookings by 20-30% by reducing friction for same-day and last-minute callers who prefer to confirm availability by voice—critical for capturing walk-in resort traffic","confidence":"high"},{"priority":4,"category":"Local Visibility","text":"Build local tourism backlinks from high-value sources—submit listings to Tourism Harrison official site, Tourism British Columbia, TripAdvisor Things to Do, and approach Harrison Hot Springs hotels for partnership links. Focus on 15-20 quality local tourism and hospitality sites.","time_estimate":"4 hours to research and submit to directories, 6 hours for hotel partnership outreach","impact":"high","expected_result":"Quality local backlinks will improve domain authority and local search rankings, potentially increasing visibility in Google Maps and organic search by 20-30% within 6 months","confidence":"high"},{"priority":5,"category":"Social Media & Content","text":"Create 90-day seasonal content calendar aligned with tour availability and booking windows—waterfall Reels and frozen lake content Jan-Apr, lake cruise and wildlife content May-Sept, fall foliage Oct-Nov. Schedule posts in advance using Meta Business Suite to maintain consistency.","time_estimate":"4 hours to build calendar template, then 1 hour monthly to populate with specific content","impact":"medium","expected_result":"Strategic seasonal content matches visitor search intent during trip planning phases (2-4 weeks before arrival), increasing profile visits by 30-50% and providing clear booking prompts for each tour season","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile data (4.8 stars, 263 reviews, 100% recent reviews) verified via Google Places API","Website technical performance (97/100 mobile and desktop speed) verified via SEOptimer","Social media metrics (10,430 total followers, 2.13% Instagram engagement, 1.1 posts/week) verified via SociaVault API","Booking infrastructure (3 platforms: TripAdvisor, FareHarbor, OpenTable) verified via website scrape","On-page SEO issues (4 H1 tags, 72-character title, missing alt text) verified via SEOptimer","Local SEO signals (claimed GBP, NAP consistency, Local Business schema) verified via multiple sources"],"low_confidence_areas":["TripAdvisor rating and review count—website shows TripAdvisor booking integration but rating not scraped in this audit","Yelp presence and reviews—not included in automated scan, requires manual verification","Google review response rate—response data not available in Google Places API output","Facebook engagement metrics—follower count verified (7,900) but posting frequency and engagement rate not measured","Actual booking conversion rates—booking platforms detected but conversion funnel performance unknown without analytics access","Competitor analysis—no data on other Harrison Hot Springs tour operator performance for benchmarking"],"recommendations_for_fuller_picture":["Manual TripAdvisor audit to verify rating, review count, and profile completeness since website shows integration","Google Business Profile dashboard access to analyze review response rate, search queries driving GBP views, and photo engagement","Google Analytics access to measure booking funnel (homepage → tour page → booking platform click-through), traffic sources, and seasonal traffic patterns","Facebook Insights access to measure posting engagement, audience demographics, and reach trends on 7,900-follower page","Competitor social media benchmark—analyze 3-5 similar Harrison Hot Springs or BC tour operators for posting frequency and engagement comparison"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-18T16:02:29.607Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-18T15:57:41.800Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/analytics.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -2634,6 +2671,230 @@ function renderRecommendations(recommendations) {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', renderAssessment);
+
+// ═══════════════════════════════════════════════════════════════════════════
+// ACTIVITY PAGE FUNCTIONS
+// ═══════════════════════════════════════════════════════════════════════════
+
+async function loadActivityData() {
+  const clientSlug = document.body.dataset.clientSlug;
+  if (!clientSlug) return;
+
+  try {
+    // Get events from last 30 days
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    const { data: events, error } = await window.supabase
+      .from('analytics_events')
+      .select('*')
+      .eq('client_slug', clientSlug)
+      .gte('created_at', thirtyDaysAgo.toISOString())
+      .order('created_at', { ascending: false })
+      .limit(100);
+
+    if (error) throw error;
+
+    renderActivityStats(events || []);
+    renderActivityTimeline(events || []);
+    renderSessionHistory(events || []);
+  } catch (err) {
+    console.error('Error loading activity data:', err);
+    document.getElementById('activity-timeline').innerHTML =
+      '<div class="activity__empty">Unable to load activity data</div>';
+  }
+}
+
+function renderActivityStats(events) {
+  const sessions = new Set(events.map(e => e.session_id)).size;
+  const users = new Set(events.map(e => e.user_id).filter(Boolean)).size;
+  const tasks = events.filter(e => e.event_type === 'task_complete').length;
+
+  // Calculate average session duration (rough estimate)
+  const sessionDurations = {};
+  events.forEach(e => {
+    if (!sessionDurations[e.session_id]) {
+      sessionDurations[e.session_id] = { first: e.created_at, last: e.created_at };
+    } else {
+      if (e.created_at < sessionDurations[e.session_id].first) {
+        sessionDurations[e.session_id].first = e.created_at;
+      }
+      if (e.created_at > sessionDurations[e.session_id].last) {
+        sessionDurations[e.session_id].last = e.created_at;
+      }
+    }
+  });
+
+  let totalDuration = 0;
+  let sessionCount = 0;
+  Object.values(sessionDurations).forEach(s => {
+    const duration = new Date(s.last) - new Date(s.first);
+    if (duration > 0) {
+      totalDuration += duration;
+      sessionCount++;
+    }
+  });
+
+  const avgDuration = sessionCount > 0 ? totalDuration / sessionCount : 0;
+
+  document.getElementById('stat-sessions').textContent = sessions;
+  document.getElementById('stat-users').textContent = users;
+  document.getElementById('stat-tasks').textContent = tasks;
+  document.getElementById('stat-duration').textContent = formatDuration(avgDuration);
+}
+
+function formatDuration(ms) {
+  if (ms === 0) return '-';
+  const minutes = Math.floor(ms / 60000);
+  if (minutes < 1) return '<1m';
+  if (minutes < 60) return minutes + 'm';
+  const hours = Math.floor(minutes / 60);
+  const remainingMins = minutes % 60;
+  return hours + 'h ' + remainingMins + 'm';
+}
+
+function renderActivityTimeline(events) {
+  const container = document.getElementById('activity-timeline');
+
+  if (!events || events.length === 0) {
+    container.innerHTML = '<div class="activity__empty">No recent activity</div>';
+    return;
+  }
+
+  // Show last 20 events
+  const recentEvents = events.slice(0, 20);
+
+  container.innerHTML = recentEvents.map(event => {
+    const iconClass = getEventIconClass(event.event_type);
+    const icon = getEventIcon(event.event_type);
+    const title = getEventTitle(event);
+    const time = formatRelativeTime(event.created_at);
+
+    return `
+      <div class="activity__event">
+        <div class="activity__event-icon ${iconClass}">
+          ${icon}
+        </div>
+        <div class="activity__event-content">
+          <div class="activity__event-title">${title}</div>
+          <div class="activity__event-meta">${time}</div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function getEventIconClass(eventType) {
+  switch (eventType) {
+    case 'page_view': return 'activity__event-icon--page';
+    case 'task_complete': return 'activity__event-icon--check';
+    case 'session_start': return 'activity__event-icon--session';
+    case 'tour_complete': return 'activity__event-icon--tour';
+    default: return 'activity__event-icon--page';
+  }
+}
+
+function getEventIcon(eventType) {
+  switch (eventType) {
+    case 'page_view':
+      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>';
+    case 'task_complete':
+      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>';
+    case 'session_start':
+      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>';
+    case 'tour_complete':
+      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
+    default:
+      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>';
+  }
+}
+
+function getEventTitle(event) {
+  switch (event.event_type) {
+    case 'page_view':
+      return 'Viewed ' + (event.page_name || 'page');
+    case 'task_complete':
+      return 'Completed task' + (event.task_name ? ': ' + event.task_name : '');
+    case 'session_start':
+      return 'Started new session';
+    case 'tour_complete':
+      return 'Completed onboarding tour';
+    default:
+      return event.event_type;
+  }
+}
+
+function formatRelativeTime(dateStr) {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now - date;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMs / 3600000);
+  const diffDays = Math.floor(diffMs / 86400000);
+
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return diffMins + ' min ago';
+  if (diffHours < 24) return diffHours + ' hour' + (diffHours === 1 ? '' : 's') + ' ago';
+  if (diffDays < 7) return diffDays + ' day' + (diffDays === 1 ? '' : 's') + ' ago';
+  return date.toLocaleDateString();
+}
+
+function renderSessionHistory(events) {
+  const container = document.getElementById('activity-sessions');
+
+  // Group events by session
+  const sessions = {};
+  events.forEach(e => {
+    if (!sessions[e.session_id]) {
+      sessions[e.session_id] = {
+        id: e.session_id,
+        user: e.user_email || 'Anonymous',
+        events: [],
+        firstEvent: e.created_at,
+        lastEvent: e.created_at
+      };
+    }
+    sessions[e.session_id].events.push(e);
+    if (e.created_at < sessions[e.session_id].firstEvent) {
+      sessions[e.session_id].firstEvent = e.created_at;
+    }
+    if (e.created_at > sessions[e.session_id].lastEvent) {
+      sessions[e.session_id].lastEvent = e.created_at;
+    }
+  });
+
+  const sessionList = Object.values(sessions)
+    .sort((a, b) => new Date(b.lastEvent) - new Date(a.lastEvent))
+    .slice(0, 10);
+
+  if (sessionList.length === 0) {
+    container.innerHTML = '<div class="activity__empty">No sessions recorded</div>';
+    return;
+  }
+
+  container.innerHTML = sessionList.map(session => {
+    const duration = new Date(session.lastEvent) - new Date(session.firstEvent);
+    const durationStr = formatDuration(duration);
+    const time = formatRelativeTime(session.lastEvent);
+
+    return `
+      <div class="activity__session-card">
+        <div class="activity__session-user">${session.user}</div>
+        <div class="activity__session-details">${session.events.length} events &middot; ${durationStr} &middot; ${time}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// Load activity data when navigating to the activity page
+window.__authReady && window.__authReady.then(() => {
+  const activityNav = document.getElementById('nav-activity');
+  if (activityNav) {
+    activityNav.addEventListener('click', () => {
+      setTimeout(loadActivityData, 100);
+    });
+  }
+});
 </script>
 </body>
 </html>

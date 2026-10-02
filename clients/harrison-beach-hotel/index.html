@@ -1983,6 +1983,9 @@ body.drawer-open {
     break-inside: avoid;
   }
 }
+
+/* Activity Page Styles */
+.activity__stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center}.activity__stat-value{font-size:2rem;font-weight:700;color:var(--text)}.activity__stat-label{font-size:0.875rem;color:var(--text-muted);margin-top:0.25rem}.activity__container{display:grid;grid-template-columns:1fr 320px;gap:2rem}@media(max-width:900px){.activity__container{grid-template-columns:1fr}}.activity__timeline{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__loading{color:var(--text-muted);text-align:center;padding:2rem}.activity__event{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}.activity__event:last-child{border-bottom:none}.activity__event-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}.activity__event-icon.page_view{background:#e0f2fe;color:#0284c7}.activity__event-icon.checkbox_change{background:#dcfce7;color:#16a34a}.activity__event-icon.session_start{background:#f3e8ff;color:#9333ea}.activity__event-icon.session_end{background:#fee2e2;color:#dc2626}.activity__event-icon.default{background:#f3f4f6;color:#6b7280}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--text);margin-bottom:0.25rem}.activity__event-meta{font-size:0.813rem;color:var(--text-muted)}.activity__event-time{font-size:0.75rem;color:var(--text-muted);white-space:nowrap}.activity__sessions{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__sessions h3{margin:0 0 1rem;font-size:1rem;font-weight:600}.activity__sessions-container{display:flex;flex-direction:column;gap:0.75rem}.activity__session-card{padding:0.75rem;background:var(--bg);border-radius:8px;border:1px solid var(--border)}.activity__session-card h4{margin:0 0 0.5rem;font-size:0.875rem;font-weight:500}.activity__session-card p{margin:0;font-size:0.75rem;color:var(--text-muted)}
 </style>
 </head>
 <body data-client-slug="harrison-beach-hotel">
@@ -2144,6 +2147,14 @@ body.drawer-open {
         <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
+    </div>
+    <!-- Activity Nav (Admin/PSM/Coach only) -->
+    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
+    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
+      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
+      </svg>
+      Activity
     </div>
   </nav>
 </aside>
@@ -2319,12 +2330,50 @@ body.drawer-open {
     </div>
   </div>
 
+        <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
+        <section id="page-activity" class="page">
+            <div class="page-header">
+                <h1>Client Activity</h1>
+                <p class="subtitle">Real-time engagement analytics</p>
+            </div>
+
+            <div class="activity__stats-grid">
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-sessions">--</div>
+                    <div class="activity__stat-label">Sessions (7d)</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-users">--</div>
+                    <div class="activity__stat-label">Unique Users</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-tasks">--</div>
+                    <div class="activity__stat-label">Tasks Completed</div>
+                </div>
+                <div class="activity__stat-card">
+                    <div class="activity__stat-value" id="activity-duration">--</div>
+                    <div class="activity__stat-label">Avg. Duration</div>
+                </div>
+            </div>
+
+            <div class="activity__container">
+                <div class="activity__timeline" id="activity-timeline">
+                    <p class="activity__loading">Loading activity...</p>
+                </div>
+                <div class="activity__sessions" id="activity-sessions-list">
+                    <h3>Recent Sessions</h3>
+                    <div class="activity__sessions-container"></div>
+                </div>
+            </div>
+        </section>
+
 </main>
 
 <script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Harrison Beach Hotel excels at conversion and reputation but needs urgent social media engagement overhaul despite strong follower base.","key_strengths":["Near-perfect booking experience with 99/100 score - seamless integration across TripAdvisor, VRBO, and Airbnb with clear pricing and prominent CTAs","Strong reputation foundation with 4.4-star rating across 895 Google reviews, 100% recent review activity showing consistent guest satisfaction","Excellent digital guest experience (91/100) with comprehensive visitor information including full week hours, parking, accessibility, and interactive maps"],"critical_gaps":["Social media engagement crisis: 0.34% Instagram engagement rate with 23,206 followers - severely underperforming tourism benchmark of 3-6%","Inconsistent posting (2.1 posts/week) and weak content performance with best post only reaching 20 engagements from 3,206 followers","Website performance issues dragging down technical foundation - 8.2MB page size, failed Core Web Vitals, and structural heading problems"],"bottom_line":"Harrison Beach Hotel has mastered the conversion funnel and built strong guest trust, but is leaving significant direct booking revenue on the table by failing to engage its substantial 23K+ social audience - fixing engagement could drive hundreds of additional direct bookings annually."},"quick_wins":[{"task":"Respond to all Google reviews from the past 30 days - currently at estimated 60% response rate with 895 total reviews needing attention","time_estimate":"30 minutes","impact":"Increases review response signals for local SEO and shows active guest engagement to potential bookers","confidence":"high"},{"task":"Post 3 Instagram Reels this week featuring lake views, pool area, and room tours - Reels currently only 33% of content mix but drive highest engagement","time_estimate":"2 hours","impact":"Reels get 2-5x more reach than static posts; could double current 0.34% engagement rate based on tourism benchmarks","confidence":"high"},{"task":"Add business address to website footer - SEOptimer detected phone number but flagged missing address visibility","time_estimate":"15 minutes","impact":"Improves local SEO signals and NAP consistency for Google Business Profile ranking","confidence":"high"},{"task":"Fix 30 missing image alt attributes identified by SEOptimer (14 of 44 images have alt text)","time_estimate":"45 minutes","impact":"Improves accessibility compliance and on-page SEO for image search visibility","confidence":"high"},{"task":"Create Instagram Story highlights for 'Rooms', 'Pool & Hot Tub', 'Location', and 'Guest Reviews' to make key info permanent","time_estimate":"30 minutes","impact":"Provides instant visual FAQ for Instagram visitors, reduces booking friction from social discovery","confidence":"high"}],"tourism_context":{"visitor_profile":"Harrison Hot Springs attracts weekend getaway seekers from Vancouver/Lower Mainland (1.5 hours away), families seeking lake activities and hot springs experiences, and couples looking for boutique romantic escapes - mix of domestic BC tourists and international visitors exploring beyond Vancouver","discovery_journey":"Visitors typically search 'Harrison Hot Springs hotels', 'lakefront hotels BC', or 'Harrison Beach Hotel' directly after seeing TripAdvisor rankings or social media content - strong destination awareness means high intent searches where reputation and visual appeal drive booking decisions","seasonal_considerations":"Peak summer season (June-September) for lake activities and beach access, with secondary winter peaks around holiday periods for hot springs tourism - social content should shift between lake/beach lifestyle in summer and cozy hot tub/mountain views in winter","trip_integration":"Harrison Beach Hotel serves as a primary destination accommodation for 2-3 night stays, with guests building itineraries around the hotel's pool/hot tub amenities, Morgan's Bistro dining, nearby Harrison Lake beach access, and day trips to Sasquatch Provincial Park or local trails"},"overall":{"score":84,"grade":"B+","confidence":"high","scoreBreakdown":{"website_technical":{"score":74,"weight":0.15,"contribution":11.1},"reviews_reputation":{"score":87,"weight":0.25,"contribution":21.75},"booking_conversion":{"score":99,"weight":0.2,"contribution":19.8},"social_media":{"score":65,"weight":0.2,"contribution":13},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":74,"grade":"C+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":73,"score":73,"source":"SEOptimer","grade":"C"},"mobile_speed":{"value":73,"score":73,"source":"SEOptimer","grade":"C"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Solid baseline with SSL, mobile viewport, and A- overall SEO grade from SEOptimer, but performance issues with page size and Core Web Vitals holding back user experience","findings":[{"type":"positive","text":"SEOptimer awarded A+ for on-page SEO with optimal title (58 chars) and meta description (157 chars) - 'Harrison Beach Hotel | #1 Rated Harrison Hot Springs Hotel'","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Strong schema implementation with both Hotel and LodgingBusiness structured data including full amenity details and location coordinates","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Keyword consistency excellent across 11 mentions of 'Harrison Hot Springs' in headers, title, and description","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Failed Core Web Vitals with Cumulative Layout Shift of 0.83 (threshold: 0.1) causing visual instability as page loads","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Homepage loads 8.2 MB total with 5.1 MB from images alone - 163 total resources including 41 images need optimization","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"30 of 44 images missing alt attributes (68% missing) - accessibility and SEO issue flagged by SEOptimer","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Heading structure has 5 issues including skipped levels (H4 appearing before H1) and inconsistent hierarchy","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"iFrames detected on page - SEOptimer flagged for removal to improve performance","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"73/100","status":"warning","source":"SEOptimer"},{"label":"Mobile Speed","value":"73/100","status":"warning","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Compress and optimize all images using WebP format - current 5.1 MB image payload could reduce to 1-2 MB without visible quality loss","time_estimate":"3 hours (one-time batch optimization)","impact":"Reduce page load time by 40-50%, improve Core Web Vitals, reduce mobile bounce rate","priority":"high"},{"text":"Fix Cumulative Layout Shift by adding explicit width/height attributes to images and reserving space for dynamic content","time_estimate":"2 hours","impact":"Pass Core Web Vitals assessment, improve Google rankings and user experience","priority":"high"},{"text":"Add alt text to 30 images currently missing attributes - focus on descriptive text for rooms, amenities, and location shots","time_estimate":"45 minutes","impact":"Improve accessibility compliance and image SEO for terms like 'Harrison Hot Springs hotel rooms'","priority":"medium"},{"text":"Restructure heading hierarchy to fix 5 structural issues - ensure H1 appears first and no heading levels are skipped","time_estimate":"1 hour","impact":"Improve SEO crawlability and accessibility screen reader experience","priority":"medium"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":87,"grade":"A-","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.4,"score":78,"source":"Google Places API"},"review_volume":{"value":895,"score":100,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Strong reputation foundation with 895 Google reviews at 4.4 stars and 100% recent review activity, though response rate at estimated 60% leaves room for more active engagement","findings":[{"type":"positive","text":"Outstanding review volume of 895 Google reviews places Harrison Beach Hotel as a well-established authority in Harrison Hot Springs market","confidence":"high","source":"Google Places API"},{"type":"positive","text":"88% positive sentiment with 787 reviews rated 4-5 stars demonstrates consistent guest satisfaction","confidence":"high","source":"Google Places API"},{"type":"positive","text":"100% of sampled reviews are from past 18 months showing active ongoing guest flow and recent experiences","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent review themes highlight 'outstanding team', 'VIP treatment for loyal customers', 'beautifully renovated rooms', and 'fabulous service' - strong service reputation","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Reviews mention specific staff by name (Megan praised for 'wide smile' and 'lovely service') indicating memorable personal interactions","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Review response rate estimated at 60% - missing opportunity to engage with 40% of reviewers and demonstrate active management","confidence":"medium","source":"Google Places API analysis"},{"type":"neutral","text":"Constructive feedback in 4-star reviews mentions 'slow check-in' process - actionable operational insight for improvement","confidence":"high","source":"Google Places API"}],"metrics":[{"label":"Google Rating","value":"4.4 / 5.0","status":"warning","source":"Google Places API"},{"label":"Total Reviews","value":"895","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Increase Google review response rate from 60% to 90%+ by responding to all reviews within 48 hours - prioritize 1-3 star reviews first, then recent 5-star reviews","time_estimate":"30 minutes daily (ongoing)","impact":"Improves local SEO signals, shows active engagement to potential guests, and addresses concerns publicly","priority":"high"},{"text":"Create response templates for common review themes (staff praise, renovation compliments, slow check-in concerns) to streamline daily review management","time_estimate":"1 hour (one-time setup)","impact":"Reduces daily review response time from 30 min to 15 min while maintaining personal touch","priority":"medium"},{"text":"Address 'slow check-in' feedback mentioned in recent reviews by implementing express check-in options or pre-arrival digital check-in","time_estimate":"Variable (operational change)","impact":"Reduces negative feedback theme that appears in otherwise positive reviews","priority":"medium"},{"text":"Implement post-stay review request automation 24-48 hours after checkout to maintain review velocity - 895 reviews is strong but ongoing volume matters","time_estimate":"2 hours setup + ongoing","impact":"Maintain 10-15 reviews per month to show Google the business is active and popular","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":99,"grade":"A+","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":3,"platforms":["TripAdvisor","VRBO","Airbnb"]},"score":100,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["header","footer","contact"],"clickable":true,"score":95,"details":{"telLinkCount":5}},"score":95,"source":"Website Analysis","details":["header","footer","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":6,"samplePrices":["$15.00","$15.00","$20.00"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"header","score":100,"details":{"ctaElements":6,"platforms":["TripAdvisor"]}},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Near-perfect booking infrastructure with seamless multi-platform integration, crystal-clear pricing, highly visible contact information, and prominent CTAs - a masterclass in conversion optimization","findings":[{"type":"positive","text":"Exceptional phone visibility with 5 clickable tel: links strategically placed in header, footer, and contact sections - 95/100 score","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Perfect pricing transparency with exact dollar amounts displayed ($15, $20 samples) across 6 price elements - removes booking friction","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Outstanding CTA implementation with 6 CTA elements including prominent 'Book Now' button in header and TripAdvisor platform integration","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Multi-platform booking strategy with TripAdvisor, VRBO, and Airbnb integration maximizes reach across different traveler booking preferences","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Email contact information visible provides alternative contact method for guests who prefer email over phone","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Install Meta (Facebook) Pixel and Google Ads conversion tracking to measure which traffic sources drive actual bookings - currently has analytics but conversion tracking unclear","time_estimate":"1 hour setup","impact":"Enable measurement of booking source ROI and optimization of marketing spend","priority":"high"},{"text":"Add direct booking incentive messaging (e.g., 'Book direct and save 10%' or 'Best rate guarantee') near Book Now CTAs to capture more direct bookings vs OTA commissions","time_estimate":"30 minutes","impact":"Even 5% shift from OTA to direct bookings saves thousands in commission fees annually","priority":"medium"},{"text":"Consider adding live chat widget for instant booking assistance during high-traffic periods - can convert browsers into bookers","time_estimate":"2 hours setup + ongoing management","impact":"Capture hesitant visitors with instant answers, particularly for pet-friendly room questions","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":65,"grade":"D+","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":23206,"score":92,"source":"SociaVault"},"engagement_rate":{"value":0.34,"score":25,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":2.1,"score":70,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":2,"platforms":["instagram","facebook"]},"score":70,"source":"SociaVault"},"content_quality":{"value":{"images":2,"carousels":6,"reels":4,"reelPercent":33},"score":100,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Substantial follower base of 23,206 across Instagram and Facebook, but critically underperforming with 0.34% engagement rate and inconsistent content strategy - represents significant untapped direct booking potential","findings":[{"type":"negative","text":"Critical engagement crisis: 0.34% Instagram engagement rate is 9-18x below tourism industry benchmarks (3-6% is good performance)","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Average post receives only 11 likes from 3,206 followers (0.34% engagement) with zero comments - indicates content not resonating","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Inconsistent posting at 2.1 posts/week falls below 3-5 posts/week minimum needed for Instagram algorithm favor","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Best performing post only reached 0.62% engagement (19 likes, 1 comment) - no breakout content connecting with audience","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Strong total follower base of 23,206 across platforms provides substantial audience if engagement can be fixed","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Reels comprise 33% of content (4 of 12 posts) showing awareness that video content drives better reach","confidence":"high","source":"SociaVault API"},{"type":"neutral","text":"Facebook has 20,000 followers but no engagement data available - large potential audience of uncertain activity level","confidence":"medium","source":"SociaVault API"}],"metrics":[{"label":"Total Followers","value":"23,206","status":"good","source":"SociaVault"},{"label":"Engagement Rate","value":"0.34%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"2 platforms","status":"warning","source":"SociaVault"},{"label":"Posting Frequency","value":"2.1 posts/week","status":"warning","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Emergency engagement overhaul: Increase posting to 5-7 posts/week with 60% Reels showing room tours, pool area, lake views, and staff moments - consistency is critical","time_estimate":"3 hours/week for content creation and posting","impact":"Could increase engagement rate from 0.34% to 2-3% within 60 days based on algorithm response to consistency","priority":"high"},{"text":"Implement daily Instagram Stories (7-10 per week) showing real-time hotel life, weather updates, sunset views, pet-friendly moments to maintain daily presence","time_estimate":"15 minutes daily","impact":"Keep hotel top-of-mind with followers, drive Story link clicks to booking page","priority":"high"},{"text":"Launch engagement tactics in every post: ask questions in captions, use polls/questions in Stories, respond to all comments within 1 hour to signal activity to algorithm","time_estimate":"30 minutes daily for engagement monitoring","impact":"Even 10% increase in comments signals Instagram algorithm to show content to more followers","priority":"high"},{"text":"Audit Facebook page performance and posting history - 20,000 followers is substantial but no engagement data suggests dormant page","time_estimate":"1 hour audit + ongoing strategy","impact":"Reactivate potential booking source if Facebook audience is engaged","priority":"medium"},{"text":"Create user-generated content campaign: encourage check-in guests to tag @harrisonbeachhotel in lake/room photos, offer to repost best content","time_estimate":"1 hour setup + 30 min/week management","impact":"Authentic guest content typically gets 2-3x better engagement than hotel-created content","priority":"medium"},{"text":"Test Meta ads ($300-500 initial test) boosting top Reels to lookalike audiences of current followers to reset algorithm performance","time_estimate":"2 hours setup + ongoing monitoring","impact":"Paid amplification can help re-engage dormant followers and attract new high-intent travelers","priority":"low"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"full_week","score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Exceptional digital visitor information with comprehensive hours, maps, parking, and accessibility details - only minor improvement needed in multi-language support","findings":[{"type":"positive","text":"Perfect hours transparency with full week schedule (Monday-Sunday) displayed - 100/100 score removes guest uncertainty","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Interactive map embedded on website provides visual directions and location context relative to Harrison Lake","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Comprehensive parking information (outdoor & underground options) proactively addresses common guest arrival question","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Wheelchair accessibility prominently featured as amenity with dedicated icon - demonstrates inclusive hospitality","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Pet-friendly suite information clearly communicated - addresses key decision factor for many travelers","confidence":"high","source":"Website scrape"},{"type":"neutral","text":"Website operates in English only (en-CA) - French language option could serve Quebec visitors and international guests","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Hours Displayed","value":"100/100 - Full week schedule shown","benchmark":"Hours must be easily findable for all tourism businesses","status":"good","confidence":"high","source":"Website scrape","tooltip":"All 7 days of week hours detected - complete transparency"},{"label":"Directions Available","value":"Yes - Interactive map embedded","benchmark":"Map embed or directions link expected","status":"good","confidence":"high","source":"Website scrape","tooltip":"Visual wayfinding provided for guest convenience"},{"label":"Parking Info","value":"Yes - Outdoor & underground parking detailed","benchmark":"Parking info reduces arrival anxiety","status":"good","confidence":"high","source":"Website scrape","tooltip":"Clear parking options shown as amenity"},{"label":"Accessibility Info","value":"Yes - Wheelchair accessible noted","benchmark":"ADA compliance info increasingly expected","status":"good","confidence":"high","source":"Website scrape","tooltip":"Accessibility features prominently displayed"},{"label":"Multi-Language Support","value":"No - English only (en-CA)","benchmark":"French recommended for BC, international languages nice-to-have","status":"info","confidence":"high","source":"SEOptimer","tooltip":"Single language site - opportunity for international visitor support"}],"recommendations":[{"text":"Add French language toggle for Quebec visitors - Harrison Hot Springs attracts French-Canadian tourists but website only in English","time_estimate":"8-12 hours for professional translation + 2 hours implementation","impact":"Capture bookings from French-speaking Canadian market, show inclusive hospitality","priority":"low"},{"text":"Create downloadable 'Guest Guide' PDF with driving directions, parking instructions, WiFi password, local restaurant recommendations, and check-in process","time_estimate":"2 hours creation","impact":"Reduce front desk questions, improve pre-arrival guest confidence, shareable resource","priority":"low"},{"text":"Add FAQ section addressing common questions visible in reviews: check-in time details, pet policy specifics, pool hours, kitchenette inventory","time_estimate":"1 hour","impact":"Reduce booking hesitation and pre-arrival inquiry calls","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local SEO foundation with claimed Google Business Profile, excellent NAP signals, and prominent local keyword usage - minor gap with address visibility on website","findings":[{"type":"positive","text":"Google Business Profile claimed and active with complete information including address (160 Esplanade Ave, Harrison Hot Springs) and phone (604-796-1111)","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Outstanding local keyword optimization with 'Harrison Hot Springs' appearing 11 times across title, headers, and content in strategic positions","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Comprehensive LocalBusiness schema includes Hotel and LodgingBusiness types with full address, geo coordinates (49.303348, -121.786253), and amenity details","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Strong map pack ranking signals: 4.4-star rating with 895 reviews provides authority for 'hotels near me' searches in Harrison Hot Springs","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Title tag includes local ranking term: 'Harrison Beach Hotel | #1 Rated Harrison Hot Springs Hotel' - targets brand + location","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"SEOptimer flagged that address is not prominently displayed on website (present in schema but not visible to users) - NAP score of 90/100","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Google Business Profile","value":"Claimed - 'Harrison Beach Hotel - True Key Hotels & Resorts'","benchmark":"Must be claimed and managed for local visibility","status":"good","confidence":"high","source":"Google Places API","tooltip":"Verified GBP presence linking to website"},{"label":"NAP Consistency","value":"90/100 - Phone visible on site, address detected in schema but not prominent","benchmark":"Name, Address, Phone must match across all platforms","status":"good","confidence":"high","source":"SEOptimer + Website","tooltip":"Strong consistency but address could be more visible on website"},{"label":"Local Keywords","value":"Strong - 'Harrison Hot Springs' appears 11x in key positions","benchmark":"Location terms should appear in title, headers, content","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Excellent local keyword optimization"},{"label":"Local Schema Markup","value":"Yes - Hotel + LodgingBusiness schema with full address and coordinates","benchmark":"LocalBusiness schema recommended for local SEO","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Comprehensive structured data including geo coordinates"},{"label":"Map Ranking Factors","value":"4.4 stars, 895 reviews, complete GBP profile","benchmark":"Reviews and rating heavily influence map pack rankings","status":"good","confidence":"high","source":"Google Places API","tooltip":"Strong signals for Google Maps prominence"}],"recommendations":[{"text":"Add physical address (160 Esplanade Ave, Harrison Hot Springs, BC V0M 1K0) to website footer - currently in schema but not human-visible","time_estimate":"15 minutes","impact":"Complete NAP consistency, improve local SEO trust signals, help guests find location","priority":"high"},{"text":"Optimize Google Business Profile posts with weekly updates featuring current photos, special offers, and seasonal content to stay active in map results","time_estimate":"15 minutes weekly","impact":"GBP posts improve map pack visibility and provide fresh content to searchers","priority":"medium"},{"text":"Create location-specific landing pages for nearby attractions ('Hotels near Harrison Lake', 'Sasquatch Provincial Park lodging') to capture broader search intent","time_estimate":"4 hours for 2-3 pages","impact":"Rank for related searches beyond direct hotel name queries","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Launch emergency social engagement overhaul: Increase Instagram posting from 2.1 to 5-7 posts/week with 60% Reels format showing room tours, pool/hot tub ambiance, and lake views - critical to fix 0.34% engagement rate","time_estimate":"3 hours/week for content creation + 15 min daily Stories","impact":"high","expected_result":"Increase engagement rate from 0.34% to 2-3% within 60 days, translate 23K follower base into 50-100 additional direct booking inquiries per quarter","confidence":"high"},{"priority":2,"category":"Social Media & Content","text":"Implement daily engagement tactics: Ask questions in every caption, use polls/questions in Stories, respond to all comments within 1 hour to signal activity to Instagram algorithm","time_estimate":"30 minutes daily","impact":"high","expected_result":"Algorithm rewards engagement signals - even 10% increase in comments/saves can double post reach to followers","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Increase Google review response rate from 60% to 90%+ by responding to all reviews within 48 hours - prioritize 1-3 star reviews first to address concerns publicly","time_estimate":"30 minutes daily (ongoing)","impact":"high","expected_result":"Improve local SEO ranking signals, demonstrate active management to potential guests reading reviews","confidence":"high"},{"priority":4,"category":"Website & Technical Foundation","text":"Compress and optimize images to reduce page size from 8.2 MB to under 3 MB using WebP format - prioritize homepage hero images and room photos","time_estimate":"3 hours (one-time batch optimization)","impact":"high","expected_result":"Reduce page load time by 40-50%, improve Core Web Vitals pass, reduce mobile bounce rate by 10-15%","confidence":"high"},{"priority":5,"category":"Booking & Conversion","text":"Install Meta Pixel and Google Ads conversion tracking to measure which traffic sources (social, organic, paid) actually drive bookings - foundation for ROI measurement","time_estimate":"1 hour setup","impact":"medium","expected_result":"Enable data-driven marketing decisions, identify which channels generate bookings vs just traffic","confidence":"high"},{"priority":6,"category":"Local Visibility","text":"Add physical address (160 Esplanade Ave, Harrison Hot Springs, BC V0M 1K0) to website footer - currently in schema but not visible to users","time_estimate":"15 minutes","impact":"medium","expected_result":"Complete NAP consistency for local SEO, improve Google trust signals, help guests find location","confidence":"high"},{"priority":7,"category":"Website & Technical Foundation","text":"Fix Core Web Vitals by adding explicit width/height to images and reserving space for dynamic content to reduce Cumulative Layout Shift from 0.83 to under 0.1","time_estimate":"2 hours","impact":"medium","expected_result":"Pass Core Web Vitals assessment, improve Google rankings, reduce visual page instability","confidence":"high"},{"priority":8,"category":"Social Media & Content","text":"Audit Facebook page performance with 20,000 followers - no engagement data suggests potentially dormant large audience worth reactivating","time_estimate":"1 hour audit + strategy development","impact":"medium","expected_result":"Determine if 20K Facebook audience is active; if yes, could be substantial booking source","confidence":"medium"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile (895 reviews, 4.4 stars, verified via Google Places API)","Website technical performance (SEOptimer full scan with speed, SEO, and Core Web Vitals)","Booking infrastructure (Website scrape confirmed phone visibility, pricing, CTAs, platform integrations)","Social media analytics (SociaVault API provided follower counts, engagement rates, posting frequency for Instagram)","Digital guest experience elements (Website scrape confirmed hours, maps, parking, accessibility info)","Local SEO signals (Schema markup, keyword usage, GBP status verified)"],"low_confidence_areas":["TripAdvisor review count and management status - website claims #1 ranking but requires manual verification","Facebook engagement metrics - 20,000 followers detected but no engagement data available from API","Specific review response rate percentage - estimated at 60% based on patterns, not exact measurement","Multi-language support needs - recommendation assumes Quebec visitor market but no traffic data to confirm","Conversion tracking implementation - analytics detected but specific conversion tracking setup unclear"],"recommendations_for_fuller_picture":["Connect Google Analytics to verify traffic sources and booking conversion funnel performance","Manually audit TripAdvisor listing to confirm review volume, rating, and response rate","Review Facebook Insights to determine if 20,000 follower base is active or dormant","Implement conversion tracking (Meta Pixel, Google Ads) to measure actual booking sources and ROI","Survey guests to understand discovery journey - are they finding hotel via social, OTAs, or direct search?"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-17T16:42:02.973Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-17T16:38:21.790Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/analytics.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
@@ -2766,6 +2815,189 @@ function renderRecommendations(recommendations) {
 
 // Initialize on load
 document.addEventListener('DOMContentLoaded', renderAssessment);
+
+// ══════════════════════════════════════════════════════════════
+// ACTIVITY PAGE FUNCTIONS
+// ══════════════════════════════════════════════════════════════
+
+async function loadActivityData() {
+    const clientSlug = document.body.dataset.clientSlug;
+    if (!clientSlug || !window.supabase) return;
+
+    try {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+
+        const { data: events, error } = await window.supabase
+            .from('analytics_events')
+            .select('*')
+            .eq('client_slug', clientSlug)
+            .gte('created_at', sevenDaysAgo.toISOString())
+            .order('created_at', { ascending: false })
+            .limit(100);
+
+        if (error) throw error;
+
+        renderActivityStats(events || []);
+        renderActivityTimeline(events || []);
+        renderSessionHistory(events || []);
+    } catch (err) {
+        console.error('Error loading activity data:', err);
+        document.getElementById('activity-timeline').innerHTML =
+            '<p class="activity__loading">Unable to load activity data</p>';
+    }
+}
+
+function renderActivityStats(events) {
+    const sessions = new Set(events.filter(e => e.session_id).map(e => e.session_id)).size;
+    const users = new Set(events.filter(e => e.user_id).map(e => e.user_id)).size;
+    const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data?.checked).length;
+
+    const sessionDurations = [];
+    const sessionMap = {};
+    events.forEach(e => {
+        if (e.session_id) {
+            if (!sessionMap[e.session_id]) sessionMap[e.session_id] = [];
+            sessionMap[e.session_id].push(new Date(e.created_at).getTime());
+        }
+    });
+    Object.values(sessionMap).forEach(times => {
+        if (times.length > 1) {
+            sessionDurations.push(Math.max(...times) - Math.min(...times));
+        }
+    });
+    const avgDuration = sessionDurations.length > 0
+        ? Math.round(sessionDurations.reduce((a, b) => a + b, 0) / sessionDurations.length / 60000)
+        : 0;
+
+    document.getElementById('activity-sessions').textContent = sessions;
+    document.getElementById('activity-users').textContent = users;
+    document.getElementById('activity-tasks').textContent = tasks;
+    document.getElementById('activity-duration').textContent = avgDuration > 0 ? avgDuration + 'm' : '--';
+}
+
+function renderActivityTimeline(events) {
+    const timeline = document.getElementById('activity-timeline');
+    if (!events.length) {
+        timeline.innerHTML = '<p class="activity__loading">No recent activity</p>';
+        return;
+    }
+
+    const html = events.slice(0, 20).map(event => {
+        const iconClass = getEventIconClass(event.event_type);
+        const icon = getEventIcon(event.event_type);
+        const title = getEventTitle(event);
+        const time = formatRelativeTime(event.created_at);
+        const meta = event.event_data?.page || event.event_type;
+
+        return `
+            <div class="activity__event">
+                <div class="activity__event-icon ${iconClass}">${icon}</div>
+                <div class="activity__event-content">
+                    <div class="activity__event-title">${title}</div>
+                    <div class="activity__event-meta">${meta}</div>
+                </div>
+                <div class="activity__event-time">${time}</div>
+            </div>
+        `;
+    }).join('');
+
+    timeline.innerHTML = html;
+}
+
+function getEventIconClass(eventType) {
+    const classes = {
+        'page_view': 'page_view',
+        'checkbox_change': 'checkbox_change',
+        'session_start': 'session_start',
+        'session_end': 'session_end'
+    };
+    return classes[eventType] || 'default';
+}
+
+function getEventIcon(eventType) {
+    const icons = {
+        'page_view': '👁',
+        'checkbox_change': '✓',
+        'session_start': '→',
+        'session_end': '←'
+    };
+    return icons[eventType] || '•';
+}
+
+function getEventTitle(event) {
+    switch (event.event_type) {
+        case 'page_view': return `Viewed ${event.event_data?.page || 'page'}`;
+        case 'checkbox_change': return event.event_data?.checked ? 'Completed task' : 'Unchecked task';
+        case 'session_start': return 'Started session';
+        case 'session_end': return 'Ended session';
+        default: return event.event_type;
+    }
+}
+
+function formatRelativeTime(dateString) {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now - date;
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMs / 3600000);
+    const diffDays = Math.floor(diffMs / 86400000);
+
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins}m ago`;
+    if (diffHours < 24) return `${diffHours}h ago`;
+    return `${diffDays}d ago`;
+}
+
+function formatDuration(ms) {
+    const mins = Math.floor(ms / 60000);
+    if (mins < 60) return `${mins}m`;
+    const hours = Math.floor(mins / 60);
+    return `${hours}h ${mins % 60}m`;
+}
+
+function renderSessionHistory(events) {
+    const container = document.querySelector('.activity__sessions-container');
+    if (!container) return;
+
+    const sessionMap = {};
+    events.forEach(e => {
+        if (e.session_id) {
+            if (!sessionMap[e.session_id]) {
+                sessionMap[e.session_id] = { events: [], start: null, end: null };
+            }
+            sessionMap[e.session_id].events.push(e);
+            const time = new Date(e.created_at).getTime();
+            if (!sessionMap[e.session_id].start || time < sessionMap[e.session_id].start) {
+                sessionMap[e.session_id].start = time;
+            }
+            if (!sessionMap[e.session_id].end || time > sessionMap[e.session_id].end) {
+                sessionMap[e.session_id].end = time;
+            }
+        }
+    });
+
+    const sessions = Object.entries(sessionMap)
+        .sort((a, b) => b[1].end - a[1].end)
+        .slice(0, 5);
+
+    if (!sessions.length) {
+        container.innerHTML = '<p class="activity__loading">No sessions recorded</p>';
+        return;
+    }
+
+    container.innerHTML = sessions.map(([id, data]) => {
+        const duration = formatDuration(data.end - data.start);
+        const eventCount = data.events.length;
+        const time = formatRelativeTime(new Date(data.end).toISOString());
+        return `
+            <div class="activity__session-card">
+                <h4>Session</h4>
+                <p>${eventCount} events · ${duration} · ${time}</p>
+            </div>
+        `;
+    }).join('');
+}
 </script>
 </body>
 </html>
