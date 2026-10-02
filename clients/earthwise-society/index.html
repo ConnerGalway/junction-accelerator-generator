@@ -2602,10 +2602,10 @@ function renderAssessment() {
               <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
             </div>
           </div>
-          <p class="category-summary">${cat.summary || ''}</p>
+          <p class="category-summary" data-editable-key="cat-${key}-summary">${cat.summary || ''}</p>
           ${renderMetrics(cat.metrics)}
-          ${renderFindings(cat.findings)}
-          ${renderRecommendations(cat.recommendations)}
+          ${renderFindings(cat.findings, key)}
+          ${renderRecommendations(cat.recommendations, key)}
         </div>
       `;
     }
@@ -2622,13 +2622,13 @@ function renderAssessment() {
         <div class="priority-item">
           <div class="priority-item-number">${i + 1}</div>
           <div class="priority-item-content">
-            <h4>${rec.text}</h4>
+            <h4 data-editable-key="priority-${i + 1}-text">${rec.text}</h4>
             <div class="priority-item-meta">
               <span class="priority-item-tag">${rec.category || 'General'}</span>
               ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
               ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
             </div>
-            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+            ${rec.expected_result ? `<p class="priority-item-result" data-editable-key="priority-${i + 1}-result">${rec.expected_result}</p>` : ''}
           </div>
         </div>
       `;
@@ -2646,12 +2646,12 @@ function renderExecutiveSummary(summary) {
 
   let strengthsHtml = '';
   if (summary.key_strengths && summary.key_strengths.length) {
-    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+    strengthsHtml = summary.key_strengths.map((s, i) => `<li data-editable-key="strength-${i + 1}">${s}</li>`).join('');
   }
 
   let gapsHtml = '';
   if (summary.critical_gaps && summary.critical_gaps.length) {
-    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+    gapsHtml = summary.critical_gaps.map((g, i) => `<li data-editable-key="gap-${i + 1}">${g}</li>`).join('');
   }
 
   container.innerHTML = `
@@ -2692,8 +2692,8 @@ function renderQuickWins(quickWins) {
       <div class="quick-win-item">
         <div class="quick-win-number">${i + 1}</div>
         <div class="quick-win-content">
-          <div class="quick-win-task">${win.task}</div>
-          <div class="quick-win-impact">${win.impact}</div>
+          <div class="quick-win-task" data-editable-key="quick-win-${i + 1}-task">${win.task}</div>
+          <div class="quick-win-impact" data-editable-key="quick-win-${i + 1}-impact">${win.impact}</div>
         </div>
         <span class="quick-win-time">${win.time_estimate}</span>
       </div>
@@ -2705,7 +2705,7 @@ function renderQuickWins(quickWins) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Quick Wins
     </h2>
-    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <p class="quick-wins-subtitle" data-editable-key="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
     <div class="quick-wins-list">${itemsHtml}</div>
   `;
 }
@@ -2731,7 +2731,7 @@ function renderTourismContext(context) {
       itemsHtml += `
         <div class="tourism-context-item">
           <h4>${item.icon} ${item.label}</h4>
-          <p>${context[item.key]}</p>
+          <p data-editable-key="tourism-${item.key}">${context[item.key]}</p>
         </div>
       `;
     }
@@ -2770,10 +2770,10 @@ function renderMetrics(metrics) {
   return html;
 }
 
-function renderFindings(findings) {
+function renderFindings(findings, categoryKey) {
   if (!findings || !findings.length) return '';
   let html = '<div class="category-findings">';
-  findings.slice(0, 4).forEach(f => {
+  findings.slice(0, 4).forEach((f, i) => {
     let iconClass, icon;
     if (f.type === 'positive') {
       iconClass = 'positive';
@@ -2788,7 +2788,7 @@ function renderFindings(findings) {
     html += `
       <div class="finding-item">
         <span class="finding-icon ${iconClass}">${icon}</span>
-        <span>${f.text}</span>
+        <span data-editable-key="cat-${categoryKey}-finding-${i + 1}">${f.text}</span>
       </div>
     `;
   });
@@ -2796,16 +2796,16 @@ function renderFindings(findings) {
   return html;
 }
 
-function renderRecommendations(recommendations) {
+function renderRecommendations(recommendations, categoryKey) {
   if (!recommendations || !recommendations.length) return '';
   let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
-  recommendations.slice(0, 3).forEach(r => {
+  recommendations.slice(0, 3).forEach((r, i) => {
     html += `
       <div class="recommendation-item">
         <div style="flex: 1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px;">
             <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
-            <span>${r.text}</span>
+            <span data-editable-key="cat-${categoryKey}-rec-${i + 1}">${r.text}</span>
           </div>
           ${r.time_estimate ? `
             <div class="recommendation-time">
