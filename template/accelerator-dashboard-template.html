@@ -4740,7 +4740,7 @@ button,
               <span class="assessment__complete-badge">Complete</span>
             </div>
           </div>
-          <p class="assessment__hero-summary">{{ASSESSMENT_SUMMARY}}</p>
+          <p class="assessment__hero-summary" data-editable-key="assessment-summary">{{ASSESSMENT_SUMMARY}}</p>
         </div>
       </div>
 
@@ -4750,7 +4750,7 @@ button,
           <span class="assessment__priority-num">1</span>
           <span class="assessment__priority-label">THE #1 PRIORITY</span>
         </div>
-        <p class="assessment__priority-text">{{ASSESSMENT_TOP_PRIORITY}}</p>
+        <p class="assessment__priority-text" data-editable-key="assessment-top-priority">{{ASSESSMENT_TOP_PRIORITY}}</p>
         <span class="assessment__priority-tag assessment__priority-tag--danger">{{ASSESSMENT_TOP_PRIORITY_IMPACT}}</span>
         <div class="assessment__priority-divider"></div>
         <div class="assessment__findings-grid">
@@ -4922,17 +4922,17 @@ button,
 
       <div class="strategy__goal">
         <div class="strategy__goal-label">THE GOAL</div>
-        <p class="strategy__goal-text">{{GOAL_TEXT}}</p>
+        <p class="strategy__goal-text" data-editable-key="strategy-goal">{{GOAL_TEXT}}</p>
       </div>
 
       <div class="strategy__cards">
         <div class="strategy__card strategy__card--white">
           <h3 class="strategy__card-title">Positioning</h3>
-          <p class="strategy__card-text">{{STRATEGIC_POSITIONING}}</p>
+          <p class="strategy__card-text" data-editable-key="strategy-positioning">{{STRATEGIC_POSITIONING}}</p>
         </div>
         <div class="strategy__card strategy__card--sunken">
           <h3 class="strategy__card-title">What we're not doing</h3>
-          <p class="strategy__card-text">{{NOT_DOING_TEXT}}</p>
+          <p class="strategy__card-text" data-editable-key="strategy-not-doing">{{NOT_DOING_TEXT}}</p>
         </div>
       </div>
 
@@ -4940,21 +4940,21 @@ button,
       <div class="strategy__objectives">
         <div class="strategy__objective strategy__objective--mint">
           <span class="strategy__objective-num">1</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_1_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_1_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_1_MEASURE}}</div>
+          <h3 class="strategy__objective-title" data-editable-key="objective-1-title">{{OBJECTIVE_1_TITLE}}</h3>
+          <p class="strategy__objective-body" data-editable-key="objective-1-desc">{{OBJECTIVE_1_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · <span data-editable-key="objective-1-measure">{{OBJECTIVE_1_MEASURE}}</span></div>
         </div>
         <div class="strategy__objective strategy__objective--blue">
           <span class="strategy__objective-num">2</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_2_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_2_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_2_MEASURE}}</div>
+          <h3 class="strategy__objective-title" data-editable-key="objective-2-title">{{OBJECTIVE_2_TITLE}}</h3>
+          <p class="strategy__objective-body" data-editable-key="objective-2-desc">{{OBJECTIVE_2_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · <span data-editable-key="objective-2-measure">{{OBJECTIVE_2_MEASURE}}</span></div>
         </div>
         <div class="strategy__objective strategy__objective--slate">
           <span class="strategy__objective-num">3</span>
-          <h3 class="strategy__objective-title">{{OBJECTIVE_3_TITLE}}</h3>
-          <p class="strategy__objective-body">{{OBJECTIVE_3_DESC}}</p>
-          <div class="strategy__objective-measure"><strong>Measured by</strong> · {{OBJECTIVE_3_MEASURE}}</div>
+          <h3 class="strategy__objective-title" data-editable-key="objective-3-title">{{OBJECTIVE_3_TITLE}}</h3>
+          <p class="strategy__objective-body" data-editable-key="objective-3-desc">{{OBJECTIVE_3_DESC}}</p>
+          <div class="strategy__objective-measure"><strong>Measured by</strong> · <span data-editable-key="objective-3-measure">{{OBJECTIVE_3_MEASURE}}</span></div>
         </div>
       </div>
     </div>
@@ -5094,7 +5094,7 @@ button,
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_1_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-1-what-this-is">{{TACTIC_1_WHAT_THIS_IS}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">THE FOUR PILLARS</div>
@@ -5106,11 +5106,11 @@ button,
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_1_HEARD}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-1-heard">{{TACTIC_1_HEARD}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_1_WHY}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-1-why">{{TACTIC_1_WHY}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
@@ -5215,17 +5215,17 @@ button,
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_2_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-2-what-this-is">{{TACTIC_2_WHAT_THIS_IS}}</p>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_2_HEARD}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-2-heard">{{TACTIC_2_HEARD}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_2_WHY}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-2-why">{{TACTIC_2_WHY}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
@@ -5322,17 +5322,17 @@ button,
               <div class="tactic__overview-col">
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHAT THIS IS</div>
-                  <p class="tactic__card-text">{{TACTIC_3_WHAT_THIS_IS}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-3-what-this-is">{{TACTIC_3_WHAT_THIS_IS}}</p>
                 </div>
               </div>
               <div class="tactic__overview-col">
                 <div class="tactic__card tactic__card--dark">
                   <div class="tactic__card-label tactic__card-label--mint">WHAT WE HEARD FROM YOU</div>
-                  <p class="tactic__card-text">{{TACTIC_3_HEARD}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-3-heard">{{TACTIC_3_HEARD}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">WHY IT MATTERS</div>
-                  <p class="tactic__card-text">{{TACTIC_3_WHY}}</p>
+                  <p class="tactic__card-text" data-editable-key="tactic-3-why">{{TACTIC_3_WHY}}</p>
                 </div>
                 <div class="tactic__card">
                   <div class="tactic__card-label">TIME COMMITMENT</div>
@@ -5497,6 +5497,7 @@ button,
 <script src="/shared/auth.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script src="/shared/progress.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════════════════════
 // PRINT ROADMAP

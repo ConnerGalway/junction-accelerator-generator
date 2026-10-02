@@ -4008,7 +4008,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="strategy-goal-quote">&ldquo;</div>
       <div class="strategy-goal-inner">
         <div class="strategy-goal-label">Your Experience</div>
-        <p class="strategy-goal-text">{{EXPERIENCE_SENTENCE}}</p>
+        <p class="strategy-goal-text" data-editable-key="strategy-experience">{{EXPERIENCE_SENTENCE}}</p>
       </div>
     </div>
 
@@ -4017,14 +4017,14 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="strategy-goal-quote">&ldquo;</div>
       <div class="strategy-goal-inner">
         <div class="strategy-goal-label">Your 90-Day Goal</div>
-        <p class="strategy-goal-text">{{GOAL_TEXT}}</p>
+        <p class="strategy-goal-text" data-editable-key="strategy-goal">{{GOAL_TEXT}}</p>
       </div>
     </div>
 
     <!-- STRATEGIC POSITIONING -->
     <div class="strategy-positioning">
       <div class="strategy-positioning-label">Strategic Positioning</div>
-      <p class="strategy-positioning-text">{{STRATEGIC_POSITIONING}}</p>
+      <p class="strategy-positioning-text" data-editable-key="strategy-positioning">{{STRATEGIC_POSITIONING}}</p>
     </div>
 
     <!-- OBJECTIVES -->
@@ -4034,24 +4034,24 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
         <div class="strategy-objective-card" style="--obj-color:#067cbc">
           <div class="strategy-objective-num">01</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">{{OBJECTIVE_1_TITLE}}</h3>
-            <p class="strategy-objective-desc">{{OBJECTIVE_1_DESC}}</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-1-title">{{OBJECTIVE_1_TITLE}}</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-1-desc">{{OBJECTIVE_1_DESC}}</p>
             <span class="strategy-objective-pill">{{OBJECTIVE_1_TACTIC_PILL}}</span>
           </div>
         </div>
         <div class="strategy-objective-card" style="--obj-color:#11154b">
           <div class="strategy-objective-num">02</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">{{OBJECTIVE_2_TITLE}}</h3>
-            <p class="strategy-objective-desc">{{OBJECTIVE_2_DESC}}</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-2-title">{{OBJECTIVE_2_TITLE}}</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-2-desc">{{OBJECTIVE_2_DESC}}</p>
             <span class="strategy-objective-pill">{{OBJECTIVE_2_TACTIC_PILL}}</span>
           </div>
         </div>
         <div class="strategy-objective-card" style="--obj-color:#7bc490">
           <div class="strategy-objective-num">03</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">{{OBJECTIVE_3_TITLE}}</h3>
-            <p class="strategy-objective-desc">{{OBJECTIVE_3_DESC}}</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-3-title">{{OBJECTIVE_3_TITLE}}</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-3-desc">{{OBJECTIVE_3_DESC}}</p>
             <span class="strategy-objective-pill">{{OBJECTIVE_3_TACTIC_PILL}}</span>
           </div>
         </div>
@@ -4064,20 +4064,20 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="tactics-overview-grid">
         <div class="tactic-overview-card" style="--color:#067cbc">
           <div class="tactic-overview-phase">{{TACTIC_1_PHASE}}</div>
-          <h3 class="tactic-overview-title">{{TACTIC_1_TITLE}}</h3>
-          <p class="tactic-overview-desc">{{TACTIC_1_SUBTITLE}}</p>
+          <h3 class="tactic-overview-title" data-editable-key="tactic-1-title">{{TACTIC_1_TITLE}}</h3>
+          <p class="tactic-overview-desc" data-editable-key="tactic-1-subtitle">{{TACTIC_1_SUBTITLE}}</p>
           <button class="tactic-overview-link" onclick="navigate('tactic1')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
         </div>
         <div class="tactic-overview-card" style="--color:#11154b">
           <div class="tactic-overview-phase">{{TACTIC_2_PHASE}}</div>
-          <h3 class="tactic-overview-title">{{TACTIC_2_TITLE}}</h3>
-          <p class="tactic-overview-desc">{{TACTIC_2_SUBTITLE}}</p>
+          <h3 class="tactic-overview-title" data-editable-key="tactic-2-title">{{TACTIC_2_TITLE}}</h3>
+          <p class="tactic-overview-desc" data-editable-key="tactic-2-subtitle">{{TACTIC_2_SUBTITLE}}</p>
           <button class="tactic-overview-link" onclick="navigate('tactic2')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
         </div>
         <div class="tactic-overview-card" style="--color:#aadab6">
           <div class="tactic-overview-phase">{{TACTIC_3_PHASE}}</div>
-          <h3 class="tactic-overview-title">{{TACTIC_3_TITLE}}</h3>
-          <p class="tactic-overview-desc">{{TACTIC_3_SUBTITLE}}</p>
+          <h3 class="tactic-overview-title" data-editable-key="tactic-3-title">{{TACTIC_3_TITLE}}</h3>
+          <p class="tactic-overview-desc" data-editable-key="tactic-3-subtitle">{{TACTIC_3_SUBTITLE}}</p>
           <button class="tactic-overview-link" onclick="navigate('tactic3')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
         </div>
       </div>
@@ -4193,8 +4193,8 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
 <section id="page-tactic1" class="page">
   <div class="page-header">
     <div class="page-header-eyebrow">Track 1 · {{TACTIC_1_PHASE}}</div>
-    <h1>{{TACTIC_1_TITLE}}</h1>
-    <p>{{TACTIC_1_SUBTITLE}}</p>
+    <h1 data-editable-key="tactic-1-page-title">{{TACTIC_1_TITLE}}</h1>
+    <p data-editable-key="tactic-1-page-subtitle">{{TACTIC_1_SUBTITLE}}</p>
   </div>
   <div class="content-area">
     <div class="tabs">
@@ -4338,8 +4338,8 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
 <section id="page-tactic2" class="page">
   <div class="page-header">
     <div class="page-header-eyebrow">Track 2 · {{TACTIC_2_PHASE}}</div>
-    <h1>{{TACTIC_2_TITLE}}</h1>
-    <p>{{TACTIC_2_SUBTITLE}}</p>
+    <h1 data-editable-key="tactic-2-page-title">{{TACTIC_2_TITLE}}</h1>
+    <p data-editable-key="tactic-2-page-subtitle">{{TACTIC_2_SUBTITLE}}</p>
   </div>
   <div class="content-area">
     <div class="tabs">
@@ -4406,8 +4406,8 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
 <section id="page-tactic3" class="page">
   <div class="page-header">
     <div class="page-header-eyebrow">Track 3 · {{TACTIC_3_PHASE}}</div>
-    <h1>{{TACTIC_3_TITLE}}</h1>
-    <p>{{TACTIC_3_SUBTITLE}}</p>
+    <h1 data-editable-key="tactic-3-page-title">{{TACTIC_3_TITLE}}</h1>
+    <p data-editable-key="tactic-3-page-subtitle">{{TACTIC_3_SUBTITLE}}</p>
   </div>
   <div class="content-area">
     <div class="tabs">
@@ -5927,6 +5927,7 @@ function howToLink(page, stepId) {
 <script src="/shared/auth.js"></script>
 <script src="/shared/user-menu.js"></script>
 <script src="/shared/progress.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // Initialize user menu when auth is ready

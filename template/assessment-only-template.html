@@ -2209,7 +2209,7 @@ body.drawer-open {
         <div class="grade-circle" id="overallGrade">{{OVERALL_GRADE}}</div>
         <div class="grade-details">
           <h3>Overall Score: <span id="overallScore">{{OVERALL_SCORE}}</span>/100</h3>
-          <p id="overallSummary">{{OVERALL_SUMMARY}}</p>
+          <p id="overallSummary" data-editable-key="assessment-overall-summary">{{OVERALL_SUMMARY}}</p>
         </div>
       </div>
     </div>
@@ -2358,6 +2358,7 @@ body.drawer-open {
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
