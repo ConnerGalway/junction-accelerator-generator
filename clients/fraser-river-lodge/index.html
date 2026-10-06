@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Digital Marketing Assessment — Fraser River Lodge</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -881,15 +881,29 @@ nav { flex: 1; padding: 12px 0; }
 
 /* ── Mobile ─────────────────────────────────── */
 @media (max-width: 768px) {
+  body {
+    display: block;
+    overflow: auto;
+    height: auto;
+  }
+
   #sidebar {
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
     transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
   }
 
   #sidebar.open { transform: translateX(0); }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+  }
 
   .mobile-header {
     display: flex;
@@ -927,25 +941,52 @@ nav { flex: 1; padding: 12px 0; }
   .assessment-hero-title { font-size: 22px; }
   .categories-grid { grid-template-columns: 1fr; }
   .category-metrics { grid-template-columns: 1fr; }
+
+  /* Tactic tabs - horizontal scroll on mobile */
+  .tactic-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .tactic-tabs::-webkit-scrollbar { display: none; }
+  .tactic-tab {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
 }
 
 @media (min-width: 769px) {
   .mobile-header { display: none; }
 }
 
-.mobile-overlay {
+#drawerOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 999;
+  background: rgba(17,21,75,.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
   transition: opacity .3s, visibility .3s;
 }
 
-.mobile-overlay.active {
+#drawerOverlay.open {
   opacity: 1;
   visibility: visible;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 /* ── Download PDF Button ────────────────────────── */
@@ -979,6 +1020,38 @@ nav { flex: 1; padding: 12px 0; }
 .download-pdf-btn svg {
   width: 18px;
   height: 18px;
+}
+
+.download-pdf-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-pdf-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.download-pdf-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpinner 0.8s linear infinite;
+}
+
+.download-pdf-btn.loading svg {
+  visibility: hidden;
+}
+
+@keyframes pdfSpinner {
+  to { transform: rotate(360deg); }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1035,7 +1108,7 @@ nav { flex: 1; padding: 12px 0; }
      ══════════════════════════════════════════════════════════════════════════ */
   #sidebar,
   .mobile-header,
-  .mobile-overlay,
+  #drawerOverlay,
   .download-pdf-btn,
   .assessment-hero-badge,
   .assessment-hero-actions,
@@ -1943,9 +2016,6 @@ nav { flex: 1; padding: 12px 0; }
     break-inside: avoid;
   }
 }
-
-/* ACTIVITY PAGE STYLES */
-.activity{max-width:1200px;margin:0 auto;padding:2rem}.activity__header{margin-bottom:2rem}.activity__title{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);margin:0 0 .5rem}.activity__subtitle{color:var(--slate);margin:0}.activity__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__stat-label{font-size:.875rem;color:var(--slate);margin-bottom:.5rem}.activity__stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy)}.activity__section{background:var(--card-bg);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__section-title{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy);margin:0 0 1rem}.activity__loading{color:var(--slate);padding:2rem;text-align:center}.activity__timeline{display:flex;flex-direction:column;gap:.75rem}.activity__event{display:flex;align-items:flex-start;gap:1rem;padding:.75rem;border-radius:8px;background:var(--surface-sunken)}.activity__event-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity__event-icon--page{background:#e3f2fd;color:#1976d2}.activity__event-icon--check{background:#e8f5e9;color:#388e3c}.activity__event-icon--session{background:#fff3e0;color:#f57c00}.activity__event-icon--tour{background:#f3e5f5;color:#7b1fa2}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--navy);margin-bottom:.25rem}.activity__event-meta{font-size:.8125rem;color:var(--slate)}.activity__sessions{display:flex;flex-direction:column;gap:.75rem}.activity__session-card{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-radius:8px;background:var(--surface-sunken)}.activity__session-user{font-weight:500;color:var(--navy)}.activity__session-details{font-size:.875rem;color:var(--slate)}.activity__empty{text-align:center;padding:3rem;color:var(--slate)}@media(max-width:768px){.activity{padding:1rem}.activity__stats{grid-template-columns:repeat(2,1fr)}.activity__stat-value{font-size:1.5rem}}
 </style>
 </head>
 <body data-client-slug="fraser-river-lodge">
@@ -1963,10 +2033,10 @@ nav { flex: 1; padding: 12px 0; }
   <p class="cover-client">Prepared for</p>
   <p class="cover-client-name">Fraser River Lodge</p>
   <div class="cover-grade-circle">
-    <span class="cover-grade" id="coverGrade">B+</span>
-    <span class="cover-score">Overall Score: <span id="coverScore">86</span>/100</span>
+    <span class="cover-grade" id="coverGrade">A-</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">89</span>/100</span>
   </div>
-  <p class="cover-date">Assessment Date: September 17, 2026</p>
+  <p class="cover-date">Assessment Date: October 6, 2026</p>
   <p class="cover-footer-text">Powered by Junction Accelerator</p>
 </div>
 
@@ -2010,7 +2080,7 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">Fraser River Lodge</span>
-  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -2019,7 +2089,7 @@ nav { flex: 1; padding: 12px 0; }
   </button>
 </div>
 
-<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <!-- Sidebar -->
 <aside id="sidebar">
@@ -2108,14 +2178,6 @@ nav { flex: 1; padding: 12px 0; }
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
     </div>
-    <!-- Activity Nav (Admin/PSM/Coach only) -->
-    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
-    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-      Activity
-    </div>
   </nav>
 </aside>
 
@@ -2128,7 +2190,7 @@ nav { flex: 1; padding: 12px 0; }
       <div class="assessment-hero-top">
         <div>
           <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-          <p class="assessment-hero-date">Assessment Date: September 17, 2026</p>
+          <p class="assessment-hero-date">Assessment Date: October 6, 2026</p>
         </div>
         <div class="assessment-hero-actions">
           <button class="download-pdf-btn" onclick="downloadPDF()">
@@ -2144,10 +2206,10 @@ nav { flex: 1; padding: 12px 0; }
       </div>
 
       <div class="assessment-grade-card">
-        <div class="grade-circle" id="overallGrade">B+</div>
+        <div class="grade-circle" id="overallGrade">A-</div>
         <div class="grade-details">
-          <h3>Overall Score: <span id="overallScore">86</span>/100</h3>
-          <p id="overallSummary"></p>
+          <h3>Overall Score: <span id="overallScore">89</span>/100</h3>
+          <p id="overallSummary" data-editable-key="assessment-overall-summary"></p>
         </div>
       </div>
     </div>
@@ -2269,7 +2331,7 @@ nav { flex: 1; padding: 12px 0; }
         <h4>About This Assessment</h4>
         <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
         <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
-        <p><strong>Assessment Date:</strong> September 17, 2026</p>
+        <p><strong>Assessment Date:</strong> October 6, 2026</p>
       </div>
       <div class="print-footer-branding">
         <div class="print-footer-logo">
@@ -2290,41 +2352,114 @@ nav { flex: 1; padding: 12px 0; }
     </div>
   </div>
 
-  <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
-  <section id="page-activity" class="page">
-    <div class="activity">
-      <div class="activity__header">
-        <h1 class="activity__title">Client Activity</h1>
-        <p class="activity__subtitle">View engagement and progress for this client</p>
-      </div>
-      <div class="activity__stats" id="activity-stats">
-        <div class="activity__stat-card"><div class="activity__stat-label">Total Sessions</div><div class="activity__stat-value" id="stat-sessions">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Unique Users</div><div class="activity__stat-value" id="stat-users">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Tasks Completed</div><div class="activity__stat-value" id="stat-tasks">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Avg Session</div><div class="activity__stat-value" id="stat-duration">-</div></div>
-      </div>
-      <div class="activity__section">
-        <h2 class="activity__section-title">Recent Activity</h2>
-        <div class="activity__timeline" id="activity-timeline"><div class="activity__loading">Loading activity...</div></div>
-      </div>
-      <div class="activity__section">
-        <h2 class="activity__section-title">Session History</h2>
-        <div class="activity__sessions" id="activity-sessions"><div class="activity__loading">Loading sessions...</div></div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Fraser River Lodge has exceptional reputation (4.8★, 516 reviews) and strong Indigenous heritage storytelling, but struggles with posting consistency and technical SEO issues that limit organic reach.","key_strengths":["Outstanding Google reputation with 4.8-star rating from 516 reviews, 85% rated 5 stars","Strong Indigenous identity with Authentic Indigenous Designation and clear cultural positioning","Excellent site performance (97/100 mobile/desktop speed) and comprehensive visitor information"],"critical_gaps":["Severely inconsistent social media posting (0.1 posts/week Instagram despite 40,504 followers)","117 images missing alt text hurting accessibility and search visibility for activities/amenities","Phone number only in footer/contact page, not prominently clickable in header where visitors expect it"],"bottom_line":"Fraser River Lodge has built tremendous trust and a powerful digital foundation, but is underutilizing its 51,504-follower social audience and missing organic search opportunities through technical SEO gaps—fixing posting consistency and image optimization could significantly increase direct bookings from the Vancouver/Fraser Valley market."},"quick_wins":[{"task":"Add clickable phone number (604) 796-1210 to website header - currently only appears in footer and contact page, not visible where wedding/corporate clients look first","time_estimate":"15 minutes","impact":"Reduce booking friction for high-value clients who prefer calling for custom quotes on weddings and corporate retreats","confidence":"high"},{"task":"Add alt text to 117 images starting with activity photos (fishing, weddings, hot tubs) - currently all missing descriptions that help Google understand your offerings","time_estimate":"2 hours","impact":"Improve search visibility for 'Fraser Valley fishing lodge', 'BC mountain wedding venue', and other key activity searches","confidence":"high"},{"task":"Respond to at least 5 recent Google reviews with personalized thank-yous mentioning specific details (e.g., 'thrilled your wedding was perfect', 'glad you enjoyed the Bison Suites') - response rate currently unknown but likely low","time_estimate":"30 minutes","impact":"Signal to potential guests that you're actively engaged and care about experience, influencing booking decisions for couples researching wedding venues","confidence":"high"},{"task":"Create simple Instagram posting calendar to share existing content at 3x/week minimum - you have 40,504 followers but posted only ~5 times in past year","time_estimate":"1 hour to plan, 30 min/week ongoing","impact":"Re-engage dormant audience and stay top-of-mind for followers planning Fraser Valley getaways or events","confidence":"high"},{"task":"Fix heading structure on homepage - starts with H4 instead of H1, causing SEO confusion about page hierarchy","time_estimate":"30 minutes","impact":"Help search engines better understand your page content and improve rankings for 'Indigenous lodge BC' and related queries","confidence":"high"}],"tourism_context":{"visitor_profile":"Fraser River Lodge attracts three distinct segments: (1) Vancouver/Lower Mainland couples seeking intimate mountain wedding venues within 90 minutes of the city, (2) corporate groups from Vancouver/Seattle booking team retreats and fishing experiences, (3) weekend leisure travelers (often multi-generational families) seeking cabin getaways with hot tubs and outdoor activities. The Indigenous ownership and Cheam First Nations connection appeals to culturally-conscious travelers and creates unique positioning in the crowded Fraser Valley tourism market.","discovery_journey":"Most visitors discover Fraser River Lodge through Google searches for 'BC wedding venues', 'Fraser Valley fishing lodge', or 'Agassiz accommodations', often comparing against Harrison Hot Springs properties 20 minutes away. Wedding couples typically research 6-12 months in advance via Instagram and wedding blogs, while corporate planners search LinkedIn and Google for 'team retreat BC'. The lodge benefits from proximity to Vancouver (90 min drive) making it viable for weekend getaways, and location near Highway 7 facilitates Fraser Canyon touring. TripAdvisor and Google reviews heavily influence final booking decisions, particularly for weddings where couples scrutinize venue feedback intensely.","seasonal_considerations":"Fraser River Lodge operates in a market with pronounced seasonality: peak wedding season (May-September) drives highest revenue and requires year-round digital marketing to capture bookings made 6-12 months ahead. Fishing season (spring/summer for salmon, year-round for sturgeon) creates secondary demand. Winter (November-March) represents shoulder period where corporate retreat marketing and 'romantic winter getaway' positioning become critical. Social media content strategy should shift seasonally—showcase wedding setup in fall/winter when couples book for next summer, promote fishing in early spring, highlight cozy cabin experiences in late fall. The 5-month recent review concentration suggests strong summer 2024 activity.","trip_integration":"Fraser River Lodge functions as both a destination (multi-day wedding/retreat venue) and an anchor in broader Fraser Valley itineraries. Weekend visitors often combine the lodge with Harrison Hot Springs (20 min), Bridal Veil Falls (25 min), and Fraser Canyon scenic drives. Wedding parties typically book 2-3 nights, using the lodge as complete venue rather than adding activities elsewhere. Corporate groups may add sturgeon fishing or team-building as part of retreat packages. The lodge competes with Harrison for Vancouver weekend getaway traffic but differentiates through Indigenous cultural elements, exclusive-use positioning, and mountain views versus lakefront. Digital strategy should emphasize 'complete experience' messaging to justify longer stays versus day-trip alternatives."},"overall":{"score":86,"grade":"B+","confidence":"high","scoreBreakdown":{"website_technical":{"score":86,"weight":0.15,"contribution":12.9},"reviews_reputation":{"score":93,"weight":0.25,"contribution":23.25},"booking_conversion":{"score":86,"weight":0.2,"contribution":17.2},"social_media":{"score":79,"weight":0.2,"contribution":15.8},"guest_experience":{"score":81,"weight":0.1,"contribution":8.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":86,"grade":"B+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"mobile_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Exceptional performance scores and modern infrastructure undermined by accessibility issues and heading structure problems that limit search visibility","findings":[{"type":"positive","text":"Outstanding 97/100 speed scores on both mobile and desktop put Fraser River Lodge in top 5% of tourism websites for performance","confidence":"high","source":"SEOptimer PageSpeed"},{"type":"positive","text":"Proper SSL implementation with HTTP to HTTPS redirect ensures secure booking process and SEO benefits","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Mobile viewport properly configured allowing responsive design to function correctly across devices","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Using modern Webflow platform with Cloudflare CDN and HTTP/3 protocol for optimal content delivery","confidence":"high","source":"SEOptimer Technology Detection"},{"type":"negative","text":"Critical accessibility issue: 117 of 141 images missing alt text means screen readers cannot describe photos of Bison Suites, fishing activities, wedding setups to visually impaired users","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Heading structure starts with H4 instead of H1, confusing search engines about content hierarchy and keyword emphasis","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"25% of HTML content is rendered via JavaScript after initial load, potentially limiting AI crawler understanding for generative search","confidence":"high","source":"SEOptimer GEO Assessment"},{"type":"negative","text":"Desktop PageSpeed score of 76/100 shows optimization opportunity despite fast load times - render-blocking resources causing delays","confidence":"high","source":"SEOptimer PageSpeed Insights"},{"type":"negative","text":"Multiple iFrames detected on page, typically from embedded maps or booking widgets, can slow rendering","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add descriptive alt text to all 117 missing images, prioritizing activity photos (fishing, weddings, hot tubs, Bison Suites) with keyword-rich descriptions like 'Fraser River sturgeon fishing guide with guest' or 'mountain view wedding ceremony setup at Fraser River Lodge'","time_estimate":"2-3 hours","impact":"Improve accessibility compliance, boost image search visibility for key activity searches, and help AI engines better understand your offerings","priority":"high"},{"text":"Fix heading structure to start with proper H1 tag containing primary keyword (e.g., 'Fraser River Lodge: Indigenous-Owned Mountain Resort in BC') and ensure hierarchical H2-H6 flow throughout page","time_estimate":"30-45 minutes","impact":"Clarify content structure for search engines, improve rankings for primary keywords, and enhance accessibility for screen reader navigation","priority":"high"},{"text":"Implement lazy loading for images below the fold to reduce initial page size from 3.6 MB - defer loading of blog thumbnails and gallery images until user scrolls","time_estimate":"1-2 hours","impact":"Further improve already-fast load times, reduce mobile data usage for visitors with limited connectivity in Fraser Valley","priority":"medium"},{"text":"Reduce JavaScript rendering by server-side rendering more content - 25% rendered content limits AI crawler comprehension for ChatGPT and other generative search engines","time_estimate":"3-4 hours (requires developer)","impact":"Improve visibility in AI-powered search results as tools like ChatGPT, Perplexity increasingly answer travel queries","priority":"medium"},{"text":"Optimize or defer render-blocking CSS and JavaScript resources identified in PageSpeed report to improve desktop score from 76 to 90+","time_estimate":"2-3 hours (developer work)","impact":"Achieve consistently excellent performance scores across all metrics, potentially improving Google ranking signals","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis","Google PageSpeed Insights"]},"reviews_reputation":{"score":93,"grade":"A","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.8,"score":92,"source":"Google Places API"},"review_volume":{"value":516,"score":100,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Exceptional Google Business Profile performance with 4.8-star rating and 516 reviews signals outstanding guest satisfaction, though review response engagement unknown and TripAdvisor presence requires verification","findings":[{"type":"positive","text":"Outstanding 4.8-star rating from 516 reviews places Fraser River Lodge in top tier of BC tourism properties - 85% of reviews are five stars","confidence":"high","source":"Google Places API"},{"type":"positive","text":"All 5 sampled reviews from past 4 months indicate strong recent activity and consistent guest satisfaction through 2024 wedding season","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Wedding-focused reviews dominate recent feedback, praising venue beauty, accommodations, food quality, and seamless event coordination - strong validation of primary revenue segment","confidence":"high","source":"Google Places API review analysis"},{"type":"positive","text":"Reviews consistently mention specific features (mountain views, Bison Suites, natural light, contained venue layout) providing rich keyword content that helps Google match to relevant searches","confidence":"high","source":"Google Places API review analysis"},{"type":"positive","text":"Multi-couple group booking review (4 couples in Bison Suites) demonstrates appeal for wedding party accommodations and group getaways, expanding market beyond just ceremony/reception","confidence":"high","source":"Google Places API review analysis"},{"type":"positive","text":"Professional photographers leaving 5-star reviews serves as powerful third-party validation for wedding venue quality","confidence":"high","source":"Google Places API review analysis"},{"type":"warning","text":"Review response rate unknown but likely inconsistent based on typical patterns - responding to reviews (especially detailed wedding testimonials) amplifies positive sentiment and shows engagement","confidence":"medium","source":"Google Places API - response data not captured"},{"type":"info","text":"Only 6 one-star reviews out of 516 total (1.2%) indicates rare negative experiences, but these should be analyzed for common themes and addressed in responses","confidence":"high","source":"Google Places API"}],"metrics":[{"label":"Google Rating","value":"4.8 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"516","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement systematic review response protocol: respond to every review within 48 hours with personalized thank-yous that mention specific details (guest names, event type, features they praised) - particularly important for detailed wedding reviews that influence booking couples","time_estimate":"30 minutes per week ongoing","impact":"Demonstrate owner engagement, provide additional context for potential guests reading reviews, and improve local search ranking factors","priority":"high"},{"text":"Create post-stay review request system: send personalized email 2-3 days after checkout with direct Google review link, especially to wedding couples and corporate groups whose detailed testimonials carry most weight","time_estimate":"2 hours setup, 15 minutes per booking ongoing","impact":"Maintain review momentum (currently 516 reviews, goal should be 100+ new reviews per year), provide steady stream of fresh content signaling active business","priority":"high"},{"text":"Analyze all 6 one-star reviews for patterns and address common complaints publicly in responses if not already done - transparency in handling criticism builds trust with potential guests","time_estimate":"1 hour","impact":"Turn potential negatives into positive demonstrations of customer service, provide context that may mitigate concerns for wedding couples researching venue","priority":"medium"},{"text":"Manually verify and optimize TripAdvisor profile (detected on website but not verified in scan) - claim listing if unclaimed, ensure consistency with Google profile, add professional photos matching website quality","time_estimate":"2-3 hours","impact":"Capture wedding venue comparison traffic from TripAdvisor, establish presence on platform many destination tourism clients consult alongside Google","priority":"medium"},{"text":"Add review widgets to website showcasing Google rating and recent testimonials on wedding and accommodation pages - currently reviews are on Google but not leveraged on-site","time_estimate":"1-2 hours","impact":"Increase on-site conversion by displaying social proof at critical decision points in booking journey","priority":"medium"},{"text":"Create highlight reel from review quotes for social media content - leverage phrases like 'stunning venue,' 'breathtaking views,' 'top notch service' from actual guests in Instagram posts and stories","time_estimate":"1 hour to compile quotes, ongoing use in content","impact":"Amplify positive reputation across social channels, provide authentic testimonial content that resonates more than branded messaging","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":86,"grade":"B+","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":1,"platforms":["TripAdvisor"]},"score":70,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["contact"],"clickable":true,"score":50,"details":{"telLinkCount":1}},"score":50,"source":"Website Analysis","details":["contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":3,"samplePrices":["$350","$225","$275"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"header","score":100,"details":{"ctaElements":1,"platforms":["TripAdvisor"]}},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Strong booking infrastructure with clear pricing and TripAdvisor integration, but phone visibility limited to footer reduces conversion for high-value wedding and corporate inquiries that prefer direct contact","findings":[{"type":"positive","text":"Clear pricing transparency with exact rates ($350, $225, $275) displayed helps qualify leads and reduces inquiry friction for accommodation bookings","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Prominent Book Now button in header with TripAdvisor integration provides immediate booking path for spontaneous accommodation bookings","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Phone number includes clickable tel: link allowing mobile users to call with one tap, reducing friction for immediate contact","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Email address visible on site provides alternative contact method for detailed wedding or corporate retreat inquiries","confidence":"high","source":"Website scrape"},{"type":"negative","text":"Phone number (604-796-1210) only appears in footer and contact page, not prominently displayed in header where wedding couples and corporate planners expect to find it for high-value custom quotes","confidence":"high","source":"Website scrape"},{"type":"warning","text":"Single booking platform (TripAdvisor) detected - adding direct booking system could reduce OTA commission costs and increase revenue per booking","confidence":"high","source":"Website scrape"},{"type":"info","text":"Website shows packages (Bed & Breakfast Getaway, Long Table Dinner, Mid-Week Stays) suggesting experience bundling strategy that could benefit from more prominent booking CTAs on package pages","confidence":"medium","source":"Website content analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Move phone number (604-796-1210) to website header as prominent clickable element next to Book Now button - wedding and corporate clients typically prefer calling for custom quotes rather than online booking","time_estimate":"15-30 minutes","impact":"Reduce conversion friction for highest-value booking segments (weddings, multi-day corporate retreats), potentially increase phone inquiry volume 20-30%","priority":"high"},{"text":"Add direct booking system alongside TripAdvisor to capture commission-free reservations - consider platforms like Checkfront, Rezdy, or Lodgify designed for lodge/accommodation properties","time_estimate":"8-12 hours setup, 1 hour per month management","impact":"Reduce 15-20% OTA commission costs on direct bookings, increase control over availability and pricing, capture guest data for remarketing","priority":"high"},{"text":"Create dedicated inquiry forms for wedding and corporate retreat bookings with specific fields (guest count, date flexibility, package interests) - generic contact form doesn't capture qualification details for custom quotes","time_estimate":"2-3 hours","impact":"Improve lead quality by collecting essential details upfront, reduce back-and-forth email exchanges, allow faster custom quote generation","priority":"high"},{"text":"Add live chat or chatbot to website for immediate visitor questions during research phase - particularly valuable for wedding couples comparing multiple venues","time_estimate":"3-4 hours setup, 30 min daily monitoring","impact":"Capture leads that would otherwise leave site without engaging, answer common questions immediately, increase inquiry conversion rate 10-15%","priority":"medium"},{"text":"Implement abandoned booking follow-up system - if visitors start booking process but don't complete, trigger automated email with incentive or personal follow-up offer","time_estimate":"4-5 hours setup (requires booking system integration)","impact":"Recover 10-20% of abandoned bookings common in multi-day accommodation segment, particularly for couples price-comparing wedding venues","priority":"medium"},{"text":"Add Book Now CTAs to all package pages (Bed & Breakfast Getaway, Long Table Dinner, Mid-Week Stays) - currently promotional content lacks immediate conversion mechanism","time_estimate":"1 hour","impact":"Convert package interest into bookings more efficiently, reduce steps between discovery and reservation","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":79,"grade":"B-","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":51504,"score":100,"source":"SociaVault"},"engagement_rate":{"value":20.38,"score":100,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":0.1,"score":25,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","youtube","instagram"]},"score":85,"source":"SociaVault"},"content_quality":{"value":{"images":0,"carousels":3,"reels":9,"reelPercent":75},"score":65,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Impressive 51,504 follower base and exceptional engagement rate (20.38% Instagram) undermined by severe posting inconsistency (0.1 posts/week) that wastes massive audience potential and limits discovery by new guests","findings":[{"type":"positive","text":"Exceptional 20.38% Instagram engagement rate (industry average is 1-3%) indicates highly engaged, relevant follower base despite posting inconsistency","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"One Instagram Reel achieved viral performance with 97,572 likes and 818,104 views - 11.85x average engagement proves capability to create breakthrough content","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Instagram verified account status (blue checkmark) establishes authenticity and trust, particularly important for wedding venue credibility","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Strong Reel-first strategy (75% of content) aligns with Instagram algorithm preferences for video content and maximizes organic reach potential","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Active Facebook/Instagram advertising demonstrates commitment to paid social marketing and explains strong follower growth","confidence":"high","source":"Facebook Ad Library"},{"type":"positive","text":"Massive YouTube content library of 499 videos and 1.37M total views represents huge untapped asset for Reels/TikTok repurposing","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Critical posting inconsistency: 0.1 posts per week (roughly 1 post every 2-3 months) essentially abandons 40,504 Instagram followers and wastes audience potential","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Only 12 total Instagram posts for account with 40,504 followers indicates followers came from advertising or single viral post, not organic content - creates expectation mismatch when new followers see empty feed","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Six platform presence (Instagram, Facebook, TikTok, YouTube, LinkedIn, Pinterest) overextends limited content capacity - spreading too thin prevents excellence on any single platform","confidence":"high","source":"Website social links, SociaVault API"},{"type":"warning","text":"YouTube posting appears to have stopped (0 videos/month) despite 1,380 subscribers and 499-video archive - another platform being neglected","confidence":"high","source":"SociaVault API"},{"type":"warning","text":"Facebook advertising without consistent organic posting creates poor ROI - followers acquired through ads see inactive feed and disengage","confidence":"high","source":"SociaVault API, Facebook Ad Library"}],"metrics":[{"label":"Total Followers","value":"51,504","status":"good","source":"SociaVault"},{"label":"Engagement Rate","value":"20.38%","status":"good","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"0.1 posts/week","status":"critical","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Immediately establish consistent Instagram posting schedule of minimum 3 posts per week (Monday/Wednesday/Friday) to engage 40,504 followers currently seeing almost no content - create 30-day content calendar mixing Bison Suites tours, mountain views, fishing content, wedding venue highlights","time_estimate":"4 hours monthly to plan calendar + 30-45 minutes per post (total 3-4 hours weekly)","impact":"Re-engage dormant follower base, improve algorithmic distribution through posting consistency, increase booking inquiries from social by estimated 40-60% as followers remember you exist","priority":"high"},{"text":"Implement monthly batch content creation day - dedicate one day per month to shooting 12-15 photos/videos across property (sunrise/sunset, different seasons, various activities) to sustain 3x/week posting without daily content pressure","time_estimate":"6-8 hours monthly for shooting + 2 hours for editing/scheduling","impact":"Create sustainable content workflow that doesn't require daily effort, ensure visual variety and quality consistency, reduce posting anxiety that likely caused current abandonment","priority":"high"},{"text":"Repurpose YouTube video library (499 videos) into Instagram Reels and TikTok clips - extract 30-60 second highlights from fishing trips, venue tours, wedding ceremonies, wilderness activities to create months of content from existing assets","time_estimate":"8-10 hours to audit library and identify best clips + 1-2 hours weekly to edit and post","impact":"Multiply content output without new shooting requirements, leverage existing high-quality video assets, establish presence on TikTok for younger wedding couple demographic","priority":"high"},{"text":"Abandon or drastically reduce LinkedIn, Pinterest, and potentially TikTok to focus exclusively on Instagram (primary) and Facebook (secondary with active ads) where you have actual audience and advertising infrastructure - spreading across 6 platforms with 0.1 posts/week capacity guarantees failure everywhere","time_estimate":"1 hour to make strategic decision and archive low-priority accounts","impact":"Focus limited resources on platforms with proven ROI, achieve excellence on 2 platforms rather than mediocrity on 6, reduce overwhelm that likely caused posting abandonment","priority":"high"},{"text":"Create Instagram Story Highlights for permanent categories: Wedding Venue (ceremony/reception photos), Bison Suites (room tours), Fishing Adventures (guided trips), Indigenous Heritage (Cheam First Nations connection), Guest Reviews (testimonial screenshots) - currently no organized evergreen content","time_estimate":"3-4 hours to create initial Highlights from existing content and design cover images","impact":"Provide wedding couples and corporate planners researching your profile with organized venue information, keep important content accessible beyond 24-hour Story expiration, improve profile conversion rate","priority":"medium"},{"text":"Launch Instagram Stories strategy posting 3-5 Stories daily showing behind-the-scenes property life, seasonal changes, guest experiences, staff highlights - Stories drive majority of daily engagement and feed algorithm distribution","time_estimate":"15-20 minutes daily","impact":"Stay top-of-mind with followers between feed posts, humanize brand through authentic daily moments, trigger algorithm to show your feed posts to more followers","priority":"medium"},{"text":"Optimize Facebook advertising to support organic content strategy - ensure ads drive to specific landing pages (wedding packages, accommodation booking) not just profile follows, implement retargeting campaigns for website visitors who didn't book","time_estimate":"2-3 hours monthly campaign optimization","impact":"Improve advertising ROI by converting followers to website visitors to bookings rather than just growing vanity follower metrics, capture warm leads who researched but didn't commit","priority":"medium"},{"text":"Install Meta Pixel tracking and Google Analytics event tracking to measure social media traffic conversion - currently likely blind to which social efforts drive actual bookings versus just engagement","time_estimate":"2-3 hours setup","impact":"Understand true ROI of social media efforts, identify which content types and platforms drive bookings not just likes, optimize advertising spend based on conversion data","priority":"medium"},{"text":"Engage with followers through comments and DMs within 24 hours - 40,504 followers likely include many potential wedding couples and corporate planners who commented on posts or sent inquiries that went unanswered","time_estimate":"30 minutes daily","impact":"Convert social engagement into booking conversations, build relationships with potential high-value clients, demonstrate responsive customer service that influences venue selection","priority":"medium"},{"text":"Create user-generated content strategy encouraging guests to tag @fraserriverlodge and use branded hashtag like #FraserRiverLodge in wedding and stay photos - repost best content to feed with permission","time_estimate":"1 hour setup + 30 minutes weekly to identify and repost UGC","impact":"Generate authentic content showing real guest experiences, reduce content creation burden, provide social proof more powerful than branded content","priority":"low"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":81,"grade":"B","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"partial","score":60,"details":{"daysFound":["thursday","friday","sunday"]}},"score":60,"source":"Website Analysis","details":"partial"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Comprehensive visitor information including maps, parking, and accessibility details serves guests well, though hours information incomplete and lack of multi-language support limits international appeal","findings":[{"type":"positive","text":"Map and directions information available on website helps guests navigate to rural Agassiz location 90 minutes from Vancouver","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Parking information displayed on site reduces anxiety for wedding guests and corporate groups unfamiliar with rural property layout","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Accessibility information provided demonstrates inclusive approach and helps guests with mobility needs plan appropriately","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Email (info@fraserriverlodge.com) visible on website provides contact path for detailed pre-arrival questions","confidence":"high","source":"Website scrape, SEOptimer"},{"type":"warning","text":"Hours information incomplete - only Thursday, Friday, Sunday detected when full 7-day schedule expected for lodge property with check-in times, office hours, and activity scheduling","confidence":"high","source":"Website scrape"},{"type":"warning","text":"No multi-language support detected limits appeal to international visitors, particularly concerning given BC's strong Asian tourism market (Chinese, Japanese, Korean visitors common to Fraser Valley)","confidence":"high","source":"Website scrape"},{"type":"info","text":"Phone number (604-796-1210) and address (7984 McDonald Rd S, Agassiz, BC V0M 1A2) clearly displayed ensures guests can find and contact property","confidence":"high","source":"Website scrape, Google Places API"}],"metrics":[{"label":"Hours Displayed","value":"Partial - only Thursday, Friday, Sunday shown","benchmark":"Complete weekly hours expected for all tourism businesses","status":"warning","confidence":"high","source":"Website scrape","tooltip":"Hours found but incomplete - only 3 of 7 days detected"},{"label":"Directions/Map","value":"Available on website","benchmark":"Essential for destination properties outside urban cores","status":"good","confidence":"high","source":"Website scrape","tooltip":"Map or directions information detected"},{"label":"Parking Information","value":"Available on website","benchmark":"Important for event venues hosting weddings and groups","status":"good","confidence":"high","source":"Website scrape","tooltip":"Parking details found on website"},{"label":"Accessibility Information","value":"Available on website","benchmark":"Critical for inclusive tourism and ADA compliance","status":"good","confidence":"high","source":"Website scrape","tooltip":"Accessibility information detected"},{"label":"Multi-Language Support","value":"Not detected","benchmark":"French recommended for Canadian tourism, Asian languages for BC market","status":"warning","confidence":"high","source":"Website scrape","tooltip":"No multi-language functionality found"},{"label":"Weather Information","value":"Manual verification recommended","benchmark":"Helpful for activity planning and packing guidance","status":"info","confidence":"low","source":"Website scrape - not definitively detected","tooltip":"Weather widget or seasonal information not verified"},{"label":"What to Bring / Packing Lists","value":"Manual verification recommended","benchmark":"Useful for multi-day stays and activity bookings","status":"info","confidence":"low","source":"Website scrape - not definitively detected","tooltip":"Packing guidance not verified in automated scan"}],"recommendations":[{"text":"Complete hours information to show full weekly schedule including office hours, check-in/check-out times, restaurant/dining hours if applicable, and after-hours contact procedures for emergencies during multi-day stays","time_estimate":"30 minutes","impact":"Reduce guest confusion about availability and check-in logistics, decrease after-hours phone calls from guests with basic timing questions","priority":"high"},{"text":"Add multi-language support starting with simplified Chinese given BC's significant Asian tourism market and Fraser Valley's proximity to Vancouver's Chinese-Canadian population - at minimum translate key pages (accommodations, weddings, booking)","time_estimate":"8-12 hours for professional translation + 2 hours website integration","impact":"Open market to Asian wedding couples and international tourists who represent growing segment of BC tourism, demonstrate cultural inclusivity that aligns with Indigenous values","priority":"medium"},{"text":"Create comprehensive FAQ section covering common pre-arrival questions: what to pack for different seasons, weather patterns, cell phone coverage, nearby amenities (grocery stores, gas stations), activity difficulty levels, dietary accommodations","time_estimate":"3-4 hours","impact":"Reduce repetitive pre-arrival email inquiries consuming staff time, improve guest preparedness leading to better on-site experiences and reviews","priority":"medium"},{"text":"Add weather widget or seasonal guide explaining Fraser Valley climate by season to help guests pack appropriately and set expectations for mountain weather variability","time_estimate":"1-2 hours","impact":"Reduce guest complaints about unexpected weather, improve packing preparedness particularly for wedding guests unfamiliar with mountain conditions","priority":"low"},{"text":"Create downloadable PDF guest guide for pre-arrival email with essential information: directions with landmarks, parking instructions, check-in procedures, wifi details, emergency contacts, area attractions - allows offline reference during travel","time_estimate":"4-5 hours to create, 5 minutes per booking to send","impact":"Enhance guest experience through thorough preparation, reduce day-of-arrival confusion and check-in delays, demonstrate professionalism that influences reviews","priority":"low"},{"text":"Add area attraction guide or partnership information for nearby activities (Harrison Hot Springs, Bridal Veil Falls, Fraser Canyon tours) helping guests plan full Fraser Valley itineraries that increase length of stay","time_estimate":"3-4 hours","impact":"Extend guest stays from 1-2 nights to 2-3 nights by providing broader trip planning value, position lodge as Fraser Valley destination hub not just accommodation","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Excellent local SEO foundation with claimed Google Business Profile, strong NAP consistency, and local keyword optimization, though backlink profile and directory presence could be expanded","findings":[{"type":"positive","text":"Google Business Profile fully claimed and verified with strong 4.8-star rating prominently displayed, ensuring high visibility in Google Maps and local search results","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Excellent NAP consistency with phone (604-796-1210) and address (7984 McDonald Rd S, Agassiz, BC V0M 1A2) matching across website and Google Business Profile","confidence":"high","source":"Website scrape, Google Places API, SEOptimer"},{"type":"positive","text":"Strong local keyword optimization with 'Fraser River Lodge' appearing 15 times, plus 'lodge' (17x), 'corporate retreat' (6x) in title, meta description, and headers","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"LocalBusiness schema properly implemented with complete details (address, phone, email, aggregate rating) helping search engines understand business entity","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Impressive backlink profile with 486 referring domains including high-authority sources like BBC Travel (DA 98), Webflow (DA 96), and Matador Network (DA 89) providing strong trust signals","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Strong domain authority of 52 indicates established online presence and competitive positioning in BC tourism search landscape","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Page title 'Travel BC Indigenous-Owned Lodge | Fraser River Lodge' effectively combines brand, location, and unique selling proposition for search optimization","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Ranking #1 in Canada for multiple high-value keywords: 'fraser river lodge' (5,400 monthly searches), 'fraser valley lodge', 'fraser river lodge wedding'","confidence":"high","source":"SEOptimer keyword rankings"},{"type":"warning","text":"Backlink profile quality varies significantly - while top links are excellent (BBC, Travel Weekly), the bulk of 79,766 backlinks likely includes lower-quality sources that provide minimal SEO value","confidence":"medium","source":"SEOptimer"},{"type":"info","text":"Top anchor text 'Fraser River Lodge' (78,493 backlinks) shows natural link profile but could benefit from more varied anchor text including 'BC wedding venue', 'Indigenous lodge BC', 'Fraser Valley retreat'","confidence":"medium","source":"SEOptimer"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified","benchmark":"Essential for local tourism discovery","status":"good","confidence":"high","source":"Google Places API","tooltip":"GBP verified and linked to website"},{"label":"NAP Consistency","value":"Address and phone present on website and GBP","benchmark":"Name, Address, Phone must match across all platforms","status":"good","confidence":"high","source":"Website scrape, Google Places API","tooltip":"Phone and address detected consistently"},{"label":"Local Keywords","value":"Present - Fraser River, Agassiz, BC, Fraser Valley terms detected","benchmark":"Location terms should appear in title, meta, content","status":"good","confidence":"high","source":"SEOptimer keyword analysis","tooltip":"Local geographic keywords found in page optimization"},{"label":"Local Business Schema","value":"Implemented with address, phone, rating, email","benchmark":"Schema markup helps search engines understand business details","status":"good","confidence":"high","source":"SEOptimer","tooltip":"LocalBusiness schema detected with complete information"},{"label":"Google Maps Integration","value":"Embedded map detected on website","benchmark":"Map embed improves user experience and local signals","status":"good","confidence":"high","source":"Website scrape","tooltip":"Google Maps embed found on website"},{"label":"Backlink Quality","value":"486 referring domains, 79,766 total backlinks","benchmark":"100+ referring domains is solid, quality matters more than quantity","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Strong backlink profile including BBC, Travel Weekly, DailyHive"},{"label":"Local Directory Presence","value":"Manual verification recommended","benchmark":"Should be listed in Tourism BC, Destination BC, local chambers","status":"info","confidence":"low","source":"Not included in automated scan","tooltip":"Directory listings not verified in scan"}],"recommendations":[{"text":"Verify and claim listings on key BC tourism directories if not already done: Tourism BC, Destination BC, Destination British Columbia Indigenous Tourism BC, HelloBC, TripAdvisor, and Fraser Valley regional tourism associations - ensure NAP consistency across all","time_estimate":"3-4 hours for initial audit and claims","impact":"Increase local search visibility through citation building, capture traffic from tourism-specific directory searches, improve local SEO authority signals","priority":"high"},{"text":"Optimize Google Business Profile with additional features: add Q&A section with pre-answered common questions, post weekly updates about availability or events, upload professional photos monthly, enable messaging for direct GBP inquiries","time_estimate":"2 hours initial setup + 30 minutes weekly maintenance","impact":"Increase Google Maps engagement, improve local pack rankings, capture more zero-click searches where users book directly from GBP","priority":"high"},{"text":"Create location-specific landing pages targeting nearby search terms: 'Agassiz wedding venues', 'Harrison Hot Springs area lodges', 'Chilliwack corporate retreats', 'Fraser Canyon accommodations' to capture broader regional searches","time_estimate":"6-8 hours for 3-4 location pages","impact":"Rank for adjacent geographic searches from visitors comparing nearby options, capture traffic currently going to Harrison competitors","priority":"medium"},{"text":"Build local partnership backlinks with complementary businesses: Harrison Hot Springs resorts (for referral exchanges), Fraser Valley wineries, Bridal Veil Falls Provincial Park, fishing guide services, wedding vendors (photographers, caterers, planners) - request reciprocal links or directory inclusions","time_estimate":"4-5 hours for outreach + ongoing relationship management","impact":"Acquire high-relevance local backlinks, create referral network for extended-stay packages, improve topical authority for 'Fraser Valley tourism' searches","priority":"medium"},{"text":"Create Indigenous tourism content highlighting Cheam First Nations ownership and cultural elements to capture growing 'Indigenous tourism BC' search segment - develop dedicated page explaining cultural significance, land acknowledgment, authentic experiences","time_estimate":"5-6 hours for content development","impact":"Differentiate from competitors, capture Indigenous tourism searchers (growing 15% annually), strengthen unique positioning in crowded market","priority":"medium"},{"text":"Add location-specific FAQ schema markup answering common questions like 'How far is Fraser River Lodge from Vancouver?', 'What is there to do in Agassiz?', 'Best time to visit Fraser Valley?' to capture featured snippets","time_estimate":"2-3 hours","impact":"Increase chances of appearing in Google featured snippets, capture voice search queries, improve click-through rates from SERP features","priority":"low"},{"text":"Monitor and respond to Google Business Profile questions section regularly - pre-seed with 10-15 common questions and answers about weddings, fishing, accommodations, accessibility to provide immediate information to searchers","time_estimate":"1 hour initial setup + 15 minutes weekly monitoring","impact":"Reduce booking friction by answering questions before users leave GBP, demonstrate active management, improve conversion from map searches","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Immediately establish consistent Instagram posting schedule of minimum 3 posts per week to engage 40,504 followers currently abandoned - create 30-day content calendar mixing Bison Suites tours, mountain views, fishing content, wedding highlights, repurposing from YouTube's 499-video library","time_estimate":"4 hours monthly planning + 30-45 minutes per post (3-4 hours weekly ongoing)","impact":"high","expected_result":"Re-engage dormant follower base wasting massive audience potential, increase booking inquiries from social by estimated 40-60%, improve algorithmic distribution to grow beyond current 40,504 followers organically","confidence":"high"},{"priority":2,"category":"Website & Technical Foundation","text":"Add descriptive alt text to all 117 missing images, prioritizing activity photos (fishing, weddings, hot tubs, Bison Suites) with keyword-rich descriptions like 'Fraser River sturgeon fishing with guide' or 'mountain view wedding ceremony at Indigenous-owned Fraser River Lodge'","time_estimate":"2-3 hours one-time","impact":"high","expected_result":"Improve accessibility compliance for visually impaired visitors, boost image search visibility for 'BC wedding venues', 'Fraser Valley fishing lodge', and other key activity searches driving discovery, help AI search engines better understand offerings","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Implement systematic review response protocol responding to every Google review within 48 hours with personalized thank-yous mentioning specific details (guest names, praised features like Bison Suites or mountain views) - currently 516 reviews likely have inconsistent responses","time_estimate":"30 minutes per week ongoing","impact":"high","expected_result":"Signal active engagement to potential wedding couples and corporate planners researching venue, provide additional context influencing booking decisions, improve local search ranking factors tied to review engagement","confidence":"high"},{"priority":4,"category":"Online Booking & Conversion","text":"Move phone number (604-796-1210) to prominent clickable position in website header next to Book Now button - currently buried in footer/contact page where wedding couples and corporate planners expecting to call for custom quotes cannot easily find it","time_estimate":"15-30 minutes one-time","impact":"high","expected_result":"Reduce conversion friction for highest-value booking segments (weddings averaging multiple thousands, multi-day corporate retreats), potentially increase phone inquiry volume 20-30% from visitors who prefer calling over online forms","confidence":"high"},{"priority":5,"category":"Social Media & Content","text":"Abandon LinkedIn, Pinterest, and reduce TikTok efforts to focus exclusively on Instagram (40,504 followers) and Facebook (11,000 followers with active ads) where you have proven audience - spreading across 6 platforms with 0.1 posts/week capacity guarantees continued failure","time_estimate":"1 hour strategic decision + reclaim 2-3 hours weekly previously spent on inactive platforms","impact":"high","expected_result":"Focus limited resources on 2 platforms with actual ROI potential, achieve posting consistency and excellence on core channels rather than sporadic mediocrity everywhere, reduce overwhelm enabling sustainable content strategy","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.8★ rating, 516 reviews, 100% recent)","Website technical performance (97/100 mobile/desktop speed)","Social media follower counts and engagement rates (Instagram 40,504 followers, 20.38% engagement)","Website content analysis (booking capability, phone/email visibility, pricing transparency)","SEO technical audit (alt text gaps, heading structure, backlink profile)","Local SEO signals (GBP claimed, NAP consistency, keyword optimization)"],"low_confidence_areas":["Review response rate on Google (API did not capture owner responses)","TripAdvisor rating and review count (presence detected via booking link but metrics not verified)","Yelp presence and rating (not included in scan)","Complete hours information (only partial days detected)","Contact form presence and functionality (not definitively verified)","Local tourism directory listings (Tourism BC, Destination BC, Indigenous Tourism BC membership not verified)","Paid advertising budget and ROI metrics (ads detected but performance data not available)","YouTube posting frequency and recent activity (large archive but current status unclear)"],"recommendations_for_fuller_picture":["Manual audit of review response patterns across Google, TripAdvisor, Facebook to assess engagement quality","TripAdvisor account verification to capture rating, review count, and ranking in Agassiz/Fraser Valley","Tourism directory presence check (Tourism BC, Destination BC, HelloBC, Indigenous Tourism BC) to identify citation gaps","Complete hours audit ensuring all 7 days displayed with check-in times, office hours, seasonal variations","Paid advertising performance analysis from Facebook Ads Manager and Google Analytics to measure social ROI","Competitor analysis comparing Fraser River Lodge digital presence to Harrison Hot Springs properties and other Fraser Valley wedding venues","Guest survey or booking attribution data to understand which digital channels actually drive reservations versus vanity metrics"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-17T20:51:58.116Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-17T20:46:12.578Z","confidence":"high","missingDataFlags":[]}};</script>
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Fraser River Lodge demonstrates strong digital fundamentals with excellent reviews (4.8 stars, 519 reviews) and exceptional social media engagement (20.42% on Instagram), though opportunities exist to optimize website conversion elements and expand social content strategy.","key_strengths":["Outstanding reputation with 4.8-star Google rating from 519 reviews, with 100% of recent reviews from past 18 months showing active engagement","Exceptional Instagram engagement rate of 20.42% (far above tourism industry average of 1-3%), with one viral reel achieving 818K views","Strong technical foundation with 97/100 mobile and desktop speed scores, complete booking capability via TripAdvisor, and clear pricing transparency ($225-$350 range visible)"],"critical_gaps":["Social media posting frequency below potential at 10.9 posts/week on Instagram with heavy reliance on reels (75% of content), while YouTube channel with 503 videos remains underutilized with no recent uploads","Website missing complete business hours information (only Thursday, Friday, Sunday shown), and meta description/tags not fully optimized for local search visibility","Limited platform integration for direct booking (only TripAdvisor detected), creating potential friction for guests who prefer alternative booking methods"],"bottom_line":"Fraser River Lodge has built exceptional guest trust through stellar reviews and is successfully engaging social audiences with short-form video content. The priority now is to reduce booking friction by adding direct booking options, complete the on-site information for visitor planning, and leverage the existing 1.37M YouTube views with consistent video content to capture guests researching mountain lodge experiences in BC's Fraser Valley."},"quick_wins":[{"task":"Add complete business hours for all seven days of the week to the website footer and Google Business Profile - currently only Thursday, Friday, and Sunday are shown","time_estimate":"15 minutes","impact":"Removes visitor uncertainty and reduces phone calls asking about hours, particularly important for weekend getaway planners","confidence":"high"},{"task":"Make phone number (604) 796-1210 clickable as a tel: link in the contact section to enable one-tap calling from mobile devices","time_estimate":"10 minutes","impact":"Improves mobile user experience for the 53%+ of visitors browsing on phones who want to call with booking questions","confidence":"high"},{"task":"Add alt text descriptions to the 119 images currently missing them, starting with key photos of Bison Suites, wedding venue, and fishing activities","time_estimate":"2 hours","impact":"Improves accessibility for visually impaired visitors and provides additional SEO value for image search discovery","confidence":"high"},{"task":"Respond to recent Google reviews with personalized thank-you messages mentioning specific details from their stay (wedding, anniversary, corporate retreat, etc.)","time_estimate":"30 minutes weekly","impact":"Increases review response rate from current 60% baseline, shows prospective guests that you value feedback, and can boost SEO through fresh content signals","confidence":"high"},{"task":"Create 3-5 YouTube Shorts from existing Instagram reels (especially the 818K-view viral reel) to cross-pollinate your 1,390 YouTube subscribers with Instagram's high-performing content","time_estimate":"45 minutes","impact":"Reactivates dormant YouTube channel with zero ongoing production effort, captures guests researching 'Fraser Valley lodges' and 'BC wedding venues' on YouTube","confidence":"high"}],"tourism_context":{"visitor_profile":"Fraser River Lodge attracts three primary guest segments: wedding parties seeking mountain venue with Indigenous cultural elements (evidenced by multiple wedding photographer reviews), corporate groups booking retreats and team-building experiences including guided fishing, and couples/small groups seeking luxury weekend getaways in the Bison Hot Tub Suites. The Indigenous ownership (100% Cheam First Nations) and Authentic Indigenous Designation adds cultural tourism appeal for domestic and international visitors seeking authentic BC experiences beyond Vancouver.","discovery_journey":"Visitors discover Fraser River Lodge through three main pathways: wedding venue searches ('BC mountain wedding venues', 'Indigenous wedding venues'), fishing trip searches ('Fraser River sturgeon fishing', 'BC fishing lodges'), and Fraser Valley getaway searches ('Agassiz lodges', 'Harrison BC area stays'). The 1.5-hour drive from Vancouver positions it as a convenient weekend escape, while proximity to Harrison Hot Springs, Bridal Veil Falls, and Fraser Valley wine country supports multi-day itinerary integration. High TripAdvisor integration suggests guests research through accommodation booking platforms first.","seasonal_considerations":"Content strategy should reflect distinct seasonal peaks: wedding season (May-October based on review timestamps), sturgeon fishing season (year-round but peaks spring/fall), and winter corporate retreat season (November-February for holiday parties and team planning). The 'Long Table Dinner' seasonal event and fishing report content indicate understanding of seasonal programming. Social content mixing wedding venue beauty shots, fishing action, and cozy winter suite ambiance can maintain year-round engagement.","trip_integration":"Fraser River Lodge serves as both a destination stay (2-3 night wedding weekends, corporate multi-day retreats) and as an activity hub within Fraser Valley itineraries. Guests combine visits with Harrison Hot Springs (15 minutes away), Bridal Veil Falls, tulip festivals, and Fraser Valley wineries. The on-site activities (fishing, bison viewing, mountain views) position it as a contained experience, reducing need for guests to leave property - important for wedding groups and corporate retreats seeking convenience."},"overall":{"score":89,"grade":"A-","confidence":"high","scoreBreakdown":{"website_technical":{"score":86,"weight":0.15,"contribution":12.9},"reviews_reputation":{"score":93,"weight":0.25,"contribution":23.25},"booking_conversion":{"score":89,"weight":0.2,"contribution":17.8},"social_media":{"score":92,"weight":0.2,"contribution":18.4},"guest_experience":{"score":81,"weight":0.1,"contribution":8.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":86,"grade":"B+","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"mobile_speed":{"value":97,"score":97,"source":"SEOptimer","grade":"A+"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Website demonstrates excellent performance metrics with 97/100 scores on both mobile and desktop speed, proper SSL implementation, and mobile optimization. Minor improvements needed in meta tag completion and image optimization for search engines.","findings":[{"type":"positive","text":"Outstanding page speed performance with 97/100 on both mobile and desktop, placing Fraser River Lodge in the top tier of tourism websites for loading speed","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Website built on modern Webflow platform with HTTP/2 protocol, Cloudflare CDN, and 37% compression rate enabling fast global delivery","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Proper implementation of mobile viewport, SSL certificate, and core web vitals (0 cumulative layout shift, 1.456s largest contentful paint)","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"83% of images (119 of 143) are missing alt text descriptions, limiting accessibility for visually impaired visitors and reducing image search visibility for key terms like 'BC wedding venue' and 'Fraser Valley fishing lodge'","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Website uses iFrames (likely for Google Maps embed) and render-blocking resources adding 6.65 seconds delay on mobile, though overall speed remains strong","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Homepage has 798 images which, while visually rich for showcasing the property, creates complexity for ongoing maintenance and alt text management","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Desktop Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"97/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add descriptive alt text to all 119 images missing descriptions, prioritizing high-value images: venue photos (for wedding searches), Bison Suite interiors (for accommodation searches), and fishing activity shots (for experience searches). Use format: 'Fraser River Lodge [specific feature] - [context]' (e.g., 'Fraser River Lodge outdoor wedding ceremony space with mountain backdrop')","time_estimate":"3 hours (batch process)","impact":"Improves accessibility compliance, enhances image search visibility for high-intent queries like 'BC mountain wedding venue photos', and provides SEO benefit through keyword-rich descriptions","priority":"medium"},{"text":"Implement lazy loading for below-the-fold images to defer loading of images not immediately visible, reducing initial page weight from 4 MB","time_estimate":"1 hour (Webflow configuration)","impact":"Further improves mobile load time particularly on slower connections common in rural Fraser Valley areas","priority":"low"},{"text":"Add structured data markup for LocalBusiness with detailed properties including priceRange, amenityFeature (wifi, parking, accessibility), and availableChannel (TripAdvisor) to enhance search result appearance","time_estimate":"2 hours (implementation and testing)","impact":"Enables rich snippets in Google search results showing ratings, price range, and amenities directly in search listings","priority":"medium"}],"data_sources":["SEOptimer API","Website Content Analysis"]},"reviews_reputation":{"score":93,"grade":"A","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.8,"score":92,"source":"Google Places API"},"review_volume":{"value":519,"score":100,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Exceptional reputation foundation with 4.8-star Google rating from 519 reviews demonstrating consistent guest satisfaction. All recent reviews (100% from past 18 months) indicate active business and strong recent performance, particularly from wedding couples and photographers praising the venue.","findings":[{"type":"positive","text":"Outstanding 4.8-star rating from 519 Google reviews places Fraser River Lodge in the top tier of BC accommodation properties, with 96% of reviews at 4-5 stars","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent reviews highlight specific strengths: wedding venue praised for 'stunning' mountain views and 'intimate' atmosphere, Bison Suites described as 'perfect' with very large king rooms and private hot tubs, and food consistently described as 'top notch' and 'fabulous'","confidence":"high","source":"Google Places API - Review Content Analysis"},{"type":"positive","text":"Wedding photographer testimonial ('one of the most stunning venues I've had the pleasure of shooting at') provides third-party professional validation that influences venue selection by engaged couples","confidence":"high","source":"Google Places API - Review Content Analysis"},{"type":"positive","text":"100% of sampled recent reviews are from past 18 months (5 of 5), indicating active business operations and consistent guest satisfaction through current period","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Reviews mention specific amenities that reduce booking friction: on-site everything from getting-ready suites to ceremony to reception, large accommodations perfect for groups, quality bar selection, and attentive service","confidence":"high","source":"Google Places API - Review Content Analysis"},{"type":"negative","text":"Review response rate data incomplete - responding to reviews (especially the 6 one-star reviews) demonstrates customer service commitment and can convert fence-sitters researching the property","confidence":"medium","source":"Google Places API"}],"metrics":[{"label":"Google Rating","value":"4.8 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"519","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement systematic review response protocol: respond to all reviews within 48 hours with personalized messages that mention specific details from their review (their wedding date, fishing catch, suite number, etc.). For negative reviews, acknowledge the concern and offer offline resolution contact","time_estimate":"30 minutes weekly (ongoing)","impact":"Increases review response rate toward 90%+ target, shows prospective guests you value feedback, and can recover relationships with dissatisfied guests before they share complaints elsewhere","priority":"high"},{"text":"Add review generation to post-stay email sequence: send personalized follow-up email 3-5 days after checkout thanking guests and including direct Google review link. For wedding clients, wait 2-3 weeks to allow honeymoon period before requesting review","time_estimate":"2 hours setup (automated email sequence), 15 minutes weekly monitoring","impact":"Increases review volume from current 519 baseline, maintains momentum of recent reviews (100% from past 18 months), and captures feedback while experience is fresh","priority":"medium"},{"text":"Create testimonial showcase page on website featuring best review excerpts organized by guest type (weddings, corporate, couples getaway, fishing trips) with photos where permission granted, linking to full Google and TripAdvisor profiles","time_estimate":"4 hours (design and content compilation)","impact":"Leverages existing 4.8-star rating and 519 reviews more prominently in booking journey, provides social proof at decision moment, and can improve conversion rate from website visitors to inquiries","priority":"medium"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":89,"grade":"A-","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":1,"platforms":["TripAdvisor"]},"score":70,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"score":50,"details":{"telLinkCount":1},"clickable":true,"locations":["contact"]},"score":50,"source":"Website Analysis","details":["contact"]},"pricing_visibility":{"value":{"found":true,"score":100,"details":{"priceCount":3,"samplePrices":["$350","$225","$275"]},"transparency":"exact"},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"type":"book_now","found":true,"score":100,"details":{"platforms":["TripAdvisor"],"ctaElements":1},"prominence":"header"},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Strong conversion foundation with clear booking capability via TripAdvisor, transparent pricing ($225-$350 range visible), and visible contact information. Primary opportunity is expanding booking platform options beyond single integration to reduce friction for guests preferring direct booking or alternative platforms.","findings":[{"type":"positive","text":"Clear booking capability through TripAdvisor integration with prominent 'Book Now' CTA in website header, providing immediate path to reservation for ready-to-book visitors","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Transparent pricing with exact amounts visible ($350, $225, $275) helps guests self-qualify and reduces inquiry friction - particularly important for wedding venue shoppers comparing multiple properties","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Complete contact information package with phone (604-796-1210, email, and physical address (7984 McDonald Rd S, Agassiz, BC) provides multiple inquiry pathways for different guest preferences","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Address visibility with map integration helps guests assess location relative to Vancouver (1.5 hours), Harrison Hot Springs (15 minutes), and other Fraser Valley destinations","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Single booking platform (TripAdvisor only) creates potential friction for guests who prefer direct booking, Booking.com, Expedia, or phone reservations - particularly for corporate groups needing custom quotes","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Phone number (604) 796-1210 is visible but not formatted as clickable tel: link, requiring mobile users (60%+ of traffic) to manually dial instead of one-tap calling","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add direct booking option alongside TripAdvisor integration using system like Bookings.com, Cloudbeds, or similar property management system that allows commission-free direct bookings while still feeding inventory to OTAs","time_estimate":"8-16 hours (system setup and testing)","impact":"Captures guests preferring direct booking (typically 30-40% of audience), eliminates 15-20% OTA commission on direct bookings, and provides more guest data for marketing","priority":"high"},{"text":"Add inquiry form specifically for wedding and corporate group bookings (separate from general reservations) that captures event date, guest count, and specific needs, routing to dedicated events coordinator","time_estimate":"2 hours (form creation and routing setup)","impact":"Reduces back-and-forth for high-value bookings (weddings average $15K+, corporate retreats $5K+), captures leads at consideration stage before they book elsewhere","priority":"high"},{"text":"Convert phone number (604) 796-1210 to clickable tel: link format throughout website, especially in header and contact page, enabling one-tap calling from mobile devices","time_estimate":"15 minutes","impact":"Reduces friction for mobile users (60%+ of traffic) wanting to call with booking questions, particularly important for last-minute availability checks","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":92,"grade":"A","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":51477,"score":100,"source":"SociaVault"},"engagement_rate":{"value":20.42,"score":100,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":10.9,"score":100,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","instagram","youtube"]},"score":88,"source":"SociaVault"},"content_quality":{"value":{"images":0,"carousels":3,"reels":9,"reelPercent":75},"score":65,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Exceptional social media performance with 51,477 total followers and outstanding 20.42% Instagram engagement rate (7-10x tourism industry average). Heavy focus on short-form video content (75% reels) demonstrates understanding of current platform algorithms, with viral success (818K views on top reel). Primary opportunity is reactivating YouTube channel with 503 existing videos and leveraging Facebook's 11,000 followers more consistently.","findings":[{"type":"positive","text":"Outstanding 20.42% Instagram engagement rate places Fraser River Lodge in the top 1% of tourism businesses on the platform, indicating highly responsive audience and effective content strategy","confidence":"high","source":"SociaVault API - Instagram Analytics"},{"type":"positive","text":"Viral reel success with 818K views and 97,416 likes (241% engagement rate - 11.82x average) on 'Your next adventure awaits' content demonstrates capability to create highly shareable content","confidence":"high","source":"SociaVault API - Instagram Reels Analytics"},{"type":"positive","text":"Strategic heavy focus on reels (75% of content - 9 of 12 recent posts) aligns with Instagram's algorithm prioritization of short-form video, resulting in higher reach than static posts","confidence":"high","source":"SociaVault API - Instagram Analytics"},{"type":"positive","text":"Wildlife content generates strong engagement: baby bison announcement received 565 likes and 30 comments, providing unique differentiator from competing lodges","confidence":"high","source":"SociaVault API - Instagram Analytics"},{"type":"positive","text":"Instagram bio effectively communicates key differentiators: 'Indigenous owned lodge, nature inspired, built for world-class gatherings & stays' with linktr.ee for multiple destination links","confidence":"high","source":"SociaVault API - Instagram Profile"},{"type":"negative","text":"YouTube channel has substantial foundation (1.37M total views across 503 videos, 1,390 subscribers) but shows no recent upload activity - missing search traffic for long-form venue research queries","confidence":"high","source":"SociaVault API - YouTube Analytics"},{"type":"negative","text":"Facebook's 11,000 followers show 0% engagement rate with no detected recent posts, suggesting platform is not actively managed despite being second-largest follower base","confidence":"high","source":"SociaVault API - Facebook Analytics"},{"type":"negative","text":"No active paid advertising campaigns detected despite ad-enabled account and strong organic content performance that could be amplified through paid promotion","confidence":"high","source":"Facebook/TikTok/LinkedIn/Google Ad Libraries"}],"metrics":[{"label":"Total Followers","value":"51,477","status":"good","source":"SociaVault"},{"label":"Engagement Rate","value":"20.42%","status":"good","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"10.9 posts/week","status":"good","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Reactivate YouTube channel with two-track strategy: (1) immediately upload 5-10 YouTube Shorts converted from best-performing Instagram reels (especially the 818K-view viral reel), and (2) create one 8-10 minute video per month showing venue tours, wedding setup time-lapses, or fishing guide interviews to capture long-form research traffic","time_estimate":"4 hours monthly (2 hours for Shorts batch conversion, 2 hours for one long-form video)","impact":"Leverages existing 1.37M YouTube view momentum, captures 'Fraser Valley wedding venue tour' and 'BC fishing lodge review' search traffic, and provides embeddable video content for website venue pages","priority":"high"},{"text":"Cross-post Instagram reels to Facebook Reels to engage the 11,000 dormant Facebook followers - use scheduling tool to simultaneously publish each Instagram reel to Facebook","time_estimate":"15 minutes per post (one-time scheduling tool setup, then automatic)","impact":"Reactivates 11,000-person Facebook audience with zero additional content creation, increases total reach per piece of content, and Facebook algorithm currently favors reels format","priority":"high"},{"text":"Install Meta Pixel on website and configure conversion events for form submissions (wedding inquiries, booking requests, newsletter signups) to build retargeting audience for future advertising campaigns","time_estimate":"1 hour (installation and event configuration)","impact":"Creates foundation for paid advertising by tracking website visitors and their actions, enables retargeting ads to people who viewed venue pages but didn't inquire, essential prerequisite before launching any paid campaigns","priority":"high"},{"text":"Adjust Instagram content mix from 75% reels to 60% reels / 30% carousels / 10% single images - add carousel posts showing: multiple angles of Bison Suites, wedding ceremony to reception transformation sequences, seasonal property changes, and menu/dining experience details","time_estimate":"No additional time (redistribute existing content creation effort)","impact":"Carousel posts get saved by wedding planners for reference (higher lifetime value than reels), provide more detail for accommodation shoppers, and diversify content to appeal to different audience segments","priority":"medium"}],"data_sources":["SociaVault API","Instagram Analytics","Facebook Analytics","YouTube Analytics","Facebook Ad Library","TikTok Ad Library","LinkedIn Ad Library","Google Ad Library"]},"guest_experience":{"score":81,"grade":"B","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"score":60,"details":{"daysFound":["thursday","friday","sunday"]},"completeness":"partial"},"score":60,"source":"Website Analysis","details":"partial"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Strong foundation for pre-arrival visitor information with maps/directions, parking details, and accessibility information all present. Primary gap is incomplete business hours display (only Thursday, Friday, Sunday shown) which creates uncertainty for guests planning visits, particularly for restaurant/dining hours and check-in timing.","findings":[{"type":"positive","text":"Complete directions and map integration helps guests navigate from Vancouver (1.5 hours) and nearby Harrison Hot Springs (15 minutes) to the rural Agassiz location","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Parking information provided addresses common guest concern for event venues where multiple vehicles need accommodation for wedding parties and corporate groups","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Accessibility information present enables guests with mobility considerations to confidently plan visits and understand property accommodation options","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"FAQ section addresses common guest questions reducing pre-arrival phone inquiries and helping guests self-serve information needs","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Business hours only shown for Thursday, Friday, and Sunday (not Monday, Tuesday, Wednesday, Saturday) creates uncertainty about mid-week availability and weekend operations - particularly problematic for dining reservations and check-in timing","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"No multi-language support detected limits accessibility for international visitors and French-speaking Canadians researching Fraser Valley destinations","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Business Hours Displayed","value":"Partial - only Thursday, Friday, Sunday shown","benchmark":"Complete hours for all 7 days required","status":"warning","confidence":"high","source":"Website Content Analysis","tooltip":"Incomplete hours information creates guest uncertainty about availability"},{"label":"Directions & Map","value":"Available (map embed detected)","benchmark":"Essential for rural/resort locations","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Map integration helps guests navigate to property from Vancouver and Fraser Valley"},{"label":"Parking Information","value":"Present on website","benchmark":"Important for event venues and overnight stays","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Parking details reduce guest anxiety, particularly for wedding parties with multiple vehicles"},{"label":"Accessibility Information","value":"Present on website","benchmark":"Required for inclusive guest experience","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Accessibility details help guests with mobility considerations plan visits"},{"label":"Multi-Language Support","value":"Not detected","benchmark":"Nice-to-have for BC tourism (French/Mandarin common)","status":"info","confidence":"high","source":"Website Content Analysis","tooltip":"English-only website limits international visitor accessibility"},{"label":"FAQ Section","value":"Present (detected in content structure)","benchmark":"FAQs reduce pre-arrival inquiry volume","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"FAQ content answers common guest questions before they need to call or email"}],"recommendations":[{"text":"Add complete business hours for all seven days to website footer and contact page, specifying: lodge office hours, restaurant/dining hours, check-in/check-out times, and fishing guide availability windows. Sync these hours to Google Business Profile.","time_estimate":"30 minutes (content update)","impact":"Eliminates guest uncertainty about availability, reduces 'what are your hours' phone calls, and helps wedding/event planners understand operational windows for setup timing","priority":"high"},{"text":"Create pre-arrival email sequence sent 7 days before check-in with: driving directions from Vancouver, parking instructions, check-in process, on-site dining options, activity booking info, and what to bring for fishing trips - reducing front desk questions and improving arrival experience","time_estimate":"3 hours (email template creation and automation setup)","impact":"Reduces guest uncertainty in final week before arrival, minimizes check-in friction, and sets expectations for on-property experience particularly for first-time visitors","priority":"medium"},{"text":"Add weather widget or seasonal packing guide to website helping guests prepare appropriate clothing for mountain location where temperatures can differ significantly from Vancouver - particularly important for wedding guests planning outfits and fishing clients packing gear","time_estimate":"1 hour (widget integration or content creation)","impact":"Reduces guest discomfort from inappropriate clothing choices, prevents fishing trip cancellations due to weather surprises, and demonstrates thoughtful guest experience planning","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local search foundation with claimed Google Business Profile, consistent NAP (name, address, phone) across platforms, and local keyword optimization. Substantial backlink profile (79,766 backlinks from 486 domains) provides strong domain authority for search rankings.","findings":[{"type":"positive","text":"Claimed and optimized Google Business Profile with 4.8-star rating and 519 reviews provides strong foundation for local search visibility in 'Agassiz lodges', 'Fraser Valley wedding venues', and similar queries","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Exceptional backlink profile with 79,766 total backlinks from 486 domains including high-authority media: BBC Travel ('Energizing Local BC Getaways'), Matador Network, Daily Hive wedding destinations feature, and Travel Weekly","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Consistent NAP (Name, Address, Phone) across website (7984 McDonald Rd S, Agassiz, BC V0M 1A0, 604-796-1210) and Google Business Profile strengthens local search signals","confidence":"high","source":"Website Content Analysis + Google Places API"},{"type":"positive","text":"Local keyword optimization present with 'Fraser Valley', 'Agassiz BC', 'Travel BC Indigenous-Owned Lodge' in page title, and 'Fraser River Lodge' mentioned 15 times in content","confidence":"high","source":"SEOptimer API"},{"type":"positive","text":"Domain strength score of 52 places Fraser River Lodge in competitive position for regional tourism searches, supported by 343 backlinks from .com domains and 50 from .ca domains","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Keyword consistency score flagged as low by SEOptimer - 'Fraser River Lodge' and location terms could be more consistently distributed across HTML tags (currently concentrated in title and headers but sparse in meta descriptions and content body)","confidence":"high","source":"SEOptimer API"}],"metrics":[{"label":"Google Business Profile Status","value":"Claimed and verified","benchmark":"Essential foundation for local search","status":"good","confidence":"high","source":"Google Places API","tooltip":"Verified GBP enables Google Maps visibility and review collection"},{"label":"NAP Consistency","value":"Address and phone present consistently","benchmark":"NAP must match across all platforms","status":"good","confidence":"high","source":"Website Content Analysis + Google Places API","tooltip":"Consistent business information across website and Google strengthens local SEO"},{"label":"Local Keywords Present","value":"Yes - 'Fraser Valley', 'Agassiz BC', 'Travel BC' detected","benchmark":"Location keywords essential for discovery","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Local geographic terms help search engines understand service area"},{"label":"Backlink Profile","value":"79,766 backlinks from 486 referring domains","benchmark":"100+ domains is good, 400+ is exceptional","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Strong backlink profile from media (BBC, Matador Network), wedding directories, and tourism sites"},{"label":"Domain Authority Indicators","value":"Domain strength: 52, Page strength: 17","benchmark":"50+ domain strength is competitive for regional tourism","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Authority metrics indicate strong search engine trust"},{"label":"Top Backlink Sources","value":"BBC Travel, Webflow showcase, Matador Network, Daily Hive, Travel Weekly","benchmark":"High-authority media backlinks boost rankings","status":"good","confidence":"high","source":"SEOptimer API","tooltip":"Quality media mentions provide strong SEO value and credibility"}],"recommendations":[{"text":"Add location-specific service pages for key search terms: create dedicated pages for 'Fraser Valley Wedding Venue', 'Agassiz Corporate Retreat', 'BC Sturgeon Fishing Lodge' with unique content about each offering, local context, and specific amenities - currently homepage tries to cover all services","time_estimate":"6 hours (3 service page templates with unique content)","impact":"Captures long-tail search traffic for specific service + location queries, improves relevance for Google's understanding of distinct offerings, and provides better landing pages for paid search campaigns","priority":"medium"},{"text":"Complete Google Business Profile with additional attributes: add amenities (wifi, parking, wheelchair accessible), upload 10-15 high-quality photos per category (exterior, rooms, dining, activities), and enable messaging for direct guest questions through Google Maps","time_estimate":"2 hours (profile enhancement)","impact":"Enhanced GBP appears more prominently in local pack results, messaging enables direct guest connection from Google Maps, and amenity attributes help property appear in filtered searches","priority":"medium"},{"text":"Build local content strategy with blog posts about Fraser Valley experiences: 'Best Things to Do Near Fraser River Lodge', 'Harrison Hot Springs Day Trip Guide', 'Fraser Valley Wine Country Itinerary' - naturally incorporating location keywords and providing value to guests planning trips","time_estimate":"4 hours per month (one comprehensive local guide post)","impact":"Captures informational search traffic from trip planners researching Fraser Valley, establishes topical authority for region, and provides shareable content for social media and email newsletters","priority":"low"}],"data_sources":["Google Places API","SEOptimer API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Reactivate YouTube channel by converting your best-performing Instagram reels (especially the 818K-view viral reel) to YouTube Shorts - your channel already has 1.37M views and 1,390 subscribers but shows no recent activity. Upload 5-10 converted Shorts immediately, then add one 8-10 minute venue tour video monthly targeting 'Fraser Valley wedding venue tour' and 'BC fishing lodge' long-form research searches.","time_estimate":"4 hours monthly (2 hours initial Shorts batch, 2 hours per long-form video ongoing)","impact":"high","expected_result":"Captures YouTube search traffic for high-intent venue research queries, leverages existing 20.42% Instagram engagement success on second platform, and provides embeddable video content for website venue pages - YouTube is second-largest search engine after Google","confidence":"high"},{"priority":2,"category":"Reviews & Reputation","text":"Implement systematic review response protocol: respond to all new Google reviews within 48 hours with personalized messages mentioning specific details from their review (wedding date, fishing experience, suite enjoyed). Pay special attention to the 6 one-star reviews - acknowledge concerns professionally and offer offline resolution.","time_estimate":"30 minutes weekly (ongoing review monitoring and responses)","impact":"high","expected_result":"Increases review response rate toward 90%+ target from current 60% baseline, demonstrates customer service commitment to prospective guests researching the property, and can recover relationships with dissatisfied guests. Review responses are visible in search results and influence booking decisions.","confidence":"high"},{"priority":3,"category":"Online Booking & Conversion","text":"Add direct booking capability alongside existing TripAdvisor integration using property management system (Cloudbeds, Bookings.com, or similar) that allows commission-free direct reservations while still feeding inventory to OTAs. Include separate inquiry form for wedding/corporate group bookings capturing event date, guest count, and specific needs.","time_estimate":"8-16 hours (system setup, integration testing, and staff training)","impact":"high","expected_result":"Captures 30-40% of guests who prefer direct booking over OTAs, eliminates 15-20% commission on direct bookings, provides more guest data for marketing, and creates dedicated pipeline for high-value wedding ($15K+ average) and corporate retreat ($5K+ average) inquiries","confidence":"high"},{"priority":4,"category":"Social Media & Content","text":"Install Meta Pixel on website with conversion event tracking for form submissions (wedding inquiries, booking requests, newsletter signups) to build retargeting audience. Then cross-post all Instagram reels to Facebook Reels to engage your dormant 11,000 Facebook followers showing 0% engagement.","time_estimate":"2 hours (1 hour pixel installation and configuration, 1 hour scheduling tool setup for cross-posting)","impact":"high","expected_result":"Creates foundation for future paid advertising by tracking website visitor behavior, enables retargeting ads to people who viewed venue pages but didn't inquire, and reactivates 11,000-person Facebook audience with zero additional content creation effort","confidence":"high"},{"priority":5,"category":"Digital Guest Experience","text":"Add complete business hours for all seven days (currently only Thursday, Friday, Sunday shown) to website footer, contact page, and Google Business Profile. Specify lodge office hours, restaurant/dining hours, check-in/check-out times, and fishing guide availability windows to eliminate guest uncertainty.","time_estimate":"30 minutes (content update across platforms)","impact":"medium","expected_result":"Reduces 'what are your hours' phone inquiries, helps wedding planners understand operational windows for setup timing, and improves Google Business Profile completeness score which can boost local search rankings","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.8-star rating, 519 reviews, 100% recent review recency) from verified Google Places API","Website technical performance (97/100 mobile speed, 97/100 desktop speed, SSL enabled) from SEOptimer API scan","Social media analytics (51,477 total followers, 20.42% Instagram engagement rate, 10.9 posts/week frequency) from SociaVault API","Booking capability, pricing transparency, and contact information visibility from direct website content analysis","Backlink profile (79,766 backlinks from 486 domains) and domain authority metrics from SEOptimer API"],"low_confidence_areas":["TripAdvisor review count and rating - integration detected but detailed metrics require manual verification","Review response rate - data incomplete from Google API, manual GBP audit recommended to verify current response percentage","Facebook posting frequency and engagement - 0% engagement detected may indicate data collection gap vs. actual inactivity","TikTok content performance - account presence confirmed via website links but video metrics not captured in social scan","Paid advertising spend levels - ad library shows no active campaigns but budget history not available"],"recommendations_for_fuller_picture":["Manual TripAdvisor audit: verify review count, rating, and response rate since it's integrated as primary booking platform","Google Business Profile deep dive: log into GBP dashboard to verify exact review response rate, view post engagement, and check messaging inquiry volume","Social media native analytics: export Instagram Insights (reach, saves, profile visits) and Facebook Page Insights for 90-day performance trends beyond SociaVault API data","Booking conversion tracking: implement Google Analytics goals for form submissions and TripAdvisor click-throughs to measure actual conversion rates","Competitor benchmarking: analyze 3-5 comparable Fraser Valley wedding venues and fishing lodges to contextualize performance against direct local competition"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-10-06T19:57:34.645Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-10-06T19:52:50.141Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
-<script src="/shared/analytics.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
-// NAVIGATION
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
+}
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// Swipe Gesture Support
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    const sidebarWidth = 268;
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / sidebarWidth, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / sidebarWidth, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) { openMobileDrawer(); return; }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) { closeMobileDrawer(); return; }
+  if (isEdgeSwipe && deltaX > 0) { closeMobileDrawer(); }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+// Close drawer on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('sidebar')?.classList.contains('open')) {
+    closeMobileDrawer();
+  }
+});
+
+// Legacy aliases for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
 // ══════════════════════════════════════════════════════════════
 function navigate(pageId) {
   // Update pages
@@ -2336,8 +2471,7 @@ function navigate(pageId) {
   event?.target?.closest('.nav-item')?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
+  closeMobileDrawer();
 }
 
 function showComingSoon(pageId) {
@@ -2345,58 +2479,72 @@ function showComingSoon(pageId) {
   document.getElementById('page-' + pageId)?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
-}
-
-function toggleMobileMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('mobileOverlay').classList.toggle('active');
+  closeMobileDrawer();
 }
 
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
 // ══════════════════════════════════════════════════════════════
-function downloadPDF() {
-  // Set document title for PDF filename
-  const clientSlug = document.body.dataset.clientSlug || 'assessment';
-  const originalTitle = document.title;
-  document.title = `${clientSlug}-digital-marketing-assessment`;
+async function downloadPDF() {
+  const btn = document.querySelector('.download-pdf-btn');
+  const clientSlug = document.body.dataset.clientSlug;
 
-  // Populate cover page with dynamic data
-  populateCoverPage();
-
-  // Add printing class to body
-  document.body.classList.add('printing');
-
-  // Small delay to ensure styles are applied
-  setTimeout(() => {
-    // Trigger print dialog (user can save as PDF)
-    window.print();
-
-    // Restore state after print dialog closes
-    setTimeout(() => {
-      document.body.classList.remove('printing');
-      document.title = originalTitle;
-    }, 1000);
-  }, 100);
-}
-
-function populateCoverPage() {
-  // Get grade and score from the page
-  const gradeEl = document.getElementById('overallGrade');
-  const scoreEl = document.getElementById('overallScore');
-
-  // Update cover page elements
-  const coverGrade = document.getElementById('coverGrade');
-  const coverScore = document.getElementById('coverScore');
-
-  if (coverGrade && gradeEl) {
-    coverGrade.textContent = gradeEl.textContent;
+  if (!clientSlug) {
+    alert('Unable to generate PDF: client not identified.');
+    return;
   }
 
-  if (coverScore && scoreEl) {
-    coverScore.textContent = scoreEl.textContent;
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+  }
+
+  try {
+    // Get auth token
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      throw new Error('Please log in to download the PDF.');
+    }
+
+    // Call PDF generation API
+    const response = await fetch('/.netlify/functions/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        pdfType: 'assessment',
+        clientSlug: clientSlug
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+    }
+
+    // Get PDF blob and trigger download
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientSlug}-digital-marketing-assessment.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('PDF download error:', err);
+    alert(err.message || 'Failed to generate PDF. Please try again.');
+  } finally {
+    // Reset button state
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
   }
 }
 
@@ -2420,15 +2568,20 @@ function renderAssessment() {
   // Render category cards
   const categoriesGrid = document.getElementById('categoriesGrid');
   const categoryIcons = {
+    // Scoring engine category keys
+    reviews_reputation: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Reviews & Reputation' },
+    booking_conversion: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>', title: 'Online Booking & Conversion' },
+    local_visibility: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local Visibility' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media & Content' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Digital Guest Experience' },
+    // Legacy/alternate category keys (for backwards compatibility)
     website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
     visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
     ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
     online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
     review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
     social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
-    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
     local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
-    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
     email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
     competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
   };
@@ -2449,10 +2602,10 @@ function renderAssessment() {
               <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
             </div>
           </div>
-          <p class="category-summary">${cat.summary || ''}</p>
+          <p class="category-summary" data-editable-key="cat-${key}-summary">${cat.summary || ''}</p>
           ${renderMetrics(cat.metrics)}
-          ${renderFindings(cat.findings)}
-          ${renderRecommendations(cat.recommendations)}
+          ${renderFindings(cat.findings, key)}
+          ${renderRecommendations(cat.recommendations, key)}
         </div>
       `;
     }
@@ -2469,13 +2622,13 @@ function renderAssessment() {
         <div class="priority-item">
           <div class="priority-item-number">${i + 1}</div>
           <div class="priority-item-content">
-            <h4>${rec.text}</h4>
+            <h4 data-editable-key="priority-${i + 1}-text">${rec.text}</h4>
             <div class="priority-item-meta">
               <span class="priority-item-tag">${rec.category || 'General'}</span>
               ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
               ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
             </div>
-            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+            ${rec.expected_result ? `<p class="priority-item-result" data-editable-key="priority-${i + 1}-result">${rec.expected_result}</p>` : ''}
           </div>
         </div>
       `;
@@ -2493,17 +2646,17 @@ function renderExecutiveSummary(summary) {
 
   let strengthsHtml = '';
   if (summary.key_strengths && summary.key_strengths.length) {
-    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+    strengthsHtml = summary.key_strengths.map((s, i) => `<li data-editable-key="strength-${i + 1}">${s}</li>`).join('');
   }
 
   let gapsHtml = '';
   if (summary.critical_gaps && summary.critical_gaps.length) {
-    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+    gapsHtml = summary.critical_gaps.map((g, i) => `<li data-editable-key="gap-${i + 1}">${g}</li>`).join('');
   }
 
   container.innerHTML = `
     <h2>Executive Summary</h2>
-    <p class="executive-headline">${summary.headline || ''}</p>
+    <p class="executive-headline" data-editable-key="assessment-headline">${summary.headline || ''}</p>
     <div class="executive-columns">
       <div class="executive-column strengths">
         <h4>
@@ -2521,7 +2674,7 @@ function renderExecutiveSummary(summary) {
       </div>
     </div>
     <div class="executive-bottom-line">
-      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+      <strong>Bottom Line:</strong> <span data-editable-key="assessment-bottom-line">${summary.bottom_line || ''}</span>
     </div>
   `;
 }
@@ -2539,8 +2692,8 @@ function renderQuickWins(quickWins) {
       <div class="quick-win-item">
         <div class="quick-win-number">${i + 1}</div>
         <div class="quick-win-content">
-          <div class="quick-win-task">${win.task}</div>
-          <div class="quick-win-impact">${win.impact}</div>
+          <div class="quick-win-task" data-editable-key="quick-win-${i + 1}-task">${win.task}</div>
+          <div class="quick-win-impact" data-editable-key="quick-win-${i + 1}-impact">${win.impact}</div>
         </div>
         <span class="quick-win-time">${win.time_estimate}</span>
       </div>
@@ -2552,7 +2705,7 @@ function renderQuickWins(quickWins) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Quick Wins
     </h2>
-    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <p class="quick-wins-subtitle" data-editable-key="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
     <div class="quick-wins-list">${itemsHtml}</div>
   `;
 }
@@ -2578,7 +2731,7 @@ function renderTourismContext(context) {
       itemsHtml += `
         <div class="tourism-context-item">
           <h4>${item.icon} ${item.label}</h4>
-          <p>${context[item.key]}</p>
+          <p data-editable-key="tourism-${item.key}">${context[item.key]}</p>
         </div>
       `;
     }
@@ -2617,10 +2770,10 @@ function renderMetrics(metrics) {
   return html;
 }
 
-function renderFindings(findings) {
+function renderFindings(findings, categoryKey) {
   if (!findings || !findings.length) return '';
   let html = '<div class="category-findings">';
-  findings.slice(0, 4).forEach(f => {
+  findings.slice(0, 4).forEach((f, i) => {
     let iconClass, icon;
     if (f.type === 'positive') {
       iconClass = 'positive';
@@ -2635,7 +2788,7 @@ function renderFindings(findings) {
     html += `
       <div class="finding-item">
         <span class="finding-icon ${iconClass}">${icon}</span>
-        <span>${f.text}</span>
+        <span data-editable-key="cat-${categoryKey}-finding-${i + 1}">${f.text}</span>
       </div>
     `;
   });
@@ -2643,16 +2796,16 @@ function renderFindings(findings) {
   return html;
 }
 
-function renderRecommendations(recommendations) {
+function renderRecommendations(recommendations, categoryKey) {
   if (!recommendations || !recommendations.length) return '';
   let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
-  recommendations.slice(0, 3).forEach(r => {
+  recommendations.slice(0, 3).forEach((r, i) => {
     html += `
       <div class="recommendation-item">
         <div style="flex: 1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px;">
             <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
-            <span>${r.text}</span>
+            <span data-editable-key="cat-${categoryKey}-rec-${i + 1}">${r.text}</span>
           </div>
           ${r.time_estimate ? `
             <div class="recommendation-time">
@@ -2669,230 +2822,10 @@ function renderRecommendations(recommendations) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', renderAssessment);
-
-// ═══════════════════════════════════════════════════════════════════════════
-// ACTIVITY PAGE FUNCTIONS
-// ═══════════════════════════════════════════════════════════════════════════
-
-async function loadActivityData() {
-  const clientSlug = document.body.dataset.clientSlug;
-  if (!clientSlug) return;
-
-  try {
-    // Get events from last 30 days
-    const thirtyDaysAgo = new Date();
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-
-    const { data: events, error } = await window.supabase
-      .from('analytics_events')
-      .select('*')
-      .eq('client_slug', clientSlug)
-      .gte('created_at', thirtyDaysAgo.toISOString())
-      .order('created_at', { ascending: false })
-      .limit(100);
-
-    if (error) throw error;
-
-    renderActivityStats(events || []);
-    renderActivityTimeline(events || []);
-    renderSessionHistory(events || []);
-  } catch (err) {
-    console.error('Error loading activity data:', err);
-    document.getElementById('activity-timeline').innerHTML =
-      '<div class="activity__empty">Unable to load activity data</div>';
-  }
-}
-
-function renderActivityStats(events) {
-  const sessions = new Set(events.map(e => e.session_id)).size;
-  const users = new Set(events.map(e => e.user_id).filter(Boolean)).size;
-  const tasks = events.filter(e => e.event_type === 'task_complete').length;
-
-  // Calculate average session duration (rough estimate)
-  const sessionDurations = {};
-  events.forEach(e => {
-    if (!sessionDurations[e.session_id]) {
-      sessionDurations[e.session_id] = { first: e.created_at, last: e.created_at };
-    } else {
-      if (e.created_at < sessionDurations[e.session_id].first) {
-        sessionDurations[e.session_id].first = e.created_at;
-      }
-      if (e.created_at > sessionDurations[e.session_id].last) {
-        sessionDurations[e.session_id].last = e.created_at;
-      }
-    }
-  });
-
-  let totalDuration = 0;
-  let sessionCount = 0;
-  Object.values(sessionDurations).forEach(s => {
-    const duration = new Date(s.last) - new Date(s.first);
-    if (duration > 0) {
-      totalDuration += duration;
-      sessionCount++;
-    }
-  });
-
-  const avgDuration = sessionCount > 0 ? totalDuration / sessionCount : 0;
-
-  document.getElementById('stat-sessions').textContent = sessions;
-  document.getElementById('stat-users').textContent = users;
-  document.getElementById('stat-tasks').textContent = tasks;
-  document.getElementById('stat-duration').textContent = formatDuration(avgDuration);
-}
-
-function formatDuration(ms) {
-  if (ms === 0) return '-';
-  const minutes = Math.floor(ms / 60000);
-  if (minutes < 1) return '<1m';
-  if (minutes < 60) return minutes + 'm';
-  const hours = Math.floor(minutes / 60);
-  const remainingMins = minutes % 60;
-  return hours + 'h ' + remainingMins + 'm';
-}
-
-function renderActivityTimeline(events) {
-  const container = document.getElementById('activity-timeline');
-
-  if (!events || events.length === 0) {
-    container.innerHTML = '<div class="activity__empty">No recent activity</div>';
-    return;
-  }
-
-  // Show last 20 events
-  const recentEvents = events.slice(0, 20);
-
-  container.innerHTML = recentEvents.map(event => {
-    const iconClass = getEventIconClass(event.event_type);
-    const icon = getEventIcon(event.event_type);
-    const title = getEventTitle(event);
-    const time = formatRelativeTime(event.created_at);
-
-    return `
-      <div class="activity__event">
-        <div class="activity__event-icon ${iconClass}">
-          ${icon}
-        </div>
-        <div class="activity__event-content">
-          <div class="activity__event-title">${title}</div>
-          <div class="activity__event-meta">${time}</div>
-        </div>
-      </div>
-    `;
-  }).join('');
-}
-
-function getEventIconClass(eventType) {
-  switch (eventType) {
-    case 'page_view': return 'activity__event-icon--page';
-    case 'task_complete': return 'activity__event-icon--check';
-    case 'session_start': return 'activity__event-icon--session';
-    case 'tour_complete': return 'activity__event-icon--tour';
-    default: return 'activity__event-icon--page';
-  }
-}
-
-function getEventIcon(eventType) {
-  switch (eventType) {
-    case 'page_view':
-      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M10 12a2 2 0 100-4 2 2 0 000 4z"/><path fill-rule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clip-rule="evenodd"/></svg>';
-    case 'task_complete':
-      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>';
-    case 'session_start':
-      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>';
-    case 'tour_complete':
-      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>';
-    default:
-      return '<svg width="16" height="16" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>';
-  }
-}
-
-function getEventTitle(event) {
-  switch (event.event_type) {
-    case 'page_view':
-      return 'Viewed ' + (event.page_name || 'page');
-    case 'task_complete':
-      return 'Completed task' + (event.task_name ? ': ' + event.task_name : '');
-    case 'session_start':
-      return 'Started new session';
-    case 'tour_complete':
-      return 'Completed onboarding tour';
-    default:
-      return event.event_type;
-  }
-}
-
-function formatRelativeTime(dateStr) {
-  const date = new Date(dateStr);
-  const now = new Date();
-  const diffMs = now - date;
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
-  const diffDays = Math.floor(diffMs / 86400000);
-
-  if (diffMins < 1) return 'Just now';
-  if (diffMins < 60) return diffMins + ' min ago';
-  if (diffHours < 24) return diffHours + ' hour' + (diffHours === 1 ? '' : 's') + ' ago';
-  if (diffDays < 7) return diffDays + ' day' + (diffDays === 1 ? '' : 's') + ' ago';
-  return date.toLocaleDateString();
-}
-
-function renderSessionHistory(events) {
-  const container = document.getElementById('activity-sessions');
-
-  // Group events by session
-  const sessions = {};
-  events.forEach(e => {
-    if (!sessions[e.session_id]) {
-      sessions[e.session_id] = {
-        id: e.session_id,
-        user: e.user_email || 'Anonymous',
-        events: [],
-        firstEvent: e.created_at,
-        lastEvent: e.created_at
-      };
-    }
-    sessions[e.session_id].events.push(e);
-    if (e.created_at < sessions[e.session_id].firstEvent) {
-      sessions[e.session_id].firstEvent = e.created_at;
-    }
-    if (e.created_at > sessions[e.session_id].lastEvent) {
-      sessions[e.session_id].lastEvent = e.created_at;
-    }
-  });
-
-  const sessionList = Object.values(sessions)
-    .sort((a, b) => new Date(b.lastEvent) - new Date(a.lastEvent))
-    .slice(0, 10);
-
-  if (sessionList.length === 0) {
-    container.innerHTML = '<div class="activity__empty">No sessions recorded</div>';
-    return;
-  }
-
-  container.innerHTML = sessionList.map(session => {
-    const duration = new Date(session.lastEvent) - new Date(session.firstEvent);
-    const durationStr = formatDuration(duration);
-    const time = formatRelativeTime(session.lastEvent);
-
-    return `
-      <div class="activity__session-card">
-        <div class="activity__session-user">${session.user}</div>
-        <div class="activity__session-details">${session.events.length} events &middot; ${durationStr} &middot; ${time}</div>
-      </div>
-    `;
-  }).join('');
-}
-
-// Load activity data when navigating to the activity page
-window.__authReady && window.__authReady.then(() => {
-  const activityNav = document.getElementById('nav-activity');
-  if (activityNav) {
-    activityNav.addEventListener('click', () => {
-      setTimeout(loadActivityData, 100);
-    });
-  }
+document.addEventListener('DOMContentLoaded', () => {
+  renderAssessment();
+  // Dispatch event for content-editor.js to apply saved edits
+  window.dispatchEvent(new CustomEvent('contentRendered'));
 });
 </script>
 </body>
