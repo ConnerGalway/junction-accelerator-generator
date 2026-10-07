@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Digital Marketing Assessment — Springs RV Resort</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -881,15 +881,29 @@ nav { flex: 1; padding: 12px 0; }
 
 /* ── Mobile ─────────────────────────────────── */
 @media (max-width: 768px) {
+  body {
+    display: block;
+    overflow: auto;
+    height: auto;
+  }
+
   #sidebar {
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
     transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
   }
 
   #sidebar.open { transform: translateX(0); }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+  }
 
   .mobile-header {
     display: flex;
@@ -927,25 +941,52 @@ nav { flex: 1; padding: 12px 0; }
   .assessment-hero-title { font-size: 22px; }
   .categories-grid { grid-template-columns: 1fr; }
   .category-metrics { grid-template-columns: 1fr; }
+
+  /* Tactic tabs - horizontal scroll on mobile */
+  .tactic-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .tactic-tabs::-webkit-scrollbar { display: none; }
+  .tactic-tab {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
 }
 
 @media (min-width: 769px) {
   .mobile-header { display: none; }
 }
 
-.mobile-overlay {
+#drawerOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 999;
+  background: rgba(17,21,75,.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
   transition: opacity .3s, visibility .3s;
 }
 
-.mobile-overlay.active {
+#drawerOverlay.open {
   opacity: 1;
   visibility: visible;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 /* ── Download PDF Button ────────────────────────── */
@@ -979,6 +1020,38 @@ nav { flex: 1; padding: 12px 0; }
 .download-pdf-btn svg {
   width: 18px;
   height: 18px;
+}
+
+.download-pdf-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-pdf-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.download-pdf-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpinner 0.8s linear infinite;
+}
+
+.download-pdf-btn.loading svg {
+  visibility: hidden;
+}
+
+@keyframes pdfSpinner {
+  to { transform: rotate(360deg); }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1035,7 +1108,7 @@ nav { flex: 1; padding: 12px 0; }
      ══════════════════════════════════════════════════════════════════════════ */
   #sidebar,
   .mobile-header,
-  .mobile-overlay,
+  #drawerOverlay,
   .download-pdf-btn,
   .assessment-hero-badge,
   .assessment-hero-actions,
@@ -1943,9 +2016,6 @@ nav { flex: 1; padding: 12px 0; }
     break-inside: avoid;
   }
 }
-
-/* Activity Page Styles */
-.activity__stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1.5rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem;text-align:center}.activity__stat-value{font-size:2rem;font-weight:700;color:var(--text)}.activity__stat-label{font-size:0.875rem;color:var(--text-muted);margin-top:0.25rem}.activity__container{display:grid;grid-template-columns:1fr 320px;gap:2rem}@media(max-width:900px){.activity__container{grid-template-columns:1fr}}.activity__timeline{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__loading{color:var(--text-muted);text-align:center;padding:2rem}.activity__event{display:flex;gap:1rem;padding:1rem 0;border-bottom:1px solid var(--border)}.activity__event:last-child{border-bottom:none}.activity__event-icon{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}.activity__event-icon.page_view{background:#e0f2fe;color:#0284c7}.activity__event-icon.checkbox_change{background:#dcfce7;color:#16a34a}.activity__event-icon.session_start{background:#f3e8ff;color:#9333ea}.activity__event-icon.session_end{background:#fee2e2;color:#dc2626}.activity__event-icon.default{background:#f3f4f6;color:#6b7280}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--text);margin-bottom:0.25rem}.activity__event-meta{font-size:0.813rem;color:var(--text-muted)}.activity__event-time{font-size:0.75rem;color:var(--text-muted);white-space:nowrap}.activity__sessions{background:var(--card-bg);border:1px solid var(--border);border-radius:12px;padding:1.5rem}.activity__sessions h3{margin:0 0 1rem;font-size:1rem;font-weight:600}.activity__sessions-container{display:flex;flex-direction:column;gap:0.75rem}.activity__session-card{padding:0.75rem;background:var(--bg);border-radius:8px;border:1px solid var(--border)}.activity__session-card h4{margin:0 0 0.5rem;font-size:0.875rem;font-weight:500}.activity__session-card p{margin:0;font-size:0.75rem;color:var(--text-muted)}
 </style>
 </head>
 <body data-client-slug="springs-rv-resort">
@@ -1963,10 +2033,10 @@ nav { flex: 1; padding: 12px 0; }
   <p class="cover-client">Prepared for</p>
   <p class="cover-client-name">Springs RV Resort</p>
   <div class="cover-grade-circle">
-    <span class="cover-grade" id="coverGrade">B-</span>
-    <span class="cover-score">Overall Score: <span id="coverScore">78</span>/100</span>
+    <span class="cover-grade" id="coverGrade">B+</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">84</span>/100</span>
   </div>
-  <p class="cover-date">Assessment Date: September 17, 2026</p>
+  <p class="cover-date">Assessment Date: October 7, 2026</p>
   <p class="cover-footer-text">Powered by Junction Accelerator</p>
 </div>
 
@@ -2010,7 +2080,7 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">Springs RV Resort</span>
-  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -2019,7 +2089,7 @@ nav { flex: 1; padding: 12px 0; }
   </button>
 </div>
 
-<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <!-- Sidebar -->
 <aside id="sidebar">
@@ -2108,14 +2178,6 @@ nav { flex: 1; padding: 12px 0; }
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
     </div>
-    <!-- Activity Nav (Admin/PSM/Coach only) -->
-    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
-    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-      Activity
-    </div>
   </nav>
 </aside>
 
@@ -2128,7 +2190,7 @@ nav { flex: 1; padding: 12px 0; }
       <div class="assessment-hero-top">
         <div>
           <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-          <p class="assessment-hero-date">Assessment Date: September 17, 2026</p>
+          <p class="assessment-hero-date">Assessment Date: October 7, 2026</p>
         </div>
         <div class="assessment-hero-actions">
           <button class="download-pdf-btn" onclick="downloadPDF()">
@@ -2144,10 +2206,10 @@ nav { flex: 1; padding: 12px 0; }
       </div>
 
       <div class="assessment-grade-card">
-        <div class="grade-circle" id="overallGrade">B-</div>
+        <div class="grade-circle" id="overallGrade">B+</div>
         <div class="grade-details">
-          <h3>Overall Score: <span id="overallScore">78</span>/100</h3>
-          <p id="overallSummary"></p>
+          <h3>Overall Score: <span id="overallScore">84</span>/100</h3>
+          <p id="overallSummary" data-editable-key="assessment-overall-summary"></p>
         </div>
       </div>
     </div>
@@ -2269,7 +2331,7 @@ nav { flex: 1; padding: 12px 0; }
         <h4>About This Assessment</h4>
         <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
         <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
-        <p><strong>Assessment Date:</strong> September 17, 2026</p>
+        <p><strong>Assessment Date:</strong> October 7, 2026</p>
       </div>
       <div class="print-footer-branding">
         <div class="print-footer-logo">
@@ -2290,54 +2352,114 @@ nav { flex: 1; padding: 12px 0; }
     </div>
   </div>
 
-        <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
-        <section id="page-activity" class="page">
-            <div class="page-header">
-                <h1>Client Activity</h1>
-                <p class="subtitle">Real-time engagement analytics</p>
-            </div>
-
-            <div class="activity__stats-grid">
-                <div class="activity__stat-card">
-                    <div class="activity__stat-value" id="activity-sessions">--</div>
-                    <div class="activity__stat-label">Sessions (7d)</div>
-                </div>
-                <div class="activity__stat-card">
-                    <div class="activity__stat-value" id="activity-users">--</div>
-                    <div class="activity__stat-label">Unique Users</div>
-                </div>
-                <div class="activity__stat-card">
-                    <div class="activity__stat-value" id="activity-tasks">--</div>
-                    <div class="activity__stat-label">Tasks Completed</div>
-                </div>
-                <div class="activity__stat-card">
-                    <div class="activity__stat-value" id="activity-duration">--</div>
-                    <div class="activity__stat-label">Avg. Duration</div>
-                </div>
-            </div>
-
-            <div class="activity__container">
-                <div class="activity__timeline" id="activity-timeline">
-                    <p class="activity__loading">Loading activity...</p>
-                </div>
-                <div class="activity__sessions" id="activity-sessions-list">
-                    <h3>Recent Sessions</h3>
-                    <div class="activity__sessions-container"></div>
-                </div>
-            </div>
-        </section>
-
 </main>
 
-<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Springs RV Resort has strong conversion infrastructure and excellent local visibility, but social media engagement and content strategy are critically underperforming.","key_strengths":["Exceptional booking system with Cloudbeds integration and clear pricing ($5-$10 daily rates visible)","Outstanding Google reputation with 4.6 stars from 367 reviews demonstrating consistent guest satisfaction","Near-perfect digital guest experience with hours, directions, parking, and accessibility information all clearly displayed"],"critical_gaps":["Social media posting frequency is extremely low at 0.2 posts/week on Instagram with only 12 total posts and zero video content (reels)","Engagement rate of 0.7% on Instagram is well below tourism industry benchmarks (3-6% is good) despite nearly 1,000 followers","Website technical performance is poor with 13/100 mobile PageSpeed score causing potential visitor abandonment during booking"],"bottom_line":"Springs RV Resort converts visitors effectively once they reach the website, but slow site speeds risk losing mobile users during booking, and dormant social channels are missing thousands of potential guests searching Harrison Hot Springs content on Instagram and YouTube."},"quick_wins":[{"task":"Add H1 header tag to homepage (currently missing) with primary keyword 'RV Resort Harrison Hot Springs' - critical for search visibility","time_estimate":"15 minutes","impact":"Improves search engine understanding of page content and can lift organic rankings by 10-15% for target keywords","confidence":"high"},{"task":"Reduce title tag length from 62 to 60 characters by shortening to 'Springs RV Resort - Harrison Hot Springs RV Lots for Sale' to prevent truncation in search results","time_estimate":"10 minutes","impact":"Full title displays in Google search results, improving click-through rates by ensuring complete message visibility","confidence":"high"},{"task":"Add alt text to 45 images currently missing descriptions (56% of total images) starting with hero images and pool photos that showcase amenities","time_estimate":"2 hours","impact":"Improves accessibility for visually impaired visitors and helps images rank in Google Image search for terms like 'Harrison Hot Springs RV resort pools'","confidence":"high"},{"task":"Post 2-3 Instagram reels per week featuring pool amenities, lake views, and guest activities - currently posting only 0.2 times/week with zero video content","time_estimate":"1 hour per week","impact":"Reels receive 2-3x higher reach than static posts; consistent posting can grow follower base by 20-30% monthly and drive direct booking inquiries","confidence":"high"},{"task":"Respond to all Google reviews from the past 6 months (currently showing 60% response rate) within 48 hours with personalized messages acknowledging specific feedback","time_estimate":"30 minutes per week","impact":"Review responses increase conversion rates by 12-15% as potential guests see active management engagement and care for guest experience","confidence":"high"}],"tourism_context":{"visitor_profile":"Springs RV Resort attracts primarily families and retirees from Vancouver and the Lower Mainland (90-minute drive) seeking multi-day or seasonal RV getaways, with mix of lot purchasers looking for recreational property investment and daily/seasonal renters wanting resort amenities (pools, hot tubs, clubhouse) near Harrison Hot Springs attractions","discovery_journey":"Visitors discover the resort through three primary paths: 1) Google searches for 'Harrison Hot Springs RV parks' or 'RV lots for sale BC' where Springs currently ranks #1, 2) recommendations from existing lot owners or past guests (reflected in strong 4.6-star rating), and 3) browsing Harrison Hot Springs area information before booking lake vacations - social media content showcasing pools and amenities could capture awareness-stage travelers","seasonal_considerations":"Peak season runs May-September when pools are open (critical amenity mentioned in reviews) creating urgency for seasonal site bookings; winter seasonal sites are available but require different messaging emphasizing proximity to Vancouver and off-season tranquility; social content should shift seasonally from summer family pool activities to winter couples retreats and holiday events","trip_integration":"Springs RV Resort serves as base camp accommodation for Harrison Hot Springs exploration - visitors combine resort amenities (pools, dog park, carousel for kids per reviews) with town activities like Harrison Beach (15-minute walk), Canada Day parades/fireworks, and hot springs experiences; digital presence should emphasize both on-site resort amenities and proximity to Harrison Lake attractions"},"overall":{"score":78,"grade":"B-","confidence":"high","scoreBreakdown":{"website_technical":{"score":73,"weight":0.15,"contribution":10.95},"reviews_reputation":{"score":82,"weight":0.25,"contribution":20.5},"booking_conversion":{"score":91,"weight":0.2,"contribution":18.2},"social_media":{"score":52,"weight":0.2,"contribution":10.4},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":73,"grade":"C","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":70,"score":70,"source":"SEOptimer","grade":"C-"},"mobile_speed":{"value":70,"score":70,"source":"SEOptimer","grade":"C-"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Website has solid fundamentals (SSL, mobile viewport, sitemap) but suffers from critical performance issues with 13/100 mobile PageSpeed score and missing SEO elements like H1 tags that impact search visibility","findings":[{"type":"negative","text":"Missing H1 header tag entirely on homepage - search engines cannot identify primary page topic, hurting rankings for 'Harrison Hot Springs RV Resort' and related terms","confidence":"high","source":"SEOptimer SEO Audit"},{"type":"negative","text":"Title tag exceeds optimal length at 62 characters ('Springs RV Resort - Harrison Hot Springs - RV Lots for Sale BC') causing truncation in mobile search results","confidence":"high","source":"SEOptimer SEO Audit"},{"type":"negative","text":"Heading structure issues detected with page starting at H4 level and skipping heading levels - confuses both search engines and screen readers","confidence":"high","source":"SEOptimer SEO Audit"},{"type":"negative","text":"45 of 81 images (56%) missing alt text descriptions - hurts accessibility and loses opportunity to rank in Google Image search for pool/amenity photos","confidence":"high","source":"SEOptimer Image Analysis"},{"type":"negative","text":"Render-blocking resources total 2.5 seconds on mobile - CSS/JavaScript files delay page rendering, particularly style-static.min.css at 124KB blocking for 3 seconds","confidence":"high","source":"SEOptimer Performance Analysis"},{"type":"negative","text":"Images not optimized - 8 key images could be reduced by 76-88% (195KB hero image could save 159KB) improving load speed significantly","confidence":"high","source":"SEOptimer Image Optimization"},{"type":"negative","text":"Browser caching not configured properly - video and image files served with no cache headers, forcing repeat visitors to re-download 6.57MB video file every visit","confidence":"high","source":"SEOptimer Caching Analysis"},{"type":"positive","text":"Strong keyword consistency with 'springs rv resort' appearing 7 times across title, description, and headers - well-optimized for brand searches","confidence":"high","source":"SEOptimer Keyword Analysis"},{"type":"positive","text":"XML sitemap present and accessible at /sitemap_index.xml helping search engines discover all pages including lot sales and rental information","confidence":"high","source":"SEOptimer Sitemap Check"},{"type":"positive","text":"Google Analytics, Google Tag Manager, and Google Ads conversion tracking all properly installed for measuring traffic and booking conversions","confidence":"high","source":"SEOptimer Analytics Detection"},{"type":"positive","text":"Using efficient compression (Gzip/Brotli) achieving 60% overall compression rate, though could improve JavaScript compression currently at 65%","confidence":"high","source":"SEOptimer Compression Analysis"},{"type":"positive","text":"HTTP/2 protocol enabled providing faster loading of multiple resources simultaneously - good modern standard implementation","confidence":"high","source":"SEOptimer Protocol Check"}],"metrics":[{"label":"Desktop Speed","value":"70/100","status":"warning","source":"SEOptimer"},{"label":"Mobile Speed","value":"70/100","status":"warning","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Implement critical CSS inlining and defer non-critical CSS to reduce render-blocking time from 3 seconds to under 1 second - focus on style-static.min.css (124KB) which blocks rendering for 3 seconds on mobile","time_estimate":"4 hours (developer required)","impact":"Improve mobile PageSpeed from 13 to 40+ and reduce bounce rate by 15-20% during booking flow","priority":"high"},{"text":"Compress and optimize 8 key images identified by SEOptimer (hero images, pool photos) using modern WebP format to reduce file sizes by 76-88% - total savings of 800KB+","time_estimate":"2 hours initial compression, 15 minutes per new image going forward","impact":"Reduce page load time by 1-2 seconds improving mobile experience and SEO rankings","priority":"high"},{"text":"Configure browser caching headers for 1 year on static assets (images, CSS, JavaScript) and 1 week on video content to prevent repeat visitors from re-downloading 6.57MB video file","time_estimate":"1 hour (server configuration)","impact":"Reduce load time by 60-70% for returning visitors and reduce hosting bandwidth costs","priority":"high"},{"text":"Add H1 tag to homepage with primary keyword phrase 'RV Resort in Harrison Hot Springs' and restructure heading hierarchy to proper H1>H2>H3 sequence","time_estimate":"30 minutes","impact":"Improve organic search rankings by 10-15% for target keywords as search engines can identify page topic","priority":"high"},{"text":"Add descriptive alt text to all 45 images missing descriptions, prioritizing hero images, pool amenity photos, and RV lot images - include location keywords like 'Harrison Hot Springs' naturally","time_estimate":"2 hours for existing images, 5 minutes per new image","impact":"Improve accessibility compliance and capture Google Image search traffic for terms like 'Harrison RV resort pools'","priority":"medium"},{"text":"Implement lazy loading for below-the-fold images so only visible content loads initially - particularly important for gallery sections with 40+ pool photos","time_estimate":"2 hours (developer implementation)","impact":"Reduce initial page load by 40-50% improving mobile experience and Core Web Vitals scores","priority":"medium"}],"data_sources":["SEOptimer API","Website Content Analysis","Google PageSpeed Insights"]},"reviews_reputation":{"score":82,"grade":"B","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.6,"score":85,"source":"Google Places API"},"review_volume":{"value":367,"score":92,"source":"Google Places API"},"review_recency":{"value":{"recentCount":2,"totalProvided":5,"recentPercent":40},"score":70,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Strong Google reputation with 4.6 stars from 367 reviews demonstrates consistent guest satisfaction, but review recency shows declining activity with only 40% from past 18 months and inconsistent owner response patterns","findings":[{"type":"positive","text":"Recent 5-star review (3 months ago) highlights 'absolutely amazing' experience with 'stunning landscaping' and pools as the highlight - validates amenity investments","confidence":"high","source":"Google Review Sample"},{"type":"positive","text":"Multiple reviews specifically praise family-friendly amenities: 'FABULOUS kids pool', 'old carrousel for the kids', 'two different clubhouses', and dog park - clear differentiation from competitors","confidence":"high","source":"Google Review Sample"},{"type":"positive","text":"Reviews emphasize proximity to Harrison Beach (15-minute walk, 5 minutes away) and Canada Day events, helping potential guests understand trip integration","confidence":"high","source":"Google Review Sample"},{"type":"positive","text":"Guest mentions 'well-maintained and beautiful property' and 'very well run' with multiple communication touchpoints (emails regarding terms, online check-in, directions) showing operational excellence","confidence":"high","source":"Google Review Sample"},{"type":"negative","text":"Critical 1-star review (3 months ago) describes 'very bad memory' when pool advertised for May 1st wasn't open until May 15th - guest paid for service not received and felt misled","confidence":"high","source":"Google Review Sample"},{"type":"negative","text":"3-star review notes high pricing at $312 for three nights in new section (300-series sites) - guest 'took off one star' specifically citing cost concerns","confidence":"high","source":"Google Review Sample"},{"type":"negative","text":"Only 2 of 5 sampled reviews are from past 18 months with most reviews appearing 1-2+ years old, suggesting possible gaps in review generation or seasonal activity patterns","confidence":"medium","source":"Google Review Sample Analysis"}],"metrics":[{"label":"Google Rating","value":"4.6 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"367","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement automated post-stay review request system sending personalized email 2-3 days after checkout asking guests to share their experience on Google - include direct review link to reduce friction","time_estimate":"3 hours setup (one-time), then automated","impact":"Increase review velocity from current ~2-3 per month to 8-12 monthly, ensuring 60%+ reviews are recent and maintaining 4.6+ star average","priority":"high"},{"text":"Respond to 100% of reviews within 48 hours with personalized messages - prioritize the 1-star pool closure review acknowledging issue and explaining seasonal opening policies to prevent similar future complaints","time_estimate":"30 minutes weekly ongoing","impact":"Improve response rate from 60% to 100% which increases conversion rates by 12-15% as potential guests see active engagement and conflict resolution","priority":"high"},{"text":"Update website and Google Business Profile with clear seasonal pool opening dates (May 15th not May 1st per review) to set accurate expectations and prevent negative reviews about closed amenities","time_estimate":"1 hour to update all channels","impact":"Eliminate negative reviews related to amenity availability mismatches - protect 4.6-star rating from preventable 1-star reviews","priority":"high"},{"text":"Create review response templates for common themes (pool praise, family amenities, proximity to Harrison Beach, pricing questions) to ensure consistent messaging while personalizing each response","time_estimate":"2 hours to create templates","impact":"Reduce review response time from potentially days to under 24 hours, showing responsiveness that influences potential guests reading reviews","priority":"medium"},{"text":"Add QR codes at check-out, pool areas, and clubhouse linking directly to Google review page to capture positive guest sentiment while experience is fresh and excitement is highest","time_estimate":"2 hours to design and print signage","impact":"Increase review generation by 25-30% by making leaving a review effortless during the high-emotion moments of pool enjoyment","priority":"medium"},{"text":"Manually verify TripAdvisor presence and if profile exists, claim it and implement same review request strategy - TripAdvisor is critical for Harrison Hot Springs destination research","time_estimate":"1 hour verification, 2 hours setup if claiming needed","impact":"Capture additional traveler audience segment who research on TripAdvisor before booking RV resorts in BC","priority":"medium"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":91,"grade":"A","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":2,"platforms":["Cloudbeds","Calendly"]},"score":85,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["footer","contact"],"clickable":true,"score":65,"details":{"telLinkCount":1}},"score":65,"source":"Website Analysis","details":["footer","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":7,"samplePrices":["$5","$10","$7"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"none","score":100,"details":{"ctaElements":4,"platforms":["Cloudbeds"]}},"score":100,"source":"Website Analysis","details":"none"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Exceptional conversion infrastructure with Cloudbeds and Calendly integration, crystal-clear pricing displays ($5-$10 rates visible), and multiple prominent call-to-action elements - among the best booking experiences analyzed for RV resorts","findings":[{"type":"positive","text":"Cloudbeds integration provides professional reservation system allowing real-time availability checks and instant booking confirmations for daily and seasonal RV site rentals","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Calendly integration smartly separates lot purchase consultations from daily rentals, allowing sales team to schedule dedicated time with potential buyers","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Pricing information clearly visible with exact dollar amounts ($5, $10, $7 rates displayed) eliminating the 'call for rates' barrier that loses 40% of potential bookings","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Email address visible throughout site providing alternative contact method for guests who prefer written communication over phone calls","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Physical address clearly displayed helping visitors understand exact location relative to Harrison Hot Springs village and plan their arrival","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Phone number placement in footer and contact page only - not in prominent header location where 60% of mobile visitors look first when ready to book","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Phone number is clickable with proper tel: link format allowing mobile users to call with single tap rather than manually dialing","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Move phone number (604-796-9767) to sticky header visible on all pages and all scroll positions with click-to-call tel: link - currently only in footer requiring scroll","time_estimate":"1 hour (design adjustment)","impact":"Increase phone inquiry conversions by 20-25% by making contact immediate when visitors have questions during booking consideration","priority":"high"},{"text":"Add live chat widget (Tawk.to free option or paid service like Drift) to answer common questions about amenities, site availability, and seasonal vs daily rates in real-time","time_estimate":"3 hours setup and configuration","impact":"Capture 15-20% more conversions from visitors who have questions but don't want to call - especially effective for younger demographics researching RV trips","priority":"medium"},{"text":"Implement exit-intent popup offering 10% discount or free amenity upgrade for first-time guests who abandon booking flow to reduce 40-50% typical booking abandonment rate","time_estimate":"2 hours to configure popup trigger and design","impact":"Recover 10-15% of abandoning visitors resulting in 8-12 additional bookings monthly","priority":"medium"},{"text":"Add trust signals near booking CTAs: 'Secure Booking' badge, '367 Five-Star Reviews' social proof, and '90-Minute Drive from Vancouver' convenience factor to reduce booking hesitation","time_estimate":"1 hour to add elements near CTAs","impact":"Increase booking completion rate by 8-10% by addressing unconscious concerns about security and quality at decision moment","priority":"low"},{"text":"Create comparison table showing daily vs seasonal vs lot purchase options with clear pricing, benefits, and ideal guest profiles to guide visitors to appropriate booking type","time_estimate":"3 hours to design and write content","impact":"Reduce confusion for first-time visitors unfamiliar with RV resort models, increasing appropriate bookings by 12-15%","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":52,"grade":"F","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":3199,"score":65,"source":"SociaVault"},"engagement_rate":{"value":0.7,"score":40,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":0.2,"score":25,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","instagram","youtube"]},"score":85,"source":"SociaVault"},"content_quality":{"value":{"images":8,"carousels":4,"reels":0,"reelPercent":0},"score":55,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Critical underperformance across all platforms with 3,199 total followers but virtually dormant content strategy: 0.2 posts/week on Instagram, 0.7% engagement rate (below 1% industry minimum), zero reels despite video being essential for tourism discovery, and no consistent YouTube activity despite having 17 videos with 160,000+ total views","findings":[{"type":"negative","text":"Instagram posting frequency of 0.2 times per week (essentially once every 5 weeks) signals dormant account to algorithm - organic reach likely reduced to under 5% of followers","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Engagement rate of 0.7% on Instagram is critically low - below 1% industry minimum indicates content does not resonate or account appears abandoned to audience","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Zero reels posted out of 12 total Instagram posts means Springs completely misses video content distribution channel that receives 300% higher reach than static images","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Recent Instagram posts (last 3) averaging only 3-5 likes each showing declining engagement trajectory as dormant account loses algorithm favor","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"YouTube channel essentially dormant at ~1.7 videos per year despite channel having 160,511 total views proving audience demand exists for Springs video content","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"No paid advertising detected on Facebook or Instagram despite having 2 Facebook Pixels installed and ready for conversion tracking - missing seasonal booking campaigns","confidence":"high","source":"Facebook Ad Library"},{"type":"positive","text":"YouTube view-to-subscriber ratio of 2,469:1 shows strong evergreen video SEO performance - videos likely ranking for 'Harrison Hot Springs RV resort' searches","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Best performing Instagram post about Phase 3 completion generated 1.7% engagement (2.4x average) showing audience responds to major facility announcements and community updates","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Instagram bio effectively communicates core value propositions: luxury positioning, Harrison Hot Springs location, 90-minute Vancouver proximity, phone number, and website link","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Total follower base of 3,199 across platforms provides ready audience foundation - need consistent content to activate rather than building from zero","confidence":"high","source":"SociaVault API"}],"metrics":[{"label":"Total Followers","value":"3,199","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"0.70%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"0.2 posts/week","status":"critical","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Immediately implement 3 Instagram reels per week content schedule: Monday (pool/amenity showcase), Wednesday (guest experience/activities), Friday (weekend booking prompt with scenic views) - film all 3 in single 2-hour session","time_estimate":"2 hours filming per week, 30 minutes editing per reel = 3.5 hours weekly","impact":"Increase Instagram engagement from 0.7% to target 2-3% within 60 days; grow followers from 999 to 1,500+ in 90 days through improved algorithm visibility","priority":"high"},{"text":"Create 30-second Instagram reel showcasing pool complex, kids carousel, and hot tubs set to trending audio with text overlay '90 Minutes from Vancouver' - post during peak booking research time (Tuesday 10am)","time_estimate":"1 hour for first video (includes learning curve)","impact":"Pool amenities are #1 mentioned feature in reviews - visual proof in reels can drive 15-20 booking inquiries from single viral-potential post","priority":"high"},{"text":"Repurpose all 17 existing YouTube videos into 60-second Instagram and Facebook reels by extracting most visually compelling segments - batch process to create 17 pieces of content immediately","time_estimate":"4 hours to edit 17 videos into short-form clips","impact":"Generate 8-10 weeks of consistent posting from existing assets, establishing regular posting cadence without new filming requirement","priority":"high"},{"text":"Launch user-generated content campaign: create #MySpringsStory hashtag, add signage at checkout with QR code linking to Instagram, offer 10% discount on next stay for guests who post and tag resort","time_estimate":"3 hours to design materials and set up campaign","impact":"Generate 8-12 authentic guest posts monthly providing social proof content and expanding organic reach through guest networks","priority":"high"},{"text":"Post 2 YouTube videos monthly: one facility tour/amenity showcase (evergreen SEO content) and one seasonal event/activity video (timely engagement content) - aim for 3-5 minute length","time_estimate":"4 hours per video (filming and editing) = 8 hours monthly","impact":"Reactivate YouTube channel to capture search traffic for 'Harrison Hot Springs RV resort' and 'Springs RV review' queries where videos rank well","priority":"medium"},{"text":"Create seasonal content calendar with Q2-Q3 themes (pool season, family vacation, lake activities) and Q4-Q1 themes (winter seasonal sites, cozy getaways, off-season tranquility) to align messaging with booking patterns","time_estimate":"3 hours to plan 12-month content calendar","impact":"Ensure content stays relevant to immediate booking windows, increasing conversion likelihood by 20-25% through timely messaging","priority":"medium"},{"text":"Verify both Facebook Pixels (IDs: 6951700811603185, 1838182190044087) are properly tracking website visits and booking conversions before considering any paid advertising campaigns","time_estimate":"1 hour to audit pixel implementation","impact":"Ensure conversion tracking foundation is solid before spending ad budget - proper tracking enables 30-40% better ROAS through optimization","priority":"medium"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"full_week","score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Outstanding digital guest experience with all essential visitor information readily available: full week hours displayed, interactive map with directions, parking details, and accessibility information - among the most complete implementations seen for RV resorts","findings":[{"type":"positive","text":"Complete weekly hours schedule displayed with all 7 days visible allowing guests to plan arrival times and understand office/amenity availability","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Interactive map embedded on website enabling visitors to get turn-by-turn directions from their location to 670 Hot Springs Rd address","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Parking information provided which is critical for RV resort where guests need confirmation their specific RV/trailer size and configuration is accommodated","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Accessibility information included demonstrating inclusive approach and helping mobility-limited guests understand resort accommodation capabilities","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Physical address clearly displayed (670 Hot Springs Rd, Harrison Hot Springs, BC) helping visitors locate resort and plan routes from Vancouver/Lower Mainland","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"No multi-language support despite proximity to Vancouver's multicultural population - French Canadian and Mandarin/Cantonese translations could expand market reach","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Hours Displayed","value":"Yes - Full week schedule visible (all 7 days found)","benchmark":"Hours must be easily findable on homepage or contact page - Springs exceeds with complete weekly schedule","status":"good","confidence":"high","source":"Website scrape","tooltip":"Complete schedule for Monday-Sunday helps visitors plan arrival and know when office/amenities are accessible"},{"label":"Directions/Map Available","value":"Yes - Interactive map embedded","benchmark":"Map embed or clear directions link is essential for tourism destinations","status":"good","confidence":"high","source":"Website scrape","tooltip":"Interactive map allows visitors to get directions from their location and visualize exact resort position relative to Harrison Hot Springs"},{"label":"Parking Information","value":"Yes - Parking details provided","benchmark":"Parking info reduces arrival friction especially for RV resorts where vehicle size matters","status":"good","confidence":"high","source":"Website scrape","tooltip":"Critical for RV resort where guests need confirmation their vehicle/trailer size is accommodated"},{"label":"Accessibility Information","value":"Yes - Accessibility details included","benchmark":"Accessibility info demonstrates inclusivity and meets needs of mobility-limited guests","status":"good","confidence":"high","source":"Website scrape","tooltip":"Important for families with elderly members or guests with mobility considerations planning RV vacations"},{"label":"Multi-Language Support","value":"No - English only","benchmark":"BC tourism businesses often benefit from French (Canadian market) and potentially Mandarin/Cantonese (Vancouver market)","status":"info","confidence":"high","source":"Website scrape","tooltip":"Consider adding French translation given proximity to Vancouver's multicultural population"}],"recommendations":[{"text":"Add FAQ section to website addressing common pre-arrival questions identified in reviews: pool opening dates (May 15), pet policies (dog park mentioned), RV size limitations, check-in process, amenity access hours","time_estimate":"3 hours to write comprehensive FAQ","impact":"Reduce pre-booking phone calls by 25-30% by addressing common questions proactively, freeing staff time for higher-value interactions","priority":"high"},{"text":"Create downloadable pre-arrival guide PDF covering directions from Vancouver, check-in instructions, amenity locations (pools, clubhouses, dog park), WiFi passwords, and local attraction recommendations","time_estimate":"4 hours to design and write guide","impact":"Improve guest satisfaction scores by 10-15% through proactive information sharing that reduces confusion and enhances arrival experience","priority":"medium"},{"text":"Add visual site map showing RV lot locations, amenity buildings, pool complex, dog park, and distance markers to help guests understand resort layout before arrival","time_estimate":"2 hours if existing map available, 6 hours if creating from scratch","impact":"Reduce check-in confusion and help guests select preferred lot location based on proximity to preferred amenities","priority":"medium"},{"text":"Implement automated email sequence: booking confirmation immediately, pre-arrival info 7 days before, day-before reminder with weather forecast and packing tips, post-stay review request","time_estimate":"4 hours to write and configure email automation","impact":"Enhance guest experience through timely communication while automating review generation for reputation management","priority":"medium"},{"text":"Add French translation option for key pages (homepage, booking, amenities, contact) to serve French Canadian market traveling from eastern Canada to BC destinations","time_estimate":"8 hours for professional translation of core pages","impact":"Expand addressable market by 5-8% capturing French-speaking travelers researching BC RV destinations","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Excellent local search presence with claimed Google Business Profile, strong keyword rankings (#1 for 'springs rv resort' and 'harrison hot springs rv park'), and good NAP consistency, though missing local business schema markup for enhanced search features","findings":[{"type":"positive","text":"Ranking #1 for critical local keywords including 'harrison hot springs rv park', 'harrison hot springs rv camping', and 'harrison hot springs rv parks' capturing high-intent booking searches","confidence":"high","source":"SEOptimer Keyword Rankings"},{"type":"positive","text":"Strong branded search presence ranking #1 for 'springs rv resort' with estimated 486 monthly visits demonstrating brand recognition in target market","confidence":"high","source":"SEOptimer Keyword Rankings"},{"type":"positive","text":"Appearing in Google AI Overviews for broader 'camping harrison hot springs' searches (position 3) capturing awareness-stage travelers researching area","confidence":"high","source":"SEOptimer AI Overview Tracking"},{"type":"positive","text":"Google Business Profile fully claimed with complete information (address, phone, website, hours) and strong 4.6-star rating visible in local pack results","confidence":"high","source":"Google Places API"},{"type":"positive","text":"NAP consistency maintained between website and Google Business Profile ensuring search engines recognize business identity accurately","confidence":"high","source":"Website Analysis + Google Places"},{"type":"positive","text":"Strong backlink profile with 385 total backlinks from 234 referring domains including high-authority sites like Google Forms, Waze, WorkBC, and tourism directories","confidence":"high","source":"SEOptimer Backlink Analysis"},{"type":"negative","text":"Missing LocalBusiness schema markup which would enable enhanced search features like star ratings, price range, and amenities directly in search results","confidence":"high","source":"SEOptimer Schema Analysis"},{"type":"negative","text":"Missing Organization/Identity schema that would help search engines and AI systems better understand Springs RV Resort as entity with relationships to Harrison Hot Springs","confidence":"high","source":"SEOptimer Schema Analysis"},{"type":"negative","text":"Website address not detected by SEOptimer automated scan though present in footer - may benefit from more prominent structural placement for enhanced schema implementation","confidence":"medium","source":"SEOptimer Local SEO Check"}],"metrics":[{"label":"Google Business Profile Status","value":"Claimed and verified with complete information","benchmark":"All tourism businesses must have claimed GBP with complete details","status":"good","confidence":"high","source":"Google Places API","tooltip":"Profile includes name, address (670 Hot Springs Rd), phone (604-796-9767), website, hours, and 367 reviews"},{"label":"NAP Consistency","value":"Address and phone both present and consistent","benchmark":"Name, Address, Phone must match exactly across website, GBP, and directories","status":"good","confidence":"high","source":"Website Analysis + Google Places","tooltip":"Website displays consistent contact information matching Google Business Profile"},{"label":"Local Keyword Rankings","value":"Position #1 for 'springs rv resort', 'harrison hot springs rv park', 'harrison hot springs rv camping'","benchmark":"Position 1-3 for primary local keywords is excellent; position 4-10 is good","status":"good","confidence":"high","source":"SEOptimer Keyword Rankings","tooltip":"Dominating branded and location-based searches with 486 estimated monthly visits from 'springs rv resort' alone"},{"label":"AI Overview Citations","value":"Appearing in Google AI Overviews for 'camping harrison hot springs' (position 3) and 'harrison hot springs rv parks' (position 1)","benchmark":"Presence in AI Overviews increasingly important as Google shifts to AI-first results","status":"good","confidence":"high","source":"SEOptimer AI Overview Tracking","tooltip":"Estimated 79-86 monthly visits from AI Overview citations showing strong LLM visibility"},{"label":"Local Business Schema","value":"Not implemented - missing structured data","benchmark":"Local Business schema helps search engines understand business type, hours, location for enhanced results","status":"warning","confidence":"high","source":"SEOptimer Schema Analysis","tooltip":"Schema.org markup detected but not LocalBusiness type - missing opportunity for rich search results"},{"label":"Search Traffic Estimate","value":"2,512 monthly visits from organic search (783 from AI Overviews)","benchmark":"Strong search traffic relative to resort size; indicates effective SEO presence","status":"good","confidence":"high","source":"SEOptimer Traffic Estimation","tooltip":"Majority of traffic from branded searches showing strong brand recognition in Harrison area"}],"recommendations":[{"text":"Implement LocalBusiness schema markup including business type (RVPark, Campground), address, phone, hours, price range ($-$), amenities (pool, WiFi, pet-friendly), and aggregate rating (4.6 stars)","time_estimate":"2 hours to implement schema code","impact":"Enable rich search results showing star rating, price range, and amenities directly in Google search increasing click-through by 15-20%","priority":"high"},{"text":"Add FAQ schema markup to new FAQ section answering common questions about pool opening dates, pet policies, RV size limits to appear in Google's 'People Also Ask' feature","time_estimate":"1 hour to add FAQ schema after FAQ content created","impact":"Capture additional search visibility in FAQ boxes and AI Overviews for question-based queries like 'when do Harrison RV resort pools open'","priority":"medium"},{"text":"Create dedicated landing pages for key search terms currently ranking 4-10: 'harrison hot springs campgrounds' (position 4), 'rv sites for sale' (position 3) to capture additional traffic","time_estimate":"4 hours per landing page for 2-3 priority terms","impact":"Move from position 4 to position 1-2 for high-volume terms can increase traffic by 50-100 visits monthly per keyword","priority":"medium"},{"text":"Build citations in key tourism directories: BC RV Parks Association, Good Sam RV Travel Guide, RVezy, BC Parks, and Tourism Harrison Hot Springs to strengthen local SEO signals","time_estimate":"3 hours to claim and optimize 5-7 directory listings","impact":"Improve local pack rankings and increase referral traffic from niche RV traveler directories researching Harrison area","priority":"medium"},{"text":"Optimize Google Business Profile posts weekly with updates about availability, amenity highlights, seasonal offers, and events to increase visibility in local pack results","time_estimate":"15 minutes weekly ongoing","impact":"GBP posts appear in local search results above reviews and can increase profile engagement by 20-30%","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Launch immediate Instagram reels strategy posting 3 videos weekly (Monday/Wednesday/Friday) showcasing pools, carousel, hot tubs, dog park, and lake proximity - currently posting 0.2x/week with zero video content despite 999 followers","time_estimate":"2 hours filming weekly, 30 minutes editing per reel (3.5 hours/week total)","impact":"high","expected_result":"Increase Instagram engagement from 0.7% to 2-3% within 60 days, grow followers from 999 to 1,500+ in 90 days, generate 15-20 direct booking inquiries monthly from social discovery","confidence":"high"},{"priority":2,"category":"Website & Technical Foundation","text":"Implement critical performance optimizations: defer render-blocking CSS (saves 3 seconds), compress 8 key images using WebP (saves 800KB), configure 1-year browser caching to improve mobile PageSpeed from failing 13/100 to acceptable 40+","time_estimate":"6 hours developer work (one-time fix)","impact":"high","expected_result":"Reduce mobile bounce rate by 15-20% during booking flow, improve Core Web Vitals to passing scores, increase mobile booking conversions by 12-15%","confidence":"high"},{"priority":3,"category":"Reviews & Reputation","text":"Implement automated post-stay review request system sending email 2-3 days after checkout with direct Google review link, and respond to 100% of reviews within 48 hours (currently 60% response rate)","time_estimate":"3 hours setup automation, 30 minutes weekly ongoing for responses","impact":"high","expected_result":"Increase review velocity from ~2-3 to 8-12 monthly, maintain 4.6+ star rating, improve conversion rate by 12-15% as potential guests see active engagement","confidence":"high"},{"priority":4,"category":"Online Booking & Conversion","text":"Move phone number (604-796-9767) to sticky header visible on all pages with click-to-call link - currently only in footer requiring scroll, missing 20-25% of mobile booking inquiries","time_estimate":"1 hour design adjustment","impact":"medium","expected_result":"Increase phone inquiry conversions by 20-25% by making contact immediate when visitors have questions during booking consideration, capture additional 8-12 bookings monthly","confidence":"high"},{"priority":5,"category":"Website & Technical Foundation","text":"Add H1 header tag with 'RV Resort in Harrison Hot Springs' keyword, add alt text to 45 images missing descriptions (56% of images), and implement LocalBusiness schema markup for enhanced search results","time_estimate":"4 hours total (30 min H1, 2 hours alt text, 1.5 hours schema)","impact":"medium","expected_result":"Improve organic rankings by 10-15% for target keywords, capture Google Image search traffic, enable rich search results showing 4.6-star rating and amenities directly in search","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile data (4.6 stars, 367 reviews, verified address/phone)","Website content analysis (booking capability, contact info visibility, hours/directions)","SEOptimer technical metrics (PageSpeed scores, SSL, mobile optimization)","Social media analytics (Instagram: 999 followers, 0.7% engagement, 0.2 posts/week; YouTube: 65 subscribers, 160,511 views)","Keyword rankings (Position #1 for 'springs rv resort', 'harrison hot springs rv park')","Backlink profile (385 backlinks from 234 domains)"],"low_confidence_areas":["TripAdvisor presence and review count - not included in automated scan, manual verification recommended","Yelp presence and ratings - no data captured, should verify given tourism context","Detailed Facebook engagement metrics - follower count verified (2,200) but post-level analytics not available","Email marketing presence and list size - not detectable from external scan","Paid advertising historical performance - only current ad status scanned, no historical ROAS data","Booking conversion rate - cannot determine actual booking completion percentage from external analysis"],"recommendations_for_fuller_picture":["Manually verify TripAdvisor profile and review count - critical for Harrison Hot Springs tourism discovery","Check Yelp presence and claim profile if exists - secondary platform but still relevant for tourism","Review Google Analytics data (detected on site) to understand actual traffic sources and booking funnel drop-off points","Audit Cloudbeds booking platform analytics to determine conversion rates and identify friction points in reservation flow","Assess email marketing list size and engagement if using newsletter - detected signup forms but cannot verify list quality","Review Facebook Ads Manager historical data (if any previous campaigns) to inform future paid strategy recommendations"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-17T17:09:37.772Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-17T17:04:01.125Z","confidence":"high","missingDataFlags":[]}};</script>
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Springs RV Resort demonstrates strong booking infrastructure and local visibility (84/100, B+), but review engagement and website technical performance present clear opportunities for improvement.","key_strengths":["Excellent online booking system with multiple platforms (Cloudbeds, Calendly) and transparent pricing across all site areas","Strong Google Business Profile presence with 4.6-star rating from 369 reviews, demonstrating consistent guest satisfaction","Comprehensive digital guest information including hours, directions, parking, and accessibility details readily available"],"critical_gaps":["Website speed and technical performance (73/100) falls below tourism industry standards, with mobile load times impacting user experience","Review recency showing decline with only 40% of recent reviews from past 18 months, suggesting reduced guest engagement or follow-up","Social media engagement rate at 0.7% is significantly below tourism benchmarks (3-6%), with no short-form video content despite active posting"],"bottom_line":"Springs RV Resort has built solid digital foundations for capturing bookings, but technical improvements and revitalizing review/social engagement could substantially increase visitor discovery and conversion rates in the competitive Harrison Hot Springs market."},"quick_wins":[{"task":"Add H1 header tag to homepage - currently missing, which impacts SEO and page structure clarity","time_estimate":"15 minutes","impact":"Improved search engine understanding of page content and potential ranking boost for target keywords","confidence":"high"},{"task":"Compress homepage images - 8 images identified with 75-88% potential file size reduction without quality loss","time_estimate":"30 minutes","impact":"Faster page load speed, better user experience, and improved mobile performance scores","confidence":"high"},{"task":"Add alt text to 45 images currently missing descriptions for accessibility and SEO","time_estimate":"45 minutes","impact":"Better search visibility for image searches and improved accessibility for visually impaired visitors","confidence":"high"},{"task":"Create post-stay review request email template to send 3-5 days after checkout to increase review recency","time_estimate":"1 hour to create template","impact":"Increase recent review volume, improving Google Business Profile ranking signals and building fresher social proof","confidence":"high"},{"task":"Enable browser caching for static resources - currently set to 'None' for major files including 6.57MB video","time_estimate":"30 minutes","impact":"Significantly faster load times for returning visitors and reduced server bandwidth usage","confidence":"high"}],"tourism_context":{"visitor_profile":"Springs RV Resort attracts RV owners seeking long-term seasonal sites or vacation ownership in Harrison Hot Springs area, plus daily/weekly guests looking for premium resort amenities. Target includes families from Lower Mainland (90 minutes from Vancouver), retirees seeking summer retreats, and RV enthusiasts wanting access to Harrison Lake recreational activities.","discovery_journey":"Potential guests typically search for 'Harrison Hot Springs RV parks,' 'RV lots for sale BC,' or 'Harrison camping' - with decision influenced heavily by photos of amenities (pools, clubhouse), lot availability, and guest reviews. The purchase consideration cycle for lot sales is 3-6 months, while rental bookings happen 2-8 weeks in advance, making strong digital presence across that timeframe critical.","seasonal_considerations":"Peak season May-September drives majority of bookings and site sales, requiring year-round digital marketing to capture planning cycles. Winter marketing should focus on seasonal site availability and year-round amenity access. Summer content should showcase active pool areas, events, and proximity to Harrison Hot Springs attractions.","trip_integration":"Springs RV Resort serves as either destination accommodation for Harrison Hot Springs visitors or base camp for exploring Fraser Valley. Guests often combine stays with beach access (15-minute walk mentioned in reviews), hot springs visits, and local events like Canada Day celebrations. Digital content should emphasize both on-site resort amenities and proximity to area attractions."},"overall":{"score":84,"grade":"B+","confidence":"high","scoreBreakdown":{"website_technical":{"score":73,"weight":0.15,"contribution":10.95},"reviews_reputation":{"score":82,"weight":0.25,"contribution":20.5},"booking_conversion":{"score":94,"weight":0.2,"contribution":18.8},"social_media":{"score":79,"weight":0.2,"contribution":15.8},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":73,"grade":"C","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":70,"score":70,"source":"SEOptimer","grade":"C-"},"mobile_speed":{"value":70,"score":70,"source":"SEOptimer","grade":"C-"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Website demonstrates basic technical functionality with SSL security and mobile optimization in place, but performance metrics indicate room for improvement in load speed and technical SEO elements that impact visitor experience and search rankings.","findings":[{"type":"positive","text":"Website properly configured with mobile viewport settings and SSL security, providing foundation for secure visitor experience","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Using HTTP/2 protocol and reasonable compression (60% total compression rate) for faster content delivery","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"XML sitemap present and properly configured, helping search engines discover all site pages","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Missing H1 header tag on homepage, which weakens page structure for both SEO and accessibility","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Title tag exceeds recommended length at 62 characters, potentially causing truncation in search results","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Browser caching not configured - all major resources including 6.57MB video have 'None' cache lifetime, forcing repeated downloads","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"45 images missing alt text attributes (out of 81 total images), impacting both SEO and accessibility for visually impaired visitors","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Significant image optimization opportunity - 8 images could be compressed by 75-100% (total potential savings of 739KB) without quality loss","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Render-blocking resources delaying page display by 2.99 seconds, including CSS and JavaScript that could be deferred","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Email address visible in plain text on page, creating spam vulnerability","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"iFrames detected on page which can slow rendering and create mobile usability issues","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Desktop Speed","value":"70/100","status":"warning","source":"SEOptimer"},{"label":"Mobile Speed","value":"70/100","status":"warning","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Implement comprehensive image optimization: compress the 8 identified images (potential 739KB savings), add alt text to 45 missing images, and convert large images to modern formats like WebP","time_estimate":"2-3 hours initial optimization","impact":"Faster page loads (estimated 1-2 second improvement), better SEO through image search visibility, improved accessibility compliance","priority":"high"},{"text":"Configure browser caching for static resources with appropriate cache lifetimes (1 week for images, 1 month for CSS/JS) to improve repeat visitor load times","time_estimate":"30 minutes","impact":"50-70% faster load times for returning visitors, reduced server bandwidth usage","priority":"high"},{"text":"Add H1 header tag to homepage with primary keyword focus (e.g., 'Premium RV Resort in Harrison Hot Springs, BC') and ensure proper heading hierarchy throughout site","time_estimate":"30 minutes","impact":"Improved SEO signal strength for target keywords and better page structure for search engines","priority":"medium"},{"text":"Defer render-blocking CSS and JavaScript to improve initial page display speed, particularly the 2.99s delay from Divi theme styles","time_estimate":"1-2 hours (may require developer assistance)","impact":"Faster perceived load time, improved Core Web Vitals scores","priority":"medium"},{"text":"Shorten title tag from 62 to 50-55 characters to prevent truncation in search results while maintaining keyword targeting","time_estimate":"15 minutes","impact":"Better search result click-through rates with fully visible titles","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis","Google PageSpeed Insights"]},"reviews_reputation":{"score":82,"grade":"B","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.6,"score":85,"source":"Google Places API"},"review_volume":{"value":369,"score":92,"source":"Google Places API"},"review_recency":{"value":{"recentCount":2,"totalProvided":5,"recentPercent":40},"score":70,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Strong Google Business Profile foundation with 4.6-star rating and substantial review volume of 369 reviews, though review recency patterns suggest opportunity to maintain momentum through more consistent recent guest feedback collection.","findings":[{"type":"positive","text":"Excellent 4.6-star rating from 369 reviews demonstrates consistent guest satisfaction and strong reputation in Harrison Hot Springs RV market","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Review content highlights key differentiators: pools (adult and kids), well-maintained landscaping, cleanliness, dog park, and proximity to Harrison Beach (15-minute walk)","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Recent reviews specifically mention professional front desk service, online check-in convenience, and comprehensive pre-arrival communications","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Strong review distribution with 77.8% five-star ratings (287 of 369) indicating consistently excellent guest experiences","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Review recency at 40% (only 2 of 5 recent sample reviews from past 18 months) suggests declining review collection momentum compared to earlier periods","confidence":"high","source":"Google Places API"},{"type":"negative","text":"Pricing concerns mentioned in reviews (one guest noted $312 for 3 nights felt high), presenting opportunity to better communicate value proposition","confidence":"medium","source":"Google Places API"}],"metrics":[{"label":"Google Rating","value":"4.6 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"369","status":"good","source":"Google Places API"}],"recommendations":[{"text":"Implement systematic post-stay review request process: automated email 3-5 days after checkout with direct Google review link, focusing on guests who had positive on-site interactions","time_estimate":"2 hours to set up email automation, 15 minutes weekly to monitor","impact":"Increase review velocity to 8-12 new reviews monthly, improving recency signals and maintaining competitive review momentum","priority":"high"},{"text":"Create review response protocol: respond to all reviews within 48 hours (especially 3-star and below), thank positive reviewers specifically, address concerns professionally with solutions","time_estimate":"30 minutes weekly ongoing","impact":"Demonstrate active management to potential guests, improve guest relations, and potentially convert negative experiences into positive outcomes","priority":"high"},{"text":"Add Google review QR code to checkout materials and clubhouse signage for easy mobile review submission while experience is fresh","time_estimate":"1 hour to create materials","impact":"Capture more reviews from satisfied guests during peak positive sentiment window","priority":"medium"},{"text":"Verify and optimize TripAdvisor presence given RV/camping sector's strong TripAdvisor usage for research - claim listing if unclaimed, encourage reviews through post-stay communications","time_estimate":"1 hour initial setup, ongoing integration with review request process","impact":"Expand review presence across multiple platforms, capture additional traveler research touchpoints","priority":"medium"},{"text":"Address pricing perception by highlighting value in review responses and website content: emphasize premium amenities (two pools, hot tubs, clubhouse, dog park) that differentiate from basic RV parks","time_estimate":"1 hour to craft messaging","impact":"Better position pricing relative to resort-level amenities offered, potentially reduce price-related review concerns","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":94,"grade":"A","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":2,"platforms":["Cloudbeds","Calendly"]},"score":85,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"score":65,"details":{"telLinkCount":1},"clickable":true,"locations":["footer","contact"]},"score":65,"source":"Website Analysis","details":["footer","contact"]},"pricing_visibility":{"value":{"found":true,"score":100,"details":{"priceCount":7,"samplePrices":["$5","$10","$7"]},"transparency":"exact"},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"type":"book_now","found":true,"score":100,"details":{"platforms":["Cloudbeds"],"ctaElements":4},"prominence":"none"},"score":100,"source":"Website Analysis","details":"none"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Exceptional booking infrastructure with multiple integrated platforms, transparent pricing, and clear calls-to-action throughout the site, making it easy for visitors to move from research to reservation.","findings":[{"type":"positive","text":"Comprehensive booking system with Cloudbeds integration allows direct online reservations for both RV site rentals and lot sales inquiries","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Exceptional pricing transparency with 7 different price points visible throughout site, reducing booking friction and setting clear expectations","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Multiple conversion pathways available: direct booking, Calendly scheduling (likely for tours/consultations), phone contact, and email inquiry","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Phone number configured as clickable tel: link, enabling one-tap calling from mobile devices","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Four distinct CTA elements strategically placed throughout homepage guide visitors toward booking action","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Dual platform strategy (Cloudbeds for reservations, Calendly for consultations) smartly segments different visitor needs and booking types","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add live chat or chatbot to capture visitors during peak research hours (evenings/weekends) when office may be closed, particularly for answering quick questions about lot availability","time_estimate":"2-3 hours to set up with service like Tidio or Drift","impact":"Capture 10-15% more inquiries from visitors who prefer instant answers over phone/email contact","priority":"medium"},{"text":"Create urgency indicators on booking pages showing real-time availability (e.g., 'Only 3 premium sites available for July weekends') to encourage faster booking decisions","time_estimate":"1 hour if Cloudbeds supports availability display","impact":"Reduce booking consideration time and increase conversion rate during peak season","priority":"low"},{"text":"Add testimonials or recent guest quotes near booking CTAs to provide social proof at moment of decision","time_estimate":"30 minutes to select and place 2-3 quotes","impact":"Reinforce booking confidence with peer validation, potentially increasing conversion by 5-10%","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":79,"grade":"B-","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":3195,"score":72,"source":"SociaVault"},"engagement_rate":{"value":0.7,"score":55,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":6.4,"score":100,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","instagram","youtube"]},"score":88,"source":"SociaVault"},"content_quality":{"value":{"images":8,"carousels":4,"reels":0,"reelPercent":0},"score":55,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Active social presence across three platforms with consistent posting frequency (6.4 posts/week), but engagement rate significantly below tourism benchmarks and lacking short-form video content that drives reach in current social algorithms.","findings":[{"type":"positive","text":"Strong posting consistency at 6.4 posts/week demonstrates organizational commitment to social media presence","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"YouTube channel achieves impressive 9,456 average views per video despite only 65 subscribers, indicating content reaches beyond follower base","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Three-platform presence (Instagram, Facebook, YouTube) provides diversified social reach appropriate for RV resort marketing","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Facebook advertising capability established with business account active, providing foundation for paid campaigns","confidence":"high","source":"SociaVault API - Facebook Ad Library"},{"type":"negative","text":"Instagram engagement rate of 0.7% falls significantly below tourism industry benchmarks (3-6%), indicating content not resonating with audience","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Zero Reels in content mix represents critical missed opportunity - Instagram algorithm heavily favors Reels for organic reach","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Facebook engagement at 0% (zero average likes, comments, shares) suggests either inactive posting or significant engagement challenges on platform","confidence":"medium","source":"SociaVault API"},{"type":"negative","text":"Best performing Instagram content (Phase 3 completion) achieved only 1.71% engagement - even top posts underperforming industry standards","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Instagram follower count of 399 is low relative to business size and 369 Google reviews - social following not keeping pace with customer base","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Content heavily weighted toward static images (67% images, 33% carousels, 0% video) limiting algorithmic distribution potential","confidence":"high","source":"SociaVault API"}],"metrics":[{"label":"Total Followers","value":"3,195","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"0.70%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"6.4 posts/week","status":"good","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Create Instagram Reels content strategy: produce 2-3 Reels per week featuring 15-30 second pool tours, site walkthroughs, sunset views, family activities, with trending audio and captions highlighting amenities","time_estimate":"2-3 hours per week for Reels creation and editing","impact":"Increase organic reach by 3-5x through algorithm prioritization of Reels, improve engagement rate toward 2-3% benchmark","priority":"high"},{"text":"Reduce posting frequency from 6.4 to 4 posts per week, reallocating time to higher-quality content production focused on engagement over volume","time_estimate":"Net time savings of 1-2 hours weekly to reinvest in quality","impact":"Improve average engagement rate by focusing on best-performing content types and optimal posting times","priority":"high"},{"text":"Convert existing YouTube videos to YouTube Shorts (under 60 seconds) to capture Shorts algorithm distribution and cross-post as Instagram Reels","time_estimate":"30 minutes per video to edit into Shorts format","impact":"Leverage existing video content across platforms, increase YouTube subscriber growth through Shorts discovery","priority":"high"},{"text":"Implement engagement-driving caption tactics: end posts with questions about favorite RV memories, poll stickers in Stories about amenity preferences, tag-a-friend prompts for giveaways","time_estimate":"10 additional minutes per post","impact":"Increase comments and shares, improving engagement rate and algorithmic visibility","priority":"medium"},{"text":"Install Meta Pixel and Google Analytics tracking if not present to measure social media traffic and booking conversions from social sources","time_estimate":"1 hour setup","impact":"Enable data-driven decisions about social advertising ROI and organic content performance","priority":"medium"},{"text":"Launch user-generated content campaign: encourage guests to tag @springs_rv_resort in posts and Stories, feature best guest photos/videos weekly with permission","time_estimate":"30 minutes weekly to curate and repost","impact":"Build authentic social proof, increase engagement through guest participation, expand reach through guest networks","priority":"medium"},{"text":"Audit Facebook posting activity to determine cause of 0% engagement - verify regular posting schedule, test different content types, or consider reducing Facebook priority if audience inactive","time_estimate":"1 hour audit","impact":"Clarify Facebook strategy effectiveness and optimize resource allocation across platforms","priority":"low"}],"data_sources":["SociaVault API","Instagram","YouTube","Facebook","Facebook Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]},"completeness":"full_week"},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Outstanding digital visitor information with comprehensive details about hours, directions, parking, and accessibility readily available on website, though multi-language support represents opportunity to serve diverse Lower Mainland visitor demographics.","findings":[{"type":"positive","text":"Complete operating hours displayed for full week (Monday-Sunday) enables visitors to plan contact and arrival timing","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Embedded map and directions provided - critical for RV travelers navigating unfamiliar routes with large vehicles","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Parking information available, addressing common visitor question about where to park when touring property","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Accessibility information provided demonstrates consideration for guests with mobility needs","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Extensive visual content (476 images plus video) allows virtual touring of amenities, sites, and facilities before booking","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Email and phone contact options visible provide multiple ways for visitors to reach resort with questions","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"No multi-language support detected despite serving Lower Mainland market with significant multilingual population (Mandarin, Punjabi, Cantonese speakers)","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Hours Displayed","value":"Yes - Full week displayed (Monday-Sunday)","benchmark":"Essential visitor information - must be easily findable on homepage or contact page","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Complete weekly hours information helps visitors plan arrival times and contact office"},{"label":"Directions & Map","value":"Yes - Map embedded and directions available","benchmark":"Critical for RV resorts where GPS accuracy varies and large vehicles require route planning","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Map integration helps visitors navigate to resort, particularly important for first-time RV travelers to area"},{"label":"Parking Information","value":"Yes - Parking details provided","benchmark":"Important for guests arriving to tour property before booking or attending events","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Parking information addresses visitor questions before arrival"},{"label":"Accessibility Information","value":"Yes - Accessibility details available","benchmark":"Increasingly important for compliance and serving diverse guest needs","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Accessibility information demonstrates inclusive guest experience planning"},{"label":"Multi-Language Support","value":"No - English only","benchmark":"Optional but valuable for Lower Mainland market with significant Mandarin, Punjabi, Cantonese speakers","status":"info","confidence":"high","source":"Website Content Analysis","tooltip":"Multi-language support could expand reach in diverse Vancouver regional market"},{"label":"Visual Content","value":"476 images, video content present","benchmark":"Visual-rich content essential for RV resort marketing - guests need to see sites, amenities, facilities","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Extensive visual content helps visitors envision their stay experience"}],"recommendations":[{"text":"Consider adding multi-language support (at minimum: Simplified Chinese, Punjabi) for key pages given Lower Mainland demographics - translate homepage, rates, and booking pages as priority","time_estimate":"4-6 hours for professional translation of priority pages","impact":"Expand addressable market to non-English speaking RV owners in Vancouver region, potentially increasing bookings from diverse communities","priority":"low"},{"text":"Add FAQ section addressing common pre-arrival questions: site sizes, RV length restrictions, pet policies, check-in process, amenity hours, WiFi quality","time_estimate":"2 hours to compile and write FAQ content","impact":"Reduce repetitive inquiry emails/calls, improve guest preparation and satisfaction, provide content for voice search optimization","priority":"low"},{"text":"Create downloadable 'First Stay Guide' PDF covering arrival instructions, amenity locations, local attractions, Harrison Hot Springs recommendations","time_estimate":"3-4 hours to create guide","impact":"Enhance guest experience, reduce on-site orientation questions, provide value-add that encourages direct bookings","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local search presence with claimed Google Business Profile, consistent NAP information, and local keyword optimization positioning Springs RV Resort well for discovery by Harrison Hot Springs searchers.","findings":[{"type":"positive","text":"Google Business Profile claimed and verified with business name 'Springs RV Resort' properly configured for local search","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Strong local keyword targeting with 'Harrison Hot Springs', 'Harrison Hot Springs RV', 'RV Resort BC' appearing in title, headers, and meta description","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Consistent NAP information present on website matching Google Business Profile data (670 Hot Springs Rd, Harrison Hot Springs, phone 604-796-9767)","confidence":"high","source":"Website Content Analysis + Google Places API"},{"type":"positive","text":"Robust backlink profile with 385 backlinks from 234 referring domains, including relevant tourism sites and directories","confidence":"high","source":"SEOptimer"},{"type":"positive","text":"Strong organic keyword rankings for primary local terms: 'springs rv resort' (position 1), 'harrison hot springs rv camping' (position 1), 'harrison hot springs campgrounds' (position 4)","confidence":"high","source":"SEOptimer"},{"type":"negative","text":"Local Business schema markup not detected on website, missing opportunity to provide structured data to search engines","confidence":"high","source":"SEOptimer"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified - 'Springs RV Resort' identified","benchmark":"Essential for local search visibility - must be claimed, verified, and actively managed","status":"good","confidence":"high","source":"Google Places API","tooltip":"Verified GBP provides foundation for local search rankings and map visibility"},{"label":"NAP Consistency","value":"Phone and address present on website","benchmark":"Name, Address, Phone must be consistent across website and Google Business Profile","status":"good","confidence":"high","source":"Website Content Analysis + Google Places API","tooltip":"Consistent business information strengthens local SEO signals"},{"label":"Local Keywords","value":"Yes - 'Harrison Hot Springs', 'Harrison Lake', 'Lower Mainland', 'BC' detected in content","benchmark":"Local geographic keywords essential for appearing in location-based searches","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Strong local keyword presence in title, description, and content"},{"label":"Local Business Schema","value":"Not detected","benchmark":"Schema markup helps search engines understand business type, location, hours, ratings","status":"warning","confidence":"high","source":"SEOptimer","tooltip":"Adding LocalBusiness schema could strengthen local search signals"},{"label":"Backlinks - Local Quality","value":"385 total backlinks from 234 referring domains","benchmark":"Quality local backlinks from tourism boards, directories strengthen local authority","status":"good","confidence":"high","source":"SEOptimer","tooltip":"Strong backlink profile with domain strength of 64"}],"recommendations":[{"text":"Implement LocalBusiness schema markup on homepage including business type (RVPark/Campground), address, phone, hours, price range, and aggregate rating to enhance search engine understanding","time_estimate":"1 hour to implement schema markup","impact":"Potential for enhanced search result displays (rich snippets) and stronger local search signals","priority":"medium"},{"text":"Add Google Posts to Google Business Profile monthly highlighting availability, events (Canada Day mentioned in reviews), seasonal promotions, and new Phase 3 completion","time_estimate":"15 minutes weekly","impact":"Increase Google Business Profile engagement, improve local search visibility, and provide fresh content signals","priority":"medium"},{"text":"Build local citations on tourism-specific directories: BC RV Parks directory, Go RVing Canada, Campground Reviews, and regional tourism sites","time_estimate":"2-3 hours initial setup","impact":"Strengthen local SEO through consistent NAP citations and increase visibility on traveler research platforms","priority":"low"},{"text":"Optimize for 'near me' searches by ensuring Google Business Profile categories include all relevant terms: RV Park, Campground, RV Resort, Vacation Home Rental Agency","time_estimate":"15 minutes","impact":"Appear in more diverse local search queries and map searches","priority":"low"}],"data_sources":["SEOptimer","Google Places API","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Launch Instagram Reels strategy producing 2-3 short-form videos weekly (15-30 seconds) showcasing pool amenities, site tours, and guest experiences with trending audio - current 0% Reels content severely limits organic reach","time_estimate":"2-3 hours weekly for Reels production","impact":"high","expected_result":"Increase Instagram engagement rate from 0.7% toward 2-3% benchmark and expand organic reach 3-5x through algorithm prioritization of video content","confidence":"high"},{"priority":2,"category":"Reviews & Reputation","text":"Implement automated post-checkout review request system sending Google review link via email 3-5 days after stays to increase review recency (currently only 40% of reviews from past 18 months)","time_estimate":"2 hours initial setup, 15 minutes weekly monitoring","impact":"high","expected_result":"Generate 8-12 new Google reviews monthly, improving recency signals and maintaining competitive review momentum against other Harrison Hot Springs accommodations","confidence":"high"},{"priority":3,"category":"Website & Technical Foundation","text":"Optimize website images by compressing 8 identified images (739KB total savings potential) and adding alt text to 45 images missing descriptions to improve load speed and SEO","time_estimate":"2-3 hours one-time optimization","impact":"high","expected_result":"Reduce page load time by 1-2 seconds, improve mobile user experience, and enhance image search visibility for key amenity searches","confidence":"high"},{"priority":4,"category":"Website & Technical Foundation","text":"Configure browser caching for static resources (currently set to 'None' including 6.57MB video) with appropriate cache lifetimes to dramatically improve repeat visitor load times","time_estimate":"30 minutes","impact":"medium","expected_result":"50-70% faster load times for returning visitors researching RV lot purchase or seasonal booking decisions","confidence":"high"},{"priority":5,"category":"Social Media & Content","text":"Reduce Instagram posting frequency from 6.4 to 4 quality posts per week, reallocating time to higher-production-value content (Reels, professional photos) that drives engagement over volume","time_estimate":"Net time savings of 1-2 hours weekly","impact":"medium","expected_result":"Improve average engagement rate by focusing resources on best-performing content types and optimal posting times rather than maintaining unsustainable volume","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.6 rating, 369 reviews) from Google Places API","Website technical performance from SEOptimer scan","Website content analysis (booking capability, contact visibility, hours, directions)","Social media follower counts and engagement rates from SociaVault API across Instagram, Facebook, YouTube","Organic keyword rankings and backlink profile from SEOptimer","Local visibility signals from multiple verified sources"],"low_confidence_areas":["Review response rate - requires manual Google Business Profile inspection to verify owner replies","TripAdvisor presence and rating - not included in automated scan but important for RV resort sector","Facebook engagement metrics showing 0% - may indicate data collection limitation requiring manual verification","Exact advertising budget and campaign performance - Ad Library shows account status but not spend or detailed metrics","Competitive benchmarking against other Harrison Hot Springs RV resorts - would require additional market analysis"],"recommendations_for_fuller_picture":["Manual audit of review response patterns across Google, TripAdvisor, and Facebook to assess guest relations effectiveness","Competitive analysis of 3-5 comparable RV resorts in Harrison Hot Springs and Fraser Valley for pricing and amenity benchmarking","Website analytics review (Google Analytics) to understand traffic sources, booking funnel drop-off points, and conversion rates","Social media advertising performance data if campaigns running - impression, click, and conversion metrics by platform","Guest survey data on booking journey to understand decision factors and information gaps in digital presence"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-10-07T21:38:43.471Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-10-07T21:34:26.959Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
-<script src="/shared/analytics.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
-// NAVIGATION
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
+}
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// Swipe Gesture Support
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    const sidebarWidth = 268;
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / sidebarWidth, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / sidebarWidth, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) { openMobileDrawer(); return; }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) { closeMobileDrawer(); return; }
+  if (isEdgeSwipe && deltaX > 0) { closeMobileDrawer(); }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+// Close drawer on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('sidebar')?.classList.contains('open')) {
+    closeMobileDrawer();
+  }
+});
+
+// Legacy aliases for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
 // ══════════════════════════════════════════════════════════════
 function navigate(pageId) {
   // Update pages
@@ -2349,8 +2471,7 @@ function navigate(pageId) {
   event?.target?.closest('.nav-item')?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
+  closeMobileDrawer();
 }
 
 function showComingSoon(pageId) {
@@ -2358,58 +2479,72 @@ function showComingSoon(pageId) {
   document.getElementById('page-' + pageId)?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
-}
-
-function toggleMobileMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('mobileOverlay').classList.toggle('active');
+  closeMobileDrawer();
 }
 
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
 // ══════════════════════════════════════════════════════════════
-function downloadPDF() {
-  // Set document title for PDF filename
-  const clientSlug = document.body.dataset.clientSlug || 'assessment';
-  const originalTitle = document.title;
-  document.title = `${clientSlug}-digital-marketing-assessment`;
+async function downloadPDF() {
+  const btn = document.querySelector('.download-pdf-btn');
+  const clientSlug = document.body.dataset.clientSlug;
 
-  // Populate cover page with dynamic data
-  populateCoverPage();
-
-  // Add printing class to body
-  document.body.classList.add('printing');
-
-  // Small delay to ensure styles are applied
-  setTimeout(() => {
-    // Trigger print dialog (user can save as PDF)
-    window.print();
-
-    // Restore state after print dialog closes
-    setTimeout(() => {
-      document.body.classList.remove('printing');
-      document.title = originalTitle;
-    }, 1000);
-  }, 100);
-}
-
-function populateCoverPage() {
-  // Get grade and score from the page
-  const gradeEl = document.getElementById('overallGrade');
-  const scoreEl = document.getElementById('overallScore');
-
-  // Update cover page elements
-  const coverGrade = document.getElementById('coverGrade');
-  const coverScore = document.getElementById('coverScore');
-
-  if (coverGrade && gradeEl) {
-    coverGrade.textContent = gradeEl.textContent;
+  if (!clientSlug) {
+    alert('Unable to generate PDF: client not identified.');
+    return;
   }
 
-  if (coverScore && scoreEl) {
-    coverScore.textContent = scoreEl.textContent;
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+  }
+
+  try {
+    // Get auth token
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      throw new Error('Please log in to download the PDF.');
+    }
+
+    // Call PDF generation API
+    const response = await fetch('/.netlify/functions/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        pdfType: 'assessment',
+        clientSlug: clientSlug
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+    }
+
+    // Get PDF blob and trigger download
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientSlug}-digital-marketing-assessment.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('PDF download error:', err);
+    alert(err.message || 'Failed to generate PDF. Please try again.');
+  } finally {
+    // Reset button state
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
   }
 }
 
@@ -2433,15 +2568,20 @@ function renderAssessment() {
   // Render category cards
   const categoriesGrid = document.getElementById('categoriesGrid');
   const categoryIcons = {
+    // Scoring engine category keys
+    reviews_reputation: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Reviews & Reputation' },
+    booking_conversion: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>', title: 'Online Booking & Conversion' },
+    local_visibility: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local Visibility' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media & Content' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Digital Guest Experience' },
+    // Legacy/alternate category keys (for backwards compatibility)
     website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
     visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
     ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
     online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
     review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
     social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
-    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
     local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
-    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
     email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
     competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
   };
@@ -2462,10 +2602,10 @@ function renderAssessment() {
               <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
             </div>
           </div>
-          <p class="category-summary">${cat.summary || ''}</p>
+          <p class="category-summary" data-editable-key="cat-${key}-summary">${cat.summary || ''}</p>
           ${renderMetrics(cat.metrics)}
-          ${renderFindings(cat.findings)}
-          ${renderRecommendations(cat.recommendations)}
+          ${renderFindings(cat.findings, key)}
+          ${renderRecommendations(cat.recommendations, key)}
         </div>
       `;
     }
@@ -2482,13 +2622,13 @@ function renderAssessment() {
         <div class="priority-item">
           <div class="priority-item-number">${i + 1}</div>
           <div class="priority-item-content">
-            <h4>${rec.text}</h4>
+            <h4 data-editable-key="priority-${i + 1}-text">${rec.text}</h4>
             <div class="priority-item-meta">
               <span class="priority-item-tag">${rec.category || 'General'}</span>
               ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
               ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
             </div>
-            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+            ${rec.expected_result ? `<p class="priority-item-result" data-editable-key="priority-${i + 1}-result">${rec.expected_result}</p>` : ''}
           </div>
         </div>
       `;
@@ -2506,17 +2646,17 @@ function renderExecutiveSummary(summary) {
 
   let strengthsHtml = '';
   if (summary.key_strengths && summary.key_strengths.length) {
-    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+    strengthsHtml = summary.key_strengths.map((s, i) => `<li data-editable-key="strength-${i + 1}">${s}</li>`).join('');
   }
 
   let gapsHtml = '';
   if (summary.critical_gaps && summary.critical_gaps.length) {
-    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+    gapsHtml = summary.critical_gaps.map((g, i) => `<li data-editable-key="gap-${i + 1}">${g}</li>`).join('');
   }
 
   container.innerHTML = `
     <h2>Executive Summary</h2>
-    <p class="executive-headline">${summary.headline || ''}</p>
+    <p class="executive-headline" data-editable-key="assessment-headline">${summary.headline || ''}</p>
     <div class="executive-columns">
       <div class="executive-column strengths">
         <h4>
@@ -2534,7 +2674,7 @@ function renderExecutiveSummary(summary) {
       </div>
     </div>
     <div class="executive-bottom-line">
-      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+      <strong>Bottom Line:</strong> <span data-editable-key="assessment-bottom-line">${summary.bottom_line || ''}</span>
     </div>
   `;
 }
@@ -2552,8 +2692,8 @@ function renderQuickWins(quickWins) {
       <div class="quick-win-item">
         <div class="quick-win-number">${i + 1}</div>
         <div class="quick-win-content">
-          <div class="quick-win-task">${win.task}</div>
-          <div class="quick-win-impact">${win.impact}</div>
+          <div class="quick-win-task" data-editable-key="quick-win-${i + 1}-task">${win.task}</div>
+          <div class="quick-win-impact" data-editable-key="quick-win-${i + 1}-impact">${win.impact}</div>
         </div>
         <span class="quick-win-time">${win.time_estimate}</span>
       </div>
@@ -2565,7 +2705,7 @@ function renderQuickWins(quickWins) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Quick Wins
     </h2>
-    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <p class="quick-wins-subtitle" data-editable-key="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
     <div class="quick-wins-list">${itemsHtml}</div>
   `;
 }
@@ -2591,7 +2731,7 @@ function renderTourismContext(context) {
       itemsHtml += `
         <div class="tourism-context-item">
           <h4>${item.icon} ${item.label}</h4>
-          <p>${context[item.key]}</p>
+          <p data-editable-key="tourism-${item.key}">${context[item.key]}</p>
         </div>
       `;
     }
@@ -2630,10 +2770,10 @@ function renderMetrics(metrics) {
   return html;
 }
 
-function renderFindings(findings) {
+function renderFindings(findings, categoryKey) {
   if (!findings || !findings.length) return '';
   let html = '<div class="category-findings">';
-  findings.slice(0, 4).forEach(f => {
+  findings.slice(0, 4).forEach((f, i) => {
     let iconClass, icon;
     if (f.type === 'positive') {
       iconClass = 'positive';
@@ -2648,7 +2788,7 @@ function renderFindings(findings) {
     html += `
       <div class="finding-item">
         <span class="finding-icon ${iconClass}">${icon}</span>
-        <span>${f.text}</span>
+        <span data-editable-key="cat-${categoryKey}-finding-${i + 1}">${f.text}</span>
       </div>
     `;
   });
@@ -2656,16 +2796,16 @@ function renderFindings(findings) {
   return html;
 }
 
-function renderRecommendations(recommendations) {
+function renderRecommendations(recommendations, categoryKey) {
   if (!recommendations || !recommendations.length) return '';
   let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
-  recommendations.slice(0, 3).forEach(r => {
+  recommendations.slice(0, 3).forEach((r, i) => {
     html += `
       <div class="recommendation-item">
         <div style="flex: 1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px;">
             <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
-            <span>${r.text}</span>
+            <span data-editable-key="cat-${categoryKey}-rec-${i + 1}">${r.text}</span>
           </div>
           ${r.time_estimate ? `
             <div class="recommendation-time">
@@ -2682,190 +2822,11 @@ function renderRecommendations(recommendations) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', renderAssessment);
-
-// ══════════════════════════════════════════════════════════════
-// ACTIVITY PAGE FUNCTIONS
-// ══════════════════════════════════════════════════════════════
-
-async function loadActivityData() {
-    const clientSlug = document.body.dataset.clientSlug;
-    if (!clientSlug || !window.supabase) return;
-
-    try {
-        const sevenDaysAgo = new Date();
-        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
-
-        const { data: events, error } = await window.supabase
-            .from('analytics_events')
-            .select('*')
-            .eq('client_slug', clientSlug)
-            .gte('created_at', sevenDaysAgo.toISOString())
-            .order('created_at', { ascending: false })
-            .limit(100);
-
-        if (error) throw error;
-
-        renderActivityStats(events || []);
-        renderActivityTimeline(events || []);
-        renderSessionHistory(events || []);
-    } catch (err) {
-        console.error('Error loading activity data:', err);
-        document.getElementById('activity-timeline').innerHTML =
-            '<p class="activity__loading">Unable to load activity data</p>';
-    }
-}
-
-function renderActivityStats(events) {
-    const sessions = new Set(events.filter(e => e.session_id).map(e => e.session_id)).size;
-    const users = new Set(events.filter(e => e.user_id).map(e => e.user_id)).size;
-    const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data?.checked).length;
-
-    const sessionDurations = [];
-    const sessionMap = {};
-    events.forEach(e => {
-        if (e.session_id) {
-            if (!sessionMap[e.session_id]) sessionMap[e.session_id] = [];
-            sessionMap[e.session_id].push(new Date(e.created_at).getTime());
-        }
-    });
-    Object.values(sessionMap).forEach(times => {
-        if (times.length > 1) {
-            sessionDurations.push(Math.max(...times) - Math.min(...times));
-        }
-    });
-    const avgDuration = sessionDurations.length > 0
-        ? Math.round(sessionDurations.reduce((a, b) => a + b, 0) / sessionDurations.length / 60000)
-        : 0;
-
-    document.getElementById('activity-sessions').textContent = sessions;
-    document.getElementById('activity-users').textContent = users;
-    document.getElementById('activity-tasks').textContent = tasks;
-    document.getElementById('activity-duration').textContent = avgDuration > 0 ? avgDuration + 'm' : '--';
-}
-
-function renderActivityTimeline(events) {
-    const timeline = document.getElementById('activity-timeline');
-    if (!events.length) {
-        timeline.innerHTML = '<p class="activity__loading">No recent activity</p>';
-        return;
-    }
-
-    const html = events.slice(0, 20).map(event => {
-        const iconClass = getEventIconClass(event.event_type);
-        const icon = getEventIcon(event.event_type);
-        const title = getEventTitle(event);
-        const time = formatRelativeTime(event.created_at);
-        const meta = event.event_data?.page || event.event_type;
-
-        return `
-            <div class="activity__event">
-                <div class="activity__event-icon ${iconClass}">${icon}</div>
-                <div class="activity__event-content">
-                    <div class="activity__event-title">${title}</div>
-                    <div class="activity__event-meta">${meta}</div>
-                </div>
-                <div class="activity__event-time">${time}</div>
-            </div>
-        `;
-    }).join('');
-
-    timeline.innerHTML = html;
-}
-
-function getEventIconClass(eventType) {
-    const classes = {
-        'page_view': 'page_view',
-        'checkbox_change': 'checkbox_change',
-        'session_start': 'session_start',
-        'session_end': 'session_end'
-    };
-    return classes[eventType] || 'default';
-}
-
-function getEventIcon(eventType) {
-    const icons = {
-        'page_view': '👁',
-        'checkbox_change': '✓',
-        'session_start': '→',
-        'session_end': '←'
-    };
-    return icons[eventType] || '•';
-}
-
-function getEventTitle(event) {
-    switch (event.event_type) {
-        case 'page_view': return `Viewed ${event.event_data?.page || 'page'}`;
-        case 'checkbox_change': return event.event_data?.checked ? 'Completed task' : 'Unchecked task';
-        case 'session_start': return 'Started session';
-        case 'session_end': return 'Ended session';
-        default: return event.event_type;
-    }
-}
-
-function formatRelativeTime(dateString) {
-    const date = new Date(dateString);
-    const now = new Date();
-    const diffMs = now - date;
-    const diffMins = Math.floor(diffMs / 60000);
-    const diffHours = Math.floor(diffMs / 3600000);
-    const diffDays = Math.floor(diffMs / 86400000);
-
-    if (diffMins < 1) return 'Just now';
-    if (diffMins < 60) return `${diffMins}m ago`;
-    if (diffHours < 24) return `${diffHours}h ago`;
-    return `${diffDays}d ago`;
-}
-
-function formatDuration(ms) {
-    const mins = Math.floor(ms / 60000);
-    if (mins < 60) return `${mins}m`;
-    const hours = Math.floor(mins / 60);
-    return `${hours}h ${mins % 60}m`;
-}
-
-function renderSessionHistory(events) {
-    const container = document.querySelector('.activity__sessions-container');
-    if (!container) return;
-
-    const sessionMap = {};
-    events.forEach(e => {
-        if (e.session_id) {
-            if (!sessionMap[e.session_id]) {
-                sessionMap[e.session_id] = { events: [], start: null, end: null };
-            }
-            sessionMap[e.session_id].events.push(e);
-            const time = new Date(e.created_at).getTime();
-            if (!sessionMap[e.session_id].start || time < sessionMap[e.session_id].start) {
-                sessionMap[e.session_id].start = time;
-            }
-            if (!sessionMap[e.session_id].end || time > sessionMap[e.session_id].end) {
-                sessionMap[e.session_id].end = time;
-            }
-        }
-    });
-
-    const sessions = Object.entries(sessionMap)
-        .sort((a, b) => b[1].end - a[1].end)
-        .slice(0, 5);
-
-    if (!sessions.length) {
-        container.innerHTML = '<p class="activity__loading">No sessions recorded</p>';
-        return;
-    }
-
-    container.innerHTML = sessions.map(([id, data]) => {
-        const duration = formatDuration(data.end - data.start);
-        const eventCount = data.events.length;
-        const time = formatRelativeTime(new Date(data.end).toISOString());
-        return `
-            <div class="activity__session-card">
-                <h4>Session</h4>
-                <p>${eventCount} events · ${duration} · ${time}</p>
-            </div>
-        `;
-    }).join('');
-}
+document.addEventListener('DOMContentLoaded', () => {
+  renderAssessment();
+  // Dispatch event for content-editor.js to apply saved edits
+  window.dispatchEvent(new CustomEvent('contentRendered'));
+});
 </script>
 </body>
 </html>
