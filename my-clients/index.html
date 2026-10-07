@@ -1053,6 +1053,13 @@
           <label class="form-group__label" for="editCoachEmail">Assigned Coach</label>
           <input type="email" class="form-group__input" id="editCoachEmail" placeholder="coach@elearningu.com">
         </div>
+        <div class="form-group" id="notifyCoachGroup" style="display: none;">
+          <label class="form-group__checkbox-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" id="notifyCoachCheckbox" checked style="width: 18px; height: 18px; accent-color: var(--navy);">
+            <span style="font-size: 13px; color: var(--text);">Notify coach of this assignment</span>
+          </label>
+          <span class="form-group__hint">The coach will receive an email with a link to the client dashboard</span>
+        </div>
         <div class="modal__actions modal__actions--edit">
           <button type="button" class="btn-secondary" onclick="closeEditProjectModal()">Cancel</button>
           <button type="submit" class="btn-secondary btn-success" id="saveProjectBtn" onclick="saveProjectChanges()">Save Changes</button>
@@ -1838,21 +1845,42 @@
     // EDIT PROJECT MODAL
     // ══════════════════════════════════════════════════════════════
     let editTargetSlug = null;
+    let originalCoachEmail = null;
 
     function openEditProjectModal(slug) {
       const project = projects.find(p => p.slug === slug);
       if (!project) return;
 
       editTargetSlug = slug;
+      originalCoachEmail = project.coach_email || '';
 
       // Populate the form
       document.getElementById('editProjectName').value = project.name;
       document.getElementById('editStartDate').value = project.cohort_start_date || '';
       document.getElementById('editCoachEmail').value = project.coach_email || '';
 
+      // Hide notify checkbox initially (will show when coach email changes)
+      document.getElementById('notifyCoachGroup').style.display = 'none';
+      document.getElementById('notifyCoachCheckbox').checked = true;
+
       // Show the modal
       document.getElementById('editProjectModal').classList.add('modal-overlay--visible');
     }
+
+    // Show/hide notify checkbox when coach email changes
+    document.getElementById('editCoachEmail').addEventListener('input', function() {
+      const newEmail = this.value.trim().toLowerCase();
+      const originalEmail = (originalCoachEmail || '').toLowerCase();
+      const notifyGroup = document.getElementById('notifyCoachGroup');
+
+      // Show checkbox if email is new/different and valid
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (newEmail && newEmail !== originalEmail && emailRegex.test(newEmail)) {
+        notifyGroup.style.display = 'block';
+      } else {
+        notifyGroup.style.display = 'none';
+      }
+    });
 
     function closeEditProjectModal() {
       document.getElementById('editProjectModal').classList.remove('modal-overlay--visible');
@@ -1869,6 +1897,8 @@
 
       const newStartDate = document.getElementById('editStartDate').value;
       const newCoachEmail = document.getElementById('editCoachEmail').value.trim();
+      const shouldNotifyCoach = document.getElementById('notifyCoachCheckbox').checked;
+      const coachChanged = newCoachEmail && newCoachEmail.toLowerCase() !== (originalCoachEmail || '').toLowerCase();
 
       try {
         // Update user_plans table - use select() to verify rows were updated
@@ -1916,6 +1946,11 @@
           }
         }
 
+        // Notify the new coach if checkbox is checked and coach changed
+        if (coachChanged && shouldNotifyCoach) {
+          await notifyCoachAssigned(newCoachEmail, editTargetSlug, project?.name || toTitleCase(editTargetSlug));
+        }
+
         // Update local state
         if (project) {
           project.cohort_start_date = newStartDate;
@@ -1939,6 +1974,41 @@
       } finally {
         btn.textContent = originalText;
         btn.disabled = false;
+      }
+    }
+
+    // Notify coach when they are assigned to a project
+    async function notifyCoachAssigned(coachEmail, clientSlug, clientName, dashboardType = 'accelerator') {
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+          console.warn('No session - skipping coach notification');
+          return;
+        }
+
+        const response = await fetch('/.netlify/functions/notify-coach-assigned', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            coachEmail,
+            clientSlug,
+            clientName,
+            dashboardType
+          })
+        });
+
+        if (!response.ok) {
+          const result = await response.json();
+          console.error('Coach notification failed:', result.error);
+        } else {
+          console.log('Coach notification sent to', coachEmail);
+        }
+      } catch (err) {
+        console.error('Coach notification error:', err);
+        // Don't throw - notification failure shouldn't block the save
       }
     }
 
