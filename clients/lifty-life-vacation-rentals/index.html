@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Digital Marketing Assessment — Lifty Life Vacation Rentals</title>
 <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -881,15 +881,29 @@ nav { flex: 1; padding: 12px 0; }
 
 /* ── Mobile ─────────────────────────────────── */
 @media (max-width: 768px) {
+  body {
+    display: block;
+    overflow: auto;
+    height: auto;
+  }
+
   #sidebar {
     position: fixed;
     left: 0;
     top: 0;
+    bottom: 0;
+    width: var(--sidebar-w);
     transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     z-index: 1000;
   }
 
   #sidebar.open { transform: translateX(0); }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+  }
 
   .mobile-header {
     display: flex;
@@ -927,25 +941,52 @@ nav { flex: 1; padding: 12px 0; }
   .assessment-hero-title { font-size: 22px; }
   .categories-grid { grid-template-columns: 1fr; }
   .category-metrics { grid-template-columns: 1fr; }
+
+  /* Tactic tabs - horizontal scroll on mobile */
+  .tactic-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    margin-left: -20px;
+    margin-right: -20px;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .tactic-tabs::-webkit-scrollbar { display: none; }
+  .tactic-tab {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    font-size: 13px;
+  }
 }
 
 @media (min-width: 769px) {
   .mobile-header { display: none; }
 }
 
-.mobile-overlay {
+#drawerOverlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,.5);
-  z-index: 999;
+  background: rgba(17,21,75,.5);
+  z-index: 150;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
   opacity: 0;
   visibility: hidden;
   transition: opacity .3s, visibility .3s;
 }
 
-.mobile-overlay.active {
+#drawerOverlay.open {
   opacity: 1;
   visibility: visible;
+}
+
+/* Body scroll lock when drawer open */
+body.drawer-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
 }
 
 /* ── Download PDF Button ────────────────────────── */
@@ -979,6 +1020,38 @@ nav { flex: 1; padding: 12px 0; }
 .download-pdf-btn svg {
   width: 18px;
   height: 18px;
+}
+
+.download-pdf-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.download-pdf-btn.loading {
+  position: relative;
+  color: transparent;
+}
+
+.download-pdf-btn.loading::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  top: 50%;
+  left: 50%;
+  margin: -9px 0 0 -9px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: pdfSpinner 0.8s linear infinite;
+}
+
+.download-pdf-btn.loading svg {
+  visibility: hidden;
+}
+
+@keyframes pdfSpinner {
+  to { transform: rotate(360deg); }
 }
 
 /* ═══════════════════════════════════════════════════════════════════════════
@@ -1035,7 +1108,7 @@ nav { flex: 1; padding: 12px 0; }
      ══════════════════════════════════════════════════════════════════════════ */
   #sidebar,
   .mobile-header,
-  .mobile-overlay,
+  #drawerOverlay,
   .download-pdf-btn,
   .assessment-hero-badge,
   .assessment-hero-actions,
@@ -1943,8 +2016,6 @@ nav { flex: 1; padding: 12px 0; }
     break-inside: avoid;
   }
 }
-/* ACTIVITY PAGE STYLES */
-.activity{max-width:1200px;margin:0 auto;padding:2rem}.activity__header{margin-bottom:2rem}.activity__title{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);margin:0 0 .5rem}.activity__subtitle{color:var(--slate);margin:0}.activity__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__stat-label{font-size:.875rem;color:var(--slate);margin-bottom:.5rem}.activity__stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy)}.activity__section{background:var(--card-bg);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__section-title{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy);margin:0 0 1rem}.activity__loading{color:var(--slate);padding:2rem;text-align:center}.activity__timeline{display:flex;flex-direction:column;gap:.75rem}.activity__event{display:flex;align-items:flex-start;gap:1rem;padding:.75rem;border-radius:8px;background:var(--surface-sunken)}.activity__event-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity__event-icon--page{background:#e3f2fd;color:#1976d2}.activity__event-icon--check{background:#e8f5e9;color:#388e3c}.activity__event-icon--session{background:#fff3e0;color:#f57c00}.activity__event-icon--tour{background:#f3e5f5;color:#7b1fa2}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--navy);margin-bottom:.25rem}.activity__event-meta{font-size:.8125rem;color:var(--slate)}.activity__sessions{display:flex;flex-direction:column;gap:.75rem}.activity__session-card{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-radius:8px;background:var(--surface-sunken)}.activity__session-user{font-weight:500;color:var(--navy)}.activity__session-details{font-size:.875rem;color:var(--slate)}.activity__empty{text-align:center;padding:3rem;color:var(--slate)}@media(max-width:768px){.activity{padding:1rem}.activity__stats{grid-template-columns:repeat(2,1fr)}.activity__stat-value{font-size:1.5rem}}
 </style>
 </head>
 <body data-client-slug="lifty-life-vacation-rentals">
@@ -1962,10 +2033,10 @@ nav { flex: 1; padding: 12px 0; }
   <p class="cover-client">Prepared for</p>
   <p class="cover-client-name">Lifty Life Vacation Rentals</p>
   <div class="cover-grade-circle">
-    <span class="cover-grade" id="coverGrade">B</span>
-    <span class="cover-score">Overall Score: <span id="coverScore">81</span>/100</span>
+    <span class="cover-grade" id="coverGrade">A-</span>
+    <span class="cover-score">Overall Score: <span id="coverScore">87</span>/100</span>
   </div>
-  <p class="cover-date">Assessment Date: September 17, 2026</p>
+  <p class="cover-date">Assessment Date: October 7, 2026</p>
   <p class="cover-footer-text">Powered by Junction Accelerator</p>
 </div>
 
@@ -2009,7 +2080,7 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">Lifty Life Vacation Rentals</span>
-  <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+  <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
       <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -2018,7 +2089,7 @@ nav { flex: 1; padding: 12px 0; }
   </button>
 </div>
 
-<div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+<div id="drawerOverlay" onclick="closeMobileDrawer()"></div>
 
 <!-- Sidebar -->
 <aside id="sidebar">
@@ -2107,14 +2178,6 @@ nav { flex: 1; padding: 12px 0; }
         <path d="M7 11V7a5 5 0 0110 0v4"/>
       </svg>
     </div>
-    <!-- Activity Nav (Admin/PSM/Coach only) -->
-    <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
-    <div class="nav-item" id="nav-activity" onclick="navigate('activity')" style="display:none;">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor">
-        <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
-      </svg>
-      Activity
-    </div>
   </nav>
 </aside>
 
@@ -2127,7 +2190,7 @@ nav { flex: 1; padding: 12px 0; }
       <div class="assessment-hero-top">
         <div>
           <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-          <p class="assessment-hero-date">Assessment Date: September 17, 2026</p>
+          <p class="assessment-hero-date">Assessment Date: October 7, 2026</p>
         </div>
         <div class="assessment-hero-actions">
           <button class="download-pdf-btn" onclick="downloadPDF()">
@@ -2143,10 +2206,10 @@ nav { flex: 1; padding: 12px 0; }
       </div>
 
       <div class="assessment-grade-card">
-        <div class="grade-circle" id="overallGrade">B</div>
+        <div class="grade-circle" id="overallGrade">A-</div>
         <div class="grade-details">
-          <h3>Overall Score: <span id="overallScore">81</span>/100</h3>
-          <p id="overallSummary"></p>
+          <h3>Overall Score: <span id="overallScore">87</span>/100</h3>
+          <p id="overallSummary" data-editable-key="assessment-overall-summary"></p>
         </div>
       </div>
     </div>
@@ -2268,7 +2331,7 @@ nav { flex: 1; padding: 12px 0; }
         <h4>About This Assessment</h4>
         <p>This digital marketing assessment was prepared by your dedicated marketing coach as part of the Junction Accelerator program.</p>
         <p><strong>Your Coach:</strong> brooke@elearningu.com</p>
-        <p><strong>Assessment Date:</strong> September 17, 2026</p>
+        <p><strong>Assessment Date:</strong> October 7, 2026</p>
       </div>
       <div class="print-footer-branding">
         <div class="print-footer-logo">
@@ -2289,41 +2352,114 @@ nav { flex: 1; padding: 12px 0; }
     </div>
   </div>
 
-  <!-- ACTIVITY PAGE (Admin/PSM/Coach only) -->
-  <section id="page-activity" class="page">
-    <div class="activity">
-      <div class="activity__header">
-        <h1 class="activity__title">Client Activity</h1>
-        <p class="activity__subtitle">View engagement and progress for this client</p>
-      </div>
-      <div class="activity__stats" id="activity-stats">
-        <div class="activity__stat-card"><div class="activity__stat-label">Total Sessions</div><div class="activity__stat-value" id="stat-sessions">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Unique Users</div><div class="activity__stat-value" id="stat-users">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Tasks Completed</div><div class="activity__stat-value" id="stat-tasks">-</div></div>
-        <div class="activity__stat-card"><div class="activity__stat-label">Avg Session</div><div class="activity__stat-value" id="stat-duration">-</div></div>
-      </div>
-      <div class="activity__section">
-        <h2 class="activity__section-title">Recent Activity</h2>
-        <div class="activity__timeline" id="activity-timeline"><div class="activity__loading">Loading activity...</div></div>
-      </div>
-      <div class="activity__section">
-        <h2 class="activity__section-title">Session History</h2>
-        <div class="activity__sessions" id="activity-sessions"><div class="activity__loading">Loading sessions...</div></div>
-      </div>
-    </div>
-  </section>
-
 </main>
 
-<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Lifty Life Vacation Rentals has built an excellent booking infrastructure and stellar reputation (4.9/5 stars), but social media engagement and website speed are significantly limiting discoverability.","key_strengths":["Outstanding Google rating of 4.9/5 stars with 75 reviews and 100% recent review activity demonstrates exceptional guest satisfaction","Exceptional booking infrastructure with integration across 7 major platforms (Booking.com, Expedia, VRBO, Airbnb, Hostaway) making reservations seamless","Comprehensive digital guest experience with full hours, directions, parking, and accessibility information readily available"],"critical_gaps":["Instagram engagement rate of only 0.48% is severely underperforming (industry average 1-3%), indicating content isn't resonating despite 1,667 followers","Zero video content (0 Reels on Instagram) means missing the highest-engagement format in tourism social media","Website technical performance unavailable but likely needs optimization given 509 images on homepage (673KB total) affecting load times"],"bottom_line":"Lifty Life has nailed the fundamentals of conversion and guest service, earning them a B grade (81/100), but is leaving significant revenue on the table by failing to engage their social audience and potentially losing impatient mobile visitors to slow load times - fixing these gaps could dramatically increase booking inquiries from Western Canada's competitive vacation rental market."},"quick_wins":[{"task":"Create and post 3 Instagram Reels showcasing your properties in Whistler, Harrison Hot Springs, and Hope BC using existing property tour footage or simple walkthrough videos with trending audio","time_estimate":"2 hours","impact":"Reels generate 2-5x higher reach than static posts and will immediately improve your 0.48% engagement rate","confidence":"high"},{"task":"Respond to all 75 Google reviews (currently no response rate data suggests incomplete responses) with personalized thank-yous mentioning specific details from each review","time_estimate":"3 hours one-time","impact":"Review responses increase trust signals and can improve local search rankings, plus shows active management to potential guests","confidence":"high"},{"task":"Optimize homepage images by compressing the 509 images currently loading - use tools like TinyPNG or ImageOptim to reduce file sizes by 40-60% without quality loss","time_estimate":"1 hour","impact":"Faster mobile load times reduce bounce rate and improve conversion, especially critical for Whistler visitors searching on-mountain","confidence":"high"},{"task":"Add Instagram-specific call-to-action in your bio changing from generic 'Book your next getaway' to 'Spring skiing Whistler? Last-minute deals 👆' with seasonal updates monthly","time_estimate":"15 minutes monthly","impact":"Specific, timely CTAs convert better than generic ones and give followers a reason to click through","confidence":"high"},{"task":"Cross-post your top 3 Instagram carousel posts (which are performing better than single images) to Facebook where you have 355 followers but low engagement","time_estimate":"30 minutes","impact":"Leverage existing good content across platforms to maximize ROI on content creation efforts","confidence":"high"}],"tourism_context":{"visitor_profile":"Lifty Life serves multi-generational families and couples seeking premium vacation rentals across Western Canada's top recreation destinations - Whistler ski vacations, Harrison Hot Springs wellness getaways, Okanagan wine tours, and Rockies adventures. Target demographic is likely 35-55, household income $80k+, booking 3-7 day stays, often repeat visitors to these regions seeking more space and amenities than hotels.","discovery_journey":"Potential guests typically start searching 2-6 months ahead for Whistler ski trips, 1-3 months for summer lake vacations. Discovery happens through Google searches for 'Whistler vacation rentals' or 'Harrison Hot Springs condos', comparison on Booking.com/VRBO/Airbnb, Instagram inspiration browsing (Sea to Sky hashtags), and referrals from previous guests. Mobile-first journey with 60%+ of initial searches on phones while researching trips.","seasonal_considerations":"Highly seasonal business with distinct peaks: Whistler winter (Dec-Mar) for skiing, summer (Jul-Aug) for hiking/biking, Harrison Hot Springs summer/fall, Okanagan summer wine season. Social content strategy needs quarterly pivots - ski conditions and winter activities Q4-Q1, spring hiking and shoulder season deals Q2, lake life and patio season Q3, fall colours and hot springs Q4. Off-season (Apr-May, Oct-Nov) requires promotional focus and last-minute deal marketing.","trip_integration":"Vacation rentals are the accommodation anchor of multi-day trips, so Lifty Life needs to position properties within broader itineraries. Whistler guests want gondola access, village dining, après-ski. Harrison guests want spa proximity, lakefront, brewery/winery access. Content should show 'what's within walking distance' and 'perfect weekend itinerary' themes. Property selection happens after destination decision, so local activity content builds relevance in discovery phase."},"overall":{"score":81,"grade":"B","confidence":"high","scoreBreakdown":{"website_technical":{"score":63,"weight":0.15,"contribution":9.45},"reviews_reputation":{"score":86,"weight":0.25,"contribution":21.5},"booking_conversion":{"score":96,"weight":0.2,"contribution":19.2},"social_media":{"score":62,"weight":0.2,"contribution":12.4},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":63,"grade":"D","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":null,"score":50,"source":"unavailable"},"mobile_speed":{"value":null,"score":50,"source":"unavailable"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Website has strong security fundamentals (HTTPS, mobile viewport) but technical performance data is limited due to SEOptimer unavailability - the presence of 509 homepage images suggests potential optimization opportunities for speed.","findings":[{"type":"positive","text":"HTTPS enabled provides security for booking platform redirects and builds visitor trust","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Mobile viewport properly configured for responsive design on smartphones and tablets","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Homepage contains 509 images which could significantly impact mobile load times, especially on slower mountain/rural connections common in Whistler and Harrison Hot Springs","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"Video content present on homepage but performance impact unknown without speed testing","confidence":"medium","source":"Website Content Analysis"}],"metrics":[{"label":"Desktop Speed","value":"Not available","status":"critical","source":"unavailable"},{"label":"Mobile Speed","value":"Not available","status":"critical","source":"unavailable"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Run comprehensive speed test using Google PageSpeed Insights and GTmetrix to establish baseline performance metrics, then implement recommended optimizations prioritizing mobile performance","time_estimate":"1 hour testing, 3-5 hours implementation","impact":"Every 1-second improvement in load time can increase conversions by 7% for travel sites","priority":"high"},{"text":"Implement lazy loading for the 509 homepage images so only visible images load initially, reducing initial page load time by 40-60%","time_estimate":"2 hours implementation","impact":"Faster perceived load time reduces bounce rate, especially for mobile users on LTE connections","priority":"high"},{"text":"Compress all property images using modern formats like WebP with fallbacks, targeting 30-50% file size reduction without visible quality loss","time_estimate":"3 hours first-time setup, 30 min per new property","impact":"Reduced bandwidth usage and faster image loading improves mobile experience and SEO rankings","priority":"medium"},{"text":"Implement browser caching for images and static assets so repeat visitors load pages 2-3x faster","time_estimate":"1 hour configuration","impact":"Better experience for return visitors researching multiple properties","priority":"medium"}],"data_sources":["Website Content Analysis","SEOptimer unavailable"]},"reviews_reputation":{"score":86,"grade":"B+","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.9,"score":98,"source":"Google Places API"},"review_volume":{"value":75,"score":68,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Exceptional 4.9/5 star Google rating with strong recent review activity demonstrates outstanding guest satisfaction, though review volume and response rate present growth opportunities.","findings":[{"type":"positive","text":"4.9/5 star rating is exceptional and provides powerful social proof - only 1 review out of 75 below 5 stars shows remarkable consistency","confidence":"high","source":"Google Places API"},{"type":"positive","text":"100% of recent reviews are from past 18 months indicating active, ongoing business with fresh testimonials","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Reviews mention specific properties across portfolio (Echo Beach Harrison, Douglas Fir Hope, Whistler suites) showing guests experiencing multiple locations consistently well","confidence":"high","source":"Google Places API review content"},{"type":"positive","text":"Reviews highlight responsive host communication with Connor mentioned by name multiple times, building personal connection and trust","confidence":"high","source":"Google Places API review content"},{"type":"negative","text":"75 review volume is moderate but below the 100+ threshold where review quantity itself becomes a trust signal for vacation rentals","confidence":"high","source":"Google Places API"},{"type":"negative","text":"One 4-star review mentions afternoon sun creating heat issues with only portable air conditioners - addressable operational feedback","confidence":"high","source":"Google Places API review content"}],"metrics":[{"label":"Google Rating","value":"4.9 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"75","status":"warning","source":"Google Places API"}],"recommendations":[{"text":"Implement automated post-stay review request emails sent 2-3 days after checkout asking satisfied guests to review on Google, focusing on reaching 100+ total reviews within 6 months","time_estimate":"2 hours setup, automated ongoing","impact":"Crossing 100 review threshold significantly improves local search visibility and conversion rates","priority":"high"},{"text":"Respond to all 75 existing Google reviews with personalized messages thanking guests and addressing specific details they mentioned - even 5-star reviews deserve responses","time_estimate":"3 hours one-time","impact":"Review responses demonstrate active management, improve SEO, and encourage more guests to leave reviews","priority":"high"},{"text":"Create a review acquisition strategy across all booking platforms - send VRBO guests to VRBO reviews, Airbnb guests to Airbnb, direct bookers to Google to build comprehensive review ecosystem","time_estimate":"1 hour strategy, 15 min per booking","impact":"Multi-platform reviews improve visibility on each platform's search algorithm and provide broader social proof","priority":"medium"},{"text":"Address the air conditioning feedback from the 4-star Echo Beach review by either upgrading cooling or proactively mentioning afternoon sun in listing descriptions to set expectations","time_estimate":"Varies by solution","impact":"Converting 4-star experiences to 5-star maintains exceptional rating as review volume grows","priority":"medium"},{"text":"Claim and optimize TripAdvisor listing for Lifty Life properties to capture research-phase travelers who specifically use TripAdvisor for vacation rental discovery","time_estimate":"2 hours setup","impact":"Expands review visibility to TripAdvisor's 490M monthly visitors researching destinations","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":96,"grade":"A+","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":7,"platforms":["Booking.com","Expedia","VRBO","Airbnb","Hostaway","Calendly","Musement"]},"score":100,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"locations":["header","contact"],"clickable":true,"score":80,"details":{"telLinkCount":1}},"score":80,"source":"Website Analysis","details":["header","contact"]},"pricing_visibility":{"value":{"found":true,"transparency":"exact","score":100,"details":{"priceCount":6,"samplePrices":["$100","$450","$45"]}},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"found":true,"type":"book_now","prominence":"header","score":100,"details":{"ctaElements":1,"platforms":["Booking.com","Expedia","VRBO","Airbnb","Hostaway"]}},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Outstanding booking infrastructure with integration across 7 major platforms, clear pricing, prominent CTAs, and excellent contact visibility - best-in-class for vacation rental conversion optimization.","findings":[{"type":"positive","text":"Integration with 7 booking platforms provides guests maximum flexibility to book through their preferred channel, significantly reducing booking friction","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Exact pricing displayed transparently with sample prices ranging from $45-$450 builds trust and pre-qualifies guests","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Phone number (778) 655-2966 is clickable with tel: link and visible in header for immediate mobile click-to-call","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Book Now CTA prominently placed in header ensures visitors can instantly access booking regardless of which page they land on","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Hostaway integration suggests professional property management system for calendar sync and automated guest communication","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Calendly integration indicates availability for consultation calls, helpful for group bookings or custom requests","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add trust badges near booking CTAs showing secure booking, cancellation policy highlights, or 4.9-star rating badge to further reduce booking hesitation","time_estimate":"1 hour design and implementation","impact":"Trust signals can increase conversion rates by 15-30% for vacation rentals","priority":"medium"},{"text":"Install Facebook Pixel and Google Analytics conversion tracking on the website to measure which traffic sources drive actual bookings across your 7 platforms","time_estimate":"2 hours setup and testing","impact":"Enables data-driven marketing decisions by identifying highest-ROI traffic sources","priority":"medium"},{"text":"Add last-minute availability widget or special offers banner to homepage to capture spontaneous weekend getaway bookings common in the Sea to Sky corridor","time_estimate":"3 hours setup, 15 min weekly updates","impact":"Last-minute deals can fill 10-20% of otherwise empty nights during shoulder seasons","priority":"low"},{"text":"Create platform-specific landing pages optimizing for searches like 'book Whistler on VRBO' or 'Airbnb Harrison Hot Springs' to capture direct traffic from guests comparing platforms","time_estimate":"4 hours per platform","impact":"Platform-specific SEO can capture high-intent searchers and potentially save OTA commission by encouraging direct bookings","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":62,"grade":"D","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":2022,"score":65,"source":"SociaVault"},"engagement_rate":{"value":0.48,"score":25,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":7.6,"score":100,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","youtube","instagram"]},"score":85,"source":"SociaVault"},"content_quality":{"value":{"images":3,"carousels":9,"reels":0,"reelPercent":0},"score":55,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Strong multi-platform presence with 2,022 total followers and consistent posting frequency, but critically low engagement rate of 0.48% and complete absence of video content is dramatically limiting reach and booking inquiries from social channels.","findings":[{"type":"positive","text":"Posting frequency of 7.6 posts/week on Instagram is excellent and shows strong content production capacity","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"1,667 Instagram followers provides meaningful audience base to re-engage with improved content strategy","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Carousel posts (9 of 12) perform better than single images, showing smart use of multi-image format for property showcases","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Content focused on local experiences and destination guides aligns with vacation rental marketing best practices","confidence":"high","source":"SociaVault API content analysis"},{"type":"negative","text":"Instagram engagement rate of 0.48% is critically low - less than half the 1-3% tourism industry average, meaning posts reach only tiny fraction of followers","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Zero Reels produced means completely missing Instagram's highest-reach content format - Reels get 2-5x more reach than static posts in 2024","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Average 8 likes per post with 1,667 followers indicates severe algorithm suppression or follower disengagement","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Average 0 comments per post shows content not prompting conversation or community building","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"YouTube channel essentially dormant with 0 videos/month despite having 7 videos with 689 total views showing some audience demand","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"TikTok account claimed in bio but no content posted - missing major discovery platform for under-35 travelers","confidence":"high","source":"Website Analysis and SociaVault API"},{"type":"negative","text":"No paid advertising detected despite low organic reach - entirely dependent on underperforming organic algorithm","confidence":"high","source":"Facebook Ad Library"}],"metrics":[{"label":"Total Followers","value":"2,022","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"0.48%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"7.6 posts/week","status":"good","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Create 3 Instagram Reels this week showcasing property tours at Whistler, Harrison Hot Springs, and Hope locations - use phone camera walkthroughs with trending audio, no fancy production needed","time_estimate":"2 hours total (30 min per Reel)","impact":"Reels typically achieve 3-5x higher reach than static posts and will immediately begin improving engagement metrics","priority":"high"},{"text":"Repurpose your 7 existing YouTube videos as Instagram Reels and TikTok content by editing to 15-60 second clips focused on most visually compelling moments","time_estimate":"3 hours one-time","impact":"Maximizes ROI on existing video content and activates dormant TikTok presence with zero new filming required","priority":"high"},{"text":"Shift content strategy from property features to guest experiences - film morning coffee on balconies, sunset views, walking to gondola, instead of just showing empty rooms","time_estimate":"Ongoing mindset shift, same time investment","impact":"Aspirational lifestyle content drives 2-3x higher engagement than property features alone","priority":"high"},{"text":"Respond to every Instagram comment within 1 hour and ask questions in captions to drive comment engagement - Instagram algorithm rewards fast response times and conversation","time_estimate":"15 min daily","impact":"Higher comment rates signal to algorithm to show content to more followers, creating engagement flywheel","priority":"medium"},{"text":"Activate Pinterest account by creating boards for each destination (Whistler Vacation Ideas, Harrison Hot Springs Weekend, Okanagan Wine Tours) and pin property photos plus local content","time_estimate":"2 hours setup, 30 min weekly","impact":"Pinterest drives high-intent traffic for vacation planning with 89% of users using platform for trip inspiration","priority":"medium"},{"text":"Install Facebook Pixel on website and create custom audiences from site visitors, then retarget them with property showcase carousel ads once engagement rate improves above 1%","time_estimate":"1 hour pixel setup, 2 hours first campaign","impact":"Retargeting site visitors who didn't book can recover 5-15% of lost bookings at fraction of cost of cold advertising","priority":"medium"},{"text":"Create Instagram Story highlights for each property location featuring FAQs, local tips, and guest testimonials to provide evergreen information for profile visitors","time_estimate":"2 hours setup","impact":"Highlights increase profile-to-website click rate by providing instant information to consideration-phase visitors","priority":"low"},{"text":"Cross-post top Instagram carousel content to Facebook where you have 355 followers but likely even lower engagement - maximize distribution of existing content","time_estimate":"5 minutes per post","impact":"Increases total reach with minimal additional effort, keeps Facebook presence active","priority":"low"}],"data_sources":["SociaVault API","Facebook Ad Library"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"completeness":"full_week","score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]}},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Excellent digital guest experience with comprehensive essential information including full hours, directions, parking, and accessibility details readily available - only missing multi-language support for international visitors.","findings":[{"type":"positive","text":"Full week hours displayed (Monday-Sunday) helps guests understand office availability and check-in windows","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Maps and directions embedded on website enable easy navigation to properties across Whistler, Harrison, Hope, and other locations","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Parking information provided addresses critical need for Whistler ski visitors and Harrison lake properties where parking varies by property","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Accessibility information displayed demonstrates inclusive approach and helps guests with mobility needs make informed decisions","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Phone number (778) 655-2966 and email both visible provide multiple contact options for pre-arrival questions","confidence":"high","source":"Website Content Analysis"},{"type":"negative","text":"No multi-language support despite Whistler attracting significant international visitors from Australia, UK, France, and Asia","confidence":"high","source":"Website Content Analysis"}],"metrics":[{"label":"Hours Displayed","value":"Yes - Full week schedule displayed (Monday-Sunday)","benchmark":"Hours must be easily findable for guest services/check-in","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Complete hours information helps guests plan arrival and contact times"},{"label":"Directions Available","value":"Yes - Maps embedded","benchmark":"Map embed or directions link expected for vacation rentals","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Embedded maps help guests navigate to properties across multiple locations"},{"label":"Parking Info","value":"Yes","benchmark":"Parking info reduces guest friction, especially for ski destinations","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Critical information for Whistler and Harrison properties where parking varies"},{"label":"Accessibility Information","value":"Yes","benchmark":"Accessibility details required for inclusive guest experience","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Accessibility information helps guests with mobility needs select appropriate properties"},{"label":"Multi-Language Support","value":"No","benchmark":"BC tourism markets attract French Canadian, Asian, and European visitors","status":"warning","confidence":"high","source":"Website Content Analysis","tooltip":"Single language may limit bookings from international Whistler visitors"}],"recommendations":[{"text":"Add French language toggle for website given Whistler's popularity with Quebec visitors and BC's bilingual tourism market","time_estimate":"8-12 hours for translation and implementation","impact":"French support can increase bookings from Quebec market which represents 15-20% of Whistler visitors","priority":"medium"},{"text":"Create property-specific FAQ pages addressing common guest questions about WiFi, amenities, check-in process, local restaurants, and activity bookings for each location","time_estimate":"3 hours per property location","impact":"Comprehensive FAQs reduce pre-booking inquiry volume by 30-40% while increasing booking confidence","priority":"medium"},{"text":"Add weather and seasonal tips section for each destination (what to pack for Whistler in winter, summer lake conditions at Harrison, etc.) to help guests prepare","time_estimate":"2 hours per season per destination","impact":"Better-prepared guests have higher satisfaction and leave better reviews","priority":"low"},{"text":"Embed live Whistler webcams or link to gondola wait times and snow reports for ski season visitors planning their stay","time_estimate":"1 hour implementation","impact":"Real-time conditions information increases last-minute bookings during powder days","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local SEO foundation with claimed Google Business Profile, consistent NAP data, and local keyword optimization - well-positioned for local and destination-based searches.","findings":[{"type":"positive","text":"Google Business Profile claimed and active with excellent 4.9-star rating providing strong local search presence","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Consistent NAP data with phone (778) 655-2966 and address visible on website matching business listings","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Strong local keyword optimization with content targeting multiple BC destinations: Whistler, Harrison Hot Springs, Okanagan, Rockies, Fraser Valley, Vancouver Island","confidence":"high","source":"Website Content Analysis"},{"type":"positive","text":"Google Business Profile lists business as establishment, point of interest, real estate agency, and travel agency providing multiple category signals","confidence":"high","source":"Google Places API"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified","benchmark":"Essential for local search visibility","status":"good","confidence":"high","source":"Google Places API","tooltip":"Active GBP with 75 reviews and 4.9 rating"},{"label":"NAP Consistency","value":"Address and phone present on website","benchmark":"Name, Address, Phone must match across all platforms","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Consistent contact information helps local search rankings"},{"label":"Local Keywords","value":"Location-based optimization detected","benchmark":"Should target location + service keywords","status":"good","confidence":"high","source":"Website Content Analysis","tooltip":"Content references Whistler, Harrison Hot Springs, Sea to Sky, Okanagan regions"},{"label":"Local Citations","value":"Manual verification recommended","benchmark":"Should appear in local directories and tourism sites","status":"info","confidence":"low","source":"Not scanned","tooltip":"Citation audit needed to verify presence on TripAdvisor, Destination BC, etc."}],"recommendations":[{"text":"Optimize Google Business Profile posts by sharing weekly updates about property availability, seasonal offers, and local events to improve local search engagement signals","time_estimate":"30 min weekly","impact":"Regular GBP posts can increase profile views by 30% and improve local pack rankings","priority":"high"},{"text":"Create location-specific landing pages for each destination (Whistler Vacation Rentals, Harrison Hot Springs Rentals, etc.) targeting city-specific search queries","time_estimate":"4 hours per location","impact":"Location pages can rank for high-intent searches like 'vacation rental in Whistler' driving direct organic bookings","priority":"medium"},{"text":"Audit and claim citations on Destination BC, Tourism Whistler, HelloBC, and other regional tourism directories to build local authority","time_estimate":"3 hours audit, 1 hour per citation","impact":"Citations improve local search rankings and provide referral traffic from destination research sites","priority":"medium"},{"text":"Add location schema markup to website for each property location to help search engines understand geographic service areas","time_estimate":"2 hours implementation","impact":"Schema markup can improve rich snippet appearance in local search results","priority":"low"}],"data_sources":["Google Places API","Website Content Analysis","SEOptimer unavailable"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Create 3 Instagram Reels this week showcasing different properties with simple phone walkthroughs and trending audio - your 0.48% engagement rate is killing organic reach and Reels are the only format Instagram prioritizes in 2024","time_estimate":"2 hours total (30 min per Reel)","impact":"high","expected_result":"Reels generate 3-5x higher reach than static posts and will begin reversing your severe engagement deficit, potentially reaching 500-1000+ accounts per Reel vs current ~80 per post","confidence":"high"},{"priority":2,"category":"Reviews & Reputation","text":"Implement automated post-stay review request emails sent 2-3 days after checkout to all guests asking them to review on Google, targeting 100+ total reviews within 6 months","time_estimate":"2 hours setup in Hostaway or email system, automated ongoing","impact":"high","expected_result":"Crossing 100 review threshold significantly improves Google local pack rankings and conversion rates - review volume is a direct ranking factor and trust signal","confidence":"high"},{"priority":3,"category":"Website & Technical Foundation","text":"Implement lazy loading for your 509 homepage images so only visible images load initially, reducing initial page load time by 40-60% especially on mobile devices","time_estimate":"2 hours implementation","impact":"high","expected_result":"Faster mobile load times reduce bounce rate (every 1 second improvement can increase conversions by 7%) and improve SEO rankings - critical for Whistler visitors searching on mountain","confidence":"high"},{"priority":4,"category":"Social Media & Content","text":"Repurpose your 7 existing YouTube videos as Instagram Reels and post to TikTok by editing to 15-60 second clips highlighting most compelling property features and views","time_estimate":"3 hours one-time","impact":"high","expected_result":"Activates dormant TikTok presence and creates high-reach Reels content with zero new filming required - maximizes ROI on existing video assets","confidence":"high"},{"priority":5,"category":"Reviews & Reputation","text":"Respond to all 75 existing Google reviews with personalized thank-you messages addressing specific details each guest mentioned - even 5-star reviews deserve responses","time_estimate":"3 hours one-time","impact":"medium","expected_result":"Review responses demonstrate active management, improve local SEO rankings, and encourage more future guests to leave reviews - response rate is a quality signal to Google","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile metrics (4.9 rating, 75 reviews, 100% recent) from Google Places API","Social media performance data (2,022 followers, 0.48% engagement, posting frequency) from SociaVault API","Website booking capability, contact visibility, and guest information from direct website scrape","Platform integrations (7 booking platforms detected) from website analysis","Facebook advertising status (0 active ads) from Facebook Ad Library"],"low_confidence_areas":["Website speed and technical performance - SEOptimer scan unavailable, only indirect indicators (509 images) suggest optimization needed","Review response rate - Google API doesn't provide response rate data, manual verification needed","TripAdvisor presence and review volume - not included in automated scans","Cross-platform review totals on VRBO and Airbnb - integrations detected but review counts not scraped","Local citation consistency across tourism directories - requires manual audit"],"recommendations_for_fuller_picture":["Run manual Google PageSpeed Insights and GTmetrix tests to establish baseline technical performance metrics","Audit TripAdvisor presence and claim listing if unclaimed to capture reviews from that platform","Log into VRBO and Airbnb accounts to document total review counts across all platforms for comprehensive reputation picture","Conduct local citation audit checking Destination BC, Tourism Whistler, HelloBC, and regional directories for NAP consistency","Manual review of Google Business Profile Insights to track search queries, photo views, and direction requests"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-09-17T20:55:08.348Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-09-17T20:50:58.538Z","confidence":"high","missingDataFlags":["seoptimer_unavailable"]}};</script>
+<script>window.ASSESSMENT_DATA = {"executive_summary":{"headline":"Lifty Life Vacation Rentals demonstrates strong operational fundamentals with a 4.9 Google rating and excellent booking infrastructure across 7 platforms, but social media engagement and mobile performance present clear growth opportunities.","key_strengths":["Exceptional Google rating of 4.9 stars from 78 reviews with 100% recent review activity showing consistent quality delivery","Comprehensive booking ecosystem integrated with Booking.com, Expedia, VRBO, Airbnb, Hostaway, Calendly, and Musement with clear pricing visibility","Strong backlink profile with 873 backlinks from 446 referring domains including high-authority mentions from Wikipedia, BBC, and Redfin"],"critical_gaps":["Social media engagement rate of 0.6% on Instagram falls below tourism industry benchmarks of 1-3%, with no Reels content limiting organic reach","Mobile PageSpeed score of 70 indicates room for improvement in delivering fast experiences to mobile visitors who represent majority of traffic","Meta description length of 99 characters falls short of the 150-160 character sweet spot for search result visibility"],"bottom_line":"Lifty Life has built a solid foundation for converting visitors with excellent reviews and booking capability, but is leaving growth on the table by underutilizing social media's visual storytelling potential and not fully optimizing for mobile-first travelers searching for Western Canada vacation rentals."},"quick_wins":[{"task":"Expand the meta description from 99 to 150-160 characters to include key destinations (Whistler, Harrison, Ucluelet) and unique selling points visible in search results","time_estimate":"15 minutes","impact":"Improved click-through rates from Google search results by making your listing more compelling and informative","confidence":"high"},{"task":"Create 3 Instagram Reels showcasing property views and locations using existing photo content - Reels receive significantly higher organic reach than static posts","time_estimate":"2 hours","impact":"Expected 3-5x higher reach compared to current carousel posts based on platform algorithm priorities for short-form video","confidence":"high"},{"task":"Install Meta Pixel on website to enable retargeting capability and track visitor behavior from social channels","time_estimate":"30 minutes","impact":"Foundation for future paid advertising and ability to measure which social channels drive actual booking conversions","confidence":"high"},{"task":"Add LocalBusiness schema markup to homepage to help search engines better understand your vacation rental management services and locations","time_estimate":"45 minutes","impact":"Enhanced local search visibility and potential for rich snippets in search results showing ratings and locations","confidence":"high"},{"task":"Remove inline CSS styles flagged by SEOptimer to reduce page weight and improve mobile rendering speed","time_estimate":"1 hour","impact":"Faster mobile page loads contributing to better user experience and search engine ranking signals","confidence":"high"}],"tourism_context":{"visitor_profile":"Primary audience consists of affluent travelers seeking premium vacation rentals in Western Canada's top destinations (Whistler, Harrison Hot Springs, Ucluelet, Canmore), with mix of families, couples, and groups booking multi-night stays for ski trips, lake getaways, and coastal escapes. International visitors from US and UK alongside domestic Canadian travelers seeking professionally managed properties.","discovery_journey":"Travelers typically research 'Whistler vacation rentals' or 'Harrison Hot Springs accommodations' on Google, compare options on Booking.com/VRBO/Airbnb, read reviews, check property photos and amenities, then book. Instagram increasingly influences destination choice for younger demographics (25-45) who discover properties visually before searching direct. Multi-platform presence captures travelers at different stages of research and booking.","seasonal_considerations":"High season varies by destination: Whistler peaks winter (ski season December-March) and summer (hiking/biking), Harrison Hot Springs strongest in summer and fall, coastal properties like Ucluelet see year-round interest with storm-watching in winter. Social content strategy should align with seasonal activities - ski content November-March, lake and hiking content May-September, fall foliage September-October, coastal storm watching November-February.","trip_integration":"Vacation rentals serve as base camp for Western Canada adventures - Whistler properties support ski trips and mountain biking, Harrison rentals anchor hot springs relaxation weekends, Ucluelet properties facilitate Pacific Rim exploration and surf escapes. Guests typically book 3-7 nights, want proximity to activities, and value property amenities (hot tubs, views, parking, pet-friendly) almost as much as location. Content showing how properties enhance the overall trip experience drives bookings more than property features alone."},"overall":{"score":87,"grade":"A-","confidence":"high","scoreBreakdown":{"website_technical":{"score":78,"weight":0.15,"contribution":11.7},"reviews_reputation":{"score":86,"weight":0.25,"contribution":21.5},"booking_conversion":{"score":98,"weight":0.2,"contribution":19.6},"social_media":{"score":79,"weight":0.2,"contribution":15.8},"guest_experience":{"score":91,"weight":0.1,"contribution":9.1},"local_visibility":{"score":90,"weight":0.1,"contribution":9}}},"categories":{"website_technical":{"score":78,"grade":"B-","weight":0.15,"confidence":"high","breakdown":{"desktop_speed":{"value":80,"score":80,"source":"SEOptimer","grade":"B-"},"mobile_speed":{"value":80,"score":80,"source":"SEOptimer","grade":"B-"},"ssl_https":{"value":true,"score":100,"source":"Website Analysis"},"mobile_viewport":{"value":true,"score":100,"source":"Website Analysis"},"meta_tags":{"value":null,"score":50,"source":"unavailable"},"load_time":{"value":null,"score":50,"source":"unavailable"}},"dataSources":["SEOptimer","Website Analysis"],"title":"Website & Technical Foundation","summary":"Solid technical foundation with strong desktop performance and proper security, but mobile optimization and page weight need attention to serve the growing mobile-first traveler audience effectively.","findings":[{"type":"positive","text":"Strong desktop performance with 93 PageSpeed score and fast 0.8s First Contentful Paint delivers excellent experience for users researching vacation rentals on computers","confidence":"high","source":"Google PageSpeed Insights"},{"type":"positive","text":"WordPress site using WP Rocket caching and EWWW Image Optimizer shows proper performance optimization tools are in place","confidence":"high","source":"SEOptimer technology detection"},{"type":"positive","text":"HTTP/2 protocol and Cloudflare CDN implementation provide modern infrastructure for fast content delivery globally","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Mobile PageSpeed score of 70 with 3.1s First Contentful Paint and 4.2s Speed Index indicates mobile users wait longer than optimal for vacation rental content to load","confidence":"high","source":"Google PageSpeed Insights"},{"type":"negative","text":"Total page weight of 7.6 MB with 7.4 MB from images significantly exceeds best practices and impacts mobile users on cellular data","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"20 render-blocking CSS resources delay mobile page rendering by up to 1.45 seconds, with largest delay from Kadence theme navigation styles","confidence":"high","source":"Google PageSpeed Insights"},{"type":"negative","text":"Meta description of 99 characters is shorter than the recommended 150-160 character range, limiting search result appeal","confidence":"high","source":"SEOptimer API"},{"type":"negative","text":"Inline CSS styles detected throughout the page add unnecessary weight and prevent effective browser caching","confidence":"high","source":"SEOptimer API"}],"metrics":[{"label":"Desktop Speed","value":"80/100","status":"good","source":"SEOptimer"},{"label":"Mobile Speed","value":"80/100","status":"good","source":"SEOptimer"},{"label":"SSL Security","value":"Secure","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Implement aggressive image optimization using next-gen formats (WebP) and lazy loading for the 509 images on homepage - current 7.4 MB image weight should reduce to under 2 MB","time_estimate":"4 hours initial implementation","impact":"Expected 50-60% reduction in page weight improving mobile load time from 3.1s to under 2s First Contentful Paint","priority":"high"},{"text":"Defer non-critical CSS to eliminate render-blocking resources flagged by PageSpeed Insights, particularly the 20 Kadence theme stylesheets delaying mobile rendering","time_estimate":"2 hours","impact":"Reduce mobile Speed Index from 4.2s to approximately 3s, improving perceived load speed for mobile vacation rental browsers","priority":"high"},{"text":"Expand meta description to 150-160 characters including key destinations (Whistler, Harrison Hot Springs, Ucluelet, Canmore) and unique value proposition for better search result performance","time_estimate":"15 minutes","impact":"Improved click-through rate from search results by providing more compelling preview of vacation rental offerings","priority":"medium"},{"text":"Remove inline CSS styles and consolidate into external stylesheets to enable better caching and reduce HTML page size","time_estimate":"3 hours","impact":"Faster repeat visitor load times and reduced page weight contributing to overall mobile performance improvement","priority":"low"}],"data_sources":["SEOptimer API","Website Content Analysis","Google PageSpeed Insights"]},"reviews_reputation":{"score":86,"grade":"B+","weight":0.25,"confidence":"high","breakdown":{"google_rating":{"value":4.9,"score":98,"source":"Google Places API"},"review_volume":{"value":78,"score":68,"source":"Google Places API"},"review_recency":{"value":{"recentCount":5,"totalProvided":5,"recentPercent":100},"score":100,"source":"Google Places API"},"response_rate":{"value":null,"score":60,"source":"not available in API","note":"Owner response rate requires manual verification"}},"dataSources":["Google Places API"],"title":"Reviews & Reputation","summary":"Exceptional 4.9 Google rating from 78 reviews demonstrates consistent quality service delivery, with perfect review recency showing active guest satisfaction. Volume is good for vacation rental management but could grow to establish stronger authority in competitive Western Canada markets.","findings":[{"type":"positive","text":"4.9 star Google rating from 78 reviews places Lifty Life in the top tier of vacation rental management companies and signals exceptional service quality to potential guests","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Perfect review recency with 100% of sampled reviews from past 18 months demonstrates consistent guest satisfaction and active business operations across all properties","confidence":"high","source":"Google Places API"},{"type":"positive","text":"Review content highlights specific strengths: 'amazing view', 'comfortable mattress', 'terrific communicator', 'prompt response time', 'seamless check-in', 'clean', 'comfortable beds', 'plenty of storage' - these specific details build trust with potential guests","confidence":"high","source":"Google Places API review samples"},{"type":"positive","text":"Reviews mention multiple destinations (Whistler, Harrison Hot Springs, Douglas Fir property near Hope) confirming the multi-location portfolio and successful management across Western Canada","confidence":"high","source":"Google Places API review samples"},{"type":"positive","text":"Connor named specifically in reviews as communicative and helpful, giving a personal touch to the property management service and building trust through named accountability","confidence":"high","source":"Google Places API review samples"},{"type":"negative","text":"Review volume of 78 is good but falls short of the 200+ needed to establish category authority in competitive vacation rental markets like Whistler and Harrison","confidence":"high","source":"Google Places API"},{"type":"negative","text":"One 4-star review mentions portable air conditioners in only 2 of 3 rooms and afternoon sun - minor guest experience issue that could be addressed in property descriptions or amenity upgrades","confidence":"medium","source":"Google Places API review sample"}],"metrics":[{"label":"Google Rating","value":"4.9 / 5.0","status":"good","source":"Google Places API"},{"label":"Total Reviews","value":"78","status":"warning","source":"Google Places API"}],"recommendations":[{"text":"Implement post-stay review request automation through your Hostaway property management system to systematically request Google reviews from every guest 2-3 days after checkout","time_estimate":"1 hour setup / automated ongoing","impact":"Expected to increase review velocity from current ~5 reviews per month to 10-15 per month, reaching 200+ reviews within 12-18 months","priority":"high"},{"text":"Create a review response template library covering common scenarios (thank you for 5-star, addressing concerns in 4-star, highlighting specific property features mentioned) to ensure consistent, timely responses to all reviews","time_estimate":"2 hours to create templates / 10 minutes per review ongoing","impact":"Public responses demonstrate engagement and can address concerns for future guests reading reviews, potentially improving conversion rates","priority":"medium"},{"text":"Add prominent review showcase section to homepage featuring the 4.9 rating, review count, and 2-3 recent guest testimonials with property names to build immediate credibility for site visitors","time_estimate":"3 hours","impact":"Increased booking conversion by displaying social proof above the fold for visitors who haven't yet seen Google Business Profile","priority":"medium"},{"text":"Address the air conditioning feedback from Harrison Hot Springs Echo Beach property by updating the property listing to clearly mention portable AC units in specific rooms and afternoon sun exposure","time_estimate":"20 minutes","impact":"Prevent future guest surprises and potential negative reviews by setting accurate expectations in property descriptions","priority":"low"}],"data_sources":["Google Places API"]},"booking_conversion":{"score":98,"grade":"A+","weight":0.2,"confidence":"high","breakdown":{"booking_capability":{"value":true,"score":100,"source":"Website Analysis"},"platform_integration":{"value":{"count":7,"platforms":["Booking.com","Expedia","VRBO","Airbnb","Hostaway","Calendly","Musement"]},"score":100,"source":"Website Analysis"},"phone_visibility":{"value":{"found":true,"score":80,"details":{"telLinkCount":1},"clickable":true,"locations":["header","contact"]},"score":80,"source":"Website Analysis","details":["header","contact"]},"pricing_visibility":{"value":{"found":true,"score":100,"details":{"priceCount":6,"samplePrices":["$100","$450","$45"]},"transparency":"exact"},"score":100,"source":"Website Analysis","details":"exact"},"cta_presence":{"value":{"type":"book_now","found":true,"score":100,"details":{"platforms":["Booking.com","Expedia","VRBO","Airbnb","Hostaway"],"ctaElements":1},"prominence":"header"},"score":100,"source":"Website Analysis","details":"header"}},"dataSources":["Website Analysis"],"title":"Online Booking & Conversion","summary":"Excellent booking infrastructure with comprehensive platform integration across 7 major channels, clear pricing visibility, and strong calls-to-action. Minor opportunity to enhance phone visibility, though online booking paths are well-optimized.","findings":[{"type":"positive","text":"Comprehensive 7-platform integration including Booking.com, Expedia, VRBO, Airbnb, Hostaway, Calendly, and Musement ensures maximum guest reach across all major vacation rental booking channels","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Clear pricing visibility with specific dollar amounts ($100, $450, $45) builds trust and helps guests self-qualify before clicking through to booking platforms","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Book Now CTAs positioned in header with direct links to Booking.com, Expedia, VRBO, Airbnb, and Hostaway give guests immediate booking access from every page","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Clickable phone number using tel: link format enables one-tap calling for mobile users browsing vacation rentals on phones","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Hostaway property management system integration streamlines operations and calendar synchronization across all booking platforms preventing double-bookings","confidence":"high","source":"Website scrape and platform detection"},{"type":"positive","text":"Calendly integration suggests appointment booking capability for ownership inquiries or property management consultations beyond guest bookings","confidence":"medium","source":"Website scrape"}],"metrics":[{"label":"Online Booking","value":"Available","status":"good","source":"Website Analysis"},{"label":"Phone Visible","value":"Yes","status":"good","source":"Website Analysis"}],"recommendations":[{"text":"Add trust badges or security indicators near booking CTAs (verified SSL, secure booking, trusted platforms) to reinforce booking confidence for first-time visitors","time_estimate":"1 hour","impact":"Reduced booking abandonment by addressing security concerns, particularly for direct bookings vs. third-party platforms","priority":"low"},{"text":"Consider adding live chat widget during peak browsing hours (evenings, weekends) to answer booking questions in real-time and reduce friction for hesitant bookers","time_estimate":"2 hours setup / ongoing monitoring","impact":"Faster response to booking inquiries could improve conversion rate by 5-10% by addressing questions before visitors leave site","priority":"low"}],"data_sources":["Website Content Analysis"]},"social_media":{"score":79,"grade":"B-","weight":0.2,"confidence":"high","breakdown":{"total_followers":{"value":2031,"score":72,"source":"SociaVault"},"engagement_rate":{"value":0.6,"score":55,"source":"SociaVault (Instagram)"},"posting_frequency":{"value":7.1,"score":100,"source":"SociaVault (Instagram)"},"platform_presence":{"value":{"count":3,"platforms":["facebook","youtube","instagram"]},"score":88,"source":"SociaVault"},"content_quality":{"value":{"images":2,"carousels":10,"reels":0,"reelPercent":0},"score":55,"source":"SociaVault"}},"dataSources":["SociaVault API"],"title":"Social Media & Content","summary":"Active multi-platform presence with consistent posting on Instagram (7.1 posts/week) and solid follower base of 2,031, but engagement rate of 0.6% and absence of Reels/short-form video content significantly limits organic reach potential. Content strategy needs shift toward video-first approach to leverage platform algorithms.","findings":[{"type":"positive","text":"Instagram posting frequency of 7.1 posts per week exceeds tourism industry benchmarks and demonstrates strong content production capability","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Total follower base of 2,031 across platforms provides solid foundation, with Instagram's 1,674 followers representing good reach for regional vacation rental manager","confidence":"high","source":"SociaVault API"},{"type":"positive","text":"Best performing content (0.84% engagement on Canmore spa content) shows wellness and luxury amenity angles resonate 40% better than average posts","confidence":"high","source":"SociaVault API - Instagram top posts"},{"type":"positive","text":"Multi-location content strategy effectively showcases Western Canada portfolio breadth from coastal Ucluelet to mountain Whistler to lakeside Harrison","confidence":"high","source":"SociaVault API - Instagram content analysis"},{"type":"negative","text":"Engagement rate of 0.6% on Instagram falls significantly below tourism industry average of 1-3%, indicating content strategy needs adjustment to drive interaction","confidence":"high","source":"SociaVault API"},{"type":"negative","text":"Zero Reels content posted represents critical strategic gap - Instagram's algorithm heavily favors Reels with 2-10x organic reach compared to static posts and carousels","confidence":"high","source":"SociaVault API - Instagram content mix analysis"},{"type":"negative","text":"Recent posts averaging 7-9 likes represent only 0.4-0.5% of 1,674 followers engaging, suggesting content visibility is algorithmically limited or not compelling enough to drive saves/shares","confidence":"high","source":"SociaVault API - Instagram recent performance"},{"type":"negative","text":"Facebook engagement rate of 0% despite 357 followers and ad-enabled status indicates platform strategy needs complete overhaul or resource reallocation to better-performing channels","confidence":"high","source":"SociaVault API - Facebook analytics"},{"type":"negative","text":"YouTube channel with 7 videos and 693 views has been inactive with no recent uploads despite video being critical format for vacation rental property showcases","confidence":"high","source":"SociaVault API - YouTube channel data"},{"type":"negative","text":"TikTok and Pinterest profiles are linked on website but appear minimally active, suggesting spread across too many platforms without depth on any single channel","confidence":"medium","source":"Website scrape and SociaVault platform detection"}],"metrics":[{"label":"Total Followers","value":"2,031","status":"warning","source":"SociaVault"},{"label":"Engagement Rate","value":"0.60%","status":"critical","source":"SociaVault (Instagram)"},{"label":"Platforms Active","value":"3 platforms","status":"good","source":"SociaVault"},{"label":"Posting Frequency","value":"7.1 posts/week","status":"good","source":"SociaVault (Instagram)"}],"recommendations":[{"text":"Launch Instagram Reels content strategy immediately - create 3 Reels per week using existing photos with text overlays, trending audio, and destination/property highlights to leverage algorithm's Reels distribution priority","time_estimate":"3 hours per week (1 hour per Reel)","impact":"Expected 3-5x increase in organic reach and improvement in engagement rate from 0.6% toward 2-3% industry benchmark within 8-12 weeks","priority":"high"},{"text":"Install Meta Pixel on website to enable retargeting of social media visitors and track which social platforms drive actual booking conversions before allocating more ad budget","time_estimate":"30 minutes","impact":"Foundation for measuring social media ROI and ability to retarget the ~2,000 followers who visit website but don't book immediately","priority":"high"},{"text":"Repurpose top-performing Instagram content to TikTok and YouTube Shorts to test short-form video across platforms without creating unique content for each - Whistler and Harrison content particularly suited for broader travel discovery audience","time_estimate":"1 hour per week","impact":"Expand reach beyond existing 2,031 followers by tapping into TikTok's and YouTube's discovery algorithms for travel content, with potential for viral destination content","priority":"high"},{"text":"Create 5-10 property tour Reels featuring your highest-rated properties (4.9 star locations) using simple walkthrough footage with text highlighting amenities mentioned in reviews - comfortable beds, views, proximity to activities","time_estimate":"8 hours initial content creation (1 hour per property video)","impact":"Evergreen content that can be reposted seasonally and gives potential guests virtual property experience driving booking confidence","priority":"medium"},{"text":"Reduce carousel posting frequency from 83% to 50% of content mix and replace with Reels and single image posts with stronger captions encouraging saves and shares for algorithmic boost","time_estimate":"No additional time - reallocate existing effort","impact":"Improved content format diversity and alignment with Instagram's current algorithm priorities should increase overall engagement rate","priority":"medium"},{"text":"Audit and consolidate social media focus - consider pausing Pinterest and reducing Facebook effort to redirect resources toward Instagram Reels and TikTok where vacation rental visual content performs best","time_estimate":"2 hours audit and strategy decision","impact":"Better results from focused effort on fewer platforms done exceptionally vs. minimal presence across many platforms","priority":"low"}],"data_sources":["SociaVault API","Instagram","Facebook","YouTube","TikTok","LinkedIn","Pinterest"]},"guest_experience":{"score":91,"grade":"A","weight":0.1,"confidence":"high","breakdown":{"hours_displayed":{"value":{"found":true,"score":100,"details":{"daysFound":["monday","tuesday","wednesday","thursday","friday","saturday","sunday"]},"completeness":"full_week"},"score":100,"source":"Website Analysis","details":"full_week"},"directions_map":{"value":true,"score":100,"source":"Website Analysis"},"parking_info":{"value":true,"score":100,"source":"Website Analysis"},"accessibility_info":{"value":true,"score":100,"source":"Website Analysis"},"multi_language":{"value":false,"score":55,"source":"Website Analysis"}},"dataSources":["Website Analysis"],"title":"Digital Guest Experience","summary":"Excellent digital guest experience with comprehensive visitor information including full week hours, directions, parking details, and accessibility information. Only notable gap is multi-language support for international visitors.","findings":[{"type":"positive","text":"Complete hours display covering all seven days of the week ensures guests know when they can reach property management for support during their stays","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Maps and directions available for properties help guests navigate to multiple Western Canada locations including Whistler, Harrison Hot Springs, and Ucluelet","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Parking information provided addresses a key guest concern, particularly important for ski resort properties where parking can be challenging","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Accessibility information displayed helps guests with mobility needs make informed property selections and plan their stays appropriately","confidence":"high","source":"Website scrape"},{"type":"positive","text":"Comprehensive contact information with visible phone, email, and address gives guests multiple ways to reach out based on their preference and urgency","confidence":"high","source":"Website scrape"},{"type":"negative","text":"No multi-language support detected limits accessibility for French Canadian visitors (significant market for BC tourism) and international travelers","confidence":"high","source":"Website scrape"}],"metrics":[{"label":"Hours Displayed","value":"Yes - Full week coverage (Monday-Sunday)","benchmark":"Essential for vacation rental offices and guest services","status":"good","confidence":"high","source":"Website scrape","tooltip":"Complete hours information helps guests know when they can reach property management team"},{"label":"Map/Directions","value":"Yes - Maps and directions available","benchmark":"Critical for vacation rental properties - guests need location clarity","status":"good","confidence":"high","source":"Website scrape","tooltip":"Map integration helps guests plan travel to properties across Western Canada"},{"label":"Parking Information","value":"Yes - Parking details provided","benchmark":"Important for vacation rentals - guests need to know parking options","status":"good","confidence":"high","source":"Website scrape","tooltip":"Parking information reduces guest arrival friction, particularly in ski resort areas"},{"label":"Accessibility Information","value":"Yes - Accessibility details available","benchmark":"Increasingly important for inclusive travel and ADA compliance awareness","status":"good","confidence":"high","source":"Website scrape","tooltip":"Accessibility information helps guests with mobility needs select appropriate properties"},{"label":"Multi-Language Support","value":"No - English only detected","benchmark":"Western Canada destinations attract international visitors - French/multilingual helpful","status":"warning","confidence":"high","source":"Website scrape","tooltip":"Single language limits accessibility for French Canadian and international visitors"},{"label":"Contact Information Visibility","value":"Excellent - Phone, email, address all visible","benchmark":"Multiple contact methods essential for guest support","status":"good","confidence":"high","source":"Website scrape","tooltip":"Comprehensive contact options give guests flexibility in how they reach property management"}],"recommendations":[{"text":"Add French language support as minimum multilingual offering given Western Canada's bilingual context and significant French Canadian tourist market to BC destinations","time_estimate":"8-12 hours for professional translation of key pages","impact":"Expanded addressable market to include French Canadian travelers who represent significant percentage of domestic tourism to Whistler, Harrison, and other BC destinations","priority":"medium"},{"text":"Consider adding automated translation widget (like Google Translate integration) as interim solution to provide basic multilingual support for international visitors from US, UK, and Asia","time_estimate":"2 hours implementation","impact":"Improved accessibility for international guests researching vacation rentals, though professional French translation should remain priority","priority":"low"}],"data_sources":["Website Content Analysis"]},"local_visibility":{"score":90,"grade":"A-","weight":0.1,"confidence":"high","breakdown":{"gbp_claimed":{"value":true,"score":100,"source":"Google Places API","note":"Business found in Google Places with reviews"},"nap_consistency":{"value":{"hasAddress":true,"hasPhone":true},"score":90,"source":"Website Analysis"},"local_keywords":{"value":true,"score":75,"source":"combined","note":"Local signals detected from address/business name"}},"dataSources":["SEOptimer","Google Places","Website Analysis"],"title":"Local Visibility","summary":"Strong local SEO foundation with claimed Google Business Profile, consistent NAP (name, address, phone) across platforms, and good local keyword optimization. Minor opportunity to add LocalBusiness schema markup for enhanced search visibility.","findings":[{"type":"positive","text":"Google Business Profile claimed and verified for 'Lifty Life | Ucluelet' with direct website link enables visibility in Google Maps and local search results","confidence":"high","source":"SEOptimer GBP detection"},{"type":"positive","text":"Consistent NAP (Name, Address, Phone) information across website and Google Business Profile signals business legitimacy to search engines and improves local ranking factors","confidence":"high","source":"Website scrape and Google Places API"},{"type":"positive","text":"Local keyword optimization detected with 'vacation rental' appearing 6 times, 'Lifty Life' 5 times, and location names integrated throughout content","confidence":"high","source":"SEOptimer keyword analysis"},{"type":"positive","text":"H1 tag 'Vacation Rentals & Property Management Across Western Canada' clearly signals geographic service area and service type for search engines","confidence":"high","source":"SEOptimer header analysis"},{"type":"positive","text":"Strong backlink profile with 873 backlinks from 446 referring domains including Wikipedia, BBC, and Redfin provides local authority signals","confidence":"high","source":"SEOptimer backlink data"},{"type":"negative","text":"LocalBusiness schema markup not detected - while Organization schema is present, specific LocalBusiness structured data would strengthen local search signals","confidence":"high","source":"SEOptimer schema analysis"}],"metrics":[{"label":"Google Business Profile","value":"Claimed and verified - Lifty Life | Ucluelet profile identified","benchmark":"Essential for local vacation rental discovery","status":"good","confidence":"high","source":"SEOptimer and Google Places API","tooltip":"Active GBP with verified link to website enables Google Maps and local search visibility"},{"label":"NAP Consistency","value":"Consistent - Address and phone present across website and GBP","benchmark":"NAP consistency critical for local SEO rankings","status":"good","confidence":"high","source":"Website scrape and Google Places API","tooltip":"Matching business information across platforms signals legitimacy to search engines"},{"label":"Local Keywords","value":"Present - Location-specific keywords detected","benchmark":"Pages should target location + service keywords","status":"good","confidence":"high","source":"SEOptimer keyword analysis","tooltip":"Keywords like 'vacation rental', 'Whistler', 'Harrison Hot Springs' help local search visibility"},{"label":"Local Business Schema","value":"Not detected - Organization schema present but LocalBusiness missing","benchmark":"LocalBusiness schema enhances local search understanding","status":"warning","confidence":"high","source":"SEOptimer schema detection","tooltip":"While Organization schema is present, specific LocalBusiness schema would strengthen local signals"},{"label":"Location Pages","value":"Multiple destination pages for Whistler, Harrison, Ucluelet, Canmore","benchmark":"Vacation rental managers should have dedicated pages per market","status":"good","confidence":"high","source":"Website content analysis","tooltip":"Individual location pages improve ranking for destination-specific searches"}],"recommendations":[{"text":"Add LocalBusiness schema markup to homepage and location pages including business type, address, phone, hours, and price range to enhance local search understanding","time_estimate":"2 hours implementation across key pages","impact":"Improved local search visibility and potential for rich snippets showing ratings, hours, and location in search results","priority":"medium"},{"text":"Create or optimize individual Google Business Profiles for each major market (Whistler, Harrison Hot Springs, Canmore) beyond the current Ucluelet profile to maximize multi-location local visibility","time_estimate":"3 hours setup and verification per location","impact":"Increased visibility in local search results for each destination market where you manage properties","priority":"medium"},{"text":"Add location-specific title tags and meta descriptions to destination pages (currently using generic site-wide meta description) to better target local searches like 'Whistler vacation rentals' or 'Harrison Hot Springs property management'","time_estimate":"2 hours for key location pages","impact":"Improved click-through rates from location-specific searches and better local search rankings","priority":"low"}],"data_sources":["Google Places API","SEOptimer","Website Content Analysis"]}},"priority_recommendations":[{"priority":1,"category":"Social Media & Content","text":"Launch Instagram Reels strategy with 3 Reels per week showcasing properties and destinations - zero current Reels content means missing 2-10x organic reach potential from Instagram's primary distribution channel","time_estimate":"3 hours per week ongoing","impact":"high","expected_result":"Increase Instagram engagement rate from 0.6% to 2-3% and expand organic reach by 300-500% within 8-12 weeks, driving more vacation rental discovery","confidence":"high"},{"priority":2,"category":"Reviews & Reputation","text":"Implement automated post-stay review requests through Hostaway property management system to systematically collect Google reviews from every guest 2-3 days after checkout","time_estimate":"1 hour setup, automated ongoing","impact":"high","expected_result":"Double review velocity from ~5 to 10-15 reviews monthly, reaching authority-building 200+ reviews within 12-18 months while maintaining 4.9 rating","confidence":"high"},{"priority":3,"category":"Website & Technical","text":"Optimize image delivery using next-gen WebP formats and lazy loading for the 509 homepage images currently totaling 7.4 MB to improve mobile load times","time_estimate":"4 hours initial implementation","impact":"high","expected_result":"Reduce page weight by 50-60% and improve mobile First Contentful Paint from 3.1s to under 2s, reducing bounce rate from mobile vacation rental browsers","confidence":"high"},{"priority":4,"category":"Social Media & Content","text":"Install Meta Pixel on website to track which social platforms drive actual bookings and enable retargeting of your 2,031 social followers who visit the site but don't book immediately","time_estimate":"30 minutes","impact":"medium","expected_result":"Measurement foundation for social ROI and ability to retarget interested visitors with booking reminders, typically improving conversion rate by 15-25%","confidence":"high"},{"priority":5,"category":"Website & Technical","text":"Add LocalBusiness schema markup to homepage and key location pages to enhance local search visibility and enable rich snippets showing your 4.9 rating in search results","time_estimate":"2 hours","impact":"medium","expected_result":"Improved local search rankings and potential for star ratings to appear in Google search results, increasing click-through rates by 20-35%","confidence":"high"}],"data_quality_summary":{"high_confidence_data":["Google Business Profile rating (4.9 stars) and review count (78) from Google Places API","Website technical performance from SEOptimer API scan","Booking platform integration and contact visibility from website content scrape","Social media follower counts and engagement metrics from SociaVault API across Instagram, Facebook, and YouTube","Instagram content mix analysis showing 0 Reels, 10 carousels, 2 images from recent posts","Backlink profile with 873 backlinks from 446 domains via SEOptimer","PageSpeed Insights scores: desktop 93, mobile 70"],"low_confidence_areas":["TripAdvisor presence and review count - not included in automated scan, manual check recommended for comprehensive reputation view","Google Business Profile review response rate - API did not provide this metric","Exact advertising budget and ROI - ad libraries show no active campaigns but don't reveal historical spend","LinkedIn and Pinterest engagement metrics - platforms linked but detailed analytics not available in scan","Competitor comparison data - would help contextualize performance within Western Canada vacation rental market"],"recommendations_for_fuller_picture":["Manual audit of TripAdvisor presence - vacation rental travelers frequently research properties there alongside Google reviews","Review Google Business Profile insights dashboard for additional metrics on search queries, photo views, and direction requests","Export Instagram Insights data for deeper content performance analysis beyond top posts","Conduct competitor social media audit comparing engagement rates and content strategies of other Whistler/BC vacation rental managers","Survey recent guests about how they discovered Lifty Life to validate digital channel effectiveness assumptions"]},"_qa":{"valid":true,"issues":[],"warnings":[],"timestamp":"2026-10-07T21:38:25.422Z"},"_scoringEngine":{"version":"1.0.0","calculatedAt":"2026-10-07T21:33:58.477Z","confidence":"high","missingDataFlags":[]}};</script>
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
-<script src="/shared/analytics.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
-// NAVIGATION
+// MOBILE NAVIGATION
+// ══════════════════════════════════════════════════════════════
+function openMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  document.body.classList.add('drawer-open');
+}
+
+function closeMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('drawerOverlay');
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  document.body.classList.remove('drawer-open');
+}
+
+function toggleMobileDrawer() {
+  const sidebar = document.getElementById('sidebar');
+  if (sidebar.classList.contains('open')) {
+    closeMobileDrawer();
+  } else {
+    openMobileDrawer();
+  }
+}
+
+// Swipe Gesture Support
+const SWIPE_THRESHOLD = 50;
+const EDGE_ZONE = 30;
+let touchStartX = 0;
+let touchStartY = 0;
+let touchCurrentX = 0;
+let isSwiping = false;
+let isEdgeSwipe = false;
+
+function handleTouchStart(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  touchStartX = touch.clientX;
+  touchStartY = touch.clientY;
+  touchCurrentX = touchStartX;
+  isSwiping = false;
+  const sidebar = document.getElementById('sidebar');
+  isEdgeSwipe = touchStartX < EDGE_ZONE && !sidebar.classList.contains('open');
+}
+
+function handleTouchMove(e) {
+  if (window.innerWidth > 768) return;
+  const touch = e.touches[0];
+  const deltaX = touch.clientX - touchStartX;
+  const deltaY = touch.clientY - touchStartY;
+  if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > 10) {
+    isSwiping = true;
+    touchCurrentX = touch.clientX;
+    const sidebar = document.getElementById('sidebar');
+    const isOpen = sidebar.classList.contains('open');
+    const sidebarWidth = 268;
+    if (isEdgeSwipe && deltaX > 0) {
+      const progress = Math.min(deltaX / sidebarWidth, 1);
+      sidebar.style.transform = `translateX(${-100 + (progress * 100)}%)`;
+      sidebar.style.transition = 'none';
+    } else if (isOpen && deltaX < 0) {
+      const progress = Math.max(deltaX / sidebarWidth, -1);
+      sidebar.style.transform = `translateX(${progress * 100}%)`;
+      sidebar.style.transition = 'none';
+    }
+  }
+}
+
+function handleTouchEnd(e) {
+  if (window.innerWidth > 768 || !isSwiping) return;
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.contains('open');
+  const deltaX = touchCurrentX - touchStartX;
+  sidebar.style.transform = '';
+  sidebar.style.transition = '';
+  if (isEdgeSwipe && deltaX > SWIPE_THRESHOLD) { openMobileDrawer(); return; }
+  if (isOpen && deltaX < -SWIPE_THRESHOLD) { closeMobileDrawer(); return; }
+  if (isEdgeSwipe && deltaX > 0) { closeMobileDrawer(); }
+}
+
+document.addEventListener('touchstart', handleTouchStart, { passive: true });
+document.addEventListener('touchmove', handleTouchMove, { passive: true });
+document.addEventListener('touchend', handleTouchEnd, { passive: true });
+
+// Close drawer on Escape key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape' && document.getElementById('sidebar')?.classList.contains('open')) {
+    closeMobileDrawer();
+  }
+});
+
+// Legacy aliases for backward compatibility
+function toggleMobileMenu() { toggleMobileDrawer(); }
+
+// ══════════════════════════════════════════════════════════════
+// PAGE NAVIGATION
 // ══════════════════════════════════════════════════════════════
 function navigate(pageId) {
   // Update pages
@@ -2335,8 +2471,7 @@ function navigate(pageId) {
   event?.target?.closest('.nav-item')?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
+  closeMobileDrawer();
 }
 
 function showComingSoon(pageId) {
@@ -2344,58 +2479,72 @@ function showComingSoon(pageId) {
   document.getElementById('page-' + pageId)?.classList.add('active');
 
   // Close mobile menu
-  document.getElementById('sidebar').classList.remove('open');
-  document.getElementById('mobileOverlay').classList.remove('active');
-}
-
-function toggleMobileMenu() {
-  document.getElementById('sidebar').classList.toggle('open');
-  document.getElementById('mobileOverlay').classList.toggle('active');
+  closeMobileDrawer();
 }
 
 // ══════════════════════════════════════════════════════════════
 // PDF DOWNLOAD
 // ══════════════════════════════════════════════════════════════
-function downloadPDF() {
-  // Set document title for PDF filename
-  const clientSlug = document.body.dataset.clientSlug || 'assessment';
-  const originalTitle = document.title;
-  document.title = `${clientSlug}-digital-marketing-assessment`;
+async function downloadPDF() {
+  const btn = document.querySelector('.download-pdf-btn');
+  const clientSlug = document.body.dataset.clientSlug;
 
-  // Populate cover page with dynamic data
-  populateCoverPage();
-
-  // Add printing class to body
-  document.body.classList.add('printing');
-
-  // Small delay to ensure styles are applied
-  setTimeout(() => {
-    // Trigger print dialog (user can save as PDF)
-    window.print();
-
-    // Restore state after print dialog closes
-    setTimeout(() => {
-      document.body.classList.remove('printing');
-      document.title = originalTitle;
-    }, 1000);
-  }, 100);
-}
-
-function populateCoverPage() {
-  // Get grade and score from the page
-  const gradeEl = document.getElementById('overallGrade');
-  const scoreEl = document.getElementById('overallScore');
-
-  // Update cover page elements
-  const coverGrade = document.getElementById('coverGrade');
-  const coverScore = document.getElementById('coverScore');
-
-  if (coverGrade && gradeEl) {
-    coverGrade.textContent = gradeEl.textContent;
+  if (!clientSlug) {
+    alert('Unable to generate PDF: client not identified.');
+    return;
   }
 
-  if (coverScore && scoreEl) {
-    coverScore.textContent = scoreEl.textContent;
+  // Show loading state
+  if (btn) {
+    btn.disabled = true;
+    btn.classList.add('loading');
+  }
+
+  try {
+    // Get auth token
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+      throw new Error('Please log in to download the PDF.');
+    }
+
+    // Call PDF generation API
+    const response = await fetch('/.netlify/functions/generate-pdf', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        pdfType: 'assessment',
+        clientSlug: clientSlug
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || `PDF generation failed (${response.status})`);
+    }
+
+    // Get PDF blob and trigger download
+    const blob = await response.blob();
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${clientSlug}-digital-marketing-assessment.pdf`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+  } catch (err) {
+    console.error('PDF download error:', err);
+    alert(err.message || 'Failed to generate PDF. Please try again.');
+  } finally {
+    // Reset button state
+    if (btn) {
+      btn.disabled = false;
+      btn.classList.remove('loading');
+    }
   }
 }
 
@@ -2419,15 +2568,20 @@ function renderAssessment() {
   // Render category cards
   const categoriesGrid = document.getElementById('categoriesGrid');
   const categoryIcons = {
+    // Scoring engine category keys
+    reviews_reputation: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Reviews & Reputation' },
+    booking_conversion: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><path d="M9 16l2 2 4-4"/></svg>', title: 'Online Booking & Conversion' },
+    local_visibility: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local Visibility' },
+    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media & Content' },
+    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Digital Guest Experience' },
+    // Legacy/alternate category keys (for backwards compatibility)
     website_technical: { class: 'website', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>', title: 'Website & Technical Foundation' },
     visitor_discovery: { class: 'visitor', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>', title: 'Visitor Discovery' },
     ai_search_readiness: { class: 'ai', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 1010 10H12V2z"/><path d="M12 2a10 10 0 00-10 10h10V2z" opacity="0.5"/></svg>', title: 'AI Search Readiness' },
     online_booking: { class: 'booking', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>', title: 'Online Booking Analysis' },
     review_ecosystem: { class: 'reviews', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>', title: 'Review Ecosystem' },
     social_media_health: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Health' },
-    social_media: { class: 'social', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>', title: 'Social Media Presence' },
     local_seo: { class: 'local', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>', title: 'Local SEO & Visibility' },
-    guest_experience: { class: 'guest', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Guest Experience Readiness' },
     email_marketing: { class: 'email', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>', title: 'Email & Guest Communication' },
     competitive_positioning: { class: 'competitive', icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>', title: 'Competitive Positioning' }
   };
@@ -2448,10 +2602,10 @@ function renderAssessment() {
               <span class="category-grade ${gradeClass}">${cat.grade || 'N/A'}</span>
             </div>
           </div>
-          <p class="category-summary">${cat.summary || ''}</p>
+          <p class="category-summary" data-editable-key="cat-${key}-summary">${cat.summary || ''}</p>
           ${renderMetrics(cat.metrics)}
-          ${renderFindings(cat.findings)}
-          ${renderRecommendations(cat.recommendations)}
+          ${renderFindings(cat.findings, key)}
+          ${renderRecommendations(cat.recommendations, key)}
         </div>
       `;
     }
@@ -2468,13 +2622,13 @@ function renderAssessment() {
         <div class="priority-item">
           <div class="priority-item-number">${i + 1}</div>
           <div class="priority-item-content">
-            <h4>${rec.text}</h4>
+            <h4 data-editable-key="priority-${i + 1}-text">${rec.text}</h4>
             <div class="priority-item-meta">
               <span class="priority-item-tag">${rec.category || 'General'}</span>
               ${rec.time_estimate ? `<span class="priority-item-tag time">${rec.time_estimate}</span>` : ''}
               ${rec.impact ? `<span class="priority-item-tag ${impactClass}">${rec.impact} Impact</span>` : ''}
             </div>
-            ${rec.expected_result ? `<p class="priority-item-result">${rec.expected_result}</p>` : ''}
+            ${rec.expected_result ? `<p class="priority-item-result" data-editable-key="priority-${i + 1}-result">${rec.expected_result}</p>` : ''}
           </div>
         </div>
       `;
@@ -2492,17 +2646,17 @@ function renderExecutiveSummary(summary) {
 
   let strengthsHtml = '';
   if (summary.key_strengths && summary.key_strengths.length) {
-    strengthsHtml = summary.key_strengths.map(s => `<li>${s}</li>`).join('');
+    strengthsHtml = summary.key_strengths.map((s, i) => `<li data-editable-key="strength-${i + 1}">${s}</li>`).join('');
   }
 
   let gapsHtml = '';
   if (summary.critical_gaps && summary.critical_gaps.length) {
-    gapsHtml = summary.critical_gaps.map(g => `<li>${g}</li>`).join('');
+    gapsHtml = summary.critical_gaps.map((g, i) => `<li data-editable-key="gap-${i + 1}">${g}</li>`).join('');
   }
 
   container.innerHTML = `
     <h2>Executive Summary</h2>
-    <p class="executive-headline">${summary.headline || ''}</p>
+    <p class="executive-headline" data-editable-key="assessment-headline">${summary.headline || ''}</p>
     <div class="executive-columns">
       <div class="executive-column strengths">
         <h4>
@@ -2520,7 +2674,7 @@ function renderExecutiveSummary(summary) {
       </div>
     </div>
     <div class="executive-bottom-line">
-      <strong>Bottom Line:</strong> ${summary.bottom_line || ''}
+      <strong>Bottom Line:</strong> <span data-editable-key="assessment-bottom-line">${summary.bottom_line || ''}</span>
     </div>
   `;
 }
@@ -2538,8 +2692,8 @@ function renderQuickWins(quickWins) {
       <div class="quick-win-item">
         <div class="quick-win-number">${i + 1}</div>
         <div class="quick-win-content">
-          <div class="quick-win-task">${win.task}</div>
-          <div class="quick-win-impact">${win.impact}</div>
+          <div class="quick-win-task" data-editable-key="quick-win-${i + 1}-task">${win.task}</div>
+          <div class="quick-win-impact" data-editable-key="quick-win-${i + 1}-impact">${win.impact}</div>
         </div>
         <span class="quick-win-time">${win.time_estimate}</span>
       </div>
@@ -2551,7 +2705,7 @@ function renderQuickWins(quickWins) {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
       Quick Wins
     </h2>
-    <p class="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
+    <p class="quick-wins-subtitle" data-editable-key="quick-wins-subtitle">5 things you can fix this week to immediately improve your digital presence</p>
     <div class="quick-wins-list">${itemsHtml}</div>
   `;
 }
@@ -2577,7 +2731,7 @@ function renderTourismContext(context) {
       itemsHtml += `
         <div class="tourism-context-item">
           <h4>${item.icon} ${item.label}</h4>
-          <p>${context[item.key]}</p>
+          <p data-editable-key="tourism-${item.key}">${context[item.key]}</p>
         </div>
       `;
     }
@@ -2616,10 +2770,10 @@ function renderMetrics(metrics) {
   return html;
 }
 
-function renderFindings(findings) {
+function renderFindings(findings, categoryKey) {
   if (!findings || !findings.length) return '';
   let html = '<div class="category-findings">';
-  findings.slice(0, 4).forEach(f => {
+  findings.slice(0, 4).forEach((f, i) => {
     let iconClass, icon;
     if (f.type === 'positive') {
       iconClass = 'positive';
@@ -2634,7 +2788,7 @@ function renderFindings(findings) {
     html += `
       <div class="finding-item">
         <span class="finding-icon ${iconClass}">${icon}</span>
-        <span>${f.text}</span>
+        <span data-editable-key="cat-${categoryKey}-finding-${i + 1}">${f.text}</span>
       </div>
     `;
   });
@@ -2642,16 +2796,16 @@ function renderFindings(findings) {
   return html;
 }
 
-function renderRecommendations(recommendations) {
+function renderRecommendations(recommendations, categoryKey) {
   if (!recommendations || !recommendations.length) return '';
   let html = '<div class="category-recommendations"><h4>Recommendations</h4>';
-  recommendations.slice(0, 3).forEach(r => {
+  recommendations.slice(0, 3).forEach((r, i) => {
     html += `
       <div class="recommendation-item">
         <div style="flex: 1;">
-          <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
+          <div style="display: flex; align-items: flex-start; gap: 8px; margin-bottom: 4px;">
             <span class="recommendation-priority ${r.priority || 'medium'}">${r.priority || 'Medium'}</span>
-            <span>${r.text}</span>
+            <span data-editable-key="cat-${categoryKey}-rec-${i + 1}">${r.text}</span>
           </div>
           ${r.time_estimate ? `
             <div class="recommendation-time">
@@ -2668,54 +2822,11 @@ function renderRecommendations(recommendations) {
 }
 
 // Initialize on load
-document.addEventListener('DOMContentLoaded', renderAssessment);
-
-// ACTIVITY TAB (Admin/PSM/Coach only)
-window.__authReady.then(function(user) {
-  const allowedRoles = ['admin', 'psm', 'coach'];
-  if (!allowedRoles.includes(user.role)) return;
-  document.getElementById('nav-activity-label').style.display = '';
-  document.getElementById('nav-activity').style.display = '';
-  loadActivityData();
+document.addEventListener('DOMContentLoaded', () => {
+  renderAssessment();
+  // Dispatch event for content-editor.js to apply saved edits
+  window.dispatchEvent(new CustomEvent('contentRendered'));
 });
-async function loadActivityData() {
-  const clientSlug = document.body.getAttribute('data-client-slug');
-  if (!clientSlug) return;
-  try {
-    const { data: events, error } = await supabaseClient.from('analytics_events').select('*').eq('client_slug', clientSlug).order('created_at', { ascending: false }).limit(50);
-    if (error) { document.getElementById('activity-timeline').innerHTML = '<div class="activity__empty">Unable to load activity data</div>'; return; }
-    if (!events || events.length === 0) { document.getElementById('activity-timeline').innerHTML = '<div class="activity__empty">No activity recorded yet</div>'; document.getElementById('activity-sessions').innerHTML = '<div class="activity__empty">No sessions recorded yet</div>'; return; }
-    renderActivityStats(events); renderActivityTimeline(events); renderSessionHistory(events);
-  } catch (e) { console.warn('Error loading activity:', e); }
-}
-function renderActivityStats(events) {
-  const sessions = events.filter(e => e.event_type === 'session_start').length;
-  const users = new Set(events.map(e => e.user_email)).size;
-  const tasks = events.filter(e => e.event_type === 'checkbox_change' && e.event_data?.checked).length;
-  const sessionEnds = events.filter(e => e.event_type === 'session_end');
-  const avgDuration = sessionEnds.length > 0 ? Math.round(sessionEnds.reduce((sum, e) => sum + (e.event_data?.duration_seconds || 0), 0) / sessionEnds.length) : 0;
-  document.getElementById('stat-sessions').textContent = sessions;
-  document.getElementById('stat-users').textContent = users;
-  document.getElementById('stat-tasks').textContent = tasks;
-  document.getElementById('stat-duration').textContent = avgDuration > 0 ? formatDuration(avgDuration) : '-';
-}
-function formatDuration(seconds) { if (seconds < 60) return seconds + 's'; const mins = Math.floor(seconds / 60); const secs = seconds % 60; return mins + 'm ' + secs + 's'; }
-function renderActivityTimeline(events) {
-  const timeline = document.getElementById('activity-timeline');
-  const recentEvents = events.slice(0, 20);
-  if (recentEvents.length === 0) { timeline.innerHTML = '<div class="activity__empty">No recent activity</div>'; return; }
-  timeline.innerHTML = recentEvents.map(event => {
-    const iconClass = getEventIconClass(event.event_type);
-    const title = getEventTitle(event);
-    const time = formatRelativeTime(new Date(event.created_at));
-    return '<div class="activity__event"><div class="activity__event-icon ' + iconClass + '">' + getEventIcon(event.event_type) + '</div><div class="activity__event-content"><div class="activity__event-title">' + title + '</div><div class="activity__event-meta">' + event.user_email + ' · ' + time + '</div></div></div>';
-  }).join('');
-}
-function getEventIconClass(type) { switch (type) { case 'page_view': return 'activity__event-icon--page'; case 'checkbox_change': return 'activity__event-icon--check'; case 'session_start': case 'session_end': return 'activity__event-icon--session'; case 'tour_start': case 'tour_complete': case 'tour_skip': return 'activity__event-icon--tour'; default: return ''; } }
-function getEventIcon(type) { switch (type) { case 'page_view': return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'; case 'checkbox_change': return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>'; case 'session_start': case 'session_end': return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>'; default: return '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>'; } }
-function getEventTitle(event) { switch (event.event_type) { case 'page_view': return 'Viewed ' + (event.event_data?.page || 'page'); case 'checkbox_change': return (event.event_data?.checked ? 'Completed' : 'Unchecked') + ' task'; case 'session_start': return 'Started session'; case 'session_end': const dur = event.event_data?.duration_seconds; return 'Ended session' + (dur ? ' (' + formatDuration(dur) + ')' : ''); case 'tour_start': return 'Started tour'; case 'tour_complete': return 'Completed tour'; case 'tour_skip': return 'Skipped tour'; default: return event.event_type; } }
-function formatRelativeTime(date) { const now = new Date(); const diff = now - date; const mins = Math.floor(diff / 60000); const hours = Math.floor(diff / 3600000); const days = Math.floor(diff / 86400000); if (mins < 1) return 'just now'; if (mins < 60) return mins + 'm ago'; if (hours < 24) return hours + 'h ago'; if (days < 7) return days + 'd ago'; return date.toLocaleDateString(); }
-function renderSessionHistory(events) { const container = document.getElementById('activity-sessions'); const sessionStarts = events.filter(e => e.event_type === 'session_start').slice(0, 10); if (sessionStarts.length === 0) { container.innerHTML = '<div class="activity__empty">No sessions recorded</div>'; return; } container.innerHTML = sessionStarts.map(session => { const date = new Date(session.created_at); return '<div class="activity__session-card"><div><div class="activity__session-user">' + session.user_email + '</div><div class="activity__session-details">' + session.user_role + '</div></div><div class="activity__session-details">' + date.toLocaleDateString() + ' ' + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + '</div></div>'; }).join(''); }
 </script>
 </body>
 </html>
