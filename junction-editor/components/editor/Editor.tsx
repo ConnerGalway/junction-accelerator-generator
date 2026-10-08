@@ -40,6 +40,7 @@ export function Editor({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false)
   const [lastSaved, setLastSaved] = useState<Date | null>(null)
   const [showImagePanel, setShowImagePanel] = useState(false)
+  const [imagePanelTab, setImagePanelTab] = useState<'upload' | 'library' | 'url' | 'ai'>('upload')
 
   const editor = useEditor({
     extensions: [
@@ -162,6 +163,12 @@ export function Editor({
     setShowImagePanel(false)
   }, [editor])
 
+  // Open image panel with specific tab
+  const openImagePanel = useCallback((tab: 'upload' | 'library' | 'url' | 'ai' = 'upload') => {
+    setImagePanelTab(tab)
+    setShowImagePanel(true)
+  }, [])
+
   if (!editor) {
     return (
       <div className="flex items-center justify-center h-64">
@@ -180,12 +187,18 @@ export function Editor({
           hasUnsavedChanges={hasUnsavedChanges}
           lastSaved={lastSaved}
           onSave={handleManualSave}
-          onInsertImage={() => setShowImagePanel(true)}
+          onInsertImage={() => openImagePanel('upload')}
         />
       )}
 
       {/* Block Menu (floating add button) */}
-      {!readOnly && <BlockMenu editor={editor} onInsertImage={() => setShowImagePanel(true)} />}
+      {!readOnly && (
+        <BlockMenu
+          editor={editor}
+          onInsertImage={() => openImagePanel('upload')}
+          onInsertAIImage={() => openImagePanel('ai')}
+        />
+      )}
 
       {/* Image Upload Panel */}
       {showImagePanel && (
@@ -193,6 +206,7 @@ export function Editor({
           clientSlug={clientSlug}
           onSelect={handleImageSelect}
           onClose={() => setShowImagePanel(false)}
+          defaultTab={imagePanelTab}
         />
       )}
 

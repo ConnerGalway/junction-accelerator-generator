@@ -1,19 +1,20 @@
 'use client'
 
-import { useState, useRef, useCallback } from 'react'
-import { useImageUpload, getAssetUrl } from '@/hooks'
+import { useState, useRef, useCallback, useEffect } from 'react'
+import { useImageUpload, useAIGeneration, getAssetUrl } from '@/hooks'
 import { supabase, type Asset } from '@/lib/supabase'
 
 interface ImageUploadPanelProps {
   clientSlug?: string
   onSelect: (url: string, alt?: string) => void
   onClose: () => void
+  defaultTab?: 'upload' | 'library' | 'url' | 'ai'
 }
 
-type Tab = 'upload' | 'library' | 'url'
+type Tab = 'upload' | 'library' | 'url' | 'ai'
 
-export function ImageUploadPanel({ clientSlug, onSelect, onClose }: ImageUploadPanelProps) {
-  const [activeTab, setActiveTab] = useState<Tab>('upload')
+export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = 'upload' }: ImageUploadPanelProps) {
+  const [activeTab, setActiveTab] = useState<Tab>(defaultTab)
   const [urlInput, setUrlInput] = useState('')
   const [altText, setAltText] = useState('')
   const [searchQuery, setSearchQuery] = useState('')
@@ -21,8 +22,23 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose }: ImageUploadP
   const [loadingAssets, setLoadingAssets] = useState(false)
   const [dragActive, setDragActive] = useState(false)
 
+  // AI generation state
+  const [aiPrompt, setAiPrompt] = useState('')
+  const [selectedTemplate, setSelectedTemplate] = useState('')
+
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { uploading, progress, uploadImage } = useImageUpload()
+  const { generating, templates, loadTemplates, generateImage } = useAIGeneration()
+
+  // Load data based on default tab
+  useEffect(() => {
+    if (defaultTab === 'ai') {
+      loadTemplates()
+    } else if (defaultTab === 'library') {
+      loadAssets()
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Load assets from library
   const loadAssets = useCallback(async () => {
@@ -56,6 +72,29 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose }: ImageUploadP
     setActiveTab(tab)
     if (tab === 'library') {
       loadAssets()
+    }
+    if (tab === 'ai') {
+      loadTemplates()
+    }
+  }
+
+  // Handle AI image generation
+  const handleAIGenerate = async () => {
+    if (!aiPrompt.trim()) return
+
+    const result = await generateImage({
+      prompt: aiPrompt.trim(),
+      template: selectedTemplate || undefined,
+      size: '1024x1024',
+      quality: 'standard',
+      style: 'vivid',
+      saveToLibrary: true,
+      clientSlug,
+      category: selectedTemplate || 'ai-generated',
+    })
+
+    if (result) {
+      onSelect(result.imageUrl, altText || `AI generated: ${aiPrompt}`)
     }
   }
 
@@ -120,18 +159,26 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose }: ImageUploadP
 
         {/* Tabs */}
         <div className="flex border-b border-navy/10">
-          {(['upload', 'library', 'url'] as Tab[]).map((tab) => (
+          {(['upload', 'library', 'ai', 'url'] as Tab[]).map((tab) => (
             <button
               key={tab}
               onClick={() => handleTabChange(tab)}
               className={`flex-1 px-4 py-3 text-sm font-medium transition-colors ${
                 activeTab === tab
-                  ? 'text-navy border-b-2 border-navy'
+                  ? tab === 'ai' ? 'text-purple-600 border-b-2 border-purple-600' : 'text-navy border-b-2 border-navy'
                   : 'text-muted hover:text-navy'
               }`}
             >
               {tab === 'upload' && 'Upload'}
               {tab === 'library' && 'Library'}
+              {tab === 'ai' && (
+                <span className="flex items-center gap-1 justify-center">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                  </svg>
+                  AI
+                </span>
+              )}
               {tab === 'url' && 'URL'}
             </button>
           ))}
@@ -266,6 +313,97 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose }: ImageUploadP
                   className="w-full px-3 py-2 border border-navy/15 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-navy/20"
                 />
               </div>
+            </div>
+          )}
+
+          {/* AI Tab */}
+          {activeTab === 'ai' && (
+            <div>
+              {/* Template Selection */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-navy mb-2">
+                  Image Type
+                </label>
+                <div className="grid grid-cols-2 gap-2 max-h-32 overflow-y-auto">
+                  <button
+                    onClick={() => setSelectedTemplate('')}
+                    className={`p-2 rounded-lg border text-left text-xs transition-all ${
+                      !selectedTemplate
+                        ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500'
+                        : 'border-navy/15 hover:border-navy/30'
+                    }`}
+                  >
+                    <div className="font-medium text-navy">Custom</div>
+                    <div className="text-muted truncate">Free-form prompt</div>
+                  </button>
+                  {templates.slice(0, 5).map((template) => (
+                    <button
+                      key={template.id}
+                      onClick={() => setSelectedTemplate(template.id)}
+                      className={`p-2 rounded-lg border text-left text-xs transition-all ${
+                        selectedTemplate === template.id
+                          ? 'border-purple-500 bg-purple-50 ring-1 ring-purple-500'
+                          : 'border-navy/15 hover:border-navy/30'
+                      }`}
+                    >
+                      <div className="font-medium text-navy">{template.name}</div>
+                      <div className="text-muted truncate">{template.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Prompt Input */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-navy mb-1">
+                  Describe your image
+                </label>
+                <textarea
+                  value={aiPrompt}
+                  onChange={(e) => setAiPrompt(e.target.value)}
+                  placeholder="e.g., a modern coffee shop interior with warm lighting"
+                  rows={2}
+                  className="w-full px-3 py-2 border border-navy/15 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-500/20 resize-none"
+                />
+              </div>
+
+              {/* Alt text */}
+              <div className="mb-4">
+                <label className="block text-sm font-medium text-navy mb-1">
+                  Alt text (optional)
+                </label>
+                <input
+                  type="text"
+                  value={altText}
+                  onChange={(e) => setAltText(e.target.value)}
+                  placeholder="Describe the image for accessibility"
+                  className="w-full px-3 py-2 border border-navy/15 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-navy/20"
+                />
+              </div>
+
+              <button
+                onClick={handleAIGenerate}
+                disabled={generating || !aiPrompt.trim()}
+                className="w-full py-2 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-md font-medium hover:from-purple-700 hover:to-pink-700 disabled:opacity-50 disabled:cursor-not-allowed transition-all flex items-center justify-center gap-2"
+              >
+                {generating ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    Generate & Insert
+                  </>
+                )}
+              </button>
+
+              <p className="mt-2 text-xs text-center text-muted">
+                ~$0.04 per image. Saved automatically to your library.
+              </p>
             </div>
           )}
 

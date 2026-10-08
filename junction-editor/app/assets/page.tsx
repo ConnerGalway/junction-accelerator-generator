@@ -7,6 +7,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import Link from 'next/link'
 import { supabase, type Asset } from '@/lib/supabase'
 import { useImageUpload, getAssetUrl } from '@/hooks'
+import { AIGenerationPanel } from '@/components/ai'
 import { toast } from 'sonner'
 
 // Asset categories based on tactic types
@@ -28,6 +29,8 @@ export default function AssetsPage() {
   const [categoryFilter, setCategoryFilter] = useState('')
   const [selectedAsset, setSelectedAsset] = useState<Asset | null>(null)
   const [dragActive, setDragActive] = useState(false)
+  const [showAIPanel, setShowAIPanel] = useState(false)
+  const [showAIOnly, setShowAIOnly] = useState(false)
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const { uploading, progress, uploadImage } = useImageUpload()
@@ -41,12 +44,18 @@ export default function AssetsPage() {
         .select('*')
         .order('created_at', { ascending: false })
 
+      // Search in filename, tags, and ai_prompt
       if (searchQuery) {
-        query = query.ilike('filename', `%${searchQuery}%`)
+        query = query.or(`filename.ilike.%${searchQuery}%,ai_prompt.ilike.%${searchQuery}%,tags.cs.{${searchQuery}}`)
       }
 
       if (categoryFilter) {
         query = query.eq('category', categoryFilter)
+      }
+
+      // Filter AI-generated only
+      if (showAIOnly) {
+        query = query.eq('ai_generated', true)
       }
 
       const { data, error } = await query.limit(100)
@@ -60,7 +69,7 @@ export default function AssetsPage() {
     } finally {
       setLoading(false)
     }
-  }, [searchQuery, categoryFilter])
+  }, [searchQuery, categoryFilter, showAIOnly])
 
   useEffect(() => {
     loadAssets()
@@ -124,6 +133,14 @@ export default function AssetsPage() {
     toast.success('URL copied to clipboard')
   }
 
+  // Handle AI image generation complete
+  const handleAIImageGenerated = (imageUrl: string, asset?: any) => {
+    if (asset) {
+      loadAssets()
+    }
+    setShowAIPanel(false)
+  }
+
   // Format file size
   const formatFileSize = (bytes: number): string => {
     if (bytes < 1024) return `${bytes} B`
@@ -149,10 +166,33 @@ export default function AssetsPage() {
             <div className="w-px h-6 bg-white/20" />
             <h1 className="font-display font-bold">Asset Library</h1>
           </div>
+          <button
+            onClick={() => setShowAIPanel(!showAIPanel)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all ${
+              showAIPanel
+                ? 'bg-white text-navy'
+                : 'bg-gradient-to-r from-purple-500 to-pink-500 text-white hover:from-purple-600 hover:to-pink-600'
+            }`}
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            {showAIPanel ? 'Close AI' : 'Generate with AI'}
+          </button>
         </div>
       </header>
 
       <main className="max-w-6xl mx-auto px-8 py-8">
+        {/* AI Generation Panel */}
+        {showAIPanel && (
+          <div className="mb-8">
+            <AIGenerationPanel
+              onImageGenerated={handleAIImageGenerated}
+              onClose={() => setShowAIPanel(false)}
+            />
+          </div>
+        )}
+
         {/* Upload Area */}
         <div
           onDragEnter={handleDrag}
@@ -204,7 +244,7 @@ export default function AssetsPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search assets..."
+              placeholder="Search by name, tags, or AI prompt..."
               className="w-full px-4 py-2 border border-navy/15 rounded-lg bg-white text-sm focus:outline-none focus:ring-2 focus:ring-navy/20"
             />
           </div>
@@ -219,6 +259,19 @@ export default function AssetsPage() {
               </option>
             ))}
           </select>
+          <button
+            onClick={() => setShowAIOnly(!showAIOnly)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+              showAIOnly
+                ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white'
+                : 'border border-navy/15 bg-white text-navy hover:bg-cream'
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            AI Generated
+          </button>
         </div>
 
         {/* Asset Grid */}
@@ -254,6 +307,14 @@ export default function AssetsPage() {
                 <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
                   <p className="text-white text-xs truncate">{asset.filename}</p>
                 </div>
+                {asset.ai_generated && (
+                  <div className="absolute top-2 right-2 px-1.5 py-0.5 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-[10px] font-medium rounded-full flex items-center gap-1">
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                    AI
+                  </div>
+                )}
               </button>
             ))}
           </div>
@@ -346,6 +407,22 @@ export default function AssetsPage() {
                         </span>
                       ))}
                     </div>
+                  </div>
+                )}
+
+                {selectedAsset.ai_generated && (
+                  <div>
+                    <label className="text-xs text-muted uppercase tracking-wider flex items-center gap-1">
+                      <svg className="w-3 h-3 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                      AI Generated
+                    </label>
+                    {selectedAsset.ai_prompt && (
+                      <p className="text-xs text-navy mt-1 bg-purple-50 p-2 rounded-md">
+                        "{selectedAsset.ai_prompt}"
+                      </p>
+                    )}
                   </div>
                 )}
 
