@@ -1777,12 +1777,12 @@
 
         const editButton = canEdit ? `
           <div class="project-card__actions">
-            <a href="/edit/${p.slug}/" class="project-card__edit-btn project-card__edit-btn--plan" onclick="event.stopPropagation();" title="Edit plan content" target="_blank">
+            <button class="project-card__edit-btn project-card__edit-btn--plan" onclick="event.preventDefault(); event.stopPropagation(); window.open('/edit/${p.slug}/', '_blank')" title="Edit plan content">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M12 20h9"/>
                 <path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/>
               </svg>
-            </a>
+            </button>
             <button class="project-card__edit-btn" onclick="event.preventDefault(); event.stopPropagation(); openEditProjectModal('${p.slug}')" title="Edit project settings">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="12" cy="12" r="3"/>
