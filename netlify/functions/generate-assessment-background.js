@@ -2955,6 +2955,15 @@ async function fetchInstagramData(url, headers) {
   const rawResponse = JSON.stringify(profileData);
   console.log('[SociaVault] RAW PROFILE RESPONSE (first 3000 chars):', rawResponse.substring(0, 3000));
 
+  // Debug: Log all top-level and nested keys to find where post count might be hiding
+  console.log('[SociaVault] PROFILE STRUCTURE:', JSON.stringify({
+    topLevelKeys: Object.keys(profileData),
+    dataKeys: profileData.data ? Object.keys(profileData.data) : [],
+    dataDataKeys: profileData.data?.data ? Object.keys(profileData.data.data) : [],
+    dataUserKeys: profileData.data?.user ? Object.keys(profileData.data.user) : [],
+    dataDataUserKeys: profileData.data?.data?.user ? Object.keys(profileData.data.data.user) : []
+  }));
+
   if (!profileData.success) {
     throw new Error(`Instagram profile fetch unsuccessful: ${JSON.stringify(profileData)}`);
   }
@@ -2976,12 +2985,20 @@ async function fetchInstagramData(url, headers) {
     || 0;
 
   // Extract post count with comprehensive fallbacks and logging
-  const extractedPostCount = user.edge_owner_to_timeline_media?.count
+  // SociaVault API returns this in various field names depending on the endpoint version
+  let extractedPostCount = user.edge_owner_to_timeline_media?.count
     || user.media_count
     || user.posts_count
+    || user.post_count        // Added: singular form
     || user.total_media_count
     || user.mediaCount
     || user.postsCount
+    || user.postCount         // Added: camelCase singular
+    || user.totalPosts        // Added: alternative naming
+    || user.total_posts       // Added: snake_case alternative
+    || profileData.data?.media_count   // Check at data level
+    || profileData.data?.post_count    // Check at data level
+    || profileData.data?.posts_count   // Check at data level
     || 0;
 
   console.log('[SociaVault] EXTRACTED: followers=' + followers + ', username=' + (user.username || user.full_name || 'N/A') + ', postCount=' + extractedPostCount);
@@ -2991,9 +3008,15 @@ async function fetchInstagramData(url, headers) {
     edge_owner_to_timeline_media_count: user.edge_owner_to_timeline_media?.count,
     media_count: user.media_count,
     posts_count: user.posts_count,
+    post_count: user.post_count,
     total_media_count: user.total_media_count,
     mediaCount: user.mediaCount,
     postsCount: user.postsCount,
+    postCount: user.postCount,
+    totalPosts: user.totalPosts,
+    total_posts: user.total_posts,
+    data_media_count: profileData.data?.media_count,
+    data_post_count: profileData.data?.post_count,
     extracted: extractedPostCount
   }));
 
@@ -3041,6 +3064,20 @@ async function fetchInstagramData(url, headers) {
       if (pageCount === 1) {
         const rawPostsResponse = JSON.stringify(postsData);
         console.log('[SociaVault] RAW POSTS RESPONSE (first 3000 chars):', rawPostsResponse.substring(0, 3000));
+
+        // Check for total count in posts response (some APIs include this)
+        const postsApiTotal = postsData.data?.edge_owner_to_timeline_media?.count
+          || postsData.data?.total
+          || postsData.data?.count
+          || postsData.total
+          || postsData.count
+          || postsData.data?.user?.edge_owner_to_timeline_media?.count
+          || null;
+
+        if (postsApiTotal && postsApiTotal > extractedPostCount) {
+          console.log('[SociaVault] Posts API returned total count:', postsApiTotal, '(updating from profile count:', extractedPostCount, ')');
+          extractedPostCount = postsApiTotal;
+        }
       }
 
       // Get items from response - could be array or object with numeric keys
@@ -3101,6 +3138,13 @@ async function fetchInstagramData(url, headers) {
     posts = allPosts.slice(0, MAX_POSTS);
 
     console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length, '(fetched', allPosts.length, 'total across', pageCount, 'pages)');
+
+    // FALLBACK: If profile didn't return post count, use fetched posts length as minimum
+    // This ensures we at least report SOMETHING rather than 0
+    if (extractedPostCount === 0 && posts.length > 0) {
+      console.warn('[SociaVault] ⚠️ Profile did not return post count, using fetched count as fallback:', posts.length);
+      extractedPostCount = posts.length;
+    }
 
     // TRUNCATION DETECTION: Compare profile count vs fetched count
     // The profile's media_count is authoritative; API pagination may return fewer
