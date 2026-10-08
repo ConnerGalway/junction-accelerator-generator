@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useCallback, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useImageUpload, useAIGeneration, getAssetUrl } from '@/hooks'
 import { supabase, type Asset } from '@/lib/supabase'
 
@@ -14,6 +15,7 @@ interface ImageUploadPanelProps {
 type Tab = 'upload' | 'library' | 'url' | 'ai'
 
 export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = 'upload' }: ImageUploadPanelProps) {
+  const [mounted, setMounted] = useState(false)
   const [activeTab, setActiveTab] = useState<Tab>(defaultTab)
   const [urlInput, setUrlInput] = useState('')
   const [altText, setAltText] = useState('')
@@ -30,15 +32,21 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
   const { uploading, progress, uploadImage } = useImageUpload()
   const { generating, templates, loadTemplates, generateImage } = useAIGeneration()
 
+  // Ensure client-side only rendering for portal
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
   // Load data based on default tab
   useEffect(() => {
+    if (!mounted) return
     if (defaultTab === 'ai') {
       loadTemplates()
     } else if (defaultTab === 'library') {
       loadAssets()
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [mounted])
 
   // Load assets from library
   const loadAssets = useCallback(async () => {
@@ -141,7 +149,10 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
     onSelect(url, altText || asset.filename)
   }
 
-  return (
+  // Don't render until mounted (prevents hydration mismatch)
+  if (!mounted) return null
+
+  const modalContent = (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-white rounded-xl shadow-dropdown w-full max-w-lg mx-4 animate-fade-in">
         {/* Header */}
@@ -449,4 +460,6 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
       </div>
     </div>
   )
+
+  return createPortal(modalContent, document.body)
 }
