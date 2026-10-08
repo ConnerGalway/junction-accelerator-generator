@@ -2,7 +2,9 @@
 
 import type { Editor } from '@tiptap/react'
 import { formatRelativeTime } from '@/lib/editor-utils'
+import { sanitizeUrl } from '@/lib/validation'
 import { Tooltip } from '@/components/ui'
+import { toast } from 'sonner'
 
 interface ToolbarProps {
   editor: Editor
@@ -191,10 +193,15 @@ export function Toolbar({
 
           <ToolbarButton
             onClick={() => {
-              const url = window.prompt('Enter link URL:')
-              if (url) {
-                editor.chain().focus().setLink({ href: url }).run()
+              const input = window.prompt('Enter link URL:')
+              if (!input) return
+
+              const url = sanitizeUrl(input)
+              if (!url) {
+                toast.error('Invalid URL. Please enter a valid http:// or https:// link.')
+                return
               }
+              editor.chain().focus().setLink({ href: url }).run()
             }}
             isActive={editor.isActive('link')}
             tooltip="Insert Link - Add a clickable hyperlink"

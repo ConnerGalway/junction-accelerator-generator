@@ -6,6 +6,41 @@ import { createClient } from '@supabase/supabase-js'
 let openai: OpenAI | null = null
 let supabase: ReturnType<typeof createClient> | null = null
 
+// Simple in-memory rate limiter
+// Note: In production with multiple serverless instances, use Redis or similar
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
+const RATE_LIMIT_WINDOW = 60 * 1000 // 1 minute
+const RATE_LIMIT_MAX = 5 // 5 requests per minute per IP
+
+function checkRateLimit(identifier: string): { allowed: boolean; remaining: number; resetIn: number } {
+  const now = Date.now()
+  const record = rateLimitMap.get(identifier)
+
+  // Clean up expired entries periodically
+  if (Math.random() < 0.1) {
+    const keysToDelete: string[] = []
+    rateLimitMap.forEach((value, key) => {
+      if (value.resetTime < now) {
+        keysToDelete.push(key)
+      }
+    })
+    keysToDelete.forEach(key => rateLimitMap.delete(key))
+  }
+
+  if (!record || record.resetTime < now) {
+    // New window
+    rateLimitMap.set(identifier, { count: 1, resetTime: now + RATE_LIMIT_WINDOW })
+    return { allowed: true, remaining: RATE_LIMIT_MAX - 1, resetIn: RATE_LIMIT_WINDOW }
+  }
+
+  if (record.count >= RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0, resetIn: record.resetTime - now }
+  }
+
+  record.count++
+  return { allowed: true, remaining: RATE_LIMIT_MAX - record.count, resetIn: record.resetTime - now }
+}
+
 function getOpenAI() {
   if (!openai) {
     openai = new OpenAI({
@@ -92,6 +127,25 @@ interface GenerateImageRequest {
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const clientIP = request.headers.get('x-forwarded-for')?.split(',')[0] ||
+                     request.headers.get('x-real-ip') ||
+                     'unknown'
+    const rateLimit = checkRateLimit(clientIP)
+
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: `Rate limit exceeded. Please wait ${Math.ceil(rateLimit.resetIn / 1000)} seconds.` },
+        {
+          status: 429,
+          headers: {
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(Math.ceil(rateLimit.resetIn / 1000)),
+          }
+        }
+      )
+    }
+
     // Check for API key
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json(

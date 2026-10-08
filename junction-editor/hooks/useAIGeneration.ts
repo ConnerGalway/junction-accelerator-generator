@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { toast } from 'sonner'
+import { type Asset } from '@/lib/supabase'
 
 export interface PromptTemplate {
   id: string
@@ -25,7 +26,7 @@ export interface GenerateImageOptions {
 export interface GeneratedImage {
   imageUrl: string
   revisedPrompt?: string
-  savedAsset?: any
+  savedAsset?: Asset | null
 }
 
 export function useAIGeneration() {

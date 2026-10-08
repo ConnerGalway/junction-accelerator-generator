@@ -166,18 +166,27 @@ export const sampleDocument: TipTapContent = {
   ],
 }
 
-// Debounce function for autosave
+// Debounce function with cancel capability
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function debounce<T extends (...args: any[]) => any>(
   func: T,
   wait: number
-): (...args: Parameters<T>) => void {
+): ((...args: Parameters<T>) => void) & { cancel: () => void } {
   let timeout: NodeJS.Timeout | null = null
 
-  return (...args: Parameters<T>) => {
+  const debouncedFn = (...args: Parameters<T>) => {
     if (timeout) clearTimeout(timeout)
     timeout = setTimeout(() => func(...args), wait)
   }
+
+  debouncedFn.cancel = () => {
+    if (timeout) {
+      clearTimeout(timeout)
+      timeout = null
+    }
+  }
+
+  return debouncedFn
 }
 
 // Format relative time

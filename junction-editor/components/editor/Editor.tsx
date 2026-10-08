@@ -15,6 +15,7 @@ import { useCallback, useEffect, useState } from 'react'
 import { toast } from 'sonner'
 import type { TipTapContent } from '@/lib/supabase'
 import { debounce } from '@/lib/editor-utils'
+import { sanitizeUrl } from '@/lib/validation'
 import { Toolbar } from './Toolbar'
 import { BlockMenu } from './BlockMenu'
 import { ImageUploadPanel } from './ImageUploadPanel'
@@ -258,10 +259,15 @@ export function Editor({
           <Tooltip content="Add Link - Insert a clickable URL" position="top">
             <button
               onClick={() => {
-                const url = window.prompt('Enter URL:')
-                if (url) {
-                  editor.chain().focus().setLink({ href: url }).run()
+                const input = window.prompt('Enter URL:')
+                if (!input) return
+
+                const url = sanitizeUrl(input)
+                if (!url) {
+                  toast.error('Invalid URL. Please enter a valid http:// or https:// link.')
+                  return
                 }
+                editor.chain().focus().setLink({ href: url }).run()
               }}
               className={`p-2 rounded hover:bg-white/10 transition-colors ${
                 editor.isActive('link') ? 'text-mint' : 'text-white'

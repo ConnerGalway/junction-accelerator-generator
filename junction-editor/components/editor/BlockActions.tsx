@@ -121,9 +121,85 @@ export function BlockActions({ editor }: BlockActionsProps) {
   // Move block up
   const handleMoveUp = useCallback(() => {
     if (!editor) return
-    // TipTap doesn't have built-in moveUp, but we can use liftListItem for lists
-    // For general blocks, we'd need more complex logic
-    editor.chain().focus().run()
+
+    const { from } = editor.state.selection
+    const resolvedPos = editor.state.doc.resolve(from)
+
+    // Find the closest block-level node
+    let depth = resolvedPos.depth
+    while (depth > 0 && !resolvedPos.node(depth).type.isBlock) {
+      depth--
+    }
+
+    if (depth === 0) return
+
+    const start = resolvedPos.before(depth)
+    const node = resolvedPos.node(depth)
+
+    // Find the previous sibling block
+    if (start <= 1) return // Already at the top
+
+    const prevPos = editor.state.doc.resolve(start - 1)
+    let prevDepth = prevPos.depth
+    while (prevDepth > 0 && !prevPos.node(prevDepth).type.isBlock) {
+      prevDepth--
+    }
+
+    if (prevDepth === 0) return
+
+    const prevStart = prevPos.before(prevDepth)
+
+    // Delete current block and insert before previous block
+    const end = resolvedPos.after(depth)
+    const nodeJSON = node.toJSON()
+
+    editor.chain()
+      .focus()
+      .deleteRange({ from: start, to: end })
+      .insertContentAt(prevStart, nodeJSON)
+      .run()
+  }, [editor])
+
+  // Move block down
+  const handleMoveDown = useCallback(() => {
+    if (!editor) return
+
+    const { from } = editor.state.selection
+    const resolvedPos = editor.state.doc.resolve(from)
+
+    // Find the closest block-level node
+    let depth = resolvedPos.depth
+    while (depth > 0 && !resolvedPos.node(depth).type.isBlock) {
+      depth--
+    }
+
+    if (depth === 0) return
+
+    const start = resolvedPos.before(depth)
+    const end = resolvedPos.after(depth)
+    const node = resolvedPos.node(depth)
+
+    // Check if there's a next sibling
+    if (end >= editor.state.doc.content.size - 1) return // Already at the bottom
+
+    const nextPos = editor.state.doc.resolve(end + 1)
+    let nextDepth = nextPos.depth
+    while (nextDepth > 0 && !nextPos.node(nextDepth).type.isBlock) {
+      nextDepth--
+    }
+
+    if (nextDepth === 0) return
+
+    const nextEnd = nextPos.after(nextDepth)
+    const nodeJSON = node.toJSON()
+
+    // Delete current block and insert after next block
+    editor.chain()
+      .focus()
+      .deleteRange({ from: start, to: end })
+      // After deletion, positions shift, so we need to adjust
+      .insertContentAt(nextEnd - (end - start), nodeJSON)
+      .run()
   }, [editor])
 
   if (!isVisible || !position) return null
@@ -156,6 +232,29 @@ export function BlockActions({ editor }: BlockActionsProps) {
         >
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+          </svg>
+        </button>
+      </Tooltip>
+      <div className="w-full h-px bg-navy/10 my-0.5" />
+      <Tooltip content="Move up" position="left">
+        <button
+          onClick={handleMoveUp}
+          className="p-1.5 rounded hover:bg-navy/10 text-muted hover:text-navy transition-colors"
+          aria-label="Move block up"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
+          </svg>
+        </button>
+      </Tooltip>
+      <Tooltip content="Move down" position="left">
+        <button
+          onClick={handleMoveDown}
+          className="p-1.5 rounded hover:bg-navy/10 text-muted hover:text-navy transition-colors"
+          aria-label="Move block down"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
         </button>
       </Tooltip>

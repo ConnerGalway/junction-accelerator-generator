@@ -1,9 +1,10 @@
 'use client'
 
-import { useState, useRef, useCallback, useEffect } from 'react'
+import { useState, useRef, useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 import { useImageUpload, useAIGeneration, getAssetUrl } from '@/hooks'
 import { supabase, type Asset } from '@/lib/supabase'
+import { debounce } from '@/lib/editor-utils'
 
 interface ImageUploadPanelProps {
   clientSlug?: string
@@ -32,10 +33,22 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
   const { uploading, progress, uploadImage } = useImageUpload()
   const { generating, templates, loadTemplates, generateImage } = useAIGeneration()
 
+  // Debounced search function
+  const debouncedLoadAssets = useMemo(
+    () => debounce((query: string) => {
+      loadAssetsWithQuery(query)
+    }, 300),
+    []
+  )
+
   // Ensure client-side only rendering for portal
   useEffect(() => {
     setMounted(true)
-  }, [])
+    return () => {
+      // Clean up debounce on unmount
+      debouncedLoadAssets.cancel?.()
+    }
+  }, [debouncedLoadAssets])
 
   // Load data based on default tab
   useEffect(() => {
@@ -48,22 +61,24 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mounted])
 
-  // Load assets from library
-  const loadAssets = useCallback(async () => {
+  // Load assets from library with optional query
+  const loadAssetsWithQuery = useCallback(async (query: string = '') => {
     setLoadingAssets(true)
     try {
-      let query = supabase
+      let dbQuery = supabase
         .from('assets')
         .select('*')
         .in('mime_type', ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/svg+xml'])
         .order('created_at', { ascending: false })
         .limit(50)
 
-      if (searchQuery) {
-        query = query.ilike('filename', `%${searchQuery}%`)
+      if (query.trim()) {
+        // Escape special SQL characters
+        const escapedQuery = query.replace(/[%_]/g, '\\$&')
+        dbQuery = dbQuery.ilike('filename', `%${escapedQuery}%`)
       }
 
-      const { data, error } = await query
+      const { data, error } = await dbQuery
 
       if (error) {
         console.error('Error loading assets:', error)
@@ -73,7 +88,12 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
     } finally {
       setLoadingAssets(false)
     }
-  }, [searchQuery])
+  }, [])
+
+  // Load assets without query (for initial load)
+  const loadAssets = useCallback(() => {
+    loadAssetsWithQuery(searchQuery)
+  }, [loadAssetsWithQuery, searchQuery])
 
   // Load assets when switching to library tab
   const handleTabChange = (tab: Tab) => {
@@ -275,8 +295,9 @@ export function ImageUploadPanel({ clientSlug, onSelect, onClose, defaultTab = '
                   type="text"
                   value={searchQuery}
                   onChange={(e) => {
-                    setSearchQuery(e.target.value)
-                    loadAssets()
+                    const value = e.target.value
+                    setSearchQuery(value)
+                    debouncedLoadAssets(value)
                   }}
                   placeholder="Search images..."
                   className="w-full px-3 py-2 border border-navy/15 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-navy/20"

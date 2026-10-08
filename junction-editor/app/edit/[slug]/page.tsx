@@ -1,14 +1,20 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Editor } from '@/components/editor'
+import { ErrorBoundary } from '@/components/ErrorBoundary'
 import { supabase, getUserRole, canEdit, type TipTapContent, type UserPlan } from '@/lib/supabase'
 import { sampleDocument, emptyDocument } from '@/lib/editor-utils'
+import { isNonEmptyString } from '@/lib/validation'
 import { toast } from 'sonner'
 import { useEditLock } from '@/hooks'
 import { LockIndicator } from '@/components/ui'
+
+// Retry configuration for save operations
+const MAX_RETRIES = 3
+const RETRY_DELAY = 1000 // ms
 
 export default function EditorPage() {
   const params = useParams()
@@ -118,16 +124,19 @@ export default function EditorPage() {
   // Handle lock override
   const handleOverrideLock = useCallback(async () => {
     const reason = window.prompt('Enter reason for overriding the lock:')
-    if (!reason) return
+    if (!isNonEmptyString(reason)) {
+      toast.error('Please provide a reason for overriding the lock')
+      return
+    }
 
-    const success = await overrideLock(reason)
+    const success = await overrideLock(reason.trim())
     if (success) {
       toast.success('Lock overridden - you can now edit')
     }
   }, [overrideLock])
 
-  // Save document
-  const handleSave = async (content: TipTapContent) => {
+  // Save document with retry logic
+  const handleSave = useCallback(async (content: TipTapContent) => {
     if (slug === 'demo') {
       // Demo mode - don't actually save
       toast.success('Demo mode: Changes not saved')
@@ -137,82 +146,113 @@ export default function EditorPage() {
     // Check that we have the lock before saving
     if (!hasLock) {
       toast.error('You must acquire the edit lock before saving')
-      return
+      throw new Error('No edit lock')
     }
 
     const { data: { user } } = await supabase.auth.getUser()
     if (!user) {
       toast.error('You must be logged in to save')
-      return
+      throw new Error('Not authenticated')
     }
 
-    if (documentId) {
-      // Update existing document
-      const { error } = await supabase
-        .from('editor_documents')
-        .update({
-          content,
-          updated_by: user.email,
-          updated_at: new Date().toISOString(),
-        })
-        .eq('id', documentId)
+    // Retry wrapper for database operations
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const withRetry = async (
+      operation: () => PromiseLike<{ data: any; error: any }>,
+      operationName: string
+    ): Promise<any> => {
+      let lastError: Error | null = null
 
-      if (error) {
-        console.error('Save error:', error)
-        throw new Error('Failed to save document')
+      for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+        try {
+          const result = await operation()
+          if (result.error) throw new Error(result.error.message || 'Unknown error')
+          if (result.data === null) throw new Error(`${operationName} returned no data`)
+          return result.data
+        } catch (err) {
+          lastError = err as Error
+          console.error(`${operationName} attempt ${attempt} failed:`, err)
+
+          if (attempt < MAX_RETRIES) {
+            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * attempt))
+          }
+        }
       }
 
-      // Create version
-      const { data: latestVersion } = await supabase
-        .from('document_versions')
-        .select('version_number')
-        .eq('document_id', documentId)
-        .order('version_number', { ascending: false })
-        .limit(1)
-        .single()
-
-      const nextVersion = (latestVersion?.version_number || 0) + 1
-
-      await supabase
-        .from('document_versions')
-        .insert({
-          document_id: documentId,
-          version_number: nextVersion,
-          content,
-          changed_by: user.email,
-        })
-    } else {
-      // Create new document
-      const { data: newDoc, error } = await supabase
-        .from('editor_documents')
-        .insert({
-          client_slug: slug,
-          content,
-          created_by: user.email,
-          updated_by: user.email,
-        })
-        .select()
-        .single()
-
-      if (error) {
-        console.error('Create error:', error)
-        throw new Error('Failed to create document')
-      }
-
-      setDocumentId(newDoc.id)
-
-      // Create initial version
-      await supabase
-        .from('document_versions')
-        .insert({
-          document_id: newDoc.id,
-          version_number: 1,
-          content,
-          change_summary: 'Initial version',
-          changed_by: user.email,
-        })
+      toast.error(`Failed to save after ${MAX_RETRIES} attempts. Please try again.`)
+      throw lastError
     }
-  }
+
+    try {
+      if (documentId) {
+        // Update existing document
+        await withRetry(
+          () => supabase
+            .from('editor_documents')
+            .update({
+              content,
+              updated_by: user.email,
+              updated_at: new Date().toISOString(),
+            })
+            .eq('id', documentId)
+            .select()
+            .single(),
+          'Update document'
+        )
+
+        // Create version (non-critical, don't retry)
+        const { data: latestVersion } = await supabase
+          .from('document_versions')
+          .select('version_number')
+          .eq('document_id', documentId)
+          .order('version_number', { ascending: false })
+          .limit(1)
+          .single()
+
+        const nextVersion = (latestVersion?.version_number || 0) + 1
+
+        await supabase
+          .from('document_versions')
+          .insert({
+            document_id: documentId,
+            version_number: nextVersion,
+            content,
+            changed_by: user.email,
+          })
+      } else {
+        // Create new document
+        const newDoc = await withRetry(
+          () => supabase
+            .from('editor_documents')
+            .insert({
+              client_slug: slug,
+              content,
+              created_by: user.email,
+              updated_by: user.email,
+            })
+            .select()
+            .single(),
+          'Create document'
+        )
+
+        setDocumentId(newDoc.id)
+
+        // Create initial version (non-critical)
+        await supabase
+          .from('document_versions')
+          .insert({
+            document_id: newDoc.id,
+            version_number: 1,
+            content,
+            change_summary: 'Initial version',
+            changed_by: user.email,
+          })
+      }
+    } catch (err) {
+      // Re-throw so the Editor component knows the save failed
+      throw err
+    }
+  }, [slug, hasLock, documentId])
 
   // Loading state
   if (loading) {
@@ -349,12 +389,14 @@ export default function EditorPage() {
         )}
 
         {document && (
-          <Editor
-            initialContent={document}
-            clientSlug={slug}
-            readOnly={!isEditable}
-            onSave={handleSave}
-          />
+          <ErrorBoundary>
+            <Editor
+              initialContent={document}
+              clientSlug={slug}
+              readOnly={!isEditable}
+              onSave={handleSave}
+            />
+          </ErrorBoundary>
         )}
       </main>
     </div>

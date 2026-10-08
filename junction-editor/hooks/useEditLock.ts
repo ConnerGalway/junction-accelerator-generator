@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback, useRef } from 'react'
-import { supabase, type EditLock, type UserPlan } from '@/lib/supabase'
+import { supabase, type UserPlan } from '@/lib/supabase'
 import { toast } from 'sonner'
 
 interface UseEditLockReturn {
@@ -33,16 +33,33 @@ export function useEditLock(
 
   const heartbeatRef = useRef<NodeJS.Timeout | null>(null)
   const sessionId = useRef<string>(generateSessionId())
+  const mountedRef = useRef(true)
 
   // Generate a unique session ID for this browser tab
   function generateSessionId(): string {
     return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`
   }
 
+  // Safe state setters that check if component is mounted
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const safeSetState = useCallback((setter: (value: any) => void, value: any) => {
+    if (mountedRef.current) {
+      setter(value)
+    }
+  }, [])
+
+  // Stop heartbeat - defined early to avoid circular dependency
+  const stopHeartbeat = useCallback(() => {
+    if (heartbeatRef.current) {
+      clearInterval(heartbeatRef.current)
+      heartbeatRef.current = null
+    }
+  }, [])
+
   // Check current lock status
   const checkLock = useCallback(async () => {
     if (!userRole) {
-      setIsLoading(false)
+      safeSetState(setIsLoading, false)
       return
     }
 
@@ -56,16 +73,16 @@ export function useEditLock(
       if (lockError && lockError.code !== 'PGRST116') {
         // PGRST116 = no rows (no lock exists)
         console.error('Lock check error:', lockError)
-        setError('Failed to check lock status')
-        setIsLoading(false)
+        safeSetState(setError, 'Failed to check lock status')
+        safeSetState(setIsLoading, false)
         return
       }
 
       if (!lock) {
         // No lock exists
-        setHasLock(false)
-        setLockOwner(null)
-        setLockExpiresAt(null)
+        safeSetState(setHasLock, false)
+        safeSetState(setLockOwner, null)
+        safeSetState(setLockExpiresAt, null)
       } else {
         const expiresAt = new Date(lock.expires_at)
         const isExpired = expiresAt < new Date()
@@ -77,25 +94,25 @@ export function useEditLock(
             .delete()
             .eq('client_slug', clientSlug)
 
-          setHasLock(false)
-          setLockOwner(null)
-          setLockExpiresAt(null)
+          safeSetState(setHasLock, false)
+          safeSetState(setLockOwner, null)
+          safeSetState(setLockExpiresAt, null)
         } else {
           // Lock exists and is valid
           const isOurLock = lock.locked_by === userRole.email && lock.session_id === sessionId.current
-          setHasLock(isOurLock)
-          setLockOwner(lock.locked_by)
-          setLockExpiresAt(expiresAt)
+          safeSetState(setHasLock, isOurLock)
+          safeSetState(setLockOwner, lock.locked_by)
+          safeSetState(setLockExpiresAt, expiresAt)
         }
       }
 
-      setIsLoading(false)
+      safeSetState(setIsLoading, false)
     } catch (err) {
       console.error('Lock check error:', err)
-      setError('Failed to check lock status')
-      setIsLoading(false)
+      safeSetState(setError, 'Failed to check lock status')
+      safeSetState(setIsLoading, false)
     }
-  }, [clientSlug, userRole])
+  }, [clientSlug, userRole, safeSetState])
 
   // Acquire lock
   const acquireLock = useCallback(async (): Promise<boolean> => {
@@ -178,9 +195,9 @@ export function useEditLock(
         }
       }
 
-      setHasLock(true)
-      setLockOwner(userRole.email)
-      setLockExpiresAt(expiresAt)
+      safeSetState(setHasLock, true)
+      safeSetState(setLockOwner, userRole.email)
+      safeSetState(setLockExpiresAt, expiresAt)
       startHeartbeat()
 
       return true
@@ -189,7 +206,7 @@ export function useEditLock(
       toast.error('Failed to acquire edit lock')
       return false
     }
-  }, [clientSlug, userRole])
+  }, [clientSlug, userRole, safeSetState])
 
   // Release lock
   const releaseLock = useCallback(async () => {
@@ -203,14 +220,15 @@ export function useEditLock(
         .delete()
         .eq('client_slug', clientSlug)
         .eq('locked_by', userRole.email)
+        .eq('session_id', sessionId.current)
 
-      setHasLock(false)
-      setLockOwner(null)
-      setLockExpiresAt(null)
+      safeSetState(setHasLock, false)
+      safeSetState(setLockOwner, null)
+      safeSetState(setLockExpiresAt, null)
     } catch (err) {
       console.error('Release lock error:', err)
     }
-  }, [clientSlug, userRole, hasLock])
+  }, [clientSlug, userRole, hasLock, safeSetState, stopHeartbeat])
 
   // Override lock (admin/PSM only)
   const overrideLock = useCallback(async (reason: string): Promise<boolean> => {
@@ -254,9 +272,9 @@ export function useEditLock(
         }
       }
 
-      setHasLock(true)
-      setLockOwner(userRole.email)
-      setLockExpiresAt(expiresAt)
+      safeSetState(setHasLock, true)
+      safeSetState(setLockOwner, userRole.email)
+      safeSetState(setLockExpiresAt, expiresAt)
       startHeartbeat()
 
       toast.success('Lock overridden successfully')
@@ -266,16 +284,16 @@ export function useEditLock(
       toast.error('Failed to override lock')
       return false
     }
-  }, [clientSlug, userRole])
+  }, [clientSlug, userRole, safeSetState])
 
   // Heartbeat to keep lock alive
   const sendHeartbeat = useCallback(async () => {
-    if (!userRole || !hasLock) return
+    if (!userRole || !hasLock || !mountedRef.current) return
 
     try {
       const expiresAt = new Date(Date.now() + LOCK_DURATION_MS)
 
-      await supabase
+      const { error } = await supabase
         .from('edit_locks')
         .update({
           last_heartbeat: new Date().toISOString(),
@@ -285,51 +303,36 @@ export function useEditLock(
         .eq('locked_by', userRole.email)
         .eq('session_id', sessionId.current)
 
-      setLockExpiresAt(expiresAt)
+      if (!error) {
+        safeSetState(setLockExpiresAt, expiresAt)
+      }
     } catch (err) {
       console.error('Heartbeat error:', err)
     }
-  }, [clientSlug, userRole, hasLock])
+  }, [clientSlug, userRole, hasLock, safeSetState])
 
   const startHeartbeat = useCallback(() => {
     stopHeartbeat()
     heartbeatRef.current = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL_MS)
-  }, [sendHeartbeat])
-
-  const stopHeartbeat = useCallback(() => {
-    if (heartbeatRef.current) {
-      clearInterval(heartbeatRef.current)
-      heartbeatRef.current = null
-    }
-  }, [])
+  }, [sendHeartbeat, stopHeartbeat])
 
   // Check lock on mount and when userRole changes
   useEffect(() => {
     checkLock()
   }, [checkLock])
 
-  // Release lock on unmount
+  // Track mounted state and clean up on unmount
   useEffect(() => {
+    mountedRef.current = true
+
     return () => {
+      mountedRef.current = false
       stopHeartbeat()
-      // Note: Can't reliably release lock on unmount in React 18 strict mode
-      // The heartbeat expiration handles cleanup
+      // Note: Lock is NOT released on unmount. The 30-minute expiration handles cleanup.
+      // This is intentional - it prevents accidental lock loss on page refreshes
+      // and avoids issues with React 18 strict mode double-mounting.
     }
   }, [stopHeartbeat])
-
-  // Release lock when tab/window closes
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      if (hasLock && userRole) {
-        // Use sendBeacon for reliable delivery
-        const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/rest/v1/edit_locks?client_slug=eq.${clientSlug}&locked_by=eq.${encodeURIComponent(userRole.email)}`
-        navigator.sendBeacon(url, '')
-      }
-    }
-
-    window.addEventListener('beforeunload', handleBeforeUnload)
-    return () => window.removeEventListener('beforeunload', handleBeforeUnload)
-  }, [clientSlug, userRole, hasLock])
 
   return {
     hasLock,
