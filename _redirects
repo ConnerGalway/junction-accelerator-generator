@@ -18,6 +18,10 @@
 /admin/*        /admin/:splat   200
 /my-clients/*   /my-clients/:splat  200
 
+# Visual Content Editor (Next.js app on Vercel)
+/edit/:slug     https://junction-editor.vercel.app/edit/:slug  200
+/edit/:slug/    https://junction-editor.vercel.app/edit/:slug  200
+
 # Elevated Learner dashboards (assessment-only)
 # Files live at elevated/[slug]/index.html but are served at /elevated/[slug]/
 /elevated/:slug     /elevated/:slug/index.html  200

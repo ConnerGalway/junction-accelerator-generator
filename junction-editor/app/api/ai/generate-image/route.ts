@@ -225,9 +225,17 @@ export async function POST(request: NextRequest) {
     console.error('AI generation error:', error)
 
     // Handle specific OpenAI errors
-    if (error?.status === 400) {
+    if (error?.status === 401) {
       return NextResponse.json(
-        { error: 'Invalid prompt. Please try a different description.' },
+        { error: 'OpenAI API key is invalid or expired. Please check your OPENAI_API_KEY.' },
+        { status: 401 }
+      )
+    }
+
+    if (error?.status === 400) {
+      const message = error?.message || 'Invalid prompt'
+      return NextResponse.json(
+        { error: `OpenAI rejected the request: ${message}` },
         { status: 400 }
       )
     }
@@ -239,8 +247,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Log the full error for debugging
+    const errorMessage = error?.message || error?.error?.message || 'Unknown error'
+    console.error('Full error details:', JSON.stringify(error, null, 2))
+
     return NextResponse.json(
-      { error: 'Failed to generate image' },
+      { error: `Failed to generate image: ${errorMessage}` },
       { status: 500 }
     )
   }
