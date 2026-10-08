@@ -1152,6 +1152,7 @@
     // STATE
     // ══════════════════════════════════════════════════════════════
     let currentUser = null;
+    let hasWildcardAccess = false; // True if user has client_slug='*' (can see all clients)
     let assessments = [];
     let projects = [];
     let projectSlugs = new Set(); // Slugs that have implementation plans
@@ -1167,8 +1168,24 @@
       document.getElementById('topbarEmail').textContent = user.email;
       window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
 
-      // Show admin buttons for admin/psm users
+      // Check if user has wildcard access (admin/psm always do, coaches may have it)
       if (user.role === 'admin' || user.role === 'psm') {
+        hasWildcardAccess = true;
+      } else {
+        // Check if this user has a wildcard entry in user_plans
+        const { data: wildcardEntry } = await supabaseClient
+          .from('user_plans')
+          .select('id')
+          .eq('email', user.email)
+          .eq('client_slug', '*')
+          .eq('active', true)
+          .single();
+
+        hasWildcardAccess = !!wildcardEntry;
+      }
+
+      // Show admin buttons for admin/psm users or coaches with wildcard access
+      if (user.role === 'admin' || user.role === 'psm' || hasWildcardAccess) {
         document.getElementById('generateAssessmentBtn').style.display = 'inline-flex';
         document.getElementById('createExperienceBtn').style.display = 'inline-flex';
         document.getElementById('analyticsLink').style.display = '';
@@ -1194,9 +1211,6 @@
       const gallery = document.getElementById('assessmentGallery');
       const countEl = document.getElementById('assessmentCount');
 
-      const isAdmin = currentUser.role === 'admin';
-      const isPSM = currentUser.role === 'psm';
-
       // Fetch assessments from client_assessments table
       // Exclude elevated clients (they appear in the Elevated Learners section)
       let query = supabaseClient
@@ -1205,9 +1219,24 @@
         .or('client_type.is.null,client_type.eq.accelerator')
         .order('created_at', { ascending: false });
 
-      // Non-admin/psm users only see assessments they created
-      if (!isAdmin && !isPSM) {
-        query = query.eq('created_by', currentUser.email);
+      // Users with wildcard access see all assessments
+      // Others only see assessments they created or are assigned to coach
+      if (!hasWildcardAccess) {
+        // Get slugs where user is assigned as coach
+        const { data: coachAssignments } = await supabaseClient
+          .from('user_plans')
+          .select('client_slug')
+          .eq('coach_email', currentUser.email)
+          .eq('active', true);
+
+        const coachSlugs = (coachAssignments || []).map(a => a.client_slug);
+
+        // Filter to assessments user created OR is assigned to coach
+        if (coachSlugs.length > 0) {
+          query = query.or(`created_by.eq.${currentUser.email},client_slug.in.(${coachSlugs.join(',')})`);
+        } else {
+          query = query.eq('created_by', currentUser.email);
+        }
       }
 
       const { data: rows, error } = await query;
@@ -1253,9 +1282,6 @@
       const countEl = document.getElementById('elevatedCount');
       const section = document.getElementById('elevatedSection');
 
-      const isAdmin = currentUser.role === 'admin';
-      const isPSM = currentUser.role === 'psm';
-
       // Fetch elevated clients from client_assessments table
       let query = supabaseClient
         .from('client_assessments')
@@ -1263,9 +1289,23 @@
         .eq('client_type', 'elevated')
         .order('created_at', { ascending: false });
 
-      // Non-admin/psm users only see assessments they created
-      if (!isAdmin && !isPSM) {
-        query = query.eq('created_by', currentUser.email);
+      // Users with wildcard access see all elevated clients
+      // Others only see those they created or are assigned to coach
+      if (!hasWildcardAccess) {
+        // Get slugs where user is assigned as coach
+        const { data: coachAssignments } = await supabaseClient
+          .from('user_plans')
+          .select('client_slug')
+          .eq('coach_email', currentUser.email)
+          .eq('active', true);
+
+        const coachSlugs = (coachAssignments || []).map(a => a.client_slug);
+
+        if (coachSlugs.length > 0) {
+          query = query.or(`created_by.eq.${currentUser.email},client_slug.in.(${coachSlugs.join(',')})`);
+        } else {
+          query = query.eq('created_by', currentUser.email);
+        }
       }
 
       const { data: rows, error } = await query;
@@ -1293,7 +1333,7 @@
 
     function renderElevatedClients(clients) {
       const gallery = document.getElementById('elevatedGallery');
-      const isAdmin = currentUser.role === 'admin' || currentUser.role === 'psm';
+      const isAdmin = currentUser.role === 'admin' || currentUser.role === 'psm' || hasWildcardAccess;
 
       gallery.innerHTML = clients.map((client, i) => {
         const gradeClass = getGradeClass(client.overall_grade);
@@ -1401,9 +1441,6 @@
       const countEl = document.getElementById('experienceCount');
       const section = document.getElementById('experienceSection');
 
-      const isAdmin = currentUser.role === 'admin';
-      const isPSM = currentUser.role === 'psm';
-
       // Fetch experience projects from user_plans table
       let query = supabaseClient
         .from('user_plans')
@@ -1412,8 +1449,8 @@
         .eq('dashboard_state', 'experience')
         .neq('client_slug', '*');
 
-      // Non-admin/psm users only see projects they coach
-      if (!isAdmin && !isPSM) {
+      // Users without wildcard access only see projects they coach
+      if (!hasWildcardAccess) {
         query = query.eq('coach_email', currentUser.email);
       }
 
@@ -1542,9 +1579,6 @@
       const gallery = document.getElementById('projectGallery');
       const countEl = document.getElementById('projectCount');
 
-      const isAdmin = currentUser.role === 'admin';
-      const isPSM = currentUser.role === 'psm';
-
       // Fetch projects this user has access to (exclude experience - they have their own section)
       let query = supabaseClient
         .from('user_plans')
@@ -1553,8 +1587,8 @@
         .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
         .neq('client_slug', '*');
 
-      if (!isAdmin && !isPSM) {
-        // Coaches see only their assigned projects
+      // Users without wildcard access only see projects they coach
+      if (!hasWildcardAccess) {
         query = query.eq('coach_email', currentUser.email);
       }
 
@@ -1666,7 +1700,7 @@
     function renderAssessments() {
       const gallery = document.getElementById('assessmentGallery');
       const countEl = document.getElementById('assessmentCount');
-      const isAdmin = currentUser.role === 'admin' || currentUser.role === 'psm';
+      const isAdmin = currentUser.role === 'admin' || currentUser.role === 'psm' || hasWildcardAccess;
 
       // Filter out assessments that have implementation plans - they show in Projects section
       const assessmentsWithoutPlans = assessments.filter(a => !projectSlugs.has(a.client_slug));
