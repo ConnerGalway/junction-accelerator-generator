@@ -1758,7 +1758,15 @@
       const gallery = document.getElementById('projectGallery');
       const canEdit = currentUser.role === 'admin' || currentUser.role === 'psm' || currentUser.role === 'coach';
 
-      gallery.innerHTML = projects.map((p, i) => {
+      // Filter to valid projects only and dedupe by slug
+      const seen = new Set();
+      const validProjects = projects.filter(p => {
+        if (!p || !p.slug || !p.name || seen.has(p.slug)) return false;
+        seen.add(p.slug);
+        return true;
+      });
+
+      gallery.innerHTML = validProjects.map((p, i) => {
         const percent = p.totalItems > 0
           ? Math.round((p.checkedCount / p.totalItems) * 100)
           : 0;
