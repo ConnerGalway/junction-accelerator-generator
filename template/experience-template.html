@@ -3110,6 +3110,9 @@ body:not(.has-plan) .plan-content{display:none}
   overflow:hidden;
   width:100%;
   max-width:600px;
+  max-height:90vh;
+  display:flex;
+  flex-direction:column;
   box-shadow:0 40px 100px rgba(17,21,75,.35),0 8px 32px rgba(17,21,75,.2);
   animation:wmCardIn .45s cubic-bezier(.34,1.26,.64,1) both;
 }
@@ -3168,7 +3171,7 @@ body:not(.has-plan) .plan-content{display:none}
   max-width:460px;
   position:relative;z-index:1;
 }
-.wm-body{padding:28px 36px 32px}
+.wm-body{padding:28px 36px 32px;overflow-y:auto;flex:1}
 .wm-goal-block{
   background:linear-gradient(135deg,rgba(170,218,182,.1) 0%,rgba(170,218,182,.05) 100%);
   border:1px solid rgba(170,218,182,.3);
@@ -3190,6 +3193,10 @@ body:not(.has-plan) .plan-content{display:none}
   color:var(--dark);
   line-height:1.65;
   font-style:italic;
+  display:-webkit-box;
+  -webkit-line-clamp:4;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
 }
 .wm-how-label{
   font-family:var(--font-d);
@@ -3414,7 +3421,8 @@ body:not(.has-plan) .plan-content{display:none}
     border-radius:24px 24px 0 0;
     max-width:100%;
     max-height:92dvh;
-    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
     -webkit-overflow-scrolling:touch;
     animation:wmSlideUp .4s cubic-bezier(.34,1.1,.64,1) both;
   }
