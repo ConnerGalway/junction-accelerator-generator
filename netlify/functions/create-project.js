@@ -16,16 +16,24 @@ export async function handler(event, context) {
   try {
     // Parse request body
     const body = JSON.parse(event.body);
-    const { clientName, slug, onboardingCallDate, planMd, assessmentId } = body;
+    const { clientName, slug, onboardingCallDate, coachEmail: providedCoachEmail, planMd, assessmentId } = body;
 
     // Flag: are we adding a plan to an existing assessment?
     const isAddingPlanToAssessment = !!assessmentId;
 
-    // Validate required fields (coach is assigned during assessment generation, not here)
+    // Validate required fields
     if (!clientName || !slug || !onboardingCallDate || !planMd) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing required fields' })
+      };
+    }
+
+    // Validate coach email is provided
+    if (!providedCoachEmail) {
+      return {
+        statusCode: 400,
+        body: JSON.stringify({ error: 'Coach email is required' })
       };
     }
 
@@ -70,39 +78,9 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 1B. FETCH EXISTING COACH (assigned during assessment generation)
+    // 1B. USE PROVIDED COACH EMAIL
     // ─────────────────────────────────────────────────────────────────────────
-    // First check user_plans for an existing coach entry
-    const { data: coachRecord } = await supabaseAdmin
-      .from('user_plans')
-      .select('email')
-      .eq('client_slug', slug)
-      .eq('role', 'coach')
-      .eq('active', true)
-      .limit(1)
-      .single();
-
-    let coachEmail = coachRecord?.email || null;
-
-    // If not found in user_plans, check client_assessments (where coach is stored during assessment generation)
-    if (!coachEmail) {
-      const { data: assessmentRecord } = await supabaseAdmin
-        .from('client_assessments')
-        .select('coach_email')
-        .eq('client_slug', slug)
-        .not('coach_email', 'is', null)
-        .limit(1)
-        .single();
-
-      coachEmail = assessmentRecord?.coach_email || null;
-    }
-
-    if (!coachEmail) {
-      return {
-        statusCode: 400,
-        body: JSON.stringify({ error: 'No coach assigned to this project. Please generate an assessment first.' })
-      };
-    }
+    const coachEmail = providedCoachEmail.toLowerCase();
 
     // ─────────────────────────────────────────────────────────────────────────
     // 2. CHECK IF PROJECT EXISTS (skip if adding plan to existing assessment)
