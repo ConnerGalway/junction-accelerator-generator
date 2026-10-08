@@ -1056,6 +1056,36 @@
     </div>
   </div>
 
+  <!-- ══ CHANGE COACH MODAL ════════════════════════════════════ -->
+  <div class="modal-overlay" id="changeCoachModal">
+    <div class="modal modal--edit">
+      <h3 class="modal__title">Change Assigned Coach</h3>
+      <p class="modal__text">Assign a coach to this assessment. The coach will have access to the client dashboard.</p>
+      <form class="modal__form" id="changeCoachForm" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-group__label" for="changeCoachName">Assessment</label>
+          <input type="text" class="form-group__input" id="changeCoachName" disabled>
+        </div>
+        <div class="form-group">
+          <label class="form-group__label" for="changeCoachEmail">Coach Email</label>
+          <input type="email" class="form-group__input" id="changeCoachEmail" placeholder="coach@elearningu.com" required>
+          <span class="form-group__hint">Enter the email of the coach to assign</span>
+        </div>
+        <div class="form-group" id="changeCoachNotifyGroup" style="display: none;">
+          <label class="form-group__checkbox-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
+            <input type="checkbox" id="changeCoachNotifyCheckbox" checked style="width: 18px; height: 18px; accent-color: var(--navy);">
+            <span style="font-size: 13px; color: var(--text);">Notify coach of this assignment</span>
+          </label>
+          <span class="form-group__hint">The coach will receive an email with a link to the client dashboard</span>
+        </div>
+        <div class="modal__actions modal__actions--edit">
+          <button type="button" class="btn-secondary" onclick="closeChangeCoachModal()">Cancel</button>
+          <button type="submit" class="btn-secondary btn-success" id="saveCoachBtn" onclick="saveCoachChanges()">Save Changes</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- ══ EDIT PROJECT MODAL ════════════════════════════════════ -->
   <div class="modal-overlay" id="editProjectModal">
     <div class="modal modal--edit">
@@ -1331,6 +1361,13 @@
                     </svg>
                   </button>
                   <div class="actions-menu__dropdown">
+                    <button class="actions-menu__item" onclick="openChangeCoachModal('${client.client_slug}', '${escapeHtml(client.business_name || client.client_slug)}', 'elevated')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      Change Coach
+                    </button>
                     <button class="actions-menu__item" onclick="regenerateAssessment('${client.client_slug}', 'elevated')">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="23 4 23 10 17 10"/>
@@ -1728,6 +1765,13 @@
                     </svg>
                   </button>
                   <div class="actions-menu__dropdown">
+                    <button class="actions-menu__item" onclick="openChangeCoachModal('${a.client_slug}', '${escapeHtml(a.business_name)}', 'accelerator')">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                        <circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      Change Coach
+                    </button>
                     <button class="actions-menu__item" onclick="regenerateAssessment('${a.client_slug}')">
                       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <polyline points="23 4 23 10 17 10"/>
@@ -2055,8 +2099,139 @@
       if (e.key === 'Escape') {
         closeEditProjectModal();
         closeDeleteModal();
+        closeChangeCoachModal();
       }
     });
+
+    // ══════════════════════════════════════════════════════════════
+    // CHANGE COACH MODAL
+    // ══════════════════════════════════════════════════════════════
+    let changeCoachTargetSlug = null;
+    let changeCoachClientType = null;
+    let changeCoachOriginalEmail = null;
+
+    async function openChangeCoachModal(slug, businessName, clientType) {
+      changeCoachTargetSlug = slug;
+      changeCoachClientType = clientType;
+
+      // Populate the form
+      document.getElementById('changeCoachName').value = businessName;
+      document.getElementById('changeCoachEmail').value = '';
+
+      // Try to get existing coach assignment from user_plans
+      const { data: existingPlan } = await supabaseClient
+        .from('user_plans')
+        .select('coach_email')
+        .eq('client_slug', slug)
+        .eq('role', 'client')
+        .single();
+
+      changeCoachOriginalEmail = existingPlan?.coach_email || '';
+      if (changeCoachOriginalEmail) {
+        document.getElementById('changeCoachEmail').value = changeCoachOriginalEmail;
+      }
+
+      // Hide notify checkbox initially
+      document.getElementById('changeCoachNotifyGroup').style.display = 'none';
+      document.getElementById('changeCoachNotifyCheckbox').checked = true;
+
+      // Show the modal
+      document.getElementById('changeCoachModal').classList.add('modal-overlay--visible');
+    }
+
+    // Show/hide notify checkbox when coach email changes
+    document.getElementById('changeCoachEmail').addEventListener('input', function() {
+      const newEmail = this.value.trim().toLowerCase();
+      const originalEmail = (changeCoachOriginalEmail || '').toLowerCase();
+      const notifyGroup = document.getElementById('changeCoachNotifyGroup');
+
+      // Show checkbox if email is new/different and valid
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (newEmail && newEmail !== originalEmail && emailRegex.test(newEmail)) {
+        notifyGroup.style.display = 'block';
+      } else {
+        notifyGroup.style.display = 'none';
+      }
+    });
+
+    function closeChangeCoachModal() {
+      document.getElementById('changeCoachModal').classList.remove('modal-overlay--visible');
+      changeCoachTargetSlug = null;
+      changeCoachClientType = null;
+      changeCoachOriginalEmail = null;
+    }
+
+    async function saveCoachChanges() {
+      if (!changeCoachTargetSlug) return;
+
+      const btn = document.getElementById('saveCoachBtn');
+      const originalText = btn.textContent;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      const newCoachEmail = document.getElementById('changeCoachEmail').value.trim();
+      const shouldNotifyCoach = document.getElementById('changeCoachNotifyCheckbox').checked;
+      const coachChanged = newCoachEmail && newCoachEmail.toLowerCase() !== (changeCoachOriginalEmail || '').toLowerCase();
+
+      try {
+        // Check if user_plans entry exists for this client
+        const { data: existingPlans } = await supabaseClient
+          .from('user_plans')
+          .select('id, email, role')
+          .eq('client_slug', changeCoachTargetSlug);
+
+        if (existingPlans && existingPlans.length > 0) {
+          // Update existing entries - set coach_email on client entries
+          const { error: updateError } = await supabaseClient
+            .from('user_plans')
+            .update({ coach_email: newCoachEmail || null })
+            .eq('client_slug', changeCoachTargetSlug)
+            .eq('role', 'client');
+
+          if (updateError) throw updateError;
+        } else {
+          // No user_plans entry exists - we need to create one for coach access
+          // This happens for assessments that haven't been converted to projects yet
+          // Create a coach entry so the coach can access the assessment dashboard
+          if (newCoachEmail) {
+            const { error: insertError } = await supabaseClient
+              .from('user_plans')
+              .insert({
+                email: newCoachEmail,
+                client_slug: changeCoachTargetSlug,
+                role: 'coach',
+                coach_email: newCoachEmail,
+                active: true
+              });
+
+            if (insertError) throw insertError;
+          }
+        }
+
+        // Get business name for notification
+        const businessName = document.getElementById('changeCoachName').value;
+
+        // Notify the new coach if checkbox is checked and coach changed
+        if (coachChanged && shouldNotifyCoach && newCoachEmail) {
+          const dashboardType = changeCoachClientType === 'elevated' ? 'elevated' : 'accelerator';
+          await notifyCoachAssigned(newCoachEmail, changeCoachTargetSlug, businessName, dashboardType);
+        }
+
+        // Close modal and show success
+        closeChangeCoachModal();
+        alert('Coach assignment updated successfully.');
+
+        // Reload the page to reflect changes
+        window.location.reload();
+
+      } catch (err) {
+        console.error('Update coach error:', err);
+        alert('Failed to update coach assignment: ' + err.message);
+      } finally {
+        btn.textContent = originalText;
+        btn.disabled = false;
+      }
+    }
 
     async function regenerateAssessment(slug, clientType = 'accelerator') {
       // Close the menu
