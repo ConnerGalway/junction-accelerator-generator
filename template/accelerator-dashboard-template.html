@@ -5741,6 +5741,17 @@ button,
 <script src="/shared/content-editor.js"></script>
 <script src="/shared/analytics.js"></script>
 <script>
+// Initialize user menu when auth is ready
+if (window.__authReady) {
+  window.__authReady.then(function(user) {
+    window.initUserMenu('#sidebarUserMenu', user.email, user.role || 'client');
+    window.initUserMenu('#mobileUserMenu', user.email, user.role || 'client');
+  }).catch(function(err) {
+    console.error('Auth not ready for user menu:', err);
+  });
+}
+</script>
+<script>
 // ══════════════════════════════════════════════════════════════════════════════
 // PRINT ROADMAP
 // ══════════════════════════════════════════════════════════════════════════════
