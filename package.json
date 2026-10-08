@@ -10,7 +10,7 @@
     "validate:client": "node scripts/validate-client.js"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.39.0"
+    "@supabase/supabase-js": "^2.117.3"
   },
   "devDependencies": {
     "@babel/core": "^7.29.7",
