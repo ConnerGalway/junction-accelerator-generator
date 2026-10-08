@@ -643,13 +643,12 @@ export async function handler(event, context) {
       if (DEBUG) console.log('[STEP 3] Regeneration data ready');
     console.log('[PATH] Using REGENERATION path - reusing existing API data, fetching fresh social only');
     } else {
-      // New assessment: Fetch all data from APIs
+      // New assessment: Fetch all data from APIs IN PARALLEL for speed
     console.log('[PATH] Using NEW ASSESSMENT path - fetching ALL fresh API data');
     console.log('[PATH] isRegeneration:', isRegeneration, 'isOverwrite:', isOverwrite);
 
-    if (DEBUG) console.log('[STEP 4] Fetching SEOptimer data');
     // ─────────────────────────────────────────────────────────────────────────
-    // 4. FETCH SEOPTIMER DATA (REQUIRED)
+    // 4. PARALLEL API FETCHING - Run all API calls simultaneously for speed
     // ─────────────────────────────────────────────────────────────────────────
     if (!process.env.SEOPTIMER_API_KEY) {
       await supabaseAdmin
@@ -662,116 +661,166 @@ export async function handler(event, context) {
       };
     }
 
-    await updateProgress('Fetching SEOptimer data (this may take 1-2 minutes)');
-    seoptData = null;
-    try {
-      seoptData = await fetchSEOptimerReport(websiteUrl);
-      await updateProgress('SEOptimer complete');
-    } catch (err) {
-      console.error('SEOptimer error:', err.message);
-      await updateProgress('SEOptimer failed, trying PageSpeed Insights...');
+    await updateProgress('Fetching data from all sources in parallel...');
+    console.log('[PARALLEL] Starting parallel API fetches');
+    const parallelStartTime = Date.now();
 
-      // Try Google PageSpeed Insights as fallback for speed data
-      try {
-        const pageSpeedData = await fetchPageSpeedData(websiteUrl);
-        if (pageSpeedData) {
-          console.log('[PageSpeed] Successfully fetched as SEOptimer fallback');
-          seoptData = pageSpeedData;
-          await updateProgress('PageSpeed Insights complete (SEOptimer fallback)');
-        } else {
-          // Both failed - this is FATAL, cannot generate valid assessment
-          console.error('FATAL: Both SEOptimer and PageSpeed failed to return data');
-          await supabaseAdmin
-            .from('client_assessments')
-            .update({
-              status: 'failed',
-              error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
-            })
-            .eq('client_slug', slug);
-
-          return {
-            statusCode: 503,
-            body: JSON.stringify({
-              error: 'Website analysis unavailable',
-              message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
-              details: err.message
-            })
-          };
+    // Define all fetch operations to run in parallel
+    const fetchOperations = {
+      // SEOptimer fetch with PageSpeed fallback
+      seoptimer: (async () => {
+        console.log('[PARALLEL] Starting SEOptimer fetch');
+        try {
+          const data = await fetchSEOptimerReport(websiteUrl);
+          console.log('[PARALLEL] SEOptimer complete');
+          return { success: true, data };
+        } catch (err) {
+          console.log('[PARALLEL] SEOptimer failed, trying PageSpeed fallback:', err.message);
+          try {
+            const pageSpeedData = await fetchPageSpeedData(websiteUrl);
+            if (pageSpeedData) {
+              console.log('[PARALLEL] PageSpeed fallback successful');
+              return { success: true, data: pageSpeedData, fallback: true };
+            }
+          } catch (psErr) {
+            console.error('[PARALLEL] PageSpeed fallback also failed:', psErr.message);
+          }
+          return { success: false, error: err.message };
         }
-      } catch (pageSpeedErr) {
-        // Both failed - this is FATAL, cannot generate valid assessment
-        console.error('FATAL: SEOptimer failed and PageSpeed fallback also failed:', pageSpeedErr.message);
-        await supabaseAdmin
-          .from('client_assessments')
-          .update({
-            status: 'failed',
-            error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
-          })
-          .eq('client_slug', slug);
+      })(),
 
-        return {
-          statusCode: 503,
-          body: JSON.stringify({
-            error: 'Website analysis unavailable',
-            message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
-            details: `SEOptimer: ${err.message}, PageSpeed: ${pageSpeedErr.message}`
-          })
-        };
-      }
+      // Google Places fetch
+      googlePlaces: (async () => {
+        if (!process.env.GOOGLE_PLACES_KEY) {
+          console.log('[PARALLEL] Google Places skipped (no API key)');
+          return { success: false, skipped: true };
+        }
+        console.log('[PARALLEL] Starting Google Places fetch');
+        try {
+          let data;
+          if (googlePlaceId) {
+            console.log('[PARALLEL] Using provided Place ID:', googlePlaceId);
+            data = await fetchGooglePlacesByPlaceId(googlePlaceId);
+          } else {
+            data = await fetchGooglePlacesData(businessName, location, websiteUrl);
+          }
+          console.log('[PARALLEL] Google Places complete');
+          return { success: true, data };
+        } catch (err) {
+          console.error('[PARALLEL] Google Places error:', err.message);
+          return { success: false, error: err.message };
+        }
+      })(),
+
+      // Website analysis fetch
+      websiteAnalysis: (async () => {
+        console.log('[PARALLEL] Starting website analysis');
+        try {
+          const data = await analyzeWebsiteContent(websiteUrl);
+          console.log('[PARALLEL] Website analysis complete');
+          return { success: true, data };
+        } catch (err) {
+          console.error('[PARALLEL] Website analysis error:', err.message);
+          return { success: false, error: err.message };
+        }
+      })(),
+
+      // Social media fetch
+      socialMedia: (async () => {
+        if (!social || !Object.values(social).some(url => url)) {
+          console.log('[PARALLEL] Social media skipped (no URLs provided)');
+          return { success: false, skipped: true };
+        }
+        console.log('[PARALLEL] Starting social media fetch');
+        try {
+          const data = await getSocialMediaDataWithCache(slug, social, supabaseAdmin);
+          console.log('[PARALLEL] Social media complete');
+          return { success: true, data };
+        } catch (err) {
+          console.error('[PARALLEL] Social media error:', err.message);
+          return { success: false, error: err.message };
+        }
+      })()
+    };
+
+    // Execute all fetches in parallel
+    const results = await Promise.all([
+      fetchOperations.seoptimer,
+      fetchOperations.googlePlaces,
+      fetchOperations.websiteAnalysis,
+      fetchOperations.socialMedia
+    ]);
+
+    const parallelEndTime = Date.now();
+    console.log(`[PARALLEL] All API fetches completed in ${((parallelEndTime - parallelStartTime) / 1000).toFixed(1)}s`);
+
+    // Process SEOptimer result (REQUIRED)
+    const seoptResult = results[0];
+    if (!seoptResult.success) {
+      console.error('FATAL: SEOptimer and PageSpeed both failed');
+      await supabaseAdmin
+        .from('client_assessments')
+        .update({
+          status: 'failed',
+          error_message: 'Website speed data unavailable. SEOptimer API limit may be exceeded. Please try again later or contact support.'
+        })
+        .eq('client_slug', slug);
+
+      return {
+        statusCode: 503,
+        body: JSON.stringify({
+          error: 'Website analysis unavailable',
+          message: 'SEOptimer API limit exceeded and PageSpeed fallback failed. Please try again later or check your API credits.',
+          details: seoptResult.error
+        })
+      };
+    }
+    seoptData = seoptResult.data;
+    if (seoptResult.fallback) {
+      await updateProgress('SEOptimer failed, used PageSpeed fallback');
     }
 
-    if (DEBUG) console.log('[STEP 4] SEOptimer data received');
+    // Process Google Places result (non-fatal)
+    const placesResult = results[1];
+    if (placesResult.success) {
+      googlePlacesData = placesResult.data;
+    } else if (!placesResult.skipped) {
+      googlePlacesData = {
+        _error: placesResult.error,
+        _note: 'Google Places data unavailable'
+      };
+    }
 
-    // ─────────────────────────────────────────────────────────────────────────
-    // 4b. FETCH GOOGLE PLACES DATA (REVIEWS)
-    // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Fetching Google Places data');
-    googlePlacesData = null;
-    if (process.env.GOOGLE_PLACES_KEY) {
-      if (DEBUG) console.log('[STEP 4b] Fetching Google Places data');
-      try {
-        // Use Place ID if provided (more reliable), otherwise search
-        if (googlePlaceId) {
-          console.log('[Google Places] Using provided Place ID:', googlePlaceId);
-          googlePlacesData = await fetchGooglePlacesByPlaceId(googlePlaceId);
-        } else {
-          googlePlacesData = await fetchGooglePlacesData(businessName, location, websiteUrl);
-        }
-        if (DEBUG) console.log('[STEP 4b] Google Places data received:', googlePlacesData ? 'success' : 'not found');
-        await updateProgress('Google Places complete');
-      } catch (err) {
-        console.error('Google Places error (non-fatal):', err.message);
-        await updateProgress('Google Places failed (non-fatal)');
-        googlePlacesData = {
-          _error: err.message,
-          _note: 'Google Places data unavailable'
-        };
-      }
+    // Process Website Analysis result (non-fatal)
+    const websiteResult = results[2];
+    if (websiteResult.success) {
+      websiteAnalysis = websiteResult.data;
     } else {
-      if (DEBUG) console.log('[STEP 4b] GOOGLE_PLACES_KEY not configured, skipping');
-      await updateProgress('Google Places skipped (no API key)');
-    }
-    // ─────────────────────────────────────────────────────────────────────────
-    // 4c. ANALYZE WEBSITE CONTENT (Tourism-specific signals)
-    // ─────────────────────────────────────────────────────────────────────────
-    await updateProgress('Analyzing website content');
-    websiteAnalysis = null;
-    if (DEBUG) console.log('[STEP 4c] Analyzing website content');
-    try {
-      websiteAnalysis = await analyzeWebsiteContent(websiteUrl);
-      if (DEBUG) console.log('[STEP 4c] Website analysis complete');
-      await updateProgress('Website analysis complete');
-    } catch (err) {
-      console.error('Website analysis error (non-fatal):', err.message);
-      await updateProgress('Website analysis failed (non-fatal)');
       websiteAnalysis = {
-        _error: err.message,
+        _error: websiteResult.error,
         _note: 'Website content analysis unavailable'
       };
     }
 
+    // Process Social Media result (non-fatal)
+    const socialResult = results[3];
+    if (socialResult.success) {
+      socialMediaData = socialResult.data;
+      if (DEBUG) {
+        const cacheStatus = socialMediaData?._cached ? '(cached)' : '(fresh)';
+        console.log('[PARALLEL] Social media data:', socialMediaData?.summary, cacheStatus);
+      }
+    } else if (!socialResult.skipped) {
+      socialMediaData = {
+        _error: socialResult.error,
+        _note: 'Social media analysis unavailable'
+      };
+    }
+
+    await updateProgress('All data sources fetched');
+
     // ─────────────────────────────────────────────────────────────────────────
-    // 4d. VERIFY AND FILTER GOOGLE PLACES DATA
+    // 4d. VERIFY AND FILTER GOOGLE PLACES DATA (post-parallel processing)
     // ─────────────────────────────────────────────────────────────────────────
     if (googlePlacesData && !googlePlacesData._error) {
       if (DEBUG) console.log('[STEP 4d] Verifying Google Places data');
@@ -781,33 +830,6 @@ export async function handler(event, context) {
       if (googlePlacesData._verification && !googlePlacesData._verification.verified) {
         if (DEBUG) console.log('[STEP 4d] Warning: Google Places verification issues:', googlePlacesData._verification.warnings);
       }
-    }
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 4e. FETCH SOCIAL MEDIA DATA (SociaVault) with caching
-    // ─────────────────────────────────────────────────────────────────────────
-    socialMediaData = null;
-    if (social && Object.values(social).some(url => url)) {
-      if (DEBUG) console.log('[STEP 4e] Fetching social media data from SociaVault (with cache)');
-      await updateProgress('Analyzing social media profiles');
-      try {
-        socialMediaData = await getSocialMediaDataWithCache(slug, social, supabaseAdmin);
-        if (DEBUG) {
-          const cacheStatus = socialMediaData?._cached ? '(cached)' : '(fresh)';
-          console.log('[STEP 4e] Social media analysis complete:', socialMediaData?.summary, cacheStatus);
-        }
-        await updateProgress('Social media analysis complete');
-      } catch (err) {
-        console.error('[STEP 4e] Social media fetch error (non-fatal):', err.message);
-        await updateProgress('Social media analysis failed (non-fatal)');
-        socialMediaData = {
-          _error: err.message,
-          _note: 'Social media analysis unavailable'
-        };
-      }
-    } else {
-      if (DEBUG) console.log('[STEP 4e] No social media URLs provided, skipping');
-      await updateProgress('No social media URLs provided');
     }
 
     } // End of else block for new assessment API fetching
@@ -3080,6 +3102,22 @@ async function fetchInstagramData(url, headers) {
 
     console.log('[SociaVault] POSTS EXTRACTED: count=' + posts.length, '(fetched', allPosts.length, 'total across', pageCount, 'pages)');
 
+    // TRUNCATION DETECTION: Compare profile count vs fetched count
+    // The profile's media_count is authoritative; API pagination may return fewer
+    const truncationRatio = extractedPostCount > 0 ? (posts.length / extractedPostCount) : 1;
+    const isDataTruncated = extractedPostCount > 50 && posts.length < extractedPostCount * 0.5;
+
+    if (isDataTruncated) {
+      console.warn('[SociaVault] ⚠️ DATA TRUNCATION DETECTED:', {
+        profilePostCount: extractedPostCount,
+        fetchedPostCount: posts.length,
+        truncationRatio: (truncationRatio * 100).toFixed(1) + '%',
+        message: 'Profile reports more posts than API returned. Engagement metrics are calculated from sample.'
+      });
+    } else if (extractedPostCount > posts.length) {
+      console.log('[SociaVault] Note: Profile has', extractedPostCount, 'posts, analyzed', posts.length, '(sample for engagement metrics)');
+    }
+
     if (posts.length > 0) {
       console.log('[SociaVault] First post keys:', Object.keys(posts[0]).join(', '));
       // Log first post details to see actual field names and values
@@ -3276,6 +3314,13 @@ async function fetchInstagramData(url, headers) {
     console.log('[SociaVault] Instagram highlights fetch error (non-fatal):', highlightsErr.message);
   }
 
+  // Calculate data quality metrics for transparency
+  const postsAnalyzedCount = posts.length;
+  const dataTruncated = extractedPostCount > 50 && postsAnalyzedCount < extractedPostCount * 0.5;
+  const sampleCoveragePercent = extractedPostCount > 0
+    ? Math.round((postsAnalyzedCount / extractedPostCount) * 100)
+    : 100;
+
   return {
     platform: 'instagram',
     handle: user.username || handle,
@@ -3283,8 +3328,9 @@ async function fetchInstagramData(url, headers) {
     bio: user.biography || '',
     followers,
     following: user.edge_follow?.count || user.following_count || 0,
-    postCount: extractedPostCount,
+    postCount: extractedPostCount,  // AUTHORITATIVE: from profile API
     totalPosts: extractedPostCount, // Alias for clarity
+    postsAnalyzed: postsAnalyzedCount, // How many posts we actually analyzed for engagement
     verified: user.is_verified || false,
     profilePicUrl: user.profile_pic_url_hd || user.profile_pic_url || '',
     externalUrl: user.external_url || '',
@@ -3292,10 +3338,11 @@ async function fetchInstagramData(url, headers) {
       avgLikes,
       avgComments,
       engagementRate: parseFloat(engagementRate) || 0,
-      postingFrequency, // NEW: posts per week
+      postingFrequency, // posts per week (from sample)
+      _sampleSize: postsAnalyzedCount, // Transparency: how many posts used for metrics
     },
-    contentMix, // NEW: breakdown of content types
-    bestContent, // NEW: top 3 performing posts
+    contentMix, // breakdown of content types (from sample)
+    bestContent, // top 3 performing posts
     recentPosts: posts.slice(0, 5).map(p => ({
       id: p.id || p.code,
       type: p.media_type === 2 || p.product_type === 'clips' ? 'reel' :
@@ -3306,8 +3353,19 @@ async function fetchInstagramData(url, headers) {
       timestamp: getTimestamp(p),
       caption: p.caption?.text?.substring(0, 150) || p.caption?.substring?.(0, 150) || ''
     })),
-    reels: reelsData, // NEW: dedicated Reels analytics
-    storyHighlights, // NEW: Story Highlights (Phase 3)
+    reels: reelsData, // dedicated Reels analytics
+    storyHighlights, // Story Highlights
+    _dataQuality: {
+      postCountSource: 'profile_api',  // Indicates we trust profile count
+      postsAnalyzed: postsAnalyzedCount,
+      sampleCoverage: sampleCoveragePercent + '%',
+      truncated: dataTruncated,
+      note: dataTruncated
+        ? `Engagement metrics based on ${postsAnalyzedCount} of ${extractedPostCount} posts (API pagination limit)`
+        : postsAnalyzedCount < extractedPostCount
+          ? `Analyzed ${postsAnalyzedCount} most recent of ${extractedPostCount} total posts`
+          : 'Full data available'
+    },
     _creditsUsed: 4 // profile + posts + reels + highlights
   };
 }
@@ -3501,6 +3559,23 @@ async function fetchTikTokData(url, headers) {
     console.log('[SociaVault] TikTok demographics error:', demoError.message);
   }
 
+  // Calculate data quality metrics for transparency
+  const profileVideoCount = stats.videoCount || 0;
+  const videosAnalyzedCount = videos.length;
+  const dataTruncated = profileVideoCount > 12 && videosAnalyzedCount < profileVideoCount * 0.5;
+  const sampleCoveragePercent = profileVideoCount > 0
+    ? Math.round((videosAnalyzedCount / profileVideoCount) * 100)
+    : 100;
+
+  // Log truncation if detected
+  if (dataTruncated) {
+    console.warn('[SociaVault] ⚠️ TIKTOK DATA TRUNCATION:', {
+      profileVideoCount,
+      videosAnalyzedCount,
+      sampleCoverage: sampleCoveragePercent + '%'
+    });
+  }
+
   return {
     platform: 'tiktok',
     handle: user.uniqueId || handle,
@@ -3509,7 +3584,8 @@ async function fetchTikTokData(url, headers) {
     followers,
     following: stats.followingCount || 0,
     totalLikes: stats.heartCount || stats.heart || 0,
-    videoCount: stats.videoCount || 0,
+    videoCount: profileVideoCount, // AUTHORITATIVE: from profile API
+    videosAnalyzed: videosAnalyzedCount, // How many we actually analyzed
     verified: user.verified || false,
     profilePicUrl: user.avatarLarger || '',
     bioLink: user.bioLink?.link || '',
@@ -3519,8 +3595,9 @@ async function fetchTikTokData(url, headers) {
       avgComments,
       engagementRate: parseFloat(engagementRate) || 0,
       postingFrequency,
+      _sampleSize: videosAnalyzedCount, // Transparency: how many videos used for metrics
     },
-    demographics, // NEW: audience geographic distribution
+    demographics, // audience geographic distribution
     viralContent,
     bestContent,
     advertising,
@@ -3532,6 +3609,17 @@ async function fetchTikTokData(url, headers) {
       shares: v.stats?.shareCount || 0,
       caption: v.desc?.substring(0, 150) || ''
     })),
+    _dataQuality: {
+      videoCountSource: 'profile_api',
+      videosAnalyzed: videosAnalyzedCount,
+      sampleCoverage: sampleCoveragePercent + '%',
+      truncated: dataTruncated,
+      note: dataTruncated
+        ? `Engagement metrics based on ${videosAnalyzedCount} of ${profileVideoCount} videos`
+        : videosAnalyzedCount < profileVideoCount
+          ? `Analyzed ${videosAnalyzedCount} most recent of ${profileVideoCount} total videos`
+          : 'Full data available'
+    },
     _creditsUsed: creditsUsed
   };
 }
@@ -5767,9 +5855,17 @@ This is a HIGH PRIORITY issue that MUST be included in the priority_recommendati
 - HTTPS: ${seo.security.https ? 'YES' : 'NO'}`;
     }
 
-    // Include full data for reference
-    context += `\n\n### Full SEOptimer Response (for detailed analysis):
-${JSON.stringify(seo, null, 2)}`;
+    // Add scores if available (compact format, NOT full JSON dump)
+    if (seo.scores) {
+      context += `\n### SEOptimer Scores:
+- Overall: ${seo.scores.overall || 'N/A'}
+- SEO: ${seo.scores.seo || 'N/A'}
+- Performance: ${seo.scores.performance || 'N/A'}
+- Mobile: ${seo.scores.mobile || 'N/A'}
+- Security: ${seo.scores.security || 'N/A'}
+- Social: ${seo.scores.social || 'N/A'}`;
+    }
+    // NOTE: Full JSON dump removed for performance - key metrics extracted above
   } else {
     context += `\n\n## SEOptimer Technical Data
 - NOT AVAILABLE (SEOptimer scan failed or timed out)
@@ -5790,14 +5886,20 @@ ${JSON.stringify(seo, null, 2)}`;
       context += `\n\n### Instagram (@${ig.handle})
 - Followers: ${ig.followers?.toLocaleString() || 0}
 - Following: ${ig.following?.toLocaleString() || 0}
-- Posts: ${ig.postCount || 0}
+- Total Posts: ${ig.postCount || 0} (authoritative count from profile)
+- Posts Analyzed: ${ig.postsAnalyzed || ig.metrics?._sampleSize || 'N/A'} (sample used for engagement metrics)
 - Verified: ${ig.verified ? 'YES' : 'NO'}
-- Engagement Rate: ${ig.metrics?.engagementRate || 0}%
+- Engagement Rate: ${ig.metrics?.engagementRate || 0}% (based on analyzed sample)
 - Avg Likes per Post: ${ig.metrics?.avgLikes?.toLocaleString() || 0}
 - Avg Comments per Post: ${ig.metrics?.avgComments || 0}
 - Posting Frequency: ${ig.metrics?.postingFrequency || 0} posts/week
 - Bio: "${ig.bio?.substring(0, 150) || 'N/A'}"
 - External Link: ${ig.externalUrl || 'None'}`;
+
+      // Add data quality note if truncated
+      if (ig._dataQuality?.truncated) {
+        context += `\n- ⚠️ DATA NOTE: ${ig._dataQuality.note}`;
+      }
 
       // Content Mix Analysis
       if (ig.contentMix) {
@@ -5863,14 +5965,20 @@ ${JSON.stringify(seo, null, 2)}`;
       context += `\n\n### TikTok (@${tt.handle})
 - Followers: ${tt.followers?.toLocaleString() || 0}
 - Total Likes: ${tt.totalLikes?.toLocaleString() || 0}
-- Videos: ${tt.videoCount || 0}
+- Total Videos: ${tt.videoCount || 0} (authoritative count from profile)
+- Videos Analyzed: ${tt.videosAnalyzed || tt.metrics?._sampleSize || 'N/A'} (sample used for metrics)
 - Verified: ${tt.verified ? 'YES' : 'NO'}
-- Engagement Rate: ${tt.metrics?.engagementRate || 0}%
+- Engagement Rate: ${tt.metrics?.engagementRate || 0}% (based on analyzed sample)
 - Avg Views per Video: ${tt.metrics?.avgViews?.toLocaleString() || 0}
 - Avg Likes per Video: ${tt.metrics?.avgLikes?.toLocaleString() || 0}
 - Posting Frequency: ${tt.metrics?.postingFrequency || 0} videos/week
 - Bio: "${tt.bio?.substring(0, 150) || 'N/A'}"
 - Bio Link: ${tt.bioLink || 'None'}`;
+
+      // Add data quality note if truncated
+      if (tt._dataQuality?.truncated) {
+        context += `\n- ⚠️ DATA NOTE: ${tt._dataQuality.note}`;
+      }
 
       // Viral Content Detection
       if (tt.viralContent?.length > 0) {

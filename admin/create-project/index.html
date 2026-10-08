@@ -736,15 +736,10 @@
           <p class="form-hint">Auto-generated from client name. Lowercase, hyphens only.</p>
         </div>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label class="form-label" for="cohortStartDate">Cohort Start Date</label>
-            <input type="date" class="form-input" id="cohortStartDate" required>
-          </div>
-          <div class="form-group">
-            <label class="form-label" for="assessmentDate">Assessment Date</label>
-            <input type="date" class="form-input" id="assessmentDate" required>
-          </div>
+        <div class="form-group">
+          <label class="form-label" for="onboardingCallDate">Onboarding Call Date</label>
+          <input type="date" class="form-input" id="onboardingCallDate" required>
+          <p class="form-hint">The date of the client's onboarding call. This is Day 0 for their 90-day plan.</p>
         </div>
 
         <div class="form-group">
@@ -847,8 +842,25 @@
       const user = await window.__authReady;
       currentUser = user;
 
-      // Check admin/psm role
-      if (user.role !== 'admin' && user.role !== 'psm') {
+      // Check if user has access: admin, psm, or wildcard access
+      let hasAccess = user.role === 'admin' || user.role === 'psm';
+
+      if (!hasAccess) {
+        // Check if this user has a wildcard entry in user_plans (coaches with full access)
+        const { data: wildcardEntries, error: wildcardError } = await supabaseClient
+          .from('user_plans')
+          .select('id')
+          .eq('email', user.email)
+          .eq('client_slug', '*')
+          .eq('active', true)
+          .limit(1);
+
+        if (!wildcardError && wildcardEntries && wildcardEntries.length > 0) {
+          hasAccess = true;
+        }
+      }
+
+      if (!hasAccess) {
         window.location.replace('/my-clients/');
         return;
       }
@@ -1040,8 +1052,7 @@
       const submitBtn = document.getElementById('submitBtn');
       const clientName = document.getElementById('clientName').value.trim();
       const slug = document.getElementById('slug').value.trim();
-      const cohortStartDate = document.getElementById('cohortStartDate').value;
-      const assessmentDate = document.getElementById('assessmentDate').value;
+      const onboardingCallDate = document.getElementById('onboardingCallDate').value;
 
       // Validate
       if (!planMdContent) {
@@ -1070,8 +1081,7 @@
         const requestBody = {
           clientName,
           slug,
-          cohortStartDate,
-          assessmentDate,
+          onboardingCallDate,
           planMd: planMdContent
         };
 
@@ -1156,9 +1166,9 @@
         position: 'bottom'
       },
       {
-        target: '.form-row',
-        title: 'Important Dates',
-        desc: 'Set the cohort start date (when the 12-week program begins) and the assessment date (when the initial audit was completed). These dates appear on the client\'s accelerator page.',
+        target: '#onboardingCallDate',
+        title: 'Onboarding Call Date',
+        desc: 'Set the date of the client\'s onboarding call. This becomes Day 0 for their 90-day plan, and milestone due dates (30/60/90 day) are calculated from this date.',
         position: 'bottom'
       },
       {

@@ -173,8 +173,7 @@ Determine which type to generate based on the command:
 Command pattern:
 > "Generate an accelerator page for [Client Name] using clients/[client-slug]/plan.md
 > Coach email: [coach@email.com]
-> Cohort start date: [YYYY-MM-DD]
-> Assessment date: [YYYY-MM-DD]"
+> Onboarding call date: [YYYY-MM-DD]"
 
 ### Step 1: Read both files
 - Read `clients/[slug]/plan.md`
@@ -197,8 +196,9 @@ See the full list in the template header comment.
 | `{{PAGE_SUBTITLE}}` | 1-sentence version of the goal, tighter than the goal paragraph |
 | `{{GOAL_TEXT}}` | The full goal paragraph from the plan. Used in Strategy page and print header |
 | `{{STRATEGIC_POSITIONING}}` | The strategic positioning statement from the plan |
-| `{{ASSESSMENT_DATE}}` | Date of the client's assessment (from command or plan). Format: `Month DD, YYYY` |
-| `{{COHORT_START_DATE}}` | Cohort start date from the command. Format: `Month DD, YYYY` |
+| `{{ONBOARDING_CALL_DATE}}` | Date of the client's onboarding call (from command). Format: `Month DD, YYYY` |
+| `{{COHORT_START_DATE}}` | Alias for onboarding call date (backwards compatibility). Format: `Month DD, YYYY` |
+| `{{ASSESSMENT_DATE}}` | Alias for onboarding call date (backwards compatibility). Format: `Month DD, YYYY` |
 | `{{COACH_EMAIL}}` | Coach email from the command. Used in print footer |
 | `{{OBJECTIVE_N_TITLE}}` | Short title for objective N (1-3). From the Objectives section of the plan. |
 | `{{OBJECTIVE_N_DESCRIPTION}}` | 1-2 sentence description for objective N. |
@@ -223,7 +223,7 @@ See the full list in the template header comment.
 The Assessment page displays the client's digital marketing audit results. Rebuild the entire `<section id="page-assessment">` content based on the client's assessment data.
 
 **Required sections:**
-1. **Assessment Hero**: Title, assessment date, and "Complete" badge
+1. **Assessment Hero**: Title, onboarding call date, and "Complete" badge
 2. **Summary Section**: Overall grade with breakdown:
    - Overall grade badge (A/B/C/D/F)
    - Grade breakdown metrics (e.g., Website: B+, SEO: C, Social: A-)
@@ -238,7 +238,7 @@ The Assessment page displays the client's digital marketing audit results. Rebui
    - Google Business Profile (if applicable)
 
 **Assessment content sources:**
-- Assessment date from command parameter or plan meta
+- Onboarding call date from command parameter
 - Grades and metrics from the client's audit data
 - Recommendations prioritized by impact
 
@@ -348,7 +348,7 @@ For each annotated item, add a `<button class="howto-link" onclick="howToLink('t
 Match action bullets to checklist items semantically. The action that produces the checklist outcome gets the "how to" link.
 
 **PDF Download feature**: The roadmap header includes a "Download PDF" button that triggers `printRoadmap()`. The template includes print-only content that appears when printing:
-- Print header with logo, title, client name, and cohort start date
+- Print header with logo, title, client name, and onboarding call date
 - "About this document" section
 - "How to use this roadmap" section
 - Goal summary
@@ -417,7 +417,7 @@ Write a second output file to `clients/[slug]/plan.json`. This file powers the w
 ### Accelerator-specific quality checklist
 In addition to the general checklist:
 - [ ] Assessment page has all required sections filled with client audit data
-- [ ] `{{COHORT_START_DATE}}` is filled with the date from the command
+- [ ] `{{ONBOARDING_CALL_DATE}}` is filled with the date from the command
 
 ---
 

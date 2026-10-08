@@ -16,13 +16,13 @@ export async function handler(event, context) {
   try {
     // Parse request body
     const body = JSON.parse(event.body);
-    const { clientName, slug, cohortStartDate, assessmentDate, planMd, assessmentId } = body;
+    const { clientName, slug, onboardingCallDate, planMd, assessmentId } = body;
 
     // Flag: are we adding a plan to an existing assessment?
     const isAddingPlanToAssessment = !!assessmentId;
 
     // Validate required fields (coach is assigned during assessment generation, not here)
-    if (!clientName || !slug || !cohortStartDate || !assessmentDate || !planMd) {
+    if (!clientName || !slug || !onboardingCallDate || !planMd) {
       return {
         statusCode: 400,
         body: JSON.stringify({ error: 'Missing required fields' })
@@ -72,6 +72,7 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 1B. FETCH EXISTING COACH (assigned during assessment generation)
     // ─────────────────────────────────────────────────────────────────────────
+    // First check user_plans for an existing coach entry
     const { data: coachRecord } = await supabaseAdmin
       .from('user_plans')
       .select('email')
@@ -81,7 +82,21 @@ export async function handler(event, context) {
       .limit(1)
       .single();
 
-    const coachEmail = coachRecord?.email || null;
+    let coachEmail = coachRecord?.email || null;
+
+    // If not found in user_plans, check client_assessments (where coach is stored during assessment generation)
+    if (!coachEmail) {
+      const { data: assessmentRecord } = await supabaseAdmin
+        .from('client_assessments')
+        .select('coach_email')
+        .eq('client_slug', slug)
+        .not('coach_email', 'is', null)
+        .limit(1)
+        .single();
+
+      coachEmail = assessmentRecord?.coach_email || null;
+    }
+
     if (!coachEmail) {
       return {
         statusCode: 400,
@@ -148,8 +163,7 @@ export async function handler(event, context) {
       clientName,
       slug,
       coachEmail,
-      cohortStartDate,
-      assessmentDate,
+      onboardingCallDate,
       ...planData
     });
 
@@ -179,23 +193,30 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 8. UPDATE COACH'S COHORT START DATE
+    // 8. ENSURE COACH HAS USER_PLANS ENTRY WITH ONBOARDING CALL DATE
     // ─────────────────────────────────────────────────────────────────────────
-    // Coach was assigned during assessment generation; we just need to set the cohort start date
-    const { error: updateError } = await supabaseAdmin
+    // Coach may have been assigned during assessment generation (stored in client_assessments)
+    // but not have a user_plans entry. Upsert to ensure they have access and the date is set.
+    const { error: upsertError } = await supabaseAdmin
       .from('user_plans')
-      .update({ cohort_start_date: cohortStartDate })
-      .eq('email', coachEmail)
-      .eq('client_slug', slug)
-      .eq('role', 'coach');
+      .upsert({
+        email: coachEmail.toLowerCase(),
+        client_slug: slug,
+        role: 'coach',
+        active: true,
+        cohort_start_date: onboardingCallDate,
+        coach_email: null // coaches don't have coaches
+      }, {
+        onConflict: 'email,client_slug,role'
+      });
 
-    if (updateError) {
-      console.warn('Failed to update cohort start date (non-fatal):', updateError.message);
+    if (upsertError) {
+      console.warn('Failed to upsert coach user_plans entry (non-fatal):', upsertError.message);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 8B. SEED 30/60/90 DAY MILESTONES
-    // Day 0 = cohortStartDate (when plan.md is uploaded)
+    // Day 0 = onboardingCallDate
     // ─────────────────────────────────────────────────────────────────────────
     try {
       // Get notification recipients (coach + PSMs)
@@ -208,7 +229,7 @@ export async function handler(event, context) {
 
       const notificationEmails = recipients?.map(r => r.email) || [coachEmail];
 
-      // Calculate milestone due dates from cohort start date
+      // Calculate milestone due dates from onboarding call date
       const addDays = (dateStr, days) => {
         const date = new Date(dateStr);
         date.setDate(date.getDate() + days);
@@ -219,21 +240,21 @@ export async function handler(event, context) {
         {
           client_slug: slug,
           milestone_type: '30-day',
-          due_date: addDays(cohortStartDate, 30),
+          due_date: addDays(onboardingCallDate, 30),
           status: 'pending',
           notification_recipients: notificationEmails
         },
         {
           client_slug: slug,
           milestone_type: '60-day',
-          due_date: addDays(cohortStartDate, 60),
+          due_date: addDays(onboardingCallDate, 60),
           status: 'pending',
           notification_recipients: notificationEmails
         },
         {
           client_slug: slug,
           milestone_type: '90-day',
-          due_date: addDays(cohortStartDate, 90),
+          due_date: addDays(onboardingCallDate, 90),
           status: 'pending',
           notification_recipients: notificationEmails
         }
@@ -418,8 +439,9 @@ function processTemplate(template, data) {
     '{{GOAL_TEXT}}': data.goal,
     '{{WM_SUBLINE}}': data.welcomeMessage || data.goal.slice(0, 150),
     '{{STRATEGIC_POSITIONING}}': data.strategicPositioning,
-    '{{ASSESSMENT_DATE}}': formatDateLong(data.assessmentDate),
-    '{{COHORT_START_DATE}}': formatDateLong(data.cohortStartDate),
+    '{{ASSESSMENT_DATE}}': formatDateLong(data.onboardingCallDate),
+    '{{COHORT_START_DATE}}': formatDateLong(data.onboardingCallDate),
+    '{{ONBOARDING_CALL_DATE}}': formatDateLong(data.onboardingCallDate),
     '{{COACH_EMAIL}}': data.coachEmail,
     '{{MONTH_1_NAME}}': data.roadmap.monthNames[0],
     '{{MONTH_2_NAME}}': data.roadmap.monthNames[1],

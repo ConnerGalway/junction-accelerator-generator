@@ -1099,7 +1099,7 @@
           <input type="text" class="form-group__input" id="editProjectName" disabled>
         </div>
         <div class="form-group">
-          <label class="form-group__label" for="editStartDate">Cohort Start Date</label>
+          <label class="form-group__label" for="editStartDate">Onboarding Call Date</label>
           <input type="date" class="form-group__input" id="editStartDate" required>
           <span class="form-group__hint">Changing this will recalculate milestone due dates (30/60/90 day)</span>
         </div>
@@ -1550,7 +1550,7 @@
 
         const startDateDisplay = p.cohort_start_date
           ? new Date(p.cohort_start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-          : 'Start date not set';
+          : 'Onboarding date not set';
 
         const weekDisplay = p.week !== null
           ? `Week ${p.week} of 12`
@@ -1881,7 +1881,7 @@
             <div class="project-card__header">
               <div class="project-card__info">
                 <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
-                <p class="project-card__meta">Started ${startDate}</p>
+                <p class="project-card__meta">Onboarding: ${startDate}</p>
               </div>
               ${editButton}
             </div>
