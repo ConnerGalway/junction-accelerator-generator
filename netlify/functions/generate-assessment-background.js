@@ -80,7 +80,7 @@ export async function handler(event, context) {
     if (DEBUG) console.log('[STEP 1] Parsing request body');
     // Parse request body
     const body = JSON.parse(event.body);
-    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail, regenerate, overwrite } = body;
+    const { businessName, websiteUrl, location, social, googlePlaceId, clientType, clientEmail, coachEmail, regenerate, overwrite } = body;
     slug = body.slug;
     const isElevated = clientType === 'elevated';
     const isRegeneration = regenerate === true;
@@ -100,6 +100,13 @@ export async function handler(event, context) {
         return {
           statusCode: 400,
           body: JSON.stringify({ error: 'Missing required fields: businessName, slug, websiteUrl' })
+        };
+      }
+      // Coach email is required for new assessments
+      if (!coachEmail) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Missing required field: coachEmail' })
         };
       }
     }
@@ -151,6 +158,17 @@ export async function handler(event, context) {
       if (!emailRegex.test(clientEmail)) {
         console.warn('[VALIDATION] Client email format appears invalid:', clientEmail);
         // Non-fatal - continue but log warning
+      }
+    }
+
+    // Validate coach email format (required for new assessments)
+    if (coachEmail && typeof coachEmail === 'string' && coachEmail.trim()) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(coachEmail)) {
+        return {
+          statusCode: 400,
+          body: JSON.stringify({ error: 'Invalid coach email format' })
+        };
       }
     }
 
@@ -281,6 +299,7 @@ export async function handler(event, context) {
           social_linkedin: social?.linkedin || null,
           client_type: isElevated ? 'elevated' : 'accelerator',
           client_email: clientEmail || null,
+          coach_email: coachEmail || null,
           status: 'processing',
           error_message: 'Progress: Starting assessment',
           created_by: user.email
@@ -1301,6 +1320,161 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // Note: We don't have a client email yet - they'll be invited later
     // For now, just ensure the slug is accessible
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 9B. ASSIGN COACH AND SEND NOTIFICATION
+    // ─────────────────────────────────────────────────────────────────────────
+    const effectiveCoachEmail = coachEmail || null;
+    if (effectiveCoachEmail && !isRegeneration) {
+      if (DEBUG) console.log('[STEP 9B] Assigning coach:', effectiveCoachEmail);
+
+      try {
+        // Check if coach already has an entry for this project
+        const { data: existingCoach } = await supabaseAdmin
+          .from('user_plans')
+          .select('id')
+          .eq('email', effectiveCoachEmail.toLowerCase())
+          .eq('client_slug', slug);
+
+        if (existingCoach && existingCoach.length > 0) {
+          // Update existing record
+          await supabaseAdmin
+            .from('user_plans')
+            .update({
+              role: 'coach',
+              coach_email: effectiveCoachEmail.toLowerCase(),
+              active: true
+            })
+            .eq('id', existingCoach[0].id);
+          if (DEBUG) console.log('[STEP 9B] Updated existing coach record');
+        } else {
+          // Insert new record
+          await supabaseAdmin
+            .from('user_plans')
+            .insert({
+              email: effectiveCoachEmail.toLowerCase(),
+              role: 'coach',
+              client_slug: slug,
+              coach_email: effectiveCoachEmail.toLowerCase(),
+              active: true
+            });
+          if (DEBUG) console.log('[STEP 9B] Created new coach record');
+        }
+
+        // Send coach notification email
+        if (process.env.RESEND_API_KEY) {
+          const dashboardType = effectiveIsElevated ? 'elevated' : 'accelerator';
+          const dashboardPath = effectiveIsElevated
+            ? `/elevated/${encodeURIComponent(slug)}/`
+            : `/clients/${encodeURIComponent(slug)}/`;
+          const dashboardUrl = `https://accelerator.elearningu.com${dashboardPath}`;
+          const myClientsUrl = 'https://accelerator.elearningu.com/my-clients/';
+
+          // Escape user content for HTML safety
+          const safeClientName = (effectiveBusinessName || slug)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+          const safeSenderEmail = user.email
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
+
+          const emailHtml = `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin: 0; padding: 0; background-color: #fcf5ec; font-family: 'Helvetica Neue', Arial, sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #fcf5ec; padding: 40px 20px;">
+    <tr>
+      <td align="center">
+        <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 520px; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(17,21,75,0.08);">
+          <tr>
+            <td style="background-color: #11154b; padding: 32px; text-align: center;">
+              <span style="font-size: 18px; font-weight: 800; color: #aadab6; letter-spacing: 0.06em; text-transform: uppercase;">eLearningU</span>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 40px 32px;">
+              <h1 style="margin: 0 0 16px; font-size: 24px; font-weight: 700; color: #11154b;">You've Been Assigned a New Client</h1>
+              <p style="margin: 0 0 24px; font-size: 15px; line-height: 1.6; color: #6b6b8a;">
+                Great news! You have been assigned as the coach for <strong style="color: #11154b;">${safeClientName}</strong>.
+              </p>
+              <p style="margin: 0 0 24px; font-size: 15px; line-height: 1.6; color: #6b6b8a;">
+                Their assessment has been generated and you can now access their dashboard to view the results and support them through the program.
+              </p>
+              <div style="background-color: #f5ede0; border-radius: 10px; padding: 20px; margin-bottom: 24px;">
+                <p style="margin: 0 0 8px; font-size: 13px; font-weight: 600; color: #11154b;">Project Details</p>
+                <p style="margin: 0; font-size: 14px; color: #6b6b8a;">
+                  <strong>Client:</strong> ${safeClientName}<br>
+                  <strong>Dashboard Type:</strong> ${dashboardType === 'elevated' ? 'Elevated Masterclass' : 'Accelerator'}
+                </p>
+              </div>
+              <table cellpadding="0" cellspacing="0" style="margin: 0 auto;">
+                <tr>
+                  <td style="background-color: #11154b; border-radius: 10px;">
+                    <a href="${dashboardUrl}" target="_blank" style="display: inline-block; padding: 16px 28px; font-size: 15px; font-weight: 700; color: #aadab6; text-decoration: none;">
+                      View Client Dashboard
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin: 24px 0 0; font-size: 14px; line-height: 1.6; color: #6b6b8a; text-align: center;">
+                <a href="${myClientsUrl}" style="color: #11154b; text-decoration: underline;">View all your clients</a>
+              </p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding: 24px 32px; background-color: #f5ede0; text-align: center;">
+              <p style="margin: 0; font-size: 12px; color: #6b6b8a;">
+                Assigned by ${safeSenderEmail}<br>
+                eLearningU Accelerator Program<br>
+                <a href="https://accelerator.elearningu.com" style="color: #11154b;">accelerator.elearningu.com</a>
+              </p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+          `.trim();
+
+          try {
+            const resendRes = await fetch('https://api.resend.com/emails', {
+              method: 'POST',
+              headers: {
+                'Authorization': `Bearer ${process.env.RESEND_API_KEY}`,
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({
+                from: 'eLearningU <noreply@elearningu.com>',
+                to: [effectiveCoachEmail],
+                subject: `New Client Assignment: ${safeClientName}`,
+                html: emailHtml
+              })
+            });
+
+            if (resendRes.ok) {
+              console.log(`[STEP 9B] Coach notification sent to ${effectiveCoachEmail} for ${slug}`);
+            } else {
+              const resendError = await resendRes.json();
+              console.warn('[STEP 9B] Coach notification failed (non-fatal):', resendError);
+            }
+          } catch (emailErr) {
+            console.warn('[STEP 9B] Failed to send coach notification (non-fatal):', emailErr.message);
+          }
+        } else {
+          console.warn('[STEP 9B] RESEND_API_KEY not configured - skipping coach notification');
+        }
+      } catch (coachErr) {
+        console.warn('[STEP 9B] Failed to assign coach (non-fatal):', coachErr.message);
+      }
+    }
 
     // ─────────────────────────────────────────────────────────────────────────
     // 10. SUCCESS

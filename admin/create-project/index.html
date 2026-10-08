@@ -736,13 +736,6 @@
           <p class="form-hint">Auto-generated from client name. Lowercase, hyphens only.</p>
         </div>
 
-        <div class="form-group">
-          <label class="form-label" for="coach">Assigned Coach</label>
-          <select class="form-input" id="coach" required>
-            <option value="">Select a coach...</option>
-          </select>
-        </div>
-
         <div class="form-row">
           <div class="form-group">
             <label class="form-label" for="cohortStartDate">Cohort Start Date</label>
@@ -863,7 +856,6 @@
       document.getElementById('topbarEmail').textContent = user.email;
       window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
 
-      await loadCoaches();
       setupEventListeners();
 
       // Check for `from` parameter (linking to existing assessment)
@@ -928,27 +920,6 @@
         console.error('Error loading assessment:', err);
         showError('Failed to load assessment data');
       }
-    }
-
-    // ══════════════════════════════════════════════════════════════
-    // LOAD COACHES FOR DROPDOWN
-    // ══════════════════════════════════════════════════════════════
-    async function loadCoaches() {
-      const { data: coaches } = await supabaseClient
-        .from('user_plans')
-        .select('email')
-        .in('role', ['coach', 'admin'])
-        .eq('active', true);
-
-      const uniqueEmails = [...new Set((coaches || []).map(c => c.email))].sort();
-      const select = document.getElementById('coach');
-
-      uniqueEmails.forEach(email => {
-        const option = document.createElement('option');
-        option.value = email;
-        option.textContent = email;
-        select.appendChild(option);
-      });
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -1069,7 +1040,6 @@
       const submitBtn = document.getElementById('submitBtn');
       const clientName = document.getElementById('clientName').value.trim();
       const slug = document.getElementById('slug').value.trim();
-      const coachEmail = document.getElementById('coach').value;
       const cohortStartDate = document.getElementById('cohortStartDate').value;
       const assessmentDate = document.getElementById('assessmentDate').value;
 
@@ -1096,11 +1066,10 @@
           throw new Error('Not authenticated');
         }
 
-        // Build request body
+        // Build request body (coach is already assigned during assessment generation)
         const requestBody = {
           clientName,
           slug,
-          coachEmail,
           cohortStartDate,
           assessmentDate,
           planMd: planMdContent
@@ -1184,12 +1153,6 @@
         target: '#slug',
         title: 'URL Slug',
         desc: 'This is automatically generated from the client name. It becomes the URL path (e.g., accelerator.elearningu.com/alberni-adventure-gear). You can edit it if needed.',
-        position: 'bottom'
-      },
-      {
-        target: '#coach',
-        title: 'Assigned Coach',
-        desc: 'Select the coach who will be responsible for this client. They will receive access to view and manage the project from their dashboard.',
         position: 'bottom'
       },
       {

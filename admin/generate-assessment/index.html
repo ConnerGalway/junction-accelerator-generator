@@ -1287,6 +1287,20 @@
           </div>
         </div>
 
+        <!-- Coach Assignment -->
+        <div class="form-section">
+          <h2 class="form-section__title">Coach Assignment</h2>
+          <p class="form-section__desc">Assign a coach who will be notified and receive access to this client</p>
+
+          <div class="form-group">
+            <label class="form-label" for="coachEmail">Assigned Coach</label>
+            <select class="form-input" id="coachEmail" required>
+              <option value="">Select a coach...</option>
+            </select>
+            <p class="form-hint">The coach will receive an email notification with access to the client dashboard.</p>
+          </div>
+        </div>
+
         <!-- Client Type Selection -->
         <div class="form-section">
           <h2 class="form-section__title">Dashboard Type</h2>
@@ -1545,6 +1559,7 @@
       window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
 
       setupEventListeners();
+      await loadCoaches();
 
       // Check for edit mode (regenerating existing assessment)
       const urlParams = new URLSearchParams(window.location.search);
@@ -1553,6 +1568,31 @@
         await loadExistingAssessment(editParam);
       }
     })();
+
+    // ══════════════════════════════════════════════════════════════
+    // LOAD COACHES FOR DROPDOWN
+    // ══════════════════════════════════════════════════════════════
+    async function loadCoaches() {
+      try {
+        const { data: coaches } = await supabaseClient
+          .from('user_plans')
+          .select('email')
+          .in('role', ['coach', 'admin'])
+          .eq('active', true);
+
+        const uniqueEmails = [...new Set((coaches || []).map(c => c.email))].sort();
+        const select = document.getElementById('coachEmail');
+
+        uniqueEmails.forEach(email => {
+          const option = document.createElement('option');
+          option.value = email;
+          option.textContent = email;
+          select.appendChild(option);
+        });
+      } catch (err) {
+        console.error('Failed to load coaches:', err);
+      }
+    }
 
     // Load existing assessment data for editing/regeneration
     async function loadExistingAssessment(slug) {
@@ -1596,6 +1636,11 @@
 
         // Client email
         document.getElementById('clientEmail').value = assessment.client_email || '';
+
+        // Coach email (pre-select if exists)
+        if (assessment.coach_email) {
+          document.getElementById('coachEmail').value = assessment.coach_email;
+        }
 
         // Client type
         const clientType = assessment.client_type || 'accelerator';
@@ -1694,6 +1739,15 @@
       // Get optional client email
       const clientEmail = document.getElementById('clientEmail').value.trim().toLowerCase() || null;
 
+      // Get required coach email
+      const coachEmail = document.getElementById('coachEmail').value.trim().toLowerCase() || null;
+
+      // Validate coach is selected (required)
+      if (!coachEmail) {
+        showError('Please select a coach for this client');
+        return;
+      }
+
       // Validate client email format if provided
       if (clientEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(clientEmail)) {
         showError('Please enter a valid client email address');
@@ -1738,7 +1792,8 @@
           social,
           googlePlaceId: googlePlaceId || null,
           clientType,
-          clientEmail
+          clientEmail,
+          coachEmail
         };
 
         // If in edit mode, add overwrite flag to replace existing assessment
