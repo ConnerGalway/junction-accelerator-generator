@@ -162,6 +162,19 @@ nav { flex: 1; padding: 12px 0; }
   stroke-width: 1.8;
 }
 
+/* Sidebar user section */
+.sidebar-user {
+  margin-top: auto;
+  padding: 12px 20px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Mobile user menu button */
+.mobile-header .user-menu-container {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
 /* ── Main Content ─────────────────────────────── */
 #main {
   flex: 1;
@@ -2049,6 +2062,7 @@ body.drawer-open {
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">Harrison Corner Cafe</span>
+  <div class="user-menu-container" id="mobileUserMenu"></div>
   <button class="mobile-menu-btn" onclick="toggleMobileDrawer()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -2154,6 +2168,9 @@ body.drawer-open {
         <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/>
       </svg>
       Activity
+    </div>
+    <div class="sidebar-user">
+      <div class="user-menu-container" id="sidebarUserMenu"></div>
     </div>
   </nav>
 </aside>
@@ -2359,6 +2376,7 @@ body.drawer-open {
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/user-menu.js"></script>
 <script src="/shared/analytics.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>

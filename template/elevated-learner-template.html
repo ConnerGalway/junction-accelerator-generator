@@ -162,6 +162,19 @@ nav { flex: 1; padding: 12px 0; }
   stroke-width: 1.8;
 }
 
+/* Sidebar user section */
+.sidebar-user {
+  margin-top: auto;
+  padding: 12px 20px 16px;
+  border-top: 1px solid rgba(255,255,255,0.07);
+}
+
+/* Mobile user menu button */
+.mobile-header .user-menu-container {
+  margin-left: auto;
+  margin-right: 8px;
+}
+
 /* ── Main Content ─────────────────────────────── */
 #main {
   flex: 1;
@@ -2039,6 +2052,7 @@ nav { flex: 1; padding: 12px 0; }
 <!-- Mobile Header -->
 <div class="mobile-header">
   <span class="mobile-header-title">{{CLIENT_NAME}}</span>
+  <div class="user-menu-container" id="mobileUserMenu"></div>
   <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <line x1="3" y1="12" x2="21" y2="12"></line>
@@ -2073,6 +2087,10 @@ nav { flex: 1; padding: 12px 0; }
         <path d="M9 12l2 2 4-4"/>
       </svg>
       Assessment
+    </div>
+
+    <div class="sidebar-user">
+      <div class="user-menu-container" id="sidebarUserMenu"></div>
     </div>
   </nav>
 </aside>
@@ -2171,6 +2189,7 @@ nav { flex: 1; padding: 12px 0; }
 
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>
+<script src="/shared/user-menu.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
 // ══════════════════════════════════════════════════════════════
