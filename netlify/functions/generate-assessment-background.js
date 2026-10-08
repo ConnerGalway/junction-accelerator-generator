@@ -3020,6 +3020,43 @@ async function fetchInstagramData(url, headers) {
     extracted: extractedPostCount
   }));
 
+  // IMPORTANT: The regular profile endpoint often returns truncated post counts
+  // Use the Basic Profile endpoint with user ID to get accurate media_count
+  const userId = user.id || user.pk || user.pk_id;
+  if (userId && (extractedPostCount === 0 || extractedPostCount < 50)) {
+    console.log('[SociaVault] Post count seems low (' + extractedPostCount + '), fetching Basic Profile for accurate count...');
+    try {
+      const basicProfileRes = await fetchWithTimeout(
+        `https://api.sociavault.com/v1/scrape/instagram/basic-profile?userId=${encodeURIComponent(userId)}`,
+        { headers },
+        15000 // 15 second timeout
+      );
+
+      if (basicProfileRes.ok) {
+        const basicProfileData = await basicProfileRes.json();
+        console.log('[SociaVault] Basic Profile response:', JSON.stringify(basicProfileData).substring(0, 500));
+
+        const accurateMediaCount = basicProfileData.data?.media_count
+          || basicProfileData.data?.data?.media_count
+          || basicProfileData.media_count
+          || null;
+
+        if (accurateMediaCount && accurateMediaCount > extractedPostCount) {
+          console.log('[SociaVault] ✓ Basic Profile returned accurate media_count:', accurateMediaCount, '(was:', extractedPostCount, ')');
+          extractedPostCount = accurateMediaCount;
+        } else if (accurateMediaCount) {
+          console.log('[SociaVault] Basic Profile media_count:', accurateMediaCount, '(not higher than extracted:', extractedPostCount, ')');
+        } else {
+          console.log('[SociaVault] Basic Profile did not return media_count');
+        }
+      } else {
+        console.log('[SociaVault] Basic Profile fetch failed:', basicProfileRes.status);
+      }
+    } catch (basicProfileErr) {
+      console.log('[SociaVault] Basic Profile fetch error (non-fatal):', basicProfileErr.message);
+    }
+  }
+
   // Fetch recent posts for engagement calculation (up to 12 for better analysis)
   let posts = [];
   let avgLikes = 0;
@@ -3410,7 +3447,7 @@ async function fetchInstagramData(url, headers) {
           ? `Analyzed ${postsAnalyzedCount} most recent of ${extractedPostCount} total posts`
           : 'Full data available'
     },
-    _creditsUsed: 4 // profile + posts + reels + highlights
+    _creditsUsed: 5 // profile + basic-profile (for accurate count) + posts + reels + highlights
   };
 }
 
