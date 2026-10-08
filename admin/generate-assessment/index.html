@@ -1830,7 +1830,7 @@
         }
 
         // Poll Supabase for completion status
-        const maxPolls = 180;  // 6 minutes max (assessment can take a while with Sonnet model)
+        const maxPolls = 360;  // 12 minutes max (Claude API timeout is 8 min + API calls overhead)
         const pollInterval = 2000;  // 2 seconds
 
         for (let i = 0; i < maxPolls; i++) {
@@ -1900,7 +1900,7 @@
           updateProgressFromStatus(i);
         }
 
-        throw new Error('Assessment generation timed out. Please check the project status.');
+        throw new Error('Assessment generation is taking longer than expected. The process may still be running in the background. Please wait a few minutes and refresh the page to check the status.');
 
       } catch (err) {
         hideProgress();
@@ -2448,7 +2448,7 @@
         }
 
         // Poll for completion
-        const maxPolls = 180;
+        const maxPolls = 360;  // 12 minutes max (Claude API timeout is 8 min + API calls overhead)
         const pollInterval = 2000;
 
         for (let i = 0; i < maxPolls; i++) {
@@ -2509,7 +2509,7 @@
           updateProgressFromStatus(i);
         }
 
-        throw new Error('Regeneration timed out');
+        throw new Error('Regeneration is taking longer than expected. The process may still be running in the background. Please wait a few minutes and refresh the page to check the status.');
 
       } catch (err) {
         hideProgress();
