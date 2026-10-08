@@ -228,9 +228,9 @@
     const safeEmail = escapeHtml(userEmail);
     const safeRole = escapeHtml(userRole);
     return `
-      <div class="user-menu${dirClass}" id="userMenu">
-        <div class="user-menu__backdrop" onclick="window.closeUserMenu()"></div>
-        <button class="user-menu__trigger" onclick="window.toggleUserMenu()" title="Menu">
+      <div class="user-menu${dirClass}">
+        <div class="user-menu__backdrop" onclick="window.closeUserMenu(this)"></div>
+        <button class="user-menu__trigger" onclick="window.toggleUserMenu(this)" title="Menu">
           ${ICONS.menu}
         </button>
         <div class="user-menu__dropdown">
@@ -263,17 +263,22 @@
   // ══════════════════════════════════════════════════════════════
   // MENU ACTIONS
   // ══════════════════════════════════════════════════════════════
-  window.toggleUserMenu = function() {
-    const menu = document.getElementById('userMenu');
+  window.toggleUserMenu = function(el) {
+    const menu = el ? el.closest('.user-menu') : document.querySelector('.user-menu');
     if (menu) {
       menu.classList.toggle('open');
     }
   };
 
-  window.closeUserMenu = function() {
-    const menu = document.getElementById('userMenu');
-    if (menu) {
-      menu.classList.remove('open');
+  window.closeUserMenu = function(el) {
+    if (el) {
+      const menu = el.closest('.user-menu');
+      if (menu) menu.classList.remove('open');
+    } else {
+      // Close all open menus when no element specified
+      document.querySelectorAll('.user-menu.open').forEach(function(menu) {
+        menu.classList.remove('open');
+      });
     }
   };
 
@@ -318,10 +323,11 @@
 
   // Close menu when clicking outside
   document.addEventListener('click', function(e) {
-    const menu = document.getElementById('userMenu');
-    if (menu && !menu.contains(e.target)) {
-      menu.classList.remove('open');
-    }
+    document.querySelectorAll('.user-menu.open').forEach(function(menu) {
+      if (!menu.contains(e.target)) {
+        menu.classList.remove('open');
+      }
+    });
   });
 
   // Close menu on escape key
