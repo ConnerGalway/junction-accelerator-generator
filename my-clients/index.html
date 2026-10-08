@@ -1173,15 +1173,19 @@
         hasWildcardAccess = true;
       } else {
         // Check if this user has a wildcard entry in user_plans
-        const { data: wildcardEntry } = await supabaseClient
+        const { data: wildcardEntries, error: wildcardError } = await supabaseClient
           .from('user_plans')
           .select('id')
           .eq('email', user.email)
           .eq('client_slug', '*')
           .eq('active', true)
-          .single();
+          .limit(1);
 
-        hasWildcardAccess = !!wildcardEntry;
+        if (wildcardError) {
+          console.error('Error checking wildcard access:', wildcardError);
+        }
+        hasWildcardAccess = wildcardEntries && wildcardEntries.length > 0;
+        console.log('Wildcard access check:', { email: user.email, hasWildcardAccess, wildcardEntries });
       }
 
       // Show admin buttons for admin/psm users or coaches with wildcard access
