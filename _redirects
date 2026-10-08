@@ -21,6 +21,7 @@
 # Visual Content Editor (Next.js app on Vercel)
 /edit/:slug     https://junction-editor.vercel.app/edit/:slug  200
 /edit/:slug/    https://junction-editor.vercel.app/edit/:slug  200
+/_next/*        https://junction-editor.vercel.app/_next/:splat  200
 
 # Elevated Learner dashboards (assessment-only)
 # Files live at elevated/[slug]/index.html but are served at /elevated/[slug]/
