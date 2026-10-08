@@ -346,8 +346,13 @@
       <option value="30" selected>Last 30 days</option>
       <option value="90">Last 90 days</option>
     </select>
+    <select class="filter-select" id="userTypeFilter">
+      <option value="">All users</option>
+      <option value="client">Clients only</option>
+      <option value="staff">Staff only</option>
+    </select>
     <select class="filter-select" id="clientFilter">
-      <option value="">All clients</option>
+      <option value="">All projects</option>
     </select>
   </div>
 
@@ -407,16 +412,51 @@
     window.initUserMenu('#userMenuContainer', user.email, user.role, 'down');
   }
 
-  // Load initial data
+  // Cache for user roles (email -> role)
+  let userRolesCache = {};
+  let clientEmailsSet = new Set();
+  let staffEmailsSet = new Set();
+
+  // Load user roles for filtering
+  async function loadUserRoles() {
+    try {
+      const { data: users, error } = await window.supabaseClient
+        .from('user_plans')
+        .select('email, role')
+        .eq('active', true);
+
+      if (error) {
+        console.error('Error loading user roles:', error);
+        return;
+      }
+
+      users.forEach(u => {
+        const email = u.email.toLowerCase();
+        userRolesCache[email] = u.role;
+        if (u.role === 'client') {
+          clientEmailsSet.add(email);
+        } else {
+          staffEmailsSet.add(email);
+        }
+      });
+    } catch (e) {
+      console.error('Error loading user roles:', e);
+    }
+  }
+
+  // Load user roles first, then analytics
+  await loadUserRoles();
   await loadAnalytics();
 
   // Filter change handlers
   document.getElementById('dateRange').addEventListener('change', loadAnalytics);
+  document.getElementById('userTypeFilter').addEventListener('change', loadAnalytics);
   document.getElementById('clientFilter').addEventListener('change', loadAnalytics);
 
   async function loadAnalytics() {
     const days = parseInt(document.getElementById('dateRange').value);
     const clientFilter = document.getElementById('clientFilter').value;
+    const userTypeFilter = document.getElementById('userTypeFilter').value;
     const since = new Date(Date.now() - days * 24 * 60 * 60 * 1000).toISOString();
 
     try {
@@ -425,7 +465,7 @@
         .select('*')
         .gte('created_at', since)
         .order('created_at', { ascending: false })
-        .limit(500);
+        .limit(1000);
 
       if (clientFilter) {
         query = query.eq('client_slug', clientFilter);
@@ -438,10 +478,24 @@
         return;
       }
 
-      renderMetrics(events);
-      renderActivityTable(events);
-      renderClientRanking(events);
-      populateClientFilter(events);
+      // Apply user type filter client-side
+      let filteredEvents = events;
+      if (userTypeFilter === 'client') {
+        filteredEvents = events.filter(e => {
+          const email = (e.user_email || '').toLowerCase();
+          return clientEmailsSet.has(email);
+        });
+      } else if (userTypeFilter === 'staff') {
+        filteredEvents = events.filter(e => {
+          const email = (e.user_email || '').toLowerCase();
+          return staffEmailsSet.has(email);
+        });
+      }
+
+      renderMetrics(filteredEvents);
+      renderActivityTable(filteredEvents);
+      renderClientRanking(filteredEvents);
+      populateClientFilter(events); // Use all events for filter options
     } catch (e) {
       console.error('Analytics error:', e);
     }

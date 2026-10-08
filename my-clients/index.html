@@ -833,6 +833,94 @@
       letter-spacing: 0.02em;
     }
 
+    /* ── Search input ────────────────────────────────────── */
+    .search-container {
+      position: relative;
+      width: 100%;
+      max-width: 400px;
+    }
+
+    .search-input {
+      width: 100%;
+      height: 44px;
+      padding: 0 16px 0 44px;
+      background: #fff;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'Open Sans', sans-serif;
+      font-size: 14px;
+      color: var(--text);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-input:focus {
+      outline: none;
+      border-color: var(--navy);
+      box-shadow: 0 0 0 3px rgba(17,21,75,0.08);
+    }
+
+    .search-input::placeholder {
+      color: var(--muted);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 18px;
+      height: 18px;
+      color: var(--muted);
+      pointer-events: none;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: var(--cream-mid);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      color: var(--muted);
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .search-clear:hover {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    .search-clear.visible {
+      display: flex;
+    }
+
+    .search-clear svg {
+      width: 12px;
+      height: 12px;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 32px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .no-results strong {
+      color: var(--navy);
+    }
+
+    .card-hidden {
+      display: none !important;
+    }
+
     /* ── Responsive ─────────────────────────────────────── */
     @media (max-width: 600px) {
       .topbar {
@@ -854,6 +942,10 @@
       .page-header__row {
         flex-direction: column;
         gap: 16px;
+      }
+
+      .search-container {
+        max-width: none;
       }
 
       .section-header {
@@ -890,6 +982,19 @@
           <p class="page-header__eyebrow">Coach Dashboard</p>
           <h1 class="page-header__title">Client Management</h1>
           <p class="page-header__sub">Manage assessments and accelerator implementation plans</p>
+        </div>
+        <div class="search-container">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" class="search-input" id="searchInput" placeholder="Search clients..." autocomplete="off">
+          <button class="search-clear" id="searchClear" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </button>
         </div>
       </div>
     </div>
@@ -2464,6 +2569,173 @@
       if (!grade) return 'grade-pending';
       const letter = grade.charAt(0).toUpperCase();
       return `grade-${letter.toLowerCase()}`;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // SEARCH FUNCTIONALITY
+    // ══════════════════════════════════════════════════════════════
+    const searchInput = document.getElementById('searchInput');
+    const searchClear = document.getElementById('searchClear');
+
+    function filterCards(query) {
+      const normalizedQuery = query.toLowerCase().trim();
+
+      // Define sections to filter (excluding sampleSection which is static)
+      const sections = [
+        {
+          id: 'assessmentsSection',
+          galleryId: 'assessmentGallery',
+          countId: 'assessmentCount',
+          getCardName: (card) => card.querySelector('.assessment-card__name')?.textContent || '',
+          getCardSlug: (card) => card.dataset.slug || ''
+        },
+        {
+          id: 'elevatedSection',
+          galleryId: 'elevatedGallery',
+          countId: 'elevatedCount',
+          getCardName: (card) => card.querySelector('.assessment-card__name')?.textContent || '',
+          getCardSlug: (card) => card.dataset.slug || ''
+        },
+        {
+          id: 'experienceSection',
+          galleryId: 'experienceGallery',
+          countId: 'experienceCount',
+          getCardName: (card) => card.querySelector('.project-card__name')?.textContent || '',
+          getCardSlug: (card) => card.dataset.slug || ''
+        },
+        {
+          id: 'projectsSection',
+          galleryId: 'projectGallery',
+          countId: 'projectCount',
+          getCardName: (card) => card.querySelector('.project-card__name')?.textContent || '',
+          getCardSlug: (card) => card.dataset.slug || ''
+        }
+      ];
+
+      let totalVisibleCards = 0;
+
+      sections.forEach(section => {
+        const gallery = document.getElementById(section.galleryId);
+        const countEl = document.getElementById(section.countId);
+        const sectionEl = document.getElementById(section.id);
+
+        if (!gallery || !sectionEl) return;
+
+        const cards = gallery.querySelectorAll('.assessment-card, .project-card');
+        let visibleCount = 0;
+
+        cards.forEach(card => {
+          // Skip skeleton cards
+          if (card.classList.contains('skeleton-card')) return;
+
+          const name = section.getCardName(card).toLowerCase();
+          const slug = section.getCardSlug(card).toLowerCase();
+
+          const matches = !normalizedQuery ||
+            name.includes(normalizedQuery) ||
+            slug.includes(normalizedQuery);
+
+          if (matches) {
+            card.classList.remove('card-hidden');
+            visibleCount++;
+            totalVisibleCards++;
+          } else {
+            card.classList.add('card-hidden');
+          }
+        });
+
+        // Update the count display
+        if (countEl && normalizedQuery) {
+          // Show filtered count if searching
+          const totalCards = Array.from(cards).filter(c => !c.classList.contains('skeleton-card')).length;
+          countEl.textContent = visibleCount === totalCards ? totalCards : `${visibleCount}/${totalCards}`;
+        }
+
+        // Show/hide empty state message within gallery if needed
+        const existingNoResults = gallery.querySelector('.no-results');
+        if (existingNoResults) {
+          existingNoResults.remove();
+        }
+
+        if (normalizedQuery && visibleCount === 0 && cards.length > 0) {
+          const noResults = document.createElement('div');
+          noResults.className = 'no-results';
+          noResults.innerHTML = `No matches for "<strong>${escapeHtml(query)}</strong>"`;
+          gallery.appendChild(noResults);
+        }
+      });
+
+      // Show/hide sample section when searching
+      const sampleSection = document.getElementById('sampleSection');
+      if (sampleSection) {
+        sampleSection.style.display = normalizedQuery ? 'none' : 'block';
+      }
+
+      return totalVisibleCards;
+    }
+
+    function clearSearch() {
+      searchInput.value = '';
+      searchClear.classList.remove('visible');
+      filterCards('');
+
+      // Reset counts to original values
+      resetCounts();
+    }
+
+    function resetCounts() {
+      // Reset assessment count
+      const assessmentGallery = document.getElementById('assessmentGallery');
+      const assessmentCount = document.getElementById('assessmentCount');
+      if (assessmentGallery && assessmentCount) {
+        const cards = assessmentGallery.querySelectorAll('.assessment-card:not(.skeleton-card)');
+        assessmentCount.textContent = cards.length;
+      }
+
+      // Reset elevated count
+      const elevatedGallery = document.getElementById('elevatedGallery');
+      const elevatedCount = document.getElementById('elevatedCount');
+      if (elevatedGallery && elevatedCount) {
+        const cards = elevatedGallery.querySelectorAll('.assessment-card:not(.skeleton-card)');
+        elevatedCount.textContent = cards.length;
+      }
+
+      // Reset experience count
+      const experienceGallery = document.getElementById('experienceGallery');
+      const experienceCount = document.getElementById('experienceCount');
+      if (experienceGallery && experienceCount) {
+        const cards = experienceGallery.querySelectorAll('.project-card:not(.skeleton-card), .assessment-card:not(.skeleton-card)');
+        experienceCount.textContent = cards.length;
+      }
+
+      // Reset project count
+      const projectGallery = document.getElementById('projectGallery');
+      const projectCount = document.getElementById('projectCount');
+      if (projectGallery && projectCount) {
+        const cards = projectGallery.querySelectorAll('.project-card:not(.skeleton-card)');
+        projectCount.textContent = cards.length;
+      }
+    }
+
+    // Event listeners for search
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = e.target.value;
+        searchClear.classList.toggle('visible', query.length > 0);
+        filterCards(query);
+      });
+
+      // Clear on Escape key
+      searchInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          clearSearch();
+          searchInput.blur();
+        }
+      });
+    }
+
+    if (searchClear) {
+      searchClear.addEventListener('click', clearSearch);
     }
   </script>
 </body>
