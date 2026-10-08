@@ -1067,9 +1067,11 @@
           <input type="text" class="form-group__input" id="changeCoachName" disabled>
         </div>
         <div class="form-group">
-          <label class="form-group__label" for="changeCoachEmail">Coach Email</label>
-          <input type="email" class="form-group__input" id="changeCoachEmail" placeholder="coach@elearningu.com" required>
-          <span class="form-group__hint">Enter the email of the coach to assign</span>
+          <label class="form-group__label" for="changeCoachEmail">Assigned Coach</label>
+          <select class="form-group__input" id="changeCoachEmail" required>
+            <option value="">Select a coach...</option>
+          </select>
+          <span class="form-group__hint">Select the coach to assign to this assessment</span>
         </div>
         <div class="form-group" id="changeCoachNotifyGroup" style="display: none;">
           <label class="form-group__checkbox-label" style="display: flex; align-items: center; gap: 10px; cursor: pointer;">
@@ -2116,7 +2118,31 @@
 
       // Populate the form
       document.getElementById('changeCoachName').value = businessName;
-      document.getElementById('changeCoachEmail').value = '';
+
+      // Load coaches into dropdown
+      const select = document.getElementById('changeCoachEmail');
+      select.innerHTML = '<option value="">Loading coaches...</option>';
+
+      try {
+        const { data: coaches } = await supabaseClient
+          .from('user_plans')
+          .select('email')
+          .in('role', ['coach', 'admin', 'psm'])
+          .eq('active', true);
+
+        const uniqueEmails = [...new Set((coaches || []).map(c => c.email))].sort();
+
+        select.innerHTML = '<option value="">Select a coach...</option>';
+        uniqueEmails.forEach(email => {
+          const option = document.createElement('option');
+          option.value = email;
+          option.textContent = email;
+          select.appendChild(option);
+        });
+      } catch (err) {
+        console.error('Failed to load coaches:', err);
+        select.innerHTML = '<option value="">Error loading coaches</option>';
+      }
 
       // Try to get existing coach assignment from user_plans
       const { data: existingPlan } = await supabaseClient
@@ -2128,7 +2154,7 @@
 
       changeCoachOriginalEmail = existingPlan?.coach_email || '';
       if (changeCoachOriginalEmail) {
-        document.getElementById('changeCoachEmail').value = changeCoachOriginalEmail;
+        select.value = changeCoachOriginalEmail;
       }
 
       // Hide notify checkbox initially
@@ -2139,15 +2165,14 @@
       document.getElementById('changeCoachModal').classList.add('modal-overlay--visible');
     }
 
-    // Show/hide notify checkbox when coach email changes
-    document.getElementById('changeCoachEmail').addEventListener('input', function() {
+    // Show/hide notify checkbox when coach selection changes
+    document.getElementById('changeCoachEmail').addEventListener('change', function() {
       const newEmail = this.value.trim().toLowerCase();
       const originalEmail = (changeCoachOriginalEmail || '').toLowerCase();
       const notifyGroup = document.getElementById('changeCoachNotifyGroup');
 
-      // Show checkbox if email is new/different and valid
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (newEmail && newEmail !== originalEmail && emailRegex.test(newEmail)) {
+      // Show checkbox if a different coach is selected
+      if (newEmail && newEmail !== originalEmail) {
         notifyGroup.style.display = 'block';
       } else {
         notifyGroup.style.display = 'none';
