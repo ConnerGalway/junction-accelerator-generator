@@ -88,16 +88,16 @@ These SQL policies need to be applied in the Supabase dashboard to enable proper
 
 ### user_plans Table Policies
 
-### 1. Allow admins to read all user_plans
+### 1. Allow admins and PSMs to read all user_plans
 
 ```sql
-CREATE POLICY "user_plans_admin_read_all" ON user_plans
+CREATE POLICY "user_plans_admin_psm_read_all" ON user_plans
 FOR SELECT TO authenticated
 USING (
   EXISTS (
     SELECT 1 FROM user_plans up
     WHERE up.email = auth.jwt() ->> 'email'
-      AND up.role = 'admin'
+      AND up.role IN ('admin', 'psm')
       AND up.client_slug = '*'
       AND up.active = true
   )
