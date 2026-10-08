@@ -921,8 +921,11 @@
         document.getElementById('clientName').value = assessment.business_name;
         document.getElementById('slug').value = assessment.client_slug;
 
-        // Pre-fill coach email from assessment creator (if available)
-        if (assessment.created_by) {
+        // Pre-fill coach email from assessment (if available)
+        if (assessment.coach_email) {
+          document.getElementById('coachEmail').value = assessment.coach_email;
+        } else if (assessment.created_by) {
+          // Fallback to created_by if coach_email not set
           document.getElementById('coachEmail').value = assessment.created_by;
         }
 
