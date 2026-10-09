@@ -73,6 +73,13 @@ export function BlockActions({ editor }: BlockActionsProps) {
   const handleDelete = useCallback(() => {
     if (!editor) return
 
+    // If inside a table, delete the entire table
+    if (editor.isActive('table')) {
+      editor.commands.deleteTable()
+      setIsVisible(false)
+      return
+    }
+
     const { from } = editor.state.selection
     const resolvedPos = editor.state.doc.resolve(from)
 

@@ -282,6 +282,11 @@ export function Editor({
           <Tooltip content="Delete Block - Remove this content block" position="top">
             <button
               onClick={() => {
+                // If inside a table, delete the entire table
+                if (editor.isActive('table')) {
+                  editor.commands.deleteTable()
+                  return
+                }
                 const { from } = editor.state.selection
                 const resolvedPos = editor.state.doc.resolve(from)
                 let depth = resolvedPos.depth
