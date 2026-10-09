@@ -4359,21 +4359,558 @@ button:focus-visible,
      ASSESSMENT PAGE
      ════════════════════════════════════════════ -->
 <section id="page-assessment" class="page">
-  <!-- ASSESSMENT CONTENT IS REBUILT PER CLIENT BY CLAUDE -->
-  <!-- This section contains: Hero with grades, Summary, Recommendations, Audit sections, Social analysis -->
-  <!-- See CLAUDE.md for full structure -->
   <div class="assessment-hero">
     <div class="assessment-hero-top">
       <div>
         <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-        <p class="assessment-hero-date">Assessment Date: September 24, 2026</p>
+        <p class="assessment-hero-date">Assessment Date: September 17, 2026</p>
       </div>
-      <div class="assessment-hero-badge">Complete</div>
+      <div class="assessment-hero-actions">
+        <button class="download-pdf-btn" onclick="downloadPDF()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </button>
+      </div>
     </div>
-    <!-- Grades and metrics are rebuilt per client -->
+
+    <div class="assessment-grade-card">
+      <div class="grade-circle" id="overallGrade">C-</div>
+      <div class="grade-details">
+        <h3>Overall Score: <span id="overallScore">69</span>/100</h3>
+        <p id="overallSummary">Karen's Cafe and Gifts has strong fundamentals with an excellent Google reputation (4.8 stars, 83 reviews) but is leaving bookings on the table due to weak conversion elements and inconsistent social media presence.</p>
+      </div>
+    </div>
   </div>
+
   <div class="content-area">
-    <!-- Summary, Recommendations, Audit sections, Social analysis rebuilt per client -->
+    <div class="grade-breakdown">
+      <h2>Score Breakdown by Category</h2>
+      <div class="grade-breakdown-grid">
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <span>Website & Technical</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">71</span>
+            <span class="grade-breakdown-letter grade-c">C</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            <span>Reviews & Reputation</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">80</span>
+            <span class="grade-breakdown-letter grade-b">B</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span>Online Booking & Conversion</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">55</span>
+            <span class="grade-breakdown-letter grade-f">F</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            <span>Social Media & Content</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">58</span>
+            <span class="grade-breakdown-letter grade-d">D-</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <span>Digital Guest Experience</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">66</span>
+            <span class="grade-breakdown-letter grade-d">D+</span>
+          </div>
+        </div>
+        <div class="grade-breakdown-item">
+          <div class="grade-breakdown-category">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Local Visibility</span>
+          </div>
+          <div class="grade-breakdown-score">
+            <span class="grade-breakdown-number">90</span>
+            <span class="grade-breakdown-letter grade-a">A-</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="executive-summary" id="executiveSummary">
+      <h2>Executive Summary</h2>
+      <p class="executive-headline">Karen's Cafe and Gifts has strong fundamentals with an excellent Google reputation (4.8 stars, 83 reviews) but is leaving bookings on the table due to weak conversion elements and inconsistent social media presence.</p>
+      <div class="executive-columns">
+        <div class="executive-column strengths">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            Key Strengths
+          </h4>
+          <ul>
+            <li>Exceptional Google rating of 4.8/5 stars with 83 reviews showing consistent customer satisfaction with the English tea room experience</li>
+            <li>Strong local SEO foundation with claimed Google Business Profile and good NAP consistency across platforms</li>
+            <li>High Instagram engagement rate of 3.58% (above tourism industry average of 1-3%) despite small follower base</li>
+          </ul>
+        </div>
+        <div class="executive-column gaps">
+          <h4>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+            Critical Gaps
+          </h4>
+          <ul>
+            <li>Phone number is present but not clickable and only in contact section - missing from header where 73% of visitors look first</li>
+            <li>No pricing transparency on website for afternoon tea or menu items - critical barrier for tourists planning budgets</li>
+            <li>Social media posting frequency critically low at 0.3 posts/week on Instagram - missing peak tourism season visibility</li>
+          </ul>
+        </div>
+      </div>
+      <div class="executive-bottom-line">
+        <strong>Bottom Line:</strong> Karen's Cafe is converting walk-in traffic well (evidenced by excellent reviews) but the digital presence is not capturing tourist planners researching Harrison Hot Springs visits. Addressing phone visibility, pricing transparency, and social consistency could increase advance reservations by 40-60%.
+      </div>
+    </div>
+
+    <div class="quick-wins" id="quickWins">
+      <h2>Quick Wins</h2>
+      <p class="quick-wins-intro">Immediate actions you can complete today:</p>
+      <div class="quick-wins-grid">
+        <div class="quick-win-item">
+          <div class="quick-win-number">1</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Make Phone Number Clickable</div>
+            <div class="quick-win-impact">Add a tel: link to your phone number and move it to the header. 73% of mobile visitors look for contact info in the header first, and clickable phone numbers convert 30% better on mobile.</div>
+          </div>
+          <span class="quick-win-time">15 minutes</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">2</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add Afternoon Tea Pricing to Homepage</div>
+            <div class="quick-win-impact">Tourists planning a Harrison trip need to know costs upfront. Missing pricing is a top reason visitors leave without booking, especially for special occasion dining.</div>
+          </div>
+          <span class="quick-win-time">20 minutes</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">3</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add Business Hours to Website</div>
+            <div class="quick-win-impact">Add your operating hours to the website header or footer. Visitors researching Harrison Hot Springs need to plan their day, and missing hours cause drop-offs.</div>
+          </div>
+          <span class="quick-win-time">20 minutes</span>
+        </div>
+        <div class="quick-win-item">
+          <div class="quick-win-number">4</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add Link to Instagram Bio</div>
+            <div class="quick-win-impact">Your Instagram bio is currently missing a website link. Every visitor who finds you on Instagram and cannot click through to your site is a lost potential booking.</div>
+          </div>
+          <span class="quick-win-time">10 minutes</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="priority-section">
+      <h2>Priority Recommendations</h2>
+      <p style="color:#666;font-size:14px;margin:-16px 0 24px 0;">Foundation projects for the first two weeks that set up everything else:</p>
+      <div class="priority-list" id="priorityList">
+        <div class="priority-item">
+          <div class="priority-item-number">1</div>
+          <div class="priority-item-content">
+            <h4>Fix website conversion basics</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Website Foundation</span>
+              <span class="priority-item-tag time">Week 1</span>
+              <span class="priority-item-tag impact-high">Critical</span>
+            </div>
+            <p class="priority-item-result">Add clickable phone to header, afternoon tea pricing, and business hours. These three missing elements are causing tourists to leave without booking. The 53/100 mobile speed also needs attention: a 6.5MB page size is too heavy for visitors on mobile data.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">2</div>
+          <div class="priority-item-content">
+            <h4>Establish social media posting rhythm</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Social Media</span>
+              <span class="priority-item-tag time">Week 1-2</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
+            </div>
+            <p class="priority-item-result">Increase from 0.3 posts/week to at least 3 posts/week. Your 3.58% engagement rate shows content resonates when posted. Consistent posting during peak tourism planning season will compound that engagement into visibility.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">3</div>
+          <div class="priority-item-content">
+            <h4>Complete listings audit and update</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Local Visibility</span>
+              <span class="priority-item-tag time">Week 2</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
+            </div>
+            <p class="priority-item-result">Your Google Business Profile is claimed and you rank #1 for branded searches. Now ensure all features (playroom, garden, private event room, crafting evenings) are visible across Google, TripAdvisor, and Yelp with consistent NAP information.</p>
+          </div>
+        </div>
+        <div class="priority-item">
+          <div class="priority-item-number">4</div>
+          <div class="priority-item-content">
+            <h4>Add H1 tag and fix technical SEO basics</h4>
+            <div class="priority-item-meta">
+              <span class="priority-item-tag">Technical SEO</span>
+              <span class="priority-item-tag time">Week 2</span>
+              <span class="priority-item-tag impact-high">High Impact</span>
+            </div>
+            <p class="priority-item-result">The homepage is missing an H1 tag, which hurts search visibility. Add a clear H1 with your primary keywords. Also address the 6.5MB page size by compressing images, which will improve mobile speed from 53/100.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DETAILED CATEGORY FINDINGS -->
+    <div class="categories-section">
+      <h2>Detailed Category Analysis</h2>
+      <div class="categories-grid">
+
+        <!-- Website & Technical -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Website & Technical</div>
+              <span class="category-grade grade-c">71 · C</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Site has SSL and mobile viewport configured, but mobile speed score of 53/100 and 6.5MB page size are hurting performance. Missing H1 tag impacts SEO.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">SSL Certificate</div>
+                <div class="metric-value"><span class="metric-status good"></span> Active</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Mobile Viewport</div>
+                <div class="metric-value"><span class="metric-status good"></span> Configured</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Mobile Speed</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 53/100</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Page Size</div>
+                <div class="metric-value"><span class="metric-status critical"></span> 6.5MB</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>SSL certificate active and mobile viewport properly configured</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Homepage missing H1 tag, hurting search engine visibility</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Mobile speed score of 53/100 below the 70+ threshold for good user experience</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Page size of 6.5MB is too heavy, likely due to uncompressed images</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews & Reputation -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon reviews">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Reviews & Reputation</div>
+              <span class="category-grade grade-b">80 · B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Excellent 4.8 star rating with 83 Google reviews and 97% positive sentiment demonstrates strong customer satisfaction with the English tea room experience.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Google Rating</div>
+                <div class="metric-value"><span class="metric-status good"></span> 4.8 stars</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Review Count</div>
+                <div class="metric-value"><span class="metric-status good"></span> 83 reviews</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Sentiment</div>
+                <div class="metric-value"><span class="metric-status good"></span> 97% positive</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Review Velocity</div>
+                <div class="metric-value"><span class="metric-status good"></span> Steady</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>4.8/5 star rating with 83 reviews shows exceptional guest satisfaction</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>97% positive sentiment across reviews indicates consistent quality</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Reviews frequently mention the warm, welcoming atmosphere and quality tea service</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>Continue encouraging reviews to build towards 100+ for stronger local pack visibility</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Online Booking & Conversion -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon booking">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Online Booking & Conversion</div>
+              <span class="category-grade grade-f">55 · F</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Booking capability exists but critical conversion elements are missing. Phone number is not clickable, pricing is hidden, and the primary CTA lacks prominence.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Booking System</div>
+                <div class="metric-value"><span class="metric-status good"></span> Available</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Phone Clickable</div>
+                <div class="metric-value"><span class="metric-status critical"></span> No</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Pricing Visible</div>
+                <div class="metric-value"><span class="metric-status critical"></span> No</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">CTA Prominence</div>
+                <div class="metric-value"><span class="metric-status warning"></span> Weak</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Phone number present but not clickable (tel: link) and buried in contact section only</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No pricing visible for afternoon tea or menu items, critical for tourists planning budgets</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Primary call-to-action lacks visual prominence and urgency</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>Phone in header is standard for cafes/restaurants: 73% of visitors look there first</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Social Media & Content -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon social">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Social Media & Content</div>
+              <span class="category-grade grade-d">58 · D-</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Good engagement when content is posted (3.58% rate above industry average) but critically low posting frequency of 0.3 posts/week is missing peak tourism season visibility.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Total Followers</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 532</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">IG Engagement</div>
+                <div class="metric-value"><span class="metric-status good"></span> 3.58%</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Post Frequency</div>
+                <div class="metric-value"><span class="metric-status critical"></span> 0.3x/week</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Bio Link</div>
+                <div class="metric-value"><span class="metric-status critical"></span> Missing</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>3.58% Instagram engagement rate is above tourism industry average of 1-3%</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Posting only 0.3 times per week (roughly once every 3 weeks)</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>532 total followers across platforms is below visibility threshold for local discovery</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Instagram bio missing website link, losing potential bookings from social traffic</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Digital Guest Experience -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon experience">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Digital Guest Experience</div>
+              <span class="category-grade grade-d">66 · D+</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Has directions and accessibility information, but missing operating hours and parking details that tourists need when planning a visit to Harrison Hot Springs.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Directions</div>
+                <div class="metric-value"><span class="metric-status good"></span> Available</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Accessibility</div>
+                <div class="metric-value"><span class="metric-status good"></span> Noted</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Operating Hours</div>
+                <div class="metric-value"><span class="metric-status critical"></span> Missing</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Parking Info</div>
+                <div class="metric-value"><span class="metric-status warning"></span> Limited</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Directions and location information available for visitors finding the cafe</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Accessibility information noted for guests with mobility needs</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Operating hours not visible on website, causing unnecessary inquiry friction</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Parking information limited, tourists in Harrison need to know where to park</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Local Visibility -->
+        <div class="category-card">
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon local">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Local Visibility</div>
+              <span class="category-grade grade-a">90 · A-</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+          </div>
+          <div class="category-body">
+            <p class="category-summary">Strong local SEO foundation with claimed Google Business Profile, consistent NAP across platforms, and #1 ranking for branded searches. Excellent base to build on.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">GBP Claimed</div>
+                <div class="metric-value"><span class="metric-status good"></span> Yes</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">NAP Consistency</div>
+                <div class="metric-value"><span class="metric-status good"></span> Good</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Branded Search</div>
+                <div class="metric-value"><span class="metric-status good"></span> #1</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Local Pack</div>
+                <div class="metric-value"><span class="metric-status good"></span> Visible</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Google Business Profile claimed and actively managed</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Consistent NAP (Name, Address, Phone) across major platforms</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Ranking #1 for branded searches ("Karen's Cafe Harrison")</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon info" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+                <span>Opportunity to improve visibility for category searches like "afternoon tea Harrison Hot Springs"</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </section>
 

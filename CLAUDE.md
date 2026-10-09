@@ -170,6 +170,14 @@ Determine which type to generate based on the command:
 
 ## Type A: Accelerator Page (Marketing)
 
+**Reference implementation:** `clients/red-cariboo-resort/index.html`
+
+When generating or updating accelerator dashboards, use Red Cariboo Resort as the canonical example of proper structure, especially for:
+- Assessment page layout (grade card, score breakdown grid, executive summary, quick wins, priority recommendations, category analysis cards)
+- Strategy page structure
+- Tactic page content organization
+- JavaScript array setup
+
 Command pattern:
 > "Generate an accelerator page for [Client Name] using clients/[client-slug]/plan.md
 > Coach email: [coach@email.com]
