@@ -3947,7 +3947,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="strategy-goal-quote">&ldquo;</div>
       <div class="strategy-goal-inner">
         <div class="strategy-goal-label">Your Experience</div>
-        <p class="strategy-goal-text">A half-day at the ranch where guests learn to read a horse, saddle up properly, and ride the same trails our family has worked for four generations.</p>
+        <p class="strategy-goal-text" data-editable-key="strategy-experience">A half-day at the ranch where guests learn to read a horse, saddle up properly, and ride the same trails our family has worked for four generations.</p>
       </div>
     </div>
 
@@ -3956,14 +3956,14 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="strategy-goal-quote">&ldquo;</div>
       <div class="strategy-goal-inner">
         <div class="strategy-goal-label">Your 90-Day Goal</div>
-        <p class="strategy-goal-text">In 90 days, Foothills Quarter Horses will launch a half-day horsemanship experience for up to six guests at $145 per person. The experience will run every Saturday morning from late May through September, with the first paying departure on May 24, 2025. By the end of June, the ranch will have welcomed at least 12 paying guests and established a repeatable booking and operations workflow.</p>
+        <p class="strategy-goal-text" data-editable-key="strategy-goal">In 90 days, Foothills Quarter Horses will launch a half-day horsemanship experience for up to six guests at $145 per person. The experience will run every Saturday morning from late May through September, with the first paying departure on May 24, 2025. By the end of June, the ranch will have welcomed at least 12 paying guests and established a repeatable booking and operations workflow.</p>
       </div>
     </div>
 
     <!-- STRATEGIC POSITIONING -->
     <div class="strategy-positioning">
       <div class="strategy-positioning-label">Strategic Positioning</div>
-      <p class="strategy-positioning-text">This experience is for visitors who want more than a trail ride. They want to understand horses, not just sit on one. Foothills Quarter Horses is the only working ranch in the Crowsnest Pass offering hands-on horsemanship instruction from a third-generation rancher. This is not for guests looking for a quick photo opportunity or a passive scenic tour. It is for people who want to leave knowing something they did not know before.</p>
+      <p class="strategy-positioning-text" data-editable-key="strategy-positioning">This experience is for visitors who want more than a trail ride. They want to understand horses, not just sit on one. Foothills Quarter Horses is the only working ranch in the Crowsnest Pass offering hands-on horsemanship instruction from a third-generation rancher. This is not for guests looking for a quick photo opportunity or a passive scenic tour. It is for people who want to leave knowing something they did not know before.</p>
     </div>
 
     <!-- OBJECTIVES -->
@@ -3973,24 +3973,24 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
         <div class="strategy-objective-card" style="--obj-color:#067cbc">
           <div class="strategy-objective-num">01</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">Design a repeatable experience</h3>
-            <p class="strategy-objective-desc">Define who this is for, what they will do, and why it matters to them.</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-1-title">Design a repeatable experience</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-1-desc">Define who this is for, what they will do, and why it matters to them.</p>
             <span class="strategy-objective-pill">Track 1 - Weeks 1-4</span>
           </div>
         </div>
         <div class="strategy-objective-card" style="--obj-color:#11154b">
           <div class="strategy-objective-num">02</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">Build the operational backbone</h3>
-            <p class="strategy-objective-desc">Set your price, draft safety documents, and create checklists so every departure runs smoothly.</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-2-title">Build the operational backbone</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-2-desc">Set your price, draft safety documents, and create checklists so every departure runs smoothly.</p>
             <span class="strategy-objective-pill">Track 2 - Weeks 5-8</span>
           </div>
         </div>
         <div class="strategy-objective-card" style="--obj-color:#7bc490">
           <div class="strategy-objective-num">03</div>
           <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title">Launch and get your first booking</h3>
-            <p class="strategy-objective-desc">Publish your listing, get photos live, and confirm your first paying guest.</p>
+            <h3 class="strategy-objective-title" data-editable-key="objective-3-title">Launch and get your first booking</h3>
+            <p class="strategy-objective-desc" data-editable-key="objective-3-desc">Publish your listing, get photos live, and confirm your first paying guest.</p>
             <span class="strategy-objective-pill">Track 3 - Weeks 9-12</span>
           </div>
         </div>
@@ -5845,6 +5845,7 @@ function howToLink(page, stepId) {
 <script src="/shared/auth.js"></script>
 <script src="/shared/analytics.js"></script>
 <script src="/shared/user-menu.js"></script>
+<script src="/shared/content-editor.js"></script>
 <script src="/shared/progress.js"></script>
 <script src="/shared/share-modal.js"></script>
 <script>
