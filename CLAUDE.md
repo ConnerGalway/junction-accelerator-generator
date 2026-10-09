@@ -170,23 +170,25 @@ Determine which type to generate based on the command:
 
 ## Type A: Accelerator Page (Marketing)
 
-**Reference implementation:** `clients/red-cariboo-resort/index.html`
+**Source template:** `clients/red-cariboo-resort/index.html`
 
-When generating or updating accelerator dashboards, use Red Cariboo Resort as the canonical example of proper structure, especially for:
+When generating new accelerator dashboards, copy Red Cariboo Resort as the starting point, then edit in place. Do NOT use `template/accelerator-dashboard-template.html` - it is outdated. Red Cariboo has the correct structure for:
 - Assessment page layout (grade card, score breakdown grid, executive summary, quick wins, priority recommendations, category analysis cards)
-- Strategy page structure
-- Tactic page content organization
-- JavaScript array setup
+- Strategy page structure (goal, positioning, objectives, tactics overview)
+- Tactic page content organization (overview tabs, implementation steps with IDs, success metrics, tips & resources)
+- Roadmap week structure (actions with "how to" buttons, checklist items with data-keys)
+- JavaScript arrays (ALL_CHECK_IDS, WEEK_CHECKS, MONTH_CHECKS, TACTIC_CHECKS)
+- GBP Quick Wins section
 
 Command pattern:
 > "Generate an accelerator page for [Client Name] using clients/[client-slug]/plan.md
 > Coach email: [coach@email.com]
 > Onboarding call date: [YYYY-MM-DD]"
 
-### Step 1: Read both files
-- Read `clients/[slug]/plan.md`
-- Read `template/accelerator-dashboard-template.html`
-- Read `brand/elearningu-brand.md`
+### Step 1: Copy template and read plan
+1. Copy Red Cariboo as starting point: `cp clients/red-cariboo-resort/index.html clients/[slug]/index.html`
+2. Read `clients/[slug]/plan.md`
+3. Read `brand/elearningu-brand.md`
 
 ### Step 2: Fill the simple placeholders
 Replace every `{{PLACEHOLDER}}` token with the corresponding value from the plan.
