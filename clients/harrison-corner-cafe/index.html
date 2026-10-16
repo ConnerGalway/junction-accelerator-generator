@@ -30,17 +30,17 @@ REQUIRED PLACEHOLDERS  {{UPPER_SNAKE_CASE}}:
     Foundation  Momentum  Rhythm
 
 OPTIONAL BLOCKS  (include only when applicable):
-  <!-- IF:GRANT_BUDGET -->    Include when client has a grant
+  [IF:GRANT_BUDGET]    Include when client has a grant
     {{GRANT_BUDGET}}           e.g. "$1,500"
-  <!-- /IF:GRANT_BUDGET -->
+  [/IF:GRANT_BUDGET]
 
-  <!-- IF:TARGET_MILESTONE -->  Include when there is a target event/milestone
+  [IF:TARGET_MILESTONE]  Include when there is a target event/milestone
     {{MILESTONE_TITLE}}          e.g. "September Toy Run Weekend"
     {{MILESTONE_DESC}}           1-2 sentence description
-  <!-- /IF:TARGET_MILESTONE -->
+  [/IF:TARGET_MILESTONE]
 
-  <!-- IF:GBP_QUICK_WINS -->   Include when client needs a GBP Quick Wins page
-  <!-- /IF:GBP_QUICK_WINS -->
+  [IF:GBP_QUICK_WINS]   Include when client needs a GBP Quick Wins page
+  [/IF:GBP_QUICK_WINS]
 
 SECTIONS REBUILT PER CLIENT BY CLAUDE (not template placeholders):
   • All tactic page content (overview, implementation steps, metrics, tips, resources)
