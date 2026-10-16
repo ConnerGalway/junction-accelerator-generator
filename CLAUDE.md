@@ -159,7 +159,7 @@ Determine which type to generate based on the command:
 
 | Command says | Plan format | Template | Output directory |
 |---|---|---|---|
-| "accelerator page" | `PLAN_FORMAT.md` | `template/accelerator-dashboard-template.html` | `clients/[slug]/` |
+| "accelerator page" | `PLAN_FORMAT.md` | `clients/red-cariboo-resort/index.html` | `clients/[slug]/` |
 | "experience dashboard" | `PLAN_FORMAT_EXPERIENCE.md` | `template/experience-template.html` | `clients/[slug]/` |
 
 ---
@@ -170,9 +170,9 @@ Determine which type to generate based on the command:
 
 ## Type A: Accelerator Page (Marketing)
 
-**Source template:** `template/accelerator-template.html`
+**Source template:** `clients/red-cariboo-resort/index.html`
 
-When generating new accelerator dashboards, copy the accelerator template as the starting point, then edit in place. The template has the correct structure for:
+When generating new accelerator dashboards, copy Red Cariboo Resort as the starting point, then edit in place. Do NOT use `template/accelerator-dashboard-template.html` - it is outdated. Red Cariboo has the correct structure for:
 - Assessment page layout (grade card, score breakdown grid, executive summary, quick wins, priority recommendations, category analysis cards)
 - Strategy page structure (goal, positioning, objectives, tactics overview)
 - Tactic page content organization (overview tabs, implementation steps with IDs, success metrics, tips & resources)
@@ -186,7 +186,7 @@ Command pattern:
 > Onboarding call date: [YYYY-MM-DD]"
 
 ### Step 1: Copy template and read plan
-1. Copy template as starting point: `cp template/accelerator-template.html clients/[slug]/index.html`
+1. Copy Red Cariboo as starting point: `cp clients/red-cariboo-resort/index.html clients/[slug]/index.html`
 2. Read `clients/[slug]/plan.md`
 3. Read `brand/elearningu-brand.md`
 
@@ -710,7 +710,8 @@ In addition to the general quality checklist, verify these for experience dashbo
 
 | File | Purpose |
 |---|---|
-| `template/accelerator-dashboard-template.html` | Accelerator template. Never edit directly for a client. |
+| `clients/red-cariboo-resort/index.html` | Source template for new accelerator dashboards. Copy this file as starting point. |
+| `template/accelerator-dashboard-template.html` | DEPRECATED. Do not use. Outdated accelerator template. |
 | `template/experience-template.html` | Experience template. Never edit directly for a client. |
 | `clients/[slug]/plan.md` | Client plan (input for both types) |
 | `clients/[slug]/index.html` | Generated accelerator page (output) |
