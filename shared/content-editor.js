@@ -11,6 +11,7 @@
 
   const API_BASE = '/.netlify/functions';
   const EDITABLE_SELECTOR = '[data-editable-key]';
+  const EDITABLE_LINK_SELECTOR = '[data-editable-link]';
 
   // ──────────────────────────────────────────────────────────────────────────
   // STATE
@@ -27,6 +28,12 @@
 
   // Store original values for elements (set on first edit)
   const originalValues = new Map();
+
+  // Store original link values: { text, href }
+  const originalLinkValues = new Map();
+
+  // Currently active link editor popover
+  let activeLinkPopover = null;
 
   // User role (set after auth resolves)
   let userRole = null;
@@ -149,8 +156,276 @@
       @media print {
         #content-edit-save-btn { display: none !important; }
       }
+
+      /* Editable link styles (only when edit mode is on) */
+      body:not([data-readonly="true"]) [data-editable-link] {
+        cursor: pointer;
+        transition: outline 0.15s ease, background-color 0.15s ease;
+        border-radius: 4px;
+        position: relative;
+      }
+      body:not([data-readonly="true"]) [data-editable-link]:hover {
+        outline: 2px dashed #9c27b0;
+        outline-offset: 2px;
+      }
+      body:not([data-readonly="true"]) [data-editable-link].editing {
+        outline: 2px solid #9c27b0;
+        outline-offset: 2px;
+        background-color: rgba(156, 39, 176, 0.05);
+      }
+      [data-editable-link].has-unsaved-changes {
+        background-color: rgba(255, 193, 7, 0.1) !important;
+      }
+
+      /* Link editor popover */
+      .link-editor-popover {
+        position: absolute;
+        z-index: 10001;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        padding: 16px;
+        min-width: 320px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      }
+      .link-editor-popover::before {
+        content: '';
+        position: absolute;
+        top: -8px;
+        left: 24px;
+        width: 16px;
+        height: 16px;
+        background: white;
+        transform: rotate(45deg);
+        box-shadow: -2px -2px 4px rgba(0,0,0,0.05);
+      }
+      .link-editor-field {
+        margin-bottom: 12px;
+      }
+      .link-editor-label {
+        display: block;
+        font-size: 12px;
+        font-weight: 600;
+        color: #666;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+      .link-editor-input {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+      }
+      .link-editor-input:focus {
+        outline: none;
+        border-color: #9c27b0;
+        box-shadow: 0 0 0 3px rgba(156, 39, 176, 0.1);
+      }
+      .link-editor-actions {
+        display: flex;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-top: 16px;
+      }
+      .link-editor-btn {
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.15s ease;
+      }
+      .link-editor-btn-cancel {
+        background: #f5f5f5;
+        border: 1px solid #ddd;
+        color: #666;
+      }
+      .link-editor-btn-cancel:hover {
+        background: #eee;
+      }
+      .link-editor-btn-save {
+        background: #9c27b0;
+        border: none;
+        color: white;
+      }
+      .link-editor-btn-save:hover {
+        background: #7b1fa2;
+      }
+      @media print {
+        .link-editor-popover { display: none !important; }
+      }
     `;
     document.head.appendChild(style);
+  }
+
+  // ──────────────────────────────────────────────────────────────────────────
+  // LINK EDITOR
+  // ──────────────────────────────────────────────────────────────────────────
+
+  function closeLinkPopover() {
+    if (activeLinkPopover) {
+      const linkEl = activeLinkPopover._targetLink;
+      if (linkEl) linkEl.classList.remove('editing');
+      activeLinkPopover.remove();
+      activeLinkPopover = null;
+    }
+  }
+
+  function showLinkEditor(linkEl) {
+    // Close any existing popover
+    closeLinkPopover();
+
+    const key = linkEl.getAttribute('data-editable-link');
+    const currentText = linkEl.textContent;
+    const currentHref = linkEl.getAttribute('href') || '';
+
+    // Store original if not already stored
+    if (!originalLinkValues.has(key)) {
+      originalLinkValues.set(key, { text: currentText, href: currentHref });
+    }
+
+    linkEl.classList.add('editing');
+
+    // Create popover
+    const popover = document.createElement('div');
+    popover.className = 'link-editor-popover';
+    popover._targetLink = linkEl;
+
+    popover.innerHTML = `
+      <div class="link-editor-field">
+        <label class="link-editor-label">Link Text</label>
+        <input type="text" class="link-editor-input" id="link-text-input" value="${currentText.replace(/"/g, '&quot;')}">
+      </div>
+      <div class="link-editor-field">
+        <label class="link-editor-label">URL</label>
+        <input type="url" class="link-editor-input" id="link-href-input" value="${currentHref.replace(/"/g, '&quot;')}" placeholder="https://...">
+      </div>
+      <div class="link-editor-actions">
+        <button class="link-editor-btn link-editor-btn-cancel" type="button">Cancel</button>
+        <button class="link-editor-btn link-editor-btn-save" type="button">Apply</button>
+      </div>
+    `;
+
+    // Position popover below the link
+    const rect = linkEl.getBoundingClientRect();
+    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+
+    popover.style.position = 'absolute';
+    popover.style.top = (rect.bottom + scrollTop + 12) + 'px';
+    popover.style.left = (rect.left + scrollLeft) + 'px';
+
+    document.body.appendChild(popover);
+    activeLinkPopover = popover;
+
+    // Focus text input
+    const textInput = popover.querySelector('#link-text-input');
+    textInput.focus();
+    textInput.select();
+
+    // Handle cancel
+    popover.querySelector('.link-editor-btn-cancel').onclick = () => {
+      closeLinkPopover();
+    };
+
+    // Handle save/apply
+    popover.querySelector('.link-editor-btn-save').onclick = () => {
+      const newText = popover.querySelector('#link-text-input').value;
+      const newHref = popover.querySelector('#link-href-input').value;
+      applyLinkEdit(linkEl, key, newText, newHref);
+      closeLinkPopover();
+    };
+
+    // Handle Enter key to save
+    popover.querySelectorAll('.link-editor-input').forEach(input => {
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          const newText = popover.querySelector('#link-text-input').value;
+          const newHref = popover.querySelector('#link-href-input').value;
+          applyLinkEdit(linkEl, key, newText, newHref);
+          closeLinkPopover();
+        } else if (e.key === 'Escape') {
+          closeLinkPopover();
+        }
+      });
+    });
+
+    // Close on click outside
+    setTimeout(() => {
+      document.addEventListener('click', handleOutsideClick);
+    }, 0);
+  }
+
+  function handleOutsideClick(e) {
+    if (activeLinkPopover && !activeLinkPopover.contains(e.target) && !e.target.closest('[data-editable-link]')) {
+      closeLinkPopover();
+      document.removeEventListener('click', handleOutsideClick);
+    }
+  }
+
+  function applyLinkEdit(linkEl, key, newText, newHref) {
+    const original = originalLinkValues.get(key) || { text: linkEl.textContent, href: linkEl.getAttribute('href') || '' };
+
+    // Update the link element
+    linkEl.textContent = newText;
+    linkEl.setAttribute('href', newHref);
+
+    // Check if changed from original
+    if (newText !== original.text || newHref !== original.href) {
+      // Store as JSON in pending changes with special prefix
+      const editValue = JSON.stringify({ text: newText, href: newHref });
+      const originalValue = JSON.stringify(original);
+
+      pendingChanges.set('link:' + key, {
+        editedValue: editValue,
+        originalValue: originalValue
+      });
+      linkEl.classList.add('has-unsaved-changes');
+    } else {
+      // Reverted to original
+      pendingChanges.delete('link:' + key);
+      linkEl.classList.remove('has-unsaved-changes');
+    }
+
+    updateSaveButtonVisibility();
+  }
+
+  function setLinkEditableState(enabled) {
+    const links = document.querySelectorAll(EDITABLE_LINK_SELECTOR);
+
+    links.forEach(link => {
+      if (enabled && canEdit) {
+        // Store original value on first encounter
+        const key = link.getAttribute('data-editable-link');
+        if (!originalLinkValues.has(key)) {
+          originalLinkValues.set(key, {
+            text: link.textContent,
+            href: link.getAttribute('href') || ''
+          });
+        }
+
+        // Add click handler to show editor (prevent default navigation)
+        if (!link._linkEditorHandler) {
+          link._linkEditorHandler = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            showLinkEditor(link);
+          };
+          link.addEventListener('click', link._linkEditorHandler);
+        }
+      } else {
+        // Remove click handler
+        if (link._linkEditorHandler) {
+          link.removeEventListener('click', link._linkEditorHandler);
+          delete link._linkEditorHandler;
+        }
+        link.classList.remove('editing');
+      }
+    });
   }
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -182,16 +457,39 @@
       const edits = data.edits || [];
 
       // Apply each edit to the DOM
+      let textEdits = 0;
+      let linkEdits = 0;
+
       edits.forEach(edit => {
-        const element = document.querySelector(`[data-editable-key="${edit.content_key}"]`);
-        if (element) {
-          element.textContent = edit.edited_value;
-          // Store this as the "current" value so we don't mark it as changed
-          originalValues.set(edit.content_key, edit.edited_value);
+        // Check if this is a link edit (prefixed with "link:")
+        if (edit.content_key.startsWith('link:')) {
+          const linkKey = edit.content_key.substring(5); // Remove "link:" prefix
+          const linkEl = document.querySelector(`[data-editable-link="${linkKey}"]`);
+          if (linkEl) {
+            try {
+              const linkData = JSON.parse(edit.edited_value);
+              linkEl.textContent = linkData.text;
+              linkEl.setAttribute('href', linkData.href);
+              // Store this as the "current" value
+              originalLinkValues.set(linkKey, linkData);
+              linkEdits++;
+            } catch (e) {
+              console.warn('content-editor: Failed to parse link edit', edit.content_key, e);
+            }
+          }
+        } else {
+          // Regular text edit
+          const element = document.querySelector(`[data-editable-key="${edit.content_key}"]`);
+          if (element) {
+            element.textContent = edit.edited_value;
+            // Store this as the "current" value so we don't mark it as changed
+            originalValues.set(edit.content_key, edit.edited_value);
+            textEdits++;
+          }
         }
       });
 
-      console.log(`content-editor: Applied ${edits.length} saved edits`);
+      console.log(`content-editor: Applied ${textEdits} text edits, ${linkEdits} link edits`);
     } catch (err) {
       console.error('content-editor: Error loading edits', err);
     }
@@ -311,9 +609,20 @@
 
         // Update original values to reflect saved state
         pendingChanges.forEach((value, key) => {
-          originalValues.set(key, value.editedValue);
-          const el = document.querySelector(`[data-editable-key="${key}"]`);
-          if (el) el.classList.remove('has-unsaved-changes');
+          if (key.startsWith('link:')) {
+            // Link edit - update originalLinkValues
+            const linkKey = key.substring(5);
+            try {
+              originalLinkValues.set(linkKey, JSON.parse(value.editedValue));
+            } catch (e) { /* ignore parse errors */ }
+            const linkEl = document.querySelector(`[data-editable-link="${linkKey}"]`);
+            if (linkEl) linkEl.classList.remove('has-unsaved-changes');
+          } else {
+            // Text edit
+            originalValues.set(key, value.editedValue);
+            const el = document.querySelector(`[data-editable-key="${key}"]`);
+            if (el) el.classList.remove('has-unsaved-changes');
+          }
         });
         pendingChanges.clear();
         updateSaveButtonVisibility();
@@ -354,6 +663,7 @@
     const isReadonly = document.body.getAttribute('data-readonly') === 'true';
     if (!isReadonly && canEdit) {
       setEditableState(true);
+      setLinkEditableState(true);
     }
   }
 
@@ -361,6 +671,9 @@
   window.addEventListener('readonlyModeChanged', (e) => {
     const readonly = e.detail.readonly;
     setEditableState(!readonly);
+    setLinkEditableState(!readonly);
+    // Close any open link popover when switching modes
+    if (readonly) closeLinkPopover();
   });
 
   // Warn before leaving with unsaved changes
@@ -382,6 +695,7 @@
     const isReadonly = document.body.getAttribute('data-readonly') === 'true';
     if (!isReadonly && canEdit) {
       setEditableState(true);
+      setLinkEditableState(true);
     }
   });
 
