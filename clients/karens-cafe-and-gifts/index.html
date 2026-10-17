@@ -5104,6 +5104,95 @@ body:not(.has-plan) .plan-content{display:none}
   .tactic-step-text-col,.tactic-step-media-col{flex:1 1 100%}
 }
 
+/* Responsive 16:9 YouTube embed */
+.tactic-video{
+  position:relative;
+  margin-top:16px;
+  max-width:640px;
+  aspect-ratio:16/9;
+  border-radius:12px;
+  overflow:hidden;
+  border:1px solid #d8cdb8;
+  box-shadow:0 4px 14px rgba(30,25,15,.1);
+  background:var(--navy-900);
+}
+.tactic-video iframe{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  border:0;
+  display:block;
+}
+
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
+}
+
+/* Two mockups side by side, stacked on mobile */
+.tactic-mockup-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.tactic-mockup-pair > *{min-width:0}
+.tactic-mockup-pair .tactic-mockup{margin-top:0}
+@media(max-width:768px){
+  .tactic-mockup-pair{grid-template-columns:1fr}
+}
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
+}
+
 /* Mobile adjustments for tactic pages */
 @media(max-width:768px){
   .tactic-page-content{
@@ -6448,6 +6537,20 @@ button,
                       <li data-editable-key="t1-bullet-3">If access already exists, confirm you are signed in as the primary owner, not just a manager. The primary owner account controls everything. Do not lose access to it.</li>
                       <li data-editable-key="t1-bullet-4">If a duplicate listing exists, do not create a new one. Use "Suggest an edit" to flag it for removal, or contact Google Business support.</li>
                     </ul>
+                    <a href="https://business.google.com/ca-en/business-profile/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Google Business Profile site (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.google.com</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/karens-cafe-mockups/gbp-business-profile.png" alt="Google Business Profile home page with the headline 'Stand out on Google with a free Business Profile', a 'Create your profile' button and a map search for 'Cafe near me'" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://business.google.com" data-editable-link="t1-link-1" class="tactic-step-resource" target="_blank">Go to Google Business Profile Manager</a>
                   </div>
                 </li>
@@ -6463,6 +6566,9 @@ button,
                       <li data-editable-key="t1-bullet-9">Business description (750 characters): write a new description that names every major offering. Suggested: "Karen's Cafe &amp; Gifts is Harrison Hot Springs' destination for high tea, breakfast, and lunch. Beyond the menu, the cafe offers a children's playroom, a private event and meeting room, hands-on crafting events including candle making, floral arranging, and felting, and a garden for weddings and gatherings of up to 100 guests. A cozy, unhurried space where visitors and locals stay longer than they planned."</li>
                       <li data-editable-key="t1-bullet-10">Business category: primary category should be "Cafe." Add secondary categories: "Tea house," "Event venue," "Gift shop."</li>
                     </ul>
+                    <div class="tactic-video">
+                      <iframe src="https://www.youtube-nocookie.com/embed/zyfqSKierWU" title="How to edit your Business Profile on Google" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-3">
@@ -6486,6 +6592,9 @@ button,
                       <li data-editable-key="t1-bullet-16">Upload photos from the business Google account, not as a customer. Owner-uploaded photos appear higher in the photo section.</li>
                       <li data-editable-key="t1-bullet-17">Remove any outdated or low-quality photos uploaded by previous account holders or through Google's automatic suggestions.</li>
                     </ul>
+                    <div class="tactic-video">
+                      <iframe src="https://www.youtube-nocookie.com/embed/p6nsUqNbKvs" title="How to manage photos or videos for your Google Business Profile" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
@@ -6499,6 +6608,9 @@ button,
                       <li data-editable-key="t1-bullet-21">Negative or mixed template: "Thank you for sharing this with us. We are sorry [specific thing] was not what you were hoping for. We always want guests to leave feeling good about the time they spent here. Please reach out to us directly and we would like to make it right."</li>
                       <li data-editable-key="t1-bullet-22">Respond to every review posted in the last six months that has not yet received a response. After that, aim to respond within five business days of any new review appearing.</li>
                     </ul>
+                    <div class="tactic-video">
+                      <iframe src="https://www.youtube-nocookie.com/embed/CQgw88sZdWU" title="How to read &amp; reply to reviews on Google" loading="lazy" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6525,6 +6637,36 @@ button,
                       <li data-editable-key="t1-bullet-25">Go to biz.yelp.com and repeat the same process. Yelp is particularly relevant for the US visitor segment Harrison attracts. American visitors often check Yelp before Google.</li>
                       <li data-editable-key="t1-bullet-26">After updating both platforms, do a side-by-side check: business name, phone number, and address should be character-for-character identical across Google, TripAdvisor, Yelp, and the website contact page. Any inconsistency suppresses local search ranking.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <a href="https://www.tripadvisor.com/Owners" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Tripadvisor for Business (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">tripadvisor.com/Owners</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/karens-cafe-mockups/tripadvisor-claim.png" alt="Tripadvisor for Business 'Claim your listing' page with a business name search box and cards for taking control of your listing, responding to reviews and tracking performance" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                      <a href="https://business.yelp.com/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Yelp for Business (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">business.yelp.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/karens-cafe-mockups/yelp-claim.png" alt="Yelp for Business page reading 'It's free to be on Yelp' with a search box to find and claim your business listing" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                     <a href="https://www.tripadvisor.com/Owners" data-editable-link="t1-link-2" class="tactic-step-resource" target="_blank">TripAdvisor for Owners</a>
                     <a href="https://biz.yelp.ca" data-editable-link="t1-link-3" class="tactic-step-resource" target="_blank">Yelp for Business</a>
                   </div>
@@ -6538,6 +6680,21 @@ button,
                       <li data-editable-key="t1-bullet-28">For any directory where information is incorrect or outdated, click through and update it or flag it for correction.</li>
                       <li data-editable-key="t1-bullet-29">The Harrison Tourism website is worth checking specifically: confirm Karen's Cafe appears in the local dining or attractions listings and that the link points to the current website URL.</li>
                     </ul>
+                    <a href="https://www.harrisonhotsprings.ca/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Harrison Hot Springs website (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonhotsprings.ca</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Example</span>
+                          <img src="/assets/karens-cafe-mockups/harrison-hot-springs-example.png" alt="Harrison Hot Springs village website home page with the 'Naturally Refreshed' logo, a lake and mountain banner, and a Popular Resources menu" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://www.harrisonhotsprings.ca" data-editable-link="t1-link-4" class="tactic-step-resource" target="_blank">Harrison Hot Springs Tourism</a>
                   </div>
                 </li>
@@ -6771,6 +6928,17 @@ button,
                       <li data-editable-key="t2-bullet-5">Grant edit access to whoever will be posting (the staff member or the young local artisan).</li>
                       <li data-editable-key="t2-bullet-6">All content capture from this point goes into the Drive folder, not to personal phone camera rolls.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">drive.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/karens-cafe-mockups/tactic2-media/content-library-drive.png" alt="Example Google Drive setup: Karen's Social Content folder with five pillar subfolders and a Ready to Post folder, shared with the social media helper" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-3">
@@ -6822,6 +6990,20 @@ button,
                       <li data-editable-key="t2-bullet-18">Log in to the existing Facebook page. Confirm the page is claimed, active, and linked to the Instagram account via Meta Business Suite.</li>
                       <li data-editable-key="t2-bullet-19">Update bio on both platforms to mention: high tea, the playroom, crafting events, the garden for weddings, and Harrison Hot Springs as the location.</li>
                     </ul>
+                    <a href="https://business.facebook.com" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Meta Business Suite (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.facebook.com</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/karens-cafe-mockups/tactic2-media/meta-business-suite.png" alt="Meta business tools login page reading 'Get started with business tools from Meta', with options to continue with Facebook or Instagram" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://business.facebook.com" data-editable-link="t2-link-1" class="tactic-step-resource" target="_blank">Meta Business Suite</a>
                   </div>
                 </li>
@@ -6835,6 +7017,20 @@ button,
                       <li data-editable-key="t2-bullet-22">Use the same handle as Instagram if it is available, or a close variant.</li>
                       <li data-editable-key="t2-bullet-23">The account does not need to be active immediately, but it needs to exist so that content can begin flowing to it in Month 2.</li>
                     </ul>
+                    <a href="https://www.tiktok.com/business" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open TikTok for Business (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">tiktok.com/business</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/karens-cafe-mockups/tactic2-media/tiktok-for-business.png" alt="TikTok for Business home page with a 'Get started' button and a hero banner reading 'Watch it.'" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://www.tiktok.com/business" data-editable-link="t2-link-2" class="tactic-step-resource" target="_blank">TikTok for Business</a>
                   </div>
                 </li>
@@ -6848,6 +7044,20 @@ button,
                       <li data-editable-key="t2-bullet-26">Use Meta Business Suite to schedule the Instagram and Facebook posts up to a week in advance. This decouples posting from the day it needs to appear.</li>
                       <li data-editable-key="t2-bullet-27">Every post should be tagged by pillar in the caption (e.g. "#KarensPlayroom", "#KarensCrafting") to help track which pillars are getting attention over time.</li>
                     </ul>
+                    <a href="https://www.facebook.com/business/help/1252240869631062" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Meta help article on scheduling posts (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">facebook.com/business/help</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/karens-cafe-mockups/tactic2-media/meta-scheduling-help.png" alt="Meta Business Help Centre article titled 'Schedule a post and manage scheduled posts for your Facebook Page'" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://www.facebook.com/business/help/1252240869631062" data-editable-link="t2-link-3" class="tactic-step-resource" target="_blank">Scheduling posts in Meta Business Suite</a>
                   </div>
                 </li>
@@ -7074,6 +7284,20 @@ button,
                       <li data-editable-key="t3-bullet-4">If the original contractor set up hosting under their own account, this becomes more complicated. Start by emailing them directly asking for a handover of credentials. If they do not respond, the hosting provider may still assist with proof that Karen is the business owner.</li>
                       <li data-editable-key="t3-bullet-5">Do not proceed with website content changes until admin access is confirmed. There is no point writing content if it cannot be published.</li>
                     </ul>
+                    <a href="https://www.whois.com" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the WHOIS domain lookup (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">whois.com</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/karens-cafe-mockups/tactic3-media/whois-lookup.png" alt="Whois.com home page with a domain name search box and a &quot;Find my domain&quot; button, used to look up who registered a website domain" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                     <a href="https://www.whois.com" data-editable-link="t3-link-1" class="tactic-step-resource" target="_blank">WHOIS Domain Lookup</a>
                   </div>
                 </li>
@@ -7151,6 +7375,18 @@ button,
                       <li data-editable-key="t3-bullet-20">Add at least 2 photos from the content capture day in Tactic 2.</li>
                       <li data-editable-key="t3-bullet-21">Title the page "Children's Playroom" and include "Harrison Hot Springs" in the page title or first paragraph so it can be found in location-based searches.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">karenscafeandgifts.ca/playroom</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/karens-cafe-mockups/tactic3-media/playroom-page-mockup.png" alt="Mockup of a Children's Playroom page in Karen's Café branding, with photo spaces for the playroom and parents at tea, a Good to Know section on ages and supervision, and a Book a Reservation button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-6">
@@ -7163,6 +7399,18 @@ button,
                       <li data-editable-key="t3-bullet-24">If there is a recurring schedule, include it. If events are announced ad hoc, say "Follow us on Instagram for upcoming dates."</li>
                       <li data-editable-key="t3-bullet-25">Title the page "Crafting Events at Karen's Cafe" or similar, and include Harrison Hot Springs in the first paragraph.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">karenscafeandgifts.ca/crafting-events</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/karens-cafe-mockups/tactic3-media/crafting-events-page-mockup.png" alt="Mockup of a Crafting Events page in Karen's Café branding, with cards for candle making, floral arranging and felting, and an Upcoming Dates list with Reserve a Spot buttons" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-7">
@@ -7175,6 +7423,18 @@ button,
                       <li data-editable-key="t3-bullet-28">If pricing is standardised, include a starting price or a "from $X for a two-hour booking" reference. If pricing varies, say "Contact us for a quote."</li>
                       <li data-editable-key="t3-bullet-29">Title the page "Private Events and Meeting Space" with Harrison Hot Springs in the content.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">karenscafeandgifts.ca/private-events</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/karens-cafe-mockups/tactic3-media/private-events-page-mockup.jpg" alt="Mockup of a Private Events and Meeting Space page in Karen's Café branding, with a room photo, event types such as meetings, birthday parties and showers, and a Contact Us for a Quote button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-8">
@@ -7187,6 +7447,18 @@ button,
                       <li data-editable-key="t3-bullet-32">This page will compete for "Harrison Hot Springs wedding venue" searches. Use that phrase naturally in the content.</li>
                       <li data-editable-key="t3-bullet-33">Include a clear call to action: "Contact us to schedule a site visit" or "Email us to discuss your date."</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">karenscafeandgifts.ca/garden-weddings</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/karens-cafe-mockups/tactic3-media/garden-weddings-page-mockup.jpg" alt="Mockup of a Garden Weddings page in Karen's Café branding, with a garden hero photo, a Book a Site Visit button, a 100 guests capacity callout and an Email Us to Discuss Your Date button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-9">
@@ -7199,6 +7471,18 @@ button,
                       <li data-editable-key="t3-bullet-36">Group them logically. One approach: a "Things to Do" dropdown containing Playroom, Crafting Events, and Private Events, and a separate "Garden Weddings" link for that audience.</li>
                       <li data-editable-key="t3-bullet-37">Pages that are not in the navigation are effectively invisible to most visitors. Do not skip this step.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">karenscafeandgifts.ca</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/karens-cafe-mockups/tactic3-media/navigation-menu-mockup.jpg" alt="Mockup of Karen's Café website navigation with new Things To Do, Garden Weddings and FAQ menu items, and a Things To Do dropdown listing Children's Playroom, Crafting Events and Private Events" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
