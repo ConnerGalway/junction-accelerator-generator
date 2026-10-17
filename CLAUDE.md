@@ -170,15 +170,17 @@ Determine which type to generate based on the command:
 
 ## Type A: Accelerator Page (Marketing)
 
-**Source template:** `clients/red-cariboo-resort/index.html`
+**Source template:** `template/accelerator-template.html`
 
-When generating new accelerator dashboards, copy Red Cariboo Resort as the starting point, then edit in place. Do NOT use `template/accelerator-dashboard-template.html` - it is outdated. Red Cariboo has the correct structure for:
-- Assessment page layout (grade card, score breakdown grid, executive summary, quick wins, priority recommendations, category analysis cards)
-- Strategy page structure (goal, positioning, objectives, tactics overview)
-- Tactic page content organization (overview tabs, implementation steps with IDs, success metrics, tips & resources)
-- Roadmap week structure (actions with "how to" buttons, checklist items with data-keys)
-- JavaScript arrays (ALL_CHECK_IDS, WEEK_CHECKS, MONTH_CHECKS, TACTIC_CHECKS)
-- GBP Quick Wins section
+> **DEPRECATED:** Do NOT use `clients/red-cariboo-resort/index.html` or `template/accelerator-dashboard-template.html`. These are outdated. Always use `template/accelerator-template.html` as the source template.
+
+The template contains:
+- All structural HTML with `{{PLACEHOLDER}}` tokens for client-specific content
+- `<!-- IF:CONDITION -->` markers for optional sections (TACTIC_4, QUICK_WINS, PROJECTIONS)
+- `<!-- IMG:IDENTIFIER: description -->` comments for image placeholders
+- `data-editable-key` attributes on body text for inline editing
+- `data-editable-link` attributes on links for link editing
+- JavaScript array placeholders (`/* {{ALL_CHECK_IDS}} */`, etc.)
 
 Command pattern:
 > "Generate an accelerator page for [Client Name] using clients/[client-slug]/plan.md
@@ -186,7 +188,7 @@ Command pattern:
 > Onboarding call date: [YYYY-MM-DD]"
 
 ### Step 1: Copy template and read plan
-1. Copy Red Cariboo as starting point: `cp clients/red-cariboo-resort/index.html clients/[slug]/index.html`
+1. Copy the template: `cp template/accelerator-template.html clients/[slug]/index.html`
 2. Read `clients/[slug]/plan.md`
 3. Read `brand/elearningu-brand.md`
 
@@ -224,9 +226,21 @@ See the full list in the template header comment.
 | `{{REPORT_RECOMMENDATIONS}}` | HTML for 4 priority recommendations (see template structure) |
 
 ### Step 3: Handle optional blocks
-- `<!-- IF:GRANT_BUDGET -->`: include only if plan has a grant budget. Remove the IF markers if keeping, remove the whole block if not.
-- `<!-- IF:TARGET_MILESTONE -->`: include only if plan has a specific target event/milestone.
-- `<!-- IF:GBP_QUICK_WINS -->`: include only if plan has a GBP Quick Wins section. Also show/hide the GBP nav item accordingly.
+
+The template uses `<!-- IF:CONDITION -->` and `<!-- ENDIF:CONDITION -->` markers for optional sections. Process each condition:
+
+| Condition | Include if... | Action |
+|---|---|---|
+| `IF:TACTIC_4` | Plan has 4 tactics | Keep content, remove markers |
+| `IF:QUICK_WINS` | Plan has Quick Wins section | Keep content, remove markers |
+| `IF:PROJECTIONS` | Plan has projections/forecasts | Keep content, remove markers |
+| `IF:GRANT_BUDGET` | Plan has a grant budget | Keep content, remove markers |
+| `IF:TARGET_MILESTONE` | Plan has target milestone | Keep content, remove markers |
+
+**Processing rules:**
+1. If condition is TRUE: Remove the `<!-- IF:... -->` and `<!-- ENDIF:... -->` markers, keep the content between them
+2. If condition is FALSE: Remove the entire block including markers and all content between them
+3. Update sidebar navigation to show/hide corresponding nav items
 
 ### Step 3.5: Build the Assessment page
 
@@ -710,12 +724,16 @@ In addition to the general quality checklist, verify these for experience dashbo
 
 | File | Purpose |
 |---|---|
-| `clients/red-cariboo-resort/index.html` | Source template for new accelerator dashboards. Copy this file as starting point. |
-| `template/accelerator-dashboard-template.html` | DEPRECATED. Do not use. Outdated accelerator template. |
+| `template/accelerator-template.html` | **Primary accelerator template.** Copy this file as starting point for all new accelerator dashboards. |
 | `template/experience-template.html` | Experience template. Never edit directly for a client. |
 | `clients/[slug]/plan.md` | Client plan (input for both types) |
-| `clients/[slug]/index.html` | Generated accelerator page (output) |
-| `clients/[slug]/index.html` | Generated experience dashboard (output) |
+| `clients/[slug]/index.html` | Generated dashboard (output) |
 | `brand/elearningu-brand.md` | Brand colours, fonts, logo rules |
 | `PLAN_FORMAT.md` | Standard format for accelerator plans |
 | `PLAN_FORMAT_EXPERIENCE.md` | Standard format for experience design plans |
+
+**DEPRECATED templates (do NOT use):**
+| File | Status |
+|---|---|
+| `clients/red-cariboo-resort/index.html` | DEPRECATED. Do not use as a template. Use `template/accelerator-template.html` instead. |
+| `template/accelerator-dashboard-template.html` | DEPRECATED. Outdated and unmaintained. |
