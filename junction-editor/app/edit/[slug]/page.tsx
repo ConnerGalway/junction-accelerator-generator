@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { DashboardFrame, EditorToolbar, ElementInspector, AssetSidebar, EmbedPanel, type UseWYSIWYGBridgeReturn } from '@/components/wysiwyg'
+import { DashboardFrame, EditorToolbar, AssetSidebar, EmbedPanel, type UseWYSIWYGBridgeReturn } from '@/components/wysiwyg'
 import { supabase, getUserRole, canEdit, type UserPlan, type Asset } from '@/lib/supabase'
 import { toast } from 'sonner'
 import { useEditLock, getAssetUrl } from '@/hooks'
@@ -28,7 +28,6 @@ export default function EditorPage() {
   const [userRole, setUserRole] = useState<UserPlan | null>(null)
   const [bridge, setBridge] = useState<UseWYSIWYGBridgeReturn | null>(null)
   const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
-  const [showInspector, setShowInspector] = useState(true)
   const [showAssets, setShowAssets] = useState(false)
   const [showEmbedPanel, setShowEmbedPanel] = useState(false)
 
@@ -263,12 +262,6 @@ export default function EditorPage() {
         handleSave()
       }
 
-      // Cmd/Ctrl+Shift+I to toggle inspector
-      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'i') {
-        e.preventDefault()
-        setShowInspector(prev => !prev)
-      }
-
       // Cmd/Ctrl+Shift+A to toggle assets
       if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'a') {
         e.preventDefault()
@@ -415,21 +408,6 @@ export default function EditorPage() {
               Assets
             </button>
 
-            {/* Toggle inspector */}
-            <button
-              onClick={() => setShowInspector(prev => !prev)}
-              className={`
-                flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors
-                ${showInspector ? 'bg-mint/20 text-mint' : 'bg-white/10 hover:bg-white/20'}
-              `}
-              title="Toggle Inspector (Cmd+Shift+I)"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-              </svg>
-              Inspector
-            </button>
-
             {/* User role badge */}
             {userRole && (
               <span className="text-sm text-mint/70">{userRole.role}</span>
@@ -497,15 +475,6 @@ export default function EditorPage() {
           </ErrorBoundary>
         </div>
 
-        {/* Inspector sidebar */}
-        {showInspector && (
-          <div className="w-80 flex-shrink-0">
-            <ElementInspector
-              bridge={bridge}
-              onContentChange={handleContentChange}
-            />
-          </div>
-        )}
       </div>
     </div>
   )
