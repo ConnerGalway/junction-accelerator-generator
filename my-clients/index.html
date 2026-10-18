@@ -1721,6 +1721,9 @@
       const gallery = document.getElementById('projectGallery');
       const countEl = document.getElementById('projectCount');
 
+      // Sandbox slugs - these appear in the Sandboxes section, not Accelerator Projects
+      const sandboxSlugs = ['sample-demo', 'andreas-resort'];
+
       // Fetch projects this user has access to (exclude experience - they have their own section)
       let query = supabaseClient
         .from('user_plans')
@@ -1744,9 +1747,10 @@
       }
 
       // Get unique projects - but only if they have a plan.json (actual implementation plan)
+      // Skip sandbox slugs - they appear in the Sandboxes section instead
       const projectMap = new Map();
       for (const row of (rows || [])) {
-        if (!projectMap.has(row.client_slug)) {
+        if (!projectMap.has(row.client_slug) && !sandboxSlugs.includes(row.client_slug)) {
           projectMap.set(row.client_slug, {
             slug: row.client_slug,
             name: toTitleCase(row.client_slug),
