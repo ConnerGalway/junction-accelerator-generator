@@ -36,7 +36,7 @@ window.__authReady = (async function () {
   const currentSlug = document.body.getAttribute('data-client-slug');
   const isPublicDemo = currentSlug && publicSlugs.includes(currentSlug);
 
-  console.log('[auth.js] currentSlug:', currentSlug, 'isPublicDemo:', isPublicDemo);
+  console.log('[auth.js] URL:', window.location.pathname, 'currentSlug:', currentSlug, 'isPublicDemo:', isPublicDemo);
 
   // Check for session first (even on public demos)
   const { data: { session } } = await supabaseClient.auth.getSession();
