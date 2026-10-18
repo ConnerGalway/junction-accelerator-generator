@@ -75,12 +75,16 @@ export function DashboardFrame({
     }
   }, [bridge.state.error, onError])
 
-  // Clean up on unmount
+  // Clean up on unmount only (not on every render)
+  // Using a ref to avoid triggering cleanup when bridge object changes
+  const bridgeRef = useRef(bridge)
+  bridgeRef.current = bridge
+
   useEffect(() => {
     return () => {
-      bridge.disconnect()
+      bridgeRef.current.disconnect()
     }
-  }, [bridge])
+  }, []) // Empty deps - only runs on unmount
 
   return (
     <div className={`dashboard-frame-container relative ${className}`}>
