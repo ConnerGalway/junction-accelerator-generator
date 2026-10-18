@@ -47,12 +47,14 @@ git show <commit-hash> -- clients/andreas-resort/index.html
 
 ### Approving Changes
 
-Use Claude Code to apply specific changes to the master template:
+Use Claude Code to apply changes to the master template AND Conner's Cabins (the sales demo):
 
-> "Apply the card shadow changes from Andrea's Resort (commit abc123) to template/accelerator-template.html"
+> "Apply the card shadow changes from Andrea's Resort to the template and Conner's Cabins"
 
 Or be specific:
-> "In template/accelerator-template.html, update the .week-card box-shadow to match what Andrea has in her sandbox"
+> "Update the .week-card box-shadow in template/accelerator-template.html and clients/sample-demo/index.html to match Andrea's Resort"
+
+**Important:** Always update both files so Conner's Cabins stays in sync with the template.
 
 ## Files
 

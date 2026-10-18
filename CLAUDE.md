@@ -737,3 +737,33 @@ In addition to the general quality checklist, verify these for experience dashbo
 |---|---|
 | `clients/red-cariboo-resort/index.html` | DEPRECATED. Do not use as a template. Use `template/accelerator-template.html` instead. |
 | `template/accelerator-dashboard-template.html` | DEPRECATED. Outdated and unmaintained. |
+
+---
+
+# Part 8: Design Sandbox Workflow
+
+## Andrea's Resort (Design Sandbox)
+
+`clients/andreas-resort/` is a design sandbox for testing improvements before they go into production.
+
+**Workflow:**
+1. Andrea makes design changes to `clients/andreas-resort/index.html` using Claude Code
+2. Changes are committed to git automatically
+3. Conner reviews the changes via `git log` and `git show`
+4. Approved changes get applied to the master template
+
+## Applying Changes to the Template
+
+When applying design changes from Andrea's Resort to the master template:
+
+1. Apply the change to `template/accelerator-template.html`
+2. **Also apply the same change to `clients/sample-demo/index.html`** (Conner's Cabins)
+
+Conner's Cabins is the client-facing sales demo and must always reflect the latest template design.
+
+**Example prompt:**
+> "Apply the card shadow changes from Andrea's Resort to the template and Conner's Cabins"
+
+**Required files to update:**
+- `template/accelerator-template.html` (master template)
+- `clients/sample-demo/index.html` (Conner's Cabins - sales demo)
