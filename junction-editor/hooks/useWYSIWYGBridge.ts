@@ -142,16 +142,19 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
 
     if (!targetWindow) {
       // Queue command for when connection is ready
+      console.log('[WYSIWYG Bridge] No target window, queuing command:', command.type)
       messageQueueRef.current.push(command)
       return
     }
 
     if (!state.isReady && command.type !== 'INIT') {
       // Queue command until ready
+      console.log('[WYSIWYG Bridge] Bridge not ready, queuing command:', command.type)
       messageQueueRef.current.push(command)
       return
     }
 
+    console.log('[WYSIWYG Bridge] Sending command:', command.type)
     try {
       targetWindow.postMessage(command, '*')
     } catch (err) {

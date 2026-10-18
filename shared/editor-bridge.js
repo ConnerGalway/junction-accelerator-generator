@@ -165,8 +165,12 @@
     clearSelection();
 
     const el = getElementByKey(key);
-    if (!el) return false;
+    if (!el) {
+      log('selectElement: Element not found for key:', key);
+      return false;
+    }
 
+    log('selectElement: Found element, selecting:', key);
     selectedElement = el;
     selectedKey = key;
     el.classList.add('bridge-selected');
@@ -429,6 +433,7 @@
         break;
 
       case 'SELECT_ELEMENT':
+        log('SELECT_ELEMENT received for key:', payload.key);
         selectElement(payload.key);
         break;
 
@@ -540,9 +545,14 @@
       }
 
       /* Prevent pointer events on non-editable elements in edit mode */
-      body.bridge-edit-mode a:not([data-editable-link]),
-      body.bridge-edit-mode button:not(.bridge-allowed),
-      body.bridge-edit-mode input:not(.bridge-allowed) {
+      /* But allow navigation elements to still work */
+      body.bridge-edit-mode a:not([data-editable-link]):not(.nav-item):not(.tactic-tab):not([data-page]):not(.howto-link):not(.week-toggle) {
+        pointer-events: none !important;
+      }
+      body.bridge-edit-mode button:not(.bridge-allowed):not(.tactic-tab):not(.nav-item):not(.howto-link):not(.week-toggle):not([data-page]) {
+        pointer-events: none !important;
+      }
+      body.bridge-edit-mode input:not(.bridge-allowed):not([type="checkbox"]) {
         pointer-events: none !important;
       }
 
