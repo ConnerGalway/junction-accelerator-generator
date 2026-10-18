@@ -64,4 +64,4 @@ Or be specific:
 ## Access
 
 - Production: https://accelerator.elearningu.com/clients/andreas-resort/
-- No login required (public demo)
+- Requires login (admin/PSM access or explicit permission in Supabase)
