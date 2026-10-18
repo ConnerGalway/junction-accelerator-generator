@@ -6057,6 +6057,24 @@ function howToLink(page, stepId) {
 
 </script>
 
+<!-- ── Editor mode detection (for WYSIWYG editor iframe) ───── -->
+<script>
+(function() {
+  // Check if we are in editor mode (loaded in iframe by the WYSIWYG editor)
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('editor') === 'true') {
+    // Load the editor bridge script
+    var script = document.createElement('script');
+    script.src = '/shared/editor-bridge.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Disable normal auth redirects when in editor mode
+    window.__editorMode = true;
+  }
+})();
+</script>
+
 <!-- ── Shared scripts for auth and progress ─────────────────── -->
 <script src="/shared/supabase-client.js"></script>
 <script src="/shared/auth.js"></script>

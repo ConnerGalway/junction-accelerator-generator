@@ -3,67 +3,75 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Editor } from '@/components/editor'
 import { ErrorBoundary } from '@/components/ErrorBoundary'
-import { supabase, getUserRole, canEdit, type TipTapContent, type UserPlan } from '@/lib/supabase'
-import { sampleDocument, emptyDocument } from '@/lib/editor-utils'
-import { isNonEmptyString } from '@/lib/validation'
+import { DashboardFrame, EditorToolbar, ElementInspector, AssetSidebar, EmbedPanel, type UseWYSIWYGBridgeReturn } from '@/components/wysiwyg'
+import { supabase, getUserRole, canEdit, type UserPlan, type Asset } from '@/lib/supabase'
 import { toast } from 'sonner'
-import { useEditLock } from '@/hooks'
+import { useEditLock, getAssetUrl } from '@/hooks'
 import { LockIndicator } from '@/components/ui'
 
-// Retry configuration for save operations
+// API base for content edits
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || '/.netlify/functions'
+
+// Retry configuration
 const MAX_RETRIES = 3
-const RETRY_DELAY = 1000 // ms
+const RETRY_DELAY = 1000
 
 export default function EditorPage() {
   const params = useParams()
   const router = useRouter()
   const slug = params.slug as string
 
+  // State
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [userRole, setUserRole] = useState<UserPlan | null>(null)
-  const [document, setDocument] = useState<TipTapContent | null>(null)
-  const [documentId, setDocumentId] = useState<string | null>(null)
+  const [bridge, setBridge] = useState<UseWYSIWYGBridgeReturn | null>(null)
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'saved' | 'error'>('idle')
+  const [showInspector, setShowInspector] = useState(true)
+  const [showAssets, setShowAssets] = useState(false)
+  const [showEmbedPanel, setShowEmbedPanel] = useState(false)
 
-  // Edit lock management
+  // Edit lock
   const {
     hasLock,
     lockOwner,
     lockExpiresAt,
     isLoading: lockLoading,
     acquireLock,
-    releaseLock,
     overrideLock,
   } = useEditLock(slug, userRole)
 
-  // Can the user override locks? Only admin/PSM
+  // Can override locks? Only admin/PSM
   const canOverride = userRole?.role === 'admin' || userRole?.role === 'psm'
 
-  // Is the editor actually editable?
+  // Is editing allowed?
   const isEditable = slug === 'demo' || (canEdit(userRole?.role) && hasLock)
 
-  // Check authentication and load document
+  // Track if we've set up save callback
+  const saveCallbackSetRef = useRef(false)
+
+  // ────────────────────────────────────────────────────────────────────────
+  // AUTHENTICATION
+  // ────────────────────────────────────────────────────────────────────────
+
   useEffect(() => {
     async function init() {
       try {
-        // Check if user is authenticated
-        const { data: { user } } = await supabase.auth.getUser()
-
-        // Demo mode - allow without auth
+        // Demo mode
         if (slug === 'demo') {
-          setDocument(sampleDocument)
           setLoading(false)
           return
         }
 
+        // Check auth
+        const { data: { user } } = await supabase.auth.getUser()
         if (!user) {
           router.push('/login')
           return
         }
 
-        // Check user's role for this client
+        // Check role
         const role = await getUserRole(slug)
         if (!role) {
           setError('You do not have access to this client')
@@ -72,39 +80,15 @@ export default function EditorPage() {
         }
 
         if (!canEdit(role.role)) {
-          setError('You do not have permission to edit this plan')
+          setError('You do not have permission to edit this dashboard')
           setLoading(false)
           return
         }
 
         setUserRole(role)
-
-        // Load document from database
-        const { data: doc, error: docError } = await supabase
-          .from('editor_documents')
-          .select('*')
-          .eq('client_slug', slug)
-          .single()
-
-        if (docError && docError.code !== 'PGRST116') {
-          // PGRST116 = no rows returned (new document)
-          console.error('Error loading document:', docError)
-          setError('Failed to load document')
-          setLoading(false)
-          return
-        }
-
-        if (doc) {
-          setDocument(doc.content as TipTapContent)
-          setDocumentId(doc.id)
-        } else {
-          // No document exists yet - create empty one
-          setDocument(emptyDocument)
-        }
-
         setLoading(false)
       } catch (err) {
-        console.error('Initialization error:', err)
+        console.error('Init error:', err)
         setError('An unexpected error occurred')
         setLoading(false)
       }
@@ -113,19 +97,21 @@ export default function EditorPage() {
     init()
   }, [slug, router])
 
-  // Handle lock acquisition
+  // ────────────────────────────────────────────────────────────────────────
+  // LOCK HANDLERS
+  // ────────────────────────────────────────────────────────────────────────
+
   const handleAcquireLock = useCallback(async () => {
     const success = await acquireLock()
     if (success) {
-      toast.success('You can now edit this plan')
+      toast.success('You can now edit this dashboard')
     }
   }, [acquireLock])
 
-  // Handle lock override
   const handleOverrideLock = useCallback(async () => {
     const reason = window.prompt('Enter reason for overriding the lock:')
-    if (!isNonEmptyString(reason)) {
-      toast.error('Please provide a reason for overriding the lock')
+    if (!reason?.trim()) {
+      toast.error('Please provide a reason')
       return
     }
 
@@ -135,126 +121,194 @@ export default function EditorPage() {
     }
   }, [overrideLock])
 
-  // Save document with retry logic
-  const handleSave = useCallback(async (content: TipTapContent) => {
+  // ────────────────────────────────────────────────────────────────────────
+  // SAVE HANDLER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleSave = useCallback(async () => {
+    if (!bridge) return
     if (slug === 'demo') {
-      // Demo mode - don't actually save
       toast.success('Demo mode: Changes not saved')
       return
     }
 
-    // Check that we have the lock before saving
     if (!hasLock) {
       toast.error('You must acquire the edit lock before saving')
-      throw new Error('No edit lock')
+      return
     }
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) {
-      toast.error('You must be logged in to save')
-      throw new Error('Not authenticated')
-    }
+    setSaveStatus('saving')
 
-    // Retry wrapper for database operations
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const withRetry = async (
-      operation: () => PromiseLike<{ data: any; error: any }>,
-      operationName: string
-    ): Promise<any> => {
+    try {
+      // Get all changes from the bridge
+      const changes = await bridge.getAllChanges()
+
+      if (changes.length === 0) {
+        setSaveStatus('saved')
+        toast.info('No changes to save')
+        return
+      }
+
+      // Get auth token
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session) {
+        toast.error('Session expired. Please refresh the page.')
+        setSaveStatus('error')
+        return
+      }
+
+      // Save with retry
       let lastError: Error | null = null
-
       for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
         try {
-          const result = await operation()
-          if (result.error) throw new Error(result.error.message || 'Unknown error')
-          if (result.data === null) throw new Error(`${operationName} returned no data`)
-          return result.data
+          const response = await fetch(`${API_BASE}/content-edits`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${session.access_token}`,
+            },
+            body: JSON.stringify({
+              clientSlug: slug,
+              edits: changes.map(c => ({
+                contentKey: c.key,
+                editedValue: c.content,
+                originalValue: c.original,
+              })),
+            }),
+          })
+
+          if (!response.ok) {
+            const errorData = await response.json().catch(() => ({}))
+            throw new Error(errorData.error || `HTTP ${response.status}`)
+          }
+
+          // Success
+          bridge.markSaved(changes.map(c => c.key))
+          setSaveStatus('saved')
+          toast.success(`Saved ${changes.length} change${changes.length > 1 ? 's' : ''}`)
+
+          // Reset status after a delay
+          setTimeout(() => setSaveStatus('idle'), 3000)
+          return
         } catch (err) {
           lastError = err as Error
-          console.error(`${operationName} attempt ${attempt} failed:`, err)
+          console.error(`Save attempt ${attempt} failed:`, err)
 
           if (attempt < MAX_RETRIES) {
-            await new Promise(resolve => setTimeout(resolve, RETRY_DELAY * attempt))
+            await new Promise(r => setTimeout(r, RETRY_DELAY * attempt))
           }
         }
       }
 
-      toast.error(`Failed to save after ${MAX_RETRIES} attempts. Please try again.`)
-      throw lastError
-    }
-
-    try {
-      if (documentId) {
-        // Update existing document
-        await withRetry(
-          () => supabase
-            .from('editor_documents')
-            .update({
-              content,
-              updated_by: user.email,
-              updated_at: new Date().toISOString(),
-            })
-            .eq('id', documentId)
-            .select()
-            .single(),
-          'Update document'
-        )
-
-        // Create version (non-critical, don't retry)
-        const { data: latestVersion } = await supabase
-          .from('document_versions')
-          .select('version_number')
-          .eq('document_id', documentId)
-          .order('version_number', { ascending: false })
-          .limit(1)
-          .single()
-
-        const nextVersion = (latestVersion?.version_number || 0) + 1
-
-        await supabase
-          .from('document_versions')
-          .insert({
-            document_id: documentId,
-            version_number: nextVersion,
-            content,
-            changed_by: user.email,
-          })
-      } else {
-        // Create new document
-        const newDoc = await withRetry(
-          () => supabase
-            .from('editor_documents')
-            .insert({
-              client_slug: slug,
-              content,
-              created_by: user.email,
-              updated_by: user.email,
-            })
-            .select()
-            .single(),
-          'Create document'
-        )
-
-        setDocumentId(newDoc.id)
-
-        // Create initial version (non-critical)
-        await supabase
-          .from('document_versions')
-          .insert({
-            document_id: newDoc.id,
-            version_number: 1,
-            content,
-            change_summary: 'Initial version',
-            changed_by: user.email,
-          })
-      }
+      // All retries failed
+      console.error('Save failed after retries:', lastError)
+      setSaveStatus('error')
+      toast.error('Failed to save changes. Please try again.')
     } catch (err) {
-      // Re-throw so the Editor component knows the save failed
-      throw err
+      console.error('Save error:', err)
+      setSaveStatus('error')
+      toast.error('Failed to save changes')
     }
-  }, [slug, hasLock, documentId])
+  }, [bridge, slug, hasLock])
 
-  // Loading state
+  // ────────────────────────────────────────────────────────────────────────
+  // BRIDGE READY HANDLER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleBridgeReady = useCallback((readyBridge: UseWYSIWYGBridgeReturn) => {
+    setBridge(readyBridge)
+
+    // Set up save callback (only once)
+    if (!saveCallbackSetRef.current) {
+      saveCallbackSetRef.current = true
+      readyBridge.onSaveRequested(() => {
+        handleSave()
+      })
+
+      readyBridge.onNavigationBlocked((href) => {
+        if (href) {
+          toast.info('Navigation blocked while editing. Save your changes first.')
+        }
+      })
+    }
+
+    toast.success('Dashboard loaded')
+  }, [handleSave])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // CONTENT CHANGE HANDLER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleContentChange = useCallback(() => {
+    // Reset save status when content changes
+    if (saveStatus === 'saved') {
+      setSaveStatus('idle')
+    }
+  }, [saveStatus])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // KEYBOARD SHORTCUTS
+  // ────────────────────────────────────────────────────────────────────────
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Cmd/Ctrl+S to save
+      if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+        e.preventDefault()
+        handleSave()
+      }
+
+      // Cmd/Ctrl+Shift+I to toggle inspector
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'i') {
+        e.preventDefault()
+        setShowInspector(prev => !prev)
+      }
+
+      // Cmd/Ctrl+Shift+A to toggle assets
+      if ((e.metaKey || e.ctrlKey) && e.shiftKey && e.key === 'a') {
+        e.preventDefault()
+        setShowAssets(prev => !prev)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [handleSave])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // ASSET SELECTION HANDLER (for click-to-insert)
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleAssetSelect = useCallback((asset: Asset, url: string) => {
+    // If an element is selected, insert the image there
+    if (bridge?.state.selectedKey) {
+      const imgHtml = `<img src="${url}" alt="${asset.filename}" style="max-width: 100%; height: auto;" />`
+      bridge.insertMedia(bridge.state.selectedKey, imgHtml)
+      toast.success('Image inserted')
+      setShowAssets(false)
+    } else {
+      toast.info('Select an element first, then click an image to insert it')
+    }
+  }, [bridge])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // EMBED INSERT HANDLER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleEmbedInsert = useCallback((embedHtml: string) => {
+    if (!bridge?.state.selectedKey) {
+      toast.info('Select an element first, then insert an embed')
+      return
+    }
+
+    bridge.insertMedia(bridge.state.selectedKey, embedHtml)
+    setShowEmbedPanel(false)
+  }, [bridge])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // LOADING STATE
+  // ────────────────────────────────────────────────────────────────────────
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream">
@@ -266,7 +320,10 @@ export default function EditorPage() {
     )
   }
 
-  // Error state
+  // ────────────────────────────────────────────────────────────────────────
+  // ERROR STATE
+  // ────────────────────────────────────────────────────────────────────────
+
   if (error) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-cream">
@@ -276,9 +333,7 @@ export default function EditorPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
             </svg>
           </div>
-          <h1 className="font-display text-xl font-bold text-navy mb-2">
-            Access Denied
-          </h1>
+          <h1 className="font-display text-xl font-bold text-navy mb-2">Access Denied</h1>
           <p className="text-muted mb-6">{error}</p>
           <Link
             href="/"
@@ -294,11 +349,17 @@ export default function EditorPage() {
     )
   }
 
+  // ────────────────────────────────────────────────────────────────────────
+  // MAIN RENDER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const hasChanges = bridge ? bridge.state.pendingChanges.size > 0 : false
+
   return (
-    <div className="min-h-screen bg-cream">
+    <div className="h-screen flex flex-col bg-cream">
       {/* Header */}
-      <header className="sticky top-0 z-20 bg-navy text-white">
-        <div className="max-w-6xl mx-auto px-8 py-4 flex items-center justify-between">
+      <header className="flex-shrink-0 bg-navy text-white z-20">
+        <div className="px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Link
               href="/"
@@ -312,7 +373,7 @@ export default function EditorPage() {
             <div className="w-px h-6 bg-white/20" />
             <div>
               <h1 className="font-display font-bold">
-                {slug === 'demo' ? 'Demo Editor' : slug}
+                {slug === 'demo' ? 'Demo Editor' : `Edit: ${slug}`}
               </h1>
               {slug === 'demo' && (
                 <p className="text-xs text-mint/70">Changes won&apos;t be saved</p>
@@ -321,7 +382,7 @@ export default function EditorPage() {
           </div>
 
           <div className="flex items-center gap-4">
-            {/* Lock Indicator - only show for non-demo mode */}
+            {/* Lock indicator */}
             {slug !== 'demo' && userRole && (
               <LockIndicator
                 hasLock={hasLock}
@@ -334,71 +395,188 @@ export default function EditorPage() {
               />
             )}
 
+            {/* Toggle assets */}
+            <button
+              onClick={() => setShowAssets(prev => !prev)}
+              className={`
+                flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors
+                ${showAssets ? 'bg-mint/20 text-mint' : 'bg-white/10 hover:bg-white/20'}
+              `}
+              title="Toggle Assets (Cmd+Shift+A)"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Assets
+            </button>
+
+            {/* Toggle inspector */}
+            <button
+              onClick={() => setShowInspector(prev => !prev)}
+              className={`
+                flex items-center gap-2 px-3 py-1.5 rounded-md text-sm transition-colors
+                ${showInspector ? 'bg-mint/20 text-mint' : 'bg-white/10 hover:bg-white/20'}
+              `}
+              title="Toggle Inspector (Cmd+Shift+I)"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              Inspector
+            </button>
+
+            {/* User role badge */}
             {userRole && (
-              <span className="text-sm text-mint/70">
-                {userRole.role}
-              </span>
+              <span className="text-sm text-mint/70">{userRole.role}</span>
             )}
-            <button
-              onClick={() => {
-                // TODO: Open preview modal
-                toast.info('Preview coming soon')
-              }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md text-sm transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              Preview
-            </button>
-            <button
-              onClick={() => {
-                // TODO: Open version history
-                toast.info('Version history coming soon')
-              }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-md text-sm transition-colors"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-              History
-            </button>
           </div>
         </div>
       </header>
 
-      {/* Editor */}
-      <main className="max-w-4xl mx-auto px-8 py-8">
-        {/* Show message if user needs to acquire lock */}
-        {slug !== 'demo' && canEdit(userRole?.role) && !hasLock && !lockLoading && (
-          <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg">
-            <div className="flex items-center gap-3">
-              <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-              </svg>
-              <div className="flex-1">
-                <p className="text-sm text-amber-800">
-                  {lockOwner
-                    ? `This plan is being edited by ${lockOwner}. You can view but not edit.`
-                    : 'Click "Start Editing" to acquire the edit lock and make changes.'}
-                </p>
-              </div>
-            </div>
+      {/* Lock acquisition message */}
+      {slug !== 'demo' && canEdit(userRole?.role) && !hasLock && !lockLoading && (
+        <div className="flex-shrink-0 p-3 bg-amber-50 border-b border-amber-200">
+          <div className="flex items-center gap-3 max-w-6xl mx-auto">
+            <svg className="w-5 h-5 text-amber-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            <p className="text-sm text-amber-800 flex-1">
+              {lockOwner
+                ? `This dashboard is being edited by ${lockOwner}. You can view but not edit.`
+                : 'Click "Start Editing" to acquire the edit lock and make changes.'}
+            </p>
           </div>
-        )}
+        </div>
+      )}
 
-        {document && (
+      {/* Toolbar */}
+      {isEditable && (
+        <EditorToolbar
+          bridge={bridge}
+          onSave={handleSave}
+          saveStatus={saveStatus}
+          hasChanges={hasChanges}
+          onOpenAssetLibrary={() => setShowAssets(true)}
+          onOpenEmbedPanel={() => setShowEmbedPanel(true)}
+        />
+      )}
+
+      {/* Embed Panel */}
+      <EmbedPanel
+        isOpen={showEmbedPanel}
+        onClose={() => setShowEmbedPanel(false)}
+        onInsert={handleEmbedInsert}
+      />
+
+      {/* Asset Sidebar with drag-drop integration */}
+      <ConnectedAssetSidebar
+        clientSlug={slug}
+        isOpen={showAssets}
+        onClose={() => setShowAssets(false)}
+        onAssetSelect={handleAssetSelect}
+        bridge={bridge}
+      />
+
+      {/* Main content */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Dashboard frame */}
+        <div className="flex-1 overflow-hidden">
           <ErrorBoundary>
-            <Editor
-              initialContent={document}
+            <DashboardFrame
               clientSlug={slug}
-              readOnly={!isEditable}
-              onSave={handleSave}
+              onBridgeReady={handleBridgeReady}
+              onError={(err) => setError(err)}
+              className="w-full h-full"
             />
           </ErrorBoundary>
+        </div>
+
+        {/* Inspector sidebar */}
+        {showInspector && (
+          <div className="w-80 flex-shrink-0">
+            <ElementInspector
+              bridge={bridge}
+              onContentChange={handleContentChange}
+            />
+          </div>
         )}
-      </main>
+      </div>
     </div>
+  )
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// CONNECTED ASSET SIDEBAR
+// Wraps AssetSidebar with DragDropProvider integration
+// ──────────────────────────────────────────────────────────────────────────
+
+interface ConnectedAssetSidebarProps {
+  clientSlug: string
+  isOpen: boolean
+  onClose: () => void
+  onAssetSelect: (asset: Asset, url: string) => void
+  bridge: UseWYSIWYGBridgeReturn | null
+}
+
+function ConnectedAssetSidebar({
+  clientSlug,
+  isOpen,
+  onClose,
+  onAssetSelect,
+  bridge,
+}: ConnectedAssetSidebarProps) {
+  // Handle drag start - store data and enable drop zones
+  const handleDragStart = useCallback((asset: Asset, url: string) => {
+    // Store the asset data for use when drop occurs
+    (window as any).__lastDraggedAsset = {
+      asset,
+      url,
+    }
+
+    // Enable drop zones in the iframe
+    bridge?.enableDropZones()
+  }, [bridge])
+
+  // Handle drag end - cleanup
+  const handleDragEnd = useCallback(() => {
+    (window as any).__lastDraggedAsset = null
+    bridge?.disableDropZones()
+  }, [bridge])
+
+  // Set up media dropped callback to handle the drop
+  useEffect(() => {
+    if (!bridge) return
+
+    bridge.onMediaDropped((key, x, y) => {
+      // Get the dragged asset data
+      const dragData = (window as any).__lastDraggedAsset
+      if (!dragData) {
+        toast.error('Could not insert image. Please try again.')
+        return
+      }
+
+      const { asset, url } = dragData as { asset: Asset; url: string }
+
+      // Build and insert the image HTML
+      const imgHtml = `<img src="${url}" alt="${asset.filename || 'Image'}" style="max-width: 100%; height: auto;" />`
+      bridge.insertMedia(key, imgHtml)
+
+      toast.success(`${asset.filename || 'Image'} inserted`)
+
+      // Cleanup
+      ;(window as any).__lastDraggedAsset = null
+      bridge.disableDropZones()
+    })
+  }, [bridge])
+
+  return (
+    <AssetSidebar
+      clientSlug={clientSlug}
+      isOpen={isOpen}
+      onClose={onClose}
+      onAssetSelect={onAssetSelect}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    />
   )
 }

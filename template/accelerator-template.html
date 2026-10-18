@@ -10145,6 +10145,25 @@ function howToLink(page, stepId) {
 <script src="/shared/content-editor.js"></script>
 <script src="/shared/progress.js"></script>
 <script src="/shared/share-modal.js"></script>
+
+<!-- Editor bridge script (loaded conditionally when in edit mode) -->
+<script>
+(function() {
+  // Check if we're in editor mode (loaded in iframe by the WYSIWYG editor)
+  var urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('editor') === 'true') {
+    // Load the editor bridge script
+    var script = document.createElement('script');
+    script.src = '/shared/editor-bridge.js';
+    script.async = true;
+    document.body.appendChild(script);
+
+    // Disable normal auth redirects when in editor mode
+    window.__editorMode = true;
+  }
+})();
+</script>
+
 <script>
 // Initialize user menu when auth is ready
 if (window.__authReady) {
