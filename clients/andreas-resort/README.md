@@ -1,95 +1,67 @@
-# Andrea's Resort - Design Demo Dashboard
+# Andrea's Resort - Design Sandbox
 
-This is a sandbox dashboard for testing design improvements before they go into production.
+A sandbox dashboard for testing design improvements before they go into production.
 
 ## How It Works
 
-1. **Make changes here** - Edit `index.html` to test colours, spacing, components, or new features
-2. **Document your changes** - Add comments or make separate commits for each improvement
-3. **Request review** - Tell Conner which changes are ready for approval
-4. **Selective merge** - Conner reviews and applies approved changes to the main template
+1. **Andrea makes changes** - Edit `index.html` using Claude Code
+2. **Changes are tracked automatically** - Git captures every edit
+3. **Conner reviews** - Views the diff to see exactly what changed
+4. **Selective approval** - Approved changes get applied to the master template
 
 ## Workflow for Andrea
 
 ### Making Changes
 
-Edit this dashboard using Claude Code. Each change stays isolated to this file until approved.
+Use Claude Code to edit this dashboard. Just describe what you want to change:
 
-**Example change comment:**
-```html
-<!-- DESIGN CHANGE: Updated button hover colour from #aadab6 to #8fd4a0 -->
-<style>
-.btn-primary:hover { background: #8fd4a0; }
-</style>
-```
+- "Make the button hover colour lighter"
+- "Increase the spacing between week cards"
+- "Add a subtle shadow to the tactic cards"
 
-### Proposing Changes
+Each change is automatically committed to git, so Conner can see exactly what you changed and when.
 
-When you have changes ready for review:
+### Letting Conner Know
 
-1. **Option A: Single change** - Tell Conner: "Review the button hover colour change in Andrea's Resort"
-2. **Option B: Multiple changes** - Create a summary: "Ready for review: button colours, card shadows, week header spacing"
-
-### Change Categories
-
-Tag your changes to help with review:
-
-- `/* COLOUR: description */` - Colour adjustments
-- `/* TYPOGRAPHY: description */` - Font changes
-- `/* SPACING: description */` - Padding/margin changes
-- `/* COMPONENT: description */` - Component redesigns
-- `/* FEATURE: description */` - New features
-- `/* FIX: description */` - Bug fixes
+When you have changes ready for review, just message him:
+> "I've made some improvements to the card shadows and button states in Andrea's Resort - ready for review"
 
 ## Workflow for Conner
 
-### Reviewing Changes
+### Viewing Andrea's Changes
 
-1. **View the diff:**
-   ```bash
-   git diff clients/andreas-resort/index.html
-   ```
+See all uncommitted changes:
+```bash
+git diff clients/andreas-resort/index.html
+```
 
-2. **Compare with template:**
-   ```bash
-   diff template/accelerator-template.html clients/andreas-resort/index.html | head -100
-   ```
+See recent commits to the sandbox:
+```bash
+git log --oneline -10 -- clients/andreas-resort/
+```
 
-3. **Search for tagged changes:**
-   ```bash
-   grep -n "COLOUR:\|TYPOGRAPHY:\|SPACING:\|COMPONENT:\|FEATURE:\|FIX:" clients/andreas-resort/index.html
-   ```
+View a specific commit's changes:
+```bash
+git show <commit-hash> -- clients/andreas-resort/index.html
+```
 
-### Approving Individual Changes
+### Approving Changes
 
-Use Claude Code to apply approved changes to the template:
+Use Claude Code to apply specific changes to the master template:
 
-**Example prompt:**
-> "Apply the button hover colour change from Andrea's Resort to the main template. The change is on line 245."
+> "Apply the card shadow changes from Andrea's Resort (commit abc123) to template/accelerator-template.html"
 
-**Or be specific:**
-> "In template/accelerator-template.html, update the .btn-primary:hover background colour from #aadab6 to #8fd4a0"
-
-### Batch Approval
-
-For multiple related changes:
-> "Review Andrea's Resort and apply all COLOUR tagged changes to the main template."
+Or be specific:
+> "In template/accelerator-template.html, update the .week-card box-shadow to match what Andrea has in her sandbox"
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `index.html` | The demo dashboard - edit this |
+| `index.html` | The sandbox dashboard - Andrea edits this |
 | `README.md` | This workflow documentation |
 
 ## Access
 
-Andrea's Resort is available at:
-- Local: `http://localhost:3000/clients/andreas-resort/`
-- Production: `https://accelerator.elearningu.com/clients/andreas-resort/`
-
-To grant access, add to Supabase `user_plans` table:
-```sql
-INSERT INTO user_plans (email, client_slug, role, active)
-VALUES ('andrea@example.com', 'andreas-resort', 'client', true);
-```
+- Production: https://accelerator.elearningu.com/clients/andreas-resort/
+- No login required (public demo)
