@@ -20,21 +20,34 @@ export function DashboardFrame({
   const [isLoading, setIsLoading] = useState(true)
   const [loadError, setLoadError] = useState<string | null>(null)
   const hasNotifiedRef = useRef(false)
+  const hasConnectedRef = useRef(false)
 
   const bridge = useWYSIWYGBridge()
 
   // Build the dashboard URL with edit mode parameter
   const dashboardUrl = getDashboardUrl(clientSlug)
 
+  // Connect bridge as soon as iframe element is available (before onLoad)
+  // This ensures we can receive BRIDGE_LOADED messages from the script
+  useEffect(() => {
+    if (iframeRef.current && !hasConnectedRef.current) {
+      hasConnectedRef.current = true
+      bridge.connect(iframeRef.current)
+    }
+  }, [bridge])
+
   // Handle iframe load
   const handleIframeLoad = useCallback(() => {
     setIsLoading(false)
 
-    if (iframeRef.current) {
-      // Connect the bridge to the iframe
+    // Ensure bridge is connected (in case effect didn't run yet)
+    if (iframeRef.current && !hasConnectedRef.current) {
+      hasConnectedRef.current = true
       bridge.connect(iframeRef.current)
+    }
 
-      // Inject the editor bridge script
+    // Try to inject the bridge script (may fail for cross-origin)
+    if (iframeRef.current) {
       injectBridgeScript(iframeRef.current)
     }
   }, [bridge])

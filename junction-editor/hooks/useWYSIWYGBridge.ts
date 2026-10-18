@@ -113,6 +113,7 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
   })
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null)
+  const bridgeWindowRef = useRef<Window | null>(null) // Store the bridge's window for verification
   const mountedRef = useRef(true)
   const messageQueueRef = useRef<BridgeCommand[]>([])
 
@@ -136,7 +137,10 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
   }, [])
 
   const sendCommand = useCallback((command: BridgeCommand) => {
-    if (!iframeRef.current?.contentWindow) {
+    // Use either the iframe contentWindow or the stored bridge window
+    const targetWindow = iframeRef.current?.contentWindow || bridgeWindowRef.current
+
+    if (!targetWindow) {
       // Queue command for when connection is ready
       messageQueueRef.current.push(command)
       return
@@ -149,21 +153,22 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
     }
 
     try {
-      iframeRef.current.contentWindow.postMessage(command, '*')
+      targetWindow.postMessage(command, '*')
     } catch (err) {
       console.error('Failed to send command to bridge:', err)
     }
   }, [state.isReady])
 
   const flushMessageQueue = useCallback(() => {
-    if (!iframeRef.current?.contentWindow) return
+    const targetWindow = iframeRef.current?.contentWindow || bridgeWindowRef.current
+    if (!targetWindow) return
 
     const queue = messageQueueRef.current
     messageQueueRef.current = []
 
     queue.forEach(command => {
       try {
-        iframeRef.current?.contentWindow?.postMessage(command, '*')
+        targetWindow.postMessage(command, '*')
       } catch (err) {
         console.error('Failed to send queued command:', err)
       }
@@ -175,23 +180,42 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
   // ────────────────────────────────────────────────────────────────────────
 
   const handleMessage = useCallback((event: MessageEvent) => {
-    // Verify the message is from our iframe
-    if (!iframeRef.current || event.source !== iframeRef.current.contentWindow) {
-      return
-    }
-
     const data = event.data as BridgeEvent & { source?: string }
 
-    // Check for bridge source identifier
+    // Check for bridge source identifier first
     if (data.source !== 'editor-bridge') {
       return
     }
 
+    // Verify the message source
+    // First check if it's from our known bridge window
+    // Then check if it's from our iframe's contentWindow
+    // For BRIDGE_LOADED, we'll also accept the first message and store the window
+    const isFromBridge = bridgeWindowRef.current && event.source === bridgeWindowRef.current
+    const isFromIframe = iframeRef.current && event.source === iframeRef.current.contentWindow
+
+    if (data.type === 'BRIDGE_LOADED') {
+      // Store the bridge window for future verification
+      if (event.source && !bridgeWindowRef.current) {
+        bridgeWindowRef.current = event.source as Window
+        console.log('[WYSIWYG Bridge] Bridge connected, sending INIT')
+
+        // Send INIT directly to the bridge window
+        try {
+          bridgeWindowRef.current.postMessage({ type: 'INIT' }, '*')
+        } catch (err) {
+          console.warn('[WYSIWYG Bridge] Failed to send INIT:', err)
+        }
+      }
+      return
+    }
+
+    // For other messages, verify they're from the bridge
+    if (!isFromBridge && !isFromIframe) {
+      return
+    }
+
     switch (data.type) {
-      case 'BRIDGE_LOADED':
-        // Bridge script loaded, send INIT command
-        sendCommand({ type: 'INIT' })
-        break
 
       case 'READY':
         safeSetState(prev => ({
@@ -295,6 +319,7 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
 
   const disconnect = useCallback(() => {
     iframeRef.current = null
+    bridgeWindowRef.current = null
     messageQueueRef.current = []
     contentResolversRef.current.clear()
     changesResolverRef.current = null

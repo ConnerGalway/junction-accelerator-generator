@@ -17,6 +17,12 @@
     'http://localhost:3001',
   ];
 
+  // Debug logging (disable in production if needed)
+  const DEBUG = true;
+  function log(...args) {
+    if (DEBUG) console.log('[editor-bridge]', ...args);
+  }
+
   // ──────────────────────────────────────────────────────────────────────────
   // STATE
   // ──────────────────────────────────────────────────────────────────────────
@@ -34,11 +40,17 @@
   // ──────────────────────────────────────────────────────────────────────────
 
   function isAllowedOrigin(origin) {
+    // Always allow same-origin (when parent is the same domain)
+    if (origin === window.location.origin) {
+      return true;
+    }
+    // Check against whitelist
     return ALLOWED_ORIGINS.some(allowed => origin === allowed || origin.startsWith(allowed));
   }
 
   function sendToParent(event) {
     if (window.parent && window.parent !== window) {
+      log('Sending to parent:', event.type);
       window.parent.postMessage({ source: 'editor-bridge', ...event }, '*');
     }
   }
@@ -399,14 +411,20 @@
   function handleMessage(e) {
     // Verify origin
     if (!isAllowedOrigin(e.origin)) {
-      console.warn('editor-bridge: Rejected message from unknown origin:', e.origin);
+      log('Rejected message from unknown origin:', e.origin, '(allowed:', ALLOWED_ORIGINS, ')');
       return;
     }
 
     const { type, ...payload } = e.data || {};
 
+    // Ignore messages without a type (not for us)
+    if (!type) return;
+
+    log('Received message:', type);
+
     switch (type) {
       case 'INIT':
+        log('Initializing bridge...');
         initialize();
         break;
 
@@ -546,13 +564,17 @@
   function initialize() {
     if (isInitialized) {
       // Already initialized, just send ready again
+      const elements = getEditableElements();
+      log('Already initialized, resending READY with', elements.length, 'elements');
       sendToParent({
         type: 'READY',
-        elements: getEditableElements(),
+        elements: elements,
         clientSlug: document.body.getAttribute('data-client-slug'),
       });
       return;
     }
+
+    log('Starting initialization...');
 
     // Inject styles
     injectStyles();
@@ -577,9 +599,11 @@
     isInitialized = true;
 
     // Notify parent we're ready
+    const elements = getEditableElements();
+    log('Initialization complete. Found', elements.length, 'editable elements');
     sendToParent({
       type: 'READY',
-      elements: getEditableElements(),
+      elements: elements,
       clientSlug: document.body.getAttribute('data-client-slug'),
     });
   }
@@ -597,13 +621,17 @@
       // Wait for parent to send INIT command
       // Or auto-init if we detect we're in an iframe
       if (window.parent !== window) {
+        log('DOM ready, notifying parent that bridge is loaded');
         sendToParent({ type: 'BRIDGE_LOADED' });
       }
     });
   } else {
     if (window.parent !== window) {
+      log('Script loaded (DOM already ready), notifying parent that bridge is loaded');
       sendToParent({ type: 'BRIDGE_LOADED' });
     }
   }
+
+  log('Editor bridge script initialized, waiting for parent...');
 
 })();
