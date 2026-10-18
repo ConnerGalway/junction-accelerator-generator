@@ -235,6 +235,11 @@ export default function EditorPage() {
     toast.success('Dashboard loaded')
   }, [handleSave])
 
+  // Update bridge state to trigger re-renders when selection changes
+  const handleBridgeStateChange = useCallback((updatedBridge: UseWYSIWYGBridgeReturn) => {
+    setBridge(updatedBridge)
+  }, [])
+
   // ────────────────────────────────────────────────────────────────────────
   // CONTENT CHANGE HANDLER
   // ────────────────────────────────────────────────────────────────────────
@@ -485,6 +490,7 @@ export default function EditorPage() {
             <DashboardFrame
               clientSlug={slug}
               onBridgeReady={handleBridgeReady}
+              onBridgeStateChange={handleBridgeStateChange}
               onError={(err) => setError(err)}
               className="w-full h-full"
             />

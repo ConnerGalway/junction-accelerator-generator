@@ -6,6 +6,7 @@ import { useWYSIWYGBridge, type UseWYSIWYGBridgeReturn } from '@/hooks/useWYSIWY
 interface DashboardFrameProps {
   clientSlug: string
   onBridgeReady?: (bridge: UseWYSIWYGBridgeReturn) => void
+  onBridgeStateChange?: (bridge: UseWYSIWYGBridgeReturn) => void
   onError?: (error: string) => void
   className?: string
 }
@@ -13,6 +14,7 @@ interface DashboardFrameProps {
 export function DashboardFrame({
   clientSlug,
   onBridgeReady,
+  onBridgeStateChange,
   onError,
   className = '',
 }: DashboardFrameProps) {
@@ -66,6 +68,13 @@ export function DashboardFrame({
       onBridgeReady?.(bridge)
     }
   }, [bridge.state.isReady, bridge, onBridgeReady])
+
+  // Notify parent when bridge state changes (for re-rendering)
+  useEffect(() => {
+    if (bridge.state.isReady) {
+      onBridgeStateChange?.(bridge)
+    }
+  }, [bridge.state, bridge, onBridgeStateChange])
 
   // Handle connection errors
   useEffect(() => {
