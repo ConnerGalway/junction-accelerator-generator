@@ -46,10 +46,9 @@ export function DashboardFrame({
       bridge.connect(iframeRef.current)
     }
 
-    // Try to inject the bridge script (may fail for cross-origin)
-    if (iframeRef.current) {
-      injectBridgeScript(iframeRef.current)
-    }
+    // Note: We don't inject the bridge script here because the dashboard
+    // already loads it when ?editor=true is in the URL. Injecting it again
+    // causes duplicate initialization issues.
   }, [bridge])
 
   // Handle iframe error

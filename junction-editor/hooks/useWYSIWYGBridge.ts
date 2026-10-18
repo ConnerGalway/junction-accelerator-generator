@@ -206,18 +206,31 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
         } catch (err) {
           console.warn('[WYSIWYG Bridge] Failed to send INIT:', err)
         }
+      } else if (event.source && bridgeWindowRef.current) {
+        // Bridge window already set, this is a duplicate BRIDGE_LOADED (script loaded twice)
+        console.log('[WYSIWYG Bridge] Duplicate BRIDGE_LOADED received, ignoring')
       }
       return
     }
 
     // For other messages, verify they're from the bridge
     if (!isFromBridge && !isFromIframe) {
+      console.log('[WYSIWYG Bridge] Message rejected - source mismatch', {
+        type: data.type,
+        isFromBridge,
+        isFromIframe,
+        hasBridgeWindow: !!bridgeWindowRef.current,
+        hasIframeRef: !!iframeRef.current,
+      })
       return
     }
+
+    console.log('[WYSIWYG Bridge] Processing message:', data.type)
 
     switch (data.type) {
 
       case 'READY':
+        console.log('[WYSIWYG Bridge] READY received with', data.elements?.length, 'elements')
         safeSetState(prev => ({
           ...prev,
           isReady: true,
