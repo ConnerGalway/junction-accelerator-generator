@@ -184,6 +184,15 @@
     // Scroll into view
     el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
+    // Notify parent of selection (so inspector can update)
+    sendToParent({
+      type: 'ELEMENT_SELECTED',
+      key,
+      content: getElementContent(key),
+      elementType: getElementType(el),
+      path: getElementPath(el),
+    });
+
     return true;
   }
 
