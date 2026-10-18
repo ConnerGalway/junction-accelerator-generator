@@ -17,8 +17,8 @@
     'http://localhost:3001',
   ];
 
-  // Debug logging (disable in production if needed)
-  const DEBUG = true;
+  // Debug logging (set to false for production)
+  const DEBUG = false;
   function log(...args) {
     if (DEBUG) console.log('[editor-bridge]', ...args);
   }

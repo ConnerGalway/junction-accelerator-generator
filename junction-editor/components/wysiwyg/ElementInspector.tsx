@@ -66,11 +66,7 @@ export function ElementInspector({
 
   // Handle element click from list
   const handleElementClick = useCallback((key: string) => {
-    console.log('[ElementInspector] Element clicked:', key, 'bridge:', !!bridge, 'isReady:', bridge?.state.isReady)
-    if (!bridge) {
-      console.warn('[ElementInspector] No bridge available')
-      return
-    }
+    if (!bridge) return
     bridge.selectElement(key)
     bridge.scrollToElement(key)
   }, [bridge])

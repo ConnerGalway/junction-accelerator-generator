@@ -142,19 +142,16 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
 
     if (!targetWindow) {
       // Queue command for when connection is ready
-      console.log('[WYSIWYG Bridge] No target window, queuing command:', command.type)
       messageQueueRef.current.push(command)
       return
     }
 
     if (!state.isReady && command.type !== 'INIT') {
       // Queue command until ready
-      console.log('[WYSIWYG Bridge] Bridge not ready, queuing command:', command.type)
       messageQueueRef.current.push(command)
       return
     }
 
-    console.log('[WYSIWYG Bridge] Sending command:', command.type)
     try {
       targetWindow.postMessage(command, '*')
     } catch (err) {
@@ -201,7 +198,6 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
       // Store the bridge window for future verification
       if (event.source && !bridgeWindowRef.current) {
         bridgeWindowRef.current = event.source as Window
-        console.log('[WYSIWYG Bridge] Bridge connected, sending INIT')
 
         // Send INIT directly to the bridge window
         try {
@@ -209,31 +205,19 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
         } catch (err) {
           console.warn('[WYSIWYG Bridge] Failed to send INIT:', err)
         }
-      } else if (event.source && bridgeWindowRef.current) {
-        // Bridge window already set, this is a duplicate BRIDGE_LOADED (script loaded twice)
-        console.log('[WYSIWYG Bridge] Duplicate BRIDGE_LOADED received, ignoring')
       }
+      // Ignore duplicate BRIDGE_LOADED (script loaded twice)
       return
     }
 
     // For other messages, verify they're from the bridge
     if (!isFromBridge && !isFromIframe) {
-      console.log('[WYSIWYG Bridge] Message rejected - source mismatch', {
-        type: data.type,
-        isFromBridge,
-        isFromIframe,
-        hasBridgeWindow: !!bridgeWindowRef.current,
-        hasIframeRef: !!iframeRef.current,
-      })
       return
     }
-
-    console.log('[WYSIWYG Bridge] Processing message:', data.type)
 
     switch (data.type) {
 
       case 'READY':
-        console.log('[WYSIWYG Bridge] READY received with', data.elements?.length, 'elements')
         safeSetState(prev => ({
           ...prev,
           isReady: true,
