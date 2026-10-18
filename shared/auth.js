@@ -36,6 +36,8 @@ window.__authReady = (async function () {
   const currentSlug = document.body.getAttribute('data-client-slug');
   const isPublicDemo = currentSlug && publicSlugs.includes(currentSlug);
 
+  console.log('[auth.js] currentSlug:', currentSlug, 'isPublicDemo:', isPublicDemo);
+
   // Check for session first (even on public demos)
   const { data: { session } } = await supabaseClient.auth.getSession();
 
@@ -194,10 +196,13 @@ window.__authReady = (async function () {
     //    without explicit access. They get 'viewer' role.
     // ------------------------------------------------------------------
     if (!matchedRole) {
+      console.log('[auth.js] No matchedRole. isPublicDemo:', isPublicDemo, 'clientSlug:', clientSlug);
       if (isPublicDemo) {
         // Allow access to public demo with viewer role
+        console.log('[auth.js] Granting viewer access to public demo');
         matchedRole = 'viewer';
       } else {
+        console.log('[auth.js] Redirecting to login - no access');
         window.location.replace('/login');
         return new Promise(() => {});
       }
