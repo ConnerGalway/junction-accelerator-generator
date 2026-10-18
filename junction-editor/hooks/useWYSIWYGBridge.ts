@@ -40,6 +40,7 @@ export type BridgeCommand =
   | { type: 'HIGHLIGHT_ELEMENT'; key: string; highlight?: boolean }
   | { type: 'SET_CONTENT'; key: string; content: string }
   | { type: 'INSERT_MEDIA'; key: string; html: string }
+  | { type: 'INSERT_MEDIA_AFTER'; afterKey: string; html: string; newKey: string }
   | { type: 'ENABLE_DROP_ZONES' }
   | { type: 'DISABLE_DROP_ZONES' }
   | { type: 'SCROLL_TO_ELEMENT'; key: string }
@@ -57,6 +58,8 @@ export type BridgeEvent =
   | { type: 'DROP_ZONE_ENTER'; key: string }
   | { type: 'DROP_ZONE_LEAVE'; key: string }
   | { type: 'MEDIA_DROPPED'; key: string; x: number; y: number }
+  | { type: 'MEDIA_INSERT_BETWEEN'; afterKey: string }
+  | { type: 'MEDIA_BLOCK_CREATED'; key: string; afterKey: string; content: string }
   | { type: 'SAVE_REQUESTED' }
   | { type: 'SELECTION_CLEARED' }
   | { type: 'NAVIGATION_BLOCKED'; href?: string }
@@ -80,6 +83,7 @@ export interface UseWYSIWYGBridgeReturn {
   // Content operations
   setContent: (key: string, content: string) => void
   insertMedia: (key: string, html: string) => void
+  insertMediaAfter: (afterKey: string, html: string, newKey: string) => void
   getContent: (key: string) => Promise<string | null>
   getAllChanges: () => Promise<ContentChange[]>
   markSaved: (keys: string[]) => void
@@ -91,6 +95,7 @@ export interface UseWYSIWYGBridgeReturn {
   // Events
   onSaveRequested: (callback: () => void) => void
   onMediaDropped: (callback: (key: string, x: number, y: number) => void) => void
+  onMediaInsertBetween: (callback: (afterKey: string) => void) => void
   onNavigationBlocked: (callback: (href?: string) => void) => void
 }
 
@@ -120,6 +125,7 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
   // Callbacks
   const saveRequestedCallbackRef = useRef<(() => void) | null>(null)
   const mediaDroppedCallbackRef = useRef<((key: string, x: number, y: number) => void) | null>(null)
+  const mediaInsertBetweenCallbackRef = useRef<((afterKey: string) => void) | null>(null)
   const navigationBlockedCallbackRef = useRef<((href?: string) => void) | null>(null)
 
   // Promise resolvers for async operations
@@ -276,6 +282,26 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
         mediaDroppedCallbackRef.current?.(data.key, data.x, data.y)
         break
 
+      case 'MEDIA_INSERT_BETWEEN':
+        mediaInsertBetweenCallbackRef.current?.(data.afterKey)
+        break
+
+      case 'MEDIA_BLOCK_CREATED':
+        // Track the new media block in pending changes
+        safeSetState(prev => {
+          const newChanges = new Map(prev.pendingChanges)
+          newChanges.set(data.key, {
+            key: data.key,
+            content: data.content,
+            original: '',
+          })
+          return {
+            ...prev,
+            pendingChanges: newChanges,
+          }
+        })
+        break
+
       case 'NAVIGATION_BLOCKED':
         navigationBlockedCallbackRef.current?.(data.href)
         break
@@ -393,6 +419,10 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
     sendCommand({ type: 'INSERT_MEDIA', key, html })
   }, [sendCommand])
 
+  const insertMediaAfter = useCallback((afterKey: string, html: string, newKey: string) => {
+    sendCommand({ type: 'INSERT_MEDIA_AFTER', afterKey, html, newKey })
+  }, [sendCommand])
+
   const getContent = useCallback((key: string): Promise<string | null> => {
     return new Promise((resolve) => {
       contentResolversRef.current.set(key, resolve)
@@ -461,6 +491,10 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
     mediaDroppedCallbackRef.current = callback
   }, [])
 
+  const onMediaInsertBetween = useCallback((callback: (afterKey: string) => void) => {
+    mediaInsertBetweenCallbackRef.current = callback
+  }, [])
+
   const onNavigationBlocked = useCallback((callback: (href?: string) => void) => {
     navigationBlockedCallbackRef.current = callback
   }, [])
@@ -501,6 +535,7 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
     scrollToElement,
     setContent,
     insertMedia,
+    insertMediaAfter,
     getContent,
     getAllChanges,
     markSaved,
@@ -508,6 +543,7 @@ export function useWYSIWYGBridge(): UseWYSIWYGBridgeReturn {
     disableDropZones,
     onSaveRequested,
     onMediaDropped,
+    onMediaInsertBetween,
     onNavigationBlocked,
   }
 }

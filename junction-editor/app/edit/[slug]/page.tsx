@@ -518,7 +518,7 @@ function ConnectedAssetSidebar({
     bridge?.disableDropZones()
   }, [bridge])
 
-  // Set up media dropped callback to handle the drop
+  // Set up media dropped callback to handle the drop into existing elements
   useEffect(() => {
     if (!bridge) return
 
@@ -537,6 +537,37 @@ function ConnectedAssetSidebar({
       bridge.insertMedia(key, imgHtml)
 
       toast.success(`${asset.filename || 'Image'} inserted`)
+
+      // Cleanup
+      ;(window as any).__lastDraggedAsset = null
+      bridge.disableDropZones()
+    })
+  }, [bridge])
+
+  // Set up media insert between callback for dropping between elements
+  useEffect(() => {
+    if (!bridge) return
+
+    bridge.onMediaInsertBetween((afterKey) => {
+      // Get the dragged asset data
+      const dragData = (window as any).__lastDraggedAsset
+      if (!dragData) {
+        toast.error('Could not insert image. Please try again.')
+        return
+      }
+
+      const { asset, url } = dragData as { asset: Asset; url: string }
+
+      // Generate a unique key for the new media block
+      const newKey = `media-block-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`
+
+      // Build the image HTML
+      const imgHtml = `<img src="${url}" alt="${asset.filename || 'Image'}" style="max-width: 100%; height: auto;" />`
+
+      // Insert the media after the specified element
+      bridge.insertMediaAfter(afterKey, imgHtml, newKey)
+
+      toast.success(`${asset.filename || 'Image'} inserted between elements`)
 
       // Cleanup
       ;(window as any).__lastDraggedAsset = null

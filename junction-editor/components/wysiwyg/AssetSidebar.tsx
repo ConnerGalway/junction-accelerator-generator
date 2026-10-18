@@ -16,6 +16,24 @@ interface AssetSidebarProps {
 
 type AssetFilter = 'all' | 'library' | 'client' | 'ai'
 
+// AI prompt templates (mirror from API)
+const PROMPT_TEMPLATES = [
+  { id: 'social-post', name: 'Social Media Post', description: 'Eye-catching social media graphics' },
+  { id: 'hero-image', name: 'Website Hero', description: 'Large banner images for websites' },
+  { id: 'product-mockup', name: 'Product Mockup', description: 'Product showcase images' },
+  { id: 'infographic-bg', name: 'Infographic Background', description: 'Abstract backgrounds' },
+  { id: 'team-culture', name: 'Team & Culture', description: 'Workplace and team imagery' },
+  { id: 'icon-illustration', name: 'Icon Illustration', description: 'Stylized icons' },
+  { id: 'email-header', name: 'Email Header', description: 'Email campaign banners' },
+  { id: 'ad-creative', name: 'Ad Creative', description: 'Digital advertising images' },
+]
+
+const SIZE_OPTIONS = [
+  { id: '1024x1024', label: 'Square (1024×1024)' },
+  { id: '1792x1024', label: 'Landscape (1792×1024)' },
+  { id: '1024x1792', label: 'Portrait (1024×1792)' },
+]
+
 export function AssetSidebar({
   clientSlug,
   onAssetSelect,
@@ -29,6 +47,13 @@ export function AssetSidebar({
   const [filter, setFilter] = useState<AssetFilter>('all')
   const [searchQuery, setSearchQuery] = useState('')
   const [showUpload, setShowUpload] = useState(false)
+
+  // AI generation state
+  const [showAiGenerator, setShowAiGenerator] = useState(false)
+  const [aiPrompt, setAiPrompt] = useState('')
+  const [aiTemplate, setAiTemplate] = useState('')
+  const [aiSize, setAiSize] = useState<'1024x1024' | '1792x1024' | '1024x1792'>('1024x1024')
+  const [aiGenerating, setAiGenerating] = useState(false)
 
   const { uploading, progress, uploadImage } = useImageUpload()
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -110,6 +135,60 @@ export function AssetSidebar({
       fileInputRef.current.value = ''
     }
   }, [uploadImage, clientSlug])
+
+  // ────────────────────────────────────────────────────────────────────────
+  // AI GENERATION HANDLER
+  // ────────────────────────────────────────────────────────────────────────
+
+  const handleAiGenerate = useCallback(async () => {
+    if (!aiPrompt.trim()) {
+      toast.error('Please enter a description for the image')
+      return
+    }
+
+    setAiGenerating(true)
+    try {
+      const response = await fetch('/api/ai/generate-image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prompt: aiPrompt,
+          template: aiTemplate || undefined,
+          size: aiSize,
+          quality: 'standard',
+          style: 'vivid',
+          saveToLibrary: true,
+          clientSlug,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate image')
+      }
+
+      toast.success('Image generated successfully!')
+
+      // Add the saved asset to the list
+      if (data.savedAsset) {
+        setAssets(prev => [data.savedAsset, ...prev])
+      }
+
+      // Reset form
+      setAiPrompt('')
+      setAiTemplate('')
+      setShowAiGenerator(false)
+
+      // Switch to AI filter to show the new image
+      setFilter('ai')
+    } catch (error: any) {
+      console.error('AI generation error:', error)
+      toast.error(error.message || 'Failed to generate image')
+    } finally {
+      setAiGenerating(false)
+    }
+  }, [aiPrompt, aiTemplate, aiSize, clientSlug])
 
   // ────────────────────────────────────────────────────────────────────────
   // DRAG HANDLERS
@@ -203,8 +282,8 @@ export function AssetSidebar({
         ))}
       </div>
 
-      {/* Upload button */}
-      <div className="px-4 py-3 border-b border-slate-100">
+      {/* Action buttons */}
+      <div className="px-4 py-3 border-b border-slate-100 space-y-2">
         <input
           ref={fileInputRef}
           type="file"
@@ -212,30 +291,132 @@ export function AssetSidebar({
           onChange={handleFileSelect}
           className="hidden"
         />
-        <button
-          onClick={() => fileInputRef.current?.click()}
-          disabled={uploading}
-          className={`
-            w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all
-            ${uploading
-              ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-              : 'bg-navy text-white hover:bg-navy-mid'
-            }
-          `}
-        >
-          {uploading ? (
-            <>
-              <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
-              <span>Uploading... {progress}%</span>
-            </>
-          ) : (
-            <>
-              <UploadIcon />
-              <span>Upload Image</span>
-            </>
-          )}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            className={`
+              flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium text-sm transition-all
+              ${uploading
+                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                : 'bg-navy text-white hover:bg-navy-mid'
+              }
+            `}
+          >
+            {uploading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                <span>{progress}%</span>
+              </>
+            ) : (
+              <>
+                <UploadIcon />
+                <span>Upload</span>
+              </>
+            )}
+          </button>
+          <button
+            onClick={() => setShowAiGenerator(!showAiGenerator)}
+            disabled={aiGenerating}
+            className={`
+              flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg font-medium text-sm transition-all
+              ${showAiGenerator
+                ? 'bg-purple-600 text-white'
+                : 'bg-purple-100 text-purple-700 hover:bg-purple-200'
+              }
+            `}
+          >
+            <SparklesIcon />
+            <span>AI Generate</span>
+          </button>
+        </div>
       </div>
+
+      {/* AI Generator Panel */}
+      {showAiGenerator && (
+        <div className="px-4 py-3 border-b border-slate-100 bg-purple-50 space-y-3">
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Describe your image
+            </label>
+            <textarea
+              value={aiPrompt}
+              onChange={(e) => setAiPrompt(e.target.value)}
+              placeholder="e.g., A cozy mountain cabin in winter with warm lights..."
+              className="w-full px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400 resize-none"
+              rows={3}
+              disabled={aiGenerating}
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Template (optional)
+            </label>
+            <select
+              value={aiTemplate}
+              onChange={(e) => setAiTemplate(e.target.value)}
+              className="w-full px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
+              disabled={aiGenerating}
+            >
+              <option value="">No template (custom)</option>
+              {PROMPT_TEMPLATES.map((t) => (
+                <option key={t.id} value={t.id}>
+                  {t.name}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-xs font-medium text-slate-600 mb-1">
+              Size
+            </label>
+            <select
+              value={aiSize}
+              onChange={(e) => setAiSize(e.target.value as '1024x1024' | '1792x1024' | '1024x1792')}
+              className="w-full px-3 py-2 border border-slate-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-purple-300 focus:border-purple-400"
+              disabled={aiGenerating}
+            >
+              {SIZE_OPTIONS.map((s) => (
+                <option key={s.id} value={s.id}>
+                  {s.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={handleAiGenerate}
+            disabled={aiGenerating || !aiPrompt.trim()}
+            className={`
+              w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all
+              ${aiGenerating || !aiPrompt.trim()
+                ? 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                : 'bg-purple-600 text-white hover:bg-purple-700'
+              }
+            `}
+          >
+            {aiGenerating ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent" />
+                <span>Generating...</span>
+              </>
+            ) : (
+              <>
+                <SparklesIcon />
+                <span>Generate Image</span>
+              </>
+            )}
+          </button>
+
+          {aiGenerating && (
+            <p className="text-xs text-purple-600 text-center">
+              This may take 10-30 seconds...
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Asset grid */}
       <div className="flex-1 overflow-y-auto p-3">
@@ -384,6 +565,14 @@ function DragIcon({ className = "w-4 h-4" }: { className?: string }) {
   return (
     <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+    </svg>
+  )
+}
+
+function SparklesIcon({ className = "w-4 h-4" }: { className?: string }) {
+  return (
+    <svg className={className} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
     </svg>
   )
 }

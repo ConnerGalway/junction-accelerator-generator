@@ -275,14 +275,48 @@
     return true;
   }
 
+  function insertMediaAfterElement(afterKey, mediaHtml, newKey) {
+    const afterEl = getElementByKey(afterKey);
+    if (!afterEl) return false;
+
+    // Create a new media container element
+    const mediaContainer = document.createElement('div');
+    mediaContainer.className = 'bridge-media-block';
+    mediaContainer.setAttribute('data-editable-key', newKey);
+    mediaContainer.setAttribute('data-media-block', 'true');
+    mediaContainer.innerHTML = mediaHtml;
+
+    // Insert after the reference element
+    afterEl.parentNode.insertBefore(mediaContainer, afterEl.nextSibling);
+
+    // Mark as changed
+    mediaContainer.classList.add('bridge-changed');
+
+    // Store original content (empty for new elements)
+    originalContent.set(newKey, '');
+
+    // Notify parent of the new element
+    sendToParent({
+      type: 'MEDIA_BLOCK_CREATED',
+      key: newKey,
+      afterKey: afterKey,
+      content: mediaHtml,
+    });
+
+    return true;
+  }
+
   // ──────────────────────────────────────────────────────────────────────────
   // DROP ZONES
   // ──────────────────────────────────────────────────────────────────────────
+
+  const insertZones = [];
 
   function enableDropZones() {
     if (dropZonesEnabled) return;
     dropZonesEnabled = true;
 
+    // Add drop zones to existing editable elements
     document.querySelectorAll(EDITABLE_SELECTOR).forEach(el => {
       el.classList.add('bridge-drop-zone');
 
@@ -291,6 +325,9 @@
       el.addEventListener('dragover', handleDragOver);
       el.addEventListener('drop', handleDrop);
     });
+
+    // Create insert zones between editable elements
+    createInsertZones();
 
     document.body.classList.add('bridge-drop-mode');
   }
@@ -308,22 +345,97 @@
       el.removeEventListener('drop', handleDrop);
     });
 
+    // Remove insert zones
+    removeInsertZones();
+
     document.body.classList.remove('bridge-drop-mode');
+  }
+
+  function createInsertZones() {
+    // Find editable elements that are block-level and create insert zones between them
+    const editables = Array.from(document.querySelectorAll(EDITABLE_SELECTOR));
+
+    editables.forEach((el, index) => {
+      // Only create insert zones after elements that are block-level or significant
+      const style = window.getComputedStyle(el);
+      const isBlock = style.display === 'block' || style.display === 'flex' ||
+                      el.tagName === 'P' || el.tagName === 'DIV' ||
+                      el.tagName === 'H1' || el.tagName === 'H2' || el.tagName === 'H3' ||
+                      el.tagName === 'LI' || el.tagName === 'SECTION';
+
+      if (!isBlock) return;
+
+      const key = el.getAttribute('data-editable-key');
+      if (!key) return;
+
+      // Create insert zone element
+      const insertZone = document.createElement('div');
+      insertZone.className = 'bridge-insert-zone';
+      insertZone.setAttribute('data-insert-after', key);
+      insertZone.innerHTML = '<span class="bridge-insert-label">+ Drop media here</span>';
+
+      // Insert after the element
+      el.parentNode.insertBefore(insertZone, el.nextSibling);
+
+      // Add event listeners
+      insertZone.addEventListener('dragenter', handleInsertZoneDragEnter);
+      insertZone.addEventListener('dragleave', handleInsertZoneDragLeave);
+      insertZone.addEventListener('dragover', handleDragOver);
+      insertZone.addEventListener('drop', handleInsertZoneDrop);
+
+      insertZones.push(insertZone);
+    });
+  }
+
+  function removeInsertZones() {
+    insertZones.forEach(zone => {
+      zone.removeEventListener('dragenter', handleInsertZoneDragEnter);
+      zone.removeEventListener('dragleave', handleInsertZoneDragLeave);
+      zone.removeEventListener('dragover', handleDragOver);
+      zone.removeEventListener('drop', handleInsertZoneDrop);
+      zone.remove();
+    });
+    insertZones.length = 0;
+  }
+
+  function handleInsertZoneDragEnter(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.add('bridge-insert-active');
+  }
+
+  function handleInsertZoneDragLeave(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.remove('bridge-insert-active');
+  }
+
+  function handleInsertZoneDrop(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    e.currentTarget.classList.remove('bridge-insert-active');
+
+    const afterKey = e.currentTarget.getAttribute('data-insert-after');
+
+    sendToParent({
+      type: 'MEDIA_INSERT_BETWEEN',
+      afterKey: afterKey,
+    });
   }
 
   function handleDragEnter(e) {
     e.preventDefault();
-    e.target.classList.add('bridge-drop-active');
+    e.currentTarget.classList.add('bridge-drop-active');
 
-    const key = e.target.getAttribute('data-editable-key');
+    const key = e.currentTarget.getAttribute('data-editable-key');
     sendToParent({ type: 'DROP_ZONE_ENTER', key });
   }
 
   function handleDragLeave(e) {
     e.preventDefault();
-    e.target.classList.remove('bridge-drop-active');
+    e.currentTarget.classList.remove('bridge-drop-active');
 
-    const key = e.target.getAttribute('data-editable-key');
+    const key = e.currentTarget.getAttribute('data-editable-key');
     sendToParent({ type: 'DROP_ZONE_LEAVE', key });
   }
 
@@ -334,10 +446,10 @@
 
   function handleDrop(e) {
     e.preventDefault();
-    e.target.classList.remove('bridge-drop-active');
+    e.currentTarget.classList.remove('bridge-drop-active');
 
-    const key = e.target.getAttribute('data-editable-key');
-    const rect = e.target.getBoundingClientRect();
+    const key = e.currentTarget.getAttribute('data-editable-key');
+    const rect = e.currentTarget.getBoundingClientRect();
 
     sendToParent({
       type: 'MEDIA_DROPPED',
@@ -458,6 +570,10 @@
         insertMediaAtElement(payload.key, payload.html);
         break;
 
+      case 'INSERT_MEDIA_AFTER':
+        insertMediaAfterElement(payload.afterKey, payload.html, payload.newKey);
+        break;
+
       case 'ENABLE_DROP_ZONES':
         enableDropZones();
         break;
@@ -551,6 +667,68 @@
         outline: 3px solid #22c55e !important;
         outline-offset: 2px !important;
         background-color: rgba(34, 197, 94, 0.1) !important;
+      }
+
+      /* Insert zones between elements */
+      .bridge-insert-zone {
+        height: 8px;
+        margin: 4px 0;
+        border-radius: 4px;
+        background: transparent;
+        border: 2px dashed transparent;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .bridge-drop-mode .bridge-insert-zone {
+        height: 32px;
+        border-color: #94a3b8;
+        background: rgba(148, 163, 184, 0.1);
+      }
+
+      .bridge-insert-zone .bridge-insert-label {
+        font-size: 12px;
+        color: #64748b;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+      }
+
+      .bridge-drop-mode .bridge-insert-zone .bridge-insert-label {
+        opacity: 1;
+      }
+
+      .bridge-insert-zone.bridge-insert-active {
+        height: 48px;
+        border-color: #22c55e;
+        background: rgba(34, 197, 94, 0.15);
+      }
+
+      .bridge-insert-zone.bridge-insert-active .bridge-insert-label {
+        color: #16a34a;
+        font-weight: 600;
+      }
+
+      /* Media blocks inserted between elements */
+      .bridge-media-block {
+        margin: 16px 0;
+        padding: 8px;
+        border-radius: 8px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+      }
+
+      .bridge-media-block img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 4px;
+      }
+
+      .bridge-media-block.bridge-selected {
+        outline: 3px solid #3b82f6;
+        outline-offset: 2px;
       }
 
       /* Prevent pointer events on non-editable elements in edit mode */
