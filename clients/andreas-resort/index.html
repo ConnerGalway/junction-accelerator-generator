@@ -46,21 +46,14 @@ REQUIRED PLACEHOLDERS PLACEHOLDER:
     October 15, 2026       Assessment date
 
 CONDITIONAL SECTIONS:
-  <!-- IF:TACTIC_4 -->     4th tactic (sidebar nav, page, JS arrays)
-  <!-- ENDIF:TACTIC_4 -->
-
-  <!-- IF:QUICK_WINS -->   Quick Wins page
-  <!-- ENDIF:QUICK_WINS -->
-
-  <!-- IF:TARGET_MILESTONE -->  Milestone card on dashboard
-  <!-- ENDIF:TARGET_MILESTONE -->
-
-  <!-- IF:GRANT_BUDGET -->  Grant budget badge
-  <!-- ENDIF:GRANT_BUDGET -->
+  IF:TACTIC_4       4th tactic (sidebar nav, page, JS arrays)
+  IF:QUICK_WINS     Quick Wins page
+  IF:TARGET_MILESTONE   Milestone card on dashboard
+  IF:GRANT_BUDGET   Grant budget badge
 
 IMAGE PLACEHOLDERS:
-  <!-- IMG:IDENTIFIER: description -->
-  Replaced with <img> tags based on plan.md instructions
+  IMG:IDENTIFIER: description
+  Replaced with img tags based on plan.md instructions
   If no image specified, remove the placeholder entirely
 
 EDITABLE KEY PATTERNS:
