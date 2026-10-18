@@ -18,6 +18,16 @@ window.__authReady = (async function () {
   try {
 
   // ------------------------------------------------------------------
+  // -1. Editor mode check - skip auth when loaded in WYSIWYG editor iframe
+  //     The editor handles its own auth, we just need the dashboard to render.
+  // ------------------------------------------------------------------
+  if (window.__editorMode === true) {
+    // In editor mode, skip redirects and return a placeholder user
+    // The editor's parent window handles authentication
+    return { email: 'editor@system', role: 'editor' };
+  }
+
+  // ------------------------------------------------------------------
   // 0. Allow public access to demo/sample dashboards (no login required)
   //    But if user IS logged in, check their role first so admins/coaches
   //    can see analytics and other role-gated features on demo pages.
@@ -179,11 +189,18 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 4. If still no match, this user has no access to this page
+    // 4. If still no match, check if this is a public demo page
+    //    Public demos are accessible to anyone, even logged-in users
+    //    without explicit access. They get 'viewer' role.
     // ------------------------------------------------------------------
     if (!matchedRole) {
-      window.location.replace('/login');
-      return new Promise(() => {});
+      if (isPublicDemo) {
+        // Allow access to public demo with viewer role
+        matchedRole = 'viewer';
+      } else {
+        window.location.replace('/login');
+        return new Promise(() => {});
+      }
     }
 
     // ------------------------------------------------------------------
