@@ -1,0 +1,104 @@
+{
+  "client_name": "Andrea's Resort",
+  "client_slug": "andreas-resort",
+  "goal": "This is Andrea's design sandbox. Use this dashboard to experiment with layout changes, colour adjustments, component improvements, and new features. Any changes made here stay isolated until Conner approves them for the main template.",
+  "coach_email": "conner@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Colour Audit",
+      "actions": ["Review current colour palette", "Test contrast ratios", "Propose colour adjustments"],
+      "checklist": ["Colour audit complete", "Contrast issues documented", "New palette proposed", "Palette approved"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Typography Review",
+      "actions": ["Audit font sizes and weights", "Check line heights", "Test on mobile"],
+      "checklist": ["Typography audit complete", "Font scale documented", "Mobile typography tested", "Changes proposed"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Spacing Standards",
+      "actions": ["Document current spacing", "Create spacing scale", "Apply to components"],
+      "checklist": ["Spacing audit complete", "Spacing scale created", "Components updated", "Consistency verified"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Component Inventory",
+      "actions": ["List all components", "Identify inconsistencies", "Prioritise improvements"],
+      "checklist": ["Component list complete", "Inconsistencies documented", "Priorities set", "Plan approved"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Button Improvements",
+      "actions": ["Review button styles", "Test hover states", "Improve accessibility"],
+      "checklist": ["Button audit complete", "Hover states improved", "Focus states added", "Changes tested"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Card Enhancements",
+      "actions": ["Review card designs", "Improve shadows", "Test interactions"],
+      "checklist": ["Card audit complete", "Shadows updated", "Interactions tested", "Changes approved"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Progress Indicators",
+      "actions": ["Review progress rings", "Test animations", "Improve feedback"],
+      "checklist": ["Progress audit complete", "Animations smooth", "Feedback clear", "Changes tested"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Form Elements",
+      "actions": ["Review form styling", "Test validation", "Improve error states"],
+      "checklist": ["Form audit complete", "Validation clear", "Error states improved", "Accessibility verified"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Navigation Testing",
+      "actions": ["Test sidebar navigation", "Review mobile nav", "Improve active states"],
+      "checklist": ["Navigation tested", "Mobile nav works", "Active states clear", "Changes deployed"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Modal Prototypes",
+      "actions": ["Design new modal styles", "Test transitions", "Improve close behaviour"],
+      "checklist": ["Modal designs ready", "Transitions smooth", "Close behaviour intuitive", "Accessibility verified"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Animation Additions",
+      "actions": ["Identify animation opportunities", "Add subtle transitions", "Test performance"],
+      "checklist": ["Animations identified", "Transitions added", "Performance good", "Reduced motion supported"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: Final Polish",
+      "actions": ["Review all changes", "Test across browsers", "Document for template"],
+      "checklist": ["All changes reviewed", "Cross-browser tested", "Documentation complete"],
+      "deep_link": "https://accelerator.elearningu.com/clients/andreas-resort/#week-12"
+    }
+  ]
+}
