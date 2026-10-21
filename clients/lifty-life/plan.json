@@ -9,10 +9,10 @@
       "month": 1,
       "title": "Week 1: Decide the Benefits",
       "actions": [
-        "Write the member benefits list and settle the cancellation window and late checkout time → links to: Tactic 1 / Step 1",
-        "Adopt the \"Lifty Life Member\" name and draft the one-page guest services guide → links to: Tactic 1 / Step 3",
-        "Email the Airbnb and VRBO account managers with the plan and ask for written guidance, including on the existing Google review text → links to: Tactic 2 / Step 1",
-        "Reply to the most recent Google reviews, starting with the 4-star review about air conditioning → links to: GBP Quick Wins"
+        "Write the member benefits list and settle the cancellation window and late checkout time",
+        "Adopt the \"Lifty Life Member\" name and draft the one-page guest services guide",
+        "Email the Airbnb and VRBO account managers with the plan and ask for written guidance, including on the existing Google review text",
+        "Reply to the most recent Google reviews, starting with the 4-star review about air conditioning"
       ],
       "checklist": [
         "A written list of four or five member benefits exists, with specific terms",
@@ -26,10 +26,10 @@
       "month": 1,
       "title": "Week 2: Hostaway and Tracking",
       "actions": [
-        "Create the \"Lifty Life Member\" custom field and the member automation in Hostaway → links to: Tactic 1 / Step 2",
-        "Add the GA4 Measurement ID to the Hostaway booking engine and configure both domains → links to: Tactic 4 / Step 1",
-        "Mark purchase as a key event and create the Hostaway custom definitions in GA4 → links to: Tactic 4 / Step 2",
-        "Change the Google Business Profile primary category and fix the phone number mismatch → links to: GBP Quick Wins"
+        "Create the \"Lifty Life Member\" custom field and the member automation in Hostaway",
+        "Add the GA4 Measurement ID to the Hostaway booking engine and configure both domains",
+        "Mark purchase as a key event and create the Hostaway custom definitions in GA4",
+        "Change the Google Business Profile primary category and fix the phone number mismatch"
       ],
       "checklist": [
         "Guest services can see member status on every reservation",
@@ -43,11 +43,11 @@
       "month": 1,
       "title": "Week 3: Sign-Up Form and Baseline",
       "actions": [
-        "Write the Benefits page copy, including the comparison and FAQ → links to: Tactic 1 / Step 4",
-        "Build the member sign-up form with the CASL consent checkbox and connect it to the email platform → links to: Tactic 1 / Step 5",
-        "Set up the member, past direct guest, market and occasion tags → links to: Tactic 2 / Step 2",
-        "Export the baseline report and send it to Junction → links to: Tactic 4 / Step 3",
-        "Shortlist the homes that suit extended stays and confirm the Enbridge timing → links to: Tactic 3 / Step 1"
+        "Write the Benefits page copy, including the comparison and FAQ",
+        "Build the member sign-up form with the CASL consent checkbox and connect it to the email platform",
+        "Set up the member, past direct guest, market and occasion tags",
+        "Export the baseline report and send it to Junction",
+        "Shortlist the homes that suit extended stays and confirm the Enbridge timing"
       ],
       "checklist": [
         "Benefits page copy is complete and with whoever builds the page",
@@ -62,11 +62,11 @@
       "month": 1,
       "title": "Week 4: Benefits Page Goes Live",
       "actions": [
-        "Publish the Benefits page and add it to the main navigation and footer → links to: Tactic 1 / Step 6",
-        "Add the descriptor line and benefits strip to the homepage and update the meta title → links to: Tactic 1 / Step 7",
-        "Add the member message wherever the Hostaway booking engine allows custom content → links to: Tactic 1 / Step 8",
-        "Add the Occasion and Trip notes custom fields in Hostaway and brief guest services → links to: Tactic 2 / Step 3",
-        "Set the extended-stay minimum stay, payment terms and pricing rule → links to: Tactic 3 / Step 2"
+        "Publish the Benefits page and add it to the main navigation and footer",
+        "Add the descriptor line and benefits strip to the homepage and update the meta title",
+        "Add the member message wherever the Hostaway booking engine allows custom content",
+        "Add the Occasion and Trip notes custom fields in Hostaway and brief guest services",
+        "Set the extended-stay minimum stay, payment terms and pricing rule"
       ],
       "checklist": [
         "The Benefits page is live and reachable from every page of liftylife.ca",
@@ -81,9 +81,9 @@
       "month": 2,
       "title": "Week 5: Welcome Email and Pop-Up",
       "actions": [
-        "Build and test the first welcome email → links to: Tactic 2 / Step 4",
-        "Add the member sign-up prompt to liftylife.ca → links to: Tactic 1 / Step 9",
-        "Write the extended stays page copy and enquiry form → links to: Tactic 3 / Step 3",
+        "Build and test the first welcome email",
+        "Add the member sign-up prompt to liftylife.ca",
+        "Write the extended stays page copy and enquiry form",
         "Ask owners of the shortlisted homes to confirm they will accept monthly guests"
       ],
       "checklist": [
@@ -98,10 +98,10 @@
       "month": 2,
       "title": "Week 6: Extended Stays Page Live",
       "actions": [
-        "Build the Day 3, Day 7 and Day 14 welcome emails → links to: Tactic 2 / Step 5",
-        "Publish the extended stays page and redirect the older extended-stay pages to it → links to: Tactic 3 / Step 4",
-        "Set up the extended_stay_enquiry event and mark it as a key event → links to: Tactic 3 / Step 5",
-        "Set the Google Ads budget and write down the break-even cost per booking → links to: Tactic 4 / Step 4"
+        "Build the Day 3, Day 7 and Day 14 welcome emails",
+        "Publish the extended stays page and redirect the older extended-stay pages to it",
+        "Set up the extended_stay_enquiry event and mark it as a key event",
+        "Set the Google Ads budget and write down the break-even cost per booking"
       ],
       "checklist": [
         "All four welcome emails are live and send in order",
@@ -116,9 +116,9 @@
       "month": 2,
       "title": "Week 7: Post-Stay Thank-You and Outbound List",
       "actions": [
-        "Build the post-stay thank-you and Google review automation for direct and website channels only → links to: Tactic 2 / Step 6",
-        "Build the outbound list of 15 to 20 contacts and the one-page sales sheet → links to: Tactic 3 / Step 6",
-        "Create the Google Ads account in Expert Mode, link GA4 and import the three conversions → links to: Tactic 4 / Step 5"
+        "Build the post-stay thank-you and Google review automation for direct and website channels only",
+        "Build the outbound list of 15 to 20 contacts and the one-page sales sheet",
+        "Create the Google Ads account in Expert Mode, link GA4 and import the three conversions"
       ],
       "checklist": [
         "The thank-you email reaches a test direct reservation and no OTA reservation",
@@ -132,10 +132,10 @@
       "month": 2,
       "title": "Week 8: Rebooking Email and Harrison Ads Launch",
       "actions": [
-        "Build the \"Where to next?\" rebooking automation → links to: Tactic 2 / Step 7",
-        "Send the first outbound emails with the sales sheet attached → links to: Tactic 3 / Step 7",
-        "Build and launch the Harrison accommodation campaign → links to: Tactic 4 / Step 6",
-        "Add the negative keyword list before the campaign spends → links to: Tactic 4 / Step 8"
+        "Build the \"Where to next?\" rebooking automation",
+        "Send the first outbound emails with the sales sheet attached",
+        "Build and launch the Harrison accommodation campaign",
+        "Add the negative keyword list before the campaign spends"
       ],
       "checklist": [
         "Direct guests receive the rebooking email three days after checkout",
@@ -149,9 +149,9 @@
       "month": 3,
       "title": "Week 9: Extended-Stay Ads and Annual Reminders",
       "actions": [
-        "Set up the ten-month anniversary and annual trip reminder in the email platform → links to: Tactic 2 / Step 8",
-        "Build and launch the extended-stay search campaign → links to: Tactic 4 / Step 7",
-        "Run the first weekly ads review and add negatives from the search terms report → links to: Tactic 4 / Step 9"
+        "Set up the ten-month anniversary and annual trip reminder in the email platform",
+        "Build and launch the extended-stay search campaign",
+        "Run the first weekly ads review and add negatives from the search terms report"
       ],
       "checklist": [
         "Guests tagged with an occasion are scheduled for a reminder before next year's date",
@@ -165,9 +165,9 @@
       "month": 3,
       "title": "Week 10: Guest Guide and Follow-Ups",
       "actions": [
-        "Redesign the guest guide with the Lifty Life page and QR code, and place it in the ten busiest Harrison homes → links to: Tactic 2 / Step 9",
-        "Send the outbound follow-up emails → links to: Tactic 3 / Step 7",
-        "Run the weekly ads review → links to: Tactic 4 / Step 9"
+        "Redesign the guest guide with the Lifty Life page and QR code, and place it in the ten busiest Harrison homes",
+        "Send the outbound follow-up emails",
+        "Run the weekly ads review"
       ],
       "checklist": [
         "Ten Harrison homes have the new guest guide in place",
@@ -181,9 +181,9 @@
       "month": 3,
       "title": "Week 11: First Member Update",
       "actions": [
-        "Send the first monthly member update to the member and past direct guest tags only → links to: Tactic 2 / Step 10",
-        "Run the weekly ads review and pause keywords with 40 clicks and no conversion → links to: Tactic 4 / Step 9",
-        "Post a Google Business Profile update linking to the Benefits page → links to: GBP Quick Wins"
+        "Send the first monthly member update to the member and past direct guest tags only",
+        "Run the weekly ads review and pause keywords with 40 clicks and no conversion",
+        "Post a Google Business Profile update linking to the Benefits page"
       ],
       "checklist": [
         "The member update has gone out, split by market where possible",
@@ -197,15 +197,14 @@
       "month": 3,
       "title": "Week 12: Review and Decide",
       "actions": [
-        "Compare every metric with the Week 3 baseline → links to: Tactic 4 / Step 3",
-        "Make the spring Google Ads budget decision and write down the numbers behind it → links to: Tactic 4 / Step 10",
+        "Compare every metric with the Week 3 baseline",
+        "Make the spring Google Ads budget decision and write down the numbers behind it",
         "Count next-year rebookings, member sign-ups and extended-stay nights booked, and add them to the owner pitch"
       ],
       "checklist": [
         "A 90-day report comparing every metric with the baseline exists",
         "The spring ad budget decision is written down with the evidence behind it",
-        "Member count, rebookings and extended-stay nights are recorded for the 30-day and 60-day follow-up",
-        "---"
+        "Member count, rebookings and extended-stay nights are recorded for the 30-day and 60-day follow-up"
       ],
       "deep_link": "https://accelerator.elearningu.com/lifty-life/#week-12"
     }
