@@ -4537,6 +4537,13 @@ body:not(.has-plan) .plan-content{display:none}
   margin-top:24px;
   background:transparent;
   padding:0;
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+  -ms-overflow-style:none;
+}
+.tactic-tabs::-webkit-scrollbar{
+  display:none;
 }
 .tactic-tab{
   padding:14px 24px;
@@ -5107,6 +5114,11 @@ body:not(.has-plan) .plan-content{display:none}
   .tactic-step-text-col,.tactic-step-media-col{flex:1 1 100%}
 }
 
+/* Tactic tabs responsive - medium screens */
+@media(max-width:1024px){
+  .tactic-tab{padding:12px 18px;font-size:13px}
+}
+
 /* Mobile adjustments for tactic pages */
 @media(max-width:768px){
   .tactic-page-content{
@@ -5117,6 +5129,8 @@ body:not(.has-plan) .plan-content{display:none}
   .tactic-hero h1{font-size:22px}
   .tactic-hero-top{flex-direction:column;gap:16px}
   .tactic-hero-progress{width:100%;justify-content:flex-end}
+  .tactic-tabs{gap:4px;margin-top:18px}
+  .tactic-tab{padding:10px 14px;font-size:12px}
   .tactic-part-header{padding:14px 16px;gap:12px}
   .tactic-part-title{font-size:16px}
   .tactic-part-body{padding:0 16px 6px}

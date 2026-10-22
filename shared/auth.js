@@ -169,22 +169,20 @@ window.__authReady = (async function () {
     }
 
     // ------------------------------------------------------------------
-    // 3. If no direct match, check for a wildcard row (client_slug = '*')
-    //    Admins and PSMs can access any client page via the '*' row
+    // 3. If no direct match, check if user has admin/psm role on ANY client
+    //    Admins and PSMs can access any client page (not just wildcard entries)
     // ------------------------------------------------------------------
     if (!matchedRole) {
-      const { data: wildcardRows } = await supabaseClient
+      const { data: adminRows } = await supabaseClient
         .from('user_plans')
         .select('role, active')
         .eq('email', userEmail)
-        .eq('client_slug', '*')
-        .eq('active', true);
+        .in('role', ['admin', 'psm'])
+        .eq('active', true)
+        .limit(1);
 
-      if (wildcardRows && wildcardRows.length > 0) {
-        const role = wildcardRows[0].role;
-        if (role === 'admin' || role === 'psm') {
-          matchedRole = role;
-        }
+      if (adminRows && adminRows.length > 0) {
+        matchedRole = adminRows[0].role;
       }
     }
 
