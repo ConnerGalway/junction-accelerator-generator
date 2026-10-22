@@ -1,0 +1,243 @@
+{
+  "client_name": "Agassiz-Harrison Museum & Visitor Centre",
+  "client_slug": "agassiz-harrison-museum-visitor-centre",
+  "goal": "The Agassiz-Harrison Museum & Visitor Centre sits on 13,000 photographs, military stories that have never been told online, agricultural history that connects directly to the Fraser Valley identity, and a local personality archive that most regional communities would trade a lot to have. The goal of the next ninety days is not to get more followers. It is to convert online discovery into in-person visits by getting that material in front of the families, young couples, local residents, and school groups who do not yet know the museum exists or what is inside it. The digital assessment confirmed the foundation is solid: a 4.6-star Google rating from 125 reviews, strong technical performance, and number-one rankings for every branded search term. What is missing is volume and structure. The content goes out at a reasonable pace but lacks the pillar organisation that makes a small team's effort compound over time, the video formats that platforms now reward with reach, and the FAQ-style content that AI search tools use to answer questions about what to do in Agassiz and Harrison Hot Springs. This plan fixes all three in sequence, using what the museum already has: the archives, the Canva setup, and Maria's commitment to doing this properly.",
+  "coach_email": "damon@wearejunction.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Audit and Pillar Definition",
+      "actions": [
+        "Run the full platform audit across all six platforms and record differences in a Google Sheet → links to: Tactic 3 / Step 1",
+        "Define the five content pillars in writing and tag all existing backlog content by pillar → links to: Tactic 1 / Step 1",
+        "Confirm that Meta Business Suite is connected to both Facebook and Instagram accounts → links to: Tactic 1 / Step 8",
+        "Add the full museum address and clickable phone number to the website footer → links to: Tactic 3 / Step 7",
+        "Fix duplicate H1 header tags on the homepage (reduce to one H1) and add missing alt text to images"
+      ],
+      "checklist": [
+        "Platform audit spreadsheet is complete for all six platforms with every inconsistency documented",
+        "Five content pillars are defined, named, and written down",
+        "Existing content backlog is tagged by pillar",
+        "Full address and clickable phone number are live in the website footer",
+        "Meta Business Suite shows Facebook and Instagram connected"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Video Shift and Standard Descriptions",
+      "actions": [
+        "Write the three standard descriptions (one sentence, one paragraph, three paragraphs) and get Maria's approval → links to: Tactic 3 / Step 3",
+        "Produce and publish the first three Instagram Reels using the Archive Reveal or Artifact Close-Up template → links to: Tactic 1 / Step 5",
+        "Begin posting daily Stories on Instagram (one Story per day, posted by whoever is on-site) → links to: Tactic 1 / Step 7",
+        "Set up TikTok Business account and YouTube account in the museum's name → links to: Tactic 1 / Step 6",
+        "Install Facebook Pixel on the museum website"
+      ],
+      "checklist": [
+        "Three standard descriptions are written and approved by Maria",
+        "Three Reels are published on Instagram",
+        "Daily Stories have started on Instagram",
+        "TikTok Business account is created and matching Instagram handle",
+        "YouTube channel is created in the museum's name",
+        "Facebook Pixel is installed on the website"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Description Rollout and FAQ Session",
+      "actions": [
+        "Update all six platforms with the standard descriptions, profile photos, and cover images → links to: Tactic 3 / Step 3",
+        "Claim and verify TripAdvisor listing if not yet completed → links to: Tactic 3 / Step 2",
+        "Run the top 100 questions session with the full team → links to: Tactic 2 / Step 1",
+        "Publish first GBP Post linking to the museum website → links to: Tactic 2 / Step 6",
+        "Run the AI citation baseline test: ask ChatGPT and Perplexity \"things to do in Agassiz BC\" and \"Harrison Hot Springs history\" and record the results"
+      ],
+      "checklist": [
+        "All six platforms show the same name, description version, profile photo, and cover image",
+        "TripAdvisor listing is claimed, verified, and updated",
+        "Top 100 questions session is complete; questions sorted into clusters",
+        "First GBP Post is live",
+        "AI baseline test results recorded in a document for comparison at Weeks 7 and 12"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Hours Standardisation and Content Calendar",
+      "actions": [
+        "Fix the incomplete hours display on the website to show all seven days → links to: Tactic 3 / Step 5",
+        "Update hours to match exactly across GBP, TripAdvisor, Facebook, and Destination BC → links to: Tactic 3 / Step 5",
+        "Build the master content calendar in Google Sheets and map out the next four weeks by pillar → links to: Tactic 1 / Step 3",
+        "Schedule the next two weeks of posts in Meta Business Suite → links to: Tactic 1 / Step 8",
+        "Begin posting the same Reels content to TikTok and YouTube Shorts → links to: Tactic 1 / Step 6"
+      ],
+      "checklist": [
+        "Hours are complete and identical on website, GBP, TripAdvisor, Facebook, and Destination BC",
+        "Content calendar exists in Google Sheets with four weeks mapped by pillar",
+        "Two weeks of posts are scheduled in advance in Meta Business Suite",
+        "First TikTok video is published",
+        "First YouTube Short is published"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Homepage FAQ Live",
+      "actions": [
+        "Write and publish the homepage FAQ section with the first ten priority questions and direct answers → links to: Tactic 2 / Step 2",
+        "Set up Google Search Console on the museum website and verify ownership → links to: Tactic 2 / Step 5",
+        "Publish GBP Post number two, tied to the FAQ or a historical story → links to: Tactic 2 / Step 6",
+        "Continue 3-5 Reels per week; post same content to TikTok and YouTube Shorts → links to: Tactic 1 / Step 4",
+        "Check Stories habit: is someone posting at least one Story per day?"
+      ],
+      "checklist": [
+        "Homepage FAQ section is live with at least 10 questions, each with a direct first-sentence answer",
+        "Google Search Console is connected and confirmed receiving data",
+        "GBP Post number two is published",
+        "Reels cadence of 3-5 per week is being maintained with no missed weeks"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Brand Guide and First Deep Content Page",
+      "actions": [
+        "Write the one-page brand guide for seasonal staff: museum name, one-sentence description, voice adjectives, content pillars, and what not to post → links to: Tactic 3 / Step 6",
+        "Write and publish the first deep content page: the History of the Agassiz Railway Station → links to: Tactic 2 / Step 4",
+        "Set up Reddit account; identify and begin monitoring relevant subreddits → links to: Tactic 2 / Step 7",
+        "Standardise profile photo and cover image on any remaining platforms not updated in Week 3 → links to: Tactic 3 / Step 4",
+        "Build the Canva Brand Kit with museum colours, fonts, logo, and approved images → links to: Tactic 3 / Step 4"
+      ],
+      "checklist": [
+        "Brand guide is written, printed, and saved to Google Drive",
+        "First deep content page is live on the website and linked from the navigation",
+        "Reddit monitoring is active for at least three relevant subreddits",
+        "Canva Brand Kit is set up and shared with the archives assistant"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Full FAQ Page and Deep Content Continued",
+      "actions": [
+        "Build and publish the full FAQ page with all questions organised by section → links to: Tactic 2 / Step 3",
+        "Write and publish the second deep content page: Military Connections (the WWI chairman and Billy Bishop pilot stories) → links to: Tactic 2 / Step 4",
+        "Run the second AI citation test using the same queries as Week 3; record and compare results",
+        "Post first Reddit contribution in a relevant thread where the museum can add genuine value → links to: Tactic 2 / Step 7",
+        "Maintain content calendar; 30-day content review: which pillar is performing best?"
+      ],
+      "checklist": [
+        "Full FAQ page is live with all questions organised by section and linked from the homepage FAQ",
+        "Second deep content page (military history) is published and internally linked to the first page",
+        "Second AI citation test results recorded and compared to Week 3 baseline",
+        "First Reddit community contribution is posted"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Content System Review and Canva Templates",
+      "actions": [
+        "Review 30-day social performance in Instagram Insights and Meta Business Suite: which pillar has the highest reach? Which Reel format (Archive Reveal vs Artifact Close-Up) performs better? → links to: Tactic 1 / Step 5",
+        "Build and save the two Canva Reel templates (Archive Reveal and Artifact Close-Up) as locked master files that seasonal staff can duplicate but not overwrite → links to: Tactic 1 / Step 5",
+        "Write and publish the third deep content page: Harrison Hot Springs history → links to: Tactic 2 / Step 4",
+        "Quarterly audit reminder: set calendar reminder for first week of next quarter to review all platform hours → links to: Tactic 3 / Step 5",
+        "Continue GBP Posts weekly; tie this week's post to the Harrison Hot Springs history page → links to: Tactic 2 / Step 6"
+      ],
+      "checklist": [
+        "30-day performance review completed with notes on best-performing pillar and Reel format",
+        "Two Canva Reel templates are saved as duplicatable master files",
+        "Third deep content page is published and internally linked",
+        "Quarterly hours audit reminder is in the calendar"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: School Group and Community Content Push",
+      "actions": [
+        "Write and publish the fourth deep content page: Agriculture in the Fraser Valley → links to: Tactic 2 / Step 4",
+        "Create and schedule two posts specifically targeting school groups and families using the Museum Life pillar → links to: Tactic 1 / Step 1",
+        "Check Google Search Console: which queries are bringing visitors to the site? Are any FAQ or historical terms appearing? → links to: Tactic 2 / Step 5",
+        "Run third Reddit engagement: look for threads where agricultural history or Fraser Valley heritage is being discussed → links to: Tactic 2 / Step 7",
+        "Review TripAdvisor listing: have any new reviews appeared? Have they been responded to?"
+      ],
+      "checklist": [
+        "Fourth deep content page (agriculture) is published",
+        "Google Search Console review completed; new query data recorded",
+        "Two school or family-focused posts are scheduled",
+        "TripAdvisor reviews have all received responses within 48 hours"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Seasonal Staff Onboarding Prep",
+      "actions": [
+        "Write the one-page seasonal staff onboarding document: brand guide, content calendar location, login credentials location, Canva template location, and posting instructions → links to: Tactic 3 / Step 6",
+        "Write and publish the fifth deep content page: Pioneers of the District of Kent → links to: Tactic 2 / Step 4",
+        "Run third AI citation test; compare to Week 3 and Week 7 results",
+        "Review content calendar: does the next month have enough pillar variety? Are any pillars running thin on archive material?",
+        "Continue weekly GBP Posts; all five deep content pages should now be linked from at least one GBP Post → links to: Tactic 2 / Step 6"
+      ],
+      "checklist": [
+        "Seasonal staff onboarding document is complete and saved to Google Drive",
+        "Fifth deep content page is published; all five pages are internally linked to each other",
+        "Third AI citation test results recorded and compared to previous tests",
+        "Content calendar has at least three weeks of content queued across all five pillars"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Reach Expansion and Community Presence",
+      "actions": [
+        "Review TikTok and YouTube Shorts performance: which videos have the most views? Note the topic and format for replication → links to: Tactic 1 / Step 6",
+        "Submit a genuine contribution to a Reddit or local community forum thread using historical archive material → links to: Tactic 2 / Step 7",
+        "Post a shoulder-season focused social piece: a rainy day in Agassiz, the case for visiting in November, historic photographs of winter in the Fraser Valley → links to: Tactic 1 / Step 1",
+        "Confirm all platform hours are current for the upcoming season → links to: Tactic 3 / Step 5",
+        "Review the brand guide: does it need any updates before seasonal hiring begins?"
+      ],
+      "checklist": [
+        "TikTok and YouTube Shorts top-performing video topics are noted and added to the content calendar",
+        "At least five Reddit or community contributions have been made across the 90-day program",
+        "Shoulder-season content is scheduled and live",
+        "All platform hours are confirmed current for the upcoming season"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: 90-Day Review and Plan Forward",
+      "actions": [
+        "Run final AI citation test (ChatGPT and Perplexity) using the same queries as Weeks 3, 7, and 10 -- compare all four data points",
+        "Pull 90-day social performance summary from Instagram Insights: follower growth, top post by reach, top post by engagement, best-performing pillar",
+        "Check Google Search Console: which queries are now driving traffic that were not driving traffic in Week 5?",
+        "Review the platform audit spreadsheet: are all six platforms still consistent, or has drift occurred somewhere?",
+        "Document three things that worked and one thing to change in the next 90 days"
+      ],
+      "checklist": [
+        "Final AI citation test results recorded; progression across all four tests documented",
+        "90-day social performance summary exists with specific numbers",
+        "Google Search Console query comparison between Week 5 and Week 12 is documented",
+        "Platform audit spreadsheet reviewed; any drift corrected",
+        "Next 90-day priority is decided with a written rationale",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/agassiz-harrison-museum-visitor-centre/#week-12"
+    }
+  ]
+}
