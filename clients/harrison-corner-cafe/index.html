@@ -5084,6 +5084,70 @@ body:not(.has-plan) .plan-content{display:none}
   background:#f7f2e9;
 }
 
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
+}
+
+/* Two mockups side by side, stacked on mobile */
+.tactic-mockup-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.tactic-mockup-pair > *{min-width:0}
+.tactic-mockup-pair .tactic-mockup{margin-top:0}
+@media(max-width:768px){
+  .tactic-mockup-pair{grid-template-columns:1fr}
+}
+
+/* Four mockups in one row, stacked on mobile */
+.tactic-mockup-pair.tactic-mockup-four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:768px){
+  .tactic-mockup-pair.tactic-mockup-four{grid-template-columns:1fr}
+}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -6873,6 +6937,68 @@ button,
                   <li data-editable-key="t2-bullet-7">The Harrison Moment: something from the village that tells people what a day here could look like. The patio, the lake in the distance, kids on the sidewalk, the market next door.</li>
                   <li data-editable-key="t2-bullet-8">The Why Post: text on screen explaining how you source, why you cook this way, the story of a dish. Good for slower months when the kitchen is quiet.</li>
                 </ul>
+                <div class="tactic-mockup-pair tactic-mockup-four">
+                  <a href="https://www.instagram.com/p/DSA57RlEtcE/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Dish Shot example on Instagram (opens in a new tab)">
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                        <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t2-s2-dish-shot.png" alt="Example Dish Shot: smoked salmon eggs Benedict with crispy potatoes on a white plate, shot from above in natural light" loading="lazy">
+                      </div>
+                      <div class="tactic-mockup-label">Dish Shot · @langleyeats</div>
+                    </div>
+                  </a>
+                  <a href="https://www.instagram.com/reel/DclCLtLMBlO/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Helper at Work example on Instagram (opens in a new tab)">
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                        <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t2-s2-helper-at-work.png" alt="Example Helper at Work Reel: a hand pouring a scoop of red corn into a kitchen bin, no face shown" loading="lazy">
+                      </div>
+                      <div class="tactic-mockup-label">Helper at Work · @lilamolino</div>
+                    </div>
+                  </a>
+                  <a href="https://www.instagram.com/reel/DccgLzIuQ_y/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Harrison Moment example on Instagram (opens in a new tab)">
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                        <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t2-s2-harrison-moment.png" alt="Example Harrison Moment Reel: Harrison Lake with forested mountains and low cloud, with the text &quot;This is…&quot;" loading="lazy">
+                      </div>
+                      <div class="tactic-mockup-label">Harrison Moment · @manpreettimes</div>
+                    </div>
+                  </a>
+                  <a href="https://www.instagram.com/reel/Dc6tZLRBvlg/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Why Post example on Instagram (opens in a new tab)">
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                        <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t2-s2-why-post.png" alt="Example Why Post Reel: hands working dough on a floured counter with the text &quot;We make our foods from scratch!&quot;" loading="lazy">
+                      </div>
+                      <div class="tactic-mockup-label">Why Post · @tagaris_winery</div>
+                    </div>
+                  </a>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t2-3">
@@ -6884,6 +7010,34 @@ button,
                   <li data-editable-key="t2-bullet-10">Download a free video editing app. Instagram's built-in Edits app (formerly Reels editor) works well. CapCut is the other popular option.</li>
                   <li data-editable-key="t2-bullet-11">Keep the apps on your home screen so they are visible when you sit down to schedule.</li>
                 </ul>
+                <a href="https://business.facebook.com" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Meta Business Suite (opens in a new tab)">
+                  <div class="tactic-mockup">
+                    <div class="tactic-mockup-chrome">
+                      <span class="tactic-mockup-dot red"></span>
+                      <span class="tactic-mockup-dot yellow"></span>
+                      <span class="tactic-mockup-dot green"></span>
+                      <div class="tactic-mockup-url">business.facebook.com</div>
+                      <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                    </div>
+                    <div class="tactic-mockup-body">
+                      <img src="/assets/harrison-corner-cafe-mockups/media/t2-s3-meta-business-suite-card.png" alt="Meta business tools login page reading 'Get started with business tools from Meta', with options to continue with Facebook or Instagram" loading="lazy">
+                    </div>
+                  </div>
+                </a>
+                <a href="https://www.instagram.com/reels/edits/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Instagram Edits (opens in a new tab)">
+                  <div class="tactic-mockup">
+                    <div class="tactic-mockup-chrome">
+                      <span class="tactic-mockup-dot red"></span>
+                      <span class="tactic-mockup-dot yellow"></span>
+                      <span class="tactic-mockup-dot green"></span>
+                      <div class="tactic-mockup-url">instagram.com</div>
+                      <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                    </div>
+                    <div class="tactic-mockup-body">
+                      <img src="/assets/harrison-corner-cafe-mockups/media/t2-s3-edits-card.png" alt="Three phone screens from the Instagram Edits app: an Ideas board of saved clips and notes, and two video editing timelines with Split, Animate, Audio, Text, Voice and Captions tools" loading="lazy">
+                    </div>
+                  </div>
+                </a>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t2-4">
@@ -6993,6 +7147,17 @@ button,
                   <li data-editable-key="t2-bullet-35">Add 3 to 5 hashtags that include your location: #harrisoncafe #frasereats #chilliwackbrunch.</li>
                   <li data-editable-key="t2-bullet-36">If stuck, paste your cafe profile into ChatGPT and ask it for five captions for the clip you are looking at.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">instagram.com</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/harrison-corner-cafe-mockups/media/t2-s10-search-caption.png" alt="Example Instagram post from Harrison Corner Cafe with the caption marked in three parts: a search phrase first (&quot;Best breakfast in Harrison Hot Springs&quot;), a description with the cafe name and hours, and local hashtags" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t2-11">
@@ -7005,6 +7170,17 @@ button,
                   <li data-editable-key="t2-bullet-39">Instagram and Facebook receive the same post at the same time.</li>
                   <li data-editable-key="t2-bullet-40">Two posts a week is 10 times your current rate. Volume is the goal.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">business.facebook.com</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/harrison-corner-cafe-mockups/media/t2-s11-planner-schedule.png" alt="Example Meta Business Suite Planner in month view for November, with posts scheduled at 10:00 AM every Tuesday and Friday to both Instagram and Facebook" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
                 <a href="https://www.facebook.com/business/help/1252240869631062" class="tactic-step-resource" target="_blank">Learn how to schedule posts in Meta Business Suite →</a>
               </div>
             </li>
@@ -7017,6 +7193,17 @@ button,
                   <li data-editable-key="t2-bullet-42">Post them live from the phone during service when something looks good.</li>
                   <li data-editable-key="t2-bullet-43">Stories do not need captions or planning. They are separate from the scheduled feed.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">instagram.com</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/harrison-corner-cafe-mockups/media/t2-s12-story.png" alt="Example Instagram Story from Harrison Corner Cafe over a photo of quiche, reading &quot;Sold out. Asparagus quiche is gone for today. Back on Friday!&quot;" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t2-13">
@@ -7029,6 +7216,17 @@ button,
                   <li data-editable-key="t2-bullet-46">Check if any captions brought new followers, which usually means the search terms are working.</li>
                   <li data-editable-key="t2-bullet-47">The target is 2 posts a week (8 a month) with a combined reach of 5,000 or more by Month 3.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">business.facebook.com</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/harrison-corner-cafe-mockups/media/t2-s13-insights-content.png" alt="Example Meta Business Suite Insights Content view for November, listing eight posts sorted by views, with the top two Reels highlighted" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
           </ol>
