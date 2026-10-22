@@ -46,20 +46,20 @@ REQUIRED PLACEHOLDERS {{UPPER_SNAKE_CASE}}:
     {{ASSESSMENT_DATE}}       Assessment date
 
 CONDITIONAL SECTIONS:
-  <!-- IF:TACTIC_4 -->     4th tactic (sidebar nav, page, JS arrays)
-  <!-- ENDIF:TACTIC_4 -->
+  IF:TACTIC_4     4th tactic (sidebar nav, page, JS arrays)
+  ENDIF:TACTIC_4
 
-  <!-- IF:QUICK_WINS -->   Quick Wins page
-  <!-- ENDIF:QUICK_WINS -->
+  IF:QUICK_WINS   Quick Wins page
+  ENDIF:QUICK_WINS
 
-  <!-- IF:TARGET_MILESTONE -->  Milestone card on dashboard
-  <!-- ENDIF:TARGET_MILESTONE -->
+  IF:TARGET_MILESTONE  Milestone card on dashboard
+  ENDIF:TARGET_MILESTONE
 
-  <!-- IF:GRANT_BUDGET -->  Grant budget badge
-  <!-- ENDIF:GRANT_BUDGET -->
+  IF:GRANT_BUDGET  Grant budget badge
+  ENDIF:GRANT_BUDGET
 
 IMAGE PLACEHOLDERS:
-  <!-- IMG:IDENTIFIER: description -->
+  IMG:IDENTIFIER: description
   Replaced with <img> tags based on plan.md instructions
   If no image specified, remove the placeholder entirely
 
