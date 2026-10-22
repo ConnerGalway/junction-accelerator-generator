@@ -32,7 +32,7 @@ window.__authReady = (async function () {
   //    But if user IS logged in, check their role first so admins/coaches
   //    can see analytics and other role-gated features on demo pages.
   // ------------------------------------------------------------------
-  const publicSlugs = ['sample-demo', 'sample-experience'];
+  const publicSlugs = ['sample-demo', 'sample-experience', 'agassiz-harrison-museum-visitor-centre'];
   const currentSlug = document.body.getAttribute('data-client-slug');
   const isPublicDemo = currentSlug && publicSlugs.includes(currentSlug);
 
