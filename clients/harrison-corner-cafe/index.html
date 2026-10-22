@@ -5167,6 +5167,16 @@ body:not(.has-plan) .plan-content{display:none}
   .tactic-mockup-pair.tactic-mockup-four{grid-template-columns:1fr}
 }
 
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
+}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -7471,6 +7481,17 @@ button,
                       <li data-editable-key="t3-step1-b3">In your Wix dashboard, go to Marketing Integrations (under Marketing & SEO), find Google Tag and click Connect, then paste the Measurement ID.</li>
                       <li data-editable-key="t3-step1-b4">Publish the site. Then open it on your phone and, in Google Analytics, go to Reports then Realtime. You should see yourself as a live visitor within a few minutes.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">analytics.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s1-ga4-realtime.png" alt="Google Analytics Realtime overview for Harrison Corner Cafe showing 1 active user in the last 30 minutes, on mobile, from Canada" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                     <a href="https://support.wix.com/en/article/tracking-events-on-your-wix-site-with-a-google-analytics-property" class="tactic-step-resource" target="_blank">Adding Google Analytics to your Wix site</a>
                   </div>
                 </li>
@@ -7483,6 +7504,17 @@ button,
                       <li data-editable-key="t3-step2-b2">Search Console is where you will see which searches show your site, such as "breakfast harrison hot springs," and your average position for each.</li>
                       <li data-editable-key="t3-step2-b3">Wait a week for data to appear, then note the average position and clicks for your top five searches. That is your baseline.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">manage.wix.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s2-wix-connect-google.png" alt="Wix SEO Setup Checklist with three tasks done and the Connect to Google button highlighted on &quot;Connect your site to Google&quot;" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                     <a href="https://support.wix.com/en/article/connecting-your-site-to-google-in-the-wix-seo-setup-checklist" class="tactic-step-resource" target="_blank">Connecting your site to Google in the SEO Setup Checklist</a>
                   </div>
                 </li>
@@ -7495,6 +7527,17 @@ button,
                       <li data-editable-key="t3-step3-b2">Open Pages & Menu, click the three dots next to Home, choose SEO basics, and set the title tag to something like "Harrison Corner Cafe | Breakfast in Harrison Hot Springs" (under 60 characters).</li>
                       <li data-editable-key="t3-step3-b3">In the same panel, write a meta description of about 150 characters, for example: "Made-to-order breakfast and brunch on Hot Springs Road. Fresh ingredients, real technique, walk-ins welcome. Open 9am to 2pm."</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s3-search-result-before-after.png" alt="Before and after Google results for Harrison Corner Cafe: before, a generic &quot;Home&quot; title with stray page text; after, &quot;Harrison Corner Cafe | Breakfast in Harrison Hot Springs&quot; with a clear description" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                     <a href="https://support.wix.com/en/article/managing-your-pages-heading-tags" class="tactic-step-resource" target="_blank">Managing your page's heading tags</a>
                   </div>
                 </li>
@@ -7508,6 +7551,17 @@ button,
                       <li data-editable-key="t3-step4-b3">Make sure the name, address and phone match your Google profile exactly, down to the abbreviations.</li>
                       <li data-editable-key="t3-step4-b4">To check it worked, go to Google's Rich Results Test, enter your homepage address, and confirm a Local Business item appears.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">search.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s4-rich-results-test.png" alt="Google Rich Results Test showing the homepage is eligible, with 1 valid Local businesses item listing the cafe's name, address and phone" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                     <a href="https://support.wix.com/en/article/creating-local-business-markup-for-your-sites-homepage" class="tactic-step-resource" target="_blank">Creating Local Business markup for your homepage</a>
                   </div>
                 </li>
@@ -7535,6 +7589,18 @@ button,
                       <li data-editable-key="t3-step5-b3">Add a short section called "Make a Day of It" with two or three Harrison ideas, such as the lake, the trails and the hot springs, each paired with a breakfast suggestion.</li>
                       <li data-editable-key="t3-step5-b4">Use two or three photos from the content library. For each image, click Settings and fill in the alt text field with a plain description.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisoncornercafe.net/plan-your-visit</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s5-plan-your-visit.png" alt="Mockup of a Plan Your Visit page in Harrison Corner Cafe's black and cream style, with an H1, an hours and walk-ins bar, sections for hours, walk-ins, busy times, parking, getting here and accessibility, and a Make a Day of It section pairing breakfasts with the lake, trails and hot springs" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-6">
@@ -7547,6 +7613,18 @@ button,
                       <li data-editable-key="t3-step6-b3">Open the page with a line about your rating and review count, for example "4.5 stars from more than 560 Google reviews," and update it every few months.</li>
                       <li data-editable-key="t3-step6-b4">Add a button at the bottom linking to your Google review link, so happy guests can add their own.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisoncornercafe.net/reviews</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s6-reviews-page.png" alt="Mockup of a What Our Guests Say page with a 4.5-star rating from more than 560 Google reviews, six guest review cards, and a Leave us a Google review button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-7">
@@ -7558,6 +7636,18 @@ button,
                       <li data-editable-key="t3-step7-b2">Write 300 to 500 words in your own voice, covering: how and when you opened; what ten years on Hot Springs Road has been like; why everything is made to order; the scrambled eggs story; what you love about Harrison.</li>
                       <li data-editable-key="t3-step7-b3">Give the page an H1 such as "Our Story: Ten Years of Made-to-Order Breakfast in Harrison Hot Springs."</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisoncornercafe.net/our-story</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s7-our-story.png" alt="Mockup of an Our Story page with the H1 &quot;Our Story: Ten Years of Made-to-Order Breakfast in Harrison Hot Springs&quot;, story text in the owner's voice, and photos of dishes and the dining room" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-8">
@@ -7570,6 +7660,18 @@ button,
                       <li data-editable-key="t3-step8-b3">Set the title and meta description for each new page using SEO basics.</li>
                       <li data-editable-key="t3-step8-b4">Point the Learn more button on your Google Posts to Plan Your Visit, and add the Plan Your Visit link to your Instagram bio.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisoncornercafe.net</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s8-navigation-menu.png" alt="Mockup of the Harrison Corner Cafe homepage with Plan Your Visit, Reviews and Our Story highlighted in the main menu, a tappable phone number, a new H1, and links to Plan your visit and Read our reviews under it" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -7597,6 +7699,18 @@ button,
                       <li data-editable-key="t3-step9-b4">Add the referral reward in one clear line, for example: "Send us our next line cook. If someone you refer is hired and stays [qualifying period], you get [referral reward amount] in credit at the cafe."</li>
                       <li data-editable-key="t3-step9-b5">Use two or three photos from the "people behind the pass" content in Tactic 2. When the page is live, share it once as an Instagram and Facebook post.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisoncornercafe.net/work-here</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-corner-cafe-mockups/media/t3-s9-work-here.png" alt="Mockup of a Work Here page describing the small family-run kitchen, how to apply by email, and a &quot;Send us our next line cook&quot; referral reward box" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
