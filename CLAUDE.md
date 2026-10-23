@@ -235,9 +235,24 @@ The template uses `<!-- IF:CONDITION -->` and `<!-- ENDIF:CONDITION -->` markers
 |---|---|---|
 | `IF:TACTIC_4` | Plan has 4 tactics | Keep content, remove markers |
 | `IF:QUICK_WINS` | Plan has Quick Wins section | Keep content, remove markers |
-| `IF:PROJECTIONS` | Plan has projections/forecasts | Keep content, remove markers |
+| `IF:PROJECTIONS` | **Accommodation businesses only** with room night projections in the plan | Keep content, remove markers |
 | `IF:GRANT_BUDGET` | Plan has a grant budget | Keep content, remove markers |
 | `IF:TARGET_MILESTONE` | Plan has target milestone | Keep content, remove markers |
+
+**Important: IF:PROJECTIONS is for accommodation businesses ONLY**
+
+The projections section displays Room Nights and Room Revenue metrics. It should ONLY be included for:
+- Hotels, motels, lodges, resorts
+- B&Bs, vacation rentals, cabins
+- Any business that sells overnight accommodation
+
+It should be REMOVED (entire block deleted) for:
+- Museums, galleries, visitor centres
+- Restaurants, cafes, retail stores
+- Tour operators, attractions
+- Any business that does NOT sell room nights
+
+When removing, delete both the HTML block (between IF:PROJECTIONS markers) AND the associated JavaScript (SCENARIOS object and setScenario function).
 
 **Processing rules:**
 1. If condition is TRUE: Remove the `<!-- IF:... -->` and `<!-- ENDIF:... -->` markers, keep the content between them

@@ -6217,70 +6217,6 @@ button,
       </div>
     </div>
 
-    <!-- IF:PROJECTIONS -->
-    <!-- PROJECTIONS -->
-    <div class="projections-section">
-      <div class="projections-header">
-        <div class="projections-label">Winter Season Projections</div>
-        <p class="projections-subtitle">Projected outcomes at <strong>$35,000 discretionary spend</strong> (December to March)</p>
-      </div>
-      <div class="projections-toggle">
-        <button class="projection-btn" data-scenario="conservative" onclick="setScenario('conservative')">
-          <span class="scenario-name">Conservative</span>
-          <span class="scenario-desc">Lower bound</span>
-        </button>
-        <button class="projection-btn active" data-scenario="moderate" onclick="setScenario('moderate')">
-          <span class="scenario-name">Moderate</span>
-          <span class="scenario-desc">Expected case</span>
-        </button>
-        <button class="projection-btn" data-scenario="aggressive" onclick="setScenario('aggressive')">
-          <span class="scenario-name">Aggressive</span>
-          <span class="scenario-desc">Upper bound</span>
-        </button>
-      </div>
-      <div class="projections-grid">
-        <div class="projection-card primary">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div class="projection-value" id="proj-nights">90–135</div>
-          <div class="projection-label">Room Nights</div>
-          <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-nights-bar" style="width:48%"></div>
-          </div>
-        </div>
-        <div class="projection-card primary">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <div class="projection-value" id="proj-revenue">$21,000–$31,500</div>
-          <div class="projection-label">Room Revenue</div>
-          <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-revenue-bar" style="width:48%"></div>
-          </div>
-        </div>
-        <div class="projection-card">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div class="projection-value" id="proj-emails">300</div>
-          <div class="projection-label">Email Subscribers</div>
-        </div>
-        <div class="projection-card">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div class="projection-value" id="proj-reviews">25</div>
-          <div class="projection-label">New Google Reviews</div>
-        </div>
-      </div>
-      <div class="projections-note">
-        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-        <span data-editable-key="projections-note">{{PROJECTIONS_NOTE}}</span>
-      </div>
-    </div>
-    <!-- ENDIF:PROJECTIONS -->
-
     <!-- STRATEGIC POSITIONING -->
     <div class="strategy-positioning">
       <div class="strategy-positioning-label">Strategic Positioning</div>
@@ -9016,59 +8952,6 @@ function navigate(pageId) {
   document.querySelectorAll(`[data-page="${pageId}"]`).forEach(n => n.classList.add('active'));
   document.getElementById('main').scrollTop = 0;
   if (window.innerWidth <= 768) closeMobileDrawer();
-}
-
-// ── Projections Scenario Toggle ─────────────────────────────
-const SCENARIOS = {
-  conservative: {
-    nights: '35–45',
-    nightsBar: 16,
-    revenue: '$8,000–$10,500',
-    revenueBar: 16,
-    emails: '150',
-    reviews: '10'
-  },
-  moderate: {
-    nights: '90–135',
-    nightsBar: 48,
-    revenue: '$21,000–$31,500',
-    revenueBar: 48,
-    emails: '300',
-    reviews: '25'
-  },
-  aggressive: {
-    nights: '210–280',
-    nightsBar: 100,
-    revenue: '$49,000–$65,500',
-    revenueBar: 100,
-    emails: '500',
-    reviews: '40'
-  }
-};
-
-function setScenario(scenario) {
-  const data = SCENARIOS[scenario];
-  if (!data) return;
-
-  // Update toggle buttons
-  document.querySelectorAll('.projection-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.scenario === scenario);
-  });
-
-  // Update values with animation
-  const nightsEl = document.getElementById('proj-nights');
-  const revenueEl = document.getElementById('proj-revenue');
-  const emailsEl = document.getElementById('proj-emails');
-  const reviewsEl = document.getElementById('proj-reviews');
-  const nightsBar = document.getElementById('proj-nights-bar');
-  const revenueBar = document.getElementById('proj-revenue-bar');
-
-  if (nightsEl) nightsEl.textContent = data.nights;
-  if (revenueEl) revenueEl.textContent = data.revenue;
-  if (emailsEl) emailsEl.textContent = data.emails;
-  if (reviewsEl) reviewsEl.textContent = data.reviews;
-  if (nightsBar) nightsBar.style.width = data.nightsBar + '%';
-  if (revenueBar) revenueBar.style.width = data.revenueBar + '%';
 }
 
 // ── PDF Download ────────────────────────────────────────────
