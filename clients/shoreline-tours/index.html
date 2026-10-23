@@ -894,6 +894,29 @@ nav { flex: 1; padding: 12px 0; }
 
 /* ── Mobile ─────────────────────────────────── */
 @media (max-width: 768px) {
+  /* Viewport containment - prevent horizontal scroll */
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    display: block;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  #main {
+    width: 100%;
+    margin-left: 0;
+    max-width: 100vw;
+    overflow-x: hidden;
+  }
+
+  .page {
+    overflow-x: hidden;
+  }
+
   #sidebar {
     position: fixed;
     left: 0;

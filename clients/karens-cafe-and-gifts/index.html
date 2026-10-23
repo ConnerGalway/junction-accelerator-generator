@@ -3685,7 +3685,9 @@ body:not(.has-plan) .plan-content{display:none}
 
 /* ── Responsive ──────────────────────────────── */
 @media(max-width:768px){
-  body{flex-direction:column;overflow:auto}
+  /* Viewport containment - prevent horizontal scroll */
+  html,body{overflow-x:hidden;max-width:100vw}
+  body{flex-direction:column;overflow-y:auto}
   #sidebar{
     position:fixed;
     left:0;top:0;bottom:0;
@@ -3700,7 +3702,10 @@ body:not(.has-plan) .plan-content{display:none}
     padding-top:56px;
     height:auto;
     overflow:visible;
+    max-width:100vw;
+    overflow-x:hidden;
   }
+  .page{overflow-x:hidden}
   .mobile-header{display:flex}
   .page-header{padding:24px 20px 28px}
   .page-header h1{font-size:22px}
