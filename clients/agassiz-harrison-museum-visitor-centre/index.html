@@ -7402,126 +7402,142 @@ button,
 
       <!-- WEEK 1 -->
       <div class="week-card" id="wc-1" data-week="1">
-        <div class="week-header">
-          <span class="week-badge">1</span>
-          <h2 class="week-title">Audit and Pillar Definition</h2>
-          <span class="week-progress" id="w1-prog">0 of 5</span>
+        <div class="week-card-header" onclick="toggleWeek(1)">
+          <div class="week-num">W1</div>
+          <div class="week-title">Audit and Pillar Definition</div>
+          <div class="week-progress-pill" id="wp-1">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Run the full platform audit across all six platforms and record differences in a Google Sheet <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
-              <li>Define the five content pillars in writing and tag all existing backlog content by pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
-              <li>Confirm that Meta Business Suite is connected to both Facebook and Instagram accounts <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
-              <li>Add the full museum address and clickable phone number to the website footer <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
-              <li>Fix duplicate H1 header tags on the homepage (reduce to one H1) and add missing alt text to images</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw1_d1" data-key="week-1-check-1" onchange="onCheck(this)"><span>Platform audit spreadsheet is complete for all six platforms with every inconsistency documented</span></label>
-              <label><input type="checkbox" class="check-input" id="rw1_d2" data-key="week-1-check-2" onchange="onCheck(this)"><span>Five content pillars are defined, named, and written down</span></label>
-              <label><input type="checkbox" class="check-input" id="rw1_d3" data-key="week-1-check-3" onchange="onCheck(this)"><span>Existing content backlog is tagged by pillar</span></label>
-              <label><input type="checkbox" class="check-input" id="rw1_d4" data-key="week-1-check-4" onchange="onCheck(this)"><span>Full address and clickable phone number are live in the website footer</span></label>
-              <label><input type="checkbox" class="check-input" id="rw1_d5" data-key="week-1-check-5" onchange="onCheck(this)"><span>Meta Business Suite shows Facebook and Instagram connected</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Run the full platform audit across all six platforms and record differences in a Google Sheet <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Define the five content pillars in writing and tag all existing backlog content by pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Confirm that Meta Business Suite is connected to both Facebook and Instagram accounts <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Add the full museum address and clickable phone number to the website footer <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Fix duplicate H1 header tags on the homepage (reduce to one H1) and add missing alt text to images</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d1" data-key="week-1-check-1" onchange="onCheck(this)"><label class="check-box" for="rw1_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d1">Platform audit spreadsheet is complete for all six platforms with every inconsistency documented</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d1"><textarea class="note-textarea" id="note-rw1_d1" placeholder="Add a note for this task…" oninput="saveNote('rw1_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d2" data-key="week-1-check-2" onchange="onCheck(this)"><label class="check-box" for="rw1_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d2">Five content pillars are defined, named, and written down</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d2"><textarea class="note-textarea" id="note-rw1_d2" placeholder="Add a note for this task…" oninput="saveNote('rw1_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d3" data-key="week-1-check-3" onchange="onCheck(this)"><label class="check-box" for="rw1_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d3">Existing content backlog is tagged by pillar</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d3"><textarea class="note-textarea" id="note-rw1_d3" placeholder="Add a note for this task…" oninput="saveNote('rw1_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d4" data-key="week-1-check-4" onchange="onCheck(this)"><label class="check-box" for="rw1_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d4">Full address and clickable phone number are live in the website footer</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d4"><textarea class="note-textarea" id="note-rw1_d4" placeholder="Add a note for this task…" oninput="saveNote('rw1_d4',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw1_d5" data-key="week-1-check-5" onchange="onCheck(this)"><label class="check-box" for="rw1_d5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d5">Meta Business Suite shows Facebook and Instagram connected</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw1_d5"><textarea class="note-textarea" id="note-rw1_d5" placeholder="Add a note for this task…" oninput="saveNote('rw1_d5',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-1" placeholder="Add general notes for this week…" oninput="saveNote('week_1',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 2 -->
       <div class="week-card" id="wc-2" data-week="2">
-        <div class="week-header">
-          <span class="week-badge">2</span>
-          <h2 class="week-title">Video Shift and Standard Descriptions</h2>
-          <span class="week-progress" id="w2-prog">0 of 6</span>
+        <div class="week-card-header" onclick="toggleWeek(2)">
+          <div class="week-num">W2</div>
+          <div class="week-title">Video Shift and Standard Descriptions</div>
+          <div class="week-progress-pill" id="wp-2">0 / 6</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Write the three standard descriptions (one sentence, one paragraph, three paragraphs) and get Maria's approval <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
-              <li>Produce and publish the first three Instagram Reels using the Archive Reveal or Artifact Close-Up template <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
-              <li>Begin posting daily Stories on Instagram (one Story per day, posted by whoever is on-site) <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
-              <li>Set up TikTok Business account and YouTube account in the museum's name <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
-              <li>Install Facebook Pixel on the museum website</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw2_d1" data-key="week-2-check-1" onchange="onCheck(this)"><span>Three standard descriptions are written and approved by Maria</span></label>
-              <label><input type="checkbox" class="check-input" id="rw2_d2" data-key="week-2-check-2" onchange="onCheck(this)"><span>Three Reels are published on Instagram</span></label>
-              <label><input type="checkbox" class="check-input" id="rw2_d3" data-key="week-2-check-3" onchange="onCheck(this)"><span>Daily Stories have started on Instagram</span></label>
-              <label><input type="checkbox" class="check-input" id="rw2_d4" data-key="week-2-check-4" onchange="onCheck(this)"><span>TikTok Business account is created and matching Instagram handle</span></label>
-              <label><input type="checkbox" class="check-input" id="rw2_d5" data-key="week-2-check-5" onchange="onCheck(this)"><span>YouTube channel is created in the museum's name</span></label>
-              <label><input type="checkbox" class="check-input" id="rw2_d6" data-key="week-2-check-6" onchange="onCheck(this)"><span>Facebook Pixel is installed on the website</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Write the three standard descriptions (one sentence, one paragraph, three paragraphs) and get Maria's approval <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Produce and publish the first three Instagram Reels using the Archive Reveal or Artifact Close-Up template <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Begin posting daily Stories on Instagram (one Story per day, posted by whoever is on-site) <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Set up TikTok Business account and YouTube account in the museum's name <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Install Facebook Pixel on the museum website</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d1" data-key="week-2-check-1" onchange="onCheck(this)"><label class="check-box" for="rw2_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d1">Three standard descriptions are written and approved by Maria</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d1"><textarea class="note-textarea" id="note-rw2_d1" placeholder="Add a note for this task…" oninput="saveNote('rw2_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d2" data-key="week-2-check-2" onchange="onCheck(this)"><label class="check-box" for="rw2_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d2">Three Reels are published on Instagram</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d2"><textarea class="note-textarea" id="note-rw2_d2" placeholder="Add a note for this task…" oninput="saveNote('rw2_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d3" data-key="week-2-check-3" onchange="onCheck(this)"><label class="check-box" for="rw2_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d3">Daily Stories have started on Instagram</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d3"><textarea class="note-textarea" id="note-rw2_d3" placeholder="Add a note for this task…" oninput="saveNote('rw2_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d4" data-key="week-2-check-4" onchange="onCheck(this)"><label class="check-box" for="rw2_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d4">TikTok Business account is created and matching Instagram handle</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d4"><textarea class="note-textarea" id="note-rw2_d4" placeholder="Add a note for this task…" oninput="saveNote('rw2_d4',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d5" data-key="week-2-check-5" onchange="onCheck(this)"><label class="check-box" for="rw2_d5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d5">YouTube channel is created in the museum's name</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d5"><textarea class="note-textarea" id="note-rw2_d5" placeholder="Add a note for this task…" oninput="saveNote('rw2_d5',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d6" data-key="week-2-check-6" onchange="onCheck(this)"><label class="check-box" for="rw2_d6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d6">Facebook Pixel is installed on the website</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d6')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d6"><textarea class="note-textarea" id="note-rw2_d6" placeholder="Add a note for this task…" oninput="saveNote('rw2_d6',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-2" placeholder="Add general notes for this week…" oninput="saveNote('week_2',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 3 -->
       <div class="week-card" id="wc-3" data-week="3">
-        <div class="week-header">
-          <span class="week-badge">3</span>
-          <h2 class="week-title">Description Rollout and FAQ Session</h2>
-          <span class="week-progress" id="w3-prog">0 of 5</span>
+        <div class="week-card-header" onclick="toggleWeek(3)">
+          <div class="week-num">W3</div>
+          <div class="week-title">Description Rollout and FAQ Session</div>
+          <div class="week-progress-pill" id="wp-3">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Update all six platforms with the standard descriptions, profile photos, and cover images <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
-              <li>Claim and verify TripAdvisor listing if not yet completed <button class="howto-link" onclick="howToLink('tactic3','step-t3-2')">how to</button></li>
-              <li>Run the top 100 questions session with the full team <button class="howto-link" onclick="howToLink('tactic2','step-t2-1')">how to</button></li>
-              <li>Publish first GBP Post linking to the museum website <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
-              <li>Run the AI citation baseline test: ask ChatGPT and Perplexity "things to do in Agassiz BC" and "Harrison Hot Springs history" and record the results</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw3_d1" data-key="week-3-check-1" onchange="onCheck(this)"><span>All six platforms show the same name, description version, profile photo, and cover image</span></label>
-              <label><input type="checkbox" class="check-input" id="rw3_d2" data-key="week-3-check-2" onchange="onCheck(this)"><span>TripAdvisor listing is claimed, verified, and updated</span></label>
-              <label><input type="checkbox" class="check-input" id="rw3_d3" data-key="week-3-check-3" onchange="onCheck(this)"><span>Top 100 questions session is complete; questions sorted into clusters</span></label>
-              <label><input type="checkbox" class="check-input" id="rw3_d4" data-key="week-3-check-4" onchange="onCheck(this)"><span>First GBP Post is live</span></label>
-              <label><input type="checkbox" class="check-input" id="rw3_d5" data-key="week-3-check-5" onchange="onCheck(this)"><span>AI baseline test results recorded in a document for comparison at Weeks 7 and 12</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Update all six platforms with the standard descriptions, profile photos, and cover images <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Claim and verify TripAdvisor listing if not yet completed <button class="howto-link" onclick="howToLink('tactic3','step-t3-2')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Run the top 100 questions session with the full team <button class="howto-link" onclick="howToLink('tactic2','step-t2-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Publish first GBP Post linking to the museum website <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Run the AI citation baseline test: ask ChatGPT and Perplexity "things to do in Agassiz BC" and "Harrison Hot Springs history" and record the results</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d1" data-key="week-3-check-1" onchange="onCheck(this)"><label class="check-box" for="rw3_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d1">All six platforms show the same name, description version, profile photo, and cover image</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d1"><textarea class="note-textarea" id="note-rw3_d1" placeholder="Add a note for this task…" oninput="saveNote('rw3_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d2" data-key="week-3-check-2" onchange="onCheck(this)"><label class="check-box" for="rw3_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d2">TripAdvisor listing is claimed, verified, and updated</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d2"><textarea class="note-textarea" id="note-rw3_d2" placeholder="Add a note for this task…" oninput="saveNote('rw3_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d3" data-key="week-3-check-3" onchange="onCheck(this)"><label class="check-box" for="rw3_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d3">Top 100 questions session is complete; questions sorted into clusters</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d3"><textarea class="note-textarea" id="note-rw3_d3" placeholder="Add a note for this task…" oninput="saveNote('rw3_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d4" data-key="week-3-check-4" onchange="onCheck(this)"><label class="check-box" for="rw3_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d4">First GBP Post is live</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d4"><textarea class="note-textarea" id="note-rw3_d4" placeholder="Add a note for this task…" oninput="saveNote('rw3_d4',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d5" data-key="week-3-check-5" onchange="onCheck(this)"><label class="check-box" for="rw3_d5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d5">AI baseline test results recorded in a document for comparison at Weeks 7 and 12</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d5"><textarea class="note-textarea" id="note-rw3_d5" placeholder="Add a note for this task…" oninput="saveNote('rw3_d5',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-3" placeholder="Add general notes for this week…" oninput="saveNote('week_3',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 4 -->
       <div class="week-card" id="wc-4" data-week="4">
-        <div class="week-header">
-          <span class="week-badge">4</span>
-          <h2 class="week-title">Hours Standardisation and Content Calendar</h2>
-          <span class="week-progress" id="w4-prog">0 of 5</span>
+        <div class="week-card-header" onclick="toggleWeek(4)">
+          <div class="week-num">W4</div>
+          <div class="week-title">Hours Standardisation and Content Calendar</div>
+          <div class="week-progress-pill" id="wp-4">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Fix the incomplete hours display on the website to show all seven days <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
-              <li>Update hours to match exactly across GBP, TripAdvisor, Facebook, and Destination BC <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
-              <li>Build the master content calendar in Google Sheets and map out the next four weeks by pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-3')">how to</button></li>
-              <li>Schedule the next two weeks of posts in Meta Business Suite <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
-              <li>Begin posting the same Reels content to TikTok and YouTube Shorts <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw4_d1" data-key="week-4-check-1" onchange="onCheck(this)"><span>Hours are complete and identical on website, GBP, TripAdvisor, Facebook, and Destination BC</span></label>
-              <label><input type="checkbox" class="check-input" id="rw4_d2" data-key="week-4-check-2" onchange="onCheck(this)"><span>Content calendar exists in Google Sheets with four weeks mapped by pillar</span></label>
-              <label><input type="checkbox" class="check-input" id="rw4_d3" data-key="week-4-check-3" onchange="onCheck(this)"><span>Two weeks of posts are scheduled in advance in Meta Business Suite</span></label>
-              <label><input type="checkbox" class="check-input" id="rw4_d4" data-key="week-4-check-4" onchange="onCheck(this)"><span>First TikTok video is published</span></label>
-              <label><input type="checkbox" class="check-input" id="rw4_d5" data-key="week-4-check-5" onchange="onCheck(this)"><span>First YouTube Short is published</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Fix the incomplete hours display on the website to show all seven days <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Update hours to match exactly across GBP, TripAdvisor, Facebook, and Destination BC <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Build the master content calendar in Google Sheets and map out the next four weeks by pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Schedule the next two weeks of posts in Meta Business Suite <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Begin posting the same Reels content to TikTok and YouTube Shorts <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d1" data-key="week-4-check-1" onchange="onCheck(this)"><label class="check-box" for="rw4_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d1">Hours are complete and identical on website, GBP, TripAdvisor, Facebook, and Destination BC</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d1"><textarea class="note-textarea" id="note-rw4_d1" placeholder="Add a note for this task…" oninput="saveNote('rw4_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d2" data-key="week-4-check-2" onchange="onCheck(this)"><label class="check-box" for="rw4_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d2">Content calendar exists in Google Sheets with four weeks mapped by pillar</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d2"><textarea class="note-textarea" id="note-rw4_d2" placeholder="Add a note for this task…" oninput="saveNote('rw4_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d3" data-key="week-4-check-3" onchange="onCheck(this)"><label class="check-box" for="rw4_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d3">Two weeks of posts are scheduled in advance in Meta Business Suite</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d3"><textarea class="note-textarea" id="note-rw4_d3" placeholder="Add a note for this task…" oninput="saveNote('rw4_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d4" data-key="week-4-check-4" onchange="onCheck(this)"><label class="check-box" for="rw4_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d4">First TikTok video is published</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d4"><textarea class="note-textarea" id="note-rw4_d4" placeholder="Add a note for this task…" oninput="saveNote('rw4_d4',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d5" data-key="week-4-check-5" onchange="onCheck(this)"><label class="check-box" for="rw4_d5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d5">First YouTube Short is published</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d5"><textarea class="note-textarea" id="note-rw4_d5" placeholder="Add a note for this task…" oninput="saveNote('rw4_d5',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-4" placeholder="Add general notes for this week…" oninput="saveNote('week_4',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
     </div>
@@ -7536,121 +7552,137 @@ button,
 
       <!-- WEEK 5 -->
       <div class="week-card" id="wc-5" data-week="5">
-        <div class="week-header">
-          <span class="week-badge">5</span>
-          <h2 class="week-title">Homepage FAQ Live</h2>
-          <span class="week-progress" id="w5-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(5)">
+          <div class="week-num">W5</div>
+          <div class="week-title">Homepage FAQ Live</div>
+          <div class="week-progress-pill" id="wp-5">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Write and publish the homepage FAQ section with the first ten priority questions and direct answers <button class="howto-link" onclick="howToLink('tactic2','step-t2-2')">how to</button></li>
-              <li>Set up Google Search Console on the museum website and verify ownership <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
-              <li>Publish GBP Post number two, tied to the FAQ or a historical story <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
-              <li>Continue 3-5 Reels per week; post same content to TikTok and YouTube Shorts <button class="howto-link" onclick="howToLink('tactic1','step-t1-4')">how to</button></li>
-              <li>Check Stories habit: is someone posting at least one Story per day?</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw5_d1" data-key="week-5-check-1" onchange="onCheck(this)"><span>Homepage FAQ section is live with at least 10 questions, each with a direct first-sentence answer</span></label>
-              <label><input type="checkbox" class="check-input" id="rw5_d2" data-key="week-5-check-2" onchange="onCheck(this)"><span>Google Search Console is connected and confirmed receiving data</span></label>
-              <label><input type="checkbox" class="check-input" id="rw5_d3" data-key="week-5-check-3" onchange="onCheck(this)"><span>GBP Post number two is published</span></label>
-              <label><input type="checkbox" class="check-input" id="rw5_d4" data-key="week-5-check-4" onchange="onCheck(this)"><span>Reels cadence of 3-5 per week is being maintained with no missed weeks</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the homepage FAQ section with the first ten priority questions and direct answers <button class="howto-link" onclick="howToLink('tactic2','step-t2-2')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Set up Google Search Console on the museum website and verify ownership <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Publish GBP Post number two, tied to the FAQ or a historical story <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Continue 3-5 Reels per week; post same content to TikTok and YouTube Shorts <button class="howto-link" onclick="howToLink('tactic1','step-t1-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Check Stories habit: is someone posting at least one Story per day?</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d1" data-key="week-5-check-1" onchange="onCheck(this)"><label class="check-box" for="rw5_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d1">Homepage FAQ section is live with at least 10 questions, each with a direct first-sentence answer</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d1"><textarea class="note-textarea" id="note-rw5_d1" placeholder="Add a note for this task…" oninput="saveNote('rw5_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d2" data-key="week-5-check-2" onchange="onCheck(this)"><label class="check-box" for="rw5_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d2">Google Search Console is connected and confirmed receiving data</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d2"><textarea class="note-textarea" id="note-rw5_d2" placeholder="Add a note for this task…" oninput="saveNote('rw5_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d3" data-key="week-5-check-3" onchange="onCheck(this)"><label class="check-box" for="rw5_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d3">GBP Post number two is published</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d3"><textarea class="note-textarea" id="note-rw5_d3" placeholder="Add a note for this task…" oninput="saveNote('rw5_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d4" data-key="week-5-check-4" onchange="onCheck(this)"><label class="check-box" for="rw5_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d4">Reels cadence of 3-5 per week is being maintained with no missed weeks</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d4"><textarea class="note-textarea" id="note-rw5_d4" placeholder="Add a note for this task…" oninput="saveNote('rw5_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-5" placeholder="Add general notes for this week…" oninput="saveNote('week_5',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 6 -->
       <div class="week-card" id="wc-6" data-week="6">
-        <div class="week-header">
-          <span class="week-badge">6</span>
-          <h2 class="week-title">Brand Guide and First Deep Content Page</h2>
-          <span class="week-progress" id="w6-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(6)">
+          <div class="week-num">W6</div>
+          <div class="week-title">Brand Guide and First Deep Content Page</div>
+          <div class="week-progress-pill" id="wp-6">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Write the one-page brand guide for seasonal staff: museum name, one-sentence description, voice adjectives, content pillars, and what not to post <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
-              <li>Write and publish the first deep content page: the History of the Agassiz Railway Station <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-              <li>Set up Reddit account; identify and begin monitoring relevant subreddits <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
-              <li>Standardise profile photo and cover image on any remaining platforms not updated in Week 3 <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
-              <li>Build the Canva Brand Kit with museum colours, fonts, logo, and approved images <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw6_d1" data-key="week-6-check-1" onchange="onCheck(this)"><span>Brand guide is written, printed, and saved to Google Drive</span></label>
-              <label><input type="checkbox" class="check-input" id="rw6_d2" data-key="week-6-check-2" onchange="onCheck(this)"><span>First deep content page is live on the website and linked from the navigation</span></label>
-              <label><input type="checkbox" class="check-input" id="rw6_d3" data-key="week-6-check-3" onchange="onCheck(this)"><span>Reddit monitoring is active for at least three relevant subreddits</span></label>
-              <label><input type="checkbox" class="check-input" id="rw6_d4" data-key="week-6-check-4" onchange="onCheck(this)"><span>Canva Brand Kit is set up and shared with the archives assistant</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Write the one-page brand guide for seasonal staff: museum name, one-sentence description, voice adjectives, content pillars, and what not to post <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the first deep content page: the History of the Agassiz Railway Station <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Set up Reddit account; identify and begin monitoring relevant subreddits <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Standardise profile photo and cover image on any remaining platforms not updated in Week 3 <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Build the Canva Brand Kit with museum colours, fonts, logo, and approved images <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d1" data-key="week-6-check-1" onchange="onCheck(this)"><label class="check-box" for="rw6_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d1">Brand guide is written, printed, and saved to Google Drive</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d1"><textarea class="note-textarea" id="note-rw6_d1" placeholder="Add a note for this task…" oninput="saveNote('rw6_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d2" data-key="week-6-check-2" onchange="onCheck(this)"><label class="check-box" for="rw6_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d2">First deep content page is live on the website and linked from the navigation</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d2"><textarea class="note-textarea" id="note-rw6_d2" placeholder="Add a note for this task…" oninput="saveNote('rw6_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d3" data-key="week-6-check-3" onchange="onCheck(this)"><label class="check-box" for="rw6_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d3">Reddit monitoring is active for at least three relevant subreddits</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d3"><textarea class="note-textarea" id="note-rw6_d3" placeholder="Add a note for this task…" oninput="saveNote('rw6_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d4" data-key="week-6-check-4" onchange="onCheck(this)"><label class="check-box" for="rw6_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d4">Canva Brand Kit is set up and shared with the archives assistant</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d4"><textarea class="note-textarea" id="note-rw6_d4" placeholder="Add a note for this task…" oninput="saveNote('rw6_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-6" placeholder="Add general notes for this week…" oninput="saveNote('week_6',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 7 -->
       <div class="week-card" id="wc-7" data-week="7">
-        <div class="week-header">
-          <span class="week-badge">7</span>
-          <h2 class="week-title">Full FAQ Page and Deep Content Continued</h2>
-          <span class="week-progress" id="w7-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(7)">
+          <div class="week-num">W7</div>
+          <div class="week-title">Full FAQ Page and Deep Content Continued</div>
+          <div class="week-progress-pill" id="wp-7">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Build and publish the full FAQ page with all questions organised by section <button class="howto-link" onclick="howToLink('tactic2','step-t2-3')">how to</button></li>
-              <li>Write and publish the second deep content page: Military Connections (the WWI chairman and Billy Bishop pilot stories) <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-              <li>Run the second AI citation test using the same queries as Week 3; record and compare results</li>
-              <li>Post first Reddit contribution in a relevant thread where the museum can add genuine value <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
-              <li>Maintain content calendar; 30-day content review: which pillar is performing best?</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw7_d1" data-key="week-7-check-1" onchange="onCheck(this)"><span>Full FAQ page is live with all questions organised by section and linked from the homepage FAQ</span></label>
-              <label><input type="checkbox" class="check-input" id="rw7_d2" data-key="week-7-check-2" onchange="onCheck(this)"><span>Second deep content page (military history) is published and internally linked to the first page</span></label>
-              <label><input type="checkbox" class="check-input" id="rw7_d3" data-key="week-7-check-3" onchange="onCheck(this)"><span>Second AI citation test results recorded and compared to Week 3 baseline</span></label>
-              <label><input type="checkbox" class="check-input" id="rw7_d4" data-key="week-7-check-4" onchange="onCheck(this)"><span>First Reddit community contribution is posted</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Build and publish the full FAQ page with all questions organised by section <button class="howto-link" onclick="howToLink('tactic2','step-t2-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the second deep content page: Military Connections (the WWI chairman and Billy Bishop pilot stories) <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Run the second AI citation test using the same queries as Week 3; record and compare results</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Post first Reddit contribution in a relevant thread where the museum can add genuine value <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Maintain content calendar; 30-day content review: which pillar is performing best?</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d1" data-key="week-7-check-1" onchange="onCheck(this)"><label class="check-box" for="rw7_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d1">Full FAQ page is live with all questions organised by section and linked from the homepage FAQ</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d1"><textarea class="note-textarea" id="note-rw7_d1" placeholder="Add a note for this task…" oninput="saveNote('rw7_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d2" data-key="week-7-check-2" onchange="onCheck(this)"><label class="check-box" for="rw7_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d2">Second deep content page (military history) is published and internally linked to the first page</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d2"><textarea class="note-textarea" id="note-rw7_d2" placeholder="Add a note for this task…" oninput="saveNote('rw7_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d3" data-key="week-7-check-3" onchange="onCheck(this)"><label class="check-box" for="rw7_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d3">Second AI citation test results recorded and compared to Week 3 baseline</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d3"><textarea class="note-textarea" id="note-rw7_d3" placeholder="Add a note for this task…" oninput="saveNote('rw7_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d4" data-key="week-7-check-4" onchange="onCheck(this)"><label class="check-box" for="rw7_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d4">First Reddit community contribution is posted</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d4"><textarea class="note-textarea" id="note-rw7_d4" placeholder="Add a note for this task…" oninput="saveNote('rw7_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-7" placeholder="Add general notes for this week…" oninput="saveNote('week_7',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 8 -->
       <div class="week-card" id="wc-8" data-week="8">
-        <div class="week-header">
-          <span class="week-badge">8</span>
-          <h2 class="week-title">Content System Review and Canva Templates</h2>
-          <span class="week-progress" id="w8-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(8)">
+          <div class="week-num">W8</div>
+          <div class="week-title">Content System Review and Canva Templates</div>
+          <div class="week-progress-pill" id="wp-8">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Review 30-day social performance in Instagram Insights and Meta Business Suite: which pillar has the highest reach? Which Reel format performs better? <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
-              <li>Build and save the two Canva Reel templates (Archive Reveal and Artifact Close-Up) as locked master files <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
-              <li>Write and publish the third deep content page: Harrison Hot Springs history <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-              <li>Quarterly audit reminder: set calendar reminder for first week of next quarter to review all platform hours <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
-              <li>Continue GBP Posts weekly; tie this week's post to the Harrison Hot Springs history page <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw8_d1" data-key="week-8-check-1" onchange="onCheck(this)"><span>30-day performance review completed with notes on best-performing pillar and Reel format</span></label>
-              <label><input type="checkbox" class="check-input" id="rw8_d2" data-key="week-8-check-2" onchange="onCheck(this)"><span>Two Canva Reel templates are saved as duplicatable master files</span></label>
-              <label><input type="checkbox" class="check-input" id="rw8_d3" data-key="week-8-check-3" onchange="onCheck(this)"><span>Third deep content page is published and internally linked</span></label>
-              <label><input type="checkbox" class="check-input" id="rw8_d4" data-key="week-8-check-4" onchange="onCheck(this)"><span>Quarterly hours audit reminder is in the calendar</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Review 30-day social performance in Instagram Insights and Meta Business Suite: which pillar has the highest reach? Which Reel format performs better? <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Build and save the two Canva Reel templates (Archive Reveal and Artifact Close-Up) as locked master files <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the third deep content page: Harrison Hot Springs history <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Quarterly audit reminder: set calendar reminder for first week of next quarter to review all platform hours <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Continue GBP Posts weekly; tie this week's post to the Harrison Hot Springs history page <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d1" data-key="week-8-check-1" onchange="onCheck(this)"><label class="check-box" for="rw8_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d1">30-day performance review completed with notes on best-performing pillar and Reel format</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d1"><textarea class="note-textarea" id="note-rw8_d1" placeholder="Add a note for this task…" oninput="saveNote('rw8_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d2" data-key="week-8-check-2" onchange="onCheck(this)"><label class="check-box" for="rw8_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d2">Two Canva Reel templates are saved as duplicatable master files</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d2"><textarea class="note-textarea" id="note-rw8_d2" placeholder="Add a note for this task…" oninput="saveNote('rw8_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d3" data-key="week-8-check-3" onchange="onCheck(this)"><label class="check-box" for="rw8_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d3">Third deep content page is published and internally linked</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d3"><textarea class="note-textarea" id="note-rw8_d3" placeholder="Add a note for this task…" oninput="saveNote('rw8_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d4" data-key="week-8-check-4" onchange="onCheck(this)"><label class="check-box" for="rw8_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d4">Quarterly hours audit reminder is in the calendar</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d4"><textarea class="note-textarea" id="note-rw8_d4" placeholder="Add a note for this task…" oninput="saveNote('rw8_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-8" placeholder="Add general notes for this week…" oninput="saveNote('week_8',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
     </div>
@@ -7665,122 +7697,138 @@ button,
 
       <!-- WEEK 9 -->
       <div class="week-card" id="wc-9" data-week="9">
-        <div class="week-header">
-          <span class="week-badge">9</span>
-          <h2 class="week-title">School Group and Community Content Push</h2>
-          <span class="week-progress" id="w9-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(9)">
+          <div class="week-num">W9</div>
+          <div class="week-title">School Group and Community Content Push</div>
+          <div class="week-progress-pill" id="wp-9">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Write and publish the fourth deep content page: Agriculture in the Fraser Valley <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-              <li>Create and schedule two posts specifically targeting school groups and families using the Museum Life pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
-              <li>Check Google Search Console: which queries are bringing visitors to the site? Are any FAQ or historical terms appearing? <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
-              <li>Run third Reddit engagement: look for threads where agricultural history or Fraser Valley heritage is being discussed <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
-              <li>Review TripAdvisor listing: have any new reviews appeared? Have they been responded to?</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw9_d1" data-key="week-9-check-1" onchange="onCheck(this)"><span>Fourth deep content page (agriculture) is published</span></label>
-              <label><input type="checkbox" class="check-input" id="rw9_d2" data-key="week-9-check-2" onchange="onCheck(this)"><span>Google Search Console review completed; new query data recorded</span></label>
-              <label><input type="checkbox" class="check-input" id="rw9_d3" data-key="week-9-check-3" onchange="onCheck(this)"><span>Two school or family-focused posts are scheduled</span></label>
-              <label><input type="checkbox" class="check-input" id="rw9_d4" data-key="week-9-check-4" onchange="onCheck(this)"><span>TripAdvisor reviews have all received responses within 48 hours</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the fourth deep content page: Agriculture in the Fraser Valley <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Create and schedule two posts specifically targeting school groups and families using the Museum Life pillar <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Check Google Search Console: which queries are bringing visitors to the site? Are any FAQ or historical terms appearing? <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Run third Reddit engagement: look for threads where agricultural history or Fraser Valley heritage is being discussed <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Review TripAdvisor listing: have any new reviews appeared? Have they been responded to?</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d1" data-key="week-9-check-1" onchange="onCheck(this)"><label class="check-box" for="rw9_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d1">Fourth deep content page (agriculture) is published</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d1"><textarea class="note-textarea" id="note-rw9_d1" placeholder="Add a note for this task…" oninput="saveNote('rw9_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d2" data-key="week-9-check-2" onchange="onCheck(this)"><label class="check-box" for="rw9_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d2">Google Search Console review completed; new query data recorded</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d2"><textarea class="note-textarea" id="note-rw9_d2" placeholder="Add a note for this task…" oninput="saveNote('rw9_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d3" data-key="week-9-check-3" onchange="onCheck(this)"><label class="check-box" for="rw9_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d3">Two school or family-focused posts are scheduled</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d3"><textarea class="note-textarea" id="note-rw9_d3" placeholder="Add a note for this task…" oninput="saveNote('rw9_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d4" data-key="week-9-check-4" onchange="onCheck(this)"><label class="check-box" for="rw9_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d4">TripAdvisor reviews have all received responses within 48 hours</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d4"><textarea class="note-textarea" id="note-rw9_d4" placeholder="Add a note for this task…" oninput="saveNote('rw9_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-9" placeholder="Add general notes for this week…" oninput="saveNote('week_9',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 10 -->
       <div class="week-card" id="wc-10" data-week="10">
-        <div class="week-header">
-          <span class="week-badge">10</span>
-          <h2 class="week-title">Seasonal Staff Onboarding Prep</h2>
-          <span class="week-progress" id="w10-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(10)">
+          <div class="week-num">W10</div>
+          <div class="week-title">Seasonal Staff Onboarding Prep</div>
+          <div class="week-progress-pill" id="wp-10">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Write the one-page seasonal staff onboarding document: brand guide, content calendar location, login credentials location, Canva template location, and posting instructions <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
-              <li>Write and publish the fifth deep content page: Pioneers of the District of Kent <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-              <li>Run third AI citation test; compare to Week 3 and Week 7 results</li>
-              <li>Review content calendar: does the next month have enough pillar variety? Are any pillars running thin on archive material?</li>
-              <li>Continue weekly GBP Posts; all five deep content pages should now be linked from at least one GBP Post <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw10_d1" data-key="week-10-check-1" onchange="onCheck(this)"><span>Seasonal staff onboarding document is complete and saved to Google Drive</span></label>
-              <label><input type="checkbox" class="check-input" id="rw10_d2" data-key="week-10-check-2" onchange="onCheck(this)"><span>Fifth deep content page is published; all five pages are internally linked to each other</span></label>
-              <label><input type="checkbox" class="check-input" id="rw10_d3" data-key="week-10-check-3" onchange="onCheck(this)"><span>Third AI citation test results recorded and compared to previous tests</span></label>
-              <label><input type="checkbox" class="check-input" id="rw10_d4" data-key="week-10-check-4" onchange="onCheck(this)"><span>Content calendar has at least three weeks of content queued across all five pillars</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Write the one-page seasonal staff onboarding document: brand guide, content calendar location, login credentials location, Canva template location, and posting instructions <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Write and publish the fifth deep content page: Pioneers of the District of Kent <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Run third AI citation test; compare to Week 3 and Week 7 results</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Review content calendar: does the next month have enough pillar variety? Are any pillars running thin on archive material?</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Continue weekly GBP Posts; all five deep content pages should now be linked from at least one GBP Post <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d1" data-key="week-10-check-1" onchange="onCheck(this)"><label class="check-box" for="rw10_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d1">Seasonal staff onboarding document is complete and saved to Google Drive</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d1"><textarea class="note-textarea" id="note-rw10_d1" placeholder="Add a note for this task…" oninput="saveNote('rw10_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d2" data-key="week-10-check-2" onchange="onCheck(this)"><label class="check-box" for="rw10_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d2">Fifth deep content page is published; all five pages are internally linked to each other</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d2"><textarea class="note-textarea" id="note-rw10_d2" placeholder="Add a note for this task…" oninput="saveNote('rw10_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d3" data-key="week-10-check-3" onchange="onCheck(this)"><label class="check-box" for="rw10_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d3">Third AI citation test results recorded and compared to previous tests</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d3"><textarea class="note-textarea" id="note-rw10_d3" placeholder="Add a note for this task…" oninput="saveNote('rw10_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d4" data-key="week-10-check-4" onchange="onCheck(this)"><label class="check-box" for="rw10_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d4">Content calendar has at least three weeks of content queued across all five pillars</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d4"><textarea class="note-textarea" id="note-rw10_d4" placeholder="Add a note for this task…" oninput="saveNote('rw10_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-10" placeholder="Add general notes for this week…" oninput="saveNote('week_10',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 11 -->
       <div class="week-card" id="wc-11" data-week="11">
-        <div class="week-header">
-          <span class="week-badge">11</span>
-          <h2 class="week-title">Reach Expansion and Community Presence</h2>
-          <span class="week-progress" id="w11-prog">0 of 4</span>
+        <div class="week-card-header" onclick="toggleWeek(11)">
+          <div class="week-num">W11</div>
+          <div class="week-title">Reach Expansion and Community Presence</div>
+          <div class="week-progress-pill" id="wp-11">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Review TikTok and YouTube Shorts performance: which videos have the most views? Note the topic and format for replication <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
-              <li>Submit a genuine contribution to a Reddit or local community forum thread using historical archive material <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
-              <li>Post a shoulder-season focused social piece: a rainy day in Agassiz, the case for visiting in November, historic photographs of winter in the Fraser Valley <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
-              <li>Confirm all platform hours are current for the upcoming season <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
-              <li>Review the brand guide: does it need any updates before seasonal hiring begins?</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw11_d1" data-key="week-11-check-1" onchange="onCheck(this)"><span>TikTok and YouTube Shorts top-performing video topics are noted and added to the content calendar</span></label>
-              <label><input type="checkbox" class="check-input" id="rw11_d2" data-key="week-11-check-2" onchange="onCheck(this)"><span>At least five Reddit or community contributions have been made across the 90-day program</span></label>
-              <label><input type="checkbox" class="check-input" id="rw11_d3" data-key="week-11-check-3" onchange="onCheck(this)"><span>Shoulder-season content is scheduled and live</span></label>
-              <label><input type="checkbox" class="check-input" id="rw11_d4" data-key="week-11-check-4" onchange="onCheck(this)"><span>All platform hours are confirmed current for the upcoming season</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Review TikTok and YouTube Shorts performance: which videos have the most views? Note the topic and format for replication <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Submit a genuine contribution to a Reddit or local community forum thread using historical archive material <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Post a shoulder-season focused social piece: a rainy day in Agassiz, the case for visiting in November, historic photographs of winter in the Fraser Valley <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Confirm all platform hours are current for the upcoming season <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Review the brand guide: does it need any updates before seasonal hiring begins?</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d1" data-key="week-11-check-1" onchange="onCheck(this)"><label class="check-box" for="rw11_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d1">TikTok and YouTube Shorts top-performing video topics are noted and added to the content calendar</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d1"><textarea class="note-textarea" id="note-rw11_d1" placeholder="Add a note for this task…" oninput="saveNote('rw11_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d2" data-key="week-11-check-2" onchange="onCheck(this)"><label class="check-box" for="rw11_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d2">At least five Reddit or community contributions have been made across the 90-day program</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d2"><textarea class="note-textarea" id="note-rw11_d2" placeholder="Add a note for this task…" oninput="saveNote('rw11_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d3" data-key="week-11-check-3" onchange="onCheck(this)"><label class="check-box" for="rw11_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d3">Shoulder-season content is scheduled and live</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d3"><textarea class="note-textarea" id="note-rw11_d3" placeholder="Add a note for this task…" oninput="saveNote('rw11_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d4" data-key="week-11-check-4" onchange="onCheck(this)"><label class="check-box" for="rw11_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d4">All platform hours are confirmed current for the upcoming season</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d4"><textarea class="note-textarea" id="note-rw11_d4" placeholder="Add a note for this task…" oninput="saveNote('rw11_d4',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-11" placeholder="Add general notes for this week…" oninput="saveNote('week_11',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
 
       <!-- WEEK 12 -->
       <div class="week-card" id="wc-12" data-week="12">
-        <div class="week-header">
-          <span class="week-badge">12</span>
-          <h2 class="week-title">90-Day Review and Plan Forward</h2>
-          <span class="week-progress" id="w12-prog">0 of 5</span>
+        <div class="week-card-header" onclick="toggleWeek(12)">
+          <div class="week-num">W12</div>
+          <div class="week-title">90-Day Review and Plan Forward</div>
+          <div class="week-progress-pill" id="wp-12">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
-        <div class="week-body">
-          <div class="week-actions">
-            <h3>This Week's Actions</h3>
-            <ul>
-              <li>Run final AI citation test (ChatGPT and Perplexity) using the same queries as Weeks 3, 7, and 10: compare all four data points</li>
-              <li>Pull 90-day social performance summary from Instagram Insights: follower growth, top post by reach, top post by engagement, best-performing pillar</li>
-              <li>Check Google Search Console: which queries are now driving traffic that were not driving traffic in Week 5?</li>
-              <li>Review the platform audit spreadsheet: are all six platforms still consistent, or has drift occurred somewhere?</li>
-              <li>Document three things that worked and one thing to change in the next 90 days</li>
-            </ul>
-          </div>
-          <div class="week-checklist">
-            <h3>Completion Checklist</h3>
-            <div class="checklist-items">
-              <label><input type="checkbox" class="check-input" id="rw12_d1" data-key="week-12-check-1" onchange="onCheck(this)"><span>Final AI citation test results recorded; progression across all four tests documented</span></label>
-              <label><input type="checkbox" class="check-input" id="rw12_d2" data-key="week-12-check-2" onchange="onCheck(this)"><span>90-day social performance summary exists with specific numbers</span></label>
-              <label><input type="checkbox" class="check-input" id="rw12_d3" data-key="week-12-check-3" onchange="onCheck(this)"><span>Google Search Console query comparison between Week 5 and Week 12 is documented</span></label>
-              <label><input type="checkbox" class="check-input" id="rw12_d4" data-key="week-12-check-4" onchange="onCheck(this)"><span>Platform audit spreadsheet reviewed; any drift corrected</span></label>
-              <label><input type="checkbox" class="check-input" id="rw12_d5" data-key="week-12-check-5" onchange="onCheck(this)"><span>Next 90-day priority is decided with a written rationale</span></label>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+                <li class="week-task-item"><div class="week-task-dot"></div>Run final AI citation test (ChatGPT and Perplexity) using the same queries as Weeks 3, 7, and 10: compare all four data points</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Pull 90-day social performance summary from Instagram Insights: follower growth, top post by reach, top post by engagement, best-performing pillar</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Check Google Search Console: which queries are now driving traffic that were not driving traffic in Week 5?</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Review the platform audit spreadsheet: are all six platforms still consistent, or has drift occurred somewhere?</li>
+                <li class="week-task-item"><div class="week-task-dot"></div>Document three things that worked and one thing to change in the next 90 days</li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d1" data-key="week-12-check-1" onchange="onCheck(this)"><label class="check-box" for="rw12_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d1">Final AI citation test results recorded; progression across all four tests documented</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d1"><textarea class="note-textarea" id="note-rw12_d1" placeholder="Add a note for this task…" oninput="saveNote('rw12_d1',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d2" data-key="week-12-check-2" onchange="onCheck(this)"><label class="check-box" for="rw12_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d2">90-day social performance summary exists with specific numbers</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d2"><textarea class="note-textarea" id="note-rw12_d2" placeholder="Add a note for this task…" oninput="saveNote('rw12_d2',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d3" data-key="week-12-check-3" onchange="onCheck(this)"><label class="check-box" for="rw12_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d3">Google Search Console query comparison between Week 5 and Week 12 is documented</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d3"><textarea class="note-textarea" id="note-rw12_d3" placeholder="Add a note for this task…" oninput="saveNote('rw12_d3',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d4" data-key="week-12-check-4" onchange="onCheck(this)"><label class="check-box" for="rw12_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d4">Platform audit spreadsheet reviewed; any drift corrected</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d4"><textarea class="note-textarea" id="note-rw12_d4" placeholder="Add a note for this task…" oninput="saveNote('rw12_d4',this.value)"></textarea></div></div>
+                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d5" data-key="week-12-check-5" onchange="onCheck(this)"><label class="check-box" for="rw12_d5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d5">Next 90-day priority is decided with a written rationale</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d5"><textarea class="note-textarea" id="note-rw12_d5" placeholder="Add a note for this task…" oninput="saveNote('rw12_d5',this.value)"></textarea></div></div>
+              </div>
             </div>
           </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-12" placeholder="Add general notes for this week…" oninput="saveNote('week_12',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
     </div>
@@ -7810,61 +7858,102 @@ button,
     <p>Small jobs that pay back quickly and do not need the contractor or the budget. Most take under an hour. These should not wait for anything else in the plan.</p>
   </div>
   <div class="content-area">
-    <div class="quick-wins-section">
-      <h2>On the Google Business Profile</h2>
+    <div class="quick-wins">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        On the Google Business Profile
+      </h2>
       <div class="quick-wins-list">
         <div class="quick-win-item">
-          <h3>Start posting to Google Business Profile Posts weekly</h3>
-          <p>The museum has a 90/100 local visibility score but is not using GBP Posts, which are free content slots that appear directly in Google search results when someone searches the museum or related terms. One post per week tied to a current exhibit, an upcoming event, or a historical story from the archives. This takes ten minutes and directly improves the GBP activity score, which correlates with local search ranking.</p>
+          <div class="quick-win-number">1</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Start posting to Google Business Profile Posts weekly</div>
+            <div class="quick-win-impact">The museum has a 90/100 local visibility score but is not using GBP Posts, which are free content slots that appear directly in Google search results when someone searches the museum or related terms. One post per week tied to a current exhibit, an upcoming event, or a historical story from the archives. This takes ten minutes and directly improves the GBP activity score, which correlates with local search ranking.</div>
+          </div>
+          <span class="quick-win-time">10 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Reply to every Google review, starting with the most recent</h3>
-          <p>The assessment found 125 reviews with a 4.6-star rating and no confirmed response pattern. Responding to every review, especially ones that mention the caboose exhibit, the volunteer staff, or specific artifacts, signals active management and builds the relationship with past visitors that generates repeat visits. Responses are also indexed by search engines.</p>
+          <div class="quick-win-number">2</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Reply to every Google review, starting with the most recent</div>
+            <div class="quick-win-impact">The assessment found 125 reviews with a 4.6-star rating and no confirmed response pattern. Responding to every review, especially ones that mention the caboose exhibit, the volunteer staff, or specific artifacts, signals active management and builds the relationship with past visitors that generates repeat visits. Responses are also indexed by search engines.</div>
+          </div>
+          <span class="quick-win-time">30 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Add the museum's standard opening hours for all seven days</h3>
-          <p>The digital assessment flagged that Tuesday to Friday hours are missing from the website and likely from the GBP as well. An incomplete hours listing creates uncertainty for mid-week visitors and is one of the most common reasons people do not show up.</p>
+          <div class="quick-win-number">3</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add the museum's standard opening hours for all seven days</div>
+            <div class="quick-win-impact">The digital assessment flagged that Tuesday to Friday hours are missing from the website and likely from the GBP as well. An incomplete hours listing creates uncertainty for mid-week visitors and is one of the most common reasons people do not show up.</div>
+          </div>
+          <span class="quick-win-time">5 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Add every service and amenity to the GBP attributes section</h3>
-          <p>Under "Edit Profile" in the GBP dashboard, there is an Attributes section. Enable every applicable attribute: museum, visitor centre, gift shop, wheelchair accessible, free parking, guided tours available (if applicable), school programs available. Each attribute adds the listing to a new category of filtered search results.</p>
+          <div class="quick-win-number">4</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add every service and amenity to the GBP attributes section</div>
+            <div class="quick-win-impact">Under "Edit Profile" in the GBP dashboard, there is an Attributes section. Enable every applicable attribute: museum, visitor centre, gift shop, wheelchair accessible, free parking, guided tours available (if applicable), school programs available. Each attribute adds the listing to a new category of filtered search results.</div>
+          </div>
+          <span class="quick-win-time">10 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Upload ten new photographs covering identified gaps</h3>
-          <p>Upload photos of the caboose exhibit (mentioned frequently in reviews), the archive photograph collection, the 1893 railway station exterior in good daylight, and the gift shop. Owner-uploaded photos appear higher in the photo section than visitor photos.</p>
+          <div class="quick-win-number">5</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Upload ten new photographs covering identified gaps</div>
+            <div class="quick-win-impact">Upload photos of the caboose exhibit (mentioned frequently in reviews), the archive photograph collection, the 1893 railway station exterior in good daylight, and the gift shop. Owner-uploaded photos appear higher in the photo section than visitor photos.</div>
+          </div>
+          <span class="quick-win-time">20 min</span>
         </div>
       </div>
     </div>
 
-    <div class="quick-wins-section">
-      <h2>On the Website</h2>
+    <div class="quick-wins">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        On the Website
+      </h2>
       <div class="quick-wins-list">
         <div class="quick-win-item">
-          <h3>Fix the six duplicate H1 header tags on the homepage</h3>
-          <p>The digital assessment identified six H1 tags where there should be one. The primary H1 should be "Welcome to Agassiz-Harrison Museum & Visitor Centre" or equivalent. All other headings should be H2 or H3. This is a 20-minute fix that directly improves how search engines read the page hierarchy.</p>
+          <div class="quick-win-number">1</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Fix the six duplicate H1 header tags on the homepage</div>
+            <div class="quick-win-impact">The digital assessment identified six H1 tags where there should be one. The primary H1 should be "Welcome to Agassiz-Harrison Museum & Visitor Centre" or equivalent. All other headings should be H2 or H3. This is a 20-minute fix that directly improves how search engines read the page hierarchy.</div>
+          </div>
+          <span class="quick-win-time">20 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Add alt text to the 15 images missing descriptions</h3>
-          <p>The assessment identified 15 of 21 homepage images as missing alt text. Alt text helps visually impaired visitors and improves image search visibility for terms like "historic railway station Agassiz" and "Fraser Valley agricultural artifacts." Write descriptive alt text for each image, naming what is in the photograph and including a natural location or historical reference where relevant.</p>
+          <div class="quick-win-number">2</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Add alt text to the 15 images missing descriptions</div>
+            <div class="quick-win-impact">The assessment identified 15 of 21 homepage images as missing alt text. Alt text helps visually impaired visitors and improves image search visibility for terms like "historic railway station Agassiz" and "Fraser Valley agricultural artifacts." Write descriptive alt text for each image, naming what is in the photograph and including a natural location or historical reference where relevant.</div>
+          </div>
+          <span class="quick-win-time">30 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Make the phone number a clickable tel: link</h3>
-          <p>The assessment flagged that (604) 796-3545 is not clickable on mobile, which is a friction point for the 60-plus percent of traffic arriving from mobile devices. A developer or the website's CMS can fix this in under 15 minutes.</p>
+          <div class="quick-win-number">3</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Make the phone number a clickable tel: link</div>
+            <div class="quick-win-impact">The assessment flagged that (604) 796-3545 is not clickable on mobile, which is a friction point for the 60-plus percent of traffic arriving from mobile devices. A developer or the website's CMS can fix this in under 15 minutes.</div>
+          </div>
+          <span class="quick-win-time">15 min</span>
         </div>
         <div class="quick-win-item">
-          <h3>Reduce the meta description from 245 to 155 characters</h3>
-          <p>The current meta description is getting cut off in Google search results, which means the second half of the description, the part that might prompt a click, is invisible. Rewrite it to under 155 characters, leading with the most compelling statement about what the museum offers.</p>
+          <div class="quick-win-number">4</div>
+          <div class="quick-win-content">
+            <div class="quick-win-task">Reduce the meta description from 245 to 155 characters</div>
+            <div class="quick-win-impact">The current meta description is getting cut off in Google search results, which means the second half of the description, the part that might prompt a click, is invisible. Rewrite it to under 155 characters, leading with the most compelling statement about what the museum offers.</div>
+          </div>
+          <span class="quick-win-time">10 min</span>
         </div>
       </div>
     </div>
 
-    <div class="quick-wins-section">
-      <h2>One Thing Worth Watching</h2>
-      <div class="quick-wins-list">
-        <div class="quick-win-item">
-          <p>The digital assessment flagged that the museum is generating approximately 1,131 monthly organic search visits and ranking number five for "Agassiz BC": strong performance for a small community museum. The GEO content work in Tactic 2 is specifically designed to push this further by answering the questions that AI tools use when visitors ask about things to do in the area. At the 90-day review, check whether any AI traffic source is appearing in Google Analytics. This channel is small for most organisations today and growing quickly. The FAQ and deep content pages being built in Month 2 are the investment that makes the museum visible in that channel over the next 12 to 18 months.</p>
-        </div>
-      </div>
+    <div class="quick-wins">
+      <h2>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        One Thing Worth Watching
+      </h2>
+      <p class="quick-wins-subtitle">The digital assessment flagged that the museum is generating approximately 1,131 monthly organic search visits and ranking number five for "Agassiz BC": strong performance for a small community museum. The GEO content work in Tactic 2 is specifically designed to push this further by answering the questions that AI tools use when visitors ask about things to do in the area. At the 90-day review, check whether any AI traffic source is appearing in Google Analytics. This channel is small for most organisations today and growing quickly. The FAQ and deep content pages being built in Month 2 are the investment that makes the museum visible in that channel over the next 12 to 18 months.</p>
     </div>
   </div>
 </section>
