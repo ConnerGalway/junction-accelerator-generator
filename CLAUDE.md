@@ -236,6 +236,10 @@ See the full list in the template header comment.
 | `{{TACTIC_N_BREAKDOWN_SUPPORT}}` | Support level for tactic N (e.g. "Moderate coach support") |
 | `{{MONTH_N_TOTAL}}` | Total checklist items for month N (1-3). Used in roadmap progress display. |
 | `{{WEEK_N_TITLE}}` | Title for week N (1-12). From the plan's roadmap week headings. |
+| `{{TACTIC_N_METRICS_ROWS}}` | `<tbody>` content for tactic N success metrics table. Generate `<tr>` rows with Metric, 30 Days, 60 Days, 90 Days columns from plan. |
+| `{{TACTIC_N_TIPS}}` | `<li>` items for tactic N tips. Generate from plan's Tips section for that tactic. |
+| `{{TACTIC_N_RESOURCES}}` | `<li>` items with `<a>` links for tactic N resources. Generate from plan's Resources section. |
+| `{{TACTIC_N_IMPLEMENTATION_STEPS}}` | Full HTML for tactic N implementation steps tab. Generate from plan's Implementation Steps. |
 
 ### Step 3: Handle optional blocks
 
