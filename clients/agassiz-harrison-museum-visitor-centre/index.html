@@ -5169,6 +5169,64 @@ body:not(.has-plan) .plan-content{display:none}
   background:#f7f2e9;
 }
 
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
+}
+
+/* Two mockups side by side, stacked on mobile */
+.tactic-mockup-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.tactic-mockup-pair > *{min-width:0}
+.tactic-mockup-pair .tactic-mockup{margin-top:0}
+@media(max-width:768px){
+  .tactic-mockup-pair{grid-template-columns:1fr}
+}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -6265,6 +6323,17 @@ button,
                       <li>Print as a one-page reference and post it wherever content is created</li>
                       <li>Weekly rhythm: two from Agriculture or Military, two from Personalities or Scenery, one from Museum Life, one wildcard</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Printable one-pager</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s1-content-pillars.png" alt="One-page content pillar reference with the museum logo, a strip of archive photos, the five pillars with their weekly share, and the six-posts-a-week rhythm" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
@@ -6276,6 +6345,17 @@ button,
                       <li>Identify ten additional archive photographs or artifacts per pillar</li>
                       <li>File each pillar's backlog in its own Canva folder or Google Drive sub-folder</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">drive.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s2-backlog-folders.png" alt="Example Google Drive Content Backlog folder with one sub-folder per pillar plus Wildcard, and recently added files tagged by pillar" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-3">
@@ -6287,6 +6367,17 @@ button,
                       <li>Map out four weeks at a time, not twelve</li>
                       <li>Schedule monthly 30-minute calendar review</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">sheets.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s3-content-calendar.png" alt="Example content calendar in Google Sheets with date, platform, pillar, content, status and owner columns, two weeks planned with status labels" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6311,6 +6402,17 @@ button,
                       <li>Add royalty-free music from Canva's audio library</li>
                       <li>Download MP4 for video platforms, PNG for Facebook feed</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">canva.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s4-canva-animate.png" alt="Canva editor with the Animate panel open on a museum-style Instagram post, showing animation options like Rise, Pan and Fade" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
@@ -6322,6 +6424,38 @@ button,
                       <li>Artifact Close-Up: short video panning across artifact with text overlay and one-line fact</li>
                       <li>Build templates in Canva and reuse them repeatedly</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <a href="https://www.instagram.com/p/Dee4RpZjFAh/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Archive Reveal example on Instagram (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">instagram.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s5-archive-reveal.png" alt="Example Archive Reveal post from the Vancouver Maritime Museum: an early 1900s photograph of Mary Ann Croft with the question &quot;First woman lighthouse keeper in Canada?&quot;" loading="lazy">
+                          </div>
+                          <div class="tactic-mockup-label">Archive Reveal · @vanmaritime</div>
+                        </div>
+                      </a>
+                      <a href="https://www.instagram.com/reel/DYIHg7cBW6b/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Artifact Close-Up example on Instagram (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">instagram.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s5-artifact-closeup.png" alt="Example Artifact Close-Up Reel: gloved hands revealing a historic flag from the Burke Museum's Philippines collection" loading="lazy">
+                          </div>
+                          <div class="tactic-mockup-label">Artifact Close-Up · @burkemuseum</div>
+                        </div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-6">
@@ -6333,6 +6467,34 @@ button,
                       <li>Create accounts in the museum's name; keep bios consistent</li>
                       <li>YouTube Shorts are indexed by Google search</li>
                     </ul>
+                    <a href="https://www.tiktok.com/business" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open TikTok for Business (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">tiktok.com/business</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s6-tiktok-business-card.png" alt="TikTok for Business home page with a 'Get started' button and a hero banner reading 'Watch it.'" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
+                    <a href="https://studio.youtube.com" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open YouTube Studio (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">studio.youtube.com</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s6-youtube-studio.png" alt="Example YouTube Studio channel dashboard for the Agassiz-Harrison Museum showing a Guess That Artifact Short's performance, subscribers, views and top content" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </li>
               </ol>
@@ -6357,6 +6519,17 @@ button,
                       <li>Daily Stories signal to the algorithm the account is active</li>
                       <li>Assign responsibility: one Story before noon from whoever is on-site</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s7-daily-story.png" alt="Example Instagram Story from the museum over an archive newspaper, with a poll asking &quot;Which story should we tell next week?&quot;" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-8">
@@ -6368,6 +6541,17 @@ button,
                       <li>Schedule one full week of content in one sitting, ideally Monday morning</li>
                       <li>Use TikTok's scheduler and YouTube Studio for remaining platforms</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/agassiz-harrison-museum-mockups/media/t1-s8-meta-planner-week.png" alt="Example Meta Business Suite Planner week view with six museum posts at 10:00 AM and daily Stories scheduled to Instagram and Facebook" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
