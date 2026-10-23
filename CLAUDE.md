@@ -522,24 +522,34 @@ Where:
 **Week Cards** (when generating `{{MONTH_N_WEEKS}}`):
 ```html
 <div class="week-card" id="wc-1" data-week="1">
-  <div class="week-card-header">
-    <div class="week-num">1</div>
-    <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Found Online</span>
+  <div class="week-card-header" onclick="toggleWeek(1)">
+    <div class="week-num">W1</div>
+    <div class="week-title" data-editable-key="week-1-title">Week 1: Getting Found Online</div>
+    <div class="week-progress-pill" id="wp-1">0 / 5</div>
   </div>
   <div class="week-card-body">
-    <ul class="week-actions">
-      <li data-editable-key="week-1-action-1">Claim your Google Business Profile</li>
-      <li data-editable-key="week-1-action-2">Verify your business information</li>
-    </ul>
+    <div class="week-cols">
+      <div>
+        <div class="week-col-label">This Week's Actions</div>
+        <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Claim your Google Business Profile</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-2">Verify your business information</span></li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
 ```
+
+**IMPORTANT:** The `data-editable-key` for week actions MUST be on a `<span class="week-task-text">` wrapper around the text only, NOT on the `<li>` element. This ensures only the text is editable, not the dot or howto button.
 
 #### Quality Checklist for Editable Attributes
 - [ ] Every `.tactic-step-title` element has a `data-editable-key="tN-step-M-title"` attribute
 - [ ] Every `<li>` in `.tactic-tips-list` has a `data-editable-key="tN-tip-M"` attribute
 - [ ] Every `<a>` in `.tactic-resources-list` has a `data-editable-link="tN-resource-M"` attribute
 - [ ] Every `.week-title` element has a `data-editable-key="week-N-title"` attribute
+- [ ] Every week action text is wrapped in `<span class="week-task-text" data-editable-key="week-N-action-M">`
+- [ ] Every checklist label has `data-editable-key="week-N-check-M-label"` on the `.check-label` element
 - [ ] Indices (M) start at 1 and increment sequentially within each section
 - [ ] No duplicate keys exist in the generated output
 
