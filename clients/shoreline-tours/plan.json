@@ -1,0 +1,232 @@
+{
+  "client_name": "Shoreline Tours",
+  "client_slug": "shoreline-tours",
+  "goal": "Summer is the season that decides your year, and summer 2026 was down 20 percent on 2025. Your fall river season is ahead of last year and your spring waterfall cruises pay their way, but as you put it, if every boat is not sold out in June, July, August and September, the business takes a hit for the whole year. The empty seats were mostly on weekend public sailings. Every business in Harrison felt the dip, and fewer local visitors drove much of it. The goal of this plan is to make sure summer 2027 is back to, or above, the level you were at before this year, and to get there by making the money you already spend on advertising work harder.\n\nYou are not starting from nothing. You spend roughly $1,000 a month on Meta in summer and about $25 a day now, plus around $10 a day on Google. Your Google campaign drew 622 clicks from 14,000 impressions last month for $212, at 34 cents a click, which is unusually cheap. GA4 is installed and recording conversions. Your Meta Pixel has been on the site for two years. You have 4.8 stars from 263 Google reviews, 10,430 followers across Instagram and Facebook, and guests who come back every season. What is missing is not the tools. It is knowing what the tools are telling you. You said it yourself: \"I'm just guessing right now.\"\n\nThat is why the work runs in this order. Weeks 1 to 4 make the numbers trustworthy and clean up Google Ads, because there is a real question about whether GA4's figures count bookings or something else, and every later decision depends on the answer. The same weeks fix the homepage, which stays the destination for your ads for now. Weeks 5 to 8 rebuild Meta around four audiences: families for summer, retirees and intentional travellers for spring and fall, Washington State visitors, and private groups. A retargeting campaign runs underneath all four. Weeks 9 to 12 build and test one landing page per cruise and start switching ads over to them, one campaign at a time. The content habit in Tactic 3 runs through all twelve weeks, because it is what feeds the ads.\n\nThis plan does not add spend. It works inside your current budget of about $1,000 a month on Meta in peak season, scaled down when you are quieter, plus about $10 a day on Google. We are not putting a revenue projection on it, because the starting figure that matters, summer 2025 public tour bookings by weekday and weekend, is not in our notes yet. Step 5 of Tactic 1 records that baseline so the 90-day review measures against a real number rather than a feeling. What the plan will tell you by Week 12 is something you cannot see today: what a booking costs you from Google and from each Meta audience, and which audience deserves the summer budget.\n\nThe plan dates are not fixed yet. Your season runs waterfall cruises in spring, lake cruises from May to September and river cruises in October and November, and you close from December to February. Where a step depends on what is bookable in a given week, it tells you how to decide. [CONFIRM: plan start date, spring reopening date, and the date summer 2027 sailings open for booking in FareHarbor]",
+  "coach_email": "conner@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Read What Your Accounts Are Counting",
+      "actions": [
+        "Check which events are starred as key events in GA4 and turn off any that are not bookings → links to: Tactic 1 / Step 1",
+        "Confirm the GA4 ID and the multiple-websites checkbox in FareHarbor, add the unwanted referrals in GA4, and compare GA4 purchases with FareHarbor bookings for the same 28 days → links to: Tactic 1 / Step 2",
+        "Pull summer 2024 and 2025 public tour bookings from FareHarbor into a baseline sheet → links to: Tactic 1 / Step 5",
+        "Start shooting five short clips on every sailing, or if you are closed, gather the best clips already on your phone → links to: Tactic 3 / Step 1",
+        "Reply to every Google review that does not yet have a response"
+      ],
+      "checklist": [
+        "Only purchase is starred as a key event in GA4, and the change date is written down",
+        "fareharbor.com and your domain are on the GA4 unwanted referral list",
+        "The GA4 and FareHarbor booking counts for the same 28 days are recorded side by side",
+        "The baseline sheet holds summer 2024 and 2025 bookings split by weekday and weekend",
+        "Every Google review has a reply"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Connect the Booking Data",
+      "actions": [
+        "Ask FareHarbor Support to connect your Meta Pixel to the booking flow, and check for the Purchase event in Events Manager → links to: Tactic 1 / Step 3",
+        "Build the inquiry thank-you page, set the form redirect, and create the private_inquiry event and the Meta custom conversion → links to: Tactic 1 / Step 4",
+        "Set the GA4 purchase as the only primary conversion in Google Ads → links to: Tactic 1 / Step 6",
+        "Create the clip albums on your phone and sort everything you have shot so far → links to: Tactic 3 / Step 2"
+      ],
+      "checklist": [
+        "Meta Pixel Helper shows the pixel firing on the homepage",
+        "FareHarbor Support has confirmed the Purchase event is connected",
+        "A test inquiry lands on the thank-you page and appears in GA4 and Events Manager",
+        "Google Ads lists purchase as the only primary conversion",
+        "Clips are sorted into albums, with the best ones marked as favorites"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Clean Up Google Ads",
+      "actions": [
+        "Review 90 days of search terms, add the first negative keywords, and note how much spend comes from searches for your own name → links to: Tactic 1 / Step 7",
+        "Rewrite the Google headlines for the season that is sailing, remove off-season ones, and turn off Final URL expansion → links to: Tactic 1 / Step 8",
+        "Confirm every Google and Meta ad points at the homepage, and update the homepage heading line to name what is sailing now → links to: Tactic 2 / Step 1",
+        "Check auto-tagging is on in Google Ads and add UTM parameters to every live Meta ad → links to: Tactic 2 / Step 5"
+      ],
+      "checklist": [
+        "At least 10 negative keywords are on the campaign, including resort and restaurant terms",
+        "No Google headline mentions a cruise that is not currently bookable",
+        "Brand search share of Google spend is written in the baseline sheet",
+        "Every Meta ad link carries UTM parameters"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Fix the Homepage",
+      "actions": [
+        "Change the homepage headings so there is one Heading 1, with Heading 2s and Heading 3s beneath it, and remove the empty one → links to: Tactic 2 / Step 2",
+        "Replace the homepage SEO title and description → links to: Tactic 2 / Step 3",
+        "Add the clickable phone number to the header or the announcement bar → links to: Tactic 2 / Step 4",
+        "Ask Tourism Harrison for the photographers' images and video, with usage terms in writing → links to: Tactic 3 / Step 3",
+        "Write down the five post formats and pin the list somewhere you will see it → links to: Tactic 3 / Step 4"
+      ],
+      "checklist": [
+        "The homepage has exactly one Heading 1",
+        "The new SEO title is 60 characters or fewer and the description names all three seasons",
+        "Tapping the phone number on a phone opens the dialler",
+        "The request to Tourism Harrison has been sent"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Meta Foundations",
+      "actions": [
+        "Pause any boosted posts, confirm the domain is verified and billing is clear, and work only in Ads Manager from now on → links to: Tactic 1 / Step 10",
+        "Build the five custom audiences and record their sizes → links to: Tactic 1 / Step 11",
+        "Write a month of captions in one ChatGPT session and edit them → links to: Tactic 3 / Step 5",
+        "Set the Monday, Wednesday and Friday posting days, and write down any tasks you are handing to someone else → links to: Tactic 3 / Step 6"
+      ],
+      "checklist": [
+        "No boosted posts are running",
+        "The domain shows as verified in Business Settings",
+        "Five custom audiences exist, with sizes recorded in the sheet",
+        "Twelve captions are written and ready"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Retargeting Goes Live",
+      "actions": [
+        "Launch the retargeting campaign to your warm audiences, excluding recent bookers, pointed at the next bookable cruise → links to: Tactic 1 / Step 12",
+        "Write the one-page creator release and send it ahead of the next hosted visit → links to: Tactic 1 / Step 17",
+        "Schedule the next month of posts in Meta Business Suite → links to: Tactic 3 / Step 7",
+        "Confirm the four cruise pages, the order you will build them in, and which existing pages each replaces → links to: Tactic 2 / Step 6"
+      ],
+      "checklist": [
+        "Retargeting is live at $5 a day (or $8 in summer) and excludes Bookers 180",
+        "A creator release template is saved and ready to send",
+        "Posts are scheduled at least four weeks ahead",
+        "The page list and build order are written in the tracking sheet"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Build the Four Campaigns",
+      "actions": [
+        "Build the Families, Retirees, Washington and Groups campaigns, leaving all but the first one paused → links to: Tactic 1 / Step 13",
+        "Load six to ten ads in each campaign across every format you have → links to: Tactic 1 / Step 14",
+        "Back up the existing lake cruise page and start rebuilding it → links to: Tactic 2 / Step 7",
+        "Write the Lake Cruise page to the standard structure → links to: Tactic 2 / Step 8"
+      ],
+      "checklist": [
+        "Four campaigns are built, each excluding Bookers 180 and carrying at least six ads",
+        "The Groups campaign points at the private events inquiry page",
+        "A hidden backup of the lake cruise page exists in Not Linked",
+        "The Lake Cruise page has a headline, price and Book Now button visible without scrolling"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: First Two-Week Block",
+      "actions": [
+        "Switch on the first audience campaign for its two-week block, choosing it by what is bookable next → links to: Tactic 1 / Step 15",
+        "Launch the Search campaign test with keyword insertion, splitting the Google budget $5 and $5 → links to: Tactic 1 / Step 9",
+        "Finish the Lake Cruise page and write the Private Charters and Groups page → links to: Tactic 2 / Step 8",
+        "Set the Heading 1, SEO title, description, slug and image alt text on both pages → links to: Tactic 2 / Step 9",
+        "Run your first Friday check of the week's posts → links to: Tactic 3 / Step 9"
+      ],
+      "checklist": [
+        "One audience campaign is live alongside retargeting, with its start date recorded",
+        "The Search test is live, and so is Performance Max",
+        "Lake Cruise and Private Charters and Groups pages are published",
+        "Both pages have one Heading 1 and an SEO title under 60 characters",
+        "The Winners column in the tracking sheet has its first entries"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Test the Pages",
+      "actions": [
+        "Test both new pages on your phone, and have someone new find the price and departure point in under 30 seconds → links to: Tactic 2 / Step 10",
+        "Build the ad-to-page map and put the season switching dates in your calendar → links to: Tactic 2 / Step 11",
+        "Add the first organic winners as ads in the matching campaigns → links to: Tactic 3 / Step 10",
+        "Do the fortnightly 15-minute search terms check and add new negatives → links to: Tactic 1 / Step 7"
+      ],
+      "checklist": [
+        "Each Book Now button opens the correct cruise in FareHarbor",
+        "Meta Pixel Helper confirms the pixel fires on both new pages",
+        "Switching dates for every campaign are in the calendar with reminders",
+        "At least two organic winners are running as ads"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Switch the First Campaign",
+      "actions": [
+        "Move the first campaign from the homepage to its matching cruise page, changing nothing else → links to: Tactic 2 / Step 12",
+        "Record the first block's results and switch on the second audience campaign → links to: Tactic 1 / Step 15",
+        "Invite the creator or business as a collaborator on every shared post this week → links to: Tactic 3 / Step 8"
+      ],
+      "checklist": [
+        "One campaign now points at a cruise page, and its switch date is recorded",
+        "Spend, bookings and cost per booking for the first block are in the sheet",
+        "The second audience campaign is live",
+        "At least one collab post has gone out"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Creators and Lookalikes",
+      "actions": [
+        "If Bookers 180 has reached 100 people, build the Canada and US lookalike audiences → links to: Tactic 1 / Step 16",
+        "Run the most recent creator post as a partnership ad in the retargeting campaign → links to: Tactic 1 / Step 18",
+        "Write the Waterfall and River and Eagle pages to the same structure → links to: Tactic 2 / Step 8",
+        "Set the headings, SEO title and alt text on both pages → links to: Tactic 2 / Step 9"
+      ],
+      "checklist": [
+        "The Bookers 180 size is recorded, and lookalikes are built if it is 100 or more",
+        "One partnership ad is running, or the creator's permission has been requested",
+        "All four cruise and group pages are published"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: Review Against the Baseline",
+      "actions": [
+        "Fill in the baseline sheet again with this week's numbers and compare → links to: Tactic 1 / Step 5",
+        "Compare cost per booking across the blocks so far and decide where the next month's budget goes → links to: Tactic 1 / Step 15",
+        "Compare the Search test against Performance Max and keep the winner → links to: Tactic 1 / Step 9",
+        "Review the homepage versus cruise page comparison and decide which campaign switches next → links to: Tactic 2 / Step 12",
+        "Schedule the next month of posts, including the first summer previews → links to: Tactic 3 / Step 7",
+        "Book your next Junction coaching call and bring the sheet"
+      ],
+      "checklist": [
+        "The Week 12 numbers sit beside the Week 1 baseline in one sheet",
+        "Cost per booking is recorded for every audience that has run",
+        "One Google campaign type is chosen for summer, with the reason written down",
+        "The next month's posts are scheduled",
+        "The next coaching call is booked",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/shoreline-tours/#week-12"
+    }
+  ]
+}
