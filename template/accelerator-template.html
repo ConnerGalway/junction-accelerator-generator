@@ -3758,7 +3758,13 @@ body:not(.has-plan) .plan-content{display:none}
 
 /* ── Responsive ──────────────────────────────── */
 @media(max-width:768px){
-  body{flex-direction:column;overflow:auto}
+  /* ═══ VIEWPORT CONTAINMENT ═══ */
+  html,body{
+    overflow-x:hidden;
+    max-width:100vw;
+  }
+  body{flex-direction:column;overflow-y:auto}
+
   #sidebar{
     position:fixed;
     left:0;top:0;bottom:0;
@@ -3772,16 +3778,23 @@ body:not(.has-plan) .plan-content{display:none}
   #main{
     padding-top:56px;
     height:auto;
-    overflow:visible;
+    overflow-x:hidden;
+    width:100%;
+    max-width:100vw;
   }
   .mobile-header{display:flex}
   .page-header{padding:24px 20px 28px}
   .page-header h1{font-size:22px}
-  .content-area{padding:20px 16px}
+  .content-area{
+    padding:20px 16px;
+    overflow-x:hidden;
+    max-width:100%;
+  }
   .dash-grid{grid-template-columns:1fr}
   .dash-hero{flex-direction:column;align-items:flex-start;gap:20px;padding:24px}
   .week-cols{grid-template-columns:1fr}
-  /* Tabs - horizontal scroll on mobile */
+
+  /* ═══ TABS - constrained horizontal scroll ═══ */
   .tabs{
     overflow-x:auto;
     -webkit-overflow-scrolling:touch;
@@ -3792,15 +3805,151 @@ body:not(.has-plan) .plan-content{display:none}
     margin-right:-16px;
     padding-left:16px;
     padding-right:16px;
-    width:auto;
+    width:calc(100% + 32px);
+    max-width:calc(100vw - 32px);
   }
   .tabs::-webkit-scrollbar{display:none}
   .tab-btn{flex-shrink:0;padding:8px 14px;font-size:12px}
+
+  /* ═══ STRATEGY PAGE - Mobile Layout ═══ */
+  .strategy-goal{
+    padding:24px 20px;
+    gap:12px;
+  }
+  .strategy-goal-quote{
+    font-size:48px;
+    letter-spacing:-2px;
+  }
+  .strategy-goal-text{font-size:14px}
+
+  .strategy-positioning{
+    padding:20px;
+  }
+  .strategy-positioning-text{font-size:14px}
+
+  /* Objectives - stack vertically on mobile */
+  .strategy-objectives-grid{
+    display:flex;
+    flex-direction:column;
+    gap:16px;
+  }
+  .strategy-objective-card{
+    padding:20px;
+    gap:16px;
+    flex-direction:column;
+  }
+  .strategy-objective-num{
+    font-size:36px;
+    width:auto;
+    margin-bottom:-8px;
+  }
+  .strategy-objective-title{font-size:15px}
+  .strategy-objective-desc{font-size:13px}
+
+  /* Tactics overview - single column on mobile */
+  .tactics-overview-grid{
+    grid-template-columns:1fr;
+    gap:16px;
+  }
+  .tactic-overview-card{
+    padding:20px;
+  }
+  .tactic-overview-title{font-size:14px}
+  .tactic-overview-desc{font-size:12px}
+
+  /* ═══ TACTIC PAGES - Mobile Layout ═══ */
+  .tactic-page-content{
+    padding:16px;
+    margin:8px;
+    overflow-x:hidden;
+  }
+  .tactic-hero{
+    padding:20px;
+    margin:-16px -16px 16px;
+    border-radius:0;
+    overflow:hidden;
+  }
+  .tactic-hero h1{font-size:20px}
+  .tactic-hero p{font-size:13px}
+  .tactic-hero-top{
+    flex-direction:column;
+    gap:16px;
+    align-items:flex-start;
+  }
+  .tactic-hero-progress{
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  /* Tactic tabs - contained scrolling */
+  .tactic-tabs{
+    gap:6px;
+    margin:16px -20px 0;
+    padding:0 20px;
+    width:calc(100% + 40px);
+    max-width:100vw;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .tactic-tab{
+    padding:10px 14px;
+    font-size:12px;
+    flex-shrink:0;
+  }
+
+  .tactic-body{
+    padding:20px 16px;
+    margin-top:16px;
+  }
+
+  /* Tactic overview cards - stack on mobile */
+  .tactic-overview-grid{
+    grid-template-columns:1fr;
+  }
+  .tactic-card-block{
+    padding:16px;
+  }
+  .tactic-card-block p{font-size:13px}
+
+  /* ═══ ASSESSMENT PAGE ═══ */
   .assessment-grade-card{flex-direction:column;gap:16px;text-align:center}
   .grade-breakdown-grid{grid-template-columns:1fr}
   .executive-columns{grid-template-columns:1fr}
   .quick-win-item{flex-direction:column;align-items:flex-start}
   .quick-win-time{margin-top:8px}
+  .grades-row{
+    flex-direction:column;
+    gap:12px;
+  }
+  .grade-card{
+    min-width:auto;
+    width:100%;
+  }
+  .metrics-row{
+    flex-direction:column;
+    gap:12px;
+  }
+  .score-card{
+    min-width:auto;
+    width:100%;
+  }
+
+  /* ═══ PROJECTIONS SECTION ═══ */
+  .projections-section{
+    padding:20px;
+  }
+  .projections-toggle{
+    flex-direction:column;
+    gap:8px;
+  }
+  .projection-btn{
+    width:100%;
+    text-align:center;
+  }
+  .projections-grid{
+    grid-template-columns:1fr;
+    gap:12px;
+  }
 }
 @media(min-width:769px) and (max-width:1024px){
   :root{--sidebar-w:220px}
