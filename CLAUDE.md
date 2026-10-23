@@ -469,10 +469,85 @@ Write a second output file to `clients/[slug]/plan.json`. This file powers the w
 4. Report: placeholder count resolved, optional blocks included/excluded,
    total checklist items, total "how to" links, total weeks in plan.json
 
+### Inline Editing Attributes (Required)
+
+All generated content must include `data-editable-key` and `data-editable-link` attributes to support inline editing in the dashboard. These attributes allow coaches and clients to make minor text adjustments without regenerating the entire page.
+
+#### Naming Conventions
+
+| Content Type | Attribute | Pattern | Example |
+|---|---|---|---|
+| Implementation step titles | `data-editable-key` | `tN-step-M-title` | `t1-step-1-title`, `t2-step-3-title` |
+| Tips list items | `data-editable-key` | `tN-tip-M` | `t1-tip-1`, `t3-tip-2` |
+| Resource links | `data-editable-link` | `tN-resource-M` | `t1-resource-1`, `t2-resource-3` |
+| Week titles | `data-editable-key` | `week-N-title` | `week-1-title`, `week-12-title` |
+| Week actions | `data-editable-key` | `week-N-action-M` | `week-1-action-1`, `week-5-action-3` |
+| Checklist labels | `data-editable-key` | `rwN_dM-label` | `rw1_d1-label`, `rw3_d2-label` |
+| Quick wins | `data-editable-key` | `qw-N-label` | `qw-1-label`, `qw-5-label` |
+
+Where:
+- `N` = tactic number (1-4) or week number (1-12)
+- `M` = item index within that section, starting at 1
+
+#### Implementation Examples
+
+**Implementation Steps** (when generating `{{TACTIC_N_IMPLEMENTATION_STEPS}}`):
+```html
+<div class="tactic-step-content">
+  <div class="tactic-step-title" data-editable-key="t1-step-1-title">Set up Google Analytics 4</div>
+  <ul class="tactic-step-bullets">
+    <li>Create a GA4 property</li>
+    <li>Install the tracking code</li>
+  </ul>
+</div>
+```
+
+**Tips** (when generating `{{TACTIC_N_TIPS}}`):
+```html
+<ul class="tactic-tips-list">
+  <li data-editable-key="t1-tip-1">Start with your best-performing content</li>
+  <li data-editable-key="t1-tip-2">Review analytics weekly</li>
+  <li data-editable-key="t1-tip-3">Set up email alerts for significant changes</li>
+</ul>
+```
+
+**Resources** (when generating `{{TACTIC_N_RESOURCES}}`):
+```html
+<ul class="tactic-resources-list">
+  <li><a href="https://support.google.com/analytics" data-editable-link="t1-resource-1" target="_blank">Google Analytics Help Centre</a></li>
+  <li><a href="https://skillshop.google.com" data-editable-link="t1-resource-2" target="_blank">Google Skillshop Courses</a></li>
+</ul>
+```
+
+**Week Cards** (when generating `{{MONTH_N_WEEKS}}`):
+```html
+<div class="week-card" id="wc-1" data-week="1">
+  <div class="week-card-header">
+    <div class="week-num">1</div>
+    <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Found Online</span>
+  </div>
+  <div class="week-card-body">
+    <ul class="week-actions">
+      <li data-editable-key="week-1-action-1">Claim your Google Business Profile</li>
+      <li data-editable-key="week-1-action-2">Verify your business information</li>
+    </ul>
+  </div>
+</div>
+```
+
+#### Quality Checklist for Editable Attributes
+- [ ] Every `.tactic-step-title` element has a `data-editable-key="tN-step-M-title"` attribute
+- [ ] Every `<li>` in `.tactic-tips-list` has a `data-editable-key="tN-tip-M"` attribute
+- [ ] Every `<a>` in `.tactic-resources-list` has a `data-editable-link="tN-resource-M"` attribute
+- [ ] Every `.week-title` element has a `data-editable-key="week-N-title"` attribute
+- [ ] Indices (M) start at 1 and increment sequentially within each section
+- [ ] No duplicate keys exist in the generated output
+
 ### Accelerator-specific quality checklist
 In addition to the general checklist:
 - [ ] Assessment page has all required sections filled with client audit data
 - [ ] `{{ONBOARDING_CALL_DATE}}` is filled with the date from the command
+- [ ] All generated content includes proper inline editing attributes (see above)
 
 ---
 

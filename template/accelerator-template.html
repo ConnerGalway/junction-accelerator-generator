@@ -66,6 +66,27 @@ EDITABLE KEY PATTERNS:
   - qw-N-label
   - assessment-overall-summary, priority-N-text
 
+EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
+  When generating implementation steps ({{TACTIC_N_IMPLEMENTATION_STEPS}}):
+  - Step titles: data-editable-key="tN-step-M-title"
+    Example: <div class="tactic-step-title" data-editable-key="t1-step-1-title">Step Title</div>
+
+  When generating tips ({{TACTIC_N_TIPS}}):
+  - Tips list items: data-editable-key="tN-tip-M"
+    Example: <li data-editable-key="t1-tip-1">Tip text here</li>
+
+  When generating resources ({{TACTIC_N_RESOURCES}}):
+  - Resource links: data-editable-link="tN-resource-M"
+    Example: <li><a href="url" data-editable-link="t1-resource-1">Resource name</a></li>
+
+  When generating roadmap weeks ({{MONTH_N_WEEKS}}):
+  - Week titles: data-editable-key="week-N-title"
+    Example: <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Started</span>
+
+  When generating Quick Wins ({{QUICK_WINS_PAGE_CONTENT}}):
+  - Quick win items: data-editable-key="qw-N-label"
+    Example: <div data-editable-key="qw-1-label">Quick win description</div>
+
 SECTIONS REBUILT PER CLIENT BY CLAUDE:
   - All tactic page content (overview, implementation steps, metrics, tips)
   - 90-Day Roadmap week cards (titles, actions, checklists)
