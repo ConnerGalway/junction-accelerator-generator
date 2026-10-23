@@ -47,18 +47,10 @@ REQUIRED PLACEHOLDERS  {{UPPER_SNAKE_CASE}}:
   ROADMAP MONTHS:
     {{MONTH_1_NAME}}  {{MONTH_2_NAME}}  {{MONTH_3_NAME}}
 
-OPTIONAL BLOCKS  (include only when applicable):
-  <!-- IF:PRICE_POINT -->    Include when price point is set
-    {{PRICE_POINT}}           e.g. "$115 per guest"
-  <!-- /IF:PRICE_POINT -->
-
-  <!-- IF:LAUNCH_TARGET -->  Include when there is a launch target
-    {{LAUNCH_TARGET_TITLE}}    e.g. "First departure May 16, 2027"
-    {{LAUNCH_TARGET_DESC}}     e.g. "Target $4,500"
-  <!-- /IF:LAUNCH_TARGET -->
-
-  <!-- IF:BOOKABILITY_CHECKLIST -->   Include when operator needs a Bookability Checklist page
-  <!-- /IF:BOOKABILITY_CHECKLIST -->
+OPTIONAL BLOCKS (use markers in HTML, not inside this comment):
+  IF:PRICE_POINT           - Include when price point is set ({{PRICE_POINT}})
+  IF:LAUNCH_TARGET         - Include when there is a launch target
+  IF:BOOKABILITY_CHECKLIST - Include when operator needs a Bookability Checklist page
 
 SECTIONS REBUILT PER OPERATOR BY CLAUDE CODE (not template placeholders):
   • All track page content (overview, implementation steps, metrics, tips, resources)

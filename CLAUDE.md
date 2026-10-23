@@ -20,7 +20,9 @@ The templates are roughly 6,000 lines. Writing them wholesale drops sections, co
 
 **Required procedure:**
 1. Copy the template to the output path first: `cp template/[template].html [output-dir]/[slug]/index.html`
-2. Edit that copy in place with targeted replacements, one region at a time:
+2. **Remove the template header comment** (the `<!-- ... -->` block at the top of the file before `<!DOCTYPE html>`). This comment contains documentation for Claude and must NOT appear in generated client files. Nested `<!-- -->` markers inside comments break HTML parsing.
+3. **Verify the Supabase SDK script** is in `<head>`: `<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>`. Without this, auth will fail and redirect to login.
+4. Edit that copy in place with targeted replacements, one region at a time:
    - Placeholders
    - The three Track/Tactic pages
    - The twelve roadmap weeks
