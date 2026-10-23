@@ -5454,12 +5454,6 @@ button,
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
       Ads & Creators
     </div>
-    <!-- IF:TACTIC_4 -->
-      <div class="nav-item" data-page="tactic4" onclick="navigate('tactic4')">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-      Email & Reviews
-    </div>
-      <!-- ENDIF:TACTIC_4 -->
     <div class="nav-section-label">Your Plan</div>
     <div class="nav-item" id="nav-roadmap" data-page="roadmap" onclick="navigate('roadmap')">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
@@ -5626,16 +5620,6 @@ button,
         <div class="dash-tactic-info">
           <div class="dash-tactic-name">Paid Acquisition</div>
           <div class="dash-tactic-label" id="tc3-stat">0 of 14 done</div>
-        </div>
-      </div>
-      <div class="dash-tactic-pill" onclick="navigate('tactic4')">
-        <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
-          <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
-          <circle id="tactic4-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--state-success)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
-        </svg>
-        <div class="dash-tactic-info">
-          <div class="dash-tactic-name">Email & Reviews</div>
-          <div class="dash-tactic-label" id="tc4-stat">0 of 7 done</div>
         </div>
       </div>
     </div>
@@ -6228,7 +6212,7 @@ button,
 
     <!-- OBJECTIVES -->
     <div class="strategy-objectives">
-      <div class="strategy-objectives-label">{{OBJECTIVES_LABEL}}</div>
+      <div class="strategy-objectives-label">Your Objectives</div>
       <div class="strategy-objectives-grid">
         <div class="strategy-objective-card" style="--obj-color:#067cbc">
           <div class="strategy-objective-num">01</div>
@@ -6254,22 +6238,12 @@ button,
             <span class="strategy-objective-pill">Tactic 3 · Weeks 1-6</span>
           </div>
         </div>
-        <!-- IF:TACTIC_4 -->
-        <div class="strategy-objective-card" style="--obj-color:#708090">
-          <div class="strategy-objective-num">04</div>
-          <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title" data-editable-key="objective-4-title">{{OBJECTIVE_4_TITLE}}</h3>
-            <p class="strategy-objective-desc" data-editable-key="objective-4-desc">{{OBJECTIVE_4_DESC}}</p>
-            <span class="strategy-objective-pill">{{OBJECTIVE_4_TACTIC_PILL}}</span>
-          </div>
-        </div>
-        <!-- ENDIF:TACTIC_4 -->
       </div>
     </div>
 
     <!-- TACTICS OVERVIEW -->
     <div class="tactics-overview">
-      <div class="tactics-overview-label">{{TACTICS_LABEL}}</div>
+      <div class="tactics-overview-label">Your Tactics</div>
       <div class="tactics-overview-grid">
         <div class="tactic-overview-card" style="--color:#067cbc">
           <div class="tactic-overview-phase">Foundation</div>
@@ -6289,14 +6263,6 @@ button,
           <p class="tactic-overview-desc" data-editable-key="tactic-3-overview-desc">Standardise the museum's name, description, imagery, and hours across every platform so that AI tools and search engines recognise it as a single authoritative entity, not six partially-matching profiles.</p>
           <button class="tactic-overview-link" onclick="navigate('tactic3')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
         </div>
-        <!-- IF:TACTIC_4 -->
-        <div class="tactic-overview-card" style="--color:#708090">
-          <div class="tactic-overview-phase">{{TACTIC_4_PHASE}}</div>
-          <h3 class="tactic-overview-title" data-editable-key="tactic-4-overview-title">{{TACTIC_4_TITLE}}</h3>
-          <p class="tactic-overview-desc" data-editable-key="tactic-4-overview-desc">{{TACTIC_4_SUBTITLE}}</p>
-          <button class="tactic-overview-link" onclick="navigate('tactic4')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-        <!-- ENDIF:TACTIC_4 -->
       </div>
     </div>
 
@@ -6346,23 +6312,23 @@ button,
         <!-- What This Is -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Is</div>
-          <p data-editable-key="tactic-1-what-is">{{TACTIC_1_WHAT_IS}}</p>
+          <p data-editable-key="tactic-1-what-is">A five-pillar content framework built around the museum's existing archives, combined with a shift in default format from static posts to short-form video using Canva's animation tools. The framework gives each content bucket a name, a theme, a posting rhythm, and a backlog target, so that any staff member can open the system and know exactly what to post next.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-1-title">{{T1_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-1-desc">{{T1_BREAKDOWN_1_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-1-title">Content Pillar Framework</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-1-desc">Define five content pillars, tag all existing backlog, and build a shared calendar</div>
             </div>
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-2-title">{{T1_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-2-desc">{{T1_BREAKDOWN_2_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-2-title">Video Format Shift</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-2-desc">Convert static posts to animated Reels using Canva's built-in tools</div>
             </div>
             <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-3-title">{{T1_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-3-desc">{{T1_BREAKDOWN_3_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-3-title">Stories and Distribution</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-3-desc">Daily Stories, cross-platform scheduling, and TikTok/YouTube Shorts expansion</div>
             </div>
           </div>
         </div>
@@ -6371,12 +6337,12 @@ button,
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-1-heard">{{TACTIC_1_HEARD}}</p>
+          <p data-editable-key="tactic-1-heard">The museum already posts four to six times per week and has a four-month content backlog, which puts it ahead of almost every organisation at this stage. The challenge Maria named is not discipline: it is structure. Seasonal staff turnover means the voice drifts, the topics repeat without intention, and the content does not compound the way it should when a team has 13,000 photographs to draw from. The coaching call also surfaced a specific gap: almost no Reels.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-1-matters">{{TACTIC_1_MATTERS}}</p>
+          <p data-editable-key="tactic-1-matters">The museum's Instagram engagement rate is 0.35 percent against a tourism industry benchmark of one to three percent. That gap is almost entirely explained by format: static images have been losing algorithmic reach since 2022, and Reels are now the primary distribution lever on Instagram and Facebook. Shifting to animated or video content, even simple Canva animations with music, will move that number.</p>
         </div>
         <!-- Time Commitment -->
         <div class="tactic-card-block">
@@ -6916,23 +6882,23 @@ button,
             <!-- What This Is -->
             <div class="tactic-card-block">
               <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-2-what-is">{{TACTIC_2_WHAT_IS}}</p>
+              <p data-editable-key="tactic-2-what-is">A two-part content build. First, a systematic FAQ section on the museum's website built around the questions visitors and locals actually ask. Second, a set of deeper answer pages targeting the specific historical and cultural questions the museum's archive can answer authoritatively: the history of the Agassiz railway station, the military figures connected to the District of Kent, the agricultural story of the Fraser Valley.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-1-title">{{T2_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-1-desc">{{T2_BREAKDOWN_1_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-1-title">FAQ Architecture</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-1-desc">Run the top 100 questions session and build structured FAQ content</div>
             </div>
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-2-title">{{T2_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-2-desc">{{T2_BREAKDOWN_2_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-2-title">Deep Content Pages</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-2-desc">Five authoritative history pages targeting AI-searchable questions</div>
             </div>
             <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-3-title">{{T2_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-3-desc">{{T2_BREAKDOWN_3_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-3-title">Local Guide Schema</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-3-desc">Structured data markup to help search engines understand the content</div>
             </div>
           </div>
         </div>
@@ -6941,12 +6907,12 @@ button,
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-2-heard">{{TACTIC_2_HEARD}}</p>
+          <p data-editable-key="tactic-2-heard">The coaching call covered a significant shift in how visitors discover places like the museum. Search is no longer primarily keyword-based. When someone asks ChatGPT or Google AI Overview "what should I do in Harrison Hot Springs with kids," the answer is assembled from websites that have structured their content as clear questions with direct answers. The museum's website has strong technical performance, but the content is not yet structured for AI discovery.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-2-matters">{{TACTIC_2_MATTERS}}</p>
+          <p data-editable-key="tactic-2-matters">The museum's website currently generates approximately 1,131 monthly organic search visits and ranks number five for "Agassiz BC." The gap is that the content does not answer the questions AI tools are using to build travel recommendations. GEO is cumulative: each FAQ answer and each deep content page strengthens the museum's authority as the source for Fraser Valley history, which makes every subsequent citation more likely.</p>
         </div>
             <!-- Time Commitment -->
             <div class="tactic-card-block">
@@ -7411,27 +7377,27 @@ button,
             <!-- What This Is -->
             <div class="tactic-card-block">
               <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-3-what-is">{{TACTIC_3_WHAT_IS}}</p>
+              <p data-editable-key="tactic-3-what-is">A systematic one-time audit and standardisation of every platform where the museum appears, followed by a documented brand guide that prevents the drift from happening again when seasonal staff rotate. The audit covers six platforms: Google Business Profile, the museum's website, Instagram, Facebook, Destination BC, and TripAdvisor.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-1-title">{{T3_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-1-desc">{{T3_BREAKDOWN_1_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-1-title">Platform Audit</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-1-desc">Review all six platforms and record current information in a master spreadsheet</div>
             </div>
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-2-title">{{T3_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-2-desc">{{T3_BREAKDOWN_2_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-2-title">Standardise Listings</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-2-desc">Update name, description, hours, and images to match across all platforms</div>
             </div>
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-3-title">{{T3_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-3-desc">{{T3_BREAKDOWN_3_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-3-title">Brand Guide</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-3-desc">Document the standard descriptions, images, and voice for seasonal staff onboarding</div>
             </div>
             <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-4-title">{{T3_BREAKDOWN_4_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-4-desc">{{T3_BREAKDOWN_4_DESC}}</div>
+              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-4-title">Ongoing Maintenance</div>
+              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-4-desc">Quarterly platform check to prevent drift as staff changes</div>
             </div>
           </div>
         </div>
@@ -7440,12 +7406,12 @@ button,
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-3-heard">{{TACTIC_3_HEARD}}</p>
+          <p data-editable-key="tactic-3-heard">Maria named brand consistency as one of the museum's most persistent challenges: seasonal staff turnover means the voice drifts, the profile descriptions on different platforms were written at different times, and the branding across Google Business Profile, the website, Destination BC, TripAdvisor, Instagram, and Facebook does not read as a single organisation. The digital assessment confirmed this is a real gap.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-3-matters">{{TACTIC_3_MATTERS}}</p>
+          <p data-editable-key="tactic-3-matters">This tactic is the infrastructure that makes Tactics 1 and 2 work at full strength. A museum that produces excellent video content and well-structured FAQ pages but has six slightly different names across platforms will see that content's authority diluted. The assessment found the museum ranking 90/100 for local visibility. That score can be pushed higher, and the entity consistency work in this tactic is what does it.</p>
             </div>
             <!-- Time Commitment -->
             <div class="tactic-card-block">
@@ -7860,458 +7826,6 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 4: Email Marketing & Reviews
-     ════════════════════════════════════════════ -->
-<!-- IF:TACTIC_4 -->
-<section id="page-tactic4" class="page">
-  <div class="tactic-page-content">
-    <!-- Navy Hero Card -->
-    <div class="tactic-hero" data-tactic="4">
-      <div class="tactic-hero-top">
-        <div class="tactic-hero-meta">
-          <span class="tactic-hero-label">Tactic 4 · {{TACTIC_4_PHASE}}</span>
-          <span class="tactic-hero-status" id="t4-status">Not Started</span>
-        </div>
-        <div class="tactic-hero-progress">
-          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
-            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
-            <circle class="tactic-hero-ring-bar" id="t4-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
-          </svg>
-          <div>
-            <div class="tactic-hero-pct" id="t4-pct">0%</div>
-            <div class="tactic-hero-pct-label">of this tactic</div>
-          </div>
-        </div>
-      </div>
-      <h1 data-editable-key="tactic-4-hero-title">{{TACTIC_4_TITLE}}</h1>
-      <p data-editable-key="tactic-4-hero-subtitle">{{TACTIC_4_SUBTITLE}}</p>
-      <!-- Tactic Tabs -->
-      <div class="tactic-tabs" role="tablist" aria-label="Tactic 4 sections">
-        <button class="tactic-tab active" id="tab-t4-overview" role="tab" aria-selected="true" aria-controls="panel-t4-overview" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
-        <button class="tactic-tab" id="tab-t4-steps" role="tab" aria-selected="false" aria-controls="panel-t4-steps" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t4-metrics" role="tab" aria-selected="false" aria-controls="panel-t4-metrics" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Success Metrics</button>
-        <button class="tactic-tab" id="tab-t4-tips" role="tab" aria-selected="false" aria-controls="panel-t4-tips" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
-      </div>
-    </div>
-
-    <!-- Tactic Body -->
-    <div class="tactic-body">
-      <!-- Overview Tab -->
-      <div class="tactic-tab-content active" id="panel-t4-overview" role="tabpanel" aria-labelledby="tab-t4-overview" data-tactic-content="4" data-content="overview">
-        <div class="tactic-overview-grid">
-          <div class="tactic-overview-col">
-            <!-- What This Is -->
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-4-what-is">{{TACTIC_4_WHAT_IS}}</p>
-        </div>
-        <!-- What This Breaks Into -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">What This Breaks Into</div>
-          <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-1-title">{{T4_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-1-desc">{{T4_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-2-title">{{T4_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-2-desc">{{T4_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-3-title">{{T4_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-3-desc">{{T4_BREAKDOWN_3_DESC}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tactic-overview-col">
-        <!-- What We Heard From You -->
-        <div class="tactic-card-block navy">
-          <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-4-heard">{{TACTIC_4_HEARD}}</p>
-        </div>
-        <!-- Why It Matters -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-4-matters">{{TACTIC_4_MATTERS}}</p>
-        </div>
-            <!-- Time Commitment -->
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Time Commitment</div>
-              <div>
-                <span class="tactic-time-value">1 hr</span>
-                <span class="tactic-time-context">email management, per week</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" id="panel-t4-steps" role="tabpanel" aria-labelledby="tab-t4-steps" data-tactic-content="4" data-content="steps">
-        <!-- Collapsible Parts -->
-        <div class="tactic-parts-list">
-          <!-- Part A -->
-          <div class="tactic-part open">
-            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
-              <span class="tactic-part-tag">Part A</span>
-              <span class="tactic-part-title">Get Agreement and Get Started</span>
-          <span class="tactic-part-meta">4 steps</span>
-          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-        </button>
-        <div class="tactic-part-body">
-          <ol class="tactic-steps-list">
-            <li class="tactic-step-item" id="step-t4-1">
-              <span class="tactic-step-num">1</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Settle the newsletter question with Axel and the investor</div>
-                <div class="tactic-step-tags">
-                  <span class="tactic-step-tag danger">Critical</span>
-                </div>
-                <ul class="tactic-step-bullets">
-                  <li>Take the recommendation in writing, not as a conversation. Be specific about what it is not: no monthly newsletter, no purchased lists.</li>
-                  <li>What it is: an automated email before arrival, an automated email after checkout, and two campaigns a year to people who have opted in.</li>
-                  <li>Point at the numbers. Twenty reviews with two in eighteen months is a review problem, and the post-stay email is how it gets solved.</li>
-                  <li>Get the decision recorded since this has stalled before.</li>
-                </ul>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-2">
-              <span class="tactic-step-num">2</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Reactivate Mailchimp and check what still works</div>
-                <ul class="tactic-step-bullets">
-                  <li>Log in and confirm account status, templates from the COVID grant, and whether the free tier covers your expected list size.</li>
-                  <li>Update sender name, reply address, and physical mailing address in the footer (required by anti-spam law).</li>
-                  <li>Send a test of each existing template to yourself and check it on a phone.</li>
-                  <li>Set the language default and prepare a German version of every template.</li>
-                </ul>
-                <a href="https://mailchimp.com/help/set-up-email-domain-authentication/" class="tactic-step-resource" target="_blank">Learn how to set up email authentication →</a>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-3">
-              <span class="tactic-step-num">3</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Add sign-up points across the site</div>
-                <ul class="tactic-step-bullets">
-                  <li>Put a sign-up form in the site footer on every page with a specific reason to subscribe (e.g. early access to winter dates).</li>
-                  <li>Add a checkbox to the enquiry form on offer landing pages and to the contact form.</li>
-                  <li>Add the Winter Packing List PDF as a download in exchange for an email address. That page draws 1,453 sessions a year.</li>
-                  <li>Ask at checkout in person too. A QR card in each cabin costs almost nothing.</li>
-                </ul>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-4">
-              <span class="tactic-step-num">4</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Set the consent standard to double opt-in</div>
-                <ul class="tactic-step-bullets">
-                  <li>Use GDPR double opt-in for everyone regardless of country. One standard is simpler than two.</li>
-                  <li>Turn on double opt-in in Mailchimp audience settings.</li>
-                  <li>Confirm the confirmation email sends in the right language.</li>
-                  <li>Record the source and date of consent for every contact.</li>
-                </ul>
-                <a href="https://mailchimp.com/help/about-double-opt-in/" class="tactic-step-resource" target="_blank">Learn about double opt-in in Mailchimp →</a>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-
-      <!-- Part B -->
-      <div class="tactic-part open">
-        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
-          <span class="tactic-part-tag">Part B</span>
-          <span class="tactic-part-title">The Automated Emails</span>
-          <span class="tactic-part-meta">4 steps</span>
-          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-        </button>
-        <div class="tactic-part-body">
-          <ol class="tactic-steps-list">
-            <li class="tactic-step-item" id="step-t4-5">
-              <span class="tactic-step-num">5</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Build the pre-arrival email</div>
-                <ul class="tactic-step-bullets">
-                  <li>Trigger it five days before arrival. Guests are driving a long way and the anxiety is about the road, cell service, and groceries.</li>
-                  <li>Contents: directions with the 13 km off Highway 20 stated plainly, 4x4 recommendation, packing list link, shopping page, cell service warning, check-in details.</li>
-                  <li>This replaces the manual email you currently send, freeing your time.</li>
-                  <li>Add one line inviting the guest to reply with questions.</li>
-                </ul>
-                <a href="https://mailchimp.com/help/all-the-starting-points/" class="tactic-step-resource" target="_blank">View all automation flow triggers →</a>
-                <div class="tactic-mockup" style="max-width:420px;">
-                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
-                      <div style="flex:1;">
-                        <div style="font-size:12px;font-weight:700;color:#262322;">Agassiz-Harrison Museum & Visitor Centre</div>
-                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
-                      </div>
-                    </div>
-                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Getting ready for your stay at Red Cariboo</div>
-                  </div>
-                  <div style="padding:16px;background:#fff;">
-                    <div style="background:#ececec;border-radius:6px;padding:12px 14px;margin-bottom:12px;">
-                      <div style="font-weight:700;font-size:11px;color:#262322;margin-bottom:4px;">GETTING HERE</div>
-                      <div style="font-size:11px;color:#3f3b39;line-height:1.5;">Turn off Highway 20 at Km 13...</div>
-                    </div>
-                    <div style="background:#ececec;border-radius:6px;padding:12px 14px;">
-                      <div style="font-weight:700;font-size:11px;color:#262322;margin-bottom:4px;">CELL SERVICE</div>
-                      <div style="font-size:11px;color:#3f3b39;line-height:1.5;">Coverage is spotty between Williams Lake and Bella Coola...</div>
-                    </div>
-                  </div>
-                  <div class="tactic-mockup-label">Pre-arrival email: sent 5 days before check-in</div>
-                </div>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-6">
-              <span class="tactic-step-num">6</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Build the post-stay review request</div>
-                <ul class="tactic-step-bullets">
-                  <li>Trigger it three days after checkout. Late enough they are home, early enough the trip is fresh.</li>
-                  <li>One purpose per email. Ask for a Google review, link directly to the review form, say it takes a minute.</li>
-                  <li>Include QR review cards in the cabins too. In-person requests convert several times better.</li>
-                  <li>Add a second email fourteen days later inviting them to join the list for next season.</li>
-                </ul>
-                <a href="https://support.google.com/business/answer/16816815?hl=en" class="tactic-step-resource" target="_blank">Learn how to create a Google review link →</a>
-                <div class="tactic-mockup" style="max-width:420px;">
-                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
-                      <div style="flex:1;">
-                        <div style="font-size:12px;font-weight:700;color:#262322;">Agassiz-Harrison Museum & Visitor Centre</div>
-                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
-                      </div>
-                    </div>
-                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Got a minute for us?</div>
-                  </div>
-                  <div style="padding:24px 16px;background:#fff;text-align:center;">
-                    <div style="font-family:'Poppins',sans-serif;font-weight:800;font-size:14px;color:#262322;margin-bottom:14px;"><span style="color:#BE1E2D;">Red</span> Cariboo</div>
-                    <p style="font-size:12px;color:#3f3b39;line-height:1.6;margin:0 0 16px;">Thanks for staying with us on the Dean River. If you have about a minute, a quick Google review helps other travelers find us.</p>
-                    <div style="display:inline-block;background:#BE1E2D;color:#fff;border-radius:5px;padding:10px 24px;font-size:12px;font-weight:700;">Leave a Google Review →</div>
-                  </div>
-                  <div class="tactic-mockup-label">Review request: sent 3 days after checkout</div>
-                </div>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-7">
-              <span class="tactic-step-num">7</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Build the enquiry follow-up</div>
-                <ul class="tactic-step-bullets">
-                  <li>Anyone who submits an enquiry form and does not book receives one follow-up three days later.</li>
-                  <li>Answer what they are likely still weighing: whether the road is manageable, what the cabin includes.</li>
-                  <li>Include the booking link with a specific offer rather than a general invitation.</li>
-                  <li>Keep it to one follow-up. A second unanswered email is where the spam perception comes from.</li>
-                </ul>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-8">
-              <span class="tactic-step-num">8</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Connect Cloudbeds to Mailchimp via Zapier</div>
-                <ul class="tactic-step-bullets">
-                  <li>The recommended setup is Cloudbeds → Zapier → Mailchimp. Zapier has a native Cloudbeds integration that supports "New Reservation" as a trigger.</li>
-                  <li>In Cloudbeds, go to Account → Apps &amp; Marketplace → Zapier → Connect App to initiate the connection.</li>
-                  <li>Create a Zap with the trigger "New Reservation in Cloudbeds" and the action "Add/Update Subscriber in Mailchimp."</li>
-                  <li>Map the guest's name and email address to Mailchimp fields. Apply a tag such as "Cloudbeds Guest" or "2026 Guest" to identify bookings.</li>
-                  <li>Alternative: if Zapier is not an option, export Cloudbeds bookings monthly and upload the list to Mailchimp manually.</li>
-                  <li>Tag every contact by guest type (leisure vs. work crew) and language (English vs. German). Work crews should never receive winter package emails.</li>
-                </ul>
-                <a href="https://zapier.com/apps/cloudbeds/integrations/mailchimp" class="tactic-step-resource" target="_blank">View Cloudbeds + Mailchimp integration on Zapier →</a>
-                <div style="margin-top:16px;">
-                  <div style="border-radius:8px;overflow:hidden;border:1px solid var(--border-subtle);">
-                    <!-- IMG:ZAPIER_CLOUDBEDS_MAILCHIMP: Zapier integration showing Cloudbeds trigger connected to Mailchimp action -->
-                  </div>
-                  <div style="margin-top:8px;font-size:11px;color:var(--navy-700);text-align:center;">Zapier workflow: Cloudbeds trigger → Mailchimp action</div>
-                </div>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-
-      <!-- Part C -->
-      <div class="tactic-part open">
-        <button class="tactic-part-header" onclick="toggleTacticPart(this)">
-          <span class="tactic-part-tag">Part C</span>
-          <span class="tactic-part-title">The First Real Campaigns</span>
-          <span class="tactic-part-meta">3 steps</span>
-          <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-        </button>
-        <div class="tactic-part-body">
-          <ol class="tactic-steps-list">
-            <li class="tactic-step-item" id="step-t4-9">
-              <span class="tactic-step-num">9</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Import and clean past guest contacts</div>
-                <ul class="tactic-step-bullets">
-                  <li>Pull whatever exists in Cloudbeds, your inbox, and booking confirmations going back to 2019.</li>
-                  <li>Import only those with a legitimate basis for contact. Send a re-permission email asking them to confirm.</li>
-                  <li>A small confirmed list is worth more than a large unconfirmed one, legally and in deliverability terms.</li>
-                  <li>Expect a modest number. The point is that the list exists and starts growing.</li>
-                </ul>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-10">
-              <span class="tactic-step-num">10</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Send the winter availability email in December</div>
-                <ul class="tactic-step-bullets">
-                  <li>Timed for the first week of December, ahead of Christmas and January booking rush.</li>
-                  <li>Contents: which winter dates remain, what is included in the winter package, the new photography, and a single Book Now link.</li>
-                  <li>Send it to the Canadian list only. Germans do not travel to Red Cariboo in winter.</li>
-                  <li>Measure open rate, click rate and bookings attributed. This is the first evidence Axel will see.</li>
-                </ul>
-                <div class="tactic-mockup" style="max-width:420px;">
-                  <div style="background:#f2f0ec;padding:12px 16px;border-bottom:1px solid #e4e0d9;">
-                    <div style="display:flex;align-items:center;gap:10px;">
-                      <div style="width:28px;height:28px;border-radius:50%;background:#BE1E2D;color:#fff;font-family:'Poppins',sans-serif;font-weight:800;font-size:11px;display:flex;align-items:center;justify-content:center;">RC</div>
-                      <div style="flex:1;">
-                        <div style="font-size:12px;font-weight:700;color:#262322;">Agassiz-Harrison Museum & Visitor Centre</div>
-                        <div style="font-size:10px;color:#847f78;">info@redcariboo.com</div>
-                      </div>
-                    </div>
-                    <div style="font-size:13px;font-weight:700;color:#262322;margin-top:8px;">Winter dates are going fast</div>
-                  </div>
-                  <div style="background:#1c1c1c;height:140px;overflow:hidden;">
-                    <!-- IMG:WINTER_EMAIL_HORSES: Horses in the snow near Anahim Lake -->
-                  </div>
-                  <div style="padding:16px;background:#fff;">
-                    <div style="font-family:'Poppins',sans-serif;font-weight:700;font-size:14px;color:#262322;margin-bottom:8px;">A handful of winter dates left</div>
-                    <p style="font-size:11px;color:#3f3b39;line-height:1.6;margin:0 0 12px;">Our winter season runs December through March, and this year's remaining open dates are filling up.</p>
-                    <div style="background:#ececec;border-radius:6px;padding:10px 12px;font-size:11px;color:#3f3b39;margin-bottom:12px;">Dec 18–22 · Jan 8–12 · Jan 22–26 · Feb 5–9</div>
-                    <div style="text-align:center;">
-                      <div style="display:inline-block;background:#BE1E2D;color:#fff;border-radius:5px;padding:10px 24px;font-size:12px;font-weight:700;">Book Now →</div>
-                    </div>
-                  </div>
-                  <div class="tactic-mockup-label">Winter availability email: sent early December to Canadian list</div>
-                </div>
-              </div>
-            </li>
-            <li class="tactic-step-item" id="step-t4-11">
-              <span class="tactic-step-num">11</span>
-              <div class="tactic-step-content">
-                <div class="tactic-step-title">Send the summer 2027 email to Germans in February</div>
-                <ul class="tactic-step-bullets">
-                  <li>European travellers book summer 6 to 12 months ahead. February is when the summer 2027 decision is being made.</li>
-                  <li>Contents in German: summer activities, the e-mountain bike program, the fishing, and the second-Canada-trip framing.</li>
-                  <li>Include the fly-in option and drive route. Access stops German bookings more than price.</li>
-                  <li>This email is the beginning of the summer 2027 pipeline.</li>
-                </ul>
-              </div>
-            </li>
-          </ol>
-        </div>
-      </div>
-    </div>
-  </div>
-
-      <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" id="panel-t4-metrics" role="tabpanel" aria-labelledby="tab-t4-metrics" data-tactic-content="4" data-content="metrics">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Success Metrics</div>
-          <div class="tactic-metrics-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>30 Days</th>
-                  <th>60 Days</th>
-                  <th>90 Days</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>Newsletter decision</td>
-                  <td>Recommendation delivered in writing</td>
-                  <td>Decision recorded</td>
-                  <td>Program running</td>
-                </tr>
-                <tr>
-                  <td>Mailchimp account</td>
-                  <td>Reactivated, templates tested</td>
-                  <td>Sender details and German templates ready</td>
-                  <td>Three automations live</td>
-                </tr>
-                <tr>
-                  <td>Email list size</td>
-                  <td>0 (baseline)</td>
-                  <td>60 or more confirmed subscribers</td>
-                  <td>150 to 300 confirmed subscribers</td>
-                </tr>
-                <tr>
-                  <td>Sign-up points live</td>
-                  <td>Footer form live</td>
-                  <td>Enquiry and contact form checkboxes live</td>
-                  <td>Packing list download gated, QR cards in cabins</td>
-                </tr>
-                <tr>
-                  <td>Pre-arrival email</td>
-                  <td>Drafted</td>
-                  <td>Live and sending automatically</td>
-                  <td>Sent to every arrival in the period</td>
-                </tr>
-                <tr>
-                  <td>Post-stay review request</td>
-                  <td>Drafted</td>
-                  <td>Live and sending automatically</td>
-                  <td>10 or more new Google reviews</td>
-                </tr>
-                <tr>
-                  <td>Google reviews total</td>
-                  <td>20 (baseline)</td>
-                  <td>25 or more</td>
-                  <td>30 or more, on a path to 50 by spring</td>
-                </tr>
-                <tr>
-                  <td>December campaign</td>
-                  <td>Not yet applicable</td>
-                  <td>Content planned</td>
-                  <td>Drafted and scheduled for the first week of December</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" id="panel-t4-tips" role="tabpanel" aria-labelledby="tab-t4-tips" data-tactic-content="4" data-content="tips">
-        <div class="tactic-overview-grid">
-          <div class="tactic-overview-col">
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Tips</div>
-              <ul class="tactic-tips-list">
-                <li>Do not describe this to Axel as a newsletter. Describe it as the email that goes out before a guest drives eight hours, and the email that asks for a review afterwards. Both are guest service, and both happen to build the list.</li>
-                <li>The Winter Packing List download is the best list-building asset you own. Gate the enhanced version and leave the current one free, so nobody loses access to something they already had.</li>
-                <li>Ask for the review in person at checkout as well as by email. A QR card in the cabin converts several times better than an email on its own.</li>
-                <li>Never send a winter package email to the work crew list. They book direct, they book anyway, and marketing to them risks the relationship that currently funds the business.</li>
-                <li>Keep the German and Canadian lists genuinely separate. Different seasons, different languages, different offers, and mixing them wastes both.</li>
-              </ul>
-            </div>
-          </div>
-          <div class="tactic-overview-col">
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Resources</div>
-              <ul class="tactic-resources-list">
-                <li><a href="https://mailchimp.com/help/about-double-opt-in/" target="_blank">Mailchimp signup form and double opt-in settings</a></li>
-                <li><a href="https://mailchimp.com/help/about-customer-journeys/" target="_blank">Mailchimp automation basics</a></li>
-                <li><a href="https://fightspam.gc.ca/" target="_blank">Canada's Anti-Spam Legislation (consent requirements)</a></li>
-                <li><a href="https://www.cloudbeds.com/marketplace/" target="_blank">Cloudbeds integrations marketplace</a></li>
-                <li><a href="https://support.google.com/business/answer/7035772" target="_blank">Google review link generator (for post-stay email)</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ENDIF:TACTIC_4 -->
-
-<!-- ════════════════════════════════════════════
      90-DAY ROADMAP
      ════════════════════════════════════════════ -->
 <section id="page-roadmap" class="page">
@@ -8400,14 +7914,14 @@ button,
       <div class="month-header">
         <span class="month-badge">Month 1</span>
         <span class="month-title">Foundation</span>
-        <span class="month-progress" id="m1-prog"><span>0</span> of {{MONTH_1_TOTAL}} done</span>
+        <span class="month-progress" id="m1-prog"><span>0</span> of 21 done</span>
       </div>
 
       <!-- Week 1 -->
       <div class="week-card" id="wc-1" data-week="1">
         <div class="week-card-header" onclick="toggleWeek(1)">
           <div class="week-num">W1</div>
-          <div class="week-title" data-editable-key="week-1-title">{{WEEK_1_TITLE}}</div>
+          <div class="week-title" data-editable-key="week-1-title">Audit and Pillar Definition</div>
           <div class="week-progress-pill" id="wp-1">0 / 4</div>
           <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
@@ -8456,7 +7970,7 @@ button,
       <div class="week-card" id="wc-2" data-week="2">
         <div class="week-card-header" onclick="toggleWeek(2)">
           <div class="week-num">W2</div>
-          <div class="week-title" data-editable-key="week-2-title">{{WEEK_2_TITLE}}</div>
+          <div class="week-title" data-editable-key="week-2-title">Video Shift and Standard Descriptions</div>
           <div class="week-progress-pill" id="wp-2">0 / 4</div>
           <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
@@ -8525,7 +8039,7 @@ button,
       <div class="month-header">
         <span class="month-badge">Month 2</span>
         <span class="month-title">Content and Visibility</span>
-        <span class="month-progress" id="m2-prog"><span>0</span> of {{MONTH_2_TOTAL}} done</span>
+        <span class="month-progress" id="m2-prog"><span>0</span> of 16 done</span>
       </div>
 
       <!-- Week 4 -->
@@ -8602,7 +8116,7 @@ button,
       <div class="month-header">
         <span class="month-badge">Month 3</span>
         <span class="month-title">Optimise and Sustain</span>
-        <span class="month-progress" id="m3-prog"><span>0</span> of {{MONTH_3_TOTAL}} done</span>
+        <span class="month-progress" id="m3-prog"><span>0</span> of 18 done</span>
       </div>
 
       <!-- Week 7 -->

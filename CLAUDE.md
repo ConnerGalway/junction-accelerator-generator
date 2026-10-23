@@ -226,6 +226,16 @@ See the full list in the template header comment.
 | `{{REPORT_QUICK_WINS}}` | `<li>` items for quick wins (5 items) |
 | `{{REPORT_CATEGORIES}}` | HTML for the 8 category breakdown items (see template structure) |
 | `{{REPORT_RECOMMENDATIONS}}` | HTML for 4 priority recommendations (see template structure) |
+| `{{OBJECTIVES_LABEL}}` | Label for the objectives section (typically "Your Objectives") |
+| `{{TACTIC_N_WHAT_IS}}` | "What This Is" overview content for tactic N. From the plan's tactic description. |
+| `{{TACTIC_N_HEARD}}` | "What We Heard From You" overview content for tactic N. From the plan's context/rationale. |
+| `{{TACTIC_N_MATTERS}}` | "Why It Matters" overview content for tactic N. From the plan's reasoning. |
+| `{{TACTIC_N_BREAKDOWN_COMMITMENT}}` | Time commitment breakdown for tactic N (e.g. "15 hours total") |
+| `{{TACTIC_N_BREAKDOWN_COST}}` | Cost breakdown for tactic N (e.g. "$0 - built into workflow") |
+| `{{TACTIC_N_BREAKDOWN_SKILLS}}` | Skills required for tactic N (e.g. "Canva basics, existing photo archives") |
+| `{{TACTIC_N_BREAKDOWN_SUPPORT}}` | Support level for tactic N (e.g. "Moderate coach support") |
+| `{{MONTH_N_TOTAL}}` | Total checklist items for month N (1-3). Used in roadmap progress display. |
+| `{{WEEK_N_TITLE}}` | Title for week N (1-12). From the plan's roadmap week headings. |
 
 ### Step 3: Handle optional blocks
 
