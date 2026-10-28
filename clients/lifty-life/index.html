@@ -5023,6 +5023,16 @@ body:not(.has-plan) .plan-content{display:none}
   background:#f7f2e9;
 }
 
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
+}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -6440,6 +6450,17 @@ button,
                   <li data-editable-key="t1-bullet-6"><strong>First access:</strong> members hear about new homes and peak dates before they open to the platforms, and can reserve the same week next year before anyone else.</li>
                   <li data-editable-key="t1-bullet-7">Write each benefit as a single sentence a guest would understand without reading any small print.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">Lifty Life Member Benefits (team doc)</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/lifty-life-mockups/media/t1-s1-benefits-list.png" alt="One-page Lifty Life Member Benefits document listing five benefits as single sentences: no platform service fees, flexible cancellation, early check-in or late checkout, talk to the local team, and first access, with a note that nothing needing a site visit is on the list" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-2">
@@ -6453,6 +6474,28 @@ button,
                   <li data-editable-key="t1-bullet-11">For late checkout, use the Listing availability condition so the offer only goes out when the home has no arrival on the departure day.</li>
                   <li data-editable-key="t1-bullet-12">Note that Hostaway does not let you edit an automation's conditions once it is created. Test it on one listing before applying it to all of them.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">Hostaway › Reservations › Manage custom fields</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/lifty-life-mockups/media/t1-s2-hostaway-custom-field.png" alt="Hostaway Add custom field window creating a reservation custom field named Lifty Life Member, type Text, not public" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">Hostaway › Inbox › Automations › Create new</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <img src="/assets/lifty-life-mockups/media/t1-s2-hostaway-automation.png" alt="Hostaway automation using the Reservation trigger, with an additional condition where the Lifty Life Member custom field is Yes, and a message confirming the member benefits" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
                 <a href="https://support.hostaway.com/hc/en-us/articles/360002563714-Inbox-Manage-Custom-Fields" class="tactic-step-resource" target="_blank">Hostaway: Manage Custom Fields →</a>
                 <a href="https://support.hostaway.com/hc/en-us/articles/50066767703195-Inbox-Set-Up-Message-Automations" class="tactic-step-resource" target="_blank">Hostaway: Set Up Message Automations →</a>
               </div>
@@ -6494,6 +6537,18 @@ button,
                   <li data-editable-key="t1-bullet-20">Proof: the 4.9-star Google rating from 78 reviews, and three short review quotes that mention communication, location and the full kitchen.</li>
                   <li data-editable-key="t1-bullet-21">A short FAQ: "Is this the same home I saw on Airbnb?", "Why is it cheaper here?", "Are you a booking website?", "How do I use my member benefits?"</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca/members</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s4-benefits-page.png" alt="Full Lifty Life Benefits page mockup in the site's teal and gold style, with the headline Book direct with the local team behind Harrison's best vacation homes, a who we are section, five member benefits, a comparison with booking on a platform, Google reviews, the sign-up form and an FAQ" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-5">
@@ -6507,6 +6562,30 @@ button,
                   <li data-editable-key="t1-bullet-25">Connect the form to your email platform so every sign-up is tagged "member" automatically.</li>
                   <li data-editable-key="t1-bullet-26">Send each new member to a thank-you page that explains how to use the benefits on the next booking, with a Book Now button to vacation.liftylife.ca.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca/members</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s5-signup-form.png" alt="Lifty Life member sign-up form asking for first name and email, optional destination checkboxes, and an unticked CASL consent checkbox with the company's contact details below" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca/members/welcome</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s5-thank-you-page.png" alt="Thank-you page welcoming a new Lifty Life Member, explaining three steps to use the benefits and a Book now button to vacation.liftylife.ca" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
                 <a href="https://www.crtc.gc.ca/eng/internet/infograph.htm" class="tactic-step-resource" target="_blank">CRTC: Canada's Anti-Spam Legislation infographics →</a>
               </div>
             </li>
@@ -6520,6 +6599,18 @@ button,
                   <li data-editable-key="t1-bullet-29">Set the page title tag to something like "Book Direct with Lifty Life | Local Vacation Rental Team in Harrison Hot Springs and BC."</li>
                   <li data-editable-key="t1-bullet-30">Book a test stay yourself through the page on your phone, from sign-up to the booking engine, and note anywhere you hesitate.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s6-navigation-and-title-tag.png" alt="Lifty Life header with a new Member Benefits menu item, a Google search result for liftylife.ca/members using the new title tag, and the footer with a Member Benefits link" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
           </ol>
@@ -6547,6 +6638,18 @@ button,
                   <li data-editable-key="t1-bullet-34">Move owner-focused content lower on the page or into its own section. You said the site was built for homeowners; the first screen should now speak to guests.</li>
                   <li data-editable-key="t1-bullet-35">Update the homepage meta title along the lines: "Vacation Rentals in Harrison Hot Springs, Whistler & BC | Lifty Life."</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s7-homepage-rework.png" alt="Reworked Lifty Life homepage with the descriptor Locally managed vacation homes in Harrison Hot Springs and across BC under the hero, a teal member benefits strip, featured properties, and the homeowner section moved lower" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
             <li class="tactic-step-item" id="step-t1-8">
@@ -6559,6 +6662,18 @@ button,
                   <li data-editable-key="t1-bullet-38">Do not add direct-booking messages to the shared listing descriptions. Those sync to Airbnb, VRBO and Booking.com, and messages about booking off-platform break their rules.</li>
                   <li data-editable-key="t1-bullet-39">If the booking engine allows almost no custom content, make sure every "Book Now" button on liftylife.ca passes through the Benefits page message first.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">vacation.liftylife.ca</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s8-booking-engine-banner.png" alt="Lifty Life booking engine with a teal banner at the top reading Lifty Life Members get flexible cancellation and early check-in or late checkout when available, Join free" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
                 <a href="https://www.airbnb.ca/help/article/2799" class="tactic-step-resource" target="_blank">Airbnb Off-Platform and Fee Transparency Policy →</a>
               </div>
             </li>
@@ -6572,6 +6687,18 @@ button,
                   <li data-editable-key="t1-bullet-42">Show it once per visitor per month at most, and never on the booking engine itself.</li>
                   <li data-editable-key="t1-bullet-43">Connect it to the same email platform and tag as Step 5.</li>
                 </ul>
+                <div class="tactic-mockup">
+                  <div class="tactic-mockup-chrome">
+                    <span class="tactic-mockup-dot red"></span>
+                    <span class="tactic-mockup-dot yellow"></span>
+                    <span class="tactic-mockup-dot green"></span>
+                    <div class="tactic-mockup-url">liftylife.ca</div>
+                  </div>
+                  <div class="tactic-mockup-body">
+                    <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                    <img src="/assets/lifty-life-mockups/media/t1-s9-signup-popup.png" alt="Lifty Life membership pop-up over the homepage, offering flexible cancellation, late checkout when available and first access to new homes, with name and email fields, a consent checkbox and a Join free button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                  </div>
+                </div>
               </div>
             </li>
           </ol>
