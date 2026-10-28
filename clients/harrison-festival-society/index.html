@@ -1,113 +1,3 @@
-<!--
-+============================================================================+
-|  JUNCTION ACCELERATOR TEMPLATE v2.0                                        |
-|  Location: template/accelerator-template.html                              |
-+============================================================================+
-|  This is the ONLY template for generating accelerator dashboards.          |
-|  DO NOT use red-cariboo-resort or accelerator-dashboard-template.html     |
-+============================================================================+
-
-GENERATION COMMAND:
-  "Generate an accelerator page for [Client] using plan.md"
-  Coach email: [email]
-  Onboarding call date: [YYYY-MM-DD]
-
-REQUIRED PLACEHOLDERS {{UPPER_SNAKE_CASE}}:
-  Core:
-    Harrison Festival Society           Full business name
-    harrison-festival-society           URL-safe slug
-    The 2026 Harrison Festival of the Arts was one of the best-selling in its forty-plus years, and when...         Dashboard subheading (1 sentence)
-    The 2026 Harrison Festival of the Arts was one of the best-selling in its forty-plus years, and when we asked what drove it, the honest answer was that you did not change much. The hall lineup had a few more recognizable names, more people stayed close to home, and the poster was strong. Email is the one channel you know works, because ticket sales jump the moment a send goes out. Everything else is a guess. Rogers tells you the campaign did well, Black Press will tell you the same, and right now there is no way to check either of them against a single ticket sale.
-
-The plan runs for twelve weeks, from January 4 to March 28, 2027, and it is shaped by one fact: nothing can be sold in earnest until the lineup is announced in mid-April. Branding arrives at the start of April, print deadlines hit at the same time, and from then until July you are running marketing alongside artists, volunteers, artisans, signage and production. So the work of the next ninety days is to get everything in place before that crunch. By the end of March you should be able to see which channel sold every ticket, have an audience on Facebook and Instagram that has been hearing from the festival every week since January, have a larger email list that opens your emails because they are not always asking for money, and have Google reviews arriving again after an eighteen-month gap.
-
-The order matters. Weeks 1 to 3 connect Google Analytics and the Meta pixel to your Ecwid store, because every ad and every email after that depends on being able to see what sold. Weeks 2 to 12 build a social rhythm of two posts a week that takes about three hours a fortnight. Weeks 3 to 12 grow the email list with a sign-up offer that fits your calendar, "hear the lineup before anyone else," and add a review request after every Season of Performing Arts show. Meta ads start in Week 6 as a low-cost warm-up and finish with a retargeting campaign tested on a Season show and built in draft, ready to switch on the day the lineup goes public.
-
-What this produces, stated honestly: very few festival tickets inside the ninety days, and that is by design. The Season shows between January and March are where the tracking, the review emails and the retargeting get tested on real sales at low stakes. The return comes from mid-April to July. The measure of success for this plan is readiness: purchase tracking live with three months of channel data behind it, 150 new subscribers who have not yet bought a ticket, Google reviews up from 13 to 25 or more, Instagram engagement up from 0.49 percent to around 1.5 percent, and a retargeting audience of more than 1,000 people waiting for the announcement.             90-day goal paragraph
-    You just had one of the best-selling festivals in forty years, and you did most of the marketing on your own. This plan puts the tracking, the audience and the email list in place between January and March, so that when the lineup drops in April you are not starting from zero in the busiest stretch of your year.            Welcome modal subline (encouragement)
-    The hardest thing about marketing Harrison is the thing that makes it good. Every day of the festival is different: a blues show one night, an African group the next, a Celtic band after that. The ten days are spread out rather than packed into a weekend, so, as you put it, people come for very specific reasons at specific times. When you aim an ad at one audience, you risk losing the one you wanted for a different day. That is why picking "the right demographic" for each show has felt impossible.
-
-Your two closest comparisons show the choice clearly. Mission Folk has a defined folk and roots crowd and markets to it. The Langley festival the weekend after yours has gone toward corporate sponsors and activations. Harrison is neither, and you have no reason to become either. It is the open, inclusive world roots festival by the lake, run by a nonprofit that has been doing it for more than four decades. It is also two festivals in one. You can spend a day on the beach, walk the artisan market and bring the kids to Children's Day for $6 without buying a hall ticket, or you can spend about $30 on a night in Memorial Hall. That range is the answer to the younger audience you want to reach. Families and people under 40 are not being priced out. They simply do not know the free and low-cost half of the festival exists, which is the same thing your audience tells you after the fact: "I had no idea this was here."
-
-So the positioning leads with the feeling and lets the lineup be the payoff. Your own experience already proved this. The near-sellout show post reached about 200 people and the video of leaves falling off a tree reached about 3,000. Your audience responds to the place and the moment first. From January to March the festival should be telling that story of the lake, the beach stage, the market and the hall, so that by mid-April the lineup lands on people who already want to come and are waiting to find out who is playing.
-
-> **Your Strategic Positioning**
->
-> The Harrison Festival of the Arts is ten days of world roots music by the lake, where you can spend a whole day on the beach without spending a dime or a night in Memorial Hall for about $30. Every day sounds different, and everyone is welcome. Come for the moment you will remember, then find out who is playing. Positioning statement
-    51           Total checklist count
-    October 13, 2026  Date (Month DD, YYYY)
-    conner@elearningu.com           Coach email for print
-
-  Objectives (x3 or x4):
-    {{OBJECTIVE_N_TITLE}}
-    {{OBJECTIVE_N_DESC}}
-    {{OBJECTIVE_N_TACTIC_PILL}}
-
-  Tactics (x3 or x4):
-    {{TACTIC_N_TITLE}}        Full title
-    {{TACTIC_N_NAV_LABEL}}    Sidebar label (2-4 words)
-    {{TACTIC_N_PHASE}}        Phase name
-    {{TACTIC_N_SUBTITLE}}     Description sentence
-    {{TACTIC_N_TOTAL}}        Checklist count for this tactic
-
-  Months:
-    Foundation, Momentum, Ready for April
-
-  Assessment:
-    {{OVERALL_SCORE}}         Numeric (0-100)
-    {{OVERALL_GRADE}}         Letter grade (A, B+, C, etc.)
-    {{ASSESSMENT_SUMMARY}}    Summary paragraph
-    October 13, 2026       Assessment date
-
-CONDITIONAL SECTIONS (use these markers in HTML, not inside this comment):
-  IF:TACTIC_4      - 4th tactic (sidebar nav, page, JS arrays)
-  IF:QUICK_WINS    - Quick Wins page
-  IF:TARGET_MILESTONE - Milestone card on dashboard
-  IF:GRANT_BUDGET  - Grant budget badge
-
-IMAGE PLACEHOLDERS (use in HTML, not inside this comment):
-  IMG:IDENTIFIER: description
-  Replaced with img tags based on plan.md instructions
-  If no image specified, remove the placeholder entirely
-
-EDITABLE KEY PATTERNS:
-  All body text must have data-editable-key attributes:
-  - strategy-goal, strategy-positioning
-  - objective-N-title, objective-N-desc
-  - tactic-N-what-is, tactic-N-heard, tactic-N-matters
-  - tN-stepM-title, tN-bullet-M
-  - week-N-title, week-N-action-M, rwN_dM-label
-  - qw-N-label
-  - assessment-overall-summary, priority-N-text
-
-EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
-  When generating implementation steps ({{TACTIC_N_IMPLEMENTATION_STEPS}}):
-  - Step titles: data-editable-key="tN-step-M-title"
-    Example: <div class="tactic-step-title" data-editable-key="t1-step-1-title">Step Title</div>
-
-  When generating tips ({{TACTIC_N_TIPS}}):
-  - Tips list items: data-editable-key="tN-tip-M"
-    Example: <li data-editable-key="t1-tip-1">Tip text here</li>
-
-  When generating resources ({{TACTIC_N_RESOURCES}}):
-  - Resource links: data-editable-link="tN-resource-M"
-    Example: <li><a href="url" data-editable-link="t1-resource-1">Resource name</a></li>
-
-  When generating roadmap weeks ({{MONTH_N_WEEKS}}):
-  - Week titles: data-editable-key="week-N-title"
-    Example: <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Started</span>
-
-  When generating Quick Wins ({{QUICK_WINS_PAGE_CONTENT}}):
-  - Quick win items: data-editable-key="qw-N-label"
-    Example: <div data-editable-key="qw-1-label">Quick win description</div>
-
-SECTIONS REBUILT PER CLIENT BY CLAUDE:
-  - All tactic page content (overview, implementation steps, metrics, tips)
-  - 90-Day Roadmap week cards (titles, actions, checklists)
-  - "How to" link mapping from plan.md annotations
-  - Tour step descriptions adapted to client context
-  - ALL_CHECK_IDS, WEEK_CHECKS, MONTH_CHECKS, TACTIC_CHECKS arrays
--->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5675,7 +5565,7 @@ button,
 .activity{max-width:1200px;margin:0 auto;padding:2rem}.activity__header{margin-bottom:2rem}.activity__title{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy);margin:0 0 .5rem}.activity__subtitle{color:var(--slate);margin:0}.activity__stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}.activity__stat-card{background:var(--card-bg);border-radius:12px;padding:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__stat-label{font-size:.875rem;color:var(--slate);margin-bottom:.5rem}.activity__stat-value{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--navy)}.activity__section{background:var(--card-bg);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}.activity__section-title{font-family:var(--font-display);font-size:1.25rem;font-weight:600;color:var(--navy);margin:0 0 1rem}.activity__loading{color:var(--slate);padding:2rem;text-align:center}.activity__timeline{display:flex;flex-direction:column;gap:.75rem}.activity__event{display:flex;align-items:flex-start;gap:1rem;padding:.75rem;border-radius:8px;background:var(--surface-sunken)}.activity__event-icon{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}.activity__event-icon--page{background:#e3f2fd;color:#1976d2}.activity__event-icon--check{background:#e8f5e9;color:#388e3c}.activity__event-icon--session{background:#fff3e0;color:#f57c00}.activity__event-icon--tour{background:#f3e5f5;color:#7b1fa2}.activity__event-content{flex:1;min-width:0}.activity__event-title{font-weight:500;color:var(--navy);margin-bottom:.25rem}.activity__event-meta{font-size:.8125rem;color:var(--slate)}.activity__sessions{display:flex;flex-direction:column;gap:.75rem}.activity__session-card{display:flex;justify-content:space-between;align-items:center;padding:1rem;border-radius:8px;background:var(--surface-sunken)}.activity__session-user{font-weight:500;color:var(--navy)}.activity__session-details{font-size:.875rem;color:var(--slate)}.activity__empty{text-align:center;padding:3rem;color:var(--slate)}@media(max-width:768px){.activity{padding:1rem}.activity__stats{grid-template-columns:repeat(2,1fr)}.activity__stat-value{font-size:1.5rem}}
 </style>
 </head>
-<body data-client-slug="harrison-festival-society" data-client-name="Harrison Festival Society" data-cohort-start="October 13, 2026" data-total-days="90" data-total-weeks="12">
+<body data-client-slug="harrison-festival-society" data-client-name="Harrison Festival Society" data-cohort-start="October 12, 2026" data-total-days="90" data-total-weeks="12">
 <!-- Skip Link for Keyboard Users -->
 <a href="#main" class="skip-link">Skip to main content</a>
 
@@ -5727,24 +5617,19 @@ button,
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
       Ads & Creators
     </div>
-    <!-- IF:TACTIC_4 -->
-      <div class="nav-item" data-page="tactic4" onclick="navigate('tactic4')">
-      <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/><path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/></svg>
-      Email & Reviews
-    </div>
-      <!-- ENDIF:TACTIC_4 -->
+    
     <div class="nav-section-label">Your Plan</div>
     <div class="nav-item" id="nav-roadmap" data-page="roadmap" onclick="navigate('roadmap')">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg>
       90-Day Roadmap
       <span class="nav-badge" id="roadmap-badge">0%</span>
     </div>
-    <!-- IF:QUICK_WINS -->
+    
       <div class="nav-item" data-page="gbp" onclick="navigate('gbp')" class="if-gbp-qw">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 011.12-.38z" clip-rule="evenodd"/></svg>
       Quick Wins
     </div>
-      <!-- ENDIF:QUICK_WINS -->
+      
 
     <!-- Activity Nav (Admin/PSM/Coach only) -->
     <div class="nav-section-label" id="nav-activity-label" style="display:none;">Insights</div>
@@ -5923,7 +5808,7 @@ button,
     <div class="assessment-hero-top">
       <div>
         <h1 class="assessment-hero-title">Your Digital Marketing Assessment</h1>
-        <p class="assessment-hero-date">Assessment Date: October 13, 2026</p>
+        <p class="assessment-hero-date">Assessment Date: October 12, 2026</p>
       </div>
       <div class="assessment-hero-actions">
         <button class="download-pdf-btn" onclick="downloadPDF()">
@@ -5938,10 +5823,10 @@ button,
     </div>
 
     <div class="assessment-grade-card">
-      <div class="grade-circle" id="overallGrade">{{OVERALL_GRADE}}</div>
+      <div class="grade-circle" id="overallGrade"></div>
       <div class="grade-details">
-        <h3>Overall Score: <span id="overallScore">{{OVERALL_SCORE}}</span>/100</h3>
-        <p id="overallSummary" data-editable-key="assessment-overall-summary">{{ASSESSMENT_SUMMARY}}</p>
+        <h3>Overall Score: <span id="overallScore"></span>/100</h3>
+        <p id="overallSummary" data-editable-key="assessment-overall-summary">Assessment data will be populated when available.</p>
       </div>
     </div>
   </div>
@@ -6015,7 +5900,7 @@ button,
 
     <div class="executive-summary" id="executiveSummary">
       <h2>Executive Summary</h2>
-      <p class="executive-headline" data-editable-key="executive-headline">{{EXECUTIVE_HEADLINE}}</p>
+      <p class="executive-headline" data-editable-key="executive-headline"></p>
       <div class="executive-columns">
         <div class="executive-column strengths">
           <h4>
@@ -6023,7 +5908,7 @@ button,
             Key Strengths
           </h4>
           <ul>
-            {{KEY_STRENGTHS}}
+            
           </ul>
         </div>
         <div class="executive-column gaps">
@@ -6032,12 +5917,12 @@ button,
             Critical Gaps
           </h4>
           <ul>
-            {{CRITICAL_GAPS}}
+            
           </ul>
         </div>
       </div>
       <div class="executive-bottom-line">
-        <strong>Bottom Line:</strong> {{BOTTOM_LINE}}
+        <strong>Bottom Line:</strong> 
       </div>
     </div>
 
@@ -6045,7 +5930,7 @@ button,
       <h2>Quick Wins</h2>
       <p class="quick-wins-intro">Immediate actions you can complete today:</p>
       <div class="quick-wins-grid">
-        {{QUICK_WINS_CARDS}}
+        
       </div>
     </div>
 
@@ -6053,7 +5938,7 @@ button,
       <h2>Priority Recommendations</h2>
       <p style="color:#666;font-size:14px;margin:-16px 0 24px 0;">Foundation projects for the first two weeks that set up everything else:</p>
       <div class="priority-list" id="priorityList">
-        {{PRIORITY_RECOMMENDATIONS}}
+        
       </div>
     </div>
 
@@ -6061,7 +5946,7 @@ button,
     <div class="categories-section">
       <h2>Detailed Category Analysis</h2>
       <div class="categories-grid">
-        {{CATEGORY_CARDS}}
+        
       </div>
     </div>
 
@@ -6094,69 +5979,7 @@ What this produces, stated honestly: very few festival tickets inside the ninety
       </div>
     </div>
 
-    <!-- IF:PROJECTIONS -->
-    <!-- PROJECTIONS -->
-    <div class="projections-section">
-      <div class="projections-header">
-        <div class="projections-label">Winter Season Projections</div>
-        <p class="projections-subtitle">Projected outcomes at <strong>$35,000 discretionary spend</strong> (December to March)</p>
-      </div>
-      <div class="projections-toggle">
-        <button class="projection-btn" data-scenario="conservative" onclick="setScenario('conservative')">
-          <span class="scenario-name">Conservative</span>
-          <span class="scenario-desc">Lower bound</span>
-        </button>
-        <button class="projection-btn active" data-scenario="moderate" onclick="setScenario('moderate')">
-          <span class="scenario-name">Moderate</span>
-          <span class="scenario-desc">Expected case</span>
-        </button>
-        <button class="projection-btn" data-scenario="aggressive" onclick="setScenario('aggressive')">
-          <span class="scenario-name">Aggressive</span>
-          <span class="scenario-desc">Upper bound</span>
-        </button>
-      </div>
-      <div class="projections-grid">
-        <div class="projection-card primary">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-          </div>
-          <div class="projection-value" id="proj-nights">90–135</div>
-          <div class="projection-label">Room Nights</div>
-          <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-nights-bar" style="width:48%"></div>
-          </div>
-        </div>
-        <div class="projection-card primary">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
-          </div>
-          <div class="projection-value" id="proj-revenue">$21,000–$31,500</div>
-          <div class="projection-label">Room Revenue</div>
-          <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-revenue-bar" style="width:48%"></div>
-          </div>
-        </div>
-        <div class="projection-card">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </div>
-          <div class="projection-value" id="proj-emails">300</div>
-          <div class="projection-label">Email Subscribers</div>
-        </div>
-        <div class="projection-card">
-          <div class="projection-icon">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-          </div>
-          <div class="projection-value" id="proj-reviews">25</div>
-          <div class="projection-label">New Google Reviews</div>
-        </div>
-      </div>
-      <div class="projections-note">
-        <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
-        <span data-editable-key="projections-note">{{PROJECTIONS_NOTE}}</span>
-      </div>
-    </div>
-    <!-- ENDIF:PROJECTIONS -->
+    
 
     <!-- STRATEGIC POSITIONING -->
     <div class="strategy-positioning">
@@ -6174,7 +5997,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
 
     <!-- OBJECTIVES -->
     <div class="strategy-objectives">
-      <div class="strategy-objectives-label">{{OBJECTIVES_LABEL}}</div>
+      <div class="strategy-objectives-label">Your Objectives</div>
       <div class="strategy-objectives-grid">
         <div class="strategy-objective-card" style="--obj-color:#067cbc">
           <div class="strategy-objective-num">01</div>
@@ -6200,22 +6023,13 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
             <span class="strategy-objective-pill">Tactic 3 · Weeks 3-12</span>
           </div>
         </div>
-        <!-- IF:TACTIC_4 -->
-        <div class="strategy-objective-card" style="--obj-color:#708090">
-          <div class="strategy-objective-num">04</div>
-          <div class="strategy-objective-content">
-            <h3 class="strategy-objective-title" data-editable-key="objective-4-title">{{OBJECTIVE_4_TITLE}}</h3>
-            <p class="strategy-objective-desc" data-editable-key="objective-4-desc">{{OBJECTIVE_4_DESC}}</p>
-            <span class="strategy-objective-pill">{{OBJECTIVE_4_TACTIC_PILL}}</span>
-          </div>
-        </div>
-        <!-- ENDIF:TACTIC_4 -->
+        
       </div>
     </div>
 
     <!-- TACTICS OVERVIEW -->
     <div class="tactics-overview">
-      <div class="tactics-overview-label">{{TACTICS_LABEL}}</div>
+      <div class="tactics-overview-label">Your Tactics</div>
       <div class="tactics-overview-grid">
         <div class="tactic-overview-card" style="--color:#067cbc">
           <div class="tactic-overview-phase">Momentum</div>
@@ -6235,14 +6049,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
           <p class="tactic-overview-desc" data-editable-key="tactic-3-overview-desc">Give people a reason to join the list before April, send one story email a month alongside the sales emails, and ask every Season show audience for a Google review.</p>
           <button class="tactic-overview-link" onclick="navigate('tactic3')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
         </div>
-        <!-- IF:TACTIC_4 -->
-        <div class="tactic-overview-card" style="--color:#708090">
-          <div class="tactic-overview-phase">{{TACTIC_4_PHASE}}</div>
-          <h3 class="tactic-overview-title" data-editable-key="tactic-4-overview-title">{{TACTIC_4_TITLE}}</h3>
-          <p class="tactic-overview-desc" data-editable-key="tactic-4-overview-desc">{{TACTIC_4_SUBTITLE}}</p>
-          <button class="tactic-overview-link" onclick="navigate('tactic4')">View full guide <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 10a.75.75 0 01.75-.75h10.638L10.23 5.29a.75.75 0 111.04-1.08l5.5 5.25a.75.75 0 010 1.08l-5.5 5.25a.75.75 0 11-1.04-1.08l4.158-3.96H3.75A.75.75 0 013 10z" clip-rule="evenodd"/></svg></button>
-        </div>
-        <!-- ENDIF:TACTIC_4 -->
+        
       </div>
     </div>
 
@@ -6292,7 +6099,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         <!-- What This Is -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Is</div>
-          <p data-editable-key="tactic-1-what-is">{{TACTIC_1_WHAT_IS}}</p>
+          <p data-editable-key="tactic-1-what-is">A fixed weekly pattern of two posts, one Reel and one carousel, built from material you already have and from short clips you collect on your phone at Season shows. You make the Reels in Instagram&#039;s free Edits app by stitching three-second clips together, and the carousels from archive photos with a line of text on each slide. You batch four posts every second Monday and schedule them in Meta Business Suite so they publish to Facebook and Instagram without you. By the end of March you will also have an announcement kit ready, so the April posts are a matter of dropping in the new branding and artist names.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6317,12 +6124,12 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-1-heard">{{TACTIC_1_HEARD}}</p>
+          <p data-editable-key="tactic-1-heard">You told us you know the festival needs more storytelling and more fun posts, and that you &quot;just don&#039;t have the creativity and the brainpower&quot; to produce them while managing everything else. You said your picture of success is a social campaign that is close to automatic and that you don&#039;t have to think about. You remembered the post about a near-sellout show that reached about 200 people, and the video of leaves falling the next day that reached about 3,000. You also told us the students on Canada Summer Jobs made the behind-the-scenes posts you liked, that your photography team gives you strong stills but video shot under the hall&#039;s LED lighting looks grungy, that your big promo video tells the festival&#039;s story well without being about any one artist, and that you have a pile of member quotes from the family membership forms that you have never used.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-1-matters">{{TACTIC_1_MATTERS}}</p>
+          <p data-editable-key="tactic-1-matters">Instagram engagement is 0.49 percent, which means about nine of your 1,825 followers interact with a typical post, and the account posts 1.3 times a week, with only a quarter of posts as Reels. The platforms now show photos mostly to people who already follow you, while video is how you reach new people. In Junction&#039;s own accounts, roughly 80 to 85 percent of the people who watch a Reel are not followers. The festival has no artists to announce until April, which is exactly why this window matters: posts about the atmosphere are the only thing you can publish now, and they are also the type of post your audience has already shown it prefers. If you skip this, the lineup announcement goes out to a quiet account and the Meta ads in Tactic 2 have no proven posts to run.</p>
         </div>
         <!-- Time Commitment -->
         <div class="tactic-card-block">
@@ -6339,7 +6146,119 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t1-steps" role="tabpanel" aria-labelledby="tab-t1-steps" data-tactic-content="1" data-content="steps">
         <!-- GENERATOR: Replace this placeholder with Tactic 1 implementation steps from plan.md -->
-        {{TACTIC_1_IMPLEMENTATION_STEPS}}
+        <ol class="tactic-steps-list">
+<div class="tactic-part-header">Build the Raw Material</div>
+<li class="step-item" id="step-t1-1">
+  <div class="step-num">1</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Pull the archive into one place.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-1">Create one folder on your phone or in Google Drive called &quot;Festival 2027 Content,&quot; with three subfolders: Photos, Clips and Quotes.</li>
+      <li data-editable-key="t1-bullet-2">Copy in the best 60 to 100 photos from the last two festivals from your photography team. Choose by moment rather than by artist: kids at Children&#039;s Day, the beach stage crowd, the artisan market, people dancing in Memorial Hall, volunteers, the lake.</li>
+      <li data-editable-key="t1-bullet-3">Sort the photos into four groups that will become carousel series: Children&#039;s Day, the Beach Stage, the Artisan Market and a Night in the Hall.</li>
+      <li data-editable-key="t1-bullet-4">Leave out anything where a single artist is the whole point of the photo. You will want those in April, and they date the post to a specific year.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-2">
+  <div class="step-num">2</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-2-title">Turn the membership forms into a quote bank.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-5">Go through the family membership forms and type every comment that answers &quot;why are you a member&quot; or &quot;what is your favourite part of the festival&quot; into one document in the Quotes folder.</li>
+      <li data-editable-key="t1-bullet-6">Aim for 20 to 30 quotes. Note the first name and town only where the member wrote them on the form, for example &quot;Jim, Langley.&quot;</li>
+      <li data-editable-key="t1-bullet-7">Put a star next to any quote that mentions family, kids, the beach, the lake or a specific memory. Those are the ones that speak to the younger audience you want.</li>
+      <li data-editable-key="t1-bullet-8">If you write a caption in the voice of a family on the beach, that is fine as a caption. Just never put a real person&#039;s name on a line they did not say.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-3">
+  <div class="step-num">3</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-3-title">Cut the promo video into a clip library.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-9">Your promo video already has the drone shots, the dancing crowd and the artisans waving. Instead of posting it once, cut it into 8 to 12 separate clips of 2 to 5 seconds each.</li>
+      <li data-editable-key="t1-bullet-10">In Edits, open the video, tap the clip on the timeline and use Split to cut it into pieces, then save each one to the Clips folder.</li>
+      <li data-editable-key="t1-bullet-11">Name each clip by what is in it (&quot;drone lake,&quot; &quot;crowd dancing,&quot; &quot;market wave&quot;) so you can find them during batching.</li>
+      <li data-editable-key="t1-bullet-12">These clips are the base of most Reels between January and March, mixed with new clips from Step 7.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-4">
+  <div class="step-num">4</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-4-title">Install Edits and make one practice Reel.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-13">Download Edits, Instagram&#039;s free video editing app, from the App Store or Google Play and sign in with the festival&#039;s Instagram account.</li>
+      <li data-editable-key="t1-bullet-14">Tap the + button, select four or five clips from your camera roll, and let the app line them up. Trim each to two or three seconds by dragging the clip edges.</li>
+      <li data-editable-key="t1-bullet-15">Add one line of text on screen, such as &quot;Somewhere in BC, in July,&quot; and choose a track from the app&#039;s audio library. Using Edits&#039; own library avoids music rights problems.</li>
+      <li data-editable-key="t1-bullet-16">Save it as a draft without posting. The aim of this step is to learn the app in 20 minutes so batching is quick from now on.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">Set a Rhythm That Survives a Busy Week</div>
+<li class="step-item" id="step-t1-5">
+  <div class="step-num">5</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-5-title">Fix the posting pattern at two posts a week.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-17">Tuesday is a Reel and Friday is a carousel. The assessment&#039;s target of four posts a week belongs to April to July. For January to March, two that actually go out beat four that don&#039;t.</li>
+      <li data-editable-key="t1-bullet-18">Rotate the Reels through a series called Little Moments: four to six clips of two to three seconds each, one line of text, and music from Edits. Examples: the lake in winter, the hall lights coming up before a Season show, an artisan&#039;s hands, last summer&#039;s beach crowd.</li>
+      <li data-editable-key="t1-bullet-19">Rotate the carousels through two series. The first is A Day at the Festival, with six to eight archive photos and a short line of text on each slide telling one day, such as a Children&#039;s Day morning or a beach stage afternoon. The second is Why We Come Back, with a member quote on a photo.</li>
+      <li data-editable-key="t1-bullet-20">Once a month, swap the Friday carousel for a teaser: &quot;The 2027 lineup drops in April. Hear it first,&quot; linking to the email sign-up in Tactic 3.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-6">
+  <div class="step-num">6</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-6-title">Batch and schedule every second Monday.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-21">Block 90 minutes every second Monday. In that time, make two Reels in Edits and two carousels, then schedule all four.</li>
+      <li data-editable-key="t1-bullet-22">To schedule, go to business.facebook.com, open Planner from the left menu, and choose Create post (for carousels) or Create reel. Tick both the Facebook Page and the Instagram account so one post publishes to both.</li>
+      <li data-editable-key="t1-bullet-23">Write the caption in two or three short lines. Mention Harrison Hot Springs by name at least once a week, since many people scrolling past do not know where the festival is.</li>
+      <li data-editable-key="t1-bullet-24">If a batching Monday gets away from you, schedule one Reel and one carousel at minimum. A short week is fine, but a gap of three weeks is what the algorithm punishes.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-7">
+  <div class="step-num">7</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-7-title">Start the clip habit at every Season show.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-25">At each Season of Performing Arts show, spend five minutes shooting 10 to 15 clips of three to five seconds each on your phone. Hold the phone vertically.</li>
+      <li data-editable-key="t1-bullet-26">Shoot the things that look good in any light: the lobby filling up, the bar, people laughing at intermission, chairs being set out, the marquee or sign outside, a sound check in daylight, the lake on your way in.</li>
+      <li data-editable-key="t1-bullet-27">Skip filming the performance under the LED lighting, since you already know that footage looks grungy. A wide shot from the back for two seconds, with the crowd silhouetted, is the exception worth trying.</li>
+      <li data-editable-key="t1-bullet-28">Move the clips into the Clips folder the next morning. You will use only one in five, and that is normal.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">Learn From It, Then Hand Off to April</div>
+<li class="step-item" id="step-t1-8">
+  <div class="step-num">8</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-8-title">Check what worked once a month.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-29">On the last Friday of each month, open Meta Business Suite, go to Insights, then Content, and sort the month&#039;s posts by Reach and then by Shares.</li>
+      <li data-editable-key="t1-bullet-30">Note the top two posts and whether most of their reach came from non-followers. In the Instagram app, tap View insights under any post to see the split between followers and non-followers.</li>
+      <li data-editable-key="t1-bullet-31">Write one line in your content folder: what the top post was about and what format it was. After three months this list tells you what your audience actually responds to.</li>
+      <li data-editable-key="t1-bullet-32">The top two posts each month become the warm-up ads in Tactic 2, Step 11.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t1-9">
+  <div class="step-num">9</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-9-title">Build the April announcement kit.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-33">In the last two weeks of March, set up everything the announcement needs, so that when branding arrives in early April the only work is dropping it in.</li>
+      <li data-editable-key="t1-bullet-34">In Edits, build a Reel template with placeholder slots for three to five artist photos and the announcement date, using your best-performing Little Moments clip as the opener.</li>
+      <li data-editable-key="t1-bullet-35">Draft an artist carousel layout with one artist per slide and a line on what kind of night it will be (&quot;A Celtic night in Memorial Hall&quot;), so each show speaks to its own crowd without the whole festival being narrowed to one audience.</li>
+      <li data-editable-key="t1-bullet-36">Write the captions for the announcement post, the early-access email teaser and the first two follow-up posts now, while you have the time.</li>
+    </ul>
+  </div>
+</li>
+</ol>
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" id="panel-t1-metrics" role="tabpanel" aria-labelledby="tab-t1-metrics" data-tactic-content="1" data-content="metrics">
         <div class="tactic-card-block">
@@ -6355,7 +6274,48 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                 </tr>
               </thead>
               <!-- GENERATOR: Replace with metrics rows from plan.md Tactic 1 Success Metrics -->
-              {{TACTIC_1_METRICS_ROWS}}
+              <tr>
+      <td>Posts per week</td>
+      <td>2, from 1.3</td>
+      <td>2, sustained</td>
+      <td>2, sustained, with no gap longer than a week</td>
+    </tr>
+<tr>
+      <td>Share of posts that are Reels</td>
+      <td>50%, from 25%</td>
+      <td>50%</td>
+      <td>50%</td>
+    </tr>
+<tr>
+      <td>Instagram engagement rate</td>
+      <td>0.8%, from 0.49%</td>
+      <td>1.2%</td>
+      <td>1.5%</td>
+    </tr>
+<tr>
+      <td>Instagram followers</td>
+      <td>1,875, from 1,825</td>
+      <td>1,950</td>
+      <td>2,050</td>
+    </tr>
+<tr>
+      <td>Clip library</td>
+      <td>30 clips, including the promo video cuts</td>
+      <td>75 clips</td>
+      <td>120 clips</td>
+    </tr>
+<tr>
+      <td>Quote bank</td>
+      <td>20 or more quotes typed up</td>
+      <td>Quotes used in at least 4 posts</td>
+      <td>Quotes used in at least 8 posts</td>
+    </tr>
+<tr>
+      <td>April announcement kit</td>
+      <td>Not yet applicable</td>
+      <td>Outlined</td>
+      <td>Reel template, carousel layout and captions ready</td>
+    </tr>
             </table>
           </div>
         </div>
@@ -6369,7 +6329,11 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
                 <!-- GENERATOR: Replace with tips from plan.md Tactic 1 Tips section -->
-                {{TACTIC_1_TIPS}}
+                <li data-editable-key="t1-tip-1">Shoot more than feels sensible. Nearly all of what you collect will never be used, and that is the system working. You are building a pile to choose from, not producing finished videos.</li>
+<li data-editable-key="t1-tip-2">Never post a hall performance clip that you would not be proud to show an artist. The lobby, the lake and the setup are always safe, and they carry the feeling just as well.</li>
+<li data-editable-key="t1-tip-3">Post the same Reel to Facebook and Instagram through Planner. Your older audience is more likely on Facebook, and it costs you nothing extra.</li>
+<li data-editable-key="t1-tip-4">The falling leaves video is your proof. When you are unsure whether a post is good enough, ask whether it shows a moment someone would want to be in. If it does, post it.</li>
+<li data-editable-key="t1-tip-5">If a student or volunteer helps out before April, give them this pattern and the content folder rather than a general instruction to post more. They will not know the festival, but the folder will.</li>
               </ul>
             </div>
           </div>
@@ -6378,7 +6342,9 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
                 <!-- GENERATOR: Replace with resources from plan.md Tactic 1 Resources section -->
-                {{TACTIC_1_RESOURCES}}
+                <li><a href="https://apps.apple.com/app/6738967378" data-editable-link="t1-resource-1" target="_blank">https://apps.apple.com/app/6738967378</a></li>
+<li><a href="https://business.facebook.com/" data-editable-link="t1-resource-2" target="_blank">https://business.facebook.com/</a></li>
+<li><a href="https://business.instagram.com/" data-editable-link="t1-resource-3" target="_blank">https://business.instagram.com/</a></li>
               </ul>
             </div>
           </div>
@@ -6431,7 +6397,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
             <!-- What This Is -->
             <div class="tactic-card-block">
               <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-2-what-is">{{TACTIC_2_WHAT_IS}}</p>
+              <p data-editable-key="tactic-2-what-is">Two connected pieces of work. The first is measurement: connecting Google Analytics 4 and the Meta pixel to Ecwid so that every completed ticket purchase is recorded with its value and its source, and tagging every link you control so that email, Instagram, Black Press and Rogers each show up separately in the reports. The second is the advertising structure Conner described on the call: a warm-up campaign that runs your best organic posts to a broad Lower Mainland and Fraser Valley audience with no hard sell, and a retargeting campaign aimed only at people who have visited the site, watched your videos or engaged with your accounts, with a direct message to buy. The retargeting campaign gets tested on a Season show in March and is then built in draft for the April announcement.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6456,12 +6422,12 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-2-heard">{{TACTIC_2_HEARD}}</p>
+          <p data-editable-key="tactic-2-heard">You told us you have limited experience with Google Analytics and do not know how to track who is buying tickets or which channel they came from, and that figuring this out would be one of the most useful things you could get from the Accelerator. You sell through Ecwid and process tickets yourself. You thought a Meta pixel should already be on the site, because Rogers asked you to install one for their campaigns, but you were not sure it was active, and our tracker did not find one. On ads, you have boosted posts that did well, run separate ads for particular shows, and found that broad targeting got more results than narrow targeting. You already buy most ads through Meta Business Manager on desktop. You also run Google Ad Grants as a charity, and you are moving some of your Black Press budget from print to digital.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-2-matters">{{TACTIC_2_MATTERS}}</p>
+          <p data-editable-key="tactic-2-matters">The good news from the call is that your checkout stays on harrisonfestival.com, which makes Harrison one of the easier festivals to track properly. Ecwid has built-in settings for both Google Analytics and the Meta pixel, so you can see actual completed purchases and revenue, not just checkout clicks. Without this, you will go into April the same way you went into every other year, unable to say whether Facebook, email, the Black Press buy or the Rogers campaign sold the tickets. The retargeting audience also takes time to build. If you start building it in April, it will be small when you most need it. If you start in February, it will be in the thousands by the announcement.</p>
         </div>
             <!-- Time Commitment -->
             <div class="tactic-card-block">
@@ -6478,7 +6444,198 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t2-steps" role="tabpanel" aria-labelledby="tab-t2-steps" data-tactic-content="2" data-content="steps">
         <!-- GENERATOR: Replace this placeholder with Tactic 2 implementation steps from plan.md -->
-        {{TACTIC_2_IMPLEMENTATION_STEPS}}
+        <ol class="tactic-steps-list">
+<div class="tactic-part-header">Make Every Ticket Traceable</div>
+<li class="step-item" id="step-t2-1">
+  <div class="step-num">1</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-1-title">Check what is already installed.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-1">Log in to your Ecwid admin and go to Settings → General → Tracking &amp; Analytics. Write down whatever is in the Google Analytics ID field and the Facebook (Meta) Pixel ID field, even if they are empty.</li>
+      <li data-editable-key="t2-bullet-2">Go to analytics.google.com and check whether a Google Analytics 4 property already exists for harrisonfestival.com. If you are not sure whose Google account set it up, check the account you use for Google Ad Grants first.</li>
+      <li data-editable-key="t2-bullet-3">Install the free Meta Pixel Helper and Google Tag Assistant extensions in Chrome, then visit your homepage and your ticket page. Each extension shows which tags are firing on the page.</li>
+      <li data-editable-key="t2-bullet-4">Send Junction a screenshot of what you find. It decides whether Steps 2 and 8 are a setup or a repair.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-2">
+  <div class="step-num">2</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-2-title">Connect Google Analytics 4 to Ecwid.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-5">If there is no GA4 property, create one at analytics.google.com: Admin → Create → Property, name it &quot;Harrison Festival,&quot; set the time zone to Pacific and the currency to Canadian dollars, then create a Web data stream for harrisonfestival.com.</li>
+      <li data-editable-key="t2-bullet-6">In GA4, go to Admin → Data collection and modification → Data streams, click the harrisonfestival.com stream and copy the Measurement ID (it starts with G-).</li>
+      <li data-editable-key="t2-bullet-7">In Ecwid, go to Settings → General → Tracking &amp; Analytics, paste the ID into the Google Analytics ID field and save.</li>
+      <li data-editable-key="t2-bullet-8">Back in the GA4 data stream, scroll down to Measurement Protocol API secrets, click Create, name it &quot;Ecwid,&quot; and copy the secret value. Paste it into the Measurement Protocol API key field that now appears in Ecwid&#039;s Tracking &amp; Analytics page and save. This sends purchases to Google directly from Ecwid&#039;s servers, so ad blockers cannot hide them.</li>
+      <li data-editable-key="t2-bullet-9">Once connected, Ecwid sends ticket views, add to cart, begin checkout and completed purchases to GA4, including the order value. Purchase is marked as a key event automatically.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-3">
+  <div class="step-num">3</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-3-title">Make sure the rest of the website is tracked too.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-10">Ecwid&#039;s connection tracks the store pages. Your homepage, FAQ, festival information and artist pages also need the GA4 tag, or GA4 will miss where people came in.</li>
+      <li data-editable-key="t2-bullet-11">Add the same Measurement ID to the website itself through its platform settings or plugin. [CONFIRM: website platform, for example WordPress on Bluehost, and who can edit it]</li>
+      <li data-editable-key="t2-bullet-12">After adding it, use Google Tag Assistant to check that each page has exactly one GA4 tag. Two tags on the same page double-count visits, which is a common problem when both a website plugin and Ecwid add one.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-4">
+  <div class="step-num">4</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-4-title">Run a test purchase.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-13">Buy the cheapest available Season show ticket yourself, on your phone, using a normal payment method. Then refund it in Ecwid.</li>
+      <li data-editable-key="t2-bullet-14">In GA4, open Reports → Realtime while you buy. You should see a begin_checkout event and then a purchase event appear within a minute or two.</li>
+      <li data-editable-key="t2-bullet-15">In GA4, go to Admin → Data display → Key events and confirm purchase is listed and switched on.</li>
+      <li data-editable-key="t2-bullet-16">Note the date. From this day on, every ticket sale has a source attached. Purchase data starts appearing in standard reports after about 24 hours.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-5">
+  <div class="step-num">5</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-5-title">Tag every link you control.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-17">Use Google&#039;s free Campaign URL Builder to create tracked versions of your ticket page link. Each one records where the click came from.</li>
+      <li data-editable-key="t2-bullet-18">Use one naming pattern throughout: source is the channel (email, instagram, facebook, blackpress, rogers), medium is the type (email, social, display, audio), and campaign is the season or show (&quot;season-feb-2027,&quot; &quot;festival-2027&quot;).</li>
+      <li data-editable-key="t2-bullet-19">Give the Black Press and Rogers reps their own tagged links and ask them to use those links in every digital ad they run for you. This is what lets you check their claims against your own sales.</li>
+      <li data-editable-key="t2-bullet-20">Put a tagged link in your Instagram and Facebook bios and in Linktree. If your email platform has a setting to add UTM tags automatically, switch it on; otherwise use tagged links in each email.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-6">
+  <div class="step-num">6</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-6-title">Connect GA4 to your Google Ad Grants account.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-21">In GA4, go to Admin → Product links → Google Ads links → Link, and choose your Ad Grants account.</li>
+      <li data-editable-key="t2-bullet-22">In Google Ads, go to Goals → Conversions → Summary, click + New conversion action, choose Import, then Google Analytics 4 properties, then Web, and select purchase.</li>
+      <li data-editable-key="t2-bullet-23">Ad Grants accounts must have valid conversion tracking and record at least one conversion a month, so this protects the grant as well as measuring it.</li>
+      <li data-editable-key="t2-bullet-24">Before April, open Keywords and add the kinds of searches you described on the call, such as &quot;things to do with kids in the Fraser Valley,&quot; &quot;live music Fraser Valley&quot; and &quot;Harrison Hot Springs events July.&quot; Ad Grants does not allow most single-word keywords and requires the account to keep a 5 percent click-through rate, so pause any keyword that drags it below that.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-7">
+  <div class="step-num">7</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-7-title">Read the channel report once a month.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-25">In GA4, go to Reports → Acquisition → Traffic acquisition. Change the Key events column to show purchase only, and check the Total revenue column next to it.</li>
+      <li data-editable-key="t2-bullet-26">Change the table&#039;s dimension to Session source / medium so you can see email, instagram, blackpress and rogers as separate rows, thanks to the tags from Step 5.</li>
+      <li data-editable-key="t2-bullet-27">For any paid partner, look at two things side by side: how many sessions they sent and how many of those bought. A high bounce rate with no purchases means the clicks were mostly accidental, which is common for newspaper banner ads.</li>
+      <li data-editable-key="t2-bullet-28">If organic search and direct sales rise while a Black Press or Rogers campaign is running, that is the awareness effect Conner described, and it is worth noting even though the purchases are not credited to them. Write down the dates of every paid campaign so you can line them up later.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">Own the Pixel and Build the Audiences</div>
+<li class="step-item" id="step-t2-8">
+  <div class="step-num">8</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-8-title">Confirm the Meta pixel is yours.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-29">In Meta Business Suite, go to Settings, then Data sources, then Datasets (Meta now calls pixels datasets). If a pixel for harrisonfestival.com is listed under your business, that is yours.</li>
+      <li data-editable-key="t2-bullet-30">If the only pixel on your site belongs to Rogers&#039; business account, the audiences it builds belong to them, not to you. Ask Rogers to share it with your business, or create your own and keep Rogers&#039; code running alongside it for their campaigns.</li>
+      <li data-editable-key="t2-bullet-31">To create your own: open Events Manager, click Connect data source, choose Web, then Meta Pixel, name it &quot;Harrison Festival,&quot; and when asked how to install it, choose Use a partner and select Ecwid. Follow the wizard and accept the automatic advanced matching option. This connects the pixel to Ecwid&#039;s store pages and sends purchases through Meta&#039;s Conversions API.</li>
+      <li data-editable-key="t2-bullet-32">Add the same pixel to the rest of the website through the website platform, the same way as the GA4 tag in Step 3. Then check with Meta Pixel Helper that the homepage, the FAQ and the ticket page each show one pixel firing.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-9">
+  <div class="step-num">9</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-9-title">Verify harrisonfestival.com with Meta.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-33">In Meta Business Suite, go to Settings → Brand safety and suitability → Domains, click Add, and enter harrisonfestival.com.</li>
+      <li data-editable-key="t2-bullet-34">Choose the meta tag method and add the tag to your homepage header, or the DNS method through Bluehost if that is easier. Then click Verify.</li>
+      <li data-editable-key="t2-bullet-35">Domain verification is required for Meta to use purchase events to optimize ads and to build reliable retargeting audiences.</li>
+      <li data-editable-key="t2-bullet-36">In Events Manager, open the Test events tab, buy a test ticket again and confirm that a Purchase event arrives. Refund the ticket afterward.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-10">
+  <div class="step-num">10</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-10-title">Build the retargeting audiences.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-37">In Ads Manager, open All tools → Audiences, then Create audience → Custom audience. Build each of the following separately so you can see their sizes.</li>
+      <li data-editable-key="t2-bullet-38">Website visitors, past 180 days (source: Website, your pixel, All website visitors).</li>
+      <li data-editable-key="t2-bullet-39">Instagram engagers, past 365 days (source: Instagram account, Everyone who engaged with this professional account).</li>
+      <li data-editable-key="t2-bullet-40">Facebook Page engagers, past 365 days (source: Facebook Page, Everyone who engaged with your Page).</li>
+      <li data-editable-key="t2-bullet-41">Video viewers, past 365 days: people who watched at least 50 percent of any of your Reels or videos (source: Video).</li>
+      <li data-editable-key="t2-bullet-42">Recent purchasers, past 30 days (source: Website, event Purchase). You will use this one to exclude people who just bought.</li>
+      <li data-editable-key="t2-bullet-43">Meta needs at least 100 matched people before it will show ads to an audience, and retargeting works much better at 1,000 or more. Check the sizes in Week 8.</li>
+      <li data-editable-key="t2-bullet-44">You can also upload your email list as a Customer list audience. Only do this if your privacy policy says you use contact details for advertising on other platforms, and check it before uploading.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">The Warm-Up Campaign</div>
+<li class="step-item" id="step-t2-11">
+  <div class="step-num">11</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-11-title">Choose the creative from what already worked organically.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-45">Take the top two posts from Tactic 1, Step 8, plus two or three clips from the promo video. That gives you four or five pieces of creative.</li>
+      <li data-editable-key="t2-bullet-46">At least one piece should speak to families (Children&#039;s Day, the beach) and at least one to the hall audience (a night in Memorial Hall). Let Meta show each to the people who respond to it.</li>
+      <li data-editable-key="t2-bullet-47">None of them should ask anyone to buy. The job of this campaign is to get the festival seen, watched and remembered.</li>
+      <li data-editable-key="t2-bullet-48">Load all of them into the same ad set. As Conner said on the call, Meta&#039;s delivery system will find the strongest piece faster than any of us can guess.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-12">
+  <div class="step-num">12</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-12-title">Launch the warm-up campaign.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-49">Build it in Ads Manager on a computer, never in the Instagram or Facebook phone apps. Buying through the iPhone app adds about 20 percent to the cost because of Apple&#039;s fees.</li>
+      <li data-editable-key="t2-bullet-50">Click + Create and choose the Engagement objective, with Video views as the performance goal, optimized for ThruPlay. This is a low-cost way to fill the video viewer audience from Step 10.</li>
+      <li data-editable-key="t2-bullet-51">Location: draw a radius around Harrison Hot Springs that covers Agassiz, Chilliwack, Abbotsford, Mission and Metro Vancouver. Age: set only a minimum age of 18 and leave Advantage+ audience switched on, as you found broad targeting worked better.</li>
+      <li data-editable-key="t2-bullet-52">Exclude the recent purchasers audience from Step 10.</li>
+      <li data-editable-key="t2-bullet-53">Budget: [CONFIRM: Meta ad budget for February and March]. If you have not set a figure, we would suggest starting at $10 a day from Week 6 to Week 12, which is about $490 in total.</li>
+      <li data-editable-key="t2-bullet-54">After two weeks, open the campaign, click Breakdown → By delivery → Age, and look at which age groups watched which creative. This is the most direct answer you will get to the question of which demographic responds to which side of the festival.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">The Retargeting Campaign</div>
+<li class="step-item" id="step-t2-13">
+  <div class="step-num">13</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-13-title">Test retargeting on a Season show.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-55">Pick the March Season show [CONFIRM: date of the March Season of Performing Arts show]. Ten to fourteen days before it, create a second campaign with the Sales objective, conversion location Website, and the Purchase event from your pixel.</li>
+      <li data-editable-key="t2-bullet-56">If Meta shows the campaign as an Advantage+ campaign, switch Advantage+ off at the campaign level so you can control the audience. In the ad set, click Switch to original audience options and choose only the website visitor, Instagram engager, Facebook engager and video viewer audiences from Step 10. Exclude recent purchasers.</li>
+      <li data-editable-key="t2-bullet-57">The creative should still look like something people want to see, but the message is direct: the show, the date, the price, and a reason to buy now, such as limited seats.</li>
+      <li data-editable-key="t2-bullet-58">Run it at about $10 a day [CONFIRM: retargeting test budget] until the show. Afterward, record how many purchases Meta reports and how many GA4 credits to facebook and instagram. This gives you a real cost per ticket before the festival money is on the line.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-14">
+  <div class="step-num">14</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-14-title">Build the lineup launch campaign in draft.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-59">Duplicate the Season test campaign, rename it &quot;Festival 2027 Lineup Retargeting,&quot; and save it as a draft without publishing.</li>
+      <li data-editable-key="t2-bullet-60">Keep the audiences and exclusions. Swap in placeholder creative now and replace it with the real announcement creative from Tactic 1, Step 9 when branding arrives.</li>
+      <li data-editable-key="t2-bullet-61">Plan the message around urgency: the lineup is out, early-bird pricing ends on a date, and these shows sell out. [CONFIRM: early-bird pricing deadline for 2027]</li>
+      <li data-editable-key="t2-bullet-62">Set the start date to the lineup announcement day [CONFIRM: lineup announcement date], so the campaign goes live the moment the news does.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t2-15">
+  <div class="step-num">15</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-2-step-15-title">Check the ads for fifteen minutes a week.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t2-bullet-63">Every Monday, open Ads Manager and look at three numbers for each campaign: amount spent, cost per result, and frequency (how many times the average person has seen the ad).</li>
+      <li data-editable-key="t2-bullet-64">If frequency on the retargeting campaign goes above 4 in a week, add a new piece of creative. People are seeing the same ad too often.</li>
+      <li data-editable-key="t2-bullet-65">If a piece of creative has spent $30 or more with clearly worse results than the others, pause it.</li>
+      <li data-editable-key="t2-bullet-66">If a week gets away from you, pause the campaigns rather than letting them run unwatched.</li>
+    </ul>
+  </div>
+</li>
+</ol>
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" id="panel-t2-metrics" role="tabpanel" aria-labelledby="tab-t2-metrics" data-tactic-content="2" data-content="metrics">
         <div class="tactic-card-block">
@@ -6494,7 +6651,54 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                 </tr>
               </thead>
               <!-- GENERATOR: Replace with metrics rows from plan.md Tactic 2 Success Metrics -->
-              {{TACTIC_2_METRICS_ROWS}}
+              <tr>
+      <td>Purchase tracking in GA4</td>
+      <td>Connected to Ecwid and tested with a real purchase</td>
+      <td>First full month of purchases by source</td>
+      <td>Two full months of purchases and revenue by source</td>
+    </tr>
+<tr>
+      <td>Links tagged with UTMs</td>
+      <td>Email, bios and Linktree</td>
+      <td>Black Press and Rogers links issued</td>
+      <td>Every link you control is tagged</td>
+    </tr>
+<tr>
+      <td>Meta pixel</td>
+      <td>Ownership confirmed, Purchase event firing on store pages</td>
+      <td>Domain verified, pixel on every page</td>
+      <td>Purchase events matching Ecwid orders within 10%</td>
+    </tr>
+<tr>
+      <td>Google Ad Grants</td>
+      <td>Purchase imported as a conversion</td>
+      <td>At least 1 conversion recorded in the month</td>
+      <td>New keywords added, account CTR at or above 5%</td>
+    </tr>
+<tr>
+      <td>Combined retargeting audience size</td>
+      <td>Audiences built</td>
+      <td>500 or more</td>
+      <td>1,000 or more</td>
+    </tr>
+<tr>
+      <td>Warm-up campaign</td>
+      <td>Not yet applicable</td>
+      <td>Live from Week 6, best creative identified</td>
+      <td>Age breakdown recorded for each piece of creative</td>
+    </tr>
+<tr>
+      <td>Retargeting test</td>
+      <td>Not yet applicable</td>
+      <td>Not yet applicable</td>
+      <td>Season show test complete, cost per ticket recorded</td>
+    </tr>
+<tr>
+      <td>Lineup launch campaign</td>
+      <td>Not yet applicable</td>
+      <td>Not yet applicable</td>
+      <td>Built in draft with the start date set</td>
+    </tr>
             </table>
           </div>
         </div>
@@ -6508,7 +6712,11 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
                 <!-- GENERATOR: Replace with tips from plan.md Tactic 2 Tips section -->
-                {{TACTIC_2_TIPS}}
+                <li data-editable-key="t2-tip-1">Do Steps 1 to 4 before anything else in this plan. They take about two hours and cost nothing, and every number in Tactics 1 and 3 is more useful once they are done.</li>
+<li data-editable-key="t2-tip-2">Do not judge Black Press or Rogers by clicks alone. Judge them by whether total sales rise while they run. Your tagged links tell you about direct clicks, and your dated campaign notes tell you about the rest.</li>
+<li data-editable-key="t2-tip-3">Resist narrowing the targeting. You have already seen that broad targeting works better for you, and Meta&#039;s system has become better at finding the right people than manual interest lists.</li>
+<li data-editable-key="t2-tip-4">Keep the warm-up and retargeting campaigns separate. Mixing them into one campaign makes the sales message reach cold audiences and wastes the urgency.</li>
+<li data-editable-key="t2-tip-5">Check whether your Ecwid plan includes abandoned cart reminder emails. If it does, switching them on is the cheapest retargeting you will ever run.</li>
               </ul>
             </div>
           </div>
@@ -6517,7 +6725,13 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
                 <!-- GENERATOR: Replace with resources from plan.md Tactic 2 Resources section -->
-                {{TACTIC_2_RESOURCES}}
+                <li><a href="https://support.ecwid.com/hc/en-us/articles/207100449-Enabling-Google-Analytics-for-your-Ecwid-store" data-editable-link="t2-resource-1" target="_blank">https://support.ecwid.com/hc/en-us/articles/207100449-Enabling-Google-Analytics-for-your-Ecwid-store</a></li>
+<li><a href="https://support.ecwid.com/hc/en-us/articles/4408717569682-Getting-reports-using-Google-Analytics-4" data-editable-link="t2-resource-2" target="_blank">https://support.ecwid.com/hc/en-us/articles/4408717569682-Getting-reports-using-Google-Analytics-4</a></li>
+<li><a href="https://x-series-support.lightspeedhq.com/hc/en-us/articles/41724771031323" data-editable-link="t2-resource-3" target="_blank">https://x-series-support.lightspeedhq.com/hc/en-us/articles/41724771031323</a></li>
+<li><a href="https://ga-dev-tools.google/campaign-url-builder/" data-editable-link="t2-resource-4" target="_blank">https://ga-dev-tools.google/campaign-url-builder/</a></li>
+<li><a href="https://support.google.com/nonprofits/answer/117827" data-editable-link="t2-resource-5" target="_blank">https://support.google.com/nonprofits/answer/117827</a></li>
+<li><a href="https://www.facebook.com/business/ads/meta-advantage-plus/audience" data-editable-link="t2-resource-6" target="_blank">https://www.facebook.com/business/ads/meta-advantage-plus/audience</a></li>
+<li><a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" data-editable-link="t2-resource-7" target="_blank">https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc</a></li>
               </ul>
             </div>
           </div>
@@ -6570,7 +6784,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
             <!-- What This Is -->
             <div class="tactic-card-block">
               <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-3-what-is">{{TACTIC_3_WHAT_IS}}</p>
+              <p data-editable-key="tactic-3-what-is">Three small changes to email that work together. First, a sign-up offer that suits your calendar exactly: subscribers hear the 2027 lineup before it is announced publicly, which costs you nothing and is the most valuable thing you can offer anyone between January and April. Second, one story email a month, made from the same material as that month&#039;s social posts, so the list gets used to opening your emails without being asked to buy. Third, a short thank-you email after every Season show with a direct link to leave a Google review, plus a QR card at the exit.</p>
         </div>
         <!-- What This Breaks Into -->
         <div class="tactic-card-block">
@@ -6599,12 +6813,12 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         <!-- What We Heard From You -->
         <div class="tactic-card-block navy">
           <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-3-heard">{{TACTIC_3_HEARD}}</p>
+          <p data-editable-key="tactic-3-heard">You told us email is your best channel by a distance: when people buy online, Ecwid captures their address, you keep reaching them, and they come back because the shows are good. You also told us that almost nobody signs up any other way, and that the contests you ran on social media brought in only a handful of sign-ups and did not seem worth it. Every email you send is about a show, two per show, with a note about the next one at the bottom, and you said you would be open to changing that pattern. On reviews, you said the assessment&#039;s point about Google reviews was something you had not been thinking about and liked straight away, and that you want reviews for the Season of Performing Arts as well as the festival. You also told us the feedback survey you sent a few years ago mostly brought back criticism.</p>
         </div>
         <!-- Why It Matters -->
         <div class="tactic-card-block">
           <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-3-matters">{{TACTIC_3_MATTERS}}</p>
+          <p data-editable-key="tactic-3-matters">On the call, Conner put a rough value on a new subscriber of $10 to $15, based on a $30 average ticket and the share of subscribers who buy and then come back. At that rate, 150 new sign-ups before April is worth $1,500 to $2,250 in future ticket sales, from a form and an offer that cost nothing. The story emails matter for a practical reason: lists that only ever receive sales emails open less over time, and the emails start landing in promotions tabs and spam folders. On reviews, the festival has 13 Google reviews at 4.4 stars and none in eighteen months. Google weighs recent reviews heavily when it decides which business to show for searches like &quot;things to do in Harrison Hot Springs,&quot; and a profile with no recent reviews looks inactive to visitors as well. The Season shows give you a reason to ask every month instead of once a year, and the post-show email is a request for praise rather than a survey that invites complaints.</p>
             </div>
             <!-- Time Commitment -->
             <div class="tactic-card-block">
@@ -6621,7 +6835,129 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t3-steps" role="tabpanel" aria-labelledby="tab-t3-steps" data-tactic-content="3" data-content="steps">
         <!-- GENERATOR: Replace this placeholder with Tactic 3 implementation steps from plan.md -->
-        {{TACTIC_3_IMPLEMENTATION_STEPS}}
+        <ol class="tactic-steps-list">
+<div class="tactic-part-header">A Reason to Join</div>
+<li class="step-item" id="step-t3-1">
+  <div class="step-num">1</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-1-title">Make &quot;hear the lineup first&quot; the sign-up offer.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-1">The promise is simple: people on the list get the full 2027 lineup by email before it is posted anywhere else. Decide how far ahead, whether that is a few hours, a full day or a weekend. [CONFIRM: how early subscribers will receive the lineup]</li>
+      <li data-editable-key="t3-bullet-2">Use the same line everywhere: &quot;The 2027 lineup drops in April. Join the list and hear it first.&quot;</li>
+      <li data-editable-key="t3-bullet-3">If Ecwid lets you offer early-bird tickets to subscribers before the public sale, for example through a discount code sent only by email, add that to the offer. It turns early access into an early purchase. [CONFIRM: whether a subscriber-only early-bird window is possible]</li>
+      <li data-editable-key="t3-bullet-4">Do not add a contest. Your own experience is that contests bring a handful of sign-ups, many from people who only want the prize.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-2">
+  <div class="step-num">2</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-2-title">Put the sign-up form where people already are.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-5">Create a sign-up form in your email platform. [CONFIRM: email platform used for festival emails]</li>
+      <li data-editable-key="t3-bullet-6">Add it to three places on the website: the footer of every page, the FAQ page, and the homepage just below the main banner. Use the offer line from Step 1 as the heading.</li>
+      <li data-editable-key="t3-bullet-7">Add a link at the top of your Linktree and in the Instagram and Facebook bios: &quot;Hear the 2027 lineup first.&quot;</li>
+      <li data-editable-key="t3-bullet-8">Make sure the form adds people to the same list your ticket buyers join automatically, so everyone receives the lineup email together.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-3">
+  <div class="step-num">3</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-3-title">Ask one question at sign-up.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-9">Add one optional checkbox question to the form: &quot;What brings you to the festival?&quot; with four options: Hall concerts, The beach stage and market, Children&#039;s Day, Season shows through the year.</li>
+      <li data-editable-key="t3-bullet-10">This is the start of the segmentation you said you are missing. In April, when a Celtic night or a Children&#039;s Day announcement goes out, you can send it first to the people who said that is what they come for.</li>
+      <li data-editable-key="t3-bullet-11">Keep it to one question. Every extra field lowers the number of people who finish the form.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-4">
+  <div class="step-num">4</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-4-title">Promote the list at Season shows and in the monthly teaser.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-12">Print a small card for the lobby and the seats at each Season show with the offer line and a QR code linking straight to the sign-up form.</li>
+      <li data-editable-key="t3-bullet-13">Say it from the stage in one sentence before the show starts: &quot;If you want to hear the festival lineup before anyone else, the QR code is on your seat.&quot;</li>
+      <li data-editable-key="t3-bullet-14">Paper sign-up sheets work too. Make sure the sheet says people are agreeing to receive festival emails, and keep the sheets, since Canada&#039;s anti-spam law requires you to be able to show consent.</li>
+      <li data-editable-key="t3-bullet-15">The monthly teaser post in Tactic 1, Step 5 links to the same form.</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">One Story Email a Month</div>
+<li class="step-item" id="step-t3-5">
+  <div class="step-num">5</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-5-title">Write one story email a month from that month&#039;s social content.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-16">Send one in January, one in February and one in March, in addition to your normal show emails. Call the series something plain, such as &quot;From the Festival.&quot;</li>
+      <li data-editable-key="t3-bullet-17">Each one has a single story and a single photo: a Children&#039;s Day memory from the archive, a member quote, a look at how the festival gets planned in winter, or the story behind the poster. Take it straight from that fortnight&#039;s carousel so there is no new writing.</li>
+      <li data-editable-key="t3-bullet-18">Keep the link soft: &quot;See more on Instagram&quot; or &quot;Join us at the next Season show.&quot; The March email should end with the lineup teaser.</li>
+      <li data-editable-key="t3-bullet-19">Tag the links using the pattern from Tactic 2, Step 5, and compare the open rate with your sales emails. [CONFIRM: current average open rate, as the baseline]</li>
+    </ul>
+  </div>
+</li>
+<div class="tactic-part-header">Reviews After Every Show</div>
+<li class="step-item" id="step-t3-6">
+  <div class="step-num">6</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-6-title">Get your Google review link.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-20">While signed in to the Google account that manages the profile, search &quot;Harrison Festival&quot; on Google. Your Business Profile management panel appears at the top of the results.</li>
+      <li data-editable-key="t3-bullet-21">Click Ask for reviews (it may show as Get more reviews) and copy the short link Google gives you.</li>
+      <li data-editable-key="t3-bullet-22">Save the link in the Quotes folder from Tactic 1 and in a note on your phone. You will use it in the email, on the QR card and in replies to messages.</li>
+      <li data-editable-key="t3-bullet-23">Use the same link to create a QR code with any free QR code generator, for Step 8.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-7">
+  <div class="step-num">7</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-7-title">Send a thank-you and review email after every Season show.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-24">Within 48 hours of each Season show, send a short email to everyone who bought a ticket for it. [CONFIRM: January to March Season of Performing Arts show dates]</li>
+      <li data-editable-key="t3-bullet-25">To get the list, open Ecwid&#039;s orders, filter them by that show&#039;s ticket, and export the customer emails, then import them into your email platform as a tag or segment named for the show.</li>
+      <li data-editable-key="t3-bullet-26">Keep it short: thank them for coming, include two or three photos from the night, and add one button that says &quot;Leave us a Google review.&quot; Write the request in your own words, along the lines of the pitch from the call: as a small nonprofit festival, reviews help more people find out what happens here, and it takes about fifteen seconds.</li>
+      <li data-editable-key="t3-bullet-27">Save it as a template. After the festival in July, the same template goes to every festival ticket buyer, which is when the largest batch of reviews will come in.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-8">
+  <div class="step-num">8</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-8-title">Ask in the room.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-28">Put the review QR code on a small sign at the exit of each Season show venue, next to the list sign-up card. Label each clearly, since one asks for a review and the other for an email address.</li>
+      <li data-editable-key="t3-bullet-29">Add one line to the end-of-show thank-you from the stage: &quot;If you enjoyed tonight, a Google review helps more people find us.&quot;</li>
+      <li data-editable-key="t3-bullet-30">Give volunteers at the door the same line to say on the way out. People are most willing to write a review in the first hour after a good night.</li>
+      <li data-editable-key="t3-bullet-31">Keep the signs and the volunteer line for the festival in July, as the assessment recommended.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-9">
+  <div class="step-num">9</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-9-title">Reply to every new review within a week.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-32">Turn on review notifications in your Business Profile so new reviews reach your email.</li>
+      <li data-editable-key="t3-bullet-33">Reply to every review by name, mention something specific they said, and invite them back to the next show or the festival.</li>
+      <li data-editable-key="t3-bullet-34">For any critical review, thank the person, acknowledge the issue in one sentence, say what has changed if something has, and offer an email address to continue the conversation. Never argue in public.</li>
+      <li data-editable-key="t3-bullet-35">Google treats replies as a sign the business is active, and future visitors read them.</li>
+    </ul>
+  </div>
+</li>
+<li class="step-item" id="step-t3-10">
+  <div class="step-num">10</div>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-3-step-10-title">Put the best review lines back to work.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t3-bullet-36">Each month, copy the best lines from new reviews into the Quotes folder alongside the member quotes.</li>
+      <li data-editable-key="t3-bullet-37">Use them in the Why We Come Back carousels in Tactic 1 and in the retargeting creative in Tactic 2, credited as &quot;Google review&quot; with the reviewer&#039;s first name.</li>
+      <li data-editable-key="t3-bullet-38">When the festival website is next updated, swap any old testimonials for recent Google reviews.</li>
+    </ul>
+  </div>
+</li>
+</ol>
       <!-- Measurement & KPIs Tab -->
       <div class="tactic-tab-content" id="panel-t3-metrics" role="tabpanel" aria-labelledby="tab-t3-metrics" data-tactic-content="3" data-content="metrics">
         <div class="tactic-card-block">
@@ -6637,7 +6973,54 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                 </tr>
               </thead>
               <!-- GENERATOR: Replace with metrics rows from plan.md Tactic 3 Success Metrics -->
-              {{TACTIC_3_METRICS_ROWS}}
+              <tr>
+      <td>New subscribers who have not bought a ticket</td>
+      <td>Form live in 3 places and the bios</td>
+      <td>50</td>
+      <td>150</td>
+    </tr>
+<tr>
+      <td>Google reviews (total)</td>
+      <td>16, from 13</td>
+      <td>20</td>
+      <td>25 or more</td>
+    </tr>
+<tr>
+      <td>Google reviews in the last 30 days</td>
+      <td>3, from 0</td>
+      <td>4</td>
+      <td>5</td>
+    </tr>
+<tr>
+      <td>Review replies</td>
+      <td>Every existing review replied to</td>
+      <td>Every new review replied to within a week</td>
+      <td>Every new review replied to within a week</td>
+    </tr>
+<tr>
+      <td>Post-show review emails sent</td>
+      <td>First Season show of the year</td>
+      <td>Every Season show to date</td>
+      <td>Every Season show, with the template saved for July</td>
+    </tr>
+<tr>
+      <td>Story emails sent</td>
+      <td>1</td>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+<tr>
+      <td>Story email open rate</td>
+      <td>Baseline recorded</td>
+      <td>At or above the average for sales emails</td>
+      <td>Above the average for sales emails</td>
+    </tr>
+<tr>
+      <td>Sign-up form answers</td>
+      <td>Question live</td>
+      <td>Answers collected from at least 30 people</td>
+      <td>Enough answers to send the April announcement by interest</td>
+    </tr>
             </table>
           </div>
         </div>
@@ -6651,7 +7034,11 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
                 <!-- GENERATOR: Replace with tips from plan.md Tactic 3 Tips section -->
-                {{TACTIC_3_TIPS}}
+                <li data-editable-key="t3-tip-1">The lineup is the best sign-up incentive you will ever have, because people actually want it and it costs nothing to give. Mention it every time you talk about the list between now and April.</li>
+<li data-editable-key="t3-tip-2">Send the review email while people are still talking about the night. A request that arrives a day or two after a good show gets far more replies than one that arrives the following week.</li>
+<li data-editable-key="t3-tip-3">Ask for reviews, not feedback. A survey that asks what could be better collects complaints, as you found. A thank-you with a review button collects praise.</li>
+<li data-editable-key="t3-tip-4">If someone emails you a lovely note after a show, reply with the review link and ask if they would mind posting the same words on Google.</li>
+<li data-editable-key="t3-tip-5">Keep the story emails short. One photo, three or four sentences and one link is enough, and it is quicker to write.</li>
               </ul>
             </div>
           </div>
@@ -6660,7 +7047,9 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
                 <!-- GENERATOR: Replace with resources from plan.md Tactic 3 Resources section -->
-                {{TACTIC_3_RESOURCES}}
+                <li><a href="https://support.google.com/business/" data-editable-link="t3-resource-1" target="_blank">https://support.google.com/business/</a></li>
+<li><a href="https://support.google.com/analytics/" data-editable-link="t3-resource-2" target="_blank">https://support.google.com/analytics/</a></li>
+<li><a href="https://ga-dev-tools.google/campaign-url-builder/" data-editable-link="t3-resource-3" target="_blank">https://ga-dev-tools.google/campaign-url-builder/</a></li>
               </ul>
             </div>
           </div>
@@ -6673,144 +7062,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
 <!-- ════════════════════════════════════════════
      TACTIC 4: Email Marketing & Reviews
      ════════════════════════════════════════════ -->
-<!-- IF:TACTIC_4 -->
-<section id="page-tactic4" class="page">
-  <div class="tactic-page-content">
-    <!-- Navy Hero Card -->
-    <div class="tactic-hero" data-tactic="4">
-      <div class="tactic-hero-top">
-        <div class="tactic-hero-meta">
-          <span class="tactic-hero-label">Tactic 4 · {{TACTIC_4_PHASE}}</span>
-          <span class="tactic-hero-status" id="t4-status">Not Started</span>
-        </div>
-        <div class="tactic-hero-progress">
-          <svg class="tactic-hero-ring" viewBox="0 0 80 80">
-            <circle class="tactic-hero-ring-bg" cx="40" cy="40" r="31"></circle>
-            <circle class="tactic-hero-ring-bar" id="t4-ring" cx="40" cy="40" r="31" transform="rotate(-90 40 40)"></circle>
-          </svg>
-          <div>
-            <div class="tactic-hero-pct" id="t4-pct">0%</div>
-            <div class="tactic-hero-pct-label">of this tactic</div>
-          </div>
-        </div>
-      </div>
-      <h1 data-editable-key="tactic-4-hero-title">{{TACTIC_4_TITLE}}</h1>
-      <p data-editable-key="tactic-4-hero-subtitle">{{TACTIC_4_SUBTITLE}}</p>
-      <!-- Tactic Tabs -->
-      <div class="tactic-tabs" role="tablist" aria-label="Tactic 4 sections">
-        <button class="tactic-tab active" id="tab-t4-overview" role="tab" aria-selected="true" aria-controls="panel-t4-overview" data-tactic-tab="4" data-tab="overview" onclick="switchTacticTab(4, 'overview')">Overview</button>
-        <button class="tactic-tab" id="tab-t4-steps" role="tab" aria-selected="false" aria-controls="panel-t4-steps" data-tactic-tab="4" data-tab="steps" onclick="switchTacticTab(4, 'steps')">Implementation Steps</button>
-        <button class="tactic-tab" id="tab-t4-metrics" role="tab" aria-selected="false" aria-controls="panel-t4-metrics" data-tactic-tab="4" data-tab="metrics" onclick="switchTacticTab(4, 'metrics')">Success Metrics</button>
-        <button class="tactic-tab" id="tab-t4-tips" role="tab" aria-selected="false" aria-controls="panel-t4-tips" data-tactic-tab="4" data-tab="tips" onclick="switchTacticTab(4, 'tips')">Tips &amp; Resources</button>
-      </div>
-    </div>
 
-    <!-- Tactic Body -->
-    <div class="tactic-body">
-      <!-- Overview Tab -->
-      <div class="tactic-tab-content active" id="panel-t4-overview" role="tabpanel" aria-labelledby="tab-t4-overview" data-tactic-content="4" data-content="overview">
-        <div class="tactic-overview-grid">
-          <div class="tactic-overview-col">
-            <!-- What This Is -->
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">What This Is</div>
-              <p data-editable-key="tactic-4-what-is">{{TACTIC_4_WHAT_IS}}</p>
-        </div>
-        <!-- What This Breaks Into -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">What This Breaks Into</div>
-          <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-1-title">{{T4_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-1-desc">{{T4_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-2-title">{{T4_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-2-desc">{{T4_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-3-title">{{T4_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-3-desc">{{T4_BREAKDOWN_3_DESC}}</div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="tactic-overview-col">
-        <!-- What We Heard From You -->
-        <div class="tactic-card-block navy">
-          <div class="tactic-card-label">What We Heard From You</div>
-          <p data-editable-key="tactic-4-heard">{{TACTIC_4_HEARD}}</p>
-        </div>
-        <!-- Why It Matters -->
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Why It Matters</div>
-          <p data-editable-key="tactic-4-matters">{{TACTIC_4_MATTERS}}</p>
-        </div>
-            <!-- Time Commitment -->
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Time Commitment</div>
-              <div>
-                <span class="tactic-time-value">1 hr</span>
-                <span class="tactic-time-context">email management, per week</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Implementation Steps Tab -->
-      <div class="tactic-tab-content" id="panel-t4-steps" role="tabpanel" aria-labelledby="tab-t4-steps" data-tactic-content="4" data-content="steps">
-        <!-- GENERATOR: Replace this placeholder with Tactic 4 implementation steps from plan.md -->
-        {{TACTIC_4_IMPLEMENTATION_STEPS}}
-      </div>
-      <!-- Measurement & KPIs Tab -->
-      <div class="tactic-tab-content" id="panel-t4-metrics" role="tabpanel" aria-labelledby="tab-t4-metrics" data-tactic-content="4" data-content="metrics">
-        <div class="tactic-card-block">
-          <div class="tactic-card-label">Success Metrics</div>
-          <div class="tactic-metrics-table">
-            <table>
-              <thead>
-                <tr>
-                  <th>Metric</th>
-                  <th>30 Days</th>
-                  <th>60 Days</th>
-                  <th>90 Days</th>
-                </tr>
-              </thead>
-              <!-- GENERATOR: Replace with metrics rows from plan.md Tactic 4 Success Metrics -->
-              {{TACTIC_4_METRICS_ROWS}}
-            </table>
-          </div>
-        </div>
-      </div>
-
-      <!-- Tips & Resources Tab -->
-      <div class="tactic-tab-content" id="panel-t4-tips" role="tabpanel" aria-labelledby="tab-t4-tips" data-tactic-content="4" data-content="tips">
-        <div class="tactic-overview-grid">
-          <div class="tactic-overview-col">
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Tips</div>
-              <ul class="tactic-tips-list">
-                <!-- GENERATOR: Replace with tips from plan.md Tactic 4 Tips section -->
-                {{TACTIC_4_TIPS}}
-              </ul>
-            </div>
-          </div>
-          <div class="tactic-overview-col">
-            <div class="tactic-card-block">
-              <div class="tactic-card-label">Resources</div>
-              <ul class="tactic-resources-list">
-                <!-- GENERATOR: Replace with resources from plan.md Tactic 4 Resources section -->
-                {{TACTIC_4_RESOURCES}}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<!-- ENDIF:TACTIC_4 -->
 
 <!-- ════════════════════════════════════════════
      90-DAY ROADMAP
@@ -6839,7 +7091,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         <p class="print-cover-client">Harrison Festival Society</p>
         <div class="print-cover-divider"></div>
         <p class="print-cover-meta">
-          <strong>Cohort Start:</strong> October 13, 2026<br>
+          <strong>Cohort Start:</strong> October 12, 2026<br>
           <strong>Program Duration:</strong> 12 Weeks
         </p>
         <div class="print-cover-footer">
@@ -6870,14 +7122,7 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
         </div>
 
         <!-- Executive Summary -->
-        <!-- IF:PROJECTIONS -->
-        <div class="print-summary-box">
-          <h3>Program Targets (Moderate Scenario)</h3>
-          <div class="print-summary-grid">
-            {{PRINT_SUMMARY_STATS}}
-          </div>
-        </div>
-        <!-- ENDIF:PROJECTIONS -->
+        
 
         <!-- Goal Box -->
         <div class="print-goal-box">
@@ -6898,12 +7143,203 @@ What this produces, stated honestly: very few festival tickets inside the ninety
       <div class="month-header">
         <span class="month-badge">Month 1</span>
         <span class="month-title">Foundation</span>
-        <span class="month-progress" id="m1-prog"><span>0</span> of {{MONTH_1_TOTAL}} done</span>
+        <span class="month-progress" id="m1-prog"><span>0</span> of 20 done</span>
       </div>
 
 
       <!-- GENERATOR: Replace this placeholder with Month 1 week cards (Weeks 1-4) from plan.md -->
-      {{MONTH_1_WEEKS}}
+            <div class="week-card" id="wc-1" data-week="1">
+        <div class="week-card-header" onclick="toggleWeek(1)">
+          <div class="week-num">W1</div>
+          <div class="week-title" data-editable-key="week-1-title">Check What Is Installed and Connect GA4 (January 4)</div>
+          <div class="week-progress-pill" id="wp-1">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Check Ecwid&#039;s Tracking &amp; Analytics page, GA4 and the live site for existing tags, and send Junction a screenshot</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-1')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-2">Create or confirm the GA4 property and connect it to Ecwid with the Measurement Protocol secret</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-2')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-3">Add the GA4 tag to the rest of the website and check each page has exactly one</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-3')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-4">Reply to all 13 existing Google reviews, including the six-year-old critical one</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-1-check-1" data-key="week-1-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-1-check-1" data-editable-key="week-1-check-1-label">Junction has a screenshot of what tracking was installed before any changes</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-1-check-2" data-key="week-1-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-1-check-2" data-editable-key="week-1-check-2-label">The GA4 Measurement ID and API secret are saved in Ecwid</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-1-check-3" data-key="week-1-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-1-check-3" data-editable-key="week-1-check-3-label">Tag Assistant shows one GA4 tag on the homepage, the FAQ and the ticket page</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-1-check-4" data-key="week-1-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-1-check-4" data-editable-key="week-1-check-4-label">All 13 Google reviews have a reply</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-1" placeholder="Add general notes for this week…" oninput="saveNote('week_1',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-2" data-week="2">
+        <div class="week-card-header" onclick="toggleWeek(2)">
+          <div class="week-num">W2</div>
+          <div class="week-title" data-editable-key="week-2-title">Test a Purchase and Gather the Archive (January 11)</div>
+          <div class="week-progress-pill" id="wp-2">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-1">Buy and refund a Season show ticket while watching GA4 Realtime</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-2">Build tagged links for email, the bios, Linktree, Black Press and Rogers</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-3">Create the Festival 2027 Content folder and sort 60 to 100 archive photos into four series</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-4">Install Edits and make one practice Reel</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-4')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-5">Upload 20 to 30 photos from the 2026 festival to the Google Business Profile</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-2-check-1" data-key="week-2-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-2-check-1" data-editable-key="week-2-check-1-label">A purchase event appeared in GA4 Realtime during the test</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-2-check-2" data-key="week-2-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-2-check-2" data-editable-key="week-2-check-2-label">The Instagram bio, Facebook bio and Linktree all use tagged links</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-2-check-3" data-key="week-2-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-2-check-3" data-editable-key="week-2-check-3-label">The content folder holds at least 60 photos sorted into four series</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-2-check-4" data-key="week-2-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-2-check-4" data-editable-key="week-2-check-4-label">A practice Reel is saved as a draft in Edits</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-2-check-5" data-key="week-2-check-5" onchange="onCheck(this)">
+            <label class="check-label" for="week-2-check-5" data-editable-key="week-2-check-5-label">The Business Profile shows at least 20 new photos</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-2" placeholder="Add general notes for this week…" oninput="saveNote('week_2',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-3" data-week="3">
+        <div class="week-card-header" onclick="toggleWeek(3)">
+          <div class="week-num">W3</div>
+          <div class="week-title" data-editable-key="week-3-title">Own the Pixel, Build the Quote Bank (January 18)</div>
+          <div class="week-progress-pill" id="wp-3">0 / 6</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-1">Confirm who owns the Meta pixel and connect your own through Ecwid if needed</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-2">Verify harrisonfestival.com in Meta Business Suite</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-9')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-3">Type 20 to 30 member quotes into the Quotes folder</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-2')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-4">Cut the promo video into 8 to 12 short clips</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-3')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-5">Copy the Google review link and make a QR code from it</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-6">Add the &quot;Take me to tickets&quot; button and the &quot;What you need to know&quot; heading to the ticket page</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-1" data-key="week-3-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-1" data-editable-key="week-3-check-1-label">A Meta pixel owned by Harrison Festival Society fires on every page, and Purchase arrives in Test events</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-2" data-key="week-3-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-2" data-editable-key="week-3-check-2-label">harrisonfestival.com shows as verified in Meta Business Suite</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-3" data-key="week-3-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-3" data-editable-key="week-3-check-3-label">The quote bank holds at least 20 quotes</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-4" data-key="week-3-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-4" data-editable-key="week-3-check-4-label">At least 8 promo video clips are saved and named</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-5" data-key="week-3-check-5" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-5" data-editable-key="week-3-check-5-label">The review link and QR code are saved</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-3-check-6" data-key="week-3-check-6" onchange="onCheck(this)">
+            <label class="check-label" for="week-3-check-6" data-editable-key="week-3-check-6-label">One tap on the ticket page takes a visitor straight to the ticket tiles</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-3" placeholder="Add general notes for this week…" oninput="saveNote('week_3',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-4" data-week="4">
+        <div class="week-card-header" onclick="toggleWeek(4)">
+          <div class="week-num">W4</div>
+          <div class="week-title" data-editable-key="week-4-title">First Batch and First Story Email (January 25)</div>
+          <div class="week-progress-pill" id="wp-4">0 / 5</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-1">Set the Tuesday Reel and Friday carousel pattern</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-2">Hold the first 90-minute batching session and schedule four posts in Planner</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-3">Decide the &quot;hear the lineup first&quot; offer and how early subscribers get the lineup</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-4">Send the January story email</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-5">On Friday, check January&#039;s top posts in Insights and write the one-line note</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-4-check-1" data-key="week-4-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-4-check-1" data-editable-key="week-4-check-1-label">Four posts are scheduled across Facebook and Instagram</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-4-check-2" data-key="week-4-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-4-check-2" data-editable-key="week-4-check-2-label">Posts went out on Tuesday and Friday this week</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-4-check-3" data-key="week-4-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-4-check-3" data-editable-key="week-4-check-3-label">The sign-up offer is written in one line</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-4-check-4" data-key="week-4-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-4-check-4" data-editable-key="week-4-check-4-label">The January story email has been sent</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-4-check-5" data-key="week-4-check-5" onchange="onCheck(this)">
+            <label class="check-label" for="week-4-check-5" data-editable-key="week-4-check-5-label">The content folder has its first monthly note</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-4" placeholder="Add general notes for this week…" oninput="saveNote('week_4',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
     </div>
 
     <!-- MONTH 2 -->
@@ -6911,11 +7347,184 @@ What this produces, stated honestly: very few festival tickets inside the ninety
       <div class="month-header">
         <span class="month-badge">Month 2</span>
         <span class="month-title">Momentum</span>
-        <span class="month-progress" id="m2-prog"><span>0</span> of {{MONTH_2_TOTAL}} done</span>
+        <span class="month-progress" id="m2-prog"><span>0</span> of 16 done</span>
       </div>
 
       <!-- GENERATOR: Replace this placeholder with Month 2 week cards (Weeks 5-8) from plan.md -->
-      {{MONTH_2_WEEKS}}
+            <div class="week-card" id="wc-5" data-week="5">
+        <div class="week-card-header" onclick="toggleWeek(5)">
+          <div class="week-num">W5</div>
+          <div class="week-title" data-editable-key="week-5-title">Sign-Up Form Goes Live (February 1)</div>
+          <div class="week-progress-pill" id="wp-5">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-1">Add the sign-up form to the footer, the FAQ and the homepage, and add the link to the bios and Linktree</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-2')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-2">Add the &quot;What brings you to the festival?&quot; question to the form</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-3">Link GA4 to Google Ad Grants and import purchase as a conversion</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-4">Shoot 10 to 15 clips at the next Season show</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-5-check-1" data-key="week-5-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-5-check-1" data-editable-key="week-5-check-1-label">The sign-up form is live in three places on the site and in both bios</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-5-check-2" data-key="week-5-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-5-check-2" data-editable-key="week-5-check-2-label">A test sign-up lands on the same list as ticket buyers, with the question answered</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-5-check-3" data-key="week-5-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-5-check-3" data-editable-key="week-5-check-3-label">Purchase appears as an imported conversion in Google Ads</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-5-check-4" data-key="week-5-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-5-check-4" data-editable-key="week-5-check-4-label">At least 10 new clips are in the Clips folder</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-5" placeholder="Add general notes for this week…" oninput="saveNote('week_5',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-6" data-week="6">
+        <div class="week-card-header" onclick="toggleWeek(6)">
+          <div class="week-num">W6</div>
+          <div class="week-title" data-editable-key="week-6-title">Build the Audiences and Launch the Warm-Up (February 8)</div>
+          <div class="week-progress-pill" id="wp-6">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-1">Build the five custom audiences in Ads Manager</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-10')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-2">Choose four or five pieces of creative from the top organic posts and promo clips</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-11')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-3">Launch the warm-up campaign on desktop, with purchasers excluded</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-4">Hold the second batching session</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-6-check-1" data-key="week-6-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-6-check-1" data-editable-key="week-6-check-1-label">Five custom audiences exist and are filling</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-6-check-2" data-key="week-6-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-6-check-2" data-editable-key="week-6-check-2-label">The warm-up campaign is live with at least four pieces of creative in one ad set</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-6-check-3" data-key="week-6-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-6-check-3" data-editable-key="week-6-check-3-label">Recent purchasers are excluded from the warm-up campaign</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-6-check-4" data-key="week-6-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-6-check-4" data-editable-key="week-6-check-4-label">Four more posts are scheduled</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-6" placeholder="Add general notes for this week…" oninput="saveNote('week_6',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-7" data-week="7">
+        <div class="week-card-header" onclick="toggleWeek(7)">
+          <div class="week-num">W7</div>
+          <div class="week-title" data-editable-key="week-7-title">Ask the Room (February 15)</div>
+          <div class="week-progress-pill" id="wp-7">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-1">Put the sign-up cards and the review QR sign out at the Season show and say the one-line ask from the stage</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-2">Brief the door volunteers on the review line and place the review sign at the exit</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-8')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-3">Send the thank-you and review email within 48 hours of the show</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-4">Do the Monday ad check</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-15')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-7-check-1" data-key="week-7-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-7-check-1" data-editable-key="week-7-check-1-label">Sign-up cards and the review sign were in place at the show</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-7-check-2" data-key="week-7-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-7-check-2" data-editable-key="week-7-check-2-label">The review email went to that show&#039;s buyers within 48 hours</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-7-check-3" data-key="week-7-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-7-check-3" data-editable-key="week-7-check-3-label">The review email is saved as a template</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-7-check-4" data-key="week-7-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-7-check-4" data-editable-key="week-7-check-4-label">Spend, cost per result and frequency are noted for the warm-up campaign</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-7" placeholder="Add general notes for this week…" oninput="saveNote('week_7',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-8" data-week="8">
+        <div class="week-card-header" onclick="toggleWeek(8)">
+          <div class="week-num">W8</div>
+          <div class="week-title" data-editable-key="week-8-title">The First Month of Real Data (February 22)</div>
+          <div class="week-progress-pill" id="wp-8">0 / 4</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-1">Read the Traffic acquisition report for purchases and revenue by source</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-2">Record the size of each custom audience</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-10')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-3">Send the February story email</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-4">Reply to every new review</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-9')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-5">Hold the third batching session</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-6">On Friday, check February&#039;s top posts and add the note</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-8-check-1" data-key="week-8-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-8-check-1" data-editable-key="week-8-check-1-label">A month of purchases broken down by source is written down</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-8-check-2" data-key="week-8-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-8-check-2" data-editable-key="week-8-check-2-label">Audience sizes are recorded, with the combined total at 500 or more</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-8-check-3" data-key="week-8-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-8-check-3" data-editable-key="week-8-check-3-label">The February story email has been sent</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-8-check-4" data-key="week-8-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-8-check-4" data-editable-key="week-8-check-4-label">Every review received in February has a reply</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-8" placeholder="Add general notes for this week…" oninput="saveNote('week_8',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
     </div>
 
     <!-- MONTH 3 -->
@@ -6923,14 +7532,182 @@ What this produces, stated honestly: very few festival tickets inside the ninety
       <div class="month-header">
         <span class="month-badge">Month 3</span>
         <span class="month-title">Ready for April</span>
-        <span class="month-progress" id="m3-prog"><span>0</span> of {{MONTH_3_TOTAL}} done</span>
+        <span class="month-progress" id="m3-prog"><span>0</span> of 15 done</span>
       </div>
 
       <!-- GENERATOR: Replace this placeholder with Month 3 week cards (Weeks 9-12) from plan.md -->
-      {{MONTH_3_WEEKS}}
+            <div class="week-card" id="wc-9" data-week="9">
+        <div class="week-card-header" onclick="toggleWeek(9)">
+          <div class="week-num">W9</div>
+          <div class="week-title" data-editable-key="week-9-title">Test Retargeting on a Season Show (March 1)</div>
+          <div class="week-progress-pill" id="wp-9">0 / 3</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-1">Launch the retargeting test for the March Season show with original audience options</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-13')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-2">Check the warm-up campaign&#039;s age breakdown for each piece of creative</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-3">Copy the best new review lines into the Quotes folder</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-10')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-9-check-1" data-key="week-9-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-9-check-1" data-editable-key="week-9-check-1-label">The retargeting test is live and shows only the custom audiences, with purchasers excluded</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-9-check-2" data-key="week-9-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-9-check-2" data-editable-key="week-9-check-2-label">The age breakdown for each piece of creative is noted</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-9-check-3" data-key="week-9-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-9-check-3" data-editable-key="week-9-check-3-label">At least one review line is in the Quotes folder</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-9" placeholder="Add general notes for this week…" oninput="saveNote('week_9',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-10" data-week="10">
+        <div class="week-card-header" onclick="toggleWeek(10)">
+          <div class="week-num">W10</div>
+          <div class="week-title" data-editable-key="week-10-title">Keywords and the March Show (March 8)</div>
+          <div class="week-progress-pill" id="wp-10">0 / 3</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-1">Add the new search terms to Google Ad Grants and pause any keyword below 5 percent CTR</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-2">Send the review email after the March Season show</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-3">Put the review sign at the exit and brief the volunteers</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-8')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-4">Hold the fourth batching session</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-10-check-1" data-key="week-10-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-10-check-1" data-editable-key="week-10-check-1-label">New keywords are live and the account CTR is at or above 5 percent</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-10-check-2" data-key="week-10-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-10-check-2" data-editable-key="week-10-check-2-label">The March show&#039;s buyers received the review email within 48 hours</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-10-check-3" data-key="week-10-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-10-check-3" data-editable-key="week-10-check-3-label">Four more posts are scheduled</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-10" placeholder="Add general notes for this week…" oninput="saveNote('week_10',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-11" data-week="11">
+        <div class="week-card-header" onclick="toggleWeek(11)">
+          <div class="week-num">W11</div>
+          <div class="week-title" data-editable-key="week-11-title">Build April Now (March 15)</div>
+          <div class="week-progress-pill" id="wp-11">0 / 3</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-1">Duplicate the retargeting test into the lineup launch campaign and save it as a draft</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-14')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-2">Build the announcement Reel template, the artist carousel layout and the captions</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-9')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-3">Send the March story email, ending with the lineup teaser</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-11-check-1" data-key="week-11-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-11-check-1" data-editable-key="week-11-check-1-label">The Festival 2027 Lineup Retargeting campaign is saved as a draft with its start date set</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-11-check-2" data-key="week-11-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-11-check-2" data-editable-key="week-11-check-2-label">The announcement Reel template and carousel layout are saved</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-11-check-3" data-key="week-11-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-11-check-3" data-editable-key="week-11-check-3-label">The March story email has been sent</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-11" placeholder="Add general notes for this week…" oninput="saveNote('week_11',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
+      <div class="week-card" id="wc-12" data-week="12">
+        <div class="week-card-header" onclick="toggleWeek(12)">
+          <div class="week-num">W12</div>
+          <div class="week-title" data-editable-key="week-12-title">Review the 90 Days and Hand Off to April (March 22)</div>
+          <div class="week-progress-pill" id="wp-12">0 / 6</div>
+          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+        </div>
+        <div class="week-card-body">
+          <div class="week-cols">
+            <div>
+              <div class="week-col-label">This Week's Actions</div>
+              <ul class="week-tasks-list">
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-1">Record the retargeting test results and the cost per ticket</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-13')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-2">Pull the 90-day channel report and compare it with January</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-3">Draft the subscriber early-access lineup email</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-4">Save the post-show review template for the July festival</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-5">Hold the fifth batching session to cover the first week of April</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-6">On Friday, check March&#039;s top posts and add the note</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+          <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-7">Send the 90-day numbers to Junction ahead of the lineup announcement</span></li>
+              </ul>
+            </div>
+            <div>
+              <div class="week-col-label">Completion Checklist</div>
+              <div class="check-list">
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-1" data-key="week-12-check-1" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-1" data-editable-key="week-12-check-1-label">Cost per ticket from the retargeting test is written down</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-2" data-key="week-12-check-2" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-2" data-editable-key="week-12-check-2-label">A 90-day report shows purchases and revenue by source for February and March</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-3" data-key="week-12-check-3" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-3" data-editable-key="week-12-check-3-label">The early-access lineup email is drafted and only needs the artist names</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-4" data-key="week-12-check-4" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-4" data-editable-key="week-12-check-4-label">The July review template is saved</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-5" data-key="week-12-check-5" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-5" data-editable-key="week-12-check-5-label">Posts are scheduled through the first week of April</label>
+          </div>
+          <div class="check-row">
+            <input type="checkbox" class="check-input" id="week-12-check-6" data-key="week-12-check-6" onchange="onCheck(this)">
+            <label class="check-label" for="week-12-check-6" data-editable-key="week-12-check-6-label">---</label>
+          </div>
+              </div>
+            </div>
+          </div>
+          <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-12" placeholder="Add general notes for this week…" oninput="saveNote('week_12',this.value)" style="width:100%"></textarea></div>
+        </div>
+      </div>
     </div>
 
-    <div class="callout" style="margin-top:8px">{{ROADMAP_CALLOUT}}</div>
+    <div class="callout" style="margin-top:8px"></div>
 
 
     <!-- PRINT-ONLY FOOTER -->
@@ -6947,7 +7724,7 @@ What this produces, stated honestly: very few festival tickets inside the ninety
      QUICK WINS
      ════════════════════════════════════════════ -->
 
-<!-- IF:QUICK_WINS -->
+
 <section id="page-gbp" class="page">
   <div class="page-header">
     <div class="page-header-eyebrow">Quick-Hit Recommendations</div>
@@ -6956,10 +7733,43 @@ What this produces, stated honestly: very few festival tickets inside the ninety
   </div>
   <div class="content-area">
     <!-- GENERATOR: Replace this placeholder with Quick Wins page content from plan.md -->
-    {{QUICK_WINS_PAGE_CONTENT}}
+        <div class="quick-wins-section card" style="margin-bottom:20px">
+      <div class="card-header"><h3 class="card-title">These are small jobs, most under an hour, that improve how the festival shows up on Google and how easily people buy tickets. None of them depend on anything else in the plan, so do them whenever there is a spare half hour, including before January.</h3></div>
+      <div class="card-body">
+        <ul class="quick-wins-list" style="list-style:none;padding:0">
+        </ul>
+      </div>
+    </div>
+    <div class="quick-wins-section card" style="margin-bottom:20px">
+      <div class="card-header"><h3 class="card-title">On the Google Business Profile</h3></div>
+      <div class="card-body">
+        <ul class="quick-wins-list" style="list-style:none;padding:0">
+          <li style="margin-bottom:16px"><strong>Reply to all 13 reviews.</strong> Thank each positive reviewer by name and mention what they mentioned, whether that was the Bannock truck, yoga on the beach or the shows. For the six-year-old critical review, acknowledge it briefly and say what the festival does differently now.</li>
+          <li style="margin-bottom:16px"><strong>Upload 20 to 30 photos from 2026.</strong> Choose a mix of the beach stage, Children&#039;s Day, the artisan market, Memorial Hall and the lake. Fresh photos give people something to look at and are one of the signals Google uses to judge whether a profile is active.</li>
+          <li style="margin-bottom:16px"><strong>Check every detail.</strong> Confirm the website link goes to the homepage, the phone number is (604) 796-3664, the primary category fits an arts festival organization, and the hours match the office hours on the website.</li>
+          <li style="margin-bottom:16px"><strong>Rewrite the business description.</strong> Say in plain words what the festival is and where: a ten-day world roots music and arts festival in Harrison Hot Springs every July, with free beach stage performances, an artisan market, Children&#039;s Day and ticketed concerts, plus a Season of Performing Arts through the year.</li>
+          <li style="margin-bottom:16px"><strong>Post once a month.</strong> Use Google&#039;s Add update option to post each Season show, and add the 2027 festival as an event post once the dates are public. [CONFIRM: 2027 festival dates, listed in the assessment as July 9 to 18, 2027]</li>
+        </ul>
+      </div>
+    </div>
+    <div class="quick-wins-section card" style="margin-bottom:20px">
+      <div class="card-header"><h3 class="card-title">On the Website</h3></div>
+      <div class="card-body">
+        <ul class="quick-wins-list" style="list-style:none;padding:0">
+          <li style="margin-bottom:16px"><strong>Add a &quot;Take me to tickets&quot; button on the ticket page.</strong> Put it at the top of the page so it jumps straight down to the ticket tiles. Keep the information text you added, since it stopped the confusion calls, but give it a heading such as &quot;What you need to know before you buy&quot; so people see it is optional reading.</li>
+          <li style="margin-bottom:16px"><strong>Make the phone number tappable everywhere.</strong> Put (604) 796-3664 in the header and footer of every page as a tel: link so a mobile visitor can call with one tap. Older buyers in particular often prefer to call.</li>
+          <li style="margin-bottom:16px"><strong>Put the refund policy next to the buy button.</strong> A one-line summary with a link to the full policy, placed beside the ticket tiles, answers the question that stops first-time buyers.</li>
+          <li style="margin-bottom:16px"><strong>Add the questions people ask AI tools to the FAQ.</strong> The FAQ already covers the basics well. Add questions in the words a visitor would type into ChatGPT or Google, such as &quot;Is the Harrison Festival free?&quot;, &quot;What is there to do in Harrison Hot Springs with kids in July?&quot; and &quot;Where can I hear live world music in the Fraser Valley?&quot; Then make the FAQ easier to find by linking to it from the ticket page and the homepage.</li>
+          <li style="margin-bottom:16px"><strong>Shorten the homepage title.</strong> At 66 characters it gets cut off in search results. Something like &quot;Harrison Festival | World Music &amp; Arts in BC&quot; fits.</li>
+          <li style="margin-bottom:16px"><strong>Add alt text to the five images missing it.</strong> Describe what is in each photo, such as &quot;crowd dancing at the Harrison Festival beach stage.&quot;</li>
+          <li style="margin-bottom:16px"><strong>Ask your web developer to add LocalBusiness schema.</strong> It helps Google and AI search tools connect the website to the Business Profile. The assessment estimates about an hour of developer time.</li>
+        </ul>
+      </div>
+    </div>
+
   </div>
 </section>
-<!-- ENDIF:QUICK_WINS -->
+
 
 
 <!-- ════════════════════════════════════════════
