@@ -249,11 +249,13 @@ The template uses `<!-- IF:CONDITION -->` and `<!-- ENDIF:CONDITION -->` markers
 |---|---|---|
 | `IF:TACTIC_4` | Plan has 4 tactics | Keep content, remove markers |
 | `IF:QUICK_WINS` | Plan has Quick Wins section | Keep content, remove markers |
-| `IF:PROJECTIONS` | **Accommodation businesses only** with room night projections in the plan | Keep content, remove markers |
+| `IF:PROJECTIONS` | Plan has `Has Projections: yes` in Meta section (accommodation businesses only) | Keep content, remove markers |
 | `IF:GRANT_BUDGET` | Plan has a grant budget | Keep content, remove markers |
 | `IF:TARGET_MILESTONE` | Plan has target milestone | Keep content, remove markers |
 
 **Important: IF:PROJECTIONS is for accommodation businesses ONLY**
+
+To include projections, the plan.md Meta section must have `Has Projections: yes`. If this field is missing or set to "no", the projections section will be removed.
 
 The projections section displays Room Nights and Room Revenue metrics. It should ONLY be included for:
 - Hotels, motels, lodges, resorts

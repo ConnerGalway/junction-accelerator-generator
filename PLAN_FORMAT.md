@@ -21,6 +21,7 @@ Client Slug: [client-slug]
 Grant Budget: $1,500          ← OMIT THIS LINE if no grant
 Target Milestone: [Name · Date · Revenue target]  ← OMIT THIS LINE if none
 Has GBP Quick Wins: yes       ← Write "no" or omit if not applicable
+Has Projections: yes          ← ONLY for accommodation businesses (hotels, lodges, B&Bs) with room night projections. Omit for all other business types.
 
 ## Goal
 [One paragraph — the client's 90-day goal in plain language]
