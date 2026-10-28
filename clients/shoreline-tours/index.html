@@ -6330,63 +6330,63 @@ button,
                 <li class="tactic-step-item" id="step-t1-1">
                   <span class="tactic-step-num">1</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Check what GA4 is counting as a conversion</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Check what GA4 is counting as a conversion</div>
                     <ul class="tactic-step-bullets">
-                      <li>Go to analytics.google.com and sign in with the same Google account you use for Google Ads and your Business Profile.</li>
-                      <li>Open Admin (the gear icon, bottom left) then Data display then Events. Every event with a filled star in the "Mark as key event" column is being counted as a conversion.</li>
-                      <li>The only events that should be starred are purchase (a FareHarbor booking) and, after Step 4, your private event inquiry. If page_view, session_start, first_visit, scroll, click or form_start is starred, click the star to turn it off.</li>
-                      <li>Take a screenshot of the list before and after, and save both. If anything looks unfamiliar, send the screenshot to Junction before changing it.</li>
-                      <li>Turning a star off stops it counting from that day forward. It does not rewrite past reports, so treat everything before the change date as unreliable.</li>
+                      <li data-editable-key="t1-bullet-1">Go to analytics.google.com and sign in with the same Google account you use for Google Ads and your Business Profile.</li>
+                      <li data-editable-key="t1-bullet-2">Open Admin (the gear icon, bottom left) then Data display then Events. Every event with a filled star in the "Mark as key event" column is being counted as a conversion.</li>
+                      <li data-editable-key="t1-bullet-3">The only events that should be starred are purchase (a FareHarbor booking) and, after Step 4, your private event inquiry. If page_view, session_start, first_visit, scroll, click or form_start is starred, click the star to turn it off.</li>
+                      <li data-editable-key="t1-bullet-4">Take a screenshot of the list before and after, and save both. If anything looks unfamiliar, send the screenshot to Junction before changing it.</li>
+                      <li data-editable-key="t1-bullet-5">Turning a star off stops it counting from that day forward. It does not rewrite past reports, so treat everything before the change date as unreliable.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
                   <span class="tactic-step-num">2</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Confirm FareHarbor is reporting real bookings to GA4</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-2-title">Confirm FareHarbor is reporting real bookings to GA4</div>
                     <ul class="tactic-step-bullets">
-                      <li>In your FareHarbor Dashboard, go to Settings then Analytics &amp; Tracking. Check that a GA4 measurement ID starting with G- is listed, and that it matches the one in GA4 under Admin then Data streams then your web stream.</li>
-                      <li>On the same screen, look for the checkbox "Calendar, item grid, or book button is added to multiple websites." FareHarbor's guidance is that leaving it unticked can pull in bookings made through other websites that carry your booking flow, which inflates your numbers. If your booking calendar appears anywhere other than your own site, tick it.</li>
-                      <li>In GA4, go to Admin then Data streams then your web stream then Configure tag settings then Show all then List unwanted referrals. Add fareharbor.com and your own domain (without www). FareHarbor lists this as mandatory. Without it, bookings get credited to FareHarbor as a referral instead of to the ad or search that brought the guest.</li>
-                      <li>Then do a reality check. In GA4, go to Reports then Monetization then Ecommerce purchases for the last 28 days and note the number of purchases. Run the bookings report in FareHarbor for the same 28 days and compare. They will never match exactly, but they should be in the same range. If GA4 shows far more, something other than bookings is being counted.</li>
+                      <li data-editable-key="t1-bullet-6">In your FareHarbor Dashboard, go to Settings then Analytics &amp; Tracking. Check that a GA4 measurement ID starting with G- is listed, and that it matches the one in GA4 under Admin then Data streams then your web stream.</li>
+                      <li data-editable-key="t1-bullet-7">On the same screen, look for the checkbox "Calendar, item grid, or book button is added to multiple websites." FareHarbor's guidance is that leaving it unticked can pull in bookings made through other websites that carry your booking flow, which inflates your numbers. If your booking calendar appears anywhere other than your own site, tick it.</li>
+                      <li data-editable-key="t1-bullet-8">In GA4, go to Admin then Data streams then your web stream then Configure tag settings then Show all then List unwanted referrals. Add fareharbor.com and your own domain (without www). FareHarbor lists this as mandatory. Without it, bookings get credited to FareHarbor as a referral instead of to the ad or search that brought the guest.</li>
+                      <li data-editable-key="t1-bullet-9">Then do a reality check. In GA4, go to Reports then Monetization then Ecommerce purchases for the last 28 days and note the number of purchases. Run the bookings report in FareHarbor for the same 28 days and compare. They will never match exactly, but they should be in the same range. If GA4 shows far more, something other than bookings is being counted.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-3">
                   <span class="tactic-step-num">3</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Connect the Meta Pixel to the FareHarbor booking flow</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-3-title">Connect the Meta Pixel to the FareHarbor booking flow</div>
                     <ul class="tactic-step-bullets">
-                      <li>Your pixel (ID 514399410953650) is on your Squarespace site, but the booking itself happens inside FareHarbor. Unless FareHarbor is also sending events to that pixel, Meta can see who visited but not who booked.</li>
-                      <li>FareHarbor connects the Meta Pixel to its booking flow on request. Contact FareHarbor Support, give them the pixel ID, and ask them to confirm that the Purchase event will fire when a booking completes.</li>
-                      <li>Once they confirm, open business.facebook.com then Events Manager then select the pixel then Overview. Within a day or two of bookings coming in, you should see Purchase listed with a recent "Last received" time.</li>
-                      <li>Install the free Meta Pixel Helper extension in Chrome. Visit your homepage and click the extension icon. It should show your pixel firing a PageView. This confirms the base code is live.</li>
+                      <li data-editable-key="t1-bullet-10">Your pixel (ID 514399410953650) is on your Squarespace site, but the booking itself happens inside FareHarbor. Unless FareHarbor is also sending events to that pixel, Meta can see who visited but not who booked.</li>
+                      <li data-editable-key="t1-bullet-11">FareHarbor connects the Meta Pixel to its booking flow on request. Contact FareHarbor Support, give them the pixel ID, and ask them to confirm that the Purchase event will fire when a booking completes.</li>
+                      <li data-editable-key="t1-bullet-12">Once they confirm, open business.facebook.com then Events Manager then select the pixel then Overview. Within a day or two of bookings coming in, you should see Purchase listed with a recent "Last received" time.</li>
+                      <li data-editable-key="t1-bullet-13">Install the free Meta Pixel Helper extension in Chrome. Visit your homepage and click the extension icon. It should show your pixel firing a PageView. This confirms the base code is live.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-4">
                   <span class="tactic-step-num">4</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Track private event inquiries as their own conversion</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-4-title">Track private event inquiries as their own conversion</div>
                     <ul class="tactic-step-bullets">
-                      <li>Private events come through the inquiry form on your website, not FareHarbor, so today they are invisible to both GA4 and Meta.</li>
-                      <li>Create a simple thank-you page in Squarespace: Pages then the "+" button then Blank page. Name it "Thank You" and set its URL to /thank-you-inquiry. Add one line ("Thanks, we will be in touch within one business day") and your phone number. Leave it in the Not Linked section so it does not appear in your menu.</li>
-                      <li>Edit the inquiry form block (click the form then Edit). Under Post-Submit, choose Redirect and enter /thank-you-inquiry.</li>
-                      <li>In GA4, go to Admin then Data display then Events then Create event. Name it private_inquiry, with the condition event_name equals page_view and page_location contains thank-you-inquiry. Save, then star it as a key event once it appears (usually within 24 hours of the first test).</li>
-                      <li>In Meta Events Manager, go to Custom conversions then Create custom conversion. Choose your pixel, set the rule to "URL contains thank-you-inquiry", and name it "Private Inquiry."</li>
-                      <li>Submit a test inquiry yourself and check that both appear.</li>
+                      <li data-editable-key="t1-bullet-14">Private events come through the inquiry form on your website, not FareHarbor, so today they are invisible to both GA4 and Meta.</li>
+                      <li data-editable-key="t1-bullet-15">Create a simple thank-you page in Squarespace: Pages then the "+" button then Blank page. Name it "Thank You" and set its URL to /thank-you-inquiry. Add one line ("Thanks, we will be in touch within one business day") and your phone number. Leave it in the Not Linked section so it does not appear in your menu.</li>
+                      <li data-editable-key="t1-bullet-16">Edit the inquiry form block (click the form then Edit). Under Post-Submit, choose Redirect and enter /thank-you-inquiry.</li>
+                      <li data-editable-key="t1-bullet-17">In GA4, go to Admin then Data display then Events then Create event. Name it private_inquiry, with the condition event_name equals page_view and page_location contains thank-you-inquiry. Save, then star it as a key event once it appears (usually within 24 hours of the first test).</li>
+                      <li data-editable-key="t1-bullet-18">In Meta Events Manager, go to Custom conversions then Create custom conversion. Choose your pixel, set the rule to "URL contains thank-you-inquiry", and name it "Private Inquiry."</li>
+                      <li data-editable-key="t1-bullet-19">Submit a test inquiry yourself and check that both appear.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
                   <span class="tactic-step-num">5</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Write down your starting numbers</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-5-title">Write down your starting numbers</div>
                     <ul class="tactic-step-bullets">
-                      <li>In FareHarbor, pull public tour bookings for June to September 2024 and June to September 2025, split into weekdays and weekends. This is the summer baseline the whole plan is measured against.</li>
-                      <li>Record, in one sheet: monthly Meta spend, monthly Google spend, Google clicks and cost per click (currently 622 clicks, $212, $0.34), Instagram and Facebook followers (2,530 and 7,900), and posts per week (1.1).</li>
-                      <li>Add the GA4 purchase count from Step 2 and the FareHarbor booking count for the same period.</li>
-                      <li>Date the sheet and keep it. In Week 12 you will fill in the same numbers again.</li>
+                      <li data-editable-key="t1-bullet-20">In FareHarbor, pull public tour bookings for June to September 2024 and June to September 2025, split into weekdays and weekends. This is the summer baseline the whole plan is measured against.</li>
+                      <li data-editable-key="t1-bullet-21">Record, in one sheet: monthly Meta spend, monthly Google spend, Google clicks and cost per click (currently 622 clicks, $212, $0.34), Instagram and Facebook followers (2,530 and 7,900), and posts per week (1.1).</li>
+                      <li data-editable-key="t1-bullet-22">Add the GA4 purchase count from Step 2 and the FareHarbor booking count for the same period.</li>
+                      <li data-editable-key="t1-bullet-23">Date the sheet and keep it. In Week 12 you will fill in the same numbers again.</li>
                     </ul>
                   </div>
                 </li>
@@ -6405,53 +6405,53 @@ button,
                 <li class="tactic-step-item" id="step-t1-6">
                   <span class="tactic-step-num">6</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Make bookings the only goal Google optimizes for</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-6-title">Make bookings the only goal Google optimizes for</div>
                     <ul class="tactic-step-bullets">
-                      <li>Your campaign is Performance Max, which means Google decides where to show the ads based on the conversions you tell it to chase. If it is chasing the wrong event, it will happily find cheap clicks that never book. This may be part of why your clicks cost 34 cents.</li>
-                      <li>In Google Ads, go to Goals then Conversions then Summary. Look at the list of conversion actions and the "Primary" or "Secondary" label beside each one.</li>
-                      <li>The GA4 purchase event should be the only Primary conversion. If it is missing, click "+ Create conversion action" then Import then Google Analytics 4 properties then Web, tick purchase, and import it. Set anything else (page views, engagement, contact clicks) to Secondary.</li>
-                      <li>Once Step 4 is done, import private_inquiry the same way and set it to Secondary, so it is reported but does not pull summer budget away from public tour bookings.</li>
+                      <li data-editable-key="t1-bullet-24">Your campaign is Performance Max, which means Google decides where to show the ads based on the conversions you tell it to chase. If it is chasing the wrong event, it will happily find cheap clicks that never book. This may be part of why your clicks cost 34 cents.</li>
+                      <li data-editable-key="t1-bullet-25">In Google Ads, go to Goals then Conversions then Summary. Look at the list of conversion actions and the "Primary" or "Secondary" label beside each one.</li>
+                      <li data-editable-key="t1-bullet-26">The GA4 purchase event should be the only Primary conversion. If it is missing, click "+ Create conversion action" then Import then Google Analytics 4 properties then Web, tick purchase, and import it. Set anything else (page views, engagement, contact clicks) to Secondary.</li>
+                      <li data-editable-key="t1-bullet-27">Once Step 4 is done, import private_inquiry the same way and set it to Secondary, so it is reported but does not pull summer budget away from public tour bookings.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-7">
                   <span class="tactic-step-num">7</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Clean up the search terms and separate your brand searches</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-7-title">Clean up the search terms and separate your brand searches</div>
                     <ul class="tactic-step-bullets">
-                      <li>Go to Campaigns then Insights and reports then Search terms (in some accounts this is under Campaigns then Audiences, keywords, and content then Search keywords). Set the date range to the last 90 days.</li>
-                      <li>Sort by cost. For each term, ask: is this person likely to book a boat cruise? On the call you found "Harrison Hot Springs Resort" and possibly "Harrison Hot Springs restaurants." Both describe a hungry person or a hotel guest, not a cruise booker.</li>
-                      <li>Add terms like these as negative keywords. Go to Campaigns then Audiences, keywords, and content then Search keywords then Negative keywords then "+" then choose the Shoreline campaign. Start with: resort, hotel, restaurant, restaurants, menu, jobs, hiring, weather, hot springs pool, camping. Add new ones every time you check.</li>
-                      <li>Keep terms that show booking intent, like "Harrison boat tour", "boat tours near me", "Harrison Lake cruise" and "attractions near me".</li>
-                      <li>Check how much of your spend comes from people searching "Shoreline Tours" by name. If it is a large share, those are guests who were already looking for you, and the 89 paid conversions are overstated. Bring the figure to the Week 12 review. Do not exclude your brand name yet: it is cheap traffic, and stopping it is a decision to make with full numbers.</li>
-                      <li>Repeat this check for 15 minutes every two weeks during booking season.</li>
+                      <li data-editable-key="t1-bullet-28">Go to Campaigns then Insights and reports then Search terms (in some accounts this is under Campaigns then Audiences, keywords, and content then Search keywords). Set the date range to the last 90 days.</li>
+                      <li data-editable-key="t1-bullet-29">Sort by cost. For each term, ask: is this person likely to book a boat cruise? On the call you found "Harrison Hot Springs Resort" and possibly "Harrison Hot Springs restaurants." Both describe a hungry person or a hotel guest, not a cruise booker.</li>
+                      <li data-editable-key="t1-bullet-30">Add terms like these as negative keywords. Go to Campaigns then Audiences, keywords, and content then Search keywords then Negative keywords then "+" then choose the Shoreline campaign. Start with: resort, hotel, restaurant, restaurants, menu, jobs, hiring, weather, hot springs pool, camping. Add new ones every time you check.</li>
+                      <li data-editable-key="t1-bullet-31">Keep terms that show booking intent, like "Harrison boat tour", "boat tours near me", "Harrison Lake cruise" and "attractions near me".</li>
+                      <li data-editable-key="t1-bullet-32">Check how much of your spend comes from people searching "Shoreline Tours" by name. If it is a large share, those are guests who were already looking for you, and the 89 paid conversions are overstated. Bring the figure to the Week 12 review. Do not exclude your brand name yet: it is cheap traffic, and stopping it is a decision to make with full numbers.</li>
+                      <li data-editable-key="t1-bullet-33">Repeat this check for 15 minutes every two weeks during booking season.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-8">
                   <span class="tactic-step-num">8</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Rewrite the ads for the season that is actually sailing</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-8-title">Rewrite the ads for the season that is actually sailing</div>
                     <ul class="tactic-step-bullets">
-                      <li>Go to Campaigns then your campaign then Asset groups then Edit. You currently have three headlines ("Shoreline Tours, Public Tours and Private Events, Cruise Harrison Lake"; "Shoreline Tours, Boat Tours, Knowledgeable Onboard Staff"; "Relaxing Lake Cruises, Harrison Lake Boat Tours") and matching descriptions.</li>
-                      <li>Add headlines for every season and switch them on and off as the seasons change. In river season, for example: "Harrison River Eagle Cruises", "See Bald Eagles From the Deck", "River Cruises Oct to Nov". In summer: "2-Hour Harrison Lake Cruise", "Lake Cruises Daily May to Sept", "Room for Up to 35 Guests". Use ChatGPT to draft 15 headlines (30 characters each) and 4 descriptions (90 characters each) per season, then edit them.</li>
-                      <li>Remove any headline about a cruise that is not running. A searcher who clicks "lake cruise" in October lands on a page that cannot sell them one.</li>
-                      <li>In the campaign settings, find Final URL expansion and turn it off. Otherwise Google may send people to any page on your site, not the homepage you chose.</li>
-                      <li>Leave the location targeting as it is (BC, Alberta and Washington). Someone in Alberta searching "Harrison Lake cruise" is planning a trip, and that is worth paying for.</li>
+                      <li data-editable-key="t1-bullet-34">Go to Campaigns then your campaign then Asset groups then Edit. You currently have three headlines ("Shoreline Tours, Public Tours and Private Events, Cruise Harrison Lake"; "Shoreline Tours, Boat Tours, Knowledgeable Onboard Staff"; "Relaxing Lake Cruises, Harrison Lake Boat Tours") and matching descriptions.</li>
+                      <li data-editable-key="t1-bullet-35">Add headlines for every season and switch them on and off as the seasons change. In river season, for example: "Harrison River Eagle Cruises", "See Bald Eagles From the Deck", "River Cruises Oct to Nov". In summer: "2-Hour Harrison Lake Cruise", "Lake Cruises Daily May to Sept", "Room for Up to 35 Guests". Use ChatGPT to draft 15 headlines (30 characters each) and 4 descriptions (90 characters each) per season, then edit them.</li>
+                      <li data-editable-key="t1-bullet-36">Remove any headline about a cruise that is not running. A searcher who clicks "lake cruise" in October lands on a page that cannot sell them one.</li>
+                      <li data-editable-key="t1-bullet-37">In the campaign settings, find Final URL expansion and turn it off. Otherwise Google may send people to any page on your site, not the homepage you chose.</li>
+                      <li data-editable-key="t1-bullet-38">Leave the location targeting as it is (BC, Alberta and Washington). Someone in Alberta searching "Harrison Lake cruise" is planning a trip, and that is worth paying for.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-9">
                   <span class="tactic-step-num">9</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Test a Search campaign that repeats the guest's own words</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-9-title">Test a Search campaign that repeats the guest's own words</div>
                     <ul class="tactic-step-bullets">
-                      <li>Performance Max does not let you choose the exact searches you appear for. A standard Search campaign does, and it supports keyword insertion, which places the searcher's own words into your headline.</li>
-                      <li>Do this only after Steps 6 to 8 have been running for at least four weeks, so you have a clean Performance Max baseline to compare against.</li>
-                      <li>Go to Campaigns then "+" then New campaign then Sales then Search. Set the location to BC, Alberta and Washington, with "Presence: people in or regularly in your targeted locations." Untick Search Partners and Display Network.</li>
-                      <li>Create one ad group with 10 to 15 phrase-match keywords of booking intent, for example "harrison lake cruise", "harrison boat tour", "harrison hot springs boat tour" and "things to do in harrison hot springs".</li>
-                      <li>In a responsive search ad headline, type {KeyWord:Harrison Lake Cruises}. Google replaces it with the keyword that matched, or shows "Harrison Lake Cruises" if the keyword is too long.</li>
-                      <li>Fund it by splitting your existing $10 a day: $5 to Search and $5 to Performance Max for four weeks. Then compare cost per booking and keep whichever wins.</li>
+                      <li data-editable-key="t1-bullet-39">Performance Max does not let you choose the exact searches you appear for. A standard Search campaign does, and it supports keyword insertion, which places the searcher's own words into your headline.</li>
+                      <li data-editable-key="t1-bullet-40">Do this only after Steps 6 to 8 have been running for at least four weeks, so you have a clean Performance Max baseline to compare against.</li>
+                      <li data-editable-key="t1-bullet-41">Go to Campaigns then "+" then New campaign then Sales then Search. Set the location to BC, Alberta and Washington, with "Presence: people in or regularly in your targeted locations." Untick Search Partners and Display Network.</li>
+                      <li data-editable-key="t1-bullet-42">Create one ad group with 10 to 15 phrase-match keywords of booking intent, for example "harrison lake cruise", "harrison boat tour", "harrison hot springs boat tour" and "things to do in harrison hot springs".</li>
+                      <li data-editable-key="t1-bullet-43">In a responsive search ad headline, type {KeyWord:Harrison Lake Cruises}. Google replaces it with the keyword that matched, or shows "Harrison Lake Cruises" if the keyword is too long.</li>
+                      <li data-editable-key="t1-bullet-44">Fund it by splitting your existing $10 a day: $5 to Search and $5 to Performance Max for four weeks. Then compare cost per booking and keep whichever wins.</li>
                     </ul>
                   </div>
                 </li>
@@ -6470,91 +6470,91 @@ button,
                 <li class="tactic-step-item" id="step-t1-10">
                   <span class="tactic-step-num">10</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Move from Boost to Ads Manager and check the foundations</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-10-title">Move from Boost to Ads Manager and check the foundations</div>
                     <ul class="tactic-step-bullets">
-                      <li>All campaigns from here on are built at adsmanager.facebook.com, not with the Boost button. Boost uses limited objectives and audience options, and it cannot run retargeting or lookalike campaigns properly.</li>
-                      <li>In Business Settings (business.facebook.com then Settings) then Brand safety and suitability then Domains, check that your website domain is listed as verified. If it is not, follow Meta's steps to verify it with a meta tag in Squarespace (Settings then Advanced then Code Injection then Header).</li>
-                      <li>In Billing and payments, confirm the payment method is current and there are no account holds.</li>
-                      <li>Pause any boosted posts that are still running.</li>
+                      <li data-editable-key="t1-bullet-45">All campaigns from here on are built at adsmanager.facebook.com, not with the Boost button. Boost uses limited objectives and audience options, and it cannot run retargeting or lookalike campaigns properly.</li>
+                      <li data-editable-key="t1-bullet-46">In Business Settings (business.facebook.com then Settings) then Brand safety and suitability then Domains, check that your website domain is listed as verified. If it is not, follow Meta's steps to verify it with a meta tag in Squarespace (Settings then Advanced then Code Injection then Header).</li>
+                      <li data-editable-key="t1-bullet-47">In Billing and payments, confirm the payment method is current and there are no account holds.</li>
+                      <li data-editable-key="t1-bullet-48">Pause any boosted posts that are still running.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-11">
                   <span class="tactic-step-num">11</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Build the warm audiences</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-11-title">Build the warm audiences</div>
                     <ul class="tactic-step-bullets">
-                      <li>In Ads Manager, open the menu then Audiences then Create audience then Custom audience. Build each of these and name them clearly:</li>
-                      <li>"IG Engagers 365": source Instagram account, everyone who engaged with your profile in the past 365 days.</li>
-                      <li>"FB Engagers 365": source Facebook Page, everyone who engaged with your Page in the past 365 days.</li>
-                      <li>"Video Viewers 50%": source Video, people who watched at least 50 percent of any of your Reels or videos in the past 365 days.</li>
-                      <li>"Site Visitors 180": source Website, all website visitors in the past 180 days, using your pixel.</li>
-                      <li>"Bookers 180": source Website, people who triggered Purchase in the past 180 days. This is your exclusion list, so people who have just booked do not keep seeing "book now" ads. It is also the seed for Step 16. This one fills only after Step 3 is working.</li>
-                      <li>Check each audience's estimated size on the Audiences page and write it in your baseline sheet.</li>
+                      <li data-editable-key="t1-bullet-49">In Ads Manager, open the menu then Audiences then Create audience then Custom audience. Build each of these and name them clearly:</li>
+                      <li data-editable-key="t1-bullet-50">"IG Engagers 365": source Instagram account, everyone who engaged with your profile in the past 365 days.</li>
+                      <li data-editable-key="t1-bullet-51">"FB Engagers 365": source Facebook Page, everyone who engaged with your Page in the past 365 days.</li>
+                      <li data-editable-key="t1-bullet-52">"Video Viewers 50%": source Video, people who watched at least 50 percent of any of your Reels or videos in the past 365 days.</li>
+                      <li data-editable-key="t1-bullet-53">"Site Visitors 180": source Website, all website visitors in the past 180 days, using your pixel.</li>
+                      <li data-editable-key="t1-bullet-54">"Bookers 180": source Website, people who triggered Purchase in the past 180 days. This is your exclusion list, so people who have just booked do not keep seeing "book now" ads. It is also the seed for Step 16. This one fills only after Step 3 is working.</li>
+                      <li data-editable-key="t1-bullet-55">Check each audience's estimated size on the Audiences page and write it in your baseline sheet.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-12">
                   <span class="tactic-step-num">12</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Launch the retargeting campaign and leave it running</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-12-title">Launch the retargeting campaign and leave it running</div>
                     <ul class="tactic-step-bullets">
-                      <li>Create a campaign with the Sales objective. Set the conversion location to Website and the conversion event to Purchase. If Purchase is not yet firing, use the Traffic objective optimizing for landing page views, and switch once Step 3 is confirmed.</li>
-                      <li>Audience: the four warm audiences from Step 11 combined, excluding "Bookers 180". Location: the Lower Mainland and Washington State.</li>
-                      <li>Creative: direct and specific. Name the cruise that is bookable now, the dates, the price ($79 and $70 as shown on your site, or the current prices), and a reason to book now. "Summer weekends sell out first" is the sort of line Conner described. These people already know you, so this is where you can be direct.</li>
-                      <li>Budget: $5 a day off-season and $8 a day in summer. This campaign stays on all year. When you are closed, point it at the next season's dates if they are bookable, or pause it if nothing is.</li>
+                      <li data-editable-key="t1-bullet-56">Create a campaign with the Sales objective. Set the conversion location to Website and the conversion event to Purchase. If Purchase is not yet firing, use the Traffic objective optimizing for landing page views, and switch once Step 3 is confirmed.</li>
+                      <li data-editable-key="t1-bullet-57">Audience: the four warm audiences from Step 11 combined, excluding "Bookers 180". Location: the Lower Mainland and Washington State.</li>
+                      <li data-editable-key="t1-bullet-58">Creative: direct and specific. Name the cruise that is bookable now, the dates, the price ($79 and $70 as shown on your site, or the current prices), and a reason to book now. "Summer weekends sell out first" is the sort of line Conner described. These people already know you, so this is where you can be direct.</li>
+                      <li data-editable-key="t1-bullet-59">Budget: $5 a day off-season and $8 a day in summer. This campaign stays on all year. When you are closed, point it at the next season's dates if they are bookable, or pause it if nothing is.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-13">
                   <span class="tactic-step-num">13</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Build the four audience campaigns</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-13-title">Build the four audience campaigns</div>
                     <ul class="tactic-step-bullets">
-                      <li>Create four Sales campaigns, one per audience, each optimizing for Purchase (or Private Inquiry for the groups campaign). Each one excludes "Bookers 180".</li>
-                      <li>Families (summer public sailings): Lower Mainland, age 28 to 55 as a suggestion. Message: a two-hour lake cruise the whole family can do, from grandparents to toddlers. Destination: homepage for now.</li>
-                      <li>Retirees and intentional travellers (spring and fall): Lower Mainland and the Fraser Valley, age 55 and up. Message: waterfall and eagle cruises, booked ahead, with commentary from an onboard team. Destination: homepage for now.</li>
-                      <li>Washington State (summer and shoulder seasons): location Washington State only. Message: two nights in Harrison plus a cruise, with every price in Canadian dollars so a US dollar goes further. Check the exchange rate before you put a percentage in an ad, and update it when it moves. Destination: homepage for now.</li>
-                      <li>Private groups (bachelorette and stag parties, staff parties, anniversaries, birthdays): Lower Mainland, age 25 to 45 for bachelorette and stag groups, or no age limit for corporate and family celebrations. Message: your own 62-foot yacht for up to 35 guests, with food and drinks on board. Destination: the private events inquiry page.</li>
-                      <li>On the audience screen, Meta will offer Advantage+ audience. Location is always a firm limit. Age is treated as a suggestion unless you choose "Switch to original audience options", which makes it firm. Use the suggestion setting for Families and Groups and the firm setting for Retirees, matching the 35-and-up rule you already use for river tours.</li>
-                      <li>Keep interests empty. Conner's experience across many accounts is that Meta finds the right people better when targeting is broad and the creative does the work.</li>
+                      <li data-editable-key="t1-bullet-60">Create four Sales campaigns, one per audience, each optimizing for Purchase (or Private Inquiry for the groups campaign). Each one excludes "Bookers 180".</li>
+                      <li data-editable-key="t1-bullet-61">Families (summer public sailings): Lower Mainland, age 28 to 55 as a suggestion. Message: a two-hour lake cruise the whole family can do, from grandparents to toddlers. Destination: homepage for now.</li>
+                      <li data-editable-key="t1-bullet-62">Retirees and intentional travellers (spring and fall): Lower Mainland and the Fraser Valley, age 55 and up. Message: waterfall and eagle cruises, booked ahead, with commentary from an onboard team. Destination: homepage for now.</li>
+                      <li data-editable-key="t1-bullet-63">Washington State (summer and shoulder seasons): location Washington State only. Message: two nights in Harrison plus a cruise, with every price in Canadian dollars so a US dollar goes further. Check the exchange rate before you put a percentage in an ad, and update it when it moves. Destination: homepage for now.</li>
+                      <li data-editable-key="t1-bullet-64">Private groups (bachelorette and stag parties, staff parties, anniversaries, birthdays): Lower Mainland, age 25 to 45 for bachelorette and stag groups, or no age limit for corporate and family celebrations. Message: your own 62-foot yacht for up to 35 guests, with food and drinks on board. Destination: the private events inquiry page.</li>
+                      <li data-editable-key="t1-bullet-65">On the audience screen, Meta will offer Advantage+ audience. Location is always a firm limit. Age is treated as a suggestion unless you choose "Switch to original audience options", which makes it firm. Use the suggestion setting for Families and Groups and the firm setting for Retirees, matching the 35-and-up rule you already use for river tours.</li>
+                      <li data-editable-key="t1-bullet-66">Keep interests empty. Conner's experience across many accounts is that Meta finds the right people better when targeting is broad and the creative does the work.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-14">
                   <span class="tactic-step-num">14</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Load every format you have and let Meta choose</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-14-title">Load every format you have and let Meta choose</div>
                     <ul class="tactic-step-bullets">
-                      <li>In each campaign, add six to ten ads with different formats: a Reel, a short 10-second clip, a longer day-on-the-boat video, a carousel of stills, a single photo, and any creator content you have permission to use (Step 17).</li>
-                      <li>Write two or three versions of the main text for each campaign with ChatGPT, then edit them. Meta will mix and match.</li>
-                      <li>Meta automatically shifts budget toward the ads that perform. You do not need to watch it daily.</li>
-                      <li>After two weeks, open the campaign then Ads tab, sort by cost per result, and switch off any ad that has spent more than about $30 without a single booking or inquiry. Replace it with a winner from your organic posts (Tactic 3, Step 10).</li>
+                      <li data-editable-key="t1-bullet-67">In each campaign, add six to ten ads with different formats: a Reel, a short 10-second clip, a longer day-on-the-boat video, a carousel of stills, a single photo, and any creator content you have permission to use (Step 17).</li>
+                      <li data-editable-key="t1-bullet-68">Write two or three versions of the main text for each campaign with ChatGPT, then edit them. Meta will mix and match.</li>
+                      <li data-editable-key="t1-bullet-69">Meta automatically shifts budget toward the ads that perform. You do not need to watch it daily.</li>
+                      <li data-editable-key="t1-bullet-70">After two weeks, open the campaign then Ads tab, sort by cost per result, and switch off any ad that has spent more than about $30 without a single booking or inquiry. Replace it with a winner from your organic posts (Tactic 3, Step 10).</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-15">
                   <span class="tactic-step-num">15</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Run the four campaigns in two-week turns</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-15-title">Run the four campaigns in two-week turns</div>
                     <ul class="tactic-step-bullets">
-                      <li>At around $1,000 a month, four campaigns running at once would each get too little to learn anything. Run one at a time instead, for two weeks each, with retargeting always on underneath.</li>
-                      <li>Budget split: in summer, about $25 a day on the active campaign and $8 on retargeting, which totals roughly $1,000 a month. Off-season, about $20 a day on the active campaign and $5 on retargeting, roughly $750 a month.</li>
-                      <li>Choose the order by what is bookable next. If the next sellable dates are spring waterfall cruises, start with Retirees. If summer is already open, start with Families and Washington. Run Private Groups early in any order, because group bookings are made further ahead than summer public sailings, which are often booked the night before.</li>
-                      <li>At the end of each block, record spend, bookings (or inquiries) and cost per booking in your sheet. After all four have had a turn, give the extra budget to the cheapest and keep the rest rotating.</li>
-                      <li>Never switch off retargeting to fund a test. It is the campaign most likely to return the most per dollar.</li>
+                      <li data-editable-key="t1-bullet-71">At around $1,000 a month, four campaigns running at once would each get too little to learn anything. Run one at a time instead, for two weeks each, with retargeting always on underneath.</li>
+                      <li data-editable-key="t1-bullet-72">Budget split: in summer, about $25 a day on the active campaign and $8 on retargeting, which totals roughly $1,000 a month. Off-season, about $20 a day on the active campaign and $5 on retargeting, roughly $750 a month.</li>
+                      <li data-editable-key="t1-bullet-73">Choose the order by what is bookable next. If the next sellable dates are spring waterfall cruises, start with Retirees. If summer is already open, start with Families and Washington. Run Private Groups early in any order, because group bookings are made further ahead than summer public sailings, which are often booked the night before.</li>
+                      <li data-editable-key="t1-bullet-74">At the end of each block, record spend, bookings (or inquiries) and cost per booking in your sheet. After all four have had a turn, give the extra budget to the cheapest and keep the rest rotating.</li>
+                      <li data-editable-key="t1-bullet-75">Never switch off retargeting to fund a test. It is the campaign most likely to return the most per dollar.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-16">
                   <span class="tactic-step-num">16</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Add a lookalike campaign once you have enough bookers</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-16-title">Add a lookalike campaign once you have enough bookers</div>
                     <ul class="tactic-step-bullets">
-                      <li>A lookalike audience is a group of people Meta judges similar to an audience you give it. Built from your bookers, it is usually the best new-customer audience you can buy.</li>
-                      <li>Once "Bookers 180" has at least 100 people (Meta's minimum for a lookalike source), go to Audiences then Create audience then Lookalike audience. Choose "Bookers 180" as the source, Canada as the location, and 10 percent as the size. Repeat with United States as the location for a Washington version.</li>
-                      <li>In the ad set, narrow the location to the Lower Mainland (or Washington State for the US version). Meta builds lookalikes country-wide, so this step stops it reaching Quebec or Florida.</li>
-                      <li>Run it as its own two-week block in the rotation from Step 15, using your best-performing creative from the four audience campaigns.</li>
+                      <li data-editable-key="t1-bullet-76">A lookalike audience is a group of people Meta judges similar to an audience you give it. Built from your bookers, it is usually the best new-customer audience you can buy.</li>
+                      <li data-editable-key="t1-bullet-77">Once "Bookers 180" has at least 100 people (Meta's minimum for a lookalike source), go to Audiences then Create audience then Lookalike audience. Choose "Bookers 180" as the source, Canada as the location, and 10 percent as the size. Repeat with United States as the location for a Washington version.</li>
+                      <li data-editable-key="t1-bullet-78">In the ad set, narrow the location to the Lower Mainland (or Washington State for the US version). Meta builds lookalikes country-wide, so this step stops it reaching Quebec or Florida.</li>
+                      <li data-editable-key="t1-bullet-79">Run it as its own two-week block in the rotation from Step 15, using your best-performing creative from the four audience campaigns.</li>
                     </ul>
                   </div>
                 </li>
@@ -6573,24 +6573,24 @@ button,
                 <li class="tactic-step-item" id="step-t1-17">
                   <span class="tactic-step-num">17</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Get a simple release in writing before every hosted visit</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-17-title">Get a simple release in writing before every hosted visit</div>
                     <ul class="tactic-step-bullets">
-                      <li>You host creators often (from Tourism Harrison, SLAP and direct contacts), and their posts have drawn 106 and 138 comments. Today there is no agreement, so you cannot run their content as ads without asking after the fact.</li>
-                      <li>Write a one-page agreement and send it before each visit. It should cover: what you provide (the cruise for two, drinks on board), what they provide (for example, one Reel and five stills), permission for Shoreline Tours to use the content in paid ads for 12 months, a link to your website in any blog or portfolio post, and collab-post tagging on Instagram.</li>
-                      <li>Ask Tourism Harrison whether they already use a standard creator release you can adapt. If they do, use theirs.</li>
-                      <li>Ask for raw clips as well as the finished post. Raw vertical clips are the most useful ad material you can get.</li>
+                      <li data-editable-key="t1-bullet-80">You host creators often (from Tourism Harrison, SLAP and direct contacts), and their posts have drawn 106 and 138 comments. Today there is no agreement, so you cannot run their content as ads without asking after the fact.</li>
+                      <li data-editable-key="t1-bullet-81">Write a one-page agreement and send it before each visit. It should cover: what you provide (the cruise for two, drinks on board), what they provide (for example, one Reel and five stills), permission for Shoreline Tours to use the content in paid ads for 12 months, a link to your website in any blog or portfolio post, and collab-post tagging on Instagram.</li>
+                      <li data-editable-key="t1-bullet-82">Ask Tourism Harrison whether they already use a standard creator release you can adapt. If they do, use theirs.</li>
+                      <li data-editable-key="t1-bullet-83">Ask for raw clips as well as the finished post. Raw vertical clips are the most useful ad material you can get.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-18">
                   <span class="tactic-step-num">18</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Run creator posts as partnership ads</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-18-title">Run creator posts as partnership ads</div>
                     <ul class="tactic-step-bullets">
-                      <li>When a creator posts about you as a collab post, you can run that post as an ad from both accounts, which Meta calls a partnership ad. People engage more with a creator's face and voice than with a brand.</li>
-                      <li>The creator has to give permission inside Instagram. Ask them to add Shoreline Tours as a brand partner on the post and allow you to run it as an ad (Instagram places this in the post's partnership label and ad settings), or to send you a partnership ad code. Instagram moves these menus often, so the creator may need to search its help pages for "partnership ads".</li>
-                      <li>In Ads Manager, when creating the ad, switch on the partnership ad option in the ad setup and select the creator's post or enter the code. Put the permission request in the release from Step 17 so it is agreed before the visit.</li>
-                      <li>Run it first in the retargeting campaign, where warm audiences will recognize you, and then in whichever audience campaign matches the creator. A family creator goes to Families. A couple goes to Retirees.</li>
+                      <li data-editable-key="t1-bullet-84">When a creator posts about you as a collab post, you can run that post as an ad from both accounts, which Meta calls a partnership ad. People engage more with a creator's face and voice than with a brand.</li>
+                      <li data-editable-key="t1-bullet-85">The creator has to give permission inside Instagram. Ask them to add Shoreline Tours as a brand partner on the post and allow you to run it as an ad (Instagram places this in the post's partnership label and ad settings), or to send you a partnership ad code. Instagram moves these menus often, so the creator may need to search its help pages for "partnership ads".</li>
+                      <li data-editable-key="t1-bullet-86">In Ads Manager, when creating the ad, switch on the partnership ad option in the ad setup and select the creator's post or enter the code. Put the permission request in the release from Step 17 so it is agreed before the visit.</li>
+                      <li data-editable-key="t1-bullet-87">Run it first in the retargeting campaign, where warm audiences will recognize you, and then in whichever audience campaign matches the creator. A family creator goes to Families. A couple goes to Retirees.</li>
                     </ul>
                   </div>
                 </li>
@@ -6675,11 +6675,11 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
-                <li>If you only do one thing in Part A, do Step 2's reality check. Comparing GA4's purchase count to FareHarbor's booking count for the same dates tells you in five minutes whether the reports can be trusted.</li>
-                <li>Do not judge Google by cost per click. Thirty-four cents a click is only good news if those clicks book. Cost per booking is the number that matters.</li>
-                <li>Change one thing at a time in each campaign, and write the date in your sheet. When something improves, you will know why.</li>
-                <li>Use ChatGPT the way you already do, but give it the audience. "Write 10 Meta ad headlines for a retired couple from Langley who has never been on Harrison Lake" gets far better results than "write a boat tour ad."</li>
-                <li>In July, when you have no time at all, the only Meta task that matters is checking that retargeting is running and the current campaign is on the right season.</li>
+                <li data-editable-key="t1-tip-1">If you only do one thing in Part A, do Step 2's reality check. Comparing GA4's purchase count to FareHarbor's booking count for the same dates tells you in five minutes whether the reports can be trusted.</li>
+                <li data-editable-key="t1-tip-2">Do not judge Google by cost per click. Thirty-four cents a click is only good news if those clicks book. Cost per booking is the number that matters.</li>
+                <li data-editable-key="t1-tip-3">Change one thing at a time in each campaign, and write the date in your sheet. When something improves, you will know why.</li>
+                <li data-editable-key="t1-tip-4">Use ChatGPT the way you already do, but give it the audience. "Write 10 Meta ad headlines for a retired couple from Langley who has never been on Harrison Lake" gets far better results than "write a boat tour ad."</li>
+                <li data-editable-key="t1-tip-5">In July, when you have no time at all, the only Meta task that matters is checking that retargeting is running and the current campaign is on the right season.</li>
               </ul>
             </div>
           </div>
@@ -6687,13 +6687,13 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
-                <li><a href="https://help.fareharbor.com/hc/en-us/articles/42957815081883-Setting-up-Google-Analytics-4-GA4-to-work-with-FareHarbor" target="_blank">Setting up GA4 to work with FareHarbor</a></li>
-                <li><a href="https://help.fareharbor.com/hc/en-us/articles/40898437368603-Analytics-Integrations-Overview" target="_blank">FareHarbor analytics integrations overview</a></li>
-                <li><a href="https://support.google.com/analytics/answer/13128484" target="_blank">About key events in GA4</a></li>
-                <li><a href="https://support.google.com/google-ads/answer/16327396" target="_blank">About the search terms report in Performance Max</a></li>
-                <li><a href="https://support.google.com/google-ads/answer/74992" target="_blank">About keyword insertion</a></li>
-                <li><a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank">Meta Pixel Helper for Chrome</a></li>
-                <li><a href="https://www.facebook.com/business/help" target="_blank">Meta Business Help Centre</a></li>
+                <li><a href="https://help.fareharbor.com/hc/en-us/articles/42957815081883-Setting-up-Google-Analytics-4-GA4-to-work-with-FareHarbor" data-editable-link="t1-resource-1" target="_blank">Setting up GA4 to work with FareHarbor</a></li>
+                <li><a href="https://help.fareharbor.com/hc/en-us/articles/40898437368603-Analytics-Integrations-Overview" data-editable-link="t1-resource-2" target="_blank">FareHarbor analytics integrations overview</a></li>
+                <li><a href="https://support.google.com/analytics/answer/13128484" data-editable-link="t1-resource-3" target="_blank">About key events in GA4</a></li>
+                <li><a href="https://support.google.com/google-ads/answer/16327396" data-editable-link="t1-resource-4" target="_blank">About the search terms report in Performance Max</a></li>
+                <li><a href="https://support.google.com/google-ads/answer/74992" data-editable-link="t1-resource-5" target="_blank">About keyword insertion</a></li>
+                <li><a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" data-editable-link="t1-resource-6" target="_blank">Meta Pixel Helper for Chrome</a></li>
+                <li><a href="https://www.facebook.com/business/help" data-editable-link="t1-resource-7" target="_blank">Meta Business Help Centre</a></li>
               </ul>
             </div>
           </div>
@@ -6805,65 +6805,65 @@ button,
                 <li class="tactic-step-item" id="step-t2-1">
                   <span class="tactic-step-num">1</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Point every ad at the homepage for now</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-1-title">Point every ad at the homepage for now</div>
                     <ul class="tactic-step-bullets">
-                      <li>In Google Ads, open your campaign then Asset groups then Edit and check that the Final URL is your homepage, with Final URL expansion off (Tactic 1, Step 8).</li>
-                      <li>In Meta, set the website URL on every ad in the four audience campaigns and the retargeting campaign to the homepage. The exception is the private groups campaign, which goes to the inquiry page.</li>
-                      <li>Why the homepage and not the River Tours page: the homepage opens with a large photo of the boat, explains the business, and shows all three seasons with their dates. A tour page assumes the visitor already knows who you are. Until each tour page carries that context (Part B), the homepage is the safer landing spot.</li>
-                      <li>Make one change to the homepage each season: update the main heading or the line under it to name what is sailing now. In river season, for example, "River and Eagle Cruises, October and November." Guests who arrive from an eagle ad then see eagles named first.</li>
+                      <li data-editable-key="t2-bullet-1">In Google Ads, open your campaign then Asset groups then Edit and check that the Final URL is your homepage, with Final URL expansion off (Tactic 1, Step 8).</li>
+                      <li data-editable-key="t2-bullet-2">In Meta, set the website URL on every ad in the four audience campaigns and the retargeting campaign to the homepage. The exception is the private groups campaign, which goes to the inquiry page.</li>
+                      <li data-editable-key="t2-bullet-3">Why the homepage and not the River Tours page: the homepage opens with a large photo of the boat, explains the business, and shows all three seasons with their dates. A tour page assumes the visitor already knows who you are. Until each tour page carries that context (Part B), the homepage is the safer landing spot.</li>
+                      <li data-editable-key="t2-bullet-4">Make one change to the homepage each season: update the main heading or the line under it to name what is sailing now. In river season, for example, "River and Eagle Cruises, October and November." Guests who arrive from an eagle ad then see eagles named first.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-2">
                   <span class="tactic-step-num">2</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Fix the homepage headings</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-2-title">Fix the homepage headings</div>
                     <ul class="tactic-step-bullets">
-                      <li>Headings tell Google what a page is about. Each page should have exactly one Heading 1 (the page's main topic), then Heading 2s for sections and Heading 3s for items inside a section. The assessment found four Heading 1s on your homepage: "Shoreline Tours | Harrison Hot Springs Tours", "CHOOSE YOUR ADVENTURE", "Come cruise with us", and one empty one.</li>
-                      <li>In Squarespace, open Pages then Home then Edit. Click into the "CHOOSE YOUR ADVENTURE" text. A small toolbar appears. Open the dropdown that shows the text style (it will say "Heading 1") and choose "Heading 2".</li>
-                      <li>Do the same for "Come cruise with us": change it to Heading 2.</li>
-                      <li>Click into each of the season card titles (Lake Cruise, Waterfall Cruise, River Cruise) and set them to Heading 3.</li>
-                      <li>The empty Heading 1 is usually a blank line inside a text block that still has the Heading 1 style. Click at the end of each text block near the top of the page and press Delete or Backspace to remove any empty lines. If you cannot find it, send Junction a screenshot of the page in edit mode.</li>
-                      <li>Keep "Shoreline Tours | Harrison Hot Springs Tours" as the only Heading 1. Save.</li>
-                      <li>Changing a style may change how big the text looks. If "CHOOSE YOUR ADVENTURE" looks too small as a Heading 2, adjust its size in the same toolbar rather than switching it back.</li>
+                      <li data-editable-key="t2-bullet-5">Headings tell Google what a page is about. Each page should have exactly one Heading 1 (the page's main topic), then Heading 2s for sections and Heading 3s for items inside a section. The assessment found four Heading 1s on your homepage: "Shoreline Tours | Harrison Hot Springs Tours", "CHOOSE YOUR ADVENTURE", "Come cruise with us", and one empty one.</li>
+                      <li data-editable-key="t2-bullet-6">In Squarespace, open Pages then Home then Edit. Click into the "CHOOSE YOUR ADVENTURE" text. A small toolbar appears. Open the dropdown that shows the text style (it will say "Heading 1") and choose "Heading 2".</li>
+                      <li data-editable-key="t2-bullet-7">Do the same for "Come cruise with us": change it to Heading 2.</li>
+                      <li data-editable-key="t2-bullet-8">Click into each of the season card titles (Lake Cruise, Waterfall Cruise, River Cruise) and set them to Heading 3.</li>
+                      <li data-editable-key="t2-bullet-9">The empty Heading 1 is usually a blank line inside a text block that still has the Heading 1 style. Click at the end of each text block near the top of the page and press Delete or Backspace to remove any empty lines. If you cannot find it, send Junction a screenshot of the page in edit mode.</li>
+                      <li data-editable-key="t2-bullet-10">Keep "Shoreline Tours | Harrison Hot Springs Tours" as the only Heading 1. Save.</li>
+                      <li data-editable-key="t2-bullet-11">Changing a style may change how big the text looks. If "CHOOSE YOUR ADVENTURE" looks too small as a Heading 2, adjust its size in the same toolbar rather than switching it back.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-3">
                   <span class="tactic-step-num">3</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Rewrite the homepage title and description</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-3-title">Rewrite the homepage title and description</div>
                     <ul class="tactic-step-bullets">
-                      <li>The title tag is the blue headline Google shows in search results. Yours is 72 characters and gets cut off. The meta description is the grey text underneath. Yours is 119 characters and does not mention the seasons.</li>
-                      <li>In Squarespace, go to Pages then hover over Home then click the gear icon then SEO tab.</li>
-                      <li>SEO title (59 characters): Shoreline Tours | Harrison Hot Springs Lake &amp; River Cruises</li>
-                      <li>SEO description (146 characters): Harrison Lake and River cruises on a 62-foot yacht. Waterfall cruises Feb to Apr, lake cruises May to Sept, eagle cruises Oct to Nov. Book online.</li>
-                      <li>Save. Google can take a few weeks to show the new text.</li>
+                      <li data-editable-key="t2-bullet-12">The title tag is the blue headline Google shows in search results. Yours is 72 characters and gets cut off. The meta description is the grey text underneath. Yours is 119 characters and does not mention the seasons.</li>
+                      <li data-editable-key="t2-bullet-13">In Squarespace, go to Pages then hover over Home then click the gear icon then SEO tab.</li>
+                      <li data-editable-key="t2-bullet-14">SEO title (59 characters): Shoreline Tours | Harrison Hot Springs Lake &amp; River Cruises</li>
+                      <li data-editable-key="t2-bullet-15">SEO description (146 characters): Harrison Lake and River cruises on a 62-foot yacht. Waterfall cruises Feb to Apr, lake cruises May to Sept, eagle cruises Oct to Nov. Book online.</li>
+                      <li data-editable-key="t2-bullet-16">Save. Google can take a few weeks to show the new text.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-4">
                   <span class="tactic-step-num">4</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Put the phone number where last-minute callers will see it</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-4-title">Put the phone number where last-minute callers will see it</div>
                     <ul class="tactic-step-bullets">
-                      <li>Many of your guests call before booking, especially older guests and same-weekend summer bookers. The assessment found your number only in the footer.</li>
-                      <li>In Squarespace, open Edit on any page, click the site header then Edit Site Header then Elements. If the header button is free, turn it on, set the label to "Call (604) 796-3100", and set the link to tel:6047963100.</li>
-                      <li>If the header button is already used for Book Now (keep it if so), add the number to an announcement bar instead. In the Squarespace menu, open Website Tools then Announcement Bar (on older layouts, Design then Announcement Bar). Use text like "Questions? Call us at (604) 796-3100" and link it to tel:6047963100.</li>
-                      <li>Check it on your phone. Tapping the number should open the dialler.</li>
+                      <li data-editable-key="t2-bullet-17">Many of your guests call before booking, especially older guests and same-weekend summer bookers. The assessment found your number only in the footer.</li>
+                      <li data-editable-key="t2-bullet-18">In Squarespace, open Edit on any page, click the site header then Edit Site Header then Elements. If the header button is free, turn it on, set the label to "Call (604) 796-3100", and set the link to tel:6047963100.</li>
+                      <li data-editable-key="t2-bullet-19">If the header button is already used for Book Now (keep it if so), add the number to an announcement bar instead. In the Squarespace menu, open Website Tools then Announcement Bar (on older layouts, Design then Announcement Bar). Use text like "Questions? Call us at (604) 796-3100" and link it to tel:6047963100.</li>
+                      <li data-editable-key="t2-bullet-20">Check it on your phone. Tapping the number should open the dialler.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-5">
                   <span class="tactic-step-num">5</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Tag every ad link so you can tell campaigns apart</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-5-title">Tag every ad link so you can tell campaigns apart</div>
                     <ul class="tactic-step-bullets">
-                      <li>Without tags, GA4 lumps all Facebook and Instagram visits together. With tags, you can see which campaign brought each booking.</li>
-                      <li>Google: in Google Ads, go to Admin then Account settings then Auto-tagging and check it is on. Google then tags its own links.</li>
-                      <li>Meta: in each ad, scroll to Tracking then URL parameters then Build a URL parameter, and enter: utm_source=facebook&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}. Meta fills in the campaign and ad names automatically.</li>
-                      <li>Name your campaigns plainly ("Families Summer", "Retirees Spring Fall", "Washington", "Groups", "Retargeting") so the reports make sense later.</li>
-                      <li>In GA4, you will find these under Reports then Acquisition then Traffic acquisition. Change the table's first column to "Session campaign".</li>
+                      <li data-editable-key="t2-bullet-21">Without tags, GA4 lumps all Facebook and Instagram visits together. With tags, you can see which campaign brought each booking.</li>
+                      <li data-editable-key="t2-bullet-22">Google: in Google Ads, go to Admin then Account settings then Auto-tagging and check it is on. Google then tags its own links.</li>
+                      <li data-editable-key="t2-bullet-23">Meta: in each ad, scroll to Tracking then URL parameters then Build a URL parameter, and enter: utm_source=facebook&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_content={{ad.name}}. Meta fills in the campaign and ad names automatically.</li>
+                      <li data-editable-key="t2-bullet-24">Name your campaigns plainly ("Families Summer", "Retirees Spring Fall", "Washington", "Groups", "Retargeting") so the reports make sense later.</li>
+                      <li data-editable-key="t2-bullet-25">In GA4, you will find these under Reports then Acquisition then Traffic acquisition. Change the table's first column to "Session campaign".</li>
                     </ul>
                   </div>
                 </li>
@@ -6882,61 +6882,61 @@ button,
                 <li class="tactic-step-item" id="step-t2-6">
                   <span class="tactic-step-num">6</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Decide the four pages</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-6-title">Decide the four pages</div>
                     <ul class="tactic-step-bullets">
-                      <li>Lake Cruise (summer, families and Washington visitors), Waterfall Cruise (spring), River and Eagle Cruise (fall), and Private Charters and Groups (bachelorette and stag parties, staff parties, anniversaries, birthdays).</li>
-                      <li>Where a tour page already exists, rebuild it rather than creating a second page about the same cruise. Two pages competing for the same search confuse Google.</li>
-                      <li>Build them in this order: Lake Cruise first, because summer is the season this plan exists for, then Private Charters and Groups, then whichever season is next after summer.</li>
+                      <li data-editable-key="t2-bullet-26">Lake Cruise (summer, families and Washington visitors), Waterfall Cruise (spring), River and Eagle Cruise (fall), and Private Charters and Groups (bachelorette and stag parties, staff parties, anniversaries, birthdays).</li>
+                      <li data-editable-key="t2-bullet-27">Where a tour page already exists, rebuild it rather than creating a second page about the same cruise. Two pages competing for the same search confuse Google.</li>
+                      <li data-editable-key="t2-bullet-28">Build them in this order: Lake Cruise first, because summer is the season this plan exists for, then Private Charters and Groups, then whichever season is next after summer.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-7">
                   <span class="tactic-step-num">7</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Back up each existing page before you change it</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-7-title">Back up each existing page before you change it</div>
                     <ul class="tactic-step-bullets">
-                      <li>In Squarespace, go to Pages then hover over the tour page then gear icon then General then Duplicate Page. The copy appears in the Not Linked section with "(Copy)" in its name.</li>
-                      <li>Rename the copy, for example "Lake Cruise BACKUP". In its gear icon then SEO tab, turn on "Hide page from search results" so Google never indexes it.</li>
-                      <li>Now edit the original page, which keeps its address and any search ranking it already has. If something goes wrong, the backup has the old version.</li>
-                      <li>For a page that does not exist yet (possibly Private Charters and Groups), duplicate the finished Lake Cruise page once it is done, move the copy into your menu, and rewrite it. This keeps the layout consistent and means you never have to build a layout from scratch.</li>
+                      <li data-editable-key="t2-bullet-29">In Squarespace, go to Pages then hover over the tour page then gear icon then General then Duplicate Page. The copy appears in the Not Linked section with "(Copy)" in its name.</li>
+                      <li data-editable-key="t2-bullet-30">Rename the copy, for example "Lake Cruise BACKUP". In its gear icon then SEO tab, turn on "Hide page from search results" so Google never indexes it.</li>
+                      <li data-editable-key="t2-bullet-31">Now edit the original page, which keeps its address and any search ranking it already has. If something goes wrong, the backup has the old version.</li>
+                      <li data-editable-key="t2-bullet-32">For a page that does not exist yet (possibly Private Charters and Groups), duplicate the finished Lake Cruise page once it is done, move the copy into your menu, and rewrite it. This keeps the layout consistent and means you never have to build a layout from scratch.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-8">
                   <span class="tactic-step-num">8</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Write each page to the same structure</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-8-title">Write each page to the same structure</div>
                     <ul class="tactic-step-bullets">
-                      <li>Top of the page, visible without scrolling on a phone: a headline that matches the ad (for example, "Two-Hour Harrison Lake Cruise"), one line on where and when ("Departs the Harrison Hot Springs dock at 100 Esplanade Avenue, May to September"), the price, and a Book Now button.</li>
-                      <li>The Book Now button must open the booking calendar for that specific cruise, not the general one. In edit mode, click the Book button on your current tour page to see which FareHarbor link it uses, or ask FareHarbor Support for the item link for each cruise.</li>
-                      <li>Then, in this order: what you will see (the falls, the eagles, the river mouth), what is on board (indoor and outdoor decks, food and drinks), who it suits (families, grandparents, anyone who does not want a strenuous outing), accessibility details, what to bring, the weather and cancellation policy, three recent Google reviews that mention this cruise, a short FAQ, and the phone number.</li>
-                      <li>The FAQ answers the questions you get on the phone. Start with these: Do I need to be staying at the resort? Is it suitable for young children and grandparents? What happens if the weather is bad? Where do I park? Are prices in Canadian dollars? Use ChatGPT to tidy your answers, but write the facts yourself.</li>
-                      <li>End with a short "Other seasons" strip linking to the other cruise pages.</li>
-                      <li>The Private Charters and Groups page swaps the Book button for the inquiry form, names the occasions you host, gives the guest capacity (up to 35), and gives an idea of what food and drink can be arranged, even if the full catering menu stays private. Use the form redirect from Tactic 1, Step 4 so inquiries are tracked.</li>
+                      <li data-editable-key="t2-bullet-33">Top of the page, visible without scrolling on a phone: a headline that matches the ad (for example, "Two-Hour Harrison Lake Cruise"), one line on where and when ("Departs the Harrison Hot Springs dock at 100 Esplanade Avenue, May to September"), the price, and a Book Now button.</li>
+                      <li data-editable-key="t2-bullet-34">The Book Now button must open the booking calendar for that specific cruise, not the general one. In edit mode, click the Book button on your current tour page to see which FareHarbor link it uses, or ask FareHarbor Support for the item link for each cruise.</li>
+                      <li data-editable-key="t2-bullet-35">Then, in this order: what you will see (the falls, the eagles, the river mouth), what is on board (indoor and outdoor decks, food and drinks), who it suits (families, grandparents, anyone who does not want a strenuous outing), accessibility details, what to bring, the weather and cancellation policy, three recent Google reviews that mention this cruise, a short FAQ, and the phone number.</li>
+                      <li data-editable-key="t2-bullet-36">The FAQ answers the questions you get on the phone. Start with these: Do I need to be staying at the resort? Is it suitable for young children and grandparents? What happens if the weather is bad? Where do I park? Are prices in Canadian dollars? Use ChatGPT to tidy your answers, but write the facts yourself.</li>
+                      <li data-editable-key="t2-bullet-37">End with a short "Other seasons" strip linking to the other cruise pages.</li>
+                      <li data-editable-key="t2-bullet-38">The Private Charters and Groups page swaps the Book button for the inquiry form, names the occasions you host, gives the guest capacity (up to 35), and gives an idea of what food and drink can be arranged, even if the full catering menu stays private. Use the form redirect from Tactic 1, Step 4 so inquiries are tracked.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-9">
                   <span class="tactic-step-num">9</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Set the headings, title and address for each page</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-9-title">Set the headings, title and address for each page</div>
                     <ul class="tactic-step-bullets">
-                      <li>One Heading 1 per page, matching what people search: "Harrison Lake Cruise", "Harrison Lake Waterfall Cruise", "Harrison River Eagle Cruise", "Private Boat Charters on Harrison Lake". Sections are Heading 2s.</li>
-                      <li>In the gear icon then SEO tab, write a title under 60 characters and a description of 140 to 155 characters for each page. For example: Harrison Lake Cruise | 2-Hour Boat Tour | Shoreline Tours.</li>
-                      <li>In the gear icon then General, check the URL slug is short and plain, such as /lake-cruise. If you change the slug of an existing page, add a redirect from the old address (Settings then Developer tools then URL mappings) so old links and search results still work.</li>
-                      <li>Add alt text to every image: click the image then Edit then find the alt text field, and describe what is in the photo ("Guests on the upper deck passing Rainbow Falls on Harrison Lake").</li>
+                      <li data-editable-key="t2-bullet-39">One Heading 1 per page, matching what people search: "Harrison Lake Cruise", "Harrison Lake Waterfall Cruise", "Harrison River Eagle Cruise", "Private Boat Charters on Harrison Lake". Sections are Heading 2s.</li>
+                      <li data-editable-key="t2-bullet-40">In the gear icon then SEO tab, write a title under 60 characters and a description of 140 to 155 characters for each page. For example: Harrison Lake Cruise | 2-Hour Boat Tour | Shoreline Tours.</li>
+                      <li data-editable-key="t2-bullet-41">In the gear icon then General, check the URL slug is short and plain, such as /lake-cruise. If you change the slug of an existing page, add a redirect from the old address (Settings then Developer tools then URL mappings) so old links and search results still work.</li>
+                      <li data-editable-key="t2-bullet-42">Add alt text to every image: click the image then Edit then find the alt text field, and describe what is in the photo ("Guests on the upper deck passing Rainbow Falls on Harrison Lake").</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-10">
                   <span class="tactic-step-num">10</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Test every page on your phone before any ad uses it</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-10-title">Test every page on your phone before any ad uses it</div>
                     <ul class="tactic-step-bullets">
-                      <li>Open each page on your phone, not your computer. Most ad clicks come from phones.</li>
-                      <li>Check that the headline, price and Book Now button are visible without scrolling, the button opens the right cruise in FareHarbor, the phone number dials, and the page loads quickly.</li>
-                      <li>Ask one person who has never booked with you to find the price and the departure point in under 30 seconds. If they cannot, move that information higher up the page.</li>
-                      <li>Use Meta Pixel Helper (Tactic 1, Step 3) on your computer to confirm the pixel fires on each new page.</li>
+                      <li data-editable-key="t2-bullet-43">Open each page on your phone, not your computer. Most ad clicks come from phones.</li>
+                      <li data-editable-key="t2-bullet-44">Check that the headline, price and Book Now button are visible without scrolling, the button opens the right cruise in FareHarbor, the phone number dials, and the page loads quickly.</li>
+                      <li data-editable-key="t2-bullet-45">Ask one person who has never booked with you to find the price and the departure point in under 30 seconds. If they cannot, move that information higher up the page.</li>
+                      <li data-editable-key="t2-bullet-46">Use Meta Pixel Helper (Tactic 1, Step 3) on your computer to confirm the pixel fires on each new page.</li>
                     </ul>
                   </div>
                 </li>
@@ -6955,25 +6955,25 @@ button,
                 <li class="tactic-step-item" id="step-t2-11">
                   <span class="tactic-step-num">11</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Map each ad to its page and set the switching dates</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-11-title">Map each ad to its page and set the switching dates</div>
                     <ul class="tactic-step-bullets">
-                      <li>In your tracking sheet, add a simple table with three columns: campaign, season, and destination page.</li>
-                      <li>Families and Washington point at Lake Cruise from the date summer sailings open for booking until the end of September. Retirees points at Waterfall Cruise in late winter and spring, then River and Eagle Cruise from late summer onward, since fall eagle guests book weeks to a month ahead. Groups always points at Private Charters and Groups. Retargeting points at whichever cruise is bookable next.</li>
-                      <li>Put the switching dates in your calendar with a reminder. The most common mistake, and the one you found on the call, is an ad still promoting a cruise that is not running.</li>
-                      <li>Do the same for Google: when you switch season, update the headlines (Tactic 1, Step 8). Once the cruise pages are live, change the Final URL to the matching page.</li>
+                      <li data-editable-key="t2-bullet-47">In your tracking sheet, add a simple table with three columns: campaign, season, and destination page.</li>
+                      <li data-editable-key="t2-bullet-48">Families and Washington point at Lake Cruise from the date summer sailings open for booking until the end of September. Retirees points at Waterfall Cruise in late winter and spring, then River and Eagle Cruise from late summer onward, since fall eagle guests book weeks to a month ahead. Groups always points at Private Charters and Groups. Retargeting points at whichever cruise is bookable next.</li>
+                      <li data-editable-key="t2-bullet-49">Put the switching dates in your calendar with a reminder. The most common mistake, and the one you found on the call, is an ad still promoting a cruise that is not running.</li>
+                      <li data-editable-key="t2-bullet-50">Do the same for Google: when you switch season, update the headlines (Tactic 1, Step 8). Once the cruise pages are live, change the Final URL to the matching page.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-12">
                   <span class="tactic-step-num">12</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Move one campaign at a time and compare against the homepage</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-12-title">Move one campaign at a time and compare against the homepage</div>
                     <ul class="tactic-step-bullets">
-                      <li>Start with the campaign whose season is bookable now and whose page is finished.</li>
-                      <li>Change only the destination URL. Leave the budget, audience and ads the same, so the page is the only thing that changes.</li>
-                      <li>Run it for two weeks and compare against the previous two weeks on the homepage: landing page views, bookings, and cost per booking. Find these in Ads Manager by adding the "Landing page views" and "Purchases" columns.</li>
-                      <li>If the cruise page does as well or better, keep it and move the next campaign. If it does worse, check Step 10 again (usually the button or the price is too far down the page), fix it, and retest.</li>
-                      <li>Season changes can make any two-week comparison noisy. If the numbers are close, keep the cruise page: it matches the ad, and its benefit grows as more guests see it.</li>
+                      <li data-editable-key="t2-bullet-51">Start with the campaign whose season is bookable now and whose page is finished.</li>
+                      <li data-editable-key="t2-bullet-52">Change only the destination URL. Leave the budget, audience and ads the same, so the page is the only thing that changes.</li>
+                      <li data-editable-key="t2-bullet-53">Run it for two weeks and compare against the previous two weeks on the homepage: landing page views, bookings, and cost per booking. Find these in Ads Manager by adding the "Landing page views" and "Purchases" columns.</li>
+                      <li data-editable-key="t2-bullet-54">If the cruise page does as well or better, keep it and move the next campaign. If it does worse, check Step 10 again (usually the button or the price is too far down the page), fix it, and retest.</li>
+                      <li data-editable-key="t2-bullet-55">Season changes can make any two-week comparison noisy. If the numbers are close, keep the cruise page: it matches the ad, and its benefit grows as more guests see it.</li>
                     </ul>
                   </div>
                 </li>
@@ -7052,11 +7052,11 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
-                <li>Work on the pages during the closed months, when traffic is lowest and nobody is booking tomorrow's cruise.</li>
-                <li>Use your best photo of each cruise at the top of its page, and use the same photo in that season's ads. Seeing the same image twice tells the visitor they are in the right place.</li>
-                <li>Every question a guest asks on the phone is an FAQ the page is missing. Keep a note on your phone and add one each month.</li>
-                <li>Do not delete a backup page until its live version has run for a full season without problems.</li>
-                <li>If a layout change feels risky, change the words and photos only. A clear page in your current layout will beat a redesigned page that never gets finished.</li>
+                <li data-editable-key="t2-tip-1">Work on the pages during the closed months, when traffic is lowest and nobody is booking tomorrow's cruise.</li>
+                <li data-editable-key="t2-tip-2">Use your best photo of each cruise at the top of its page, and use the same photo in that season's ads. Seeing the same image twice tells the visitor they are in the right place.</li>
+                <li data-editable-key="t2-tip-3">Every question a guest asks on the phone is an FAQ the page is missing. Keep a note on your phone and add one each month.</li>
+                <li data-editable-key="t2-tip-4">Do not delete a backup page until its live version has run for a full season without problems.</li>
+                <li data-editable-key="t2-tip-5">If a layout change feels risky, change the words and photos only. A clear page in your current layout will beat a redesigned page that never gets finished.</li>
               </ul>
             </div>
           </div>
@@ -7064,9 +7064,9 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
-                <li><a href="https://support.squarespace.com/hc/en-us" target="_blank">Squarespace Help Center</a></li>
-                <li><a href="https://support.google.com/google-ads/answer/74992" target="_blank">About keyword insertion</a></li>
-                <li><a href="https://www.facebook.com/business/help" target="_blank">Meta Business Help Centre</a></li>
+                <li><a href="https://support.squarespace.com/hc/en-us" data-editable-link="t2-resource-1" target="_blank">Squarespace Help Center</a></li>
+                <li><a href="https://support.google.com/google-ads/answer/74992" data-editable-link="t2-resource-2" target="_blank">About keyword insertion</a></li>
+                <li><a href="https://www.facebook.com/business/help" data-editable-link="t2-resource-3" target="_blank">Meta Business Help Centre</a></li>
               </ul>
             </div>
           </div>
@@ -7182,36 +7182,36 @@ button,
                 <li class="tactic-step-item" id="step-t3-1">
                   <span class="tactic-step-num">1</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Shoot five clips on every sailing</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-1-title">Shoot five clips on every sailing</div>
                     <ul class="tactic-step-bullets">
-                      <li>Vertical, 5 to 15 seconds each, no talking needed. One of each: the view off the bow, something over the side (fish, eagles, the falls), guests reacting, the crew at work, and the boat from the dock or another angle.</li>
-                      <li>Do it during moments you are already standing still, such as boarding, the turnaround and docking. It takes about two minutes per sailing.</li>
-                      <li>Hold the phone steady and let each clip run a few seconds longer than feels necessary. Clips can be trimmed, but not stretched.</li>
-                      <li>Ask guests before filming them up close, and only post faces of people who have said yes.</li>
-                      <li>This is a task you can hand to any crew member who is on board. Tell them the five shots and they can do it.</li>
+                      <li data-editable-key="t3-bullet-1">Vertical, 5 to 15 seconds each, no talking needed. One of each: the view off the bow, something over the side (fish, eagles, the falls), guests reacting, the crew at work, and the boat from the dock or another angle.</li>
+                      <li data-editable-key="t3-bullet-2">Do it during moments you are already standing still, such as boarding, the turnaround and docking. It takes about two minutes per sailing.</li>
+                      <li data-editable-key="t3-bullet-3">Hold the phone steady and let each clip run a few seconds longer than feels necessary. Clips can be trimmed, but not stretched.</li>
+                      <li data-editable-key="t3-bullet-4">Ask guests before filming them up close, and only post faces of people who have said yes.</li>
+                      <li data-editable-key="t3-bullet-5">This is a task you can hand to any crew member who is on board. Tell them the five shots and they can do it.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-2">
                   <span class="tactic-step-num">2</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Sort the clips the same day</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-2-title">Sort the clips the same day</div>
                     <ul class="tactic-step-bullets">
-                      <li>On your phone, create albums: Lake, Waterfall, River, Guests, Crew, Events and Groups. Before the end of the day, move that day's clips into the right album and delete the bad ones.</li>
-                      <li>Favourite (heart) the two or three best of each day. Those are the first ones you will reach for.</li>
-                      <li>Once a month, back the albums up to Google Drive or another cloud folder so nothing is lost if the phone breaks.</li>
+                      <li data-editable-key="t3-bullet-6">On your phone, create albums: Lake, Waterfall, River, Guests, Crew, Events and Groups. Before the end of the day, move that day's clips into the right album and delete the bad ones.</li>
+                      <li data-editable-key="t3-bullet-7">Favourite (heart) the two or three best of each day. Those are the first ones you will reach for.</li>
+                      <li data-editable-key="t3-bullet-8">Once a month, back the albums up to Google Drive or another cloud folder so nothing is lost if the phone breaks.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-3">
                   <span class="tactic-step-num">3</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Collect the content other people are making about you</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-3-title">Collect the content other people are making about you</div>
                     <ul class="tactic-step-bullets">
-                      <li>Ask Tourism Harrison for the photos and video from the photographers you hosted, along with written confirmation of how you can use them, including in ads.</li>
-                      <li>Save every creator's raw clips and finished posts (with the release from Tactic 1, Step 17) into a "Creators" album.</li>
-                      <li>When guests tag you, reply and ask whether you can share it. If they say yes, screenshot the permission and save the post.</li>
-                      <li>When the Vancouver Is Awesome eagles piece publishes, save it and share it as a post.</li>
+                      <li data-editable-key="t3-bullet-9">Ask Tourism Harrison for the photos and video from the photographers you hosted, along with written confirmation of how you can use them, including in ads.</li>
+                      <li data-editable-key="t3-bullet-10">Save every creator's raw clips and finished posts (with the release from Tactic 1, Step 17) into a "Creators" album.</li>
+                      <li data-editable-key="t3-bullet-11">When guests tag you, reply and ask whether you can share it. If they say yes, screenshot the permission and save the post.</li>
+                      <li data-editable-key="t3-bullet-12">When the Vancouver Is Awesome eagles piece publishes, save it and share it as a post.</li>
                     </ul>
                   </div>
                 </li>
@@ -7230,26 +7230,26 @@ button,
                 <li class="tactic-step-item" id="step-t3-4">
                   <span class="tactic-step-num">4</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Pick five formats and stop inventing new ones</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-4-title">Pick five formats and stop inventing new ones</div>
                     <ul class="tactic-step-bullets">
-                      <li>POV: one clip, text over the top. "POV: looking over the side on a Harrison River cruise." This is the format that drew 2,000 views.</li>
-                      <li>Day on the boat: five or six clips cut together with music, 15 to 20 seconds, from boarding to docking. The kind of montage Conner pointed to from Nimmo Bay and Pacific Sands.</li>
-                      <li>Guest moment: a birthday, an anniversary, grandparents with grandchildren, a bachelorette group toast. These show the private and group side of the business without a hard sell.</li>
-                      <li>Behind the scenes: your dad at the helm, the crew prepping food, setting up for a charter. A family business is a story people follow.</li>
-                      <li>Season and events: what is sailing now and what is coming next, plus special events like the FLUXX Summer Series, which is your best-performing post on record.</li>
-                      <li>Rotate them in order, so a week might be POV, Guest moment, Season. No single post has to carry the whole account.</li>
+                      <li data-editable-key="t3-bullet-13">POV: one clip, text over the top. "POV: looking over the side on a Harrison River cruise." This is the format that drew 2,000 views.</li>
+                      <li data-editable-key="t3-bullet-14">Day on the boat: five or six clips cut together with music, 15 to 20 seconds, from boarding to docking. The kind of montage Conner pointed to from Nimmo Bay and Pacific Sands.</li>
+                      <li data-editable-key="t3-bullet-15">Guest moment: a birthday, an anniversary, grandparents with grandchildren, a bachelorette group toast. These show the private and group side of the business without a hard sell.</li>
+                      <li data-editable-key="t3-bullet-16">Behind the scenes: your dad at the helm, the crew prepping food, setting up for a charter. A family business is a story people follow.</li>
+                      <li data-editable-key="t3-bullet-17">Season and events: what is sailing now and what is coming next, plus special events like the FLUXX Summer Series, which is your best-performing post on record.</li>
+                      <li data-editable-key="t3-bullet-18">Rotate them in order, so a week might be POV, Guest moment, Season. No single post has to carry the whole account.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-5">
                   <span class="tactic-step-num">5</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Write captions in batches with ChatGPT</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-5-title">Write captions in batches with ChatGPT</div>
                     <ul class="tactic-step-bullets">
-                      <li>Once a month, give ChatGPT a short brief: "I run a family boat cruise company on Harrison Lake and River in BC. Write 12 short Instagram captions, one or two sentences each, plain and friendly, no hashtag lists, for these posts:" and then list the 12 clips in a line each.</li>
-                      <li>Edit what it gives you so it sounds like you. Keep the first line short, because that is all most people read.</li>
-                      <li>Put booking information in the caption only for Season posts. Your own experience is that "buy a ticket" posts do worse than simple scenery.</li>
-                      <li>Keep three to five relevant hashtags and a location tag (Harrison Hot Springs, Harrison Lake or Harrison River) on every post.</li>
+                      <li data-editable-key="t3-bullet-19">Once a month, give ChatGPT a short brief: "I run a family boat cruise company on Harrison Lake and River in BC. Write 12 short Instagram captions, one or two sentences each, plain and friendly, no hashtag lists, for these posts:" and then list the 12 clips in a line each.</li>
+                      <li data-editable-key="t3-bullet-20">Edit what it gives you so it sounds like you. Keep the first line short, because that is all most people read.</li>
+                      <li data-editable-key="t3-bullet-21">Put booking information in the caption only for Season posts. Your own experience is that "buy a ticket" posts do worse than simple scenery.</li>
+                      <li data-editable-key="t3-bullet-22">Keep three to five relevant hashtags and a location tag (Harrison Hot Springs, Harrison Lake or Harrison River) on every post.</li>
                     </ul>
                   </div>
                 </li>
@@ -7268,34 +7268,34 @@ button,
                 <li class="tactic-step-item" id="step-t3-6">
                   <span class="tactic-step-num">6</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Set the cadence to three posts a week, and decide who posts</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-6-title">Set the cadence to three posts a week, and decide who posts</div>
                     <ul class="tactic-step-bullets">
-                      <li>Three posts a week, on Monday, Wednesday and Friday, all year. The assessment suggests five a week in peak season. Try it only if three is already running easily.</li>
-                      <li>In the closed months, still post three times a week from the library: highlights from the past season, what is coming next, and behind-the-scenes preparation for spring.</li>
-                      <li>You own this. If someone on your team takes on capturing clips or scheduling posts for the summer, write down exactly which tasks are theirs (for example, "shoot the five clips on every afternoon sailing" or "schedule Monday and Wednesday posts") and keep approval of anything posted under your name.</li>
+                      <li data-editable-key="t3-bullet-23">Three posts a week, on Monday, Wednesday and Friday, all year. The assessment suggests five a week in peak season. Try it only if three is already running easily.</li>
+                      <li data-editable-key="t3-bullet-24">In the closed months, still post three times a week from the library: highlights from the past season, what is coming next, and behind-the-scenes preparation for spring.</li>
+                      <li data-editable-key="t3-bullet-25">You own this. If someone on your team takes on capturing clips or scheduling posts for the summer, write down exactly which tasks are theirs (for example, "shoot the five clips on every afternoon sailing" or "schedule Monday and Wednesday posts") and keep approval of anything posted under your name.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-7">
                   <span class="tactic-step-num">7</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Schedule a month at a time in Meta Business Suite</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-7-title">Schedule a month at a time in Meta Business Suite</div>
                     <ul class="tactic-step-bullets">
-                      <li>Go to business.facebook.com then Planner (or Content then Planner). Click Create post or Create reel, and choose both Facebook and Instagram so one upload covers both accounts.</li>
-                      <li>Add the clip, paste the caption, then click the arrow next to Publish then Schedule, and pick the date and time. Evenings between 6 and 8 p.m. are a reasonable start. Check your own Insights after a month and adjust.</li>
-                      <li>Block out one two-hour session at the start of each month to schedule all twelve or thirteen posts. In summer, do it before the season starts and schedule six weeks at once.</li>
-                      <li>Leave one slot a week empty for something that happens that week, such as a sighting, a great sunset or a creator visit.</li>
+                      <li data-editable-key="t3-bullet-26">Go to business.facebook.com then Planner (or Content then Planner). Click Create post or Create reel, and choose both Facebook and Instagram so one upload covers both accounts.</li>
+                      <li data-editable-key="t3-bullet-27">Add the clip, paste the caption, then click the arrow next to Publish then Schedule, and pick the date and time. Evenings between 6 and 8 p.m. are a reasonable start. Check your own Insights after a month and adjust.</li>
+                      <li data-editable-key="t3-bullet-28">Block out one two-hour session at the start of each month to schedule all twelve or thirteen posts. In summer, do it before the season starts and schedule six weeks at once.</li>
+                      <li data-editable-key="t3-bullet-29">Leave one slot a week empty for something that happens that week, such as a sighting, a great sunset or a creator visit.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-8">
                   <span class="tactic-step-num">8</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Make every collaboration a collab post</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-8-title">Make every collaboration a collab post</div>
                     <ul class="tactic-step-bullets">
-                      <li>You already ask creators to invite you as a collaborator, so the post appears on both accounts. Keep doing it, and make it a line in the release from Tactic 1, Step 17.</li>
-                      <li>Do the same with local businesses you have worked with on Instagram collabs, and with Tourism Harrison when they feature you.</li>
-                      <li>When you post a creator's content yourself, invite them as a collaborator so it reaches their audience too.</li>
+                      <li data-editable-key="t3-bullet-30">You already ask creators to invite you as a collaborator, so the post appears on both accounts. Keep doing it, and make it a line in the release from Tactic 1, Step 17.</li>
+                      <li data-editable-key="t3-bullet-31">Do the same with local businesses you have worked with on Instagram collabs, and with Tourism Harrison when they feature you.</li>
+                      <li data-editable-key="t3-bullet-32">When you post a creator's content yourself, invite them as a collaborator so it reaches their audience too.</li>
                     </ul>
                   </div>
                 </li>
@@ -7314,23 +7314,23 @@ button,
                 <li class="tactic-step-item" id="step-t3-9">
                   <span class="tactic-step-num">9</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Check the week's posts every Friday</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-9-title">Check the week's posts every Friday</div>
                     <ul class="tactic-step-bullets">
-                      <li>Ten minutes. In Meta Business Suite then Insights then Content, look at the posts from the past week. Note views, shares and saves for each.</li>
-                      <li>Mark any post that did clearly better than your usual (for example, twice your normal views, or any post with unusually high shares). Those are your candidates.</li>
-                      <li>Write the winners in a "Winners" column in your tracking sheet with the format, season and date. After a couple of months you will see which formats win for which season.</li>
+                      <li data-editable-key="t3-bullet-33">Ten minutes. In Meta Business Suite then Insights then Content, look at the posts from the past week. Note views, shares and saves for each.</li>
+                      <li data-editable-key="t3-bullet-34">Mark any post that did clearly better than your usual (for example, twice your normal views, or any post with unusually high shares). Those are your candidates.</li>
+                      <li data-editable-key="t3-bullet-35">Write the winners in a "Winners" column in your tracking sheet with the format, season and date. After a couple of months you will see which formats win for which season.</li>
                     </ul>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-10">
                   <span class="tactic-step-num">10</span>
                   <div class="tactic-step-content">
-                    <div class="tactic-step-title">Move the winners into the ad account</div>
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-10-title">Move the winners into the ad account</div>
                     <ul class="tactic-step-bullets">
-                      <li>Each fortnight, add the best one or two winners as new ads in the campaign that matches them: a family post to Families, an eagle POV to Retirees, a group toast to Groups.</li>
-                      <li>In Ads Manager, create the ad and choose "Use existing post" so the likes and comments come with it.</li>
-                      <li>Replace the weakest ad in that campaign at the same time (Tactic 1, Step 14), so each campaign keeps six to ten ads and always has fresh ones.</li>
-                      <li>A post that did poorly organically is not banned from ads, but start with the proven ones.</li>
+                      <li data-editable-key="t3-bullet-36">Each fortnight, add the best one or two winners as new ads in the campaign that matches them: a family post to Families, an eagle POV to Retirees, a group toast to Groups.</li>
+                      <li data-editable-key="t3-bullet-37">In Ads Manager, create the ad and choose "Use existing post" so the likes and comments come with it.</li>
+                      <li data-editable-key="t3-bullet-38">Replace the weakest ad in that campaign at the same time (Tactic 1, Step 14), so each campaign keeps six to ten ads and always has fresh ones.</li>
+                      <li data-editable-key="t3-bullet-39">A post that did poorly organically is not banned from ads, but start with the proven ones.</li>
                     </ul>
                   </div>
                 </li>
@@ -7403,11 +7403,11 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Tips</div>
               <ul class="tactic-tips-list">
-                <li>In July, when you have no time at all, the only posting task that matters is keeping the schedule going. Everything else can wait.</li>
-                <li>A clip that feels too boring to post is probably more interesting to your followers than you think. Fish, water, eagles and mountains are exactly what they follow you for.</li>
-                <li>The best time to sort clips is while the wifi is good, not when you need one in a hurry.</li>
-                <li>If you miss a day, skip it and post the next day. Do not try to catch up by posting twice in one day, which clutters your followers' feeds.</li>
-                <li>Use Instagram Insights to check which posts did well, but do not overthink it. More content matters more than perfect content.</li>
+                <li data-editable-key="t3-tip-1">In July, when you have no time at all, the only posting task that matters is keeping the schedule going. Everything else can wait.</li>
+                <li data-editable-key="t3-tip-2">A clip that feels too boring to post is probably more interesting to your followers than you think. Fish, water, eagles and mountains are exactly what they follow you for.</li>
+                <li data-editable-key="t3-tip-3">The best time to sort clips is while the wifi is good, not when you need one in a hurry.</li>
+                <li data-editable-key="t3-tip-4">If you miss a day, skip it and post the next day. Do not try to catch up by posting twice in one day, which clutters your followers' feeds.</li>
+                <li data-editable-key="t3-tip-5">Use Instagram Insights to check which posts did well, but do not overthink it. More content matters more than perfect content.</li>
               </ul>
             </div>
           </div>
@@ -7415,9 +7415,9 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
-                <li><a href="https://business.facebook.com" target="_blank">Meta Business Suite</a></li>
-                <li><a href="https://www.instagram.com/nimmobay/" target="_blank">Nimmo Bay Instagram (example)</a></li>
-                <li><a href="https://www.instagram.com/pacificsands/" target="_blank">Pacific Sands Instagram (example)</a></li>
+                <li><a href="https://business.facebook.com" data-editable-link="t3-resource-1" target="_blank">Meta Business Suite</a></li>
+                <li><a href="https://www.instagram.com/nimmobay/" data-editable-link="t3-resource-2" target="_blank">Nimmo Bay Instagram (example)</a></li>
+                <li><a href="https://www.instagram.com/pacificsands/" data-editable-link="t3-resource-3" target="_blank">Pacific Sands Instagram (example)</a></li>
               </ul>
             </div>
           </div>
@@ -7516,11 +7516,11 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Check which events are starred as key events in GA4 and turn off any that are not bookings <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Confirm the GA4 ID and the multiple-websites checkbox in FareHarbor, add the unwanted referrals in GA4, and compare GA4 purchases with FareHarbor bookings for the same 28 days <button class="howto-link" onclick="howToLink('tactic1','step-t1-2')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Pull summer 2024 and 2025 public tour bookings from FareHarbor into a baseline sheet <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Start shooting five short clips on every sailing, or if you are closed, gather the best clips already on your phone <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Reply to every Google review that does not yet have a response</li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Check which events are starred as key events in GA4 and turn off any that are not bookings</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-2">Confirm the GA4 ID and the multiple-websites checkbox in FareHarbor, add the unwanted referrals in GA4, and compare GA4 purchases with FareHarbor bookings for the same 28 days</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-2')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-3">Pull summer 2024 and 2025 public tour bookings from FareHarbor into a baseline sheet</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-4">Start shooting five short clips on every sailing, or if you are closed, gather the best clips already on your phone</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-5">Reply to every Google review that does not yet have a response</span></li>
               </ul>
             </div>
             <div>
@@ -7551,10 +7551,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Ask FareHarbor Support to connect your Meta Pixel to the booking flow, and check for the Purchase event in Events Manager <button class="howto-link" onclick="howToLink('tactic1','step-t1-3')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Build the inquiry thank-you page, set the form redirect, and create the private_inquiry event and the Meta custom conversion <button class="howto-link" onclick="howToLink('tactic1','step-t1-4')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Set the GA4 purchase as the only primary conversion in Google Ads <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Create the clip albums on your phone and sort everything you have shot so far <button class="howto-link" onclick="howToLink('tactic3','step-t3-2')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-1">Ask FareHarbor Support to connect your Meta Pixel to the booking flow, and check for the Purchase event in Events Manager</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-2">Build the inquiry thank-you page, set the form redirect, and create the private_inquiry event and the Meta custom conversion</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-3">Set the GA4 purchase as the only primary conversion in Google Ads</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-2-action-4">Create the clip albums on your phone and sort everything you have shot so far</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-2')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7585,10 +7585,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Review 90 days of search terms, add the first negative keywords, and note how much spend comes from searches for your own name <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Rewrite the Google headlines for the season that is sailing, remove off-season ones, and turn off Final URL expansion <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Confirm every Google and Meta ad points at the homepage, and update the homepage heading line to name what is sailing now <button class="howto-link" onclick="howToLink('tactic2','step-t2-1')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Check auto-tagging is on in Google Ads and add UTM parameters to every live Meta ad <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-1">Review 90 days of search terms, add the first negative keywords, and note how much spend comes from searches for your own name</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-2">Rewrite the Google headlines for the season that is sailing, remove off-season ones, and turn off Final URL expansion</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-3">Confirm every Google and Meta ad points at the homepage, and update the homepage heading line to name what is sailing now</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-1')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-3-action-4">Check auto-tagging is on in Google Ads and add UTM parameters to every live Meta ad</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-5')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7618,11 +7618,11 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Change the homepage headings so there is one Heading 1, with Heading 2s and Heading 3s beneath it, and remove the empty one <button class="howto-link" onclick="howToLink('tactic2','step-t2-2')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Replace the homepage SEO title and description <button class="howto-link" onclick="howToLink('tactic2','step-t2-3')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Add the clickable phone number to the header or the announcement bar <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Ask Tourism Harrison for the photographers' images and video, with usage terms in writing <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Write down the five post formats and pin the list somewhere you will see it <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-1">Change the homepage headings so there is one Heading 1, with Heading 2s and Heading 3s beneath it, and remove the empty one</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-2')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-2">Replace the homepage SEO title and description</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-3">Add the clickable phone number to the header or the announcement bar</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-4')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-4">Ask Tourism Harrison for the photographers' images and video, with usage terms in writing</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-3')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-4-action-5">Write down the five post formats and pin the list somewhere you will see it</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-4')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7661,10 +7661,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Pause any boosted posts, confirm the domain is verified and billing is clear, and work only in Ads Manager from now on <button class="howto-link" onclick="howToLink('tactic1','step-t1-10')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Build the five custom audiences and record their sizes <button class="howto-link" onclick="howToLink('tactic1','step-t1-11')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Write a month of captions in one ChatGPT session and edit them <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Set the Monday, Wednesday and Friday posting days, and write down any tasks you are handing to someone else <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-1">Pause any boosted posts, confirm the domain is verified and billing is clear, and work only in Ads Manager from now on</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-10')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-2">Build the five custom audiences and record their sizes</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-11')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-3">Write a month of captions in one ChatGPT session and edit them</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-5-action-4">Set the Monday, Wednesday and Friday posting days, and write down any tasks you are handing to someone else</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-6')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7694,10 +7694,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Launch the retargeting campaign to your warm audiences, excluding recent bookers, pointed at the next bookable cruise <button class="howto-link" onclick="howToLink('tactic1','step-t1-12')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Write the one-page creator release and send it ahead of the next hosted visit <button class="howto-link" onclick="howToLink('tactic1','step-t1-17')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Schedule the next month of posts in Meta Business Suite <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Confirm the four cruise pages, the order you will build them in, and which existing pages each replaces <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-1">Launch the retargeting campaign to your warm audiences, excluding recent bookers, pointed at the next bookable cruise</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-12')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-2">Write the one-page creator release and send it ahead of the next hosted visit</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-17')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-3">Schedule the next month of posts in Meta Business Suite</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-6-action-4">Confirm the four cruise pages, the order you will build them in, and which existing pages each replaces</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-6')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7727,10 +7727,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Build the Families, Retirees, Washington and Groups campaigns, leaving all but the first one paused <button class="howto-link" onclick="howToLink('tactic1','step-t1-13')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Load six to ten ads in each campaign across every format you have <button class="howto-link" onclick="howToLink('tactic1','step-t1-14')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Back up the existing lake cruise page and start rebuilding it <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Write the Lake Cruise page to the standard structure <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-1">Build the Families, Retirees, Washington and Groups campaigns, leaving all but the first one paused</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-13')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-2">Load six to ten ads in each campaign across every format you have</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-14')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-3">Back up the existing lake cruise page and start rebuilding it</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-7-action-4">Write the Lake Cruise page to the standard structure</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7760,11 +7760,11 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Switch on the first audience campaign for its two-week block, choosing it by what is bookable next <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Launch the Search campaign test with keyword insertion, splitting the Google budget $5 and $5 <button class="howto-link" onclick="howToLink('tactic1','step-t1-9')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Finish the Lake Cruise page and write the Private Charters and Groups page <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Set the Heading 1, SEO title, description, slug and image alt text on both pages <button class="howto-link" onclick="howToLink('tactic2','step-t2-9')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Run your first Friday check of the week's posts <button class="howto-link" onclick="howToLink('tactic3','step-t3-9')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-1">Switch on the first audience campaign for its two-week block, choosing it by what is bookable next</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-2">Launch the Search campaign test with keyword insertion, splitting the Google budget $5 and $5</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-9')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-3">Finish the Lake Cruise page and write the Private Charters and Groups page</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-4">Set the Heading 1, SEO title, description, slug and image alt text on both pages</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-9')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-8-action-5">Run your first Friday check of the week's posts</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-9')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7804,10 +7804,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Test both new pages on your phone, and have someone new find the price and departure point in under 30 seconds <button class="howto-link" onclick="howToLink('tactic2','step-t2-10')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Build the ad-to-page map and put the season switching dates in your calendar <button class="howto-link" onclick="howToLink('tactic2','step-t2-11')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Add the first organic winners as ads in the matching campaigns <button class="howto-link" onclick="howToLink('tactic3','step-t3-10')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Do the fortnightly 15-minute search terms check and add new negatives <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-1">Test both new pages on your phone, and have someone new find the price and departure point in under 30 seconds</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-10')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-2">Build the ad-to-page map and put the season switching dates in your calendar</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-11')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-3">Add the first organic winners as ads in the matching campaigns</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-10')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-9-action-4">Do the fortnightly 15-minute search terms check and add new negatives</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-7')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7837,9 +7837,9 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Move the first campaign from the homepage to its matching cruise page, changing nothing else <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Record the first block's results and switch on the second audience campaign <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Invite the creator or business as a collaborator on every shared post this week <button class="howto-link" onclick="howToLink('tactic3','step-t3-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-1">Move the first campaign from the homepage to its matching cruise page, changing nothing else</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-2">Record the first block's results and switch on the second audience campaign</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-10-action-3">Invite the creator or business as a collaborator on every shared post this week</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-8')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7869,10 +7869,10 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>If Bookers 180 has reached 100 people, build the Canada and US lookalike audiences <button class="howto-link" onclick="howToLink('tactic1','step-t1-16')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Run the most recent creator post as a partnership ad in the retargeting campaign <button class="howto-link" onclick="howToLink('tactic1','step-t1-18')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Write the Waterfall and River and Eagle pages to the same structure <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Set the headings, SEO title and alt text on both pages <button class="howto-link" onclick="howToLink('tactic2','step-t2-9')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-1">If Bookers 180 has reached 100 people, build the Canada and US lookalike audiences</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-16')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-2">Run the most recent creator post as a partnership ad in the retargeting campaign</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-18')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-3">Write the Waterfall and River and Eagle pages to the same structure</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-8')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-11-action-4">Set the headings, SEO title and alt text on both pages</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-9')">how to</button></li>
               </ul>
             </div>
             <div>
@@ -7901,12 +7901,12 @@ button,
             <div>
               <div class="week-col-label">This Week's Actions</div>
               <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Fill in the baseline sheet again with this week's numbers and compare <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Compare cost per booking across the blocks so far and decide where the next month's budget goes <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Compare the Search test against Performance Max and keep the winner <button class="howto-link" onclick="howToLink('tactic1','step-t1-9')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Review the homepage versus cruise page comparison and decide which campaign switches next <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Schedule the next month of posts, including the first summer previews <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Book your next Junction coaching call and bring the sheet</li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-1">Fill in the baseline sheet again with this week's numbers and compare</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-5')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-2">Compare cost per booking across the blocks so far and decide where the next month's budget goes</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-15')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-3">Compare the Search test against Performance Max and keep the winner</span> <button class="howto-link" onclick="howToLink('tactic1','step-t1-9')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-4">Review the homepage versus cruise page comparison and decide which campaign switches next</span> <button class="howto-link" onclick="howToLink('tactic2','step-t2-12')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-5">Schedule the next month of posts, including the first summer previews</span> <button class="howto-link" onclick="howToLink('tactic3','step-t3-7')">how to</button></li>
+                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-12-action-6">Book your next Junction coaching call and bring the sheet</span></li>
               </ul>
             </div>
             <div>
