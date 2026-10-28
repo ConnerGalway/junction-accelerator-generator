@@ -1,0 +1,234 @@
+{
+  "client_name": "Harrison Festival Society",
+  "client_slug": "harrison-festival-society",
+  "goal": "The 2026 Harrison Festival of the Arts was one of the best-selling in its forty-plus years, and when we asked what drove it, the honest answer was that you did not change much. The hall lineup had a few more recognizable names, more people stayed close to home, and the poster was strong. Email is the one channel you know works, because ticket sales jump the moment a send goes out. Everything else is a guess. Rogers tells you the campaign did well, Black Press will tell you the same, and right now there is no way to check either of them against a single ticket sale.\n\nThe plan runs for twelve weeks, from January 4 to March 28, 2027, and it is shaped by one fact: nothing can be sold in earnest until the lineup is announced in mid-April. Branding arrives at the start of April, print deadlines hit at the same time, and from then until July you are running marketing alongside artists, volunteers, artisans, signage and production. So the work of the next ninety days is to get everything in place before that crunch. By the end of March you should be able to see which channel sold every ticket, have an audience on Facebook and Instagram that has been hearing from the festival every week since January, have a larger email list that opens your emails because they are not always asking for money, and have Google reviews arriving again after an eighteen-month gap.\n\nThe order matters. Weeks 1 to 3 connect Google Analytics and the Meta pixel to your Ecwid store, because every ad and every email after that depends on being able to see what sold. Weeks 2 to 12 build a social rhythm of two posts a week that takes about three hours a fortnight. Weeks 3 to 12 grow the email list with a sign-up offer that fits your calendar, \"hear the lineup before anyone else,\" and add a review request after every Season of Performing Arts show. Meta ads start in Week 6 as a low-cost warm-up and finish with a retargeting campaign tested on a Season show and built in draft, ready to switch on the day the lineup goes public.\n\nWhat this produces, stated honestly: very few festival tickets inside the ninety days, and that is by design. The Season shows between January and March are where the tracking, the review emails and the retargeting get tested on real sales at low stakes. The return comes from mid-April to July. The measure of success for this plan is readiness: purchase tracking live with three months of channel data behind it, 150 new subscribers who have not yet bought a ticket, Google reviews up from 13 to 25 or more, Instagram engagement up from 0.49 percent to around 1.5 percent, and a retargeting audience of more than 1,000 people waiting for the announcement.",
+  "coach_email": "conner@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Check What Is Installed and Connect GA4 (January 4)",
+      "actions": [
+        "Check Ecwid's Tracking & Analytics page, GA4 and the live site for existing tags, and send Junction a screenshot → links to: Tactic 2 / Step 1",
+        "Create or confirm the GA4 property and connect it to Ecwid with the Measurement Protocol secret → links to: Tactic 2 / Step 2",
+        "Add the GA4 tag to the rest of the website and check each page has exactly one → links to: Tactic 2 / Step 3",
+        "Reply to all 13 existing Google reviews, including the six-year-old critical one"
+      ],
+      "checklist": [
+        "Junction has a screenshot of what tracking was installed before any changes",
+        "The GA4 Measurement ID and API secret are saved in Ecwid",
+        "Tag Assistant shows one GA4 tag on the homepage, the FAQ and the ticket page",
+        "All 13 Google reviews have a reply"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Test a Purchase and Gather the Archive (January 11)",
+      "actions": [
+        "Buy and refund a Season show ticket while watching GA4 Realtime → links to: Tactic 2 / Step 4",
+        "Build tagged links for email, the bios, Linktree, Black Press and Rogers → links to: Tactic 2 / Step 5",
+        "Create the Festival 2027 Content folder and sort 60 to 100 archive photos into four series → links to: Tactic 1 / Step 1",
+        "Install Edits and make one practice Reel → links to: Tactic 1 / Step 4",
+        "Upload 20 to 30 photos from the 2026 festival to the Google Business Profile"
+      ],
+      "checklist": [
+        "A purchase event appeared in GA4 Realtime during the test",
+        "The Instagram bio, Facebook bio and Linktree all use tagged links",
+        "The content folder holds at least 60 photos sorted into four series",
+        "A practice Reel is saved as a draft in Edits",
+        "The Business Profile shows at least 20 new photos"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Own the Pixel, Build the Quote Bank (January 18)",
+      "actions": [
+        "Confirm who owns the Meta pixel and connect your own through Ecwid if needed → links to: Tactic 2 / Step 8",
+        "Verify harrisonfestival.com in Meta Business Suite → links to: Tactic 2 / Step 9",
+        "Type 20 to 30 member quotes into the Quotes folder → links to: Tactic 1 / Step 2",
+        "Cut the promo video into 8 to 12 short clips → links to: Tactic 1 / Step 3",
+        "Copy the Google review link and make a QR code from it → links to: Tactic 3 / Step 6",
+        "Add the \"Take me to tickets\" button and the \"What you need to know\" heading to the ticket page"
+      ],
+      "checklist": [
+        "A Meta pixel owned by Harrison Festival Society fires on every page, and Purchase arrives in Test events",
+        "harrisonfestival.com shows as verified in Meta Business Suite",
+        "The quote bank holds at least 20 quotes",
+        "At least 8 promo video clips are saved and named",
+        "The review link and QR code are saved",
+        "One tap on the ticket page takes a visitor straight to the ticket tiles"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: First Batch and First Story Email (January 25)",
+      "actions": [
+        "Set the Tuesday Reel and Friday carousel pattern → links to: Tactic 1 / Step 5",
+        "Hold the first 90-minute batching session and schedule four posts in Planner → links to: Tactic 1 / Step 6",
+        "Decide the \"hear the lineup first\" offer and how early subscribers get the lineup → links to: Tactic 3 / Step 1",
+        "Send the January story email → links to: Tactic 3 / Step 5",
+        "On Friday, check January's top posts in Insights and write the one-line note → links to: Tactic 1 / Step 8"
+      ],
+      "checklist": [
+        "Four posts are scheduled across Facebook and Instagram",
+        "Posts went out on Tuesday and Friday this week",
+        "The sign-up offer is written in one line",
+        "The January story email has been sent",
+        "The content folder has its first monthly note"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Sign-Up Form Goes Live (February 1)",
+      "actions": [
+        "Add the sign-up form to the footer, the FAQ and the homepage, and add the link to the bios and Linktree → links to: Tactic 3 / Step 2",
+        "Add the \"What brings you to the festival?\" question to the form → links to: Tactic 3 / Step 3",
+        "Link GA4 to Google Ad Grants and import purchase as a conversion → links to: Tactic 2 / Step 6",
+        "Shoot 10 to 15 clips at the next Season show → links to: Tactic 1 / Step 7"
+      ],
+      "checklist": [
+        "The sign-up form is live in three places on the site and in both bios",
+        "A test sign-up lands on the same list as ticket buyers, with the question answered",
+        "Purchase appears as an imported conversion in Google Ads",
+        "At least 10 new clips are in the Clips folder"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Build the Audiences and Launch the Warm-Up (February 8)",
+      "actions": [
+        "Build the five custom audiences in Ads Manager → links to: Tactic 2 / Step 10",
+        "Choose four or five pieces of creative from the top organic posts and promo clips → links to: Tactic 2 / Step 11",
+        "Launch the warm-up campaign on desktop, with purchasers excluded → links to: Tactic 2 / Step 12",
+        "Hold the second batching session → links to: Tactic 1 / Step 6"
+      ],
+      "checklist": [
+        "Five custom audiences exist and are filling",
+        "The warm-up campaign is live with at least four pieces of creative in one ad set",
+        "Recent purchasers are excluded from the warm-up campaign",
+        "Four more posts are scheduled"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Ask the Room (February 15)",
+      "actions": [
+        "Put the sign-up cards and the review QR sign out at the Season show and say the one-line ask from the stage → links to: Tactic 3 / Step 4",
+        "Brief the door volunteers on the review line and place the review sign at the exit → links to: Tactic 3 / Step 8",
+        "Send the thank-you and review email within 48 hours of the show → links to: Tactic 3 / Step 7",
+        "Do the Monday ad check → links to: Tactic 2 / Step 15"
+      ],
+      "checklist": [
+        "Sign-up cards and the review sign were in place at the show",
+        "The review email went to that show's buyers within 48 hours",
+        "The review email is saved as a template",
+        "Spend, cost per result and frequency are noted for the warm-up campaign"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: The First Month of Real Data (February 22)",
+      "actions": [
+        "Read the Traffic acquisition report for purchases and revenue by source → links to: Tactic 2 / Step 7",
+        "Record the size of each custom audience → links to: Tactic 2 / Step 10",
+        "Send the February story email → links to: Tactic 3 / Step 5",
+        "Reply to every new review → links to: Tactic 3 / Step 9",
+        "Hold the third batching session → links to: Tactic 1 / Step 6",
+        "On Friday, check February's top posts and add the note → links to: Tactic 1 / Step 8"
+      ],
+      "checklist": [
+        "A month of purchases broken down by source is written down",
+        "Audience sizes are recorded, with the combined total at 500 or more",
+        "The February story email has been sent",
+        "Every review received in February has a reply"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Test Retargeting on a Season Show (March 1)",
+      "actions": [
+        "Launch the retargeting test for the March Season show with original audience options → links to: Tactic 2 / Step 13",
+        "Check the warm-up campaign's age breakdown for each piece of creative → links to: Tactic 2 / Step 12",
+        "Copy the best new review lines into the Quotes folder → links to: Tactic 3 / Step 10"
+      ],
+      "checklist": [
+        "The retargeting test is live and shows only the custom audiences, with purchasers excluded",
+        "The age breakdown for each piece of creative is noted",
+        "At least one review line is in the Quotes folder"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Keywords and the March Show (March 8)",
+      "actions": [
+        "Add the new search terms to Google Ad Grants and pause any keyword below 5 percent CTR → links to: Tactic 2 / Step 6",
+        "Send the review email after the March Season show → links to: Tactic 3 / Step 7",
+        "Put the review sign at the exit and brief the volunteers → links to: Tactic 3 / Step 8",
+        "Hold the fourth batching session → links to: Tactic 1 / Step 6"
+      ],
+      "checklist": [
+        "New keywords are live and the account CTR is at or above 5 percent",
+        "The March show's buyers received the review email within 48 hours",
+        "Four more posts are scheduled"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Build April Now (March 15)",
+      "actions": [
+        "Duplicate the retargeting test into the lineup launch campaign and save it as a draft → links to: Tactic 2 / Step 14",
+        "Build the announcement Reel template, the artist carousel layout and the captions → links to: Tactic 1 / Step 9",
+        "Send the March story email, ending with the lineup teaser → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "The Festival 2027 Lineup Retargeting campaign is saved as a draft with its start date set",
+        "The announcement Reel template and carousel layout are saved",
+        "The March story email has been sent"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: Review the 90 Days and Hand Off to April (March 22)",
+      "actions": [
+        "Record the retargeting test results and the cost per ticket → links to: Tactic 2 / Step 13",
+        "Pull the 90-day channel report and compare it with January → links to: Tactic 2 / Step 7",
+        "Draft the subscriber early-access lineup email → links to: Tactic 3 / Step 1",
+        "Save the post-show review template for the July festival → links to: Tactic 3 / Step 7",
+        "Hold the fifth batching session to cover the first week of April → links to: Tactic 1 / Step 6",
+        "On Friday, check March's top posts and add the note → links to: Tactic 1 / Step 8",
+        "Send the 90-day numbers to Junction ahead of the lineup announcement"
+      ],
+      "checklist": [
+        "Cost per ticket from the retargeting test is written down",
+        "A 90-day report shows purchases and revenue by source for February and March",
+        "The early-access lineup email is drafted and only needs the artist names",
+        "The July review template is saved",
+        "Posts are scheduled through the first week of April",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-festival-society/#week-12"
+    }
+  ]
+}
