@@ -61,15 +61,20 @@ EDITABLE KEY PATTERNS:
   - strategy-goal, strategy-positioning
   - objective-N-title, objective-N-desc
   - tactic-N-what-is, tactic-N-heard, tactic-N-matters
-  - tN-stepM-title, tN-bullet-M
+  - tactic-N-step-M-title, tN-bullet-M
+  - tN-tip-M, tN-resource-M
   - week-N-title, week-N-action-M, rwN_dM-label
   - qw-N-label
   - assessment-overall-summary, priority-N-text
 
 EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
   When generating implementation steps ({{TACTIC_N_IMPLEMENTATION_STEPS}}):
-  - Step titles: data-editable-key="tN-step-M-title"
-    Example: <div class="tactic-step-title" data-editable-key="t1-step-1-title">Step Title</div>
+  - Step titles: data-editable-key="tactic-N-step-M-title"
+    Example: <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Step Title</div>
+  - Step bullets: data-editable-key="tN-bullet-M" (numbered sequentially across ALL steps in tactic)
+    Example: <li data-editable-key="t1-bullet-1">First bullet of step 1</li>
+             <li data-editable-key="t1-bullet-2">Second bullet of step 1</li>
+             (Step 2 continues: t1-bullet-3, t1-bullet-4, etc.)
 
   When generating tips ({{TACTIC_N_TIPS}}):
   - Tips list items: data-editable-key="tN-tip-M"
@@ -82,6 +87,8 @@ EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
   When generating roadmap weeks ({{MONTH_N_WEEKS}}):
   - Week titles: data-editable-key="week-N-title"
     Example: <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Started</span>
+  - Week actions: MUST wrap text in <span class="week-task-text"> with data-editable-key
+    Example: <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Action text</span></li>
 
   When generating Quick Wins ({{QUICK_WINS_PAGE_CONTENT}}):
   - Quick win items: data-editable-key="qw-N-label"

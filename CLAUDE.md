@@ -477,7 +477,8 @@ All generated content must include `data-editable-key` and `data-editable-link` 
 
 | Content Type | Attribute | Pattern | Example |
 |---|---|---|---|
-| Implementation step titles | `data-editable-key` | `tN-step-M-title` | `t1-step-1-title`, `t2-step-3-title` |
+| Implementation step titles | `data-editable-key` | `tactic-N-step-M-title` | `tactic-1-step-1-title`, `tactic-2-step-3-title` |
+| Implementation step bullets | `data-editable-key` | `tN-bullet-M` | `t1-bullet-1`, `t2-bullet-15` |
 | Tips list items | `data-editable-key` | `tN-tip-M` | `t1-tip-1`, `t3-tip-2` |
 | Resource links | `data-editable-link` | `tN-resource-M` | `t1-resource-1`, `t2-resource-3` |
 | Week titles | `data-editable-key` | `week-N-title` | `week-1-title`, `week-12-title` |
@@ -494,13 +495,15 @@ Where:
 **Implementation Steps** (when generating `{{TACTIC_N_IMPLEMENTATION_STEPS}}`):
 ```html
 <div class="tactic-step-content">
-  <div class="tactic-step-title" data-editable-key="t1-step-1-title">Set up Google Analytics 4</div>
+  <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Set up Google Analytics 4</div>
   <ul class="tactic-step-bullets">
-    <li>Create a GA4 property</li>
-    <li>Install the tracking code</li>
+    <li data-editable-key="t1-bullet-1">Create a GA4 property</li>
+    <li data-editable-key="t1-bullet-2">Install the tracking code</li>
   </ul>
 </div>
 ```
+
+**IMPORTANT:** Bullet numbering (`tN-bullet-M`) is sequential across ALL steps within a tactic. For example, if Tactic 1 Step 1 has 3 bullets (t1-bullet-1 through t1-bullet-3), then Step 2's first bullet is t1-bullet-4, not t1-bullet-1.
 
 **Tips** (when generating `{{TACTIC_N_TIPS}}`):
 ```html
@@ -544,7 +547,8 @@ Where:
 **IMPORTANT:** The `data-editable-key` for week actions MUST be on a `<span class="week-task-text">` wrapper around the text only, NOT on the `<li>` element. This ensures only the text is editable, not the dot or howto button.
 
 #### Quality Checklist for Editable Attributes
-- [ ] Every `.tactic-step-title` element has a `data-editable-key="tN-step-M-title"` attribute
+- [ ] Every `.tactic-step-title` element has a `data-editable-key="tactic-N-step-M-title"` attribute
+- [ ] Every `<li>` in `.tactic-step-bullets` has a `data-editable-key="tN-bullet-M"` attribute (numbered sequentially across all steps in the tactic)
 - [ ] Every `<li>` in `.tactic-tips-list` has a `data-editable-key="tN-tip-M"` attribute
 - [ ] Every `<a>` in `.tactic-resources-list` has a `data-editable-link="tN-resource-M"` attribute
 - [ ] Every `.week-title` element has a `data-editable-key="week-N-title"` attribute
