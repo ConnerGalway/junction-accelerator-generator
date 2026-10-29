@@ -39,11 +39,32 @@ REQUIRED PLACEHOLDERS {{UPPER_SNAKE_CASE}}:
   Months:
     {{MONTH_1_NAME}}, {{MONTH_2_NAME}}, {{MONTH_3_NAME}}
 
-  Assessment:
+  Assessment (overall):
     {{OVERALL_SCORE}}         Numeric (0-100)
     {{OVERALL_GRADE}}         Letter grade (A, B+, C, etc.)
     {{ASSESSMENT_SUMMARY}}    Summary paragraph
     {{ASSESSMENT_DATE}}       Assessment date
+
+  Assessment (grade breakdown - 6 categories):
+    {{CATEGORY_N_SCORE}}      Numeric (0-100) for categories 1-6
+    {{CATEGORY_N_GRADE}}      Letter grade for categories 1-6
+    {{CATEGORY_N_GRADE_CLASS}} CSS class: grade-a, grade-b, grade-c, grade-d, grade-f
+    Categories: 1=Website, 2=Reviews, 3=Booking, 4=Social, 5=Experience, 6=Local
+
+  Assessment (executive summary):
+    {{EXECUTIVE_HEADLINE}}    1-2 sentence key finding
+    {{KEY_STRENGTHS}}         <li> items for strengths (4-6 items)
+    {{CRITICAL_GAPS}}         <li> items for gaps (4-6 items)
+    {{BOTTOM_LINE}}           Summary statement
+
+  Assessment (sections):
+    {{QUICK_WINS_CARDS}}      HTML grid of 5-6 quick win cards
+    {{PRIORITY_RECOMMENDATIONS}} HTML list of 4 priority cards
+    {{CATEGORY_CARDS}}        HTML grid of 6 collapsible category cards
+
+  Tactic breakdown (x3 or x4 per tactic):
+    {{TN_BREAKDOWN_M_TITLE}}  Short title (2-4 words) for breakdown M of tactic N
+    {{TN_BREAKDOWN_M_DESC}}   1-2 sentence description
 
 CONDITIONAL SECTIONS (use these markers in HTML, not inside this comment):
   IF:TACTIC_4      - 4th tactic (sidebar nav, page, JS arrays)

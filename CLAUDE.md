@@ -241,6 +241,32 @@ See the full list in the template header comment.
 | `{{TACTIC_N_RESOURCES}}` | `<li>` items with `<a>` links for tactic N resources. Generate from plan's Resources section. |
 | `{{TACTIC_N_IMPLEMENTATION_STEPS}}` | Full HTML for tactic N implementation steps tab. Generate from plan's Implementation Steps. |
 
+**Assessment page placeholders (REQUIRED):**
+
+| Placeholder | How to derive it |
+|---|---|
+| `{{CATEGORY_1_SCORE}}` through `{{CATEGORY_6_SCORE}}` | Numeric score (0-100) for each assessment category. Categories are: 1=Website & Technical, 2=Reviews & Reputation, 3=Online Booking & Conversion, 4=Social Media & Content, 5=Digital Guest Experience, 6=Local Visibility. |
+| `{{CATEGORY_1_GRADE}}` through `{{CATEGORY_6_GRADE}}` | Letter grade for each category (A, A-, B+, B, B-, C+, C, C-, D+, D, D-, F). |
+| `{{CATEGORY_1_GRADE_CLASS}}` through `{{CATEGORY_6_GRADE_CLASS}}` | CSS class for styling: `grade-a`, `grade-b`, `grade-c`, `grade-d`, or `grade-f`. Use the base letter only (B+ and B- both use `grade-b`). |
+| `{{EXECUTIVE_HEADLINE}}` | 1-2 sentence summary that captures the key finding and opportunity. Be specific to the client. |
+| `{{KEY_STRENGTHS}}` | 4-6 `<li>` items listing key strengths from the assessment. Each strength should be specific and actionable. |
+| `{{CRITICAL_GAPS}}` | 4-6 `<li>` items listing critical gaps. Focus on measurable gaps (e.g., "Instagram engagement at 0.49%, well below the 1.5% target"). |
+| `{{BOTTOM_LINE}}` | 1-2 sentences summarizing the overall opportunity. Frame positively with clear next step. |
+| `{{QUICK_WINS_CARDS}}` | HTML grid of 5-6 quick win cards. See Step 3.5 for format. |
+| `{{PRIORITY_RECOMMENDATIONS}}` | HTML list of 4 priority recommendation cards. See Step 3.5 for format. |
+| `{{CATEGORY_CARDS}}` | HTML grid of 6 collapsible category analysis cards. See Step 3.5 for format. |
+
+**Tactic breakdown placeholders (REQUIRED):**
+
+| Placeholder | How to derive it |
+|---|---|
+| `{{T1_BREAKDOWN_1_TITLE}}` through `{{T1_BREAKDOWN_3_TITLE}}` | Short title (2-4 words) for each breakdown item in Tactic 1. Derive from the plan's Part A/B/C headings. |
+| `{{T1_BREAKDOWN_1_DESC}}` through `{{T1_BREAKDOWN_3_DESC}}` | 1-2 sentence description of what each breakdown involves. |
+| `{{T2_BREAKDOWN_1_TITLE}}` through `{{T2_BREAKDOWN_3_TITLE}}` | Same pattern for Tactic 2. |
+| `{{T2_BREAKDOWN_1_DESC}}` through `{{T2_BREAKDOWN_3_DESC}}` | Same pattern for Tactic 2. |
+| `{{T3_BREAKDOWN_1_TITLE}}` through `{{T3_BREAKDOWN_4_TITLE}}` | Same pattern for Tactic 3. Note: Tactic 3 may have 3-4 items depending on the plan. |
+| `{{T3_BREAKDOWN_1_DESC}}` through `{{T3_BREAKDOWN_4_DESC}}` | Same pattern for Tactic 3. |
+
 ### Step 3: Handle optional blocks
 
 The template uses `<!-- IF:CONDITION -->` and `<!-- ENDIF:CONDITION -->` markers for optional sections. Process each condition:
@@ -277,29 +303,124 @@ When removing, delete both the HTML block (between IF:PROJECTIONS markers) AND t
 
 ### Step 3.5: Build the Assessment page
 
-The Assessment page displays the client's digital marketing audit results. Rebuild the entire `<section id="page-assessment">` content based on the client's assessment data.
+The Assessment page displays the client's digital marketing audit results. Fill all assessment placeholders based on the client's audit data from plan.md.
 
 > **CRITICAL: Generate Assessment content fresh for each client.** Never copy Assessment sections from another client's dashboard. Each finding, metric, and recommendation must come from THIS client's audit data. Copying creates incorrect findings (e.g., mentioning a "Winter Packing List page" for a cafe that has no such page).
 
-**Required sections:**
-1. **Assessment Hero**: Title, onboarding call date, and "Complete" badge
-2. **Summary Section**: Overall grade with breakdown:
-   - Overall grade badge (A/B/C/D/F)
-   - Grade breakdown metrics (e.g., Website: B+, SEO: C, Social: A-)
-   - Key summary points as bullet list
-3. **Recommendations Section**: Priority recommendations:
-   - Use `.recommendation-card` for each recommendation
-   - Include priority level, category, and description
-4. **Audit Sections**: Detailed findings per category:
-   - Website Performance (with metrics grid)
-   - SEO Analysis (with keyword data if available)
-   - Social Media Analysis (with platform-specific cards)
-   - Google Business Profile (if applicable)
+**Assessment data sources:**
+- Metrics mentioned in the plan's Goal section (e.g., "519 Google reviews at 4.8 stars", "Instagram engagement rate of 20.42 percent")
+- "What We Heard From You" sections in each tactic
+- GBP Quick Wins section (if present)
+- Any explicit assessment data in the Meta section
 
-**Assessment content sources:**
-- Onboarding call date from command parameter
-- Grades and metrics from the client's audit data
-- Recommendations prioritized by impact
+**1. Grade Breakdown Scores (6 categories):**
+
+Fill `{{CATEGORY_N_SCORE}}`, `{{CATEGORY_N_GRADE}}`, and `{{CATEGORY_N_GRADE_CLASS}}` for each category. Derive scores from plan data:
+
+| Category | What to assess | Score indicators |
+|---|---|---|
+| 1. Website & Technical | Tracking, pixel, speed, mobile | Pixel missing = low score; good tracking = high |
+| 2. Reviews & Reputation | Google reviews count, rating, recency | 500+ reviews at 4.5+ = A; 13 reviews with none recent = D |
+| 3. Online Booking & Conversion | Booking platform, checkout flow | On-site checkout with tracking = B+; no tracking = C |
+| 4. Social Media & Content | Engagement rate, posting frequency, Reels % | 20%+ engagement = A; 0.49% = D |
+| 5. Digital Guest Experience | Email strength, list growth, guest journey | Strong email channel = B; purchase-only growth = B- |
+| 6. Local Visibility | GBP completeness, photo freshness, Ad Grants | Active Ad Grants + fresh photos = B; outdated = C |
+
+**2. Executive Summary format:**
+
+```html
+<p class="executive-headline" data-editable-key="executive-headline">{{EXECUTIVE_HEADLINE}}</p>
+<div class="executive-columns">
+  <div class="executive-column strengths">
+    <h4>Key Strengths</h4>
+    <ul>
+      <li>Specific strength with data (e.g., "519 Google reviews at 4.8 stars")</li>
+      <!-- 4-6 items total -->
+    </ul>
+  </div>
+  <div class="executive-column gaps">
+    <h4>Critical Gaps</h4>
+    <ul>
+      <li>Specific gap with data (e.g., "Instagram engagement at 0.49%, well below the 1.5% target")</li>
+      <!-- 4-6 items total -->
+    </ul>
+  </div>
+</div>
+<div class="executive-bottom-line">
+  <strong>Bottom Line:</strong> {{BOTTOM_LINE}}
+</div>
+```
+
+**3. Quick Wins Cards format (`{{QUICK_WINS_CARDS}}`):**
+
+Generate 5-6 quick win cards. Each should be completable in under 30 minutes:
+
+```html
+<div class="quick-win-item">
+  <div class="quick-win-number">1</div>
+  <div class="quick-win-content">
+    <div class="quick-win-task" data-editable-key="qw-1-label">Action to take (e.g., "Reply to all existing Google reviews")</div>
+    <div class="quick-win-impact">Why it matters (e.g., "Shows the profile is active")</div>
+  </div>
+  <div class="quick-win-time">30 min</div>
+</div>
+<!-- Repeat for items 2-6 -->
+```
+
+**4. Priority Recommendations format (`{{PRIORITY_RECOMMENDATIONS}}`):**
+
+Generate exactly 4 priority recommendation cards:
+
+```html
+<div class="priority-item">
+  <div class="priority-item-number">1</div>
+  <div class="priority-item-content">
+    <h4>Recommendation title (e.g., "Connect GA4 and the Meta Pixel")</h4>
+    <div class="priority-item-meta">
+      <span class="priority-item-tag">Category (e.g., Tracking)</span>
+      <span class="priority-item-tag">Timeframe (e.g., Weeks 1-3)</span>
+    </div>
+    <p class="priority-item-result">Expected outcome (e.g., "Every ticket sale will show which channel it came from.")</p>
+  </div>
+</div>
+<!-- Repeat for items 2-4 -->
+```
+
+**5. Detailed Category Analysis format (`{{CATEGORY_CARDS}}`):**
+
+Generate 6 collapsible category cards (one per assessment category):
+
+```html
+<div class="category-card">
+  <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="category-icon website">
+      <svg><!-- Use appropriate icon --></svg>
+    </div>
+    <div class="category-title-wrap">
+      <h3 class="category-title">Website & Technical</h3>
+      <span class="category-grade grade-c">C</span>
+    </div>
+    <svg class="category-chevron"><!-- Chevron icon --></svg>
+  </div>
+  <div class="category-body">
+    <p class="category-summary">2-3 sentence summary of findings for this category.</p>
+    <div class="category-metrics">
+      <div class="category-metric"><span class="metric-label">Label</span><span class="metric-value">Value</span></div>
+      <!-- 3-4 metrics -->
+    </div>
+    <div class="category-findings">
+      <h4>Key Findings</h4>
+      <ul>
+        <li>Specific finding 1</li>
+        <li>Specific finding 2</li>
+        <li>Specific finding 3</li>
+      </ul>
+    </div>
+  </div>
+</div>
+```
+
+Category icon classes: `website`, `reviews`, `booking`, `social`, `experience`, `local`
 
 ### Step 3.6: Build the Strategy page
 
@@ -335,6 +456,39 @@ Each tactic page needs full content. For each of the 3 tactics, rebuild:
 - "What We Heard From You": client's specific context from the plan
 - "What This Is": what the tactic actually is
 - "Why It Matters": the reasoning for prioritising it
+- **"What This Breaks Into"**: 3-4 breakdown items showing the tactic's main work streams
+
+**Tactic Breakdown Items (REQUIRED):**
+
+Fill `{{TN_BREAKDOWN_M_TITLE}}` and `{{TN_BREAKDOWN_M_DESC}}` for each breakdown item:
+
+```html
+<div class="tactic-breakdown-grid">
+  <div class="tactic-breakdown-item">
+    <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-1-title">Buyer Research</div>
+    <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-1-desc">Pull 12 months of corporate inquiries and interview three recent bookers.</div>
+  </div>
+  <div class="tactic-breakdown-item">
+    <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-2-title">Landing Page Brief</div>
+    <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-2-desc">Write detailed specs for the new corporate page.</div>
+  </div>
+  <div class="tactic-breakdown-item full-width">
+    <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-3-title">Lead Magnet</div>
+    <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-3-desc">Build a downloadable resource that captures planner emails.</div>
+  </div>
+</div>
+```
+
+**How to derive breakdown content:**
+- Look at the plan's "Implementation Steps" section for each tactic
+- Each "Part A/B/C/D" heading becomes a breakdown item
+- Title: 2-4 words summarizing the part (e.g., "Part A: Know the Buyer" → "Buyer Research")
+- Description: 1-2 sentences explaining what that part involves
+
+**Number of items per tactic:**
+- Most tactics have 3 breakdown items (Parts A, B, C)
+- Some tactics have 4 items (Parts A, B, C, D) - add a 4th item if the plan has 4 parts
+- The 3rd (or 4th) item uses class `full-width` to span the grid
 
 **Implementation Steps tab** (Part A, B, C sections):
 - Numbered steps with sub-bullets
