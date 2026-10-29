@@ -1727,6 +1727,10 @@ body.drawer-open{
 .category-icon.social{background:#fce4ec;color:#c2185b}
 .category-icon.experience{background:#ede7f6;color:#5e35b1}
 .category-icon.local{background:#e0f7fa;color:#0097a7}
+.category-icon.seo{background:#e8eaf6;color:#3949ab}
+.category-icon.ads{background:#fbe9e7;color:#e64a19}
+.category-icon.content{background:#f3e5f5;color:#8e24aa}
+.category-icon.email{background:#e0f2f1;color:#00796b}
 .category-title-wrap{flex:1}
 .category-title{
   font-family:var(--font-d);
@@ -6028,126 +6032,317 @@ button,
     <div class="categories-section">
       <h2>Detailed Category Analysis</h2>
       <div class="categories-grid">
+
+        <!-- Website -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Website</h4>
-            <span class="category-grade grade-b">B+</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon website">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Website</div>
+              <span class="category-grade grade-b">B+</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Fast-loading site with FareHarbor booking integration. Mobile-friendly design and clear season navigation via "Choose Your Adventure" block.</p>
-            <ul>
-              <li class="positive">Site loads in under 3 seconds</li>
-              <li class="positive">FareHarbor booking flow works smoothly</li>
-              <li class="negative">Four Heading 1s where there should be one</li>
-              <li class="negative">Phone number only in footer, hard to find</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Fast-loading site with FareHarbor booking integration. Mobile-friendly design and clear season navigation via "Choose Your Adventure" block.</p>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Site loads in under 3 seconds</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>FareHarbor booking flow works smoothly</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Four Heading 1s where there should be one</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Phone number only in footer, hard to find</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- SEO -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>SEO</h4>
-            <span class="category-grade grade-c">C+</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon seo">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">SEO</div>
+              <span class="category-grade grade-c">C+</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Basic SEO in place but missing seasonal optimization. Title tag too long, meta description does not mention all three seasons.</p>
-            <ul>
-              <li class="positive">Homepage indexed and ranking for brand terms</li>
-              <li class="negative">Title tag 72 characters, gets cut off in results</li>
-              <li class="negative">Four images missing alt text</li>
-              <li class="negative">No dedicated pages for each cruise type</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Basic SEO in place but missing seasonal optimization. Title tag too long, meta description does not mention all three seasons.</p>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Homepage indexed and ranking for brand terms</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Title tag 72 characters, gets cut off in results</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Four images missing alt text</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No dedicated pages for each cruise type</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Social Media -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Social Media</h4>
-            <span class="category-grade grade-b">B</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon social">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Social Media</div>
+              <span class="category-grade grade-b">B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>10,430 combined followers with above-average engagement. Reels perform well but posting frequency too low at 1.1 times per week.</p>
-            <ul>
-              <li class="positive">2.13% Instagram engagement rate</li>
-              <li class="positive">POV Reel drew 2,000 views</li>
-              <li class="positive">FLUXX post at 8.62% engagement</li>
-              <li class="negative">Posting only 1.1 times per week</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">10,430 combined followers with above-average engagement. Reels perform well but posting frequency too low at 1.1 times per week.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Followers</div>
+                <div class="metric-value"><span class="metric-status good"></span> 10,430</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Engagement Rate</div>
+                <div class="metric-value"><span class="metric-status good"></span> 2.13%</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Best Reel Views</div>
+                <div class="metric-value"><span class="metric-status good"></span> 2,000</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Post Frequency</div>
+                <div class="metric-value"><span class="metric-status warning"></span> 1.1/week</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>POV Reel drew 2,000 views</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>FLUXX post at 8.62% engagement</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Posting only 1.1 times per week</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Google Business -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Google Business</h4>
-            <span class="category-grade grade-b">B+</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon reviews">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Google Business</div>
+              <span class="category-grade grade-b">B+</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Strong review presence with 263 reviews at 4.8 stars. Guests mention staff by name and celebrations on board.</p>
-            <ul>
-              <li class="positive">4.8 stars from 263 reviews</li>
-              <li class="positive">Reviews mention specific staff and experiences</li>
-              <li class="negative">Many reviews lack owner replies</li>
-              <li class="negative">Seasonal hours not always updated</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Strong review presence with 263 reviews at 4.8 stars. Guests mention staff by name and celebrations on board.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Google Rating</div>
+                <div class="metric-value"><span class="metric-status good"></span> 4.8 stars</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Review Count</div>
+                <div class="metric-value"><span class="metric-status good"></span> 263</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Reviews mention specific staff and experiences</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Many reviews lack owner replies</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Seasonal hours not always updated</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Paid Ads -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Paid Ads</h4>
-            <span class="category-grade grade-c">C</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon ads">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Paid Ads</div>
+              <span class="category-grade grade-c">C</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Tools installed but configuration unclear. GA4 shows 89 conversions from $212 spend, which suggests something other than bookings is being counted.</p>
-            <ul>
-              <li class="positive">$0.34 cost per click on Google</li>
-              <li class="positive">GA4 and Meta Pixel installed</li>
-              <li class="negative">Unclear if conversions count real bookings</li>
-              <li class="negative">Ads promoting off-season cruises</li>
-              <li class="negative">Meta using Boost, not Ads Manager</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Tools installed but configuration unclear. GA4 shows 89 conversions from $212 spend, which suggests something other than bookings is being counted.</p>
+            <div class="category-metrics">
+              <div class="metric-item">
+                <div class="metric-label">Cost Per Click</div>
+                <div class="metric-value"><span class="metric-status good"></span> $0.34</div>
+              </div>
+              <div class="metric-item">
+                <div class="metric-label">Tracking</div>
+                <div class="metric-value"><span class="metric-status good"></span> GA4 + Pixel</div>
+              </div>
+            </div>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Unclear if conversions count real bookings</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Ads promoting off-season cruises</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Meta using Boost, not Ads Manager</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Content -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Content</h4>
-            <span class="category-grade grade-b">B-</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon content">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Content</div>
+              <span class="category-grade grade-b">B-</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Strong raw material from creator visits and personal camera roll. System for turning clips into scheduled content not yet in place.</p>
-            <ul>
-              <li class="positive">Creator posts draw 100+ comments</li>
-              <li class="positive">Tourism Harrison photography coming</li>
-              <li class="negative">No clip sorting or album system</li>
-              <li class="negative">Posts not scheduled in advance</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Strong raw material from creator visits and personal camera roll. System for turning clips into scheduled content not yet in place.</p>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Creator posts draw 100+ comments</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Tourism Harrison photography coming</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No clip sorting or album system</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Posts not scheduled in advance</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Email -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Email</h4>
-            <span class="category-grade grade-c">C-</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon email">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Email</div>
+              <span class="category-grade grade-c">C-</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Email not a focus for this plan. FareHarbor handles transactional emails for bookings. No marketing email system in place.</p>
-            <ul>
-              <li class="positive">Booking confirmations automated via FareHarbor</li>
-              <li class="negative">No email list or newsletter</li>
-              <li class="negative">No post-cruise follow-up sequence</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Email not a focus for this plan. FareHarbor handles transactional emails for bookings. No marketing email system in place.</p>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Booking confirmations automated via FareHarbor</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No email list or newsletter</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No post-cruise follow-up sequence</span>
+              </div>
+            </div>
           </div>
         </div>
+
+        <!-- Local Visibility -->
         <div class="category-card">
-          <div class="category-card-header">
-            <h4>Local Visibility</h4>
-            <span class="category-grade grade-b">B</span>
+          <div class="category-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="category-icon local">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="category-title-wrap">
+              <div class="category-title">Local Visibility</div>
+              <span class="category-grade grade-b">B</span>
+            </div>
+            <svg class="category-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
           </div>
-          <div class="category-card-body">
-            <p>Listed on Tourism Harrison and Destination BC. Vancouver Is Awesome interview pending. Competitor on the water is minimal.</p>
-            <ul>
-              <li class="positive">Only 62-foot yacht cruise in Harrison</li>
-              <li class="positive">Listed on regional tourism sites</li>
-              <li class="negative">Listings may not link directly to website</li>
-              <li class="negative">No links from creator blogs</li>
-            </ul>
+          <div class="category-body">
+            <p class="category-summary">Listed on Tourism Harrison and Destination BC. Vancouver Is Awesome interview pending. Competitor on the water is minimal.</p>
+            <div class="category-findings">
+              <h4>Key Findings</h4>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Only 62-foot yacht cruise in Harrison</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon positive" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                <span>Listed on regional tourism sites</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>Listings may not link directly to website</span>
+              </div>
+              <div class="finding-item">
+                <svg class="finding-icon negative" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/></svg>
+                <span>No links from creator blogs</span>
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
 
@@ -6395,9 +6590,9 @@ button,
                     <div class="tactic-step-title" data-editable-key="tactic-1-step-3-title">Connect the Meta Pixel to the FareHarbor booking flow</div>
                     <ul class="tactic-step-bullets">
                       <li data-editable-key="t1-bullet-10">Your pixel (ID 514399410953650) is on your Squarespace site, but the booking itself happens inside FareHarbor. Unless FareHarbor is also sending events to that pixel, Meta can see who visited but not who booked.</li>
-                      <li data-editable-key="t1-bullet-11">FareHarbor connects the Meta Pixel to its booking flow on request. Contact FareHarbor Support, give them the pixel ID, and ask them to confirm that the Purchase event will fire when a booking completes.</li>
-                      <li data-editable-key="t1-bullet-12">Once they confirm, open business.facebook.com then Events Manager then select the pixel then Overview. Within a day or two of bookings coming in, you should see Purchase listed with a recent "Last received" time.</li>
-                      <li data-editable-key="t1-bullet-13">Install the free Meta Pixel Helper extension in Chrome. Visit your homepage and click the extension icon. It should show your pixel firing a PageView. This confirms the base code is live.</li>
+                      <li data-editable-key="t1-bullet-11">FareHarbor sends Purchase events through Meta's Conversions API, which is server-to-server. To set this up, they need three things from you: your pixel ID, a Conversions API access token (generated in Events Manager then Settings then Generate access token), and your event source URL (your verified domain, e.g. shorelinetours.ca). Note: your domain must be verified in Business Settings before this step. If Step 10 has not been completed yet, do that first.</li>
+                      <li data-editable-key="t1-bullet-12">Once FareHarbor confirms the integration, open business.facebook.com then Events Manager then select the pixel then Overview. Within a day or two of bookings coming in, you should see Purchase listed as "Browser &amp; Server" or "Server" under Connection Method, with a recent "Last received" time.</li>
+                      <li data-editable-key="t1-bullet-13">Install the free Meta Pixel Helper extension in Chrome. On your homepage it will show PageView firing. It will not show Purchase, because FareHarbor sends that event from their server, not from the browser. To confirm Purchase is working, check Events Manager instead.</li>
                     </ul>
                     <div class="tactic-mockup">
                       <div class="tactic-mockup-chrome">
