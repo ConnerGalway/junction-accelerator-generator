@@ -5160,12 +5160,27 @@ body:not(.has-plan) .plan-content{display:none}
   height:auto;
   display:block;
 }
+.tactic-mockup-body{aspect-ratio:16/10;overflow:hidden}
+.tactic-mockup-body img{width:100%;height:100%;object-fit:cover;object-position:top center;cursor:zoom-in}
+.tactic-mockup--page .tactic-mockup-body::after{content:"Full page ↗";position:absolute;right:10px;bottom:10px;background:rgba(20,26,26,.72);color:#fff;font-size:11px;letter-spacing:.3px;padding:4px 9px;border-radius:20px;pointer-events:none}
+.tactic-embed .tactic-mockup-body{aspect-ratio:16/9}
+.tactic-embed iframe{width:100%;height:100%;border:0;display:block}
 .tactic-mockup-label{
   padding:12px 16px;
   font-size:12px;
   color:#8a7f68;
   text-align:center;
   background:#f7f2e9;
+}
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
 }
 
 /* Two-column step layout */
@@ -6338,6 +6353,17 @@ button,
                       <li data-editable-key="t1-bullet-4">Take a screenshot of the list before and after, and save both. If anything looks unfamiliar, send the screenshot to Junction before changing it.</li>
                       <li data-editable-key="t1-bullet-5">Turning a star off stops it counting from that day forward. It does not rewrite past reports, so treat everything before the change date as unreliable.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">analytics.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s1-ga4-key-events.png" alt="GA4 Admin Events screen with only purchase starred in the Mark as key event column, with notes on where to find it and saving before and after screenshots" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
@@ -6350,6 +6376,18 @@ button,
                       <li data-editable-key="t1-bullet-8">In GA4, go to Admin then Data streams then your web stream then Configure tag settings then Show all then List unwanted referrals. Add fareharbor.com and your own domain (without www). FareHarbor lists this as mandatory. Without it, bookings get credited to FareHarbor as a referral instead of to the ad or search that brought the guest.</li>
                       <li data-editable-key="t1-bullet-9">Then do a reality check. In GA4, go to Reports then Monetization then Ecommerce purchases for the last 28 days and note the number of purchases. Run the bookings report in FareHarbor for the same 28 days and compare. They will never match exactly, but they should be in the same range. If GA4 shows far more, something other than bookings is being counted.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">FareHarbor Dashboard and GA4 settings</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s2-fareharbor-ga4.png" alt="FareHarbor Analytics and Tracking settings with the GA4 measurement ID and multiple-websites checkbox, the GA4 unwanted referrals list with fareharbor.com and shorelinetours.ca, and a 28-day booking comparison" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
+                    <a href="https://help.fareharbor.com/hc/en-us/articles/40898430863643-Google-Analytics-4-GA4-Common-requests" class="tactic-step-resource" target="_blank">FareHarbor: connecting GA4 to your Dashboard →</a>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-3">
@@ -6362,6 +6400,18 @@ button,
                       <li data-editable-key="t1-bullet-12">Once they confirm, open business.facebook.com then Events Manager then select the pixel then Overview. Within a day or two of bookings coming in, you should see Purchase listed with a recent "Last received" time.</li>
                       <li data-editable-key="t1-bullet-13">Install the free Meta Pixel Helper extension in Chrome. Visit your homepage and click the extension icon. It should show your pixel firing a PageView. This confirms the base code is live.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com · Events Manager</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s3-meta-purchase-event.png" alt="Meta Events Manager Overview showing Purchase received through the Conversions API, the details FareHarbor Support needs, and Meta Pixel Helper showing PageView on shorelinetours.ca" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
+                    <a href="https://pages.fareharbor.com/integrations/facebook-pixel" class="tactic-step-resource" target="_blank">FareHarbor: tracking conversions with the Meta Pixel →</a>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-4">
@@ -6376,6 +6426,17 @@ button,
                       <li data-editable-key="t1-bullet-18">In Meta Events Manager, go to Custom conversions then Create custom conversion. Choose your pixel, set the rule to "URL contains thank-you-inquiry", and name it "Private Inquiry."</li>
                       <li data-editable-key="t1-bullet-19">Submit a test inquiry yourself and check that both appear.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Private inquiry tracking</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s4-inquiry-tracking.png" alt="Flow from the private charter inquiry form to a hidden thank-you page, then to a GA4 private_inquiry event and a Meta Private Inquiry custom conversion" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
@@ -6388,6 +6449,17 @@ button,
                       <li data-editable-key="t1-bullet-22">Add the GA4 purchase count from Step 2 and the FareHarbor booking count for the same period.</li>
                       <li data-editable-key="t1-bullet-23">Date the sheet and keep it. In Week 12 you will fill in the same numbers again.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Shoreline Tours tracking sheet</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s5-baseline-sheet.png" alt="Baseline sheet with rows for summer 2024 and 2025 bookings by weekday and weekend, ad spend and clicks, followers, posts per week and the GA4 versus FareHarbor check, with Week 1 and Week 12 columns" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6412,6 +6484,17 @@ button,
                       <li data-editable-key="t1-bullet-26">The GA4 purchase event should be the only Primary conversion. If it is missing, click "+ Create conversion action" then Import then Google Analytics 4 properties then Web, tick purchase, and import it. Set anything else (page views, engagement, contact clicks) to Secondary.</li>
                       <li data-editable-key="t1-bullet-27">Once Step 4 is done, import private_inquiry the same way and set it to Secondary, so it is reported but does not pull summer budget away from public tour bookings.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">ads.google.com · Goals › Conversions</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s6-google-ads-primary.png" alt="Google Ads conversion actions summary with purchase as the only primary action and every other action, including private_inquiry, set to secondary" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-7">
@@ -6426,6 +6509,17 @@ button,
                       <li data-editable-key="t1-bullet-32">Check how much of your spend comes from people searching "Shoreline Tours" by name. If it is a large share, those are guests who were already looking for you, and the 89 paid conversions are overstated. Bring the figure to the Week 12 review. Do not exclude your brand name yet: it is cheap traffic, and stopping it is a decision to make with full numbers.</li>
                       <li data-editable-key="t1-bullet-33">Repeat this check for 15 minutes every two weeks during booking season.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">ads.google.com · Search terms</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s7-search-terms.png" alt="Google Ads search terms sorted by cost and marked exclude, keep or brand, with a starter list of ten negative keywords" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-8">
@@ -6439,6 +6533,17 @@ button,
                       <li data-editable-key="t1-bullet-37">In the campaign settings, find Final URL expansion and turn it off. Otherwise Google may send people to any page on your site, not the homepage you chose.</li>
                       <li data-editable-key="t1-bullet-38">Leave the location targeting as it is (BC, Alberta and Washington). Someone in Alberta searching "Harrison Lake cruise" is planning a trip, and that is worth paying for.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">ads.google.com · Asset group</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s8-seasonal-headlines.png" alt="Asset group headlines grouped by season with off-season headlines removed and Final URL expansion off, beside a phone showing an eagle cruise search ad" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-9">
@@ -6492,6 +6597,17 @@ button,
                       <li data-editable-key="t1-bullet-54">"Bookers 180": source Website, people who triggered Purchase in the past 180 days. This is your exclusion list, so people who have just booked do not keep seeing "book now" ads. It is also the seed for Step 16. This one fills only after Step 3 is working.</li>
                       <li data-editable-key="t1-bullet-55">Check each audience's estimated size on the Audiences page and write it in your baseline sheet.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">adsmanager.facebook.com · Audiences</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s11-warm-audiences.png" alt="Ads Manager audiences list with four warm custom audiences for retargeting and Bookers 180 marked as an exclusion" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-12">
@@ -6504,6 +6620,17 @@ button,
                       <li data-editable-key="t1-bullet-58">Creative: direct and specific. Name the cruise that is bookable now, the dates, the price ($79 and $70 as shown on your site, or the current prices), and a reason to book now. "Summer weekends sell out first" is the sort of line Conner described. These people already know you, so this is where you can be direct.</li>
                       <li data-editable-key="t1-bullet-59">Budget: $5 a day off-season and $8 a day in summer. This campaign stays on all year. When you are closed, point it at the next season's dates if they are bookable, or pause it if nothing is.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Meta Ads Manager · Retargeting</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s12-retargeting-ad.png" alt="Instagram feed ad for the Harrison River eagle cruise beside the retargeting campaign setup: Sales objective, Purchase event, warm audiences, Bookers 180 excluded and daily budgets" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-13">
@@ -6519,6 +6646,17 @@ button,
                       <li data-editable-key="t1-bullet-65">On the audience screen, Meta will offer Advantage+ audience. Location is always a firm limit. Age is treated as a suggestion unless you choose "Switch to original audience options", which makes it firm. Use the suggestion setting for Families and Groups and the firm setting for Retirees, matching the 35-and-up rule you already use for river tours.</li>
                       <li data-editable-key="t1-bullet-66">Keep interests empty. Conner's experience across many accounts is that Meta finds the right people better when targeting is broad and the creative does the work.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Meta Ads Manager · Audience campaigns</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s13-four-campaigns.png" alt="Four campaign cards for Families, Retirees and intentional travellers, Washington State and Private groups, each with season, location, age setting, message and destination" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-14">
@@ -6531,6 +6669,17 @@ button,
                       <li data-editable-key="t1-bullet-69">Meta automatically shifts budget toward the ads that perform. You do not need to watch it daily.</li>
                       <li data-editable-key="t1-bullet-70">After two weeks, open the campaign then Ads tab, sort by cost per result, and switch off any ad that has spent more than about $30 without a single booking or inquiry. Replace it with a winner from your organic posts (Tactic 3, Step 10).</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Meta Ads Manager · Ads</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s14-format-mix.png" alt="Six ad formats from Reel to creator post, above an Ads tab sorted by cost per result with an ad switched off after spending past 30 dollars without a result" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-15">
@@ -6544,6 +6693,17 @@ button,
                       <li data-editable-key="t1-bullet-74">At the end of each block, record spend, bookings (or inquiries) and cost per booking in your sheet. After all four have had a turn, give the extra budget to the cheapest and keep the rest rotating.</li>
                       <li data-editable-key="t1-bullet-75">Never switch off retargeting to fund a test. It is the campaign most likely to return the most per dollar.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Two-week rotation</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s15-two-week-rotation.png" alt="Timeline of four two-week audience blocks with retargeting running underneath, summer and off-season budget splits, and a table for recording each block's results" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-16">
@@ -6580,6 +6740,17 @@ button,
                       <li data-editable-key="t1-bullet-82">Ask Tourism Harrison whether they already use a standard creator release you can adapt. If they do, use theirs.</li>
                       <li data-editable-key="t1-bullet-83">Ask for raw clips as well as the finished post. Raw vertical clips are the most useful ad material you can get.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Creator content agreement (template)</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t1-s17-creator-release.png" alt="One-page creator content agreement template covering what Shoreline provides, what the creator provides, 12 months of paid ad use with partnership ad permission, and a website link" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-18">
