@@ -5187,6 +5187,19 @@ body:not(.has-plan) .plan-content{display:none}
   box-shadow:0 2px 6px rgba(17,21,75,.18);
 }
 
+/* Social reel cards (three phones side by side) */
+.tactic-reel-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:640px;margin-top:16px}
+.tactic-reel{display:block;color:inherit;text-decoration:none;border-radius:26px}
+.tactic-reel-phone{background:#16191d;border-radius:26px;padding:6px;box-shadow:0 12px 28px -14px rgba(30,25,15,.45);transition:transform .2s ease,box-shadow .2s ease}
+.tactic-reel-phone img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px}
+.tactic-reel:hover .tactic-reel-phone,.tactic-reel:focus-visible .tactic-reel-phone{transform:translateY(-3px);box-shadow:0 18px 32px -14px rgba(30,25,15,.5)}
+.tactic-reel:hover,.tactic-reel:focus-visible{text-decoration:none}
+.tactic-reel:focus-visible{outline:2px solid var(--link-blue);outline-offset:3px}
+.tactic-reel-label{margin-top:10px;font-size:12px;line-height:1.4;text-align:center;color:#8a7f68}
+.tactic-reel-label strong{display:block;color:#3a3326;font-weight:600}
+.tactic-reel-open{color:var(--link-blue);font-weight:600}
+@media (max-width:560px){.tactic-reel-row{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.tactic-reel{scroll-snap-align:start}}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -7726,6 +7739,17 @@ button,
                       <li data-editable-key="t3-bullet-4">Ask guests before filming them up close, and only post faces of people who have said yes.</li>
                       <li data-editable-key="t3-bullet-5">This is a task you can hand to any crew member who is on board. Tell them the five shots and they can do it.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Five clips per sailing</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t3-s1-five-shots.png" alt="Five vertical phone clips: the view off the bow, an eagle seen over the side, guests reacting, a placeholder for the crew at work, and the boat at the dock" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-2">
@@ -7737,6 +7761,17 @@ button,
                       <li data-editable-key="t3-bullet-7">Favourite (heart) the two or three best of each day. Those are the first ones you will reach for.</li>
                       <li data-editable-key="t3-bullet-8">Once a month, back the albums up to Google Drive or another cloud folder so nothing is lost if the phone breaks.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">iPhone Photos</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t3-s2-photo-albums.png" alt="iPhone Photos albums named Lake, Waterfall, River, Guests, Crew, Events and Groups and Creators, beside a river photo being marked as a favourite with the heart" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-3">
@@ -7775,6 +7810,20 @@ button,
                       <li data-editable-key="t3-bullet-17">Season and events: what is sailing now and what is coming next, plus special events like the FLUXX Summer Series, which is your best-performing post on record.</li>
                       <li data-editable-key="t3-bullet-18">Rotate them in order, so a week might be POV, Guest moment, Season. No single post has to carry the whole account.</li>
                     </ul>
+                    <div class="tactic-reel-row">
+                      <a href="https://www.instagram.com/reel/C_OZepByD00/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Nimmo Bay day-on-the-boat reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/shoreline-tours-mockups/media/t3-s4-day-on-the-boat.png" alt="Nimmo Bay Instagram reel, A Day in the Life with Adventure Guide Sylvia, filmed from the side of a boat on a misty inlet" loading="lazy"></div>
+                        <div class="tactic-reel-label"><strong>Day on the boat</strong>@nimmobayresort · <span class="tactic-reel-open">Open reel ↗</span></div>
+                      </a>
+                      <a href="https://www.instagram.com/reel/DZ3FLShyPOm/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Seasky Cruises birthday reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/shoreline-tours-mockups/media/t3-s4-guest-moment.png" alt="Seasky Cruises Instagram reel of a birthday group on the bow of a yacht off Vancouver, with POV text over the video" loading="lazy"></div>
+                        <div class="tactic-reel-label"><strong>Guest moment</strong>@seasky.cruises · <span class="tactic-reel-open">Open reel ↗</span></div>
+                      </a>
+                      <a href="https://www.instagram.com/reel/DdJp6NazvYf/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the yacht captain behind-the-scenes reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/shoreline-tours-mockups/media/t3-s4-behind-the-scenes.png" alt="Instagram reel of a yacht captain hosing down the deck at the marina before a trip" loading="lazy"></div>
+                        <div class="tactic-reel-label"><strong>Behind the scenes</strong>@chelswilds · <span class="tactic-reel-open">Open reel ↗</span></div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-5">
@@ -7822,6 +7871,17 @@ button,
                       <li data-editable-key="t3-bullet-28">Block out one two-hour session at the start of each month to schedule all twelve or thirteen posts. In summer, do it before the season starts and schedule six weeks at once.</li>
                       <li data-editable-key="t3-bullet-29">Leave one slot a week empty for something that happens that week, such as a sighting, a great sunset or a creator visit.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com · Planner</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t3-s7-planner-schedule.png" alt="Meta Business Suite Planner for November with posts on Mondays, Wednesdays and Fridays and one open slot, and a reel set to post to Facebook and Instagram with Schedule chosen from the Publish menu" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-8">
@@ -7868,6 +7928,17 @@ button,
                       <li data-editable-key="t3-bullet-38">Replace the weakest ad in that campaign at the same time (Tactic 1, Step 14), so each campaign keeps six to ten ads and always has fresh ones.</li>
                       <li data-editable-key="t3-bullet-39">A post that did poorly organically is not banned from ads, but start with the proven ones.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Meta Ads Manager · New ad</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/shoreline-tours-mockups/media/t3-s10-use-existing-post.png" alt="Ads Manager ad setup with Use existing post selected, and the Instagram post picker with one organic post chosen" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
