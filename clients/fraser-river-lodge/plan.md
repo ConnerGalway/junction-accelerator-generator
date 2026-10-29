@@ -723,7 +723,6 @@ These are small jobs, most under an hour, that make the lodge easier to find and
 - **Add your social links.** In the profile's contact details, add Instagram, Facebook, YouTube (both channels once the corporate one exists) and LinkedIn. AI tools and Google use these links to confirm which accounts belong to you.
 - **Check your categories.** Confirm the primary category is the right lodging type, and check whether secondary categories that describe your event business, such as wedding venue or event venue, are available and accurate.
 - **Reply to every unanswered review.** The assessment estimated a response rate of about 60 percent. Bring it close to 100 percent, using the corporate phrasing from Tactic 2 where it fits naturally.
-- **Do not look for Chat or Q&A.** The assessment suggested turning on messaging. Google removed Business Profile chat in July 2024 and has replaced Questions and Answers with an AI feature in Maps, so there is nothing to switch on. Your photos, reviews and details now do that job.
 
 ### On Your Other Profiles
 
