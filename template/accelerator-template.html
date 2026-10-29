@@ -111,9 +111,31 @@ EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
   - Week actions: MUST wrap text in <span class="week-task-text"> with data-editable-key
     Example: <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Action text</span></li>
 
-  When generating Quick Wins ({{QUICK_WINS_PAGE_CONTENT}}):
-  - Quick win items: data-editable-key="qw-N-label"
-    Example: <div data-editable-key="qw-1-label">Quick win description</div>
+  When generating Quick Wins page ({{QUICK_WINS_PAGE_CONTENT}}):
+  - Use .section-label for category headers (e.g., "On the Google Business Profile")
+  - Use .card with .card-body containing .check-list
+  - Each item is a .check-item with checkbox, label, and note toggle
+  - Quick win labels: data-editable-key="qw_N-label" (note underscore)
+  - Checkbox IDs: qw_1 through qw_N
+  Example:
+    <div class="section-label">On the Google Business Profile</div>
+    <div class="card" style="padding:0;margin-bottom:24px">
+      <div class="card-body">
+        <div class="check-list" style="gap:16px">
+          <div class="check-item">
+            <div class="check-row">
+              <input type="checkbox" class="check-input" id="qw_1" onchange="onCheck(this)">
+              <label class="check-box" for="qw_1">...</label>
+              <label class="check-label" for="qw_1" data-editable-key="qw_1-label">
+                <strong>Task title.</strong> Description...
+              </label>
+              <button class="note-toggle-btn" onclick="toggleNote('qw_1')">...</button>
+            </div>
+            <div class="note-area" id="note-area-qw_1">...</div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 SECTIONS REBUILT PER CLIENT BY CLAUDE:
   - All tactic page content (overview, implementation steps, metrics, tips)

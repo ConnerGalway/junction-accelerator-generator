@@ -422,7 +422,58 @@ Generate 6 collapsible category cards (one per assessment category):
 
 Category icon classes: `website`, `reviews`, `booking`, `social`, `experience`, `local`
 
-### Step 3.6: Build the Strategy page
+### Step 3.6: Build the Quick Wins Page (page-gbp)
+
+The Quick Wins PAGE is a separate page (distinct from the Quick Wins Cards section on the Assessment page) that displays actionable items with checkboxes. This page uses the `{{QUICK_WINS_PAGE_CONTENT}}` placeholder.
+
+**Page structure:**
+```html
+<div class="section-label">On the Google Business Profile</div>
+<div class="card" style="padding:0;margin-bottom:24px">
+  <div class="card-body">
+    <div class="check-list" style="gap:16px">
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_1" onchange="onCheck(this)">
+          <label class="check-box" for="qw_1">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+              <path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </label>
+          <label class="check-label" for="qw_1" data-editable-key="qw_1-label">
+            <strong>Action title.</strong> Description of what to do and why.
+          </label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_1')">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+        <div class="note-area" id="note-area-qw_1">
+          <textarea class="note-textarea" id="note-qw_1" placeholder="Add a note…" oninput="saveNote('qw_1',this.value)"></textarea>
+        </div>
+      </div>
+      <!-- More check-items -->
+    </div>
+  </div>
+</div>
+```
+
+**Key conventions:**
+- Use `.section-label` for category headers (e.g., "On the Google Business Profile", "On the Website")
+- Each category is wrapped in a `.card` with `.card-body` containing `.check-list`
+- Each item is a `.check-item` containing `.check-row` with checkbox, label, and note toggle
+- Checkbox IDs use underscore: `qw_1`, `qw_2`, etc. (NOT `qw-1`)
+- Editable keys also use underscore: `data-editable-key="qw_1-label"`
+- Each item has a note area with matching ID: `note-area-qw_1`, `note-qw_1`
+
+**DO NOT:**
+- Use simple `<ul>/<li>` lists with inline styles
+- Use `<div class="quick-win-item">` format (that's for the Assessment page Quick Wins Cards)
+- Omit the checkbox, note toggle, or note area elements
+
+### Step 3.7: Build the Strategy page
 
 The Strategy page presents the 90-day plan overview. Fill in the following sections:
 
