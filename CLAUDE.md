@@ -161,7 +161,7 @@ Determine which type to generate based on the command:
 
 | Command says | Plan format | Template | Output directory |
 |---|---|---|---|
-| "accelerator page" | `PLAN_FORMAT.md` | `clients/red-cariboo-resort/index.html` | `clients/[slug]/` |
+| "accelerator page" | `PLAN_FORMAT.md` | `template/accelerator-template.html` | `clients/[slug]/` |
 | "experience dashboard" | `PLAN_FORMAT_EXPERIENCE.md` | `template/experience-template.html` | `clients/[slug]/` |
 
 ---
@@ -278,6 +278,8 @@ When removing, delete both the HTML block (between IF:PROJECTIONS markers) AND t
 ### Step 3.5: Build the Assessment page
 
 The Assessment page displays the client's digital marketing audit results. Rebuild the entire `<section id="page-assessment">` content based on the client's assessment data.
+
+> **CRITICAL: Generate Assessment content fresh for each client.** Never copy Assessment sections from another client's dashboard. Each finding, metric, and recommendation must come from THIS client's audit data. Copying creates incorrect findings (e.g., mentioning a "Winter Packing List page" for a cafe that has no such page).
 
 **Required sections:**
 1. **Assessment Hero**: Title, onboarding call date, and "Complete" badge
@@ -564,6 +566,11 @@ In addition to the general checklist:
 - [ ] Assessment page has all required sections filled with client audit data
 - [ ] `{{ONBOARDING_CALL_DATE}}` is filled with the date from the command
 - [ ] All generated content includes proper inline editing attributes (see above)
+- [ ] **Assessment findings are specific to THIS client** (not copied from another client's dashboard)
+- [ ] Assessment findings do NOT contain content from other clients (e.g., no "Winter Packing List", "19-item dropdown", or other business-specific references that don't apply)
+- [ ] Every metric, finding, and recommendation in the Assessment section can be traced to this client's audit data
+
+**CRITICAL:** Never copy Assessment content from an existing client dashboard. Each client's Assessment section must be generated fresh from their specific audit data. Copying creates false findings that don't apply to the client.
 
 ---
 
