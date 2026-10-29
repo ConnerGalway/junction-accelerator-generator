@@ -512,9 +512,12 @@ Instagram collaborations reach people, but they leave nothing behind that search
 
 ### Resources
 
-- [Instagram Help Centre](https://help.instagram.com/): reference for collaborative posts and branded content tools
-- [Google Business Profile Help Centre](https://support.google.com/business/): includes Google's policies on reviews and incentives, so you can check what partners can and cannot be asked for
-- [LinkedIn Help: create a LinkedIn Page](https://www.linkedin.com/help/linkedin/answer/a543852): for tagging partners and publishing the case study on LinkedIn
+- [Destination BC Partner Resources](https://www.destinationbc.ca/what-we-do/destination-management/partner-resources/): co-op marketing programs, industry updates, and regional DMO collaboration opportunities
+- [Cvent Supplier Network](https://www.cvent.com/en/supplier-network): the largest corporate venue directory used by meeting planners, worth claiming your listing
+- [LinkedIn Pages Best Practices](https://business.linkedin.com/marketing-solutions/linkedin-pages/best-practices): how to build a company page that corporate planners find and follow
+- [Instagram Collab Posts](https://help.instagram.com/1957219637807712): how to create collaborative posts that appear on both your profile and your partner's
+- [PCMA Resources](https://www.pcma.org/resources/): Professional Convention Management Association, for understanding how corporate planners think and search
+- [Tourism Industry Association of BC](https://www.tiabc.ca/membership/): membership and partner network for BC tourism businesses
 
 ---
 
