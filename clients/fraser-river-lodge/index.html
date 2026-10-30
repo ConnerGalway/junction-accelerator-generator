@@ -5162,6 +5162,11 @@ body:not(.has-plan) .plan-content{display:none}
   height:auto;
   display:block;
 }
+.tactic-mockup-body{aspect-ratio:16/10;overflow:hidden}
+.tactic-mockup-body img{width:100%;height:100%;object-fit:cover;object-position:top center;cursor:zoom-in}
+.tactic-mockup--page .tactic-mockup-body::after{content:"Full page ↗";position:absolute;right:10px;bottom:10px;background:rgba(20,26,26,.72);color:#fff;font-size:11px;letter-spacing:.3px;padding:4px 9px;border-radius:20px;pointer-events:none}
+.tactic-embed .tactic-mockup-body{aspect-ratio:16/9}
+.tactic-embed iframe{width:100%;height:100%;border:0;display:block}
 .tactic-mockup-label{
   padding:12px 16px;
   font-size:12px;
@@ -5169,6 +5174,29 @@ body:not(.has-plan) .plan-content{display:none}
   text-align:center;
   background:#f7f2e9;
 }
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
+}
+
+/* Social reel cards (three phones side by side) */
+.tactic-reel-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:640px;margin-top:16px}
+.tactic-reel{display:block;color:inherit;text-decoration:none;border-radius:26px}
+.tactic-reel-phone{background:#16191d;border-radius:26px;padding:6px;box-shadow:0 12px 28px -14px rgba(30,25,15,.45);transition:transform .2s ease,box-shadow .2s ease}
+.tactic-reel-phone img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px}
+.tactic-reel:hover .tactic-reel-phone,.tactic-reel:focus-visible .tactic-reel-phone{transform:translateY(-3px);box-shadow:0 18px 32px -14px rgba(30,25,15,.5)}
+.tactic-reel:hover,.tactic-reel:focus-visible{text-decoration:none}
+.tactic-reel:focus-visible{outline:2px solid var(--link-blue);outline-offset:3px}
+.tactic-reel-label{margin-top:10px;font-size:12px;line-height:1.4;text-align:center;color:#8a7f68}
+.tactic-reel-label strong{display:block;color:#3a3326;font-weight:600}
+.tactic-reel-open{color:var(--link-blue);font-weight:600}
+@media (max-width:560px){.tactic-reel-row{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.tactic-reel{scroll-snap-align:start}}
 
 /* Two-column step layout */
 .tactic-step-row{
@@ -6501,6 +6529,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-3">Add a seventh column for the reason when it did not book, even if the answer is a guess. You expect most of these to say price, and the brief needs to know how often that is true.</li>
       <li data-editable-key="t1-bullet-4">Total the &quot;how they heard&quot; column. This is your baseline. Write the totals at the top of the sheet: [CONFIRM: corporate inquiries in the last 12 months] inquiries and [CONFIRM: corporate bookings in the last 12 months] bookings.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">docs.google.com/spreadsheets</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s1-inquiry-log.png" alt="Google Sheet of corporate inquiries with date, company type, group size, nights, source, booked and reason, with totals by source at the top" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-2">
@@ -6560,6 +6599,30 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-25">Ask for the brochure download to stay, but behind the tracked link specified in Step 7.</li>
       <li data-editable-key="t1-bullet-26">Ask for the page to be written in your words from the calls in Step 2, not in brochure language.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">fraserriverlodge.com/corporate-retreats</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s4-corporate-landing-page.png" alt="New corporate landing page on desktop and mobile, with an outcome-led headline that names the drive time from Vancouver" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
+    <div class="tactic-mockup tactic-mockup--page">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">fraserriverlodge.com/corporate-retreats</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s4-corporate-landing-page-full.png" alt="Full-page mockup of the corporate landing page: headline, facts bar, how it works, three packages, what's included, a two-day itinerary, why Indigenous owned matters, past clients and reviews, FAQ, planning checklist sign-up and inquiry form" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-5">
@@ -6573,6 +6636,18 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-30">Give a starting price or per-person range for each package: [CONFIRM: starting price or per-person range for each corporate package]. If the team will not publish prices, ask for &quot;packages from $X&quot; at minimum. A planner who cannot find any price at all often assumes it is out of reach.</li>
       <li data-editable-key="t1-bullet-31">Agree the package names and inclusions with the events manager before they go into the brief.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">fraserriverlodge.com/corporate-retreats</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s5-retreat-packages.png" alt="Three retreat package cards, each with inclusions, a 'What this replaces' line and a starting price" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-6">
@@ -6585,6 +6660,18 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-34">Add a required &quot;How did you hear about us?&quot; dropdown matching the sources in your Step 1 spreadsheet: Instagram, Facebook, YouTube, LinkedIn, Google search, AI assistant such as ChatGPT, newsletter, trade show, word of mouth, Nation network, other.</li>
       <li data-editable-key="t1-bullet-35">Ask for a confirmation message that sets expectations, for example that the events team replies within a few hours on business days. You already follow up that fast, so say so.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">fraserriverlodge.com/corporate-retreats</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s6-corporate-inquiry-form.png" alt="Corporate inquiry form with group size ranges and a required 'How did you hear about us?' dropdown" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-7">
@@ -6601,6 +6688,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-42">Ask for the phone number to be a tap-to-call link everywhere on the page. The assessment found it is not clickable on the current site.</li>
       <li data-editable-key="t1-bullet-43">Find out who has access to the current GA4 property and Meta Pixel: [CONFIRM: who owns GA4 and Meta Pixel access; likely the SEO and ads specialist]. Ask them to review this section of the brief before it goes to the web team.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">analytics.google.com</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s7-ga4-key-events.png" alt="GA4 Key events page listing corporate inquiry, lead magnet sign-up, brochure download and phone tap, next to a phone showing the tap-to-call prompt" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-8">
@@ -6613,6 +6711,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-46">Suggested interim changes are all small: make the phone number tap-to-call, add &quot;1.5 hours from Vancouver&quot; to the corporate page&#039;s first paragraph, swap the brochure link for a tracked link, and add a link to the lead magnet once it exists.</li>
       <li data-editable-key="t1-bullet-47">Save the brief somewhere the web team will find it when the redesign starts, and note the date it was approved.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">What to bring to Courtney</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s8-courtney-meeting-kit.png" alt="The landing page brief, screenshots of the current path from Instagram to the brochure, and the 12-month inquiry totals" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
               </ol>
@@ -6642,6 +6751,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-54">The Open Dates List. Shoulder-season dates still available, updated quarterly. This one is strongest with buyers who are ready to book and weakest at catching early planners.</li>
       <li data-editable-key="t1-bullet-55">Test the Planning Checklist and the Retreat Approval Kit first. The checklist matches demand you have already seen. The Approval Kit tackles sticker shock directly, and it is built for the executive assistant who has to justify the venue upward.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">Lead magnet options</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s9-lead-magnet-options.png" alt="Six lead magnet covers, with the Planning Checklist and the Retreat Approval Kit highlighted as the two to test first" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-10">
@@ -6655,6 +6775,27 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-59">End each post with a soft call to action: &quot;Comment CHECKLIST and we&#039;ll send you the full version when it&#039;s ready.&quot; This also builds the list of people to email on launch day.</li>
       <li data-editable-key="t1-bullet-60">Pick the winner at the end of Week 6. If they are close, build the checklist first, since it is quicker to make.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">instagram.com/fraserriverlodge</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s10-checklist-test-carousel.png" alt="Instagram carousel testing the planning checklist: cover, five countdown steps and a final 'Comment CHECKLIST' slide" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
+    <div class="tactic-reel-row">
+      <a href="https://www.instagram.com/p/DbqT55lDUkz/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Karavan Leaders day-by-day carousel on Instagram (opens in a new tab)">
+        <div class="tactic-reel-phone"><img src="/assets/fraser-river-lodge-mockups/media/t1-s10-example-karavan.png" alt="Karavan Leaders Instagram carousel, Rethink the Corporate Offsite, showing a leadership bootcamp day as a timeline" loading="lazy"></div>
+        <div class="tactic-reel-label"><strong>Day-by-day carousel</strong>@karavanleaders · <span class="tactic-reel-open">Open post ↗</span></div>
+      </a>
+      <a href="https://www.instagram.com/p/Dbat63tnYd0/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Gravel Experiential editorial carousel on Instagram (opens in a new tab)">
+        <div class="tactic-reel-phone"><img src="/assets/fraser-river-lodge-mockups/media/t1-s10-example-gravel.png" alt="Gravel Experiential Instagram carousel asking what makes a corporate retreat great, over a photo of a team dinner outdoors" loading="lazy"></div>
+        <div class="tactic-reel-label"><strong>Editorial carousel</strong>@gravelexperiential · <span class="tactic-reel-open">Open post ↗</span></div>
+      </a>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-11">
@@ -6684,6 +6825,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-72">Keep each email under 150 words, with one link.</li>
       <li data-editable-key="t1-bullet-73">After Email 4, move sign-ups into a corporate segment of your newsletter. You said newsletters are already one of your strongest corporate channels.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">Follow-up emails</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s12-follow-up-emails.png" alt="Four follow-up emails sent immediately and on days 3, 7 and 14, each with one link" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
               </ol>
@@ -6708,6 +6860,17 @@ What holds the offer back is that it has to be explained, and the current corpor
       <li data-editable-key="t1-bullet-75">Meet the events manager for twenty minutes once a month. Ask one question about the month&#039;s leads: &quot;Are these the people you want more of?&quot;</li>
       <li data-editable-key="t1-bullet-76">If sign-ups are high but conversations are low, the lead magnet is attracting the wrong people. Adjust the role and group size fields before promoting it further.</li>
     </ul>
+    <div class="tactic-mockup">
+      <div class="tactic-mockup-chrome">
+        <span class="tactic-mockup-dot red"></span>
+        <span class="tactic-mockup-dot yellow"></span>
+        <span class="tactic-mockup-dot green"></span>
+        <div class="tactic-mockup-url">docs.google.com/spreadsheets</div>
+      </div>
+      <div class="tactic-mockup-body">
+        <img src="/assets/fraser-river-lodge-mockups/media/t1-s13-lead-quality-columns.png" alt="Inquiry sheet with four new columns: lead magnet sign-up, first conversation, proposal sent and booked value" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+      </div>
+    </div>
   </div>
 </li>
 <li class="tactic-step-item" id="step-t1-14">
