@@ -35,9 +35,23 @@ REQUIRED PLACEHOLDERS {{UPPER_SNAKE_CASE}}:
     {{TACTIC_N_PHASE}}        Phase name
     {{TACTIC_N_SUBTITLE}}     Description sentence
     {{TACTIC_N_TOTAL}}        Checklist count for this tactic
+    {{TACTIC_N_TIME_VALUE}}   Time commitment value (e.g., "2-3 hrs")
+    {{TACTIC_N_TIME_CONTEXT}} Time commitment context (e.g., "per week")
 
-  Months:
+  Months/Phases:
     {{MONTH_1_NAME}}, {{MONTH_2_NAME}}, {{MONTH_3_NAME}}
+    {{PHASE_1_WEEKS}}          Week range for phase 1 (e.g., "WEEKS 1-4")
+    {{PHASE_1_NAME}}           Phase 1 name (e.g., "Foundation")
+    {{PHASE_1_DESC}}           Phase 1 description (1-4 words)
+    {{PHASE_2_WEEKS}}, {{PHASE_2_NAME}}, {{PHASE_2_DESC}}
+    {{PHASE_3_WEEKS}}, {{PHASE_3_NAME}}, {{PHASE_3_DESC}}
+
+  Dashboard Home (Next Step Card):
+    {{WEEK_1_SHORT_TITLE}}     Short title for Week 1 (e.g., "Set the Baselines")
+    {{WEEK_1_HEADLINE}}        Week 1 headline for next step card
+    {{WEEK_1_TIME}}            Time estimate (e.g., "2-3 hours this week")
+    {{WEEK_1_WHO}}             Who does the work (e.g., "You + your team")
+    {{WEEK_1_TASK_COUNT}}      Number of tasks in Week 1 checklist
 
   Assessment (overall):
     {{OVERALL_SCORE}}         Numeric (0-100)
@@ -143,6 +157,9 @@ SECTIONS REBUILT PER CLIENT BY CLAUDE:
   - "How to" link mapping from plan.md annotations
   - Tour step descriptions adapted to client context
   - ALL_CHECK_IDS, WEEK_CHECKS, MONTH_CHECKS, TACTIC_CHECKS arrays
+  - WEEK_TITLES, WEEK_TACTICS, PHASES JavaScript objects (must match plan)
+  - Dashboard home: phases strip, next step card, tactic progress cards
+  - Roadmap intro paragraph (phase names must match plan)
 -->
 <!DOCTYPE html>
 <html lang="en">
@@ -5835,7 +5852,7 @@ button,
         </svg>
         <div class="dash-ring-large-text">
           <div class="dash-ring-pct" id="dash-pct">0%</div>
-          <div class="dash-ring-label"><span id="dash-done-count">0</span> of <span id="dash-total-count">43</span> tasks</div>
+          <div class="dash-ring-label"><span id="dash-done-count">0</span> of <span id="dash-total-count">{{TOTAL_TASKS}}</span> tasks</div>
         </div>
       </div>
       <div class="dash-progress-content">
@@ -5844,24 +5861,19 @@ button,
         <div class="dash-phases-label">THE 90 DAYS</div>
         <div class="dash-phases-grid">
           <div class="dash-phase" data-phase="1">
-            <div class="dash-phase-range">WEEKS 1-3</div>
-            <div class="dash-phase-name">Foundation</div>
-            <div class="dash-phase-desc">Fix tracking, clean up the site</div>
+            <div class="dash-phase-range">{{PHASE_1_WEEKS}}</div>
+            <div class="dash-phase-name">{{PHASE_1_NAME}}</div>
+            <div class="dash-phase-desc">{{PHASE_1_DESC}}</div>
           </div>
           <div class="dash-phase" data-phase="2">
-            <div class="dash-phase-range">WEEKS 4-6</div>
-            <div class="dash-phase-name">Build</div>
-            <div class="dash-phase-desc">Create content and assets</div>
+            <div class="dash-phase-range">{{PHASE_2_WEEKS}}</div>
+            <div class="dash-phase-name">{{PHASE_2_NAME}}</div>
+            <div class="dash-phase-desc">{{PHASE_2_DESC}}</div>
           </div>
           <div class="dash-phase" data-phase="3">
-            <div class="dash-phase-range">WEEKS 7-9</div>
-            <div class="dash-phase-name">Launch</div>
-            <div class="dash-phase-desc">Turn on paid acquisition</div>
-          </div>
-          <div class="dash-phase" data-phase="4">
-            <div class="dash-phase-range">WEEKS 10-12</div>
-            <div class="dash-phase-name">Scale</div>
-            <div class="dash-phase-desc">Optimize and expand</div>
+            <div class="dash-phase-range">{{PHASE_3_WEEKS}}</div>
+            <div class="dash-phase-name">{{PHASE_3_NAME}}</div>
+            <div class="dash-phase-desc">{{PHASE_3_DESC}}</div>
           </div>
         </div>
       </div>
@@ -5870,8 +5882,8 @@ button,
     <!-- Next Step Card -->
     <div class="dash-next-step" id="objectives-section">
       <div class="dash-next-main">
-        <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · Fix the Analytics</div>
-        <h2 class="dash-next-title" id="dash-next-title">Set up clean measurement before spending anything</h2>
+        <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · {{WEEK_1_SHORT_TITLE}}</div>
+        <h2 class="dash-next-title" id="dash-next-title">{{WEEK_1_HEADLINE}}</h2>
         <div class="dash-next-tasks" id="dash-next-tasks">
           <!-- Tasks populated by JavaScript -->
         </div>
@@ -5883,20 +5895,20 @@ button,
       <div class="dash-next-sidebar">
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">TACTIC</div>
-          <div class="dash-next-meta-value" id="dash-next-tactic">Measurement & Site</div>
+          <div class="dash-next-meta-value" id="dash-next-tactic">{{TACTIC_1_NAV_LABEL}}</div>
         </div>
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">TIME NEEDED</div>
-          <div class="dash-next-meta-value">2-3 hours this week</div>
+          <div class="dash-next-meta-value">{{WEEK_1_TIME}}</div>
         </div>
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">WHO</div>
-          <div class="dash-next-meta-value">You + your developer</div>
+          <div class="dash-next-meta-value">{{WEEK_1_WHO}}</div>
         </div>
         <div class="dash-next-week-progress">
           <div class="dash-next-week-header">
             <span>Week 1 tasks</span>
-            <span id="dash-week-progress-label">0/4</span>
+            <span id="dash-week-progress-label">0/{{WEEK_1_TASK_COUNT}}</span>
           </div>
           <div class="dash-next-week-bar">
             <div class="dash-next-week-bar-fill" id="dash-week-bar" style="width:0%"></div>
@@ -5913,8 +5925,8 @@ button,
           <circle id="tactic1-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--mint-500)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
         </svg>
         <div class="dash-tactic-info">
-          <div class="dash-tactic-name">Measurement & Site</div>
-          <div class="dash-tactic-label" id="tc1-stat">0 of 12 done</div>
+          <div class="dash-tactic-name">{{TACTIC_1_NAV_LABEL}}</div>
+          <div class="dash-tactic-label" id="tc1-stat">0 of {{TACTIC_1_TOTAL}} done</div>
         </div>
       </div>
       <div class="dash-tactic-pill" onclick="navigate('tactic2')">
@@ -5923,8 +5935,8 @@ button,
           <circle id="tactic2-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--link-blue)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
         </svg>
         <div class="dash-tactic-info">
-          <div class="dash-tactic-name">Content & Shoot</div>
-          <div class="dash-tactic-label" id="tc2-stat">0 of 10 done</div>
+          <div class="dash-tactic-name">{{TACTIC_2_NAV_LABEL}}</div>
+          <div class="dash-tactic-label" id="tc2-stat">0 of {{TACTIC_2_TOTAL}} done</div>
         </div>
       </div>
       <div class="dash-tactic-pill" onclick="navigate('tactic3')">
@@ -5933,20 +5945,22 @@ button,
           <circle id="tactic3-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--state-warning)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
         </svg>
         <div class="dash-tactic-info">
-          <div class="dash-tactic-name">Paid Acquisition</div>
-          <div class="dash-tactic-label" id="tc3-stat">0 of 14 done</div>
+          <div class="dash-tactic-name">{{TACTIC_3_NAV_LABEL}}</div>
+          <div class="dash-tactic-label" id="tc3-stat">0 of {{TACTIC_3_TOTAL}} done</div>
         </div>
       </div>
+      <!-- IF:TACTIC_4 -->
       <div class="dash-tactic-pill" onclick="navigate('tactic4')">
         <svg class="dash-tactic-ring" width="44" height="44" viewBox="0 0 44 44">
           <circle cx="22" cy="22" r="18" fill="none" stroke="var(--surface-sunken)" stroke-width="5"></circle>
           <circle id="tactic4-ring" cx="22" cy="22" r="18" fill="none" stroke="var(--state-success)" stroke-width="5" stroke-linecap="round" stroke-dasharray="113.1" stroke-dashoffset="113.1" style="transition:stroke-dashoffset .4s ease;transform:rotate(-90deg);transform-origin:center"></circle>
         </svg>
         <div class="dash-tactic-info">
-          <div class="dash-tactic-name">Email & Reviews</div>
-          <div class="dash-tactic-label" id="tc4-stat">0 of 7 done</div>
+          <div class="dash-tactic-name">{{TACTIC_4_NAV_LABEL}}</div>
+          <div class="dash-tactic-label" id="tc4-stat">0 of {{TACTIC_4_TOTAL}} done</div>
         </div>
       </div>
+      <!-- ENDIF:TACTIC_4 -->
     </div>
   </div>
 </section>
@@ -6350,8 +6364,8 @@ button,
         <div class="tactic-card-block">
           <div class="tactic-card-label">Time Commitment</div>
           <div>
-            <span class="tactic-time-value">40 min</span>
-            <span class="tactic-time-context">to fix analytics, this week</span>
+            <span class="tactic-time-value">{{TACTIC_1_TIME_VALUE}}</span>
+            <span class="tactic-time-context">{{TACTIC_1_TIME_CONTEXT}}</span>
           </div>
         </div>
       </div>
@@ -6489,8 +6503,8 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Time Commitment</div>
               <div>
-                <span class="tactic-time-value">3 hrs</span>
-                <span class="tactic-time-context">content &amp; social, per week</span>
+                <span class="tactic-time-value">{{TACTIC_2_TIME_VALUE}}</span>
+                <span class="tactic-time-context">{{TACTIC_2_TIME_CONTEXT}}</span>
               </div>
             </div>
           </div>
@@ -6632,8 +6646,8 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Time Commitment</div>
               <div>
-                <span class="tactic-time-value">2-3 hrs</span>
-                <span class="tactic-time-context">ads management, per week</span>
+                <span class="tactic-time-value">{{TACTIC_3_TIME_VALUE}}</span>
+                <span class="tactic-time-context">{{TACTIC_3_TIME_CONTEXT}}</span>
               </div>
             </div>
           </div>
@@ -6772,8 +6786,8 @@ button,
             <div class="tactic-card-block">
               <div class="tactic-card-label">Time Commitment</div>
               <div>
-                <span class="tactic-time-value">1 hr</span>
-                <span class="tactic-time-context">email management, per week</span>
+                <span class="tactic-time-value">{{TACTIC_4_TIME_VALUE}}</span>
+                <span class="tactic-time-context">{{TACTIC_4_TIME_CONTEXT}}</span>
               </div>
             </div>
           </div>
@@ -6877,7 +6891,7 @@ button,
         <div class="print-section">
           <h2>About This Document</h2>
           <p>This roadmap was created as part of the eLearningU Tourism Digital Marketing Accelerator program. It is a customised 90-day action plan designed specifically for {{CLIENT_NAME}} based on a comprehensive digital assessment and strategy session with your coach.</p>
-          <p>The plan is structured as 12 weekly sprints across three phases: Foundation (Weeks 1-4), Assets and Audience (Weeks 5-8), and Paid Launch (Weeks 9-12).</p>
+          <p>The plan is structured as 12 weekly sprints across three phases: {{PHASE_1_NAME}} (Weeks 1-4), {{PHASE_2_NAME}} (Weeks 5-8), and {{PHASE_3_NAME}} (Weeks 9-12).</p>
         </div>
 
         <!-- How to Use -->
@@ -7514,43 +7528,21 @@ const TOTAL_DAYS = parseInt(document.body.getAttribute('data-total-days') || '90
 const TOTAL_WEEKS = parseInt(document.body.getAttribute('data-total-weeks') || '12', 10);
 
 // Week titles for the Next Step card
+// GENERATOR: Replace with week titles from plan.md roadmap
 const WEEK_TITLES = {
-  1: 'Fix the Analytics',
-  2: 'Website Conversion Fixes',
-  3: 'Build the Booking Path',
-  4: 'Booking Page and Booking Bar',
-  5: 'Photo and Video Shoot',
-  6: 'Content Creation Week',
-  7: 'Launch Google Search Ads',
-  8: 'Launch Meta Ads',
-  9: 'Creator Visit Week',
-  10: 'Optimize and Scale',
-  11: 'Email List Growth',
-  12: 'Review Collection and Close'
+  /* {{WEEK_TITLES}} */
 };
 
-// Tactic info for each week
+// Tactic info for each week - maps each week to its primary tactic
+// GENERATOR: Replace with tactic mapping from plan.md roadmap
 const WEEK_TACTICS = {
-  1: { num: 1, name: 'Measurement & Site' },
-  2: { num: 1, name: 'Measurement & Site' },
-  3: { num: 1, name: 'Measurement & Site' },
-  4: { num: 1, name: 'Measurement & Site' },
-  5: { num: 2, name: 'Content & Shoot' },
-  6: { num: 2, name: 'Content & Shoot' },
-  7: { num: 3, name: 'Paid Acquisition' },
-  8: { num: 3, name: 'Paid Acquisition' },
-  9: { num: 2, name: 'Content & Shoot' },
-  10: { num: 3, name: 'Paid Acquisition' },
-  11: { num: 3, name: 'Paid Acquisition' },
-  12: { num: 3, name: 'Paid Acquisition' }
+  /* {{WEEK_TACTICS}} */
 };
 
-// Phase definitions
+// Phase definitions - maps to the 3 months in plan.md
+// GENERATOR: Replace with phase info from plan.md (Month 1/2/3 Names and week ranges)
 const PHASES = [
-  { num: 1, weeks: [1, 2, 3], name: 'Foundation' },
-  { num: 2, weeks: [4, 5, 6], name: 'Build' },
-  { num: 3, weeks: [7, 8, 9], name: 'Launch' },
-  { num: 4, weeks: [10, 11, 12], name: 'Scale' }
+  /* {{PHASES}} */
 ];
 
 // Headlines based on progress percentage

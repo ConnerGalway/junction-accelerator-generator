@@ -634,7 +634,7 @@ nav{flex:1;padding:12px 0}
 .dash-headline{margin:0 0 8px;font-family:var(--font-display);font-weight:600;font-size:26px;letter-spacing:-.01em;color:var(--navy-900)}
 .dash-subcopy{margin:0 0 24px;font-size:15px;line-height:1.6;color:var(--navy-800);max-width:52ch;font-weight:500}
 .dash-phases-label{font-size:10.5px;font-weight:600;letter-spacing:.14em;color:var(--slate-600);margin-bottom:12px}
-.dash-phases-grid{display:grid;grid-template-columns:repeat(4,1fr);border-top:2px solid var(--surface-sunken)}
+.dash-phases-grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:2px solid var(--surface-sunken)}
 .dash-phase{padding:12px 16px 0 0;border-left:2px solid transparent}
 .dash-phase[data-active="true"]{}
 .dash-phase-range{font-size:10.5px;font-weight:600;letter-spacing:.12em;color:var(--slate-600);margin-bottom:7px}
@@ -672,7 +672,7 @@ nav{flex:1;padding:12px 0}
 .dash-next-week-bar-fill{height:100%;border-radius:999px;background:var(--mint-500);transition:width .4s ease}
 
 /* Tactic Pills Grid */
-.dash-tactics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.dash-tactics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .dash-tactic-pill{background:var(--white);border:1px solid var(--border-subtle);border-radius:var(--radius-md);box-shadow:var(--shadow-sm);padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:box-shadow .2s,transform .15s}
 .dash-tactic-pill:hover{box-shadow:var(--shadow-md);transform:translateY(-2px)}
 .dash-tactic-ring{flex:none}
@@ -5695,7 +5695,7 @@ button,
         </svg>
         <div class="dash-ring-large-text">
           <div class="dash-ring-pct" id="dash-pct">0%</div>
-          <div class="dash-ring-label"><span id="dash-done-count">0</span> of <span id="dash-total-count">41</span> tasks</div>
+          <div class="dash-ring-label"><span id="dash-done-count">0</span> of <span id="dash-total-count">42</span> tasks</div>
         </div>
       </div>
       <div class="dash-progress-content">
@@ -5704,24 +5704,19 @@ button,
         <div class="dash-phases-label">THE 90 DAYS</div>
         <div class="dash-phases-grid">
           <div class="dash-phase" data-phase="1">
-            <div class="dash-phase-range">WEEKS 1-3</div>
+            <div class="dash-phase-range">WEEKS 1-4</div>
             <div class="dash-phase-name">Foundation</div>
-            <div class="dash-phase-desc">Fix tracking, clean up the site</div>
+            <div class="dash-phase-desc">Baseline, content setup, first posts</div>
           </div>
           <div class="dash-phase" data-phase="2">
-            <div class="dash-phase-range">WEEKS 4-6</div>
-            <div class="dash-phase-name">Build</div>
-            <div class="dash-phase-desc">Create content and assets</div>
+            <div class="dash-phase-range">WEEKS 5-8</div>
+            <div class="dash-phase-name">Momentum</div>
+            <div class="dash-phase-desc">Website pages, posting rhythm</div>
           </div>
           <div class="dash-phase" data-phase="3">
-            <div class="dash-phase-range">WEEKS 7-9</div>
-            <div class="dash-phase-name">Launch</div>
-            <div class="dash-phase-desc">Turn on paid acquisition</div>
-          </div>
-          <div class="dash-phase" data-phase="4">
-            <div class="dash-phase-range">WEEKS 10-12</div>
-            <div class="dash-phase-name">Scale</div>
-            <div class="dash-phase-desc">Optimize and expand</div>
+            <div class="dash-phase-range">WEEKS 9-12</div>
+            <div class="dash-phase-name">Rhythm</div>
+            <div class="dash-phase-desc">Complete pages, prepare for winter</div>
           </div>
         </div>
       </div>
@@ -5730,8 +5725,8 @@ button,
     <!-- Next Step Card -->
     <div class="dash-next-step" id="objectives-section">
       <div class="dash-next-main">
-        <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · Fix the Analytics</div>
-        <h2 class="dash-next-title" id="dash-next-title">Set up clean measurement before spending anything</h2>
+        <div class="dash-next-eyebrow" id="dash-next-eyebrow">YOUR NEXT STEP · WEEK 1 OF 12 · Baseline and Measurement</div>
+        <h2 class="dash-next-title" id="dash-next-title">Record your starting numbers and set up tracking</h2>
         <div class="dash-next-tasks" id="dash-next-tasks">
           <!-- Tasks populated by JavaScript -->
         </div>
@@ -5743,20 +5738,20 @@ button,
       <div class="dash-next-sidebar">
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">TACTIC</div>
-          <div class="dash-next-meta-value" id="dash-next-tactic">Measurement & Site</div>
+          <div class="dash-next-meta-value" id="dash-next-tactic">Google Profile</div>
         </div>
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">TIME NEEDED</div>
-          <div class="dash-next-meta-value">2-3 hours this week</div>
+          <div class="dash-next-meta-value">1-2 hours this week</div>
         </div>
         <div class="dash-next-meta">
           <div class="dash-next-meta-label">WHO</div>
-          <div class="dash-next-meta-value">You + your developer</div>
+          <div class="dash-next-meta-value">You or your husband</div>
         </div>
         <div class="dash-next-week-progress">
           <div class="dash-next-week-header">
             <span>Week 1 tasks</span>
-            <span id="dash-week-progress-label">0/4</span>
+            <span id="dash-week-progress-label">0/5</span>
           </div>
           <div class="dash-next-week-bar">
             <div class="dash-next-week-bar-fill" id="dash-week-bar" style="width:0%"></div>
@@ -6446,7 +6441,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 1: Tracking, Website, SEO
+     TACTIC 1: Google Profile
      ════════════════════════════════════════════ -->
 <section id="page-tactic1" class="page">
   <div class="tactic-page-content">
@@ -6856,7 +6851,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 2: Content and Story
+     TACTIC 2: Social Content
      ════════════════════════════════════════════ -->
 <section id="page-tactic2" class="page">
   <div class="tactic-page-content">
@@ -7372,7 +7367,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 3: Paid Acquisition
+     TACTIC 3: Website & SEO
      ════════════════════════════════════════════ -->
 <section id="page-tactic3" class="page">
   <div class="tactic-page-content">
@@ -7909,7 +7904,7 @@ button,
       <div class="month-header">
         <span class="month-badge">Month 1</span>
         <span class="month-title">Foundation</span>
-        <span class="month-progress" id="m1-prog"><span>0</span> of 11 done</span>
+        <span class="month-progress" id="m1-prog"><span>0</span> of 15 done</span>
       </div>
 
       <!-- Week 1 -->
@@ -8036,15 +8031,6 @@ button,
           <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-3" placeholder="Add general notes for this week…" oninput="saveNote('week_3',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
-    </div>
-
-    <!-- MONTH 2 -->
-    <div class="month-block">
-      <div class="month-header">
-        <span class="month-badge">Month 2</span>
-        <span class="month-title">Momentum</span>
-        <span class="month-progress" id="m2-prog"><span>0</span> of 12 done</span>
-      </div>
 
       <!-- Week 4 -->
       <div class="week-card" id="wc-4" data-week="4">
@@ -8067,6 +8053,15 @@ button,
           </div>
           <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-4" placeholder="Add general notes for this week…" oninput="saveNote('week_4',this.value)" style="width:100%"></textarea></div>
         </div>
+      </div>
+    </div>
+
+    <!-- MONTH 2 -->
+    <div class="month-block">
+      <div class="month-header">
+        <span class="month-badge">Month 2</span>
+        <span class="month-title">Momentum</span>
+        <span class="month-progress" id="m2-prog"><span>0</span> of 13 done</span>
       </div>
 
       <!-- Week 5 -->
@@ -8113,15 +8108,6 @@ button,
           <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-6" placeholder="Add general notes for this week…" oninput="saveNote('week_6',this.value)" style="width:100%"></textarea></div>
         </div>
       </div>
-    </div>
-
-    <!-- MONTH 3 -->
-    <div class="month-block">
-      <div class="month-header">
-        <span class="month-badge">Month 3</span>
-        <span class="month-title">Rhythm</span>
-        <span class="month-progress" id="m3-prog"><span>0</span> of 24 done</span>
-      </div>
 
       <!-- Week 7 -->
       <div class="week-card" id="wc-7" data-week="7">
@@ -8165,6 +8151,15 @@ button,
           </div>
           <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-8" placeholder="Add general notes for this week…" oninput="saveNote('week_8',this.value)" style="width:100%"></textarea></div>
         </div>
+      </div>
+    </div>
+
+    <!-- MONTH 3 -->
+    <div class="month-block">
+      <div class="month-header">
+        <span class="month-badge">Month 3</span>
+        <span class="month-title">Rhythm</span>
+        <span class="month-progress" id="m3-prog"><span>0</span> of 14 done</span>
       </div>
 
       <!-- Week 9 -->
@@ -8869,52 +8864,51 @@ const TOTAL_WEEKS = parseInt(document.body.getAttribute('data-total-weeks') || '
 
 // Week titles for the Next Step card
 const WEEK_TITLES = {
-  1: 'Fix the Analytics',
-  2: 'Website Conversion Fixes',
-  3: 'Build the Booking Path',
-  4: 'Booking Page and Booking Bar',
-  5: 'Photo and Video Shoot',
-  6: 'Content Creation Week',
-  7: 'Launch Google Search Ads',
-  8: 'Launch Meta Ads',
-  9: 'Creator Visit Week',
-  10: 'Optimize and Scale',
-  11: 'Email List Growth',
-  12: 'Review Collection and Close'
+  1: 'Baseline and Measurement',
+  2: 'Set Up the Content System',
+  3: 'Content Session One',
+  4: 'First Scheduling Sitting',
+  5: 'Fix the Homepage',
+  6: 'Plan Your Visit Page',
+  7: 'Content Session Two',
+  8: 'Second Scheduling Sitting and the Reviews Page',
+  9: 'Our Story Page',
+  10: 'Work Here Page and Content Session Three',
+  11: 'Third Scheduling Sitting and Winter Break Details',
+  12: 'Ninety-Day Review'
 };
 
 // Tactic info for each week
 const WEEK_TACTICS = {
-  1: { num: 1, name: 'Measurement & Site' },
-  2: { num: 1, name: 'Measurement & Site' },
-  3: { num: 1, name: 'Measurement & Site' },
-  4: { num: 1, name: 'Measurement & Site' },
-  5: { num: 2, name: 'Content & Shoot' },
-  6: { num: 2, name: 'Content & Shoot' },
-  7: { num: 3, name: 'Paid Acquisition' },
-  8: { num: 3, name: 'Paid Acquisition' },
-  9: { num: 2, name: 'Content & Shoot' },
-  10: { num: 3, name: 'Paid Acquisition' },
-  11: { num: 3, name: 'Paid Acquisition' },
-  12: { num: 3, name: 'Paid Acquisition' }
+  1: { num: 1, name: 'Google Profile' },
+  2: { num: 2, name: 'Social Content' },
+  3: { num: 2, name: 'Social Content' },
+  4: { num: 2, name: 'Social Content' },
+  5: { num: 3, name: 'Website & SEO' },
+  6: { num: 3, name: 'Website & SEO' },
+  7: { num: 2, name: 'Social Content' },
+  8: { num: 2, name: 'Social Content' },
+  9: { num: 3, name: 'Website & SEO' },
+  10: { num: 3, name: 'Website & SEO' },
+  11: { num: 2, name: 'Social Content' },
+  12: { num: 1, name: 'Google Profile' }
 };
 
 // Phase definitions
 const PHASES = [
-  { num: 1, weeks: [1, 2, 3], name: 'Foundation' },
-  { num: 2, weeks: [4, 5, 6], name: 'Build' },
-  { num: 3, weeks: [7, 8, 9], name: 'Launch' },
-  { num: 4, weeks: [10, 11, 12], name: 'Scale' }
+  { num: 1, weeks: [1, 2, 3, 4], name: 'Foundation' },
+  { num: 2, weeks: [5, 6, 7, 8], name: 'Momentum' },
+  { num: 3, weeks: [9, 10, 11, 12], name: 'Rhythm' }
 ];
 
 // Headlines based on progress percentage
 const PROGRESS_HEADLINES = [
-  { max: 10, headline: 'Getting those foundations sorted', subcopy: 'You\'re in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.' },
-  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the foundations. The tracking is taking shape and the site improvements are underway. Keep the pace going.' },
-  { max: 50, headline: 'Halfway there', subcopy: 'You\'ve crossed the halfway mark. The measurement system is in place, and now you\'re building the content and assets that will drive results.' },
-  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the groundwork is done and paid campaigns are running. Focus on optimization and scaling what\'s working.' },
-  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. You\'ve built something real: clean tracking, a converting site, and live campaigns. Finish strong.' },
-  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. You\'ve built clean measurement, a site that converts, and campaigns that are running. Time to see the results.' }
+  { max: 10, headline: 'Getting those foundations sorted', subcopy: 'You\'re in the first phase of your accelerator, setting up the baseline measurements and content system that will power everything else. Keep checking items off your roadmap to move forward.' },
+  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the foundations. The Google profile is tidier, the content system is taking shape, and the first posts are scheduled. Keep the pace going.' },
+  { max: 50, headline: 'Halfway there', subcopy: 'You\'ve crossed the halfway mark. The posting rhythm is settling in and the website pages are coming together. The hard part is behind you.' },
+  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. The Google profile looks cared for, the content library is growing, and the new website pages are live. Focus on finishing strong.' },
+  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. You\'ve built a content system, a cared-for Google profile, and a website that tells Google what you are. Finish strong.' },
+  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. You\'ve built a content system that runs on a few hours a week, a Google profile that looks active, and a website ready for spring.' }
 ];
 
 function getDayInfo() {
@@ -9194,7 +9188,7 @@ const TOUR_STEPS = [
     targetId: 'tactic-cards-section',
     page: 'dashboard',
     title: 'Track Each Tactic',
-    desc: 'These pills show progress on each of your four tactics. Click any to open the detailed guide and implementation steps.',
+    desc: 'These pills show progress on each of your three tactics: Google Profile, Social Content, and Website &amp; SEO. Click any to open the detailed guide and implementation steps.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
