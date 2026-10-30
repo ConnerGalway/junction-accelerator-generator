@@ -1260,6 +1260,117 @@
     </div>
   </div>
 
+  <!-- ══ TRIGGER MILESTONE MODAL ════════════════════════════════ -->
+  <div class="modal-overlay" id="triggerMilestoneModal">
+    <div class="modal modal--edit">
+      <h3 class="modal__title">Trigger Reassessment</h3>
+      <p class="modal__text" id="triggerMilestoneText">Select a milestone to generate for this client.</p>
+      <div class="milestone-options" id="milestoneOptions">
+        <div class="milestone-loading">Loading milestones...</div>
+      </div>
+      <div class="modal__actions modal__actions--edit">
+        <button type="button" class="btn-secondary" onclick="closeTriggerMilestoneModal()">Cancel</button>
+        <button type="button" class="btn-secondary btn-success" id="triggerMilestoneBtn" onclick="triggerSelectedMilestone()" disabled>Trigger</button>
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .milestone-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 20px 0;
+    }
+    .milestone-option {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: #fff;
+    }
+    .milestone-option:hover:not(.milestone-option--disabled) {
+      border-color: var(--navy);
+    }
+    .milestone-option--selected {
+      border-color: var(--navy);
+      background: rgba(17,21,75,0.04);
+    }
+    .milestone-option--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .milestone-option__radio {
+      width: 18px;
+      height: 18px;
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .milestone-option--selected .milestone-option__radio {
+      border-color: var(--navy);
+    }
+    .milestone-option--selected .milestone-option__radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: var(--navy);
+      border-radius: 50%;
+    }
+    .milestone-option__info {
+      flex: 1;
+      min-width: 0;
+    }
+    .milestone-option__name {
+      font-weight: 600;
+      color: var(--text);
+      font-size: 14px;
+    }
+    .milestone-option__due {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .milestone-option__status {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .milestone-option__status--pending { background: rgba(245,158,11,0.1); color: #d97706; }
+    .milestone-option__status--completed { background: rgba(34,197,94,0.1); color: #16a34a; }
+    .milestone-option__status--generating, .milestone-option__status--scheduled { background: rgba(59,130,246,0.1); color: #2563eb; }
+    .milestone-option__status--failed { background: rgba(239,68,68,0.1); color: #dc2626; }
+    .milestone-loading {
+      text-align: center;
+      padding: 20px;
+      color: var(--muted);
+    }
+    .milestone-result {
+      margin-top: 16px;
+      padding: 14px;
+      border-radius: 10px;
+      font-size: 14px;
+    }
+    .milestone-result--success {
+      background: rgba(34,197,94,0.1);
+      color: #16a34a;
+    }
+    .milestone-result--error {
+      background: rgba(239,68,68,0.1);
+      color: #dc2626;
+    }
+  </style>
+
   <style>
     .regenerate-spinner {
       width: 48px;
@@ -2015,6 +2126,12 @@
                 <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/>
               </svg>
             </button>
+            <button class="project-card__edit-btn" onclick="event.preventDefault(); event.stopPropagation(); openTriggerMilestoneModal('${p.slug}', '${escapeHtml(p.name)}')" title="Trigger reassessment">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"/>
+                <path d="M20.49 15a9 9 0 11-2.12-9.36L23 10"/>
+              </svg>
+            </button>
           </div>
         ` : '';
 
@@ -2149,6 +2266,187 @@
     function closeEditProjectModal() {
       document.getElementById('editProjectModal').classList.remove('modal-overlay--visible');
       editTargetSlug = null;
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // TRIGGER MILESTONE MODAL
+    // ══════════════════════════════════════════════════════════════
+    let triggerMilestoneSlug = null;
+    let triggerMilestoneName = null;
+    let selectedMilestoneId = null;
+    let milestonesData = [];
+
+    async function openTriggerMilestoneModal(slug, name) {
+      triggerMilestoneSlug = slug;
+      triggerMilestoneName = name;
+      selectedMilestoneId = null;
+
+      document.getElementById('triggerMilestoneText').textContent = `Select a milestone to generate for ${name}.`;
+      document.getElementById('milestoneOptions').innerHTML = '<div class="milestone-loading">Loading milestones...</div>';
+      document.getElementById('triggerMilestoneBtn').disabled = true;
+      document.getElementById('triggerMilestoneBtn').textContent = 'Trigger';
+
+      // Remove any previous result message
+      const existingResult = document.querySelector('#triggerMilestoneModal .milestone-result');
+      if (existingResult) existingResult.remove();
+
+      document.getElementById('triggerMilestoneModal').classList.add('modal-overlay--visible');
+
+      // Fetch milestones for this client
+      try {
+        const { data, error } = await supabaseClient
+          .from('milestone_assessments')
+          .select('*')
+          .eq('client_slug', slug)
+          .order('due_date');
+
+        if (error) throw error;
+
+        milestonesData = data || [];
+        renderMilestoneOptions();
+      } catch (err) {
+        console.error('Error loading milestones:', err);
+        document.getElementById('milestoneOptions').innerHTML =
+          '<div class="milestone-loading">Error loading milestones. Please try again.</div>';
+      }
+    }
+
+    function renderMilestoneOptions() {
+      const container = document.getElementById('milestoneOptions');
+
+      if (milestonesData.length === 0) {
+        container.innerHTML = '<div class="milestone-loading">No milestones found for this client.</div>';
+        return;
+      }
+
+      const milestoneNames = {
+        'initial': 'Initial Assessment',
+        '30-day': '30-Day Reassessment',
+        '60-day': '60-Day Reassessment',
+        '90-day': '90-Day Reassessment'
+      };
+
+      container.innerHTML = milestonesData.map(m => {
+        const isDisabled = m.status === 'completed' || m.status === 'generating' || m.status === 'scheduled';
+        const dueDate = m.due_date ? new Date(m.due_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Not set';
+
+        return `
+          <div class="milestone-option ${isDisabled ? 'milestone-option--disabled' : ''}"
+               data-id="${m.id}" data-type="${m.milestone_type}"
+               onclick="${isDisabled ? '' : `selectMilestone('${m.id}')`}">
+            <div class="milestone-option__radio"></div>
+            <div class="milestone-option__info">
+              <div class="milestone-option__name">${milestoneNames[m.milestone_type] || m.milestone_type}</div>
+              <div class="milestone-option__due">Due: ${dueDate}</div>
+            </div>
+            <span class="milestone-option__status milestone-option__status--${m.status}">${m.status}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectMilestone(id) {
+      selectedMilestoneId = id;
+
+      // Update UI
+      document.querySelectorAll('.milestone-option').forEach(el => {
+        el.classList.remove('milestone-option--selected');
+      });
+
+      const selected = document.querySelector(`.milestone-option[data-id="${id}"]`);
+      if (selected) {
+        selected.classList.add('milestone-option--selected');
+      }
+
+      // Enable trigger button
+      document.getElementById('triggerMilestoneBtn').disabled = false;
+
+      const milestone = milestonesData.find(m => m.id === id);
+      if (milestone) {
+        const milestoneNames = {
+          'initial': 'Initial Assessment',
+          '30-day': '30-Day Reassessment',
+          '60-day': '60-Day Reassessment',
+          '90-day': '90-Day Reassessment'
+        };
+        document.getElementById('triggerMilestoneBtn').textContent = `Trigger ${milestoneNames[milestone.milestone_type] || milestone.milestone_type}`;
+      }
+    }
+
+    function closeTriggerMilestoneModal() {
+      document.getElementById('triggerMilestoneModal').classList.remove('modal-overlay--visible');
+      triggerMilestoneSlug = null;
+      triggerMilestoneName = null;
+      selectedMilestoneId = null;
+      milestonesData = [];
+    }
+
+    async function triggerSelectedMilestone() {
+      if (!selectedMilestoneId || !triggerMilestoneSlug) return;
+
+      const milestone = milestonesData.find(m => m.id === selectedMilestoneId);
+      if (!milestone) return;
+
+      const btn = document.getElementById('triggerMilestoneBtn');
+      btn.textContent = 'Generating...';
+      btn.disabled = true;
+
+      // Remove any previous result message
+      const existingResult = document.querySelector('#triggerMilestoneModal .milestone-result');
+      if (existingResult) existingResult.remove();
+
+      try {
+        // Get auth token
+        const { data: { session } } = await supabaseClient.auth.getSession();
+
+        const response = await fetch('https://accelerator.elearningu.com/.netlify/functions/generate-milestone-assessment', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({
+            clientSlug: triggerMilestoneSlug,
+            milestoneType: milestone.milestone_type
+          })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || `HTTP ${response.status}`);
+        }
+
+        // Show success message
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'milestone-result milestone-result--success';
+        resultDiv.innerHTML = `<strong>Assessment Generated</strong><br>Score: ${data.score} (${data.grade})`;
+        document.querySelector('#triggerMilestoneModal .modal__actions').before(resultDiv);
+
+        // Refresh the milestone options
+        const { data: refreshedData } = await supabaseClient
+          .from('milestone_assessments')
+          .select('*')
+          .eq('client_slug', triggerMilestoneSlug)
+          .order('due_date');
+
+        milestonesData = refreshedData || [];
+        renderMilestoneOptions();
+
+        btn.textContent = 'Done';
+
+      } catch (err) {
+        console.error('Trigger failed:', err);
+
+        // Show error message
+        const resultDiv = document.createElement('div');
+        resultDiv.className = 'milestone-result milestone-result--error';
+        resultDiv.innerHTML = `<strong>Generation Failed</strong><br>${err.message}`;
+        document.querySelector('#triggerMilestoneModal .modal__actions').before(resultDiv);
+
+        btn.textContent = 'Trigger';
+        btn.disabled = false;
+      }
     }
 
     async function saveProjectChanges() {
