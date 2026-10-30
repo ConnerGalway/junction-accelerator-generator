@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Trigger Milestone Assessment - Junction Admin</title>
+<link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root {
+  --navy-900: #11154b;
+  --navy: #11154b;
+  --mint-500: #aadab6;
+  --mint: #aadab6;
+  --cream-100: #fcf5ec;
+  --cream: #fcf5ec;
+  --slate-600: #708090;
+  --link-blue: #067cbc;
+  --dark: #181c2d;
+  --white: #ffffff;
+  --state-success: #2e7d32;
+  --state-warning: #ed6c02;
+  --state-danger: #d32f2f;
+  --card-bg: #ffffff;
+  --page-bg: #f0ece5;
+  --border-subtle: rgba(17,21,75,.12);
+  --font-display: 'Raleway', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-md: 0 4px 20px rgba(17,21,75,.11);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; }
+body {
+  font-family: var(--font-body);
+  background: var(--page-bg);
+  color: var(--dark);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.admin-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.admin-logo {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--navy);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.admin-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+}
+
+.admin-card {
+  background: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: 32px;
+  width: 100%;
+  max-width: 500px;
+}
+
+.admin-section {
+  margin-bottom: 28px;
+}
+
+.admin-section:last-child {
+  margin-bottom: 0;
+}
+
+.admin-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--slate-600);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.admin-select {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: var(--font-body);
+  font-size: 15px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--white);
+  color: var(--dark);
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23708090' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.admin-select:focus {
+  outline: none;
+  border-color: var(--navy);
+}
+
+.milestone-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.milestone-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.milestone-option:hover {
+  border-color: var(--navy);
+}
+
+.milestone-option.selected {
+  border-color: var(--navy);
+  background: rgba(17,21,75,0.04);
+}
+
+.milestone-option.disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.milestone-option input[type="radio"] {
+  display: none;
+}
+
+.milestone-radio {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--border-subtle);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.milestone-option.selected .milestone-radio {
+  border-color: var(--navy);
+}
+
+.milestone-option.selected .milestone-radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  background: var(--navy);
+  border-radius: 50%;
+}
+
+.milestone-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.milestone-name {
+  font-weight: 600;
+  color: var(--dark);
+  font-size: 15px;
+}
+
+.milestone-due {
+  font-size: 13px;
+  color: var(--slate-600);
+  margin-top: 2px;
+}
+
+.milestone-status {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.milestone-status.pending {
+  background: rgba(237, 108, 2, 0.1);
+  color: var(--state-warning);
+}
+
+.milestone-status.completed {
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--state-success);
+}
+
+.milestone-status.generating {
+  background: rgba(6, 124, 188, 0.1);
+  color: var(--link-blue);
+}
+
+.milestone-status.scheduled {
+  background: rgba(6, 124, 188, 0.1);
+  color: var(--link-blue);
+}
+
+.milestone-status.failed {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--state-danger);
+}
+
+.admin-btn {
+  width: 100%;
+  padding: 16px 24px;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.admin-btn-primary {
+  background: var(--navy);
+  color: var(--white);
+}
+
+.admin-btn-primary:hover:not(:disabled) {
+  background: var(--navy-900);
+}
+
+.admin-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: var(--white);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.result-message {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  display: none;
+}
+
+.result-message.success {
+  background: rgba(46, 125, 50, 0.1);
+  color: var(--state-success);
+  display: block;
+}
+
+.result-message.error {
+  background: rgba(211, 47, 47, 0.1);
+  color: var(--state-danger);
+  display: block;
+}
+
+.result-message .result-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.auth-message {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--slate-600);
+}
+
+.auth-message a {
+  color: var(--link-blue);
+  text-decoration: none;
+}
+
+.auth-message a:hover {
+  text-decoration: underline;
+}
+
+.loading-placeholder {
+  text-align: center;
+  padding: 20px;
+  color: var(--slate-600);
+}
+</style>
+</head>
+<body>
+<div class="admin-header">
+  <div class="admin-logo">Junction Admin</div>
+  <h1 class="admin-title">Trigger Milestone Assessment</h1>
+</div>
+
+<div class="admin-card">
+  <div id="auth-check" class="auth-message">
+    Checking authentication...
+  </div>
+
+  <div id="admin-form" style="display: none;">
+    <div class="admin-section">
+      <label class="admin-label">Select Client</label>
+      <select id="client-select" class="admin-select" onchange="loadMilestones()">
+        <option value="">Loading clients...</option>
+      </select>
+    </div>
+
+    <div class="admin-section">
+      <label class="admin-label">Select Milestone</label>
+      <div id="milestone-options" class="milestone-options">
+        <div class="loading-placeholder">Select a client to view milestones</div>
+      </div>
+    </div>
+
+    <div class="admin-section">
+      <button id="trigger-btn" class="admin-btn admin-btn-primary" onclick="triggerMilestone()" disabled>
+        <span id="btn-text">Select a milestone to trigger</span>
+        <span id="btn-spinner" class="spinner" style="display: none;"></span>
+      </button>
+
+      <div id="result-message" class="result-message"></div>
+    </div>
+  </div>
+</div>
+
+<script src="/shared/supabase-client.js"></script>
+<script>
+const NETLIFY_GENERATE_URL = 'https://accelerator.elearningu.com/.netlify/functions/generate-milestone-assessment';
+
+let currentUser = null;
+let selectedMilestone = null;
+let milestones = [];
+
+// Check authentication on load
+async function checkAuth() {
+  const authCheck = document.getElementById('auth-check');
+  const adminForm = document.getElementById('admin-form');
+
+  try {
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+    if (!session) {
+      authCheck.innerHTML = 'You must be logged in to access this page.<br><a href="/">Go to login</a>';
+      return;
+    }
+
+    // Check if user is PSM or admin
+    const { data: userPlan, error } = await window.supabaseClient
+      .from('user_plans')
+      .select('role')
+      .eq('user_id', session.user.id)
+      .in('role', ['psm', 'admin', 'coach'])
+      .limit(1)
+      .single();
+
+    if (error || !userPlan) {
+      authCheck.innerHTML = 'Access denied. This page is for PSMs and admins only.<br><a href="/">Return to dashboard</a>';
+      return;
+    }
+
+    currentUser = {
+      id: session.user.id,
+      email: session.user.email,
+      role: userPlan.role
+    };
+
+    authCheck.style.display = 'none';
+    adminForm.style.display = 'block';
+
+    await loadClients();
+  } catch (err) {
+    console.error('Auth check failed:', err);
+    authCheck.innerHTML = 'Authentication error. Please try again.<br><a href="/">Go to login</a>';
+  }
+}
+
+// Load list of clients
+async function loadClients() {
+  const select = document.getElementById('client-select');
+
+  try {
+    const { data: clients, error } = await window.supabaseClient
+      .from('milestone_assessments')
+      .select('client_slug')
+      .order('client_slug');
+
+    if (error) throw error;
+
+    // Get unique client slugs
+    const uniqueClients = [...new Set(clients.map(c => c.client_slug))].sort();
+
+    select.innerHTML = '<option value="">Select a client...</option>';
+    uniqueClients.forEach(slug => {
+      const option = document.createElement('option');
+      option.value = slug;
+      option.textContent = formatClientName(slug);
+      select.appendChild(option);
+    });
+  } catch (err) {
+    console.error('Failed to load clients:', err);
+    select.innerHTML = '<option value="">Error loading clients</option>';
+  }
+}
+
+// Format client slug to display name
+function formatClientName(slug) {
+  return slug
+    .split('-')
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(' ');
+}
+
+// Load milestones for selected client
+async function loadMilestones() {
+  const select = document.getElementById('client-select');
+  const container = document.getElementById('milestone-options');
+  const clientSlug = select.value;
+
+  selectedMilestone = null;
+  updateTriggerButton();
+
+  if (!clientSlug) {
+    container.innerHTML = '<div class="loading-placeholder">Select a client to view milestones</div>';
+    return;
+  }
+
+  container.innerHTML = '<div class="loading-placeholder">Loading milestones...</div>';
+
+  try {
+    const { data, error } = await window.supabaseClient
+      .from('milestone_assessments')
+      .select('*')
+      .eq('client_slug', clientSlug)
+      .order('due_date');
+
+    if (error) throw error;
+
+    milestones = data || [];
+
+    if (milestones.length === 0) {
+      container.innerHTML = '<div class="loading-placeholder">No milestones found for this client</div>';
+      return;
+    }
+
+    container.innerHTML = milestones.map((m, i) => `
+      <label class="milestone-option ${m.status === 'completed' || m.status === 'generating' || m.status === 'scheduled' ? 'disabled' : ''}"
+             data-index="${i}"
+             onclick="selectMilestone(${i})">
+        <input type="radio" name="milestone" value="${m.id}">
+        <div class="milestone-radio"></div>
+        <div class="milestone-info">
+          <div class="milestone-name">${formatMilestoneType(m.milestone_type)}</div>
+          <div class="milestone-due">Due: ${formatDate(m.due_date)}</div>
+        </div>
+        <span class="milestone-status ${m.status}">${m.status}</span>
+      </label>
+    `).join('');
+  } catch (err) {
+    console.error('Failed to load milestones:', err);
+    container.innerHTML = '<div class="loading-placeholder">Error loading milestones</div>';
+  }
+}
+
+// Format milestone type for display
+function formatMilestoneType(type) {
+  const names = {
+    'initial': 'Initial Assessment',
+    '30-day': '30-Day Reassessment',
+    '60-day': '60-Day Reassessment',
+    '90-day': '90-Day Reassessment'
+  };
+  return names[type] || type;
+}
+
+// Format date for display
+function formatDate(dateStr) {
+  if (!dateStr) return 'Not set';
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric'
+  });
+}
+
+// Select a milestone
+function selectMilestone(index) {
+  const milestone = milestones[index];
+
+  // Don't allow selecting completed or generating milestones
+  if (milestone.status === 'completed' || milestone.status === 'generating' || milestone.status === 'scheduled') {
+    return;
+  }
+
+  // Update UI
+  document.querySelectorAll('.milestone-option').forEach(el => {
+    el.classList.remove('selected');
+  });
+
+  const option = document.querySelector(`[data-index="${index}"]`);
+  if (option) {
+    option.classList.add('selected');
+  }
+
+  selectedMilestone = milestone;
+  updateTriggerButton();
+}
+
+// Update trigger button state
+function updateTriggerButton() {
+  const btn = document.getElementById('trigger-btn');
+  const btnText = document.getElementById('btn-text');
+
+  if (!selectedMilestone) {
+    btn.disabled = true;
+    btnText.textContent = 'Select a milestone to trigger';
+  } else {
+    btn.disabled = false;
+    btnText.textContent = `Trigger ${formatMilestoneType(selectedMilestone.milestone_type)}`;
+  }
+}
+
+// Trigger the milestone generation
+async function triggerMilestone() {
+  if (!selectedMilestone || !currentUser) return;
+
+  const btn = document.getElementById('trigger-btn');
+  const btnText = document.getElementById('btn-text');
+  const spinner = document.getElementById('btn-spinner');
+  const result = document.getElementById('result-message');
+
+  btn.disabled = true;
+  btnText.textContent = 'Generating...';
+  spinner.style.display = 'block';
+  result.className = 'result-message';
+  result.style.display = 'none';
+
+  try {
+    // Get the auth token
+    const { data: { session } } = await window.supabaseClient.auth.getSession();
+
+    const response = await fetch(NETLIFY_GENERATE_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${session.access_token}`
+      },
+      body: JSON.stringify({
+        clientSlug: selectedMilestone.client_slug,
+        milestoneType: selectedMilestone.milestone_type
+      })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || `HTTP ${response.status}`);
+    }
+
+    result.className = 'result-message success';
+    result.innerHTML = `
+      <div class="result-title">Assessment Generated Successfully</div>
+      <div>Score: ${data.score} (${data.grade})</div>
+    `;
+
+    // Refresh milestones to show updated status
+    await loadMilestones();
+
+  } catch (err) {
+    console.error('Trigger failed:', err);
+    result.className = 'result-message error';
+    result.innerHTML = `
+      <div class="result-title">Generation Failed</div>
+      <div>${err.message}</div>
+    `;
+  } finally {
+    spinner.style.display = 'none';
+    updateTriggerButton();
+  }
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', checkAuth);
+</script>
+</body>
+</html>

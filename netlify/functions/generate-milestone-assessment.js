@@ -25,6 +25,7 @@ export async function handler(event, context) {
 
   let clientSlug = null;
   let milestoneType = null;
+  let triggeredBy = null;
 
   try {
     // Parse request body
@@ -51,11 +52,50 @@ export async function handler(event, context) {
     }
 
     // ─────────────────────────────────────────────────────────────────────────
+    // 0.5. CHECK FOR MANUAL TRIGGER (AUTH TOKEN PRESENT)
+    // ─────────────────────────────────────────────────────────────────────────
+    const authHeader = event.headers.authorization || event.headers.Authorization;
+    if (authHeader && authHeader.startsWith('Bearer ')) {
+      const token = authHeader.replace('Bearer ', '');
+
+      // If it's the service role key, this is an auto-trigger from the cron job
+      if (token !== process.env.SUPABASE_SERVICE_ROLE_KEY) {
+        // Validate user token and check if they're admin/PSM
+        try {
+          const { data: { user }, error: authError } = await supabaseAdmin.auth.getUser(token);
+
+          if (!authError && user) {
+            const { data: userAccess } = await supabaseAdmin
+              .from('user_plans')
+              .select('role, email')
+              .eq('email', user.email)
+              .in('role', ['admin', 'psm'])
+              .eq('active', true)
+              .limit(1);
+
+            if (userAccess && userAccess.length > 0) {
+              triggeredBy = user.email;
+              if (DEBUG) console.log('[MILESTONE] Manual trigger by:', triggeredBy);
+            }
+          }
+        } catch (authCheckError) {
+          console.warn('Auth check failed (continuing anyway):', authCheckError.message);
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────────────────
     // 1. UPDATE MILESTONE STATUS TO GENERATING
     // ─────────────────────────────────────────────────────────────────────────
+    const updateData = { status: 'generating' };
+    if (triggeredBy) {
+      updateData.triggered_by = triggeredBy;
+      updateData.triggered_at = new Date().toISOString();
+    }
+
     const { error: updateError } = await supabaseAdmin
       .from('milestone_assessments')
-      .update({ status: 'generating' })
+      .update(updateData)
       .eq('client_slug', clientSlug)
       .eq('milestone_type', milestoneType);
 
