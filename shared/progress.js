@@ -195,21 +195,14 @@
 
     const tasks = [];
     weekSection.querySelectorAll('input[type="checkbox"][data-key]').forEach(cb => {
-      // Find the label or text associated with this checkbox
-      const label = cb.closest('label');
-      if (label) {
-        // Get text content, excluding the checkbox itself
-        const text = label.textContent.trim();
+      const id = cb.getAttribute('id');
+      if (!id) return;
+
+      // Find the .check-label specifically (not .check-box which contains the SVG icon)
+      const checkLabel = document.querySelector(`label.check-label[for="${id}"]`);
+      if (checkLabel) {
+        const text = checkLabel.textContent.trim();
         if (text) tasks.push(text);
-      } else {
-        // Try to find adjacent label by 'for' attribute
-        const id = cb.getAttribute('id');
-        if (id) {
-          const labelFor = document.querySelector(`label[for="${id}"]`);
-          if (labelFor) {
-            tasks.push(labelFor.textContent.trim());
-          }
-        }
       }
     });
 
