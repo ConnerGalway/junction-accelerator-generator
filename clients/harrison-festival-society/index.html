@@ -5160,12 +5160,82 @@ body:not(.has-plan) .plan-content{display:none}
   height:auto;
   display:block;
 }
+.tactic-mockup-body{aspect-ratio:16/10;overflow:hidden}
+.tactic-mockup-body img{width:100%;height:100%;object-fit:cover;object-position:top center;cursor:zoom-in}
 .tactic-mockup-label{
   padding:12px 16px;
   font-size:12px;
   color:#8a7f68;
   text-align:center;
   background:#f7f2e9;
+}
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
+}
+
+/* Social reel cards (three phones side by side) */
+.tactic-reel-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:640px;margin-top:16px}
+.tactic-reel{display:block;color:inherit;text-decoration:none;border-radius:26px}
+.tactic-reel-phone{background:#16191d;border-radius:26px;padding:6px;box-shadow:0 12px 28px -14px rgba(30,25,15,.45);transition:transform .2s ease,box-shadow .2s ease}
+.tactic-reel-phone img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px}
+.tactic-reel:hover .tactic-reel-phone,.tactic-reel:focus-visible .tactic-reel-phone{transform:translateY(-3px);box-shadow:0 18px 32px -14px rgba(30,25,15,.5)}
+.tactic-reel:hover,.tactic-reel:focus-visible{text-decoration:none}
+.tactic-reel:focus-visible{outline:2px solid var(--link-blue);outline-offset:3px}
+.tactic-reel-label{margin-top:10px;font-size:12px;line-height:1.4;text-align:center;color:#8a7f68}
+.tactic-reel-label strong{display:block;color:#3a3326;font-weight:600}
+.tactic-reel-open{color:var(--link-blue);font-weight:600}
+@media (max-width:560px){.tactic-reel-row{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.tactic-reel{scroll-snap-align:start}}
+
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
 }
 
 /* Two-column step layout */
@@ -6523,6 +6593,17 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-3">Sort the photos into four groups that will become carousel series: Children's Day, the Beach Stage, the Artisan Market and a Night in the Hall.</li>
                       <li data-editable-key="t1-bullet-4">Leave out anything where a single artist is the whole point of the photo. You will want those in April, and they date the post to a specific year.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">drive.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-festival-society-mockups/media/t1-s1-content-folder.png" alt="Google Drive folder Festival 2027 Content &gt; Photos with four series folders, Children's Day, The Beach Stage, The Artisan Market and A Night in the Hall, above festival photos" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
@@ -6547,6 +6628,17 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-11">Name each clip by what is in it ("drone lake," "crowd dancing," "market wave") so you can find them during batching.</li>
                       <li data-editable-key="t1-bullet-12">These clips are the base of most Reels between January and March, mixed with new clips from Step 7.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Edits app · Google Drive app</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-festival-society-mockups/media/t1-s3-edits-split.png" alt="Two phones: the Edits app with a festival promo clip selected and the Split tool highlighted, and the Google Drive Clips folder with named clips such as drone lake, crowd dancing and market wave" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-4">
@@ -6559,6 +6651,20 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-15">Add one line of text on screen, such as "Somewhere in BC, in July," and choose a track from the app's audio library. Using Edits' own library avoids music rights problems.</li>
                       <li data-editable-key="t1-bullet-16">Save it as a draft without posting. The aim of this step is to learn the app in 20 minutes so batching is quick from now on.</li>
                     </ul>
+                    <a href="https://www.instagram.com/reels/edits/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Instagram Edits (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">instagram.com</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-festival-society-mockups/media/t1-s4-edits-card.png" alt="Three phone screens from the Instagram Edits app: an Ideas board of saved clips and notes, and two video editing timelines with Split, Animate, Audio, Text, Voice and Captions tools" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </li>
               </ol>
@@ -6584,6 +6690,12 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-19">Rotate the carousels through two series. The first is A Day at the Festival, with six to eight archive photos and a short line of text on each slide telling one day, such as a Children's Day morning or a beach stage afternoon. The second is Why We Come Back, with a member quote on a photo.</li>
                       <li data-editable-key="t1-bullet-20">Once a month, swap the Friday carousel for a teaser: "The 2027 lineup drops in April. Hear it first," linking to the email sign-up in Tactic 3.</li>
                     </ul>
+                    <div class="tactic-reel-row">
+                      <a href="https://www.instagram.com/reel/DeAzVMqxWqi/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Southern Gulf Islands winery reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/harrison-festival-society-mockups/media/t1-s5-little-moments.png" alt="Instagram reel from Garry Oaks Winery on Salt Spring Island, a tasting flight under orange umbrellas with mountains behind and the text tasting locally" loading="lazy"></div>
+                        <div class="tactic-reel-label"><strong>Little moment</strong>@southerngulfislands · <span class="tactic-reel-open">Open reel ↗</span></div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-6">
@@ -6596,6 +6708,17 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-23">Write the caption in two or three short lines. Mention Harrison Hot Springs by name at least once a week, since many people scrolling past do not know where the festival is.</li>
                       <li data-editable-key="t1-bullet-24">If a batching Monday gets away from you, schedule one Reel and one carousel at minimum. A short week is fine, but a gap of three weeks is what the algorithm punishes.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-festival-society-mockups/media/t1-s6-planner-schedule.png" alt="Meta Business Suite Planner for February 2027 with a Reel every Tuesday and a carousel every Friday, and a Create reel panel posting to both Facebook and Instagram, scheduled for Tuesday, February 2" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-7">
@@ -6608,6 +6731,12 @@ So the positioning leads with the feeling and lets the lineup be the payoff. You
                       <li data-editable-key="t1-bullet-27">Skip filming the performance under the LED lighting, since you already know that footage looks grungy. A wide shot from the back for two seconds, with the crowd silhouetted, is the exception worth trying.</li>
                       <li data-editable-key="t1-bullet-28">Move the clips into the Clips folder the next morning. You will use only one in five, and that is normal.</li>
                     </ul>
+                    <div class="tactic-reel-row">
+                      <a href="https://www.instagram.com/reel/DUV88UPDEto/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the Back to the Future musical backstage reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/harrison-festival-society-mockups/media/t1-s7-backstage.png" alt="Instagram reel from backstage at a theatre, crew moving set pieces under the lighting rig, with the text What's happening backstage" loading="lazy"></div>
+                        <div class="tactic-reel-label"><strong>Behind the scenes</strong>@bttfmusical · <span class="tactic-reel-open">Open reel ↗</span></div>
+                      </a>
+                    </div>
                   </div>
                 </li>
               </ol>
