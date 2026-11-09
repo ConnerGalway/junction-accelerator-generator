@@ -1,0 +1,244 @@
+{
+  "client_name": "Harrison Beach Hotel",
+  "client_slug": "harrison-beach-hotel",
+  "goal": "Harrison Beach Hotel is already ahead of most of the properties we work with. The schema is in place, the FAQ page is live, the landing pages have been refreshed, and ChatGPT puts the hotel in its top three places to stay in Harrison and at number one for meetings. The assessment scored the booking experience at 99 out of 100 and the reputation at 4.4 stars across 895 Google reviews. What the numbers also show is where the money is leaking: OTA bookings crept from a historic 20 percent to about 30 percent in August and September, and a social following of 23,206 is producing 0.34 percent engagement and almost no comments. The next ninety days are about closing both gaps. The first is a topic cluster content hub that makes Harrison Beach Hotel the most specific, most citable answer to the questions travellers put to AI tools, ahead of Expedia and Booking.com. The second is a high-volume social system, built on a bank of pillar content that your coordinator, Nicole, and Megan can keep full, that turns an audience you already have into direct bookings. The third is the conversion layer that connects the two: direct-booking perks that are impossible to miss, packages with your partners, midweek and shoulder season campaigns, and a proper push on the meetings and events business. The target is simple to state and measurable every month: direct bookings back toward 80 percent, fewer empty midweek nights, and more meeting enquiries.",
+  "coach_email": "damon@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Kickoff, Quick Fixes, and Tracking",
+      "actions": [
+        "Run the 45-minute pillar session with Katie, the coordinator, Nicole, and Megan → links to: Tactic 2 / Step 1",
+        "Respond to every Google review from the past 30 days and write three response templates → links to: Tactic 2 / Step 7",
+        "Capture Lights on the Lake photos and video while it is current → links to: Tactic 2 / Step 3",
+        "Confirm that Meta and Google Ads conversion tracking is firing, and record the August and September direct versus OTA baseline → links to: Tactic 3 / Step 6",
+        "Add the street address to the website footer and add alt text to the images missing it"
+      ],
+      "checklist": [
+        "Eight pillars are agreed and at least 40 content ideas are written",
+        "All Google reviews from the past 30 days have a response, and templates are saved",
+        "At least 15 Lights on the Lake clips and photos are in the shared drive",
+        "Booking conversions are confirmed firing in Meta and Google Ads",
+        "A direct versus OTA baseline is recorded",
+        "The address is visible in the website footer"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Clusters, Voice, and Baseline",
+      "actions": [
+        "Choose the five clusters and build the question list for each → links to: Tactic 1 / Step 1",
+        "Build the content calendar for the next three to four months → links to: Tactic 1 / Step 2",
+        "Write the brand voice brief, load it into Claude, and build the templates in Canva → links to: Tactic 2 / Step 2",
+        "Set up the weekly batching routine and the scheduling tools → links to: Tactic 2 / Step 4",
+        "Create the Instagram Story Highlights and update the bios → links to: Tactic 2 / Step 6",
+        "Run the baseline AI visibility test across ChatGPT, Perplexity, Gemini, and Google AI Overviews → links to: Tactic 1 / Step 8"
+      ],
+      "checklist": [
+        "The question list and the 30-piece content calendar are saved in a shared sheet",
+        "The brand voice brief is written and loaded into a Claude project",
+        "Reel, carousel, Story, and quote templates are saved in the brand kit",
+        "Scheduling is set up for Instagram, Facebook, TikTok, and YouTube Shorts",
+        "Highlights are live for Rooms, Pool and Hot Tub, Location, Guest Reviews, and Pets",
+        "The baseline AI test results are recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: The Hub Goes Live",
+      "actions": [
+        "Create the blog section, the cluster categories, and the new navigation item, with redirects for any page being replaced → links to: Tactic 1 / Step 3",
+        "Publish three winter cluster question posts → links to: Tactic 1 / Step 5",
+        "Start the new posting cadence of five posts a week with 60% Reels → links to: Tactic 2 / Step 4",
+        "Add the direct perks and best rate guarantee next to the Book Now button → links to: Tactic 3 / Step 1",
+        "Start the daily 30-minute engagement routine → links to: Tactic 2 / Step 7"
+      ],
+      "checklist": [
+        "The blog section and navigation item are live and redirects work",
+        "Three winter question posts are published with the right schema",
+        "Five posts went out this week, at least three of them Reels",
+        "Direct perks show next to Book Now on the homepage and room pages",
+        "Comments are being answered within an hour of posting"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Winter Pillar, Packages, and New Platforms",
+      "actions": [
+        "Write and publish the winter cluster pillar page and two more winter question posts → links to: Tactic 1 / Step 4",
+        "Turn each winter post into a Reel, a carousel, and a Google Business Profile post → links to: Tactic 1 / Step 6",
+        "Build the three package pages with unique tracking links → links to: Tactic 3 / Step 2",
+        "Launch TikTok and YouTube Shorts using the existing Reels → links to: Tactic 2 / Step 5",
+        "Run the weekly batch and publish the posts for the week → links to: Tactic 2 / Step 4"
+      ],
+      "checklist": [
+        "The winter cluster is complete: five question posts and a pillar page",
+        "Each winter post has a matching Reel, carousel, and Google post",
+        "Ski and Stay, Family Adventure, and Stay and Eat pages are live with tracking links",
+        "TikTok and YouTube Shorts each have at least 8 videos",
+        "Five or more posts went out this week"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Pet Cluster and the Prairie Campaign",
+      "actions": [
+        "Publish three pet-friendly question posts → links to: Tactic 1 / Step 5",
+        "Build the Prairie winter escape landing page and set up the Meta and Google campaigns → links to: Tactic 3 / Step 3",
+        "Trace the source of the wrong harrisonresort.com photo in ChatGPT and request the correction → links to: Tactic 1 / Step 7",
+        "Review last week's top three posts and hand the best Reel to Katie for the Meta campaigns → links to: Tactic 2 / Step 8",
+        "Keep the engagement routine and weekly batch running → links to: Tactic 2 / Step 7"
+      ],
+      "checklist": [
+        "Three pet-friendly posts are published, with facts confirmed by the team",
+        "The Prairie landing page is live and the campaigns are tracking",
+        "The source of the wrong photo is identified and a correction is requested",
+        "The best-performing Reel is running as an ad with a UTM-tagged link",
+        "Comment and DM response times are holding"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Pet Pillar, AI Check, and Emails",
+      "actions": [
+        "Publish two more pet-friendly question posts and the pet pillar page → links to: Tactic 1 / Step 4",
+        "Run the second AI visibility test and compare it with the baseline → links to: Tactic 1 / Step 8",
+        "Claim or complete Bing Places and Apple Business Connect, and align details across all sources → links to: Tactic 1 / Step 7",
+        "Rewrite the pre-arrival and post-stay emails with express check-in details and a return offer → links to: Tactic 3 / Step 4",
+        "Review the Prairie campaign after its first week and adjust the budget → links to: Tactic 3 / Step 3"
+      ],
+      "checklist": [
+        "The pet cluster is complete and linked together",
+        "The second AI test is logged and the changes from the baseline are noted",
+        "Bing Places and Apple Business Connect match Google exactly",
+        "The new pre-arrival and post-stay emails are live",
+        "The Prairie campaign has a first set of results and a decision on budget"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Holiday Week, Scheduled Ahead",
+      "actions": [
+        "Write and schedule three family cluster question posts ahead of the holiday → links to: Tactic 1 / Step 5",
+        "Schedule social content through January 3 using the content bank → links to: Tactic 2 / Step 4",
+        "Set holiday hours and special hours on the Google Business Profile, and publish a holiday post",
+        "Keep replying to comments, messages, and reviews, with a backup person named for the holidays → links to: Tactic 2 / Step 7"
+      ],
+      "checklist": [
+        "Three family question posts are scheduled to publish this week",
+        "Social content is scheduled through January 3",
+        "Holiday hours are set on the Google Business Profile",
+        "A backup person is covering engagement over the holidays"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Family Pillar and the Meetings Page",
+      "actions": [
+        "Publish two more family question posts and the family pillar page → links to: Tactic 1 / Step 4",
+        "Build the meetings page with capacity, set-ups, catering, pricing, and the inquiry form → links to: Tactic 3 / Step 5",
+        "Launch the January and February midweek offer and give it a tracking link → links to: Tactic 3 / Step 2",
+        "Review the month's social results and note the top two pillars → links to: Tactic 2 / Step 8",
+        "Refill the content bank: capture 30 minutes of new footage → links to: Tactic 2 / Step 3"
+      ],
+      "checklist": [
+        "The family cluster is complete",
+        "The meetings page is live with a working inquiry form",
+        "The midweek offer is live and tracked",
+        "The top two pillars are recorded and the next batch leans on them",
+        "At least 10 new clips are in the content bank"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Adventures Cluster and Meetings Outreach",
+      "actions": [
+        "Publish three adventure and experience question posts → links to: Tactic 1 / Step 5",
+        "Build the list of 30 meetings targets and send the first batch of emails → links to: Tactic 3 / Step 5",
+        "Convert each adventure post into a Reel, a carousel, and a Google post → links to: Tactic 1 / Step 6",
+        "Check Search Console for the first queries from the winter and pet clusters → links to: Tactic 1 / Step 8"
+      ],
+      "checklist": [
+        "Three adventure posts are published",
+        "The meetings target list exists and the first 5 or 6 emails are sent",
+        "Each adventure post has matching social content",
+        "The first Search Console queries are recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Adventures Pillar and the Third Test",
+      "actions": [
+        "Publish two more adventure posts and the adventures pillar page → links to: Tactic 1 / Step 4",
+        "Run the third AI visibility test and compare it with Weeks 2 and 6 → links to: Tactic 1 / Step 8",
+        "Report direct versus OTA share, bookings by package, and midweek occupancy for the past month → links to: Tactic 3 / Step 6",
+        "Send the second batch of meetings outreach → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "The adventures cluster is complete",
+        "The third AI test is logged and compared with the previous two",
+        "The monthly direct versus OTA report is written with numbers",
+        "The second batch of outreach emails is sent"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Meetings Cluster and Optimisation",
+      "actions": [
+        "Publish three meetings and gatherings question posts → links to: Tactic 1 / Step 5",
+        "Review the past 60 days of social content, retire the weakest ideas, and add new ones → links to: Tactic 2 / Step 8",
+        "Review package bookings and refresh the packages for spring → links to: Tactic 3 / Step 2",
+        "Send the third batch of meetings outreach and follow up on any enquiries → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "Three meetings posts are published",
+        "The content bank is refreshed with new ideas based on what has worked",
+        "Spring versions of the packages are drafted",
+        "All meeting enquiries have had a reply within one business day"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: 90-Day Review and Plan Forward",
+      "actions": [
+        "Publish the last two meetings posts and the meetings pillar page → links to: Tactic 1 / Step 4",
+        "Run the final AI visibility test and compare it with all previous tests → links to: Tactic 1 / Step 8",
+        "Compare direct versus OTA share, midweek occupancy, and package bookings with the Week 1 baseline → links to: Tactic 3 / Step 6",
+        "Pull the 90-day social summary: engagement rate, top posts, best pillars, and platform performance → links to: Tactic 2 / Step 8",
+        "Write three things that worked and one thing to change, and decide the next 90-day priorities"
+      ],
+      "checklist": [
+        "All 30 content pieces are published",
+        "The final AI test is logged with the progression across all four tests",
+        "The direct versus OTA comparison is written with numbers",
+        "The 90-day social summary exists with specific numbers",
+        "The next 90-day priorities are decided and written down",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/harrison-beach-hotel/#week-12"
+    }
+  ]
+}
