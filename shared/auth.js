@@ -116,6 +116,7 @@ window.__authReady = (async function () {
   // ==================================================================
   // ADMIN PAGES (data-page starts with "admin-")
   // Verify the user is admin or psm. Redirect others to my-clients.
+  // Exception: coaches can access admin-create-project to add plans
   // ==================================================================
   if (page && page.startsWith('admin-')) {
 
@@ -132,14 +133,19 @@ window.__authReady = (async function () {
 
     const adminRow = rows.find(r => r.role === 'admin');
     const psmRow   = rows.find(r => r.role === 'psm');
+    const coachRow = rows.find(r => r.role === 'coach');
 
-    if (!adminRow && !psmRow) {
-      // Not admin/psm — redirect to dashboard
+    // Coaches can access admin-create-project to add plans for their clients
+    const coachAllowedPages = ['admin-create-project'];
+    const isCoachAllowedPage = coachAllowedPages.includes(page);
+
+    if (!adminRow && !psmRow && !(coachRow && isCoachAllowedPage)) {
+      // Not admin/psm, and not a coach on an allowed page — redirect to dashboard
       window.location.replace('/my-clients/');
       return new Promise(() => {});
     }
 
-    const role = adminRow ? 'admin' : 'psm';
+    const role = adminRow ? 'admin' : (psmRow ? 'psm' : 'coach');
     return { email: userEmail, role: role };
   }
 

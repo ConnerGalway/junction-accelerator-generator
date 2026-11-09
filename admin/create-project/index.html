@@ -848,8 +848,9 @@
       const user = await window.__authReady;
       currentUser = user;
 
-      // Check if user has access: admin, psm, or wildcard access
-      let hasAccess = user.role === 'admin' || user.role === 'psm';
+      // Check if user has access: admin, psm, coach, or wildcard access
+      // Coaches can add plans for clients they're assigned to
+      let hasAccess = user.role === 'admin' || user.role === 'psm' || user.role === 'coach';
 
       if (!hasAccess) {
         // Check if this user has a wildcard entry in user_plans (coaches with full access)

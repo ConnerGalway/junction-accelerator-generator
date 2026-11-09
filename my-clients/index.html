@@ -2039,7 +2039,7 @@
                   ${a.status === 'processing' ? 'Processing...' : 'Pending'}
                 </button>
               `}
-              ${(a.status === 'completed' && isAdmin) ? `
+              ${(a.status === 'completed' && (isAdmin || currentUser.role === 'coach')) ? `
                 <a href="/admin/create-project/?from=${a.client_slug}" class="btn-secondary btn-success">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <line x1="12" y1="5" x2="12" y2="19"/>
