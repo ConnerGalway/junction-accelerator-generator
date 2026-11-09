@@ -247,10 +247,11 @@ function parsePlanMd(content) {
         });
       }
 
-      // Extract Success Metrics
-      const metricsMatch = section.match(/### Success Metrics\n\n\| Metric \| 30 Days \| 60 Days \| 90 Days \|\n\|[\s\S]*?\n([\s\S]*?)(?=\n### Tips|\n---)/);
+      // Extract Success Metrics table (more forgiving regex)
+      // Pattern: ### Success Metrics, then header row, then separator row, then data rows
+      const metricsMatch = section.match(/### Success Metrics[\r\n]+\|[^\n]+\|[\r\n]+\|[-|\s]+\|[\r\n]+([\s\S]*?)(?=[\r\n]+### |$)/);
       if (metricsMatch) {
-        const rows = metricsMatch[1].trim().split('\n').filter(r => r.startsWith('|'));
+        const rows = metricsMatch[1].trim().split(/[\r\n]+/).filter(r => r.startsWith('|'));
         for (const row of rows) {
           const cells = row.split('|').filter(c => c.trim()).map(c => c.trim());
           if (cells.length >= 4) {
