@@ -425,13 +425,23 @@ function generateWeekCardHtml(week) {
   }
 
   let checklistHtml = '';
+  const checkboxSvg = '<svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg>';
+  const noteSvg = '<svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg>';
   for (let i = 0; i < week.checklist.length; i++) {
     const item = stripMarkdown(week.checklist[i]);
     const checkId = `week-${week.number}-check-${i + 1}`;
-    checklistHtml += `<div class="check-row">
-      <input type="checkbox" class="check-input" id="${checkId}" data-key="${checkId}" onchange="onCheck(this)">
-      <label class="check-label" for="${checkId}" data-editable-key="${checkId}-label">${escapeHtml(item)}</label>
-    </div>\n`;
+    const noteId = `note-${checkId}`;
+    checklistHtml += `<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="${checkId}" data-key="${checkId}" onchange="onCheck(this)">
+    <label class="check-box" for="${checkId}">${checkboxSvg}</label>
+    <label class="check-label" for="${checkId}" data-editable-key="${checkId}-label">${escapeHtml(item)}</label>
+    <button class="note-toggle-btn" onclick="toggleNote('${checkId}')" title="Add note">${noteSvg}</button>
+  </div>
+  <div class="note-area" id="note-area-${checkId}">
+    <textarea class="note-textarea" id="${noteId}" placeholder="Add a note…" oninput="saveNote('${checkId}',this.value)"></textarea>
+  </div>
+</div>\n`;
   }
 
   return `<div class="week-card" id="wc-${week.number}" data-week="${week.number}">
@@ -464,7 +474,11 @@ function generateWeekCardHtml(week) {
 function generateQuickWinsHtml(content) {
   if (!content) return '';
 
+  const checkboxSvg = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const noteSvg = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
   let html = '';
+  let globalQwIndex = 1;
   const sections = content.split(/### /);
 
   for (const section of sections) {
@@ -474,24 +488,42 @@ function generateQuickWinsHtml(content) {
     const title = lines[0].trim();
     const items = lines.slice(1).filter(l => l.trim().startsWith('-'));
 
-    html += `<div class="quick-wins-section card" style="margin-bottom:20px">\n`;
-    html += `  <div class="card-header"><h3 class="card-title">${escapeHtml(title)}</h3></div>\n`;
-    html += `  <div class="card-body">\n`;
-    html += `    <ul class="quick-wins-list" style="list-style:none;padding:0">\n`;
+    if (items.length === 0) continue;
 
-    let qwIndex = 1;
+    html += `<div class="section-label">${escapeHtml(title)}</div>\n`;
+    html += `<div class="card" style="padding:0;margin-bottom:24px">\n`;
+    html += `  <div class="card-body">\n`;
+    html += `    <div class="check-list" style="gap:16px">\n`;
+
     for (const item of items) {
       const text = item.replace(/^-\s*/, '').trim();
+      const qwId = `qw_${globalQwIndex}`;
+
+      // Parse bold title if present
       const boldMatch = text.match(/^\*\*(.+?)\*\*\.?\s*(.*)/);
+      let labelContent;
       if (boldMatch) {
-        html += `      <li style="margin-bottom:16px"><strong>${escapeHtml(boldMatch[1])}</strong> ${escapeHtml(boldMatch[2])}</li>\n`;
+        labelContent = `<strong>${escapeHtml(boldMatch[1])}.</strong> ${escapeHtml(boldMatch[2])}`;
       } else {
-        html += `      <li style="margin-bottom:16px" data-editable-key="qw-${qwIndex}-label">${escapeHtml(text)}</li>\n`;
+        labelContent = escapeHtml(text);
       }
-      qwIndex++;
+
+      html += `      <div class="check-item">\n`;
+      html += `        <div class="check-row">\n`;
+      html += `          <input type="checkbox" class="check-input" id="${qwId}" onchange="onCheck(this)">\n`;
+      html += `          <label class="check-box" for="${qwId}">${checkboxSvg}</label>\n`;
+      html += `          <label class="check-label" for="${qwId}" data-editable-key="${qwId}-label">${labelContent}</label>\n`;
+      html += `          <button class="note-toggle-btn" onclick="toggleNote('${qwId}')">${noteSvg}</button>\n`;
+      html += `        </div>\n`;
+      html += `        <div class="note-area" id="note-area-${qwId}">\n`;
+      html += `          <textarea class="note-textarea" id="note-${qwId}" placeholder="Add a note…" oninput="saveNote('${qwId}',this.value)"></textarea>\n`;
+      html += `        </div>\n`;
+      html += `      </div>\n`;
+
+      globalQwIndex++;
     }
 
-    html += `    </ul>\n`;
+    html += `    </div>\n`;
     html += `  </div>\n`;
     html += `</div>\n`;
   }

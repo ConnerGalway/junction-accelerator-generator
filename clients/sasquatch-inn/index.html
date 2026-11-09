@@ -5607,15 +5607,15 @@ button,
     <div class="nav-section-label">The Tactics</div>
     <div class="nav-item" data-page="tactic1" onclick="navigate('tactic1')">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zm6-4a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zm6-3a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
-      Site & Booking
+      Google Listings
     </div>
     <div class="nav-item" data-page="tactic2" onclick="navigate('tactic2')">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"/></svg>
-      Content & Social
+      Website & Booking
     </div>
     <div class="nav-item" data-page="tactic3" onclick="navigate('tactic3')">
       <svg class="nav-icon" viewBox="0 0 20 20" fill="currentColor"><path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z"/></svg>
-      Ads & Creators
+      Social & Content
     </div>
     
     <div class="nav-section-label">Your Plan</div>
@@ -7040,30 +7040,72 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-1" data-key="week-1-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-1" data-editable-key="week-1-check-1-label">Screenshots and notes from the original listing are saved</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-2" data-key="week-1-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-2" data-editable-key="week-1-check-2-label">The existing listing now shows only the pub, with the correct name, category, and 11 AM hours</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-3" data-key="week-1-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-3" data-editable-key="week-1-check-3-label">Hotel and liquor store listings are submitted and verification has started</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-4" data-key="week-1-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-4" data-editable-key="week-1-check-4-label">The homepage title and meta description are live</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-5" data-key="week-1-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-5" data-editable-key="week-1-check-5-label">The homepage has a single H1 and the closure notice is gone</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-1-check-6" data-key="week-1-check-6" onchange="onCheck(this)">
-      <label class="check-label" for="week-1-check-6" data-editable-key="week-1-check-6-label">20+ photos and 5+ clips from Season of the Wild are saved in Google Drive</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-1" data-key="week-1-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-1" data-editable-key="week-1-check-1-label">Screenshots and notes from the original listing are saved</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-1">
+    <textarea class="note-textarea" id="note-week-1-check-1" placeholder="Add a note…" oninput="saveNote('week-1-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-2" data-key="week-1-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-2" data-editable-key="week-1-check-2-label">The existing listing now shows only the pub, with the correct name, category, and 11 AM hours</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-2">
+    <textarea class="note-textarea" id="note-week-1-check-2" placeholder="Add a note…" oninput="saveNote('week-1-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-3" data-key="week-1-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-3" data-editable-key="week-1-check-3-label">Hotel and liquor store listings are submitted and verification has started</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-3">
+    <textarea class="note-textarea" id="note-week-1-check-3" placeholder="Add a note…" oninput="saveNote('week-1-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-4" data-key="week-1-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-4" data-editable-key="week-1-check-4-label">The homepage title and meta description are live</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-4">
+    <textarea class="note-textarea" id="note-week-1-check-4" placeholder="Add a note…" oninput="saveNote('week-1-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-5" data-key="week-1-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-5" data-editable-key="week-1-check-5-label">The homepage has a single H1 and the closure notice is gone</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-5">
+    <textarea class="note-textarea" id="note-week-1-check-5" placeholder="Add a note…" oninput="saveNote('week-1-check-5',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-1-check-6" data-key="week-1-check-6" onchange="onCheck(this)">
+    <label class="check-box" for="week-1-check-6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-1-check-6" data-editable-key="week-1-check-6-label">20+ photos and 5+ clips from Season of the Wild are saved in Google Drive</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-1-check-6')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-1-check-6">
+    <textarea class="note-textarea" id="note-week-1-check-6" placeholder="Add a note…" oninput="saveNote('week-1-check-6',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7095,30 +7137,72 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-1" data-key="week-2-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-1" data-editable-key="week-2-check-1-label">Three business pages are live and each Google listing links to its own page</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-2" data-key="week-2-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-2" data-editable-key="week-2-check-2-label">The footer shows Instagram, a tap-to-call number, and the full address</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-3" data-key="week-2-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-3" data-editable-key="week-2-check-3-label">Hours match across the three listings and the three pages</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-4" data-key="week-2-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-4" data-editable-key="week-2-check-4-label">The EAGLE code works when tested from a phone</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-5" data-key="week-2-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-5" data-editable-key="week-2-check-5-label">Three weeks of posts are scheduled in Meta Business Suite</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-2-check-6" data-key="week-2-check-6" onchange="onCheck(this)">
-      <label class="check-label" for="week-2-check-6" data-editable-key="week-2-check-6-label">Your helper has the one-page note covering comments, Google Posts, and who to call</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-1" data-key="week-2-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-1" data-editable-key="week-2-check-1-label">Three business pages are live and each Google listing links to its own page</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-1">
+    <textarea class="note-textarea" id="note-week-2-check-1" placeholder="Add a note…" oninput="saveNote('week-2-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-2" data-key="week-2-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-2" data-editable-key="week-2-check-2-label">The footer shows Instagram, a tap-to-call number, and the full address</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-2">
+    <textarea class="note-textarea" id="note-week-2-check-2" placeholder="Add a note…" oninput="saveNote('week-2-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-3" data-key="week-2-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-3" data-editable-key="week-2-check-3-label">Hours match across the three listings and the three pages</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-3">
+    <textarea class="note-textarea" id="note-week-2-check-3" placeholder="Add a note…" oninput="saveNote('week-2-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-4" data-key="week-2-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-4" data-editable-key="week-2-check-4-label">The EAGLE code works when tested from a phone</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-4">
+    <textarea class="note-textarea" id="note-week-2-check-4" placeholder="Add a note…" oninput="saveNote('week-2-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-5" data-key="week-2-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-5" data-editable-key="week-2-check-5-label">Three weeks of posts are scheduled in Meta Business Suite</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-5">
+    <textarea class="note-textarea" id="note-week-2-check-5" placeholder="Add a note…" oninput="saveNote('week-2-check-5',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-2-check-6" data-key="week-2-check-6" onchange="onCheck(this)">
+    <label class="check-box" for="week-2-check-6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-2-check-6" data-editable-key="week-2-check-6-label">Your helper has the one-page note covering comments, Google Posts, and who to call</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-2-check-6')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-2-check-6">
+    <textarea class="note-textarea" id="note-week-2-check-6" placeholder="Add a note…" oninput="saveNote('week-2-check-6',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7148,22 +7232,50 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-3-check-1" data-key="week-3-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-3-check-1" data-editable-key="week-3-check-1-label">Verification status is checked on both new listings</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-3-check-2" data-key="week-3-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-3-check-2" data-editable-key="week-3-check-2-label">All new reviews have a reply within 48 hours</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-3-check-3" data-key="week-3-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-3-check-3" data-editable-key="week-3-check-3-label">This week&#039;s scheduled posts published with no gaps</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-3-check-4" data-key="week-3-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-3-check-4" data-editable-key="week-3-check-4-label">No comments or messages sat unanswered for more than a day</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-3-check-1" data-key="week-3-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-3-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-3-check-1" data-editable-key="week-3-check-1-label">Verification status is checked on both new listings</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-3-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-3-check-1">
+    <textarea class="note-textarea" id="note-week-3-check-1" placeholder="Add a note…" oninput="saveNote('week-3-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-3-check-2" data-key="week-3-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-3-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-3-check-2" data-editable-key="week-3-check-2-label">All new reviews have a reply within 48 hours</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-3-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-3-check-2">
+    <textarea class="note-textarea" id="note-week-3-check-2" placeholder="Add a note…" oninput="saveNote('week-3-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-3-check-3" data-key="week-3-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-3-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-3-check-3" data-editable-key="week-3-check-3-label">This week&#039;s scheduled posts published with no gaps</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-3-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-3-check-3">
+    <textarea class="note-textarea" id="note-week-3-check-3" placeholder="Add a note…" oninput="saveNote('week-3-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-3-check-4" data-key="week-3-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-3-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-3-check-4" data-editable-key="week-3-check-4-label">No comments or messages sat unanswered for more than a day</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-3-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-3-check-4">
+    <textarea class="note-textarea" id="note-week-3-check-4" placeholder="Add a note…" oninput="saveNote('week-3-check-4',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7193,22 +7305,50 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-4-check-1" data-key="week-4-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-4-check-1" data-editable-key="week-4-check-1-label">Each verified listing has at least 5 new photos</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-4-check-2" data-key="week-4-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-4-check-2" data-editable-key="week-4-check-2-label">Each verified listing has its first Google Post</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-4-check-3" data-key="week-4-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-4-check-3" data-editable-key="week-4-check-3-label">Reviews are all answered within 48 hours</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-4-check-4" data-key="week-4-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-4-check-4" data-editable-key="week-4-check-4-label">Scheduled posts published with no gaps</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-4-check-1" data-key="week-4-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-4-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-4-check-1" data-editable-key="week-4-check-1-label">Each verified listing has at least 5 new photos</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-4-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-4-check-1">
+    <textarea class="note-textarea" id="note-week-4-check-1" placeholder="Add a note…" oninput="saveNote('week-4-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-4-check-2" data-key="week-4-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-4-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-4-check-2" data-editable-key="week-4-check-2-label">Each verified listing has its first Google Post</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-4-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-4-check-2">
+    <textarea class="note-textarea" id="note-week-4-check-2" placeholder="Add a note…" oninput="saveNote('week-4-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-4-check-3" data-key="week-4-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-4-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-4-check-3" data-editable-key="week-4-check-3-label">Reviews are all answered within 48 hours</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-4-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-4-check-3">
+    <textarea class="note-textarea" id="note-week-4-check-3" placeholder="Add a note…" oninput="saveNote('week-4-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-4-check-4" data-key="week-4-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-4-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-4-check-4" data-editable-key="week-4-check-4-label">Scheduled posts published with no gaps</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-4-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-4-check-4">
+    <textarea class="note-textarea" id="note-week-4-check-4" placeholder="Add a note…" oninput="saveNote('week-4-check-4',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7249,22 +7389,50 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-5-check-1" data-key="week-5-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-5-check-1" data-editable-key="week-5-check-1-label">The third week of scheduled posts published with no gaps</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-5-check-2" data-key="week-5-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-5-check-2" data-editable-key="week-5-check-2-label">Weekly Google Posts are live on each listing</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-5-check-3" data-key="week-5-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-5-check-3" data-editable-key="week-5-check-3-label">Reviews answered within 48 hours</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-5-check-4" data-key="week-5-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-5-check-4" data-editable-key="week-5-check-4-label">Plan for the first week back is written down</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-5-check-1" data-key="week-5-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-5-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-5-check-1" data-editable-key="week-5-check-1-label">The third week of scheduled posts published with no gaps</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-5-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-5-check-1">
+    <textarea class="note-textarea" id="note-week-5-check-1" placeholder="Add a note…" oninput="saveNote('week-5-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-5-check-2" data-key="week-5-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-5-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-5-check-2" data-editable-key="week-5-check-2-label">Weekly Google Posts are live on each listing</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-5-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-5-check-2">
+    <textarea class="note-textarea" id="note-week-5-check-2" placeholder="Add a note…" oninput="saveNote('week-5-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-5-check-3" data-key="week-5-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-5-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-5-check-3" data-editable-key="week-5-check-3-label">Reviews answered within 48 hours</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-5-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-5-check-3">
+    <textarea class="note-textarea" id="note-week-5-check-3" placeholder="Add a note…" oninput="saveNote('week-5-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-5-check-4" data-key="week-5-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-5-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-5-check-4" data-editable-key="week-5-check-4-label">Plan for the first week back is written down</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-5-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-5-check-4">
+    <textarea class="note-textarea" id="note-week-5-check-4" placeholder="Add a note…" oninput="saveNote('week-5-check-4',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7296,30 +7464,72 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-1" data-key="week-6-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-1" data-editable-key="week-6-check-1-label">Three-week performance notes are written, including the best-performing post</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-2" data-key="week-6-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-2" data-editable-key="week-6-check-2-label">All three listings have a final description and accurate attributes</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-3" data-key="week-6-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-3" data-editable-key="week-6-check-3-label">A baseline of direct versus Booking.com bookings is recorded</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-4" data-key="week-6-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-4" data-editable-key="week-6-check-4-label">Search Console is connected and UTM links are live</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-5" data-key="week-6-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-5" data-editable-key="week-6-check-5-label">The Meta Pixel is verified in Events Manager</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-6-check-6" data-key="week-6-check-6" onchange="onCheck(this)">
-      <label class="check-label" for="week-6-check-6" data-editable-key="week-6-check-6-label">TikTok is live with its first video</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-1" data-key="week-6-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-1" data-editable-key="week-6-check-1-label">Three-week performance notes are written, including the best-performing post</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-1">
+    <textarea class="note-textarea" id="note-week-6-check-1" placeholder="Add a note…" oninput="saveNote('week-6-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-2" data-key="week-6-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-2" data-editable-key="week-6-check-2-label">All three listings have a final description and accurate attributes</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-2">
+    <textarea class="note-textarea" id="note-week-6-check-2" placeholder="Add a note…" oninput="saveNote('week-6-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-3" data-key="week-6-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-3" data-editable-key="week-6-check-3-label">A baseline of direct versus Booking.com bookings is recorded</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-3">
+    <textarea class="note-textarea" id="note-week-6-check-3" placeholder="Add a note…" oninput="saveNote('week-6-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-4" data-key="week-6-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-4" data-editable-key="week-6-check-4-label">Search Console is connected and UTM links are live</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-4">
+    <textarea class="note-textarea" id="note-week-6-check-4" placeholder="Add a note…" oninput="saveNote('week-6-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-5" data-key="week-6-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-5" data-editable-key="week-6-check-5-label">The Meta Pixel is verified in Events Manager</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-5">
+    <textarea class="note-textarea" id="note-week-6-check-5" placeholder="Add a note…" oninput="saveNote('week-6-check-5',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-6-check-6" data-key="week-6-check-6" onchange="onCheck(this)">
+    <label class="check-box" for="week-6-check-6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-6-check-6" data-editable-key="week-6-check-6-label">TikTok is live with its first video</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-6-check-6')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-6-check-6">
+    <textarea class="note-textarea" id="note-week-6-check-6" placeholder="Add a note…" oninput="saveNote('week-6-check-6',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7350,26 +7560,61 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-7-check-1" data-key="week-7-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-7-check-1" data-editable-key="week-7-check-1-label">Schema passes the Rich Results Test on all three pages</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-7-check-2" data-key="week-7-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-7-check-2" data-editable-key="week-7-check-2-label">Parking and accessibility details are published</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-7-check-3" data-key="week-7-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-7-check-3" data-editable-key="week-7-check-3-label">The FAQ page is live and linked from the footer and navigation</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-7-check-4" data-key="week-7-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-7-check-4" data-editable-key="week-7-check-4-label">Holiday hours are set on all three listings</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-7-check-5" data-key="week-7-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-7-check-5" data-editable-key="week-7-check-5-label">Christmas wreath event content is scheduled</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-7-check-1" data-key="week-7-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-7-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-7-check-1" data-editable-key="week-7-check-1-label">Schema passes the Rich Results Test on all three pages</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-7-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-7-check-1">
+    <textarea class="note-textarea" id="note-week-7-check-1" placeholder="Add a note…" oninput="saveNote('week-7-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-7-check-2" data-key="week-7-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-7-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-7-check-2" data-editable-key="week-7-check-2-label">Parking and accessibility details are published</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-7-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-7-check-2">
+    <textarea class="note-textarea" id="note-week-7-check-2" placeholder="Add a note…" oninput="saveNote('week-7-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-7-check-3" data-key="week-7-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-7-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-7-check-3" data-editable-key="week-7-check-3-label">The FAQ page is live and linked from the footer and navigation</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-7-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-7-check-3">
+    <textarea class="note-textarea" id="note-week-7-check-3" placeholder="Add a note…" oninput="saveNote('week-7-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-7-check-4" data-key="week-7-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-7-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-7-check-4" data-editable-key="week-7-check-4-label">Holiday hours are set on all three listings</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-7-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-7-check-4">
+    <textarea class="note-textarea" id="note-week-7-check-4" placeholder="Add a note…" oninput="saveNote('week-7-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-7-check-5" data-key="week-7-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-7-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-7-check-5" data-editable-key="week-7-check-5-label">Christmas wreath event content is scheduled</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-7-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-7-check-5">
+    <textarea class="note-textarea" id="note-week-7-check-5" placeholder="Add a note…" oninput="saveNote('week-7-check-5',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7400,26 +7645,61 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-8-check-1" data-key="week-8-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-8-check-1" data-editable-key="week-8-check-1-label">Every listing has at least 10 photos</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-8-check-2" data-key="week-8-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-8-check-2" data-editable-key="week-8-check-2-label">The hotel listing has the winter special and EAGLE Offer posts live</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-8-check-3" data-key="week-8-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-8-check-3" data-editable-key="week-8-check-3-label">Review requests are in the post-stay email and the QR cards are on the tables and counter</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-8-check-4" data-key="week-8-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-8-check-4" data-editable-key="week-8-check-4-label">Four weeks of content are scheduled</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-8-check-5" data-key="week-8-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-8-check-5" data-editable-key="week-8-check-5-label">A phone test of Book Direct and the EAGLE code passes</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-8-check-1" data-key="week-8-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-8-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-8-check-1" data-editable-key="week-8-check-1-label">Every listing has at least 10 photos</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-8-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-8-check-1">
+    <textarea class="note-textarea" id="note-week-8-check-1" placeholder="Add a note…" oninput="saveNote('week-8-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-8-check-2" data-key="week-8-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-8-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-8-check-2" data-editable-key="week-8-check-2-label">The hotel listing has the winter special and EAGLE Offer posts live</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-8-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-8-check-2">
+    <textarea class="note-textarea" id="note-week-8-check-2" placeholder="Add a note…" oninput="saveNote('week-8-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-8-check-3" data-key="week-8-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-8-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-8-check-3" data-editable-key="week-8-check-3-label">Review requests are in the post-stay email and the QR cards are on the tables and counter</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-8-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-8-check-3">
+    <textarea class="note-textarea" id="note-week-8-check-3" placeholder="Add a note…" oninput="saveNote('week-8-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-8-check-4" data-key="week-8-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-8-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-8-check-4" data-editable-key="week-8-check-4-label">Four weeks of content are scheduled</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-8-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-8-check-4">
+    <textarea class="note-textarea" id="note-week-8-check-4" placeholder="Add a note…" oninput="saveNote('week-8-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-8-check-5" data-key="week-8-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-8-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-8-check-5" data-editable-key="week-8-check-5-label">A phone test of Book Direct and the EAGLE code passes</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-8-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-8-check-5">
+    <textarea class="note-textarea" id="note-week-8-check-5" placeholder="Add a note…" oninput="saveNote('week-8-check-5',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7461,26 +7741,61 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-9-check-1" data-key="week-9-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-9-check-1" data-editable-key="week-9-check-1-label">The Stay series is running weekly</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-9-check-2" data-key="week-9-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-9-check-2" data-editable-key="week-9-check-2-label">A partner Collab post is live</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-9-check-3" data-key="week-9-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-9-check-3" data-editable-key="week-9-check-3-label">The Parkbus code is tested and the post is published</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-9-check-4" data-key="week-9-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-9-check-4" data-editable-key="week-9-check-4-label">AI tool test results are recorded for comparison at Week 12</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-9-check-5" data-key="week-9-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-9-check-5" data-editable-key="week-9-check-5-label">Promo code redemptions are recorded</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-9-check-1" data-key="week-9-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-9-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-9-check-1" data-editable-key="week-9-check-1-label">The Stay series is running weekly</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-9-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-9-check-1">
+    <textarea class="note-textarea" id="note-week-9-check-1" placeholder="Add a note…" oninput="saveNote('week-9-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-9-check-2" data-key="week-9-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-9-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-9-check-2" data-editable-key="week-9-check-2-label">A partner Collab post is live</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-9-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-9-check-2">
+    <textarea class="note-textarea" id="note-week-9-check-2" placeholder="Add a note…" oninput="saveNote('week-9-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-9-check-3" data-key="week-9-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-9-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-9-check-3" data-editable-key="week-9-check-3-label">The Parkbus code is tested and the post is published</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-9-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-9-check-3">
+    <textarea class="note-textarea" id="note-week-9-check-3" placeholder="Add a note…" oninput="saveNote('week-9-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-9-check-4" data-key="week-9-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-9-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-9-check-4" data-editable-key="week-9-check-4-label">AI tool test results are recorded for comparison at Week 12</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-9-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-9-check-4">
+    <textarea class="note-textarea" id="note-week-9-check-4" placeholder="Add a note…" oninput="saveNote('week-9-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-9-check-5" data-key="week-9-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-9-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-9-check-5" data-editable-key="week-9-check-5-label">Promo code redemptions are recorded</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-9-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-9-check-5">
+    <textarea class="note-textarea" id="note-week-9-check-5" placeholder="Add a note…" oninput="saveNote('week-9-check-5',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7510,22 +7825,50 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-10-check-1" data-key="week-10-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-10-check-1" data-editable-key="week-10-check-1-label">The email sign-up form is live and the QR codes are in place</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-10-check-2" data-key="week-10-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-10-check-2" data-editable-key="week-10-check-2-label">Tulip festival teaser content is scheduled</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-10-check-3" data-key="week-10-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-10-check-3" data-editable-key="week-10-check-3-label">The pillar mix is adjusted based on the top five posts</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-10-check-4" data-key="week-10-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-10-check-4" data-editable-key="week-10-check-4-label">Listing activity is compared with the baseline</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-10-check-1" data-key="week-10-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-10-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-10-check-1" data-editable-key="week-10-check-1-label">The email sign-up form is live and the QR codes are in place</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-10-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-10-check-1">
+    <textarea class="note-textarea" id="note-week-10-check-1" placeholder="Add a note…" oninput="saveNote('week-10-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-10-check-2" data-key="week-10-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-10-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-10-check-2" data-editable-key="week-10-check-2-label">Tulip festival teaser content is scheduled</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-10-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-10-check-2">
+    <textarea class="note-textarea" id="note-week-10-check-2" placeholder="Add a note…" oninput="saveNote('week-10-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-10-check-3" data-key="week-10-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-10-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-10-check-3" data-editable-key="week-10-check-3-label">The pillar mix is adjusted based on the top five posts</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-10-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-10-check-3">
+    <textarea class="note-textarea" id="note-week-10-check-3" placeholder="Add a note…" oninput="saveNote('week-10-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-10-check-4" data-key="week-10-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-10-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-10-check-4" data-editable-key="week-10-check-4-label">Listing activity is compared with the baseline</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-10-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-10-check-4">
+    <textarea class="note-textarea" id="note-week-10-check-4" placeholder="Add a note…" oninput="saveNote('week-10-check-4',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7555,22 +7898,50 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-11-check-1" data-key="week-11-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-11-check-1" data-editable-key="week-11-check-1-label">Promo end dates are accurate and expired codes are turned off</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-11-check-2" data-key="week-11-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-11-check-2" data-editable-key="week-11-check-2-label">Search Console findings are recorded</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-11-check-3" data-key="week-11-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-11-check-3" data-editable-key="week-11-check-3-label">All three listings are current and all reviews answered</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-11-check-4" data-key="week-11-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-11-check-4" data-editable-key="week-11-check-4-label">The first monthly email is sent</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-11-check-1" data-key="week-11-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-11-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-11-check-1" data-editable-key="week-11-check-1-label">Promo end dates are accurate and expired codes are turned off</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-11-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-11-check-1">
+    <textarea class="note-textarea" id="note-week-11-check-1" placeholder="Add a note…" oninput="saveNote('week-11-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-11-check-2" data-key="week-11-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-11-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-11-check-2" data-editable-key="week-11-check-2-label">Search Console findings are recorded</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-11-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-11-check-2">
+    <textarea class="note-textarea" id="note-week-11-check-2" placeholder="Add a note…" oninput="saveNote('week-11-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-11-check-3" data-key="week-11-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-11-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-11-check-3" data-editable-key="week-11-check-3-label">All three listings are current and all reviews answered</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-11-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-11-check-3">
+    <textarea class="note-textarea" id="note-week-11-check-3" placeholder="Add a note…" oninput="saveNote('week-11-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-11-check-4" data-key="week-11-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-11-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-11-check-4" data-editable-key="week-11-check-4-label">The first monthly email is sent</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-11-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-11-check-4">
+    <textarea class="note-textarea" id="note-week-11-check-4" placeholder="Add a note…" oninput="saveNote('week-11-check-4',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7601,30 +7972,72 @@ button,
       <div>
         <div class="week-col-label">Completion Checklist</div>
         <div class="check-list">
-          <div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-1" data-key="week-12-check-1" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-1" data-editable-key="week-12-check-1-label">The direct versus Booking.com comparison is written down with numbers</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-2" data-key="week-12-check-2" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-2" data-editable-key="week-12-check-2-label">AI test results from Weeks 9 and 12 are compared</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-3" data-key="week-12-check-3" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-3" data-editable-key="week-12-check-3-label">The 90-day social summary exists</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-4" data-key="week-12-check-4" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-4" data-editable-key="week-12-check-4-label">Each listing has been reviewed and any gaps are listed</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-5" data-key="week-12-check-5" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-5" data-editable-key="week-12-check-5-label">The next 90-day priority is decided with a written reason</label>
-    </div>
-<div class="check-row">
-      <input type="checkbox" class="check-input" id="week-12-check-6" data-key="week-12-check-6" onchange="onCheck(this)">
-      <label class="check-label" for="week-12-check-6" data-editable-key="week-12-check-6-label">---</label>
-    </div>
+          <div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-1" data-key="week-12-check-1" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-1" data-editable-key="week-12-check-1-label">The direct versus Booking.com comparison is written down with numbers</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-1">
+    <textarea class="note-textarea" id="note-week-12-check-1" placeholder="Add a note…" oninput="saveNote('week-12-check-1',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-2" data-key="week-12-check-2" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-2" data-editable-key="week-12-check-2-label">AI test results from Weeks 9 and 12 are compared</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-2">
+    <textarea class="note-textarea" id="note-week-12-check-2" placeholder="Add a note…" oninput="saveNote('week-12-check-2',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-3" data-key="week-12-check-3" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-3" data-editable-key="week-12-check-3-label">The 90-day social summary exists</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-3">
+    <textarea class="note-textarea" id="note-week-12-check-3" placeholder="Add a note…" oninput="saveNote('week-12-check-3',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-4" data-key="week-12-check-4" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-4" data-editable-key="week-12-check-4-label">Each listing has been reviewed and any gaps are listed</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-4">
+    <textarea class="note-textarea" id="note-week-12-check-4" placeholder="Add a note…" oninput="saveNote('week-12-check-4',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-5" data-key="week-12-check-5" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-5" data-editable-key="week-12-check-5-label">The next 90-day priority is decided with a written reason</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-5">
+    <textarea class="note-textarea" id="note-week-12-check-5" placeholder="Add a note…" oninput="saveNote('week-12-check-5',this.value)"></textarea>
+  </div>
+</div>
+<div class="check-item">
+  <div class="check-row">
+    <input type="checkbox" class="check-input" id="week-12-check-6" data-key="week-12-check-6" onchange="onCheck(this)">
+    <label class="check-box" for="week-12-check-6"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+    <label class="check-label" for="week-12-check-6" data-editable-key="week-12-check-6-label">---</label>
+    <button class="note-toggle-btn" onclick="toggleNote('week-12-check-6')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+  </div>
+  <div class="note-area" id="note-area-week-12-check-6">
+    <textarea class="note-textarea" id="note-week-12-check-6" placeholder="Add a note…" oninput="saveNote('week-12-check-6',this.value)"></textarea>
+  </div>
+</div>
 
         </div>
       </div>
@@ -7660,42 +8073,128 @@ button,
   </div>
   <div class="content-area">
     <!-- GENERATOR: Replace this placeholder with Quick Wins page content from plan.md -->
-    <div class="quick-wins-section card" style="margin-bottom:20px">
-  <div class="card-header"><h3 class="card-title">These are small jobs that pay back quickly. Most take under an hour, and none of them needs to wait for the rest of the plan.</h3></div>
+    <div class="section-label">On the Google Listings</div>
+<div class="card" style="padding:0;margin-bottom:24px">
   <div class="card-body">
-    <ul class="quick-wins-list" style="list-style:none;padding:0">
-    </ul>
+    <div class="check-list" style="gap:16px">
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_1" onchange="onCheck(this)">
+          <label class="check-box" for="qw_1"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_1" data-editable-key="qw_1-label"><strong>Reply to your reviews, starting with the most recent..</strong> You have 1,735 reviews at 4.3 stars and the assessment found no consistent reply pattern. Responding within 48 hours, using the guest&#039;s name and the thing they mentioned, tells future guests someone is paying attention. Your reviews mention Angie, Tara, and Jill by name, so thank the team in the reply.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_1')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_1">
+          <textarea class="note-textarea" id="note-qw_1" placeholder="Add a note…" oninput="saveNote('qw_1',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_2" onchange="onCheck(this)">
+          <label class="check-box" for="qw_2"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_2" data-editable-key="qw_2-label"><strong>Check for any old temporary closure..</strong> The website still carries a September closure notice, so check the Google listing for the same problem and clear it. Nothing hurts trust faster than a listing that says closed when you are open.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_2')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_2">
+          <textarea class="note-textarea" id="note-qw_2" placeholder="Add a note…" oninput="saveNote('qw_2',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_3" onchange="onCheck(this)">
+          <label class="check-box" for="qw_3"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_3" data-editable-key="qw_3-label"><strong>Add your menu and the dishes people mention..</strong> On the pub listing, add the menu link and list the steak, beef dip, pizza, and wraps by name. These are the words people search for.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_3')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_3">
+          <textarea class="note-textarea" id="note-qw_3" placeholder="Add a note…" oninput="saveNote('qw_3',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_4" onchange="onCheck(this)">
+          <label class="check-box" for="qw_4"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_4" data-editable-key="qw_4-label"><strong>Add the Sasquatch merchandise to the Products section..</strong> Once the liquor store listing is live, add each item with a photo and price. It is one of the few places where a customer can see merchandise directly in search.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_4')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_4">
+          <textarea class="note-textarea" id="note-qw_4" placeholder="Add a note…" oninput="saveNote('qw_4',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_5" onchange="onCheck(this)">
+          <label class="check-box" for="qw_5"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_5" data-editable-key="qw_5-label"><strong>Turn on the attributes that are true..</strong> Outdoor seating and dogs allowed for the pub, and parking and pet policy for the hotel. Each accurate attribute puts you in another filtered search.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_5')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_5">
+          <textarea class="note-textarea" id="note-qw_5" placeholder="Add a note…" oninput="saveNote('qw_5',this.value)"></textarea>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="quick-wins-section card" style="margin-bottom:20px">
-  <div class="card-header"><h3 class="card-title">On the Google Listings</h3></div>
+<div class="section-label">On the Website</div>
+<div class="card" style="padding:0;margin-bottom:24px">
   <div class="card-body">
-    <ul class="quick-wins-list" style="list-style:none;padding:0">
-      <li style="margin-bottom:16px"><strong>Reply to your reviews, starting with the most recent.</strong> You have 1,735 reviews at 4.3 stars and the assessment found no consistent reply pattern. Responding within 48 hours, using the guest&#039;s name and the thing they mentioned, tells future guests someone is paying attention. Your reviews mention Angie, Tara, and Jill by name, so thank the team in the reply.</li>
-      <li style="margin-bottom:16px"><strong>Check for any old temporary closure.</strong> The website still carries a September closure notice, so check the Google listing for the same problem and clear it. Nothing hurts trust faster than a listing that says closed when you are open.</li>
-      <li style="margin-bottom:16px"><strong>Add your menu and the dishes people mention.</strong> On the pub listing, add the menu link and list the steak, beef dip, pizza, and wraps by name. These are the words people search for.</li>
-      <li style="margin-bottom:16px"><strong>Add the Sasquatch merchandise to the Products section.</strong> Once the liquor store listing is live, add each item with a photo and price. It is one of the few places where a customer can see merchandise directly in search.</li>
-      <li style="margin-bottom:16px"><strong>Turn on the attributes that are true.</strong> Outdoor seating and dogs allowed for the pub, and parking and pet policy for the hotel. Each accurate attribute puts you in another filtered search.</li>
-    </ul>
-  </div>
-</div>
-<div class="quick-wins-section card" style="margin-bottom:20px">
-  <div class="card-header"><h3 class="card-title">On the Website</h3></div>
-  <div class="card-body">
-    <ul class="quick-wins-list" style="list-style:none;padding:0">
-      <li style="margin-bottom:16px"><strong>Replace the title tag and meta description.</strong> Your title is 13 characters and there is no meta description. This is a 15-minute fix that changes what appears in every Google search for the Inn.</li>
-      <li style="margin-bottom:16px"><strong>Fix the three H1 tags.</strong> Keep &quot;The Sasquatch Inn&quot; as the only H1 and remove the outdated closure notice entirely.</li>
-      <li style="margin-bottom:16px"><strong>Link Instagram in the footer.</strong> It is already there for Facebook and Twitter, and Instagram is the one missing.</li>
-      <li style="margin-bottom:16px"><strong>Make the phone number tap-to-call.</strong> One-tap calling matters most on mobile, where most travellers are when they decide to stop.</li>
-      <li style="margin-bottom:16px"><strong>Install the Meta Pixel.</strong> Even if you are not advertising yet, installing it now means the audience is already building when you are ready.</li>
-    </ul>
-  </div>
-</div>
-<div class="quick-wins-section card" style="margin-bottom:20px">
-  <div class="card-header"><h3 class="card-title">One Thing Worth Watching</h3></div>
-  <div class="card-body">
-    <ul class="quick-wins-list" style="list-style:none;padding:0">
-    </ul>
+    <div class="check-list" style="gap:16px">
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_6" onchange="onCheck(this)">
+          <label class="check-box" for="qw_6"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_6" data-editable-key="qw_6-label"><strong>Replace the title tag and meta description..</strong> Your title is 13 characters and there is no meta description. This is a 15-minute fix that changes what appears in every Google search for the Inn.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_6')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_6">
+          <textarea class="note-textarea" id="note-qw_6" placeholder="Add a note…" oninput="saveNote('qw_6',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_7" onchange="onCheck(this)">
+          <label class="check-box" for="qw_7"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_7" data-editable-key="qw_7-label"><strong>Fix the three H1 tags..</strong> Keep &quot;The Sasquatch Inn&quot; as the only H1 and remove the outdated closure notice entirely.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_7')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_7">
+          <textarea class="note-textarea" id="note-qw_7" placeholder="Add a note…" oninput="saveNote('qw_7',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_8" onchange="onCheck(this)">
+          <label class="check-box" for="qw_8"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_8" data-editable-key="qw_8-label"><strong>Link Instagram in the footer..</strong> It is already there for Facebook and Twitter, and Instagram is the one missing.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_8')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_8">
+          <textarea class="note-textarea" id="note-qw_8" placeholder="Add a note…" oninput="saveNote('qw_8',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_9" onchange="onCheck(this)">
+          <label class="check-box" for="qw_9"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_9" data-editable-key="qw_9-label"><strong>Make the phone number tap-to-call..</strong> One-tap calling matters most on mobile, where most travellers are when they decide to stop.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_9')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_9">
+          <textarea class="note-textarea" id="note-qw_9" placeholder="Add a note…" oninput="saveNote('qw_9',this.value)"></textarea>
+        </div>
+      </div>
+      <div class="check-item">
+        <div class="check-row">
+          <input type="checkbox" class="check-input" id="qw_10" onchange="onCheck(this)">
+          <label class="check-box" for="qw_10"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6L5 9L10 3" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></label>
+          <label class="check-label" for="qw_10" data-editable-key="qw_10-label"><strong>Install the Meta Pixel..</strong> Even if you are not advertising yet, installing it now means the audience is already building when you are ready.</label>
+          <button class="note-toggle-btn" onclick="toggleNote('qw_10')"><svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 2.5H3C2.17157 2.5 1.5 3.17157 1.5 4V12C1.5 12.8284 2.17157 13.5 3 13.5H13C13.8284 13.5 14.5 12.8284 14.5 12V4C14.5 3.17157 13.8284 2.5 13 2.5Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/><path d="M4.5 5.5H11.5M4.5 8H9.5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        </div>
+        <div class="note-area" id="note-area-qw_10">
+          <textarea class="note-textarea" id="note-qw_10" placeholder="Add a note…" oninput="saveNote('qw_10',this.value)"></textarea>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
