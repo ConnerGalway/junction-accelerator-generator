@@ -792,9 +792,12 @@ function processTemplate(template, data) {
     3: phases[2].name
   };
 
-  html = html.replace(/\/\* \{\{WEEK_TITLES\}\} \*\//, JSON.stringify(weekTitles));
-  html = html.replace(/\/\* \{\{WEEK_TACTICS\}\} \*\//, JSON.stringify(weekTactics));
-  html = html.replace(/\/\* \{\{PHASES\}\} \*\//, JSON.stringify(phasesObj));
+  // Replace the entire { /* placeholder */ } or [ /* placeholder */ ] block with the JSON
+  // Template format: const WEEK_TITLES = { /* {{WEEK_TITLES}} */ };
+  //                  const PHASES = [ /* {{PHASES}} */ ];
+  html = html.replace(/\{\s*\/\* \{\{WEEK_TITLES\}\} \*\/\s*\}/, JSON.stringify(weekTitles));
+  html = html.replace(/\{\s*\/\* \{\{WEEK_TACTICS\}\} \*\/\s*\}/, JSON.stringify(weekTactics));
+  html = html.replace(/\[\s*\/\* \{\{PHASES\}\} \*\/\s*\]/, JSON.stringify(phasesObj));
 
   // Post-processing validation
   const remainingPlaceholders = html.match(/\{\{[A-Z_0-9]+\}\}/g) || [];

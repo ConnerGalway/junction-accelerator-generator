@@ -907,9 +907,12 @@ function processTemplate(template, data) {
   };
 
   // Replace JS configuration placeholders
-  html = html.replace(/\/\* \{\{WEEK_TITLES\}\} \*\//, JSON.stringify(weekTitles));
-  html = html.replace(/\/\* \{\{WEEK_TACTICS\}\} \*\//, JSON.stringify(weekTactics));
-  html = html.replace(/\/\* \{\{PHASES\}\} \*\//, JSON.stringify(phasesObj));
+  // Template format: const WEEK_TITLES = { /* {{WEEK_TITLES}} */ };
+  //                  const PHASES = [ /* {{PHASES}} */ ];
+  // Must replace the entire { placeholder } or [ placeholder ] block
+  html = html.replace(/\{\s*\/\* \{\{WEEK_TITLES\}\} \*\/\s*\}/, JSON.stringify(weekTitles));
+  html = html.replace(/\{\s*\/\* \{\{WEEK_TACTICS\}\} \*\/\s*\}/, JSON.stringify(weekTactics));
+  html = html.replace(/\[\s*\/\* \{\{PHASES\}\} \*\/\s*\]/, JSON.stringify(phasesObj));
 
   // ─────────────────────────────────────────────────────────────────────────
   // POST-PROCESSING VALIDATION
