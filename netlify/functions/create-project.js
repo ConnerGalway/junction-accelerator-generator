@@ -281,6 +281,38 @@ export async function handler(event, context) {
 
 function parsePlanMd(content) {
   try {
+    // ─────────────────────────────────────────────────────────────────────────
+    // FORMAT VALIDATION
+    // Check for required sections before parsing to provide clear error messages
+    // ─────────────────────────────────────────────────────────────────────────
+    const validationErrors = [];
+
+    if (!content.includes('## Goal')) {
+      validationErrors.push('Missing "## Goal" section');
+    }
+    if (!content.match(/## Tactic \d+:/)) {
+      validationErrors.push('Missing "## Tactic N:" sections');
+    }
+    if (!content.match(/### Week \d+:/)) {
+      validationErrors.push('Missing "### Week N:" sections in roadmap');
+    }
+
+    // Count tactics and weeks to validate completeness
+    const tacticMatches = content.match(/## Tactic \d+:/g) || [];
+    if (tacticMatches.length < 3) {
+      validationErrors.push(`Found ${tacticMatches.length} tactics, expected at least 3`);
+    }
+
+    const weekMatches = content.match(/### Week \d+:/g) || [];
+    if (weekMatches.length < 12) {
+      validationErrors.push(`Found ${weekMatches.length} weeks, expected 12`);
+    }
+
+    // Return early if critical validation errors
+    if (validationErrors.length > 0 && !content.includes('## Goal')) {
+      return { error: validationErrors.join('; ') };
+    }
+
     const result = {
       meta: {},
       goal: '',
@@ -297,7 +329,7 @@ function parsePlanMd(content) {
     };
 
     // Extract Meta section
-    const metaMatch = content.match(/## Meta\n([\s\S]*?)(?=\n## )/);
+    const metaMatch = content.match(/## Meta[\r\n]+([\s\S]*?)(?=[\r\n]+## )/);
     if (metaMatch) {
       const meta = metaMatch[1];
       const slugMatch = meta.match(/Client Slug:\s*(.+)/);
@@ -313,8 +345,8 @@ function parsePlanMd(content) {
       if (projectionsMatch) result.hasProjections = projectionsMatch[1].trim().toLowerCase() === 'yes';
     }
 
-    // Extract Goal
-    const goalMatch = content.match(/## Goal\n([\s\S]*?)(?=\n---|\n## )/);
+    // Extract Goal (more forgiving regex that handles \r\n and various line endings)
+    const goalMatch = content.match(/## Goal[\r\n]+([\s\S]*?)(?=[\r\n]+---|\n## |$)/);
     if (goalMatch) {
       result.goal = goalMatch[1].trim();
     } else {
@@ -322,22 +354,23 @@ function parsePlanMd(content) {
     }
 
     // Extract Strategic Positioning
-    const posMatch = content.match(/## Strategic Positioning\n([\s\S]*?)(?=\n---|\n## )/);
+    const posMatch = content.match(/## Strategic Positioning[\r\n]+([\s\S]*?)(?=[\r\n]+---|\n## |$)/);
     if (posMatch) {
       result.strategicPositioning = posMatch[1].trim();
     }
 
     // Extract Welcome Message
-    const welcomeMatch = content.match(/## Welcome Message\n([\s\S]*?)(?=\n---|\n## )/);
+    const welcomeMatch = content.match(/## Welcome Message[\r\n]+([\s\S]*?)(?=[\r\n]+---|\n## |$)/);
     if (welcomeMatch) {
       result.welcomeMessage = welcomeMatch[1].trim();
     }
 
-    // Extract Objectives
-    const objectivesMatch = content.match(/## Objectives\n([\s\S]*?)(?=\n---|\n## 90-Day Roadmap)/);
+    // Extract Objectives (more forgiving regex)
+    const objectivesMatch = content.match(/## Objectives[\r\n]+([\s\S]*?)(?=[\r\n]+---|\n## 90-Day Roadmap|$)/);
     if (objectivesMatch) {
       const objContent = objectivesMatch[1];
-      const objMatches = objContent.matchAll(/### Objective (\d+)\nTitle:\s*(.+)\nDescription:\s*(.+)\nTactic Pill:\s*(.+)/g);
+      // More forgiving pattern that handles variable whitespace
+      const objMatches = objContent.matchAll(/### Objective (\d+)[\r\n]+Title:\s*(.+?)[\r\n]+Description:\s*(.+?)[\r\n]+Tactic Pill:\s*(.+?)(?=[\r\n]+###|\n## |$)/g);
       for (const match of objMatches) {
         result.objectives.push({
           number: parseInt(match[1]),
@@ -352,7 +385,8 @@ function parsePlanMd(content) {
     const tacticSections = content.split(/(?=## Tactic \d+:)/g).filter(s => s.startsWith('## Tactic'));
 
     for (const section of tacticSections) {
-      const headerMatch = section.match(/## Tactic (\d+):\s*(.+)\nPhase:\s*(.+)\nShort Label:\s*(.+)\nSubtitle:\s*(.+)/);
+      // More forgiving header pattern that handles variable whitespace
+      const headerMatch = section.match(/## Tactic (\d+):\s*(.+?)[\r\n]+Phase:\s*(.+?)[\r\n]+Short Label:\s*(.+?)[\r\n]+Subtitle:\s*(.+?)(?=[\r\n]+###|$)/s);
       if (!headerMatch) continue;
 
       const tactic = {
@@ -371,20 +405,20 @@ function parsePlanMd(content) {
         resources: []
       };
 
-      // Extract "What We Heard From You"
-      const heardMatch = section.match(/### What We Heard From You\n\n([\s\S]*?)(?=\n### )/);
+      // Extract "What We Heard From You" (more forgiving regex)
+      const heardMatch = section.match(/### What We Heard From You[\r\n]+([\s\S]*?)(?=[\r\n]+### |$)/);
       if (heardMatch) tactic.whatHeard = heardMatch[1].trim();
 
       // Extract "What This Is"
-      const whatIsMatch = section.match(/### What This Is\n\n([\s\S]*?)(?=\n### )/);
+      const whatIsMatch = section.match(/### What This Is[\r\n]+([\s\S]*?)(?=[\r\n]+### |$)/);
       if (whatIsMatch) tactic.whatIs = whatIsMatch[1].trim();
 
       // Extract "Why It Matters"
-      const whyMattersMatch = section.match(/### Why It Matters\n\n([\s\S]*?)(?=\n### )/);
+      const whyMattersMatch = section.match(/### Why It Matters[\r\n]+([\s\S]*?)(?=[\r\n]+### |$)/);
       if (whyMattersMatch) tactic.whyMatters = whyMattersMatch[1].trim();
 
       // Extract Implementation Steps
-      const stepsMatch = section.match(/### Implementation Steps\n\n([\s\S]*?)(?=\n### Success Metrics)/);
+      const stepsMatch = section.match(/### Implementation Steps[\r\n]+([\s\S]*?)(?=[\r\n]+### Success Metrics|$)/);
       if (stepsMatch) {
         const stepsContent = stepsMatch[1];
         const parts = stepsContent.split(/#### Part [A-Z]:/).filter(p => p.trim());
@@ -444,16 +478,16 @@ function parsePlanMd(content) {
         }
       }
 
-      // Extract Tips
-      const tipsMatch = section.match(/### Tips\n\n([\s\S]*?)(?=\n### Resources)/);
+      // Extract Tips (more forgiving regex)
+      const tipsMatch = section.match(/### Tips[\r\n]+([\s\S]*?)(?=[\r\n]+### Resources|$)/);
       if (tipsMatch) {
-        tactic.tips = tipsMatch[1].trim().split('\n')
+        tactic.tips = tipsMatch[1].trim().split(/[\r\n]+/)
           .filter(line => line.trim().startsWith('-'))
           .map(line => line.replace(/^-\s*/, '').trim());
       }
 
-      // Extract Resources
-      const resourcesMatch = section.match(/### Resources\n\n([\s\S]*?)(?=\n---|\n## |$)/);
+      // Extract Resources (more forgiving regex)
+      const resourcesMatch = section.match(/### Resources[\r\n]+([\s\S]*?)(?=[\r\n]+---|\n## |$)/);
       if (resourcesMatch) {
         const resourceLines = resourcesMatch[1].trim().split('\n')
           .filter(line => line.trim().startsWith('-'));
@@ -487,14 +521,14 @@ function parsePlanMd(content) {
       month3Match ? month3Match[1].trim() : 'Month 3'
     ];
 
-    // Extract Weeks
-    const weekMatches = content.matchAll(/### Week (\d+):\s*(.+)\n\*\*Actions:\*\*\n([\s\S]*?)\*\*Checklist:\*\*\n([\s\S]*?)(?=### Week \d+|## GBP|$)/g);
-    for (const match of weekMatches) {
-      const actions = match[3].trim().split('\n')
+    // Extract Weeks (more forgiving regex that handles variable whitespace)
+    const weekMatchesIter = content.matchAll(/### Week (\d+):\s*(.+?)[\r\n]+\*\*Actions:\*\*[\r\n]+([\s\S]*?)\*\*Checklist:\*\*[\r\n]+([\s\S]*?)(?=### Week \d+|## GBP|$)/g);
+    for (const match of weekMatchesIter) {
+      const actions = match[3].trim().split(/[\r\n]+/)
         .filter(line => line.trim().startsWith('-'))
         .map(line => line.replace(/^-\s*/, '').trim());
 
-      const checklist = match[4].trim().split('\n')
+      const checklist = match[4].trim().split(/[\r\n]+/)
         .filter(line => line.trim().startsWith('-'))
         .map(line => line.replace(/^-\s*\[.\]\s*/, '').trim());
 
@@ -713,6 +747,45 @@ function processTemplate(template, data) {
   }
 
   // ─────────────────────────────────────────────────────────────────────────
+  // PHASE PLACEHOLDERS
+  // Derive phase info from tactics or use sensible defaults
+  // ─────────────────────────────────────────────────────────────────────────
+  const phases = [
+    {
+      name: data.tactics[0]?.phase || 'Foundation',
+      weeks: 'WEEKS 1-4',
+      desc: data.tactics[0]?.phase ? data.tactics[0].phase.split(' ')[0] : 'Build the base'
+    },
+    {
+      name: data.tactics[1]?.phase || 'Growth',
+      weeks: 'WEEKS 5-8',
+      desc: data.tactics[1]?.phase ? data.tactics[1].phase.split(' ')[0] : 'Scale up'
+    },
+    {
+      name: data.tactics[2]?.phase || 'Optimization',
+      weeks: 'WEEKS 9-12',
+      desc: data.tactics[2]?.phase ? data.tactics[2].phase.split(' ')[0] : 'Refine & sustain'
+    }
+  ];
+
+  for (let i = 0; i < 3; i++) {
+    const n = i + 1;
+    html = html.split(`{{PHASE_${n}_WEEKS}}`).join(phases[i].weeks);
+    html = html.split(`{{PHASE_${n}_NAME}}`).join(phases[i].name);
+    html = html.split(`{{PHASE_${n}_DESC}}`).join(phases[i].desc);
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // WEEK 1 DASHBOARD PLACEHOLDERS (Your Next Step card)
+  // ─────────────────────────────────────────────────────────────────────────
+  const week1 = data.roadmap.weeks[0];
+  html = html.split('{{WEEK_1_SHORT_TITLE}}').join(week1?.title || 'Get Started');
+  html = html.split('{{WEEK_1_HEADLINE}}').join(week1?.actions[0] ? stripMarkdown(week1.actions[0]).replace(/→ links to:.*$/, '').trim() : 'Begin your 90-day journey');
+  html = html.split('{{WEEK_1_TIME}}').join('2-3 hours this week');
+  html = html.split('{{WEEK_1_WHO}}').join('You + your team');
+  html = html.split('{{WEEK_1_TASK_COUNT}}').join((week1?.checklist?.length || 0).toString());
+
+  // ─────────────────────────────────────────────────────────────────────────
   // ROADMAP WEEK HTML GENERATION
   // ─────────────────────────────────────────────────────────────────────────
   const monthTotals = { 1: 0, 2: 0, 3: 0 };
@@ -752,8 +825,8 @@ function processTemplate(template, data) {
   html = html.split('{{ROADMAP_CALLOUT}}').join('');
 
   // Assessment placeholders - set to empty or defaults (assessment data comes from separate source)
-  html = html.split('{{OVERALL_SCORE}}').join('');
-  html = html.split('{{OVERALL_GRADE}}').join('');
+  html = html.split('{{OVERALL_SCORE}}').join('--');
+  html = html.split('{{OVERALL_GRADE}}').join('--');
   html = html.split('{{ASSESSMENT_SUMMARY}}').join('Assessment data will be populated when available.');
   html = html.split('{{EXECUTIVE_HEADLINE}}').join('');
   html = html.split('{{KEY_STRENGTHS}}').join('');
@@ -764,6 +837,13 @@ function processTemplate(template, data) {
   html = html.split('{{CATEGORY_CARDS}}').join('');
   html = html.split('{{PROJECTIONS_NOTE}}').join('');
   html = html.split('{{PRINT_SUMMARY_STATS}}').join('');
+
+  // Assessment category placeholders - set to defaults until assessment is available
+  for (let n = 1; n <= 6; n++) {
+    html = html.split(`{{CATEGORY_${n}_SCORE}}`).join('--');
+    html = html.split(`{{CATEGORY_${n}_GRADE}}`).join('--');
+    html = html.split(`{{CATEGORY_${n}_GRADE_CLASS}}`).join('');
+  }
 
   // ─────────────────────────────────────────────────────────────────────────
   // BUILD JAVASCRIPT ARRAYS
@@ -807,6 +887,44 @@ function processTemplate(template, data) {
     /const TACTIC_CHECKS\s*=\s*\{[\s\S]*?\};/,
     `const TACTIC_CHECKS = ${JSON.stringify(tacticChecks)};`
   );
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // JAVASCRIPT CONFIGURATION OBJECTS
+  // Build WEEK_TITLES, WEEK_TACTICS, and PHASES for dashboard JS
+  // ─────────────────────────────────────────────────────────────────────────
+  const weekTitles = {};
+  const weekTactics = {};
+  data.roadmap.weeks.forEach(w => {
+    weekTitles[w.number] = w.title;
+    weekTactics[w.number] = getTacticForWeek(w.number);
+  });
+
+  const phasesObj = {
+    1: phases[0].name,
+    2: phases[1].name,
+    3: phases[2].name
+  };
+
+  // Replace JS configuration placeholders
+  html = html.replace(/\/\* \{\{WEEK_TITLES\}\} \*\//, JSON.stringify(weekTitles));
+  html = html.replace(/\/\* \{\{WEEK_TACTICS\}\} \*\//, JSON.stringify(weekTactics));
+  html = html.replace(/\/\* \{\{PHASES\}\} \*\//, JSON.stringify(phasesObj));
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // POST-PROCESSING VALIDATION
+  // Check for any remaining unfilled placeholders and warn
+  // ─────────────────────────────────────────────────────────────────────────
+  const remainingPlaceholders = html.match(/\{\{[A-Z_0-9]+\}\}/g) || [];
+  if (remainingPlaceholders.length > 0) {
+    const unique = [...new Set(remainingPlaceholders)];
+    console.warn(`[create-project] WARNING: ${unique.length} unfilled placeholder types detected:`, unique.slice(0, 15).join(', '));
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // CLEANUP FALLBACK
+  // Remove any remaining placeholders to prevent raw {{PLACEHOLDER}} in output
+  // ─────────────────────────────────────────────────────────────────────────
+  html = html.replace(/\{\{[A-Z_0-9]+\}\}/g, '');
 
   return html;
 }
