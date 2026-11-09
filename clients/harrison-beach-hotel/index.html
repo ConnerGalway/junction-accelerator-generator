@@ -6354,105 +6354,140 @@ button,
 
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t1-steps" role="tabpanel" aria-labelledby="tab-t1-steps" data-tactic-content="1" data-content="steps">
-        <!-- GENERATOR: Replace this placeholder with Tactic 1 implementation steps from plan.md -->
-        <ol class="tactic-steps-list">
-<div class="tactic-part-header">Plan the Clusters</div>
-<li class="step-item" id="step-t1-1">
-  <div class="step-num">1</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Choose the five clusters and map the questions behind each one.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-1">The call identified five clusters built around the adventures and experiences the hotel offers. Based on your guest mix and goals, these five cover the ground:</li>
-      <li data-editable-key="t1-bullet-2">For each cluster, collect 15 to 20 candidate questions from four sources: your last 100 Google reviews, the questions Megan and the front desk hear most, People Also Ask results and AnswerThePublic, and ChatGPT and Perplexity themselves (ask &quot;what do people ask about [topic] in Harrison Hot Springs?&quot;).</li>
-      <li data-editable-key="t1-bullet-3">Pick the five questions per cluster that are most specific and most likely to lead to a booking or an enquiry. Specific beats broad. &quot;Is Harrison Beach Hotel pet friendly?&quot; is a better target than &quot;pet-friendly travel.&quot;</li>
-      <li data-editable-key="t1-bullet-4">Save the full list in a Google Sheet with columns for cluster, question, status, publish date, and the person responsible. The remaining questions become the next 90 days.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t1-2">
-  <div class="step-num">2</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-2-title">Build the content calendar for the next three to four months.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-5">Thirty pieces cover the first cycle: five pillar pages and 25 question posts, published at about three a week from Week 3 through Week 12. Schedule the winter cluster first because it is the most timely, then pets, families, adventures, and meetings.</li>
-      <li data-editable-key="t1-bullet-6">Publish each cluster over a two-week window, with the question posts first and the pillar page last, so the pillar can link to posts that already exist. In each two-week window, that is three posts in the first week and two posts plus the pillar in the second.</li>
-      <li data-editable-key="t1-bullet-7">Assign one writer per cluster, and assign one person on the hotel side to confirm facts. Prices, policies, distances, and hours change, and a wrong answer in an AI result is worse than no answer.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Build and Publish</div>
-<li class="step-item" id="step-t1-3">
-  <div class="step-num">3</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-3-title">Create the blog section and add it to the main navigation.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-8">On WordPress, create a blog section with one category per cluster. The assessment and the call both point to a blog format, because it is easy for AI bots to crawl and easy for your team to publish into.</li>
-      <li data-editable-key="t1-bullet-9">Add a new item to the main navigation, something like &quot;Explore Harrison,&quot; and consider replacing the existing Activities link with it. If you replace Activities, set up 301 redirects from the old page to the new section so you keep the search equity the page has earned.</li>
-      <li data-editable-key="t1-bullet-10">Link the navigation item to a hub page that lists the five clusters with a one-line description of each, then link each cluster to its pillar page.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t1-4">
-  <div class="step-num">4</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-4-title">Write the five pillar pages.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-11">A pillar page is the central page for a cluster: 600 to 900 words, a single H1, a direct overview in the first paragraph, and one section per question that links to the full post. Add a Book Direct call to action with a UTM-tagged link near the top and the bottom.</li>
-      <li data-editable-key="t1-bullet-12">Use the same facts-first approach as your existing FAQ page, with schema that matches what you have already implemented. Your existing Hotel and LodgingBusiness schema stays as is, and the pillar and question pages add Article and FAQPage markup.</li>
-      <li data-editable-key="t1-bullet-13">Link each pillar to the other four, so the hub reads as one connected body of work. Internal linking is how the crawlers understand the cluster as a single authority.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t1-5">
-  <div class="step-num">5</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-5-title">Write and publish the question posts.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-14">Each post is 250 to 500 words. The H1 is the question. The first sentence is a complete, direct answer, with the specific details after it. Add one real photo, a link to the pillar page and two sibling posts, and a Book Direct link with a UTM tag.</li>
-      <li data-editable-key="t1-bullet-15">A pet-friendly example opens like this: &quot;Yes, Harrison Beach Hotel welcomes dogs in [CONFIRM WHICH ROOMS], with a pet fee of [CONFIRM FEE] per stay and [CONFIRM ANY SIZE OR NUMBER LIMITS].&quot; Then give the details a guest actually wants: where to walk the dog, what to bring, and what the team provides.</li>
-      <li data-editable-key="t1-bullet-16">Use Claude to draft, but give it the facts. A reliable prompt: &quot;Write a 300-word answer for the Harrison Beach Hotel blog to the question below. The first sentence must answer the question directly. Use only the facts I provide, and do not invent policies, prices, or distances. Keep the tone warm, specific, and unfussy. Facts: [PASTE].&quot; Then have the team member who knows the topic check every claim before publishing.</li>
-      <li data-editable-key="t1-bullet-17">Add one detail only your team would know to every post, such as the room that gets the best sunset or what Megan tells dog owners at check-in. That is what separates your answer from an OTA summary.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t1-6">
-  <div class="step-num">6</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-6-title">Turn every post into social content the day it publishes.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-18">Each question post becomes at least three pieces: a Reel that answers the question in 15 to 30 seconds, a carousel with the key points, and a Google Business Profile post linking back to the page. This is the bridge to Tactic 2, and it means the content hub and the social calendar are fed by the same work.</li>
-      <li data-editable-key="t1-bullet-19">Capture the Reel footage when you capture the post photos. One shoot, several outputs.</li>
-      <li data-editable-key="t1-bullet-20">Log the social post links in the content calendar so you can see which written answers earn the most engagement. Those are the questions to expand next.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Entity Accuracy and Monitoring</div>
-<li class="step-item" id="step-t1-7">
-  <div class="step-num">7</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-7-title">Fix the wrong photo and make the hotel&#039;s details consistent across every source AI tools read.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-21">Start with the photo. In ChatGPT, open the answer that shows the harrisonresort.com image, click through to its cited source, and find where the image originates. It is usually a listing, an aggregator, or an OTA page. Fix it at the source, and use ChatGPT&#039;s feedback option on the answer to report the incorrect image.</li>
-      <li data-editable-key="t1-bullet-22">Make sure the correct image is the one every source offers: the Google Business Profile primary photo, the website&#039;s Open Graph image, the image property in your Hotel schema, and the lead image on TripAdvisor, Expedia, and Booking.com.</li>
-      <li data-editable-key="t1-bullet-23">Claim and complete a Bing Places listing and an Apple Business Connect listing if you have not, since AI search tools draw on Bing and other sources as well as Google, and match the name, address, phone, and description exactly to the Google Business Profile.</li>
-      <li data-editable-key="t1-bullet-24">Retest the same prompt two weeks later. Corrections can take a few weeks to propagate, so keep a note of what you changed and when.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t1-8">
-  <div class="step-num">8</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-1-step-8-title">Test your AI visibility every month with a fixed set of prompts.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t1-bullet-25">Build a list of 15 prompts and use the same wording every time: &quot;best place to hold a meeting in Harrison,&quot; &quot;best pet-friendly hotel in Harrison Hot Springs,&quot; &quot;where to stay in Harrison Hot Springs in winter,&quot; &quot;family hotel Harrison Hot Springs,&quot; &quot;things to do near Harrison Hot Springs,&quot; and so on across the five clusters.</li>
-      <li data-editable-key="t1-bullet-26">Run them in ChatGPT, Perplexity, Gemini, and Google AI Overviews. In a Google Sheet, record whether Harrison Beach Hotel is named, its position, which URL is cited, whether the details are accurate, and which OTAs appear.</li>
-      <li data-editable-key="t1-bullet-27">Run the baseline in Week 2, before any new content publishes, then again in Weeks 6, 10, and 12. The change between those tests is the evidence that the hub is working.</li>
-      <li data-editable-key="t1-bullet-28">Protect the number-one meetings ranking. That page and its supporting content are an asset, so check that prompt every month and do not change the page without testing the effect.</li>
-      <li data-editable-key="t1-bullet-29">In Google Analytics, check referrals from chatgpt.com, perplexity.ai, and similar sources each month. AI referrals are small but growing, and they tend to convert well.</li>
-    </ul>
-  </div>
-</li>
-</ol>
+        <div class="tactic-parts-list">
+          <!-- Part A -->
+          <div class="tactic-part open">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part A</span>
+              <span class="tactic-part-title">Plan the Clusters</span>
+              <span class="tactic-part-meta">2 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t1-1">
+                  <span class="tactic-step-num">1</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Choose the five clusters and map the questions behind each one.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-1">The call identified five clusters built around the adventures and experiences the hotel offers. Based on your guest mix and goals, these five cover the ground:</li>
+                      <li data-editable-key="t1-bullet-2">For each cluster, collect 15 to 20 candidate questions from four sources: your last 100 Google reviews, the questions Megan and the front desk hear most, People Also Ask results and AnswerThePublic, and ChatGPT and Perplexity themselves (ask &quot;what do people ask about [topic] in Harrison Hot Springs?&quot;).</li>
+                      <li data-editable-key="t1-bullet-3">Pick the five questions per cluster that are most specific and most likely to lead to a booking or an enquiry. Specific beats broad. &quot;Is Harrison Beach Hotel pet friendly?&quot; is a better target than &quot;pet-friendly travel.&quot;</li>
+                      <li data-editable-key="t1-bullet-4">Save the full list in a Google Sheet with columns for cluster, question, status, publish date, and the person responsible. The remaining questions become the next 90 days.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t1-2">
+                  <span class="tactic-step-num">2</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-2-title">Build the content calendar for the next three to four months.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-5">Thirty pieces cover the first cycle: five pillar pages and 25 question posts, published at about three a week from Week 3 through Week 12. Schedule the winter cluster first because it is the most timely, then pets, families, adventures, and meetings.</li>
+                      <li data-editable-key="t1-bullet-6">Publish each cluster over a two-week window, with the question posts first and the pillar page last, so the pillar can link to posts that already exist. In each two-week window, that is three posts in the first week and two posts plus the pillar in the second.</li>
+                      <li data-editable-key="t1-bullet-7">Assign one writer per cluster, and assign one person on the hotel side to confirm facts. Prices, policies, distances, and hours change, and a wrong answer in an AI result is worse than no answer.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <!-- Part B -->
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part B</span>
+              <span class="tactic-part-title">Build and Publish</span>
+              <span class="tactic-part-meta">4 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t1-3">
+                  <span class="tactic-step-num">3</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-3-title">Create the blog section and add it to the main navigation.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-8">On WordPress, create a blog section with one category per cluster. The assessment and the call both point to a blog format, because it is easy for AI bots to crawl and easy for your team to publish into.</li>
+                      <li data-editable-key="t1-bullet-9">Add a new item to the main navigation, something like &quot;Explore Harrison,&quot; and consider replacing the existing Activities link with it. If you replace Activities, set up 301 redirects from the old page to the new section so you keep the search equity the page has earned.</li>
+                      <li data-editable-key="t1-bullet-10">Link the navigation item to a hub page that lists the five clusters with a one-line description of each, then link each cluster to its pillar page.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t1-4">
+                  <span class="tactic-step-num">4</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-4-title">Write the five pillar pages.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-11">A pillar page is the central page for a cluster: 600 to 900 words, a single H1, a direct overview in the first paragraph, and one section per question that links to the full post. Add a Book Direct call to action with a UTM-tagged link near the top and the bottom.</li>
+                      <li data-editable-key="t1-bullet-12">Use the same facts-first approach as your existing FAQ page, with schema that matches what you have already implemented. Your existing Hotel and LodgingBusiness schema stays as is, and the pillar and question pages add Article and FAQPage markup.</li>
+                      <li data-editable-key="t1-bullet-13">Link each pillar to the other four, so the hub reads as one connected body of work. Internal linking is how the crawlers understand the cluster as a single authority.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t1-5">
+                  <span class="tactic-step-num">5</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-5-title">Write and publish the question posts.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-14">Each post is 250 to 500 words. The H1 is the question. The first sentence is a complete, direct answer, with the specific details after it. Add one real photo, a link to the pillar page and two sibling posts, and a Book Direct link with a UTM tag.</li>
+                      <li data-editable-key="t1-bullet-15">A pet-friendly example opens like this: &quot;Yes, Harrison Beach Hotel welcomes dogs in [CONFIRM WHICH ROOMS], with a pet fee of [CONFIRM FEE] per stay and [CONFIRM ANY SIZE OR NUMBER LIMITS].&quot; Then give the details a guest actually wants: where to walk the dog, what to bring, and what the team provides.</li>
+                      <li data-editable-key="t1-bullet-16">Use Claude to draft, but give it the facts. A reliable prompt: &quot;Write a 300-word answer for the Harrison Beach Hotel blog to the question below. The first sentence must answer the question directly. Use only the facts I provide, and do not invent policies, prices, or distances. Keep the tone warm, specific, and unfussy. Facts: [PASTE].&quot; Then have the team member who knows the topic check every claim before publishing.</li>
+                      <li data-editable-key="t1-bullet-17">Add one detail only your team would know to every post, such as the room that gets the best sunset or what Megan tells dog owners at check-in. That is what separates your answer from an OTA summary.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t1-6">
+                  <span class="tactic-step-num">6</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-6-title">Turn every post into social content the day it publishes.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-18">Each question post becomes at least three pieces: a Reel that answers the question in 15 to 30 seconds, a carousel with the key points, and a Google Business Profile post linking back to the page. This is the bridge to Tactic 2, and it means the content hub and the social calendar are fed by the same work.</li>
+                      <li data-editable-key="t1-bullet-19">Capture the Reel footage when you capture the post photos. One shoot, several outputs.</li>
+                      <li data-editable-key="t1-bullet-20">Log the social post links in the content calendar so you can see which written answers earn the most engagement. Those are the questions to expand next.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <!-- Part C -->
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part C</span>
+              <span class="tactic-part-title">Entity Accuracy and Monitoring</span>
+              <span class="tactic-part-meta">2 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t1-7">
+                  <span class="tactic-step-num">7</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-7-title">Fix the wrong photo and make the hotel&#039;s details consistent across every source AI tools read.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-21">Start with the photo. In ChatGPT, open the answer that shows the harrisonresort.com image, click through to its cited source, and find where the image originates. It is usually a listing, an aggregator, or an OTA page. Fix it at the source, and use ChatGPT&#039;s feedback option on the answer to report the incorrect image.</li>
+                      <li data-editable-key="t1-bullet-22">Make sure the correct image is the one every source offers: the Google Business Profile primary photo, the website&#039;s Open Graph image, the image property in your Hotel schema, and the lead image on TripAdvisor, Expedia, and Booking.com.</li>
+                      <li data-editable-key="t1-bullet-23">Claim and complete a Bing Places listing and an Apple Business Connect listing if you have not, since AI search tools draw on Bing and other sources as well as Google, and match the name, address, phone, and description exactly to the Google Business Profile.</li>
+                      <li data-editable-key="t1-bullet-24">Retest the same prompt two weeks later. Corrections can take a few weeks to propagate, so keep a note of what you changed and when.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t1-8">
+                  <span class="tactic-step-num">8</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-1-step-8-title">Test your AI visibility every month with a fixed set of prompts.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t1-bullet-25">Build a list of 15 prompts and use the same wording every time: &quot;best place to hold a meeting in Harrison,&quot; &quot;best pet-friendly hotel in Harrison Hot Springs,&quot; &quot;where to stay in Harrison Hot Springs in winter,&quot; &quot;family hotel Harrison Hot Springs,&quot; &quot;things to do near Harrison Hot Springs,&quot; and so on across the five clusters.</li>
+                      <li data-editable-key="t1-bullet-26">Run them in ChatGPT, Perplexity, Gemini, and Google AI Overviews. In a Google Sheet, record whether Harrison Beach Hotel is named, its position, which URL is cited, whether the details are accurate, and which OTAs appear.</li>
+                      <li data-editable-key="t1-bullet-27">Run the baseline in Week 2, before any new content publishes, then again in Weeks 6, 10, and 12. The change between those tests is the evidence that the hub is working.</li>
+                      <li data-editable-key="t1-bullet-28">Protect the number-one meetings ranking. That page and its supporting content are an asset, so check that prompt every month and do not change the page without testing the effect.</li>
+                      <li data-editable-key="t1-bullet-29">In Google Analytics, check referrals from chatgpt.com, perplexity.ai, and similar sources each month. AI referrals are small but growing, and they tend to convert well.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Measurement & KPIs Tab -->
@@ -6632,106 +6667,138 @@ button,
 
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t2-steps" role="tabpanel" aria-labelledby="tab-t2-steps" data-tactic-content="2" data-content="steps">
-        <!-- GENERATOR: Replace this placeholder with Tactic 2 implementation steps from plan.md -->
-        <ol class="tactic-steps-list">
-<div class="tactic-part-header">Pillars and the Content Bank</div>
-<li class="step-item" id="step-t2-1">
-  <div class="step-num">1</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-1-title">Run the 45-minute pillar session and fill the bank.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-1">Get Katie, the coordinator, Nicole, and Megan in a room for 45 minutes. Agree on eight pillars, then write ten content ideas under each. That is 80 ideas, which is about three months of content at the volume below, and it can be done in a single sitting if you keep it fast.</li>
-      <li data-editable-key="t2-bullet-2">The eight pillars that fit your guests and goals:</li>
-      <li data-editable-key="t2-bullet-3">Write the ideas as a headline and a shot, not as finished posts. &quot;Room 214 sunset, 15-second pan&quot; is enough. The finished version happens in the weekly batch.</li>
-      <li data-editable-key="t2-bullet-4">Keep the list in one shared Google Sheet with a column for status, so anyone on the team can pick up an idea and know what has already been shot or posted.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t2-2">
-  <div class="step-num">2</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-2-title">Build the brand voice brief and the templates.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-5">Write a one-page brand voice brief that Claude and anyone on the team can use. Include who the hotel is, the three main guest types, the tone in three adjectives, words you use and words you avoid, a short library of verified facts (check-in time, pet policy, parking, pool hours, the direct-booking perks), and five example captions you consider perfectly on-brand.</li>
-      <li data-editable-key="t2-bullet-6">Load the brief into a Claude project so every caption draft starts from it. The brief is what keeps the content from sounding like generic AI copy, and it is the reason the team can scale volume without losing authenticity.</li>
-      <li data-editable-key="t2-bullet-7">Add an authenticity rule: every post includes one real detail that only someone at the hotel would know. It could be a guest&#039;s reaction, a team member&#039;s tip, or the exact view from a specific room.</li>
-      <li data-editable-key="t2-bullet-8">Build the visual templates once, in Canva or in the design system you saw on the call: a Reel cover, a carousel layout, a Story template, and a quote card for guest reviews. Save them in a shared brand kit. The coordinator and Megan should be able to produce a post without asking for a design.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t2-3">
-  <div class="step-num">3</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-3-title">Set up the weekly capture routine.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-9">Block 30 minutes a week for Nicole or Megan to capture raw material using the shot list from the content bank: room details, the pool, guests who have agreed to be featured, pet arrivals, sunsets, and team moments. Phone video in natural light is fine.</li>
-      <li data-editable-key="t2-bullet-10">Get consent for guests and their pets before posting, ideally with a simple line at check-in or a verbal yes recorded in the notes. Never post an identifiable guest without it.</li>
-      <li data-editable-key="t2-bullet-11">Upload every clip the same day to a shared drive with one folder per pillar. File names should include the pillar and date.</li>
-      <li data-editable-key="t2-bullet-12">Capture Lights on the Lake content this week, since it is your current focus and will be at its best only for a limited time.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Publish at Volume Across Platforms</div>
-<li class="step-item" id="step-t2-4">
-  <div class="step-num">4</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-4-title">Set the cadence and a weekly batching rhythm.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-13">The target from the assessment is five to seven feed posts a week on Instagram with 60 percent Reels, and daily Stories of seven to ten a week. Facebook gets the same content, and Google Business Profile gets a weekly post from the same pool.</li>
-      <li data-editable-key="t2-bullet-14">Batch it in one session a week, ideally Monday. The coordinator pulls the week&#039;s ideas from the bank, drafts captions with Claude using the brand voice brief, builds the visuals from the templates, and schedules everything. Katie or Nicole reviews it in five minutes.</li>
-      <li data-editable-key="t2-bullet-15">Use Meta Business Suite (free) to schedule Instagram and Facebook together. For TikTok and YouTube Shorts, use Buffer or Later, or the native schedulers in each app, so the same video goes everywhere without manual posting.</li>
-      <li data-editable-key="t2-bullet-16">Stories are the exception to batching. They should be spontaneous and take 10 to 15 minutes a day: weather, the view, a dog arriving, something happening in the lobby.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t2-5">
-  <div class="step-num">5</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-5-title">Launch TikTok and YouTube Shorts using the same content.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-17">Create business accounts on both, with a bio that matches the Google Business Profile and a link to the hotel&#039;s direct booking page with a UTM tag.</li>
-      <li data-editable-key="t2-bullet-18">Post the same Reels to TikTok and YouTube Shorts, with a native caption written for each platform and the first two seconds reworked as a stronger hook if needed. Download the original file rather than re-recording the Instagram version so there is no watermark.</li>
-      <li data-editable-key="t2-bullet-19">Start at three to five posts a week on each. Both platforms are growing fastest among older audiences, which is the group that books multi-night stays.</li>
-      <li data-editable-key="t2-bullet-20">Do not wait for perfect footage. The first 20 videos are how the team learns what works.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t2-6">
-  <div class="step-num">6</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-6-title">Create Story Highlights and tidy the profile.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-21">Build Instagram Highlights for Rooms, Pool and Hot Tub, Location, Guest Reviews, and Pets. The assessment flagged this as a quick win, since it acts as a permanent visual FAQ for visitors arriving from a Reel.</li>
-      <li data-editable-key="t2-bullet-22">Update the Instagram and Facebook bios to match the positioning statement, with a link to the direct booking page. Use the same profile photo and handle style on all platforms.</li>
-      <li data-editable-key="t2-bullet-23">Pin three posts that do the most work: the best room tour, the best guest review, and the direct-booking offer.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Engagement and Reputation</div>
-<li class="step-item" id="step-t2-7">
-  <div class="step-num">7</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-7-title">Run a daily 30-minute engagement routine.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-24">In the first hour after posting, reply to every comment. The assessment found the average post receives zero comments, so every reply and every question you ask in a caption is a signal the algorithm notices. End every caption with a question, and use polls and question stickers in Stories.</li>
-      <li data-editable-key="t2-bullet-25">Answer every DM within the same day. A message is a hot lead for a hotel.</li>
-      <li data-editable-key="t2-bullet-26">Respond to Google reviews within 48 hours, which moves the response rate from about 60 percent to 90 percent or more. Prioritise one- to three-star reviews first, then recent five-star ones. Write three templates for common themes (staff praise, renovation compliments, a slow check-in) and edit each one so it sounds personal.</li>
-      <li data-editable-key="t2-bullet-27">Pass the slow check-in feedback to operations. A reply that acknowledges it is good, and a fix that reduces it is better, and Tactic 3 includes a pre-arrival message that helps.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t2-8">
-  <div class="step-num">8</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-2-step-8-title">Use performance data and hand the winners to ads.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t2-bullet-28">Every week, look at the top three posts by reach and by saves, and note the pillar, the format, the hook, and the caption style. Make five more like each one.</li>
-      <li data-editable-key="t2-bullet-29">Every month, hand the best-performing organic Reels to Katie for the existing Meta campaigns, with a Book Direct call to action and a UTM-tagged link. Posts that have already earned engagement almost always cost less to promote than new creative.</li>
-      <li data-editable-key="t2-bullet-30">Keep a simple log of results by pillar. After 90 days, you will know which two or three pillars earn the most attention and which ideas to drop.</li>
-    </ul>
-  </div>
-</li>
-</ol>
+        <div class="tactic-parts-list">
+          <div class="tactic-part open">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part A</span>
+              <span class="tactic-part-title">Pillars and the Content Bank</span>
+              <span class="tactic-part-meta">3 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t2-1">
+                  <span class="tactic-step-num">1</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-1-title">Run the 45-minute pillar session and fill the bank.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-1">Get Katie, the coordinator, Nicole, and Megan in a room for 45 minutes. Agree on eight pillars, then write ten content ideas under each. That is 80 ideas, which is about three months of content at the volume below, and it can be done in a single sitting if you keep it fast.</li>
+                      <li data-editable-key="t2-bullet-2">The eight pillars that fit your guests and goals:</li>
+                      <li data-editable-key="t2-bullet-3">Write the ideas as a headline and a shot, not as finished posts. &quot;Room 214 sunset, 15-second pan&quot; is enough. The finished version happens in the weekly batch.</li>
+                      <li data-editable-key="t2-bullet-4">Keep the list in one shared Google Sheet with a column for status, so anyone on the team can pick up an idea and know what has already been shot or posted.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t2-2">
+                  <span class="tactic-step-num">2</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-2-title">Build the brand voice brief and the templates.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-5">Write a one-page brand voice brief that Claude and anyone on the team can use. Include who the hotel is, the three main guest types, the tone in three adjectives, words you use and words you avoid, a short library of verified facts (check-in time, pet policy, parking, pool hours, the direct-booking perks), and five example captions you consider perfectly on-brand.</li>
+                      <li data-editable-key="t2-bullet-6">Load the brief into a Claude project so every caption draft starts from it. The brief is what keeps the content from sounding like generic AI copy, and it is the reason the team can scale volume without losing authenticity.</li>
+                      <li data-editable-key="t2-bullet-7">Add an authenticity rule: every post includes one real detail that only someone at the hotel would know. It could be a guest&#039;s reaction, a team member&#039;s tip, or the exact view from a specific room.</li>
+                      <li data-editable-key="t2-bullet-8">Build the visual templates once, in Canva or in the design system you saw on the call: a Reel cover, a carousel layout, a Story template, and a quote card for guest reviews. Save them in a shared brand kit. The coordinator and Megan should be able to produce a post without asking for a design.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t2-3">
+                  <span class="tactic-step-num">3</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-3-title">Set up the weekly capture routine.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-9">Block 30 minutes a week for Nicole or Megan to capture raw material using the shot list from the content bank: room details, the pool, guests who have agreed to be featured, pet arrivals, sunsets, and team moments. Phone video in natural light is fine.</li>
+                      <li data-editable-key="t2-bullet-10">Get consent for guests and their pets before posting, ideally with a simple line at check-in or a verbal yes recorded in the notes. Never post an identifiable guest without it.</li>
+                      <li data-editable-key="t2-bullet-11">Upload every clip the same day to a shared drive with one folder per pillar. File names should include the pillar and date.</li>
+                      <li data-editable-key="t2-bullet-12">Capture Lights on the Lake content this week, since it is your current focus and will be at its best only for a limited time.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part B</span>
+              <span class="tactic-part-title">Publish at Volume Across Platforms</span>
+              <span class="tactic-part-meta">3 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t2-4">
+                  <span class="tactic-step-num">4</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-4-title">Set the cadence and a weekly batching rhythm.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-13">The target from the assessment is five to seven feed posts a week on Instagram with 60 percent Reels, and daily Stories of seven to ten a week. Facebook gets the same content, and Google Business Profile gets a weekly post from the same pool.</li>
+                      <li data-editable-key="t2-bullet-14">Batch it in one session a week, ideally Monday. The coordinator pulls the week&#039;s ideas from the bank, drafts captions with Claude using the brand voice brief, builds the visuals from the templates, and schedules everything. Katie or Nicole reviews it in five minutes.</li>
+                      <li data-editable-key="t2-bullet-15">Use Meta Business Suite (free) to schedule Instagram and Facebook together. For TikTok and YouTube Shorts, use Buffer or Later, or the native schedulers in each app, so the same video goes everywhere without manual posting.</li>
+                      <li data-editable-key="t2-bullet-16">Stories are the exception to batching. They should be spontaneous and take 10 to 15 minutes a day: weather, the view, a dog arriving, something happening in the lobby.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t2-5">
+                  <span class="tactic-step-num">5</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-5-title">Launch TikTok and YouTube Shorts using the same content.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-17">Create business accounts on both, with a bio that matches the Google Business Profile and a link to the hotel&#039;s direct booking page with a UTM tag.</li>
+                      <li data-editable-key="t2-bullet-18">Post the same Reels to TikTok and YouTube Shorts, with a native caption written for each platform and the first two seconds reworked as a stronger hook if needed. Download the original file rather than re-recording the Instagram version so there is no watermark.</li>
+                      <li data-editable-key="t2-bullet-19">Start at three to five posts a week on each. Both platforms are growing fastest among older audiences, which is the group that books multi-night stays.</li>
+                      <li data-editable-key="t2-bullet-20">Do not wait for perfect footage. The first 20 videos are how the team learns what works.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t2-6">
+                  <span class="tactic-step-num">6</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-6-title">Create Story Highlights and tidy the profile.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-21">Build Instagram Highlights for Rooms, Pool and Hot Tub, Location, Guest Reviews, and Pets. The assessment flagged this as a quick win, since it acts as a permanent visual FAQ for visitors arriving from a Reel.</li>
+                      <li data-editable-key="t2-bullet-22">Update the Instagram and Facebook bios to match the positioning statement, with a link to the direct booking page. Use the same profile photo and handle style on all platforms.</li>
+                      <li data-editable-key="t2-bullet-23">Pin three posts that do the most work: the best room tour, the best guest review, and the direct-booking offer.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part C</span>
+              <span class="tactic-part-title">Engagement and Reputation</span>
+              <span class="tactic-part-meta">2 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t2-7">
+                  <span class="tactic-step-num">7</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-7-title">Run a daily 30-minute engagement routine.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-24">In the first hour after posting, reply to every comment. The assessment found the average post receives zero comments, so every reply and every question you ask in a caption is a signal the algorithm notices. End every caption with a question, and use polls and question stickers in Stories.</li>
+                      <li data-editable-key="t2-bullet-25">Answer every DM within the same day. A message is a hot lead for a hotel.</li>
+                      <li data-editable-key="t2-bullet-26">Respond to Google reviews within 48 hours, which moves the response rate from about 60 percent to 90 percent or more. Prioritise one- to three-star reviews first, then recent five-star ones. Write three templates for common themes (staff praise, renovation compliments, a slow check-in) and edit each one so it sounds personal.</li>
+                      <li data-editable-key="t2-bullet-27">Pass the slow check-in feedback to operations. A reply that acknowledges it is good, and a fix that reduces it is better, and Tactic 3 includes a pre-arrival message that helps.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t2-8">
+                  <span class="tactic-step-num">8</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-2-step-8-title">Use performance data and hand the winners to ads.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t2-bullet-28">Every week, look at the top three posts by reach and by saves, and note the pillar, the format, the hook, and the caption style. Make five more like each one.</li>
+                      <li data-editable-key="t2-bullet-29">Every month, hand the best-performing organic Reels to Katie for the existing Meta campaigns, with a Book Direct call to action and a UTM-tagged link. Posts that have already earned engagement almost always cost less to promote than new creative.</li>
+                      <li data-editable-key="t2-bullet-30">Keep a simple log of results by pillar. After 90 days, you will know which two or three pillars earn the most attention and which ideas to drop.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Measurement & KPIs Tab -->
@@ -6927,85 +6994,128 @@ button,
 
       <!-- Implementation Steps Tab -->
       <div class="tactic-tab-content" id="panel-t3-steps" role="tabpanel" aria-labelledby="tab-t3-steps" data-tactic-content="3" data-content="steps">
-        <!-- GENERATOR: Replace this placeholder with Tactic 3 implementation steps from plan.md -->
-        <ol class="tactic-steps-list">
-<div class="tactic-part-header">Make the Direct Advantage Impossible to Miss</div>
-<li class="step-item" id="step-t3-1">
-  <div class="step-num">1</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-1-title">Show the direct perks next to every Book Now button.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-1">Add a short block near the Book Now button on the homepage, room pages, and the booking confirmation: &quot;Book direct: flexible cancellation, our best rate guarantee, and a personal pre-arrival touch from our team.&quot; The assessment recommends direct booking incentive messaging near the call to action, and your best rate guarantee is not currently prominent.</li>
-      <li data-editable-key="t3-bullet-2">Add a &quot;Why book direct&quot; section to the FAQ page and as one question post in the winter cluster, comparing the direct terms with the typical OTA terms, in plain language and without naming competitors.</li>
-      <li data-editable-key="t3-bullet-3">Test two versions of the wording for two weeks each and compare the booking rate. The assessment notes the booking infrastructure is strong, so the copy is the variable worth testing.</li>
-      <li data-editable-key="t3-bullet-4">Make sure the same line appears in your Google Business Profile description, the website&#039;s meta description for the booking pages, and the footer of every confirmation email.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t3-2">
-  <div class="step-num">2</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-2-title">Build packages with your partners and give each one its own page and link.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-5">Create three package pages: Ski and Stay with Sasquatch Mountain Resort, the Family Adventure package with the water park passes, and the Stay and Eat offer with Harrison Lillooet Cafe, framed as B&amp;B-style vouchers. Each page has one H1, a plain description of what is included, the price or the savings, the booking link, and a short FAQ. [INSERT PACKAGE TERMS, INCLUSIONS, AND VALIDITY DATES FOR EACH]</li>
-      <li data-editable-key="t3-bullet-6">Give every package a unique UTM-tagged booking link and a short code the front desk can use, so you can track bookings by package and by channel.</li>
-      <li data-editable-key="t3-bullet-7">Hold off on promoting the hot springs partnership. It is paused because of inconsistent hours and slow payments, and a package that depends on it risks the guest experience. Revisit it once the vendor is reliable.</li>
-      <li data-editable-key="t3-bullet-8">Add a midweek offer for January and February, since this is when occupancy is thinnest. Keep it direct-only, with the same flexible cancellation, so it reinforces the direct advantage.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Fill Midweek and Shoulder Season</div>
-<li class="step-item" id="step-t3-3">
-  <div class="step-num">3</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-3-title">Build segment campaigns that send traffic to the package and cluster pages.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-9">The Prairie winter escape is the clearest segment: visitors from Saskatchewan and Manitoba who come after harvest, and whose stays are longer and more flexible. Build one landing page for them, with the winter cluster content, the ski package, and a midweek rate, and run Meta and Google campaigns targeting adults 40 and older in those two provinces as a starting audience to test.</li>
-      <li data-editable-key="t3-bullet-10">Use the landing page and the winning organic Reels from Tactic 2 as the creative. Content that has already earned engagement is cheaper to promote and has a stronger message.</li>
-      <li data-editable-key="t3-bullet-11">Keep your existing Facebook retargeting running and add the package pages to the audiences, so someone who read the ski page sees the ski offer. Landing pages come first and ads second, because ads sent to a general page lose the message.</li>
-      <li data-editable-key="t3-bullet-12">Review each campaign every week for the first month and every two weeks after that. Cut what does not produce enquiries and move the budget to what does.</li>
-    </ul>
-  </div>
-</li>
-<li class="step-item" id="step-t3-4">
-  <div class="step-num">4</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-4-title">Improve the pre-arrival and post-stay emails.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-13">Pre-arrival is a direct-booking perk and the place to fix the slow check-in feedback. Send a message three days before arrival with the check-in time, the parking details, the option for express or digital check-in if your system supports it, and two or three recommendations that match their reason for the stay.</li>
-      <li data-editable-key="t3-bullet-14">After the stay, send a short thank-you with a link to leave a Google review, and a direct-booking offer for a return visit, ideally midweek. Loyal guests are one of the strengths named in your reviews, and a simple return offer makes that loyalty visible.</li>
-      <li data-editable-key="t3-bullet-15">Use whichever property management or email system you already have for this, and write the messages in the brand voice brief so they sound like the team and not like a template.</li>
-      <li data-editable-key="t3-bullet-16">Track the open rate, the review rate, and the number of rebookings that come from each message.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Grow Meetings and Events</div>
-<li class="step-item" id="step-t3-5">
-  <div class="step-num">5</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-5-title">Build a meetings page and run a focused outreach.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-17">ChatGPT already ranks the hotel first for the best place to hold a meeting in Harrison, so the page needs to be the best answer to that question and give a clear next step. Include capacity (about 30 people), available set-ups, equipment, catering options given there is no on-site restaurant, sample pricing or a starting price, and a short inquiry form with a one business day response promise. [CONFIRM SET-UPS, AV, CATERING PARTNERS, PRICING]</li>
-      <li data-editable-key="t3-bullet-18">Add photos of the space in different set-ups and a short guest or client quote if you have one.</li>
-      <li data-editable-key="t3-bullet-19">Build a list of 30 targets: employers within a 90 minute drive, associations, planners, and organisations that run small retreats or receptions. Send a short, specific email to five or six a week, with the page link and one clear offer, for example an off-site 90 minutes from Vancouver with a lake view.</li>
-      <li data-editable-key="t3-bullet-20">Support the page with the Meetings and Small Gatherings cluster from Tactic 1, and watch the monthly AI test to confirm the number-one ranking holds.</li>
-    </ul>
-  </div>
-</li>
-<div class="tactic-part-header">Measure</div>
-<li class="step-item" id="step-t3-6">
-  <div class="step-num">6</div>
-  <div class="tactic-step-content">
-    <div class="tactic-step-title" data-editable-key="tactic-3-step-6-title">Verify tracking and report direct versus OTA share monthly.</div>
-    <ul class="tactic-step-bullets">
-      <li data-editable-key="t3-bullet-21">The assessment suggests conversion tracking may not be fully set up, while your onboarding notes say Facebook retargeting is in place. Confirm in Meta Events Manager and Google Ads that purchase or booking conversions are firing and attributed correctly. If anything is missing, fix it before spending more on campaigns.</li>
-      <li data-editable-key="t3-bullet-22">Each month, record in one simple sheet: total bookings, direct bookings, OTA bookings, the OTA share, the bookings by package code, midweek occupancy, and the number of meeting enquiries. Set the baseline in Week 1 using August and September as your reference, then compare month by month.</li>
-      <li data-editable-key="t3-bullet-23">Winter has its own booking mix, so compare to the same period last year where you can, and use the 80/20 target as the direction, not a number to hit in the first month.</li>
-      <li data-editable-key="t3-bullet-24">Share the one-page summary with Nicole and the owners&#039; side as appropriate. It makes the case for the work and shows which offers and campaigns are earning their budget.</li>
-    </ul>
-  </div>
-</li>
-</ol>
+        <div class="tactic-parts-list">
+          <div class="tactic-part open">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part A</span>
+              <span class="tactic-part-title">Make the Direct Advantage Impossible to Miss</span>
+              <span class="tactic-part-meta">2 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t3-1">
+                  <span class="tactic-step-num">1</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-1-title">Show the direct perks next to every Book Now button.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-1">Add a short block near the Book Now button on the homepage, room pages, and the booking confirmation: &quot;Book direct: flexible cancellation, our best rate guarantee, and a personal pre-arrival touch from our team.&quot; The assessment recommends direct booking incentive messaging near the call to action, and your best rate guarantee is not currently prominent.</li>
+                      <li data-editable-key="t3-bullet-2">Add a &quot;Why book direct&quot; section to the FAQ page and as one question post in the winter cluster, comparing the direct terms with the typical OTA terms, in plain language and without naming competitors.</li>
+                      <li data-editable-key="t3-bullet-3">Test two versions of the wording for two weeks each and compare the booking rate. The assessment notes the booking infrastructure is strong, so the copy is the variable worth testing.</li>
+                      <li data-editable-key="t3-bullet-4">Make sure the same line appears in your Google Business Profile description, the website&#039;s meta description for the booking pages, and the footer of every confirmation email.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t3-2">
+                  <span class="tactic-step-num">2</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-2-title">Build packages with your partners and give each one its own page and link.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-5">Create three package pages: Ski and Stay with Sasquatch Mountain Resort, the Family Adventure package with the water park passes, and the Stay and Eat offer with Harrison Lillooet Cafe, framed as B&amp;B-style vouchers. Each page has one H1, a plain description of what is included, the price or the savings, the booking link, and a short FAQ. [INSERT PACKAGE TERMS, INCLUSIONS, AND VALIDITY DATES FOR EACH]</li>
+                      <li data-editable-key="t3-bullet-6">Give every package a unique UTM-tagged booking link and a short code the front desk can use, so you can track bookings by package and by channel.</li>
+                      <li data-editable-key="t3-bullet-7">Hold off on promoting the hot springs partnership. It is paused because of inconsistent hours and slow payments, and a package that depends on it risks the guest experience. Revisit it once the vendor is reliable.</li>
+                      <li data-editable-key="t3-bullet-8">Add a midweek offer for January and February, since this is when occupancy is thinnest. Keep it direct-only, with the same flexible cancellation, so it reinforces the direct advantage.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part B</span>
+              <span class="tactic-part-title">Fill Midweek and Shoulder Season</span>
+              <span class="tactic-part-meta">2 steps</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t3-3">
+                  <span class="tactic-step-num">3</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-3-title">Build segment campaigns that send traffic to the package and cluster pages.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-9">The Prairie winter escape is the clearest segment: visitors from Saskatchewan and Manitoba who come after harvest, and whose stays are longer and more flexible. Build one landing page for them, with the winter cluster content, the ski package, and a midweek rate, and run Meta and Google campaigns targeting adults 40 and older in those two provinces as a starting audience to test.</li>
+                      <li data-editable-key="t3-bullet-10">Use the landing page and the winning organic Reels from Tactic 2 as the creative. Content that has already earned engagement is cheaper to promote and has a stronger message.</li>
+                      <li data-editable-key="t3-bullet-11">Keep your existing Facebook retargeting running and add the package pages to the audiences, so someone who read the ski page sees the ski offer. Landing pages come first and ads second, because ads sent to a general page lose the message.</li>
+                      <li data-editable-key="t3-bullet-12">Review each campaign every week for the first month and every two weeks after that. Cut what does not produce enquiries and move the budget to what does.</li>
+                    </ul>
+                  </div>
+                </li>
+                <li class="tactic-step-item" id="step-t3-4">
+                  <span class="tactic-step-num">4</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-4-title">Improve the pre-arrival and post-stay emails.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-13">Pre-arrival is a direct-booking perk and the place to fix the slow check-in feedback. Send a message three days before arrival with the check-in time, the parking details, the option for express or digital check-in if your system supports it, and two or three recommendations that match their reason for the stay.</li>
+                      <li data-editable-key="t3-bullet-14">After the stay, send a short thank-you with a link to leave a Google review, and a direct-booking offer for a return visit, ideally midweek. Loyal guests are one of the strengths named in your reviews, and a simple return offer makes that loyalty visible.</li>
+                      <li data-editable-key="t3-bullet-15">Use whichever property management or email system you already have for this, and write the messages in the brand voice brief so they sound like the team and not like a template.</li>
+                      <li data-editable-key="t3-bullet-16">Track the open rate, the review rate, and the number of rebookings that come from each message.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part C</span>
+              <span class="tactic-part-title">Grow Meetings and Events</span>
+              <span class="tactic-part-meta">1 step</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t3-5">
+                  <span class="tactic-step-num">5</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-5-title">Build a meetings page and run a focused outreach.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-17">ChatGPT already ranks the hotel first for the best place to hold a meeting in Harrison, so the page needs to be the best answer to that question and give a clear next step. Include capacity (about 30 people), available set-ups, equipment, catering options given there is no on-site restaurant, sample pricing or a starting price, and a short inquiry form with a one business day response promise. [CONFIRM SET-UPS, AV, CATERING PARTNERS, PRICING]</li>
+                      <li data-editable-key="t3-bullet-18">Add photos of the space in different set-ups and a short guest or client quote if you have one.</li>
+                      <li data-editable-key="t3-bullet-19">Build a list of 30 targets: employers within a 90 minute drive, associations, planners, and organisations that run small retreats or receptions. Send a short, specific email to five or six a week, with the page link and one clear offer, for example an off-site 90 minutes from Vancouver with a lake view.</li>
+                      <li data-editable-key="t3-bullet-20">Support the page with the Meetings and Small Gatherings cluster from Tactic 1, and watch the monthly AI test to confirm the number-one ranking holds.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+          <div class="tactic-part">
+            <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+              <span class="tactic-part-tag">Part D</span>
+              <span class="tactic-part-title">Measure</span>
+              <span class="tactic-part-meta">1 step</span>
+              <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+            </button>
+            <div class="tactic-part-body">
+              <ol class="tactic-steps-list">
+                <li class="tactic-step-item" id="step-t3-6">
+                  <span class="tactic-step-num">6</span>
+                  <div class="tactic-step-content">
+                    <div class="tactic-step-title" data-editable-key="tactic-3-step-6-title">Verify tracking and report direct versus OTA share monthly.</div>
+                    <ul class="tactic-step-bullets">
+                      <li data-editable-key="t3-bullet-21">The assessment suggests conversion tracking may not be fully set up, while your onboarding notes say Facebook retargeting is in place. Confirm in Meta Events Manager and Google Ads that purchase or booking conversions are firing and attributed correctly. If anything is missing, fix it before spending more on campaigns.</li>
+                      <li data-editable-key="t3-bullet-22">Each month, record in one simple sheet: total bookings, direct bookings, OTA bookings, the OTA share, the bookings by package code, midweek occupancy, and the number of meeting enquiries. Set the baseline in Week 1 using August and September as your reference, then compare month by month.</li>
+                      <li data-editable-key="t3-bullet-23">Winter has its own booking mix, so compare to the same period last year where you can, and use the 80/20 target as the direction, not a number to hit in the first month.</li>
+                      <li data-editable-key="t3-bullet-24">Share the one-page summary with Nicole and the owners&#039; side as appropriate. It makes the case for the work and shows which offers and campaigns are earning their budget.</li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Measurement & KPIs Tab -->
