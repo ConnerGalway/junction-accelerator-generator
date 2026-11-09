@@ -1,0 +1,245 @@
+{
+  "client_name": "Sasquatch Inn",
+  "client_slug": "sasquatch-inn",
+  "goal": "The Sasquatch Inn has been on the Lougheed Highway for 72 years, and the last three years of renovation have turned it into a place people plan around, not just pull over for. The proof is in the numbers: 1,735 Google reviews at 4.3 stars that Nancy never had to chase, a Facebook following of 6,000, and events like Season of the Wild that sell out every year. The gap is not the business. The gap is that Google shows three businesses with three different sets of hours as one listing, the website is missing the basic search signals the digital assessment flagged, and social posting happens about once a week when the platforms reward a lot more than that. The next ninety days fix those three things in order. Nancy leaves on November 16 for three weeks, so the plan front-loads the heavy setup into the first two weeks and uses scheduled content and a helper to keep everything moving while she is away. By the end, the pub, the hotel, and the liquor store each have their own accurate Google listing, the website answers the questions travellers and AI tools are asking, and more hotel guests are booking direct instead of through Booking.com.",
+  "coach_email": "damon@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Audit, Quick Fixes, and Season of the Wild",
+      "actions": [
+        "Audit the existing Google listing, tally the reviews by business, and decide which entity keeps it → links to: Tactic 1 / Step 1",
+        "Reset the existing listing to describe only the pub: name, category, hours, and description → links to: Tactic 1 / Step 2",
+        "Create the hotel and liquor store listings and start verification → links to: Tactic 1 / Step 3",
+        "Fix the homepage title tag and meta description in your SEO plugin → links to: Tactic 2 / Step 1",
+        "Remove the outdated closure notice and fix the duplicate H1 tags → links to: Tactic 2 / Step 2",
+        "Capture photos and clips at Season of the Wild on November 4 → links to: Tactic 3 / Step 2"
+      ],
+      "checklist": [
+        "Screenshots and notes from the original listing are saved",
+        "The existing listing now shows only the pub, with the correct name, category, and 11 AM hours",
+        "Hotel and liquor store listings are submitted and verification has started",
+        "The homepage title and meta description are live",
+        "The homepage has a single H1 and the closure notice is gone",
+        "20+ photos and 5+ clips from Season of the Wild are saved in Google Drive"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Pages, Promo Code, and Batching Before You Leave",
+      "actions": [
+        "Build the pub, hotel, and liquor store pages, each with one H1, matching hours, a map, and photos → links to: Tactic 2 / Step 6",
+        "Add the Instagram link, tap-to-call phone number, and full address to the website footer → links to: Tactic 2 / Step 4",
+        "Set the hours, phone, and website link on each Google listing and point each to its page → links to: Tactic 1 / Step 4",
+        "Create the EAGLE promo code and the promo link in Little Hotelier → links to: Tactic 2 / Step 9",
+        "Set up the content library and Canva Brand Kit, and share both with your helper → links to: Tactic 3 / Step 3",
+        "Run the extended batching session and schedule three weeks of posts, then brief your helper → links to: Tactic 3 / Step 6"
+      ],
+      "checklist": [
+        "Three business pages are live and each Google listing links to its own page",
+        "The footer shows Instagram, a tap-to-call number, and the full address",
+        "Hours match across the three listings and the three pages",
+        "The EAGLE code works when tested from a phone",
+        "Three weeks of posts are scheduled in Meta Business Suite",
+        "Your helper has the one-page note covering comments, Google Posts, and who to call"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Away, Autopilot Week One",
+      "actions": [
+        "Helper completes video verification for the new listings if Google requests it → links to: Tactic 1 / Step 3",
+        "Helper replies to any new Google reviews within 48 hours using the templates → links to: Tactic 1 / Step 9",
+        "Check that scheduled posts went out on Facebook and Instagram, and answer any comments → links to: Tactic 3 / Step 6",
+        "Do one 10-minute check-in on the scheduled posts from wherever you are"
+      ],
+      "checklist": [
+        "Verification status is checked on both new listings",
+        "All new reviews have a reply within 48 hours",
+        "This week's scheduled posts published with no gaps",
+        "No comments or messages sat unanswered for more than a day"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Away, Autopilot Week Two",
+      "actions": [
+        "Helper uploads the Season of the Wild and eagle photos to the pub, hotel, and liquor store listings → links to: Tactic 1 / Step 6",
+        "Helper publishes the first Google Post on each verified listing using the copy in the content calendar → links to: Tactic 1 / Step 7",
+        "Helper replies to new reviews within 48 hours → links to: Tactic 1 / Step 9",
+        "Confirm scheduled posts are going out → links to: Tactic 3 / Step 6"
+      ],
+      "checklist": [
+        "Each verified listing has at least 5 new photos",
+        "Each verified listing has its first Google Post",
+        "Reviews are all answered within 48 hours",
+        "Scheduled posts published with no gaps"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: Away, Autopilot Week Three",
+      "actions": [
+        "Helper publishes the weekly Google Post on each listing → links to: Tactic 1 / Step 7",
+        "Helper replies to new reviews within 48 hours → links to: Tactic 1 / Step 9",
+        "Confirm scheduled posts are going out and answer comments → links to: Tactic 3 / Step 6",
+        "Spend 20 minutes planning the first week back: which pillar, which promo, which task is first"
+      ],
+      "checklist": [
+        "The third week of scheduled posts published with no gaps",
+        "Weekly Google Posts are live on each listing",
+        "Reviews answered within 48 hours",
+        "Plan for the first week back is written down"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Back, Review, and Descriptions",
+      "actions": [
+        "Review what ran while you were away: Facebook and Instagram insights, and the calls, directions, and website clicks for each Google listing → links to: Tactic 3 / Step 4",
+        "Write the descriptions and attributes for all three listings → links to: Tactic 1 / Step 5",
+        "Record the baseline of direct bookings versus Booking.com bookings → links to: Tactic 2 / Step 10",
+        "Connect Google Search Console and set up UTM links on every listing and social bio → links to: Tactic 2 / Step 10",
+        "Add the social sharing tags and install the Meta Pixel → links to: Tactic 2 / Step 3",
+        "Create the TikTok Business account and post the first video → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "Three-week performance notes are written, including the best-performing post",
+        "All three listings have a final description and accurate attributes",
+        "A baseline of direct versus Booking.com bookings is recorded",
+        "Search Console is connected and UTM links are live",
+        "The Meta Pixel is verified in Events Manager",
+        "TikTok is live with its first video"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Schema, Parking, FAQ, and Holiday Hours",
+      "actions": [
+        "Add Hotel, BarOrPub, and LiquorStore schema to the matching pages and test them → links to: Tactic 2 / Step 5",
+        "Add the parking and accessibility information → links to: Tactic 2 / Step 7",
+        "Publish the FAQ page with direct first-sentence answers → links to: Tactic 2 / Step 8",
+        "Add holiday hours to all three listings before December 24 → links to: Tactic 1 / Step 4",
+        "Plan and schedule content for the Christmas wreath event → links to: Tactic 3 / Step 1"
+      ],
+      "checklist": [
+        "Schema passes the Rich Results Test on all three pages",
+        "Parking and accessibility details are published",
+        "The FAQ page is live and linked from the footer and navigation",
+        "Holiday hours are set on all three listings",
+        "Christmas wreath event content is scheduled"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Photos, Offers, and Reviews",
+      "actions": [
+        "Bring each listing to at least 10 photos → links to: Tactic 1 / Step 6",
+        "Publish the winter special and EAGLE Offer posts on the hotel listing → links to: Tactic 1 / Step 7",
+        "Set up the review request in the Little Hotelier post-stay email, plus QR cards for the pub and liquor store → links to: Tactic 1 / Step 8",
+        "Run the batching session for the next four weeks → links to: Tactic 3 / Step 4",
+        "Check that Book Direct is above the fold and the EAGLE link works from a phone → links to: Tactic 2 / Step 9"
+      ],
+      "checklist": [
+        "Every listing has at least 10 photos",
+        "The hotel listing has the winter special and EAGLE Offer posts live",
+        "Review requests are in the post-stay email and the QR cards are on the tables and counter",
+        "Four weeks of content are scheduled",
+        "A phone test of Book Direct and the EAGLE code passes"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Stay Series and Partners",
+      "actions": [
+        "Publish the weekly Stay series post with the EAGLE link → links to: Tactic 3 / Step 7",
+        "Send content to Tourism Harrison and the Chamber and publish a Collab post → links to: Tactic 3 / Step 8",
+        "Publish a Parkbus post and confirm the Parkbus code works → links to: Tactic 3 / Step 8",
+        "Test AI tools: ask ChatGPT and Perplexity \"where to stay near Harrison Mills for eagle watching\" and \"pub near Harrison Hot Springs,\" and record the results → links to: Tactic 2 / Step 8",
+        "Review promo code redemptions in Little Hotelier → links to: Tactic 2 / Step 10"
+      ],
+      "checklist": [
+        "The Stay series is running weekly",
+        "A partner Collab post is live",
+        "The Parkbus code is tested and the post is published",
+        "AI tool test results are recorded for comparison at Week 12",
+        "Promo code redemptions are recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Events and the Email List",
+      "actions": [
+        "Set up MailerLite, build the sign-up form, and print QR codes for the pub, store, and hotel → links to: Tactic 3 / Step 9",
+        "Start teasing the tulip festival package on social → links to: Tactic 3 / Step 1",
+        "Review the top five posts of the last 60 days and adjust the pillar mix → links to: Tactic 3 / Step 4",
+        "Check each listing's calls, directions, and website clicks against the Week 6 baseline"
+      ],
+      "checklist": [
+        "The email sign-up form is live and the QR codes are in place",
+        "Tulip festival teaser content is scheduled",
+        "The pillar mix is adjusted based on the top five posts",
+        "Listing activity is compared with the baseline"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Optimise",
+      "actions": [
+        "Update the eagle promo end date and review the winter special results → links to: Tactic 2 / Step 9",
+        "Review Search Console: which searches are bringing visitors to the three pages? → links to: Tactic 2 / Step 10",
+        "Check all three listings for hours, new reviews, and any new customer photos → links to: Tactic 1 / Step 9",
+        "Send the first monthly email with events and the winter special → links to: Tactic 3 / Step 9"
+      ],
+      "checklist": [
+        "Promo end dates are accurate and expired codes are turned off",
+        "Search Console findings are recorded",
+        "All three listings are current and all reviews answered",
+        "The first monthly email is sent"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: 90-Day Review and Plan Forward",
+      "actions": [
+        "Compare direct bookings with Booking.com bookings against the Week 6 baseline → links to: Tactic 2 / Step 10",
+        "Run the AI tool test again and compare with Week 9 → links to: Tactic 2 / Step 8",
+        "Pull 90-day results: followers, engagement rate, best pillar, and top three posts → links to: Tactic 3 / Step 4",
+        "Review each Google listing: reviews, posts, and calls, directions, and clicks → links to: Tactic 1 / Step 9",
+        "Write down three things that worked and one thing to change in the next 90 days"
+      ],
+      "checklist": [
+        "The direct versus Booking.com comparison is written down with numbers",
+        "AI test results from Weeks 9 and 12 are compared",
+        "The 90-day social summary exists",
+        "Each listing has been reviewed and any gaps are listed",
+        "The next 90-day priority is decided with a written reason",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/sasquatch-inn/#week-12"
+    }
+  ]
+}
