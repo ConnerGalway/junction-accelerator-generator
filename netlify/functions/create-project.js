@@ -365,6 +365,7 @@ function parsePlanMd(content) {
         whatIs: '',
         whyMatters: '',
         implementationSteps: [],
+        breakdowns: [], // Part A/B/C/D titles and descriptions
         successMetrics: [],
         tips: [],
         resources: []
@@ -394,16 +395,33 @@ function parsePlanMd(content) {
           const partTitle = partHeaders[idx] ? partHeaders[idx].replace(/#### Part [A-Z]:\s*/, '').trim() : '';
           const stepMatches = part.matchAll(/(\d+)\.\s+\*\*(.+?)\*\*\n([\s\S]*?)(?=\n\d+\.|$)/g);
 
+          // Collect first step title as breakdown description
+          let firstStepTitle = '';
+
           for (const step of stepMatches) {
             const bullets = step[3].trim().split('\n')
               .filter(line => line.trim().startsWith('-'))
               .map(line => line.replace(/^\s*-\s*/, '').trim());
+
+            if (!firstStepTitle) {
+              firstStepTitle = step[2].trim();
+            }
 
             tactic.implementationSteps.push({
               number: stepNum++,
               partLabel: partTitle,
               title: step[2].trim(),
               bullets
+            });
+          }
+
+          // Add breakdown entry for this Part
+          if (partTitle) {
+            // Convert long part titles to shorter breakdown titles (2-4 words)
+            const shortTitle = shortenPartTitle(partTitle);
+            tactic.breakdowns.push({
+              title: shortTitle,
+              description: firstStepTitle || partTitle
             });
           }
         });
@@ -638,6 +656,13 @@ function processTemplate(template, data) {
     html = html.replace(/\{\{TACTIC_4_PHASE\}\}/g, '');
     html = html.replace(/\{\{TACTIC_4_SUBTITLE\}\}/g, '');
     html = html.replace(/\{\{TACTIC_4_TOTAL\}\}/g, '0');
+    // Clean up Tactic 4 breakdown and time placeholders
+    html = html.replace(/\{\{TACTIC_4_TIME_VALUE\}\}/g, '');
+    html = html.replace(/\{\{TACTIC_4_TIME_CONTEXT\}\}/g, '');
+    for (let m = 1; m <= 4; m++) {
+      html = html.replace(new RegExp(`\\{\\{T4_BREAKDOWN_${m}_TITLE\\}\\}`, 'g'), '');
+      html = html.replace(new RegExp(`\\{\\{T4_BREAKDOWN_${m}_DESC\\}\\}`, 'g'), '');
+    }
   } else {
     html = html.replace(/<!-- IF:TACTIC_4 -->/g, '');
     html = html.replace(/<!-- ENDIF:TACTIC_4 -->/g, '');
@@ -646,7 +671,8 @@ function processTemplate(template, data) {
   // ─────────────────────────────────────────────────────────────────────────
   // TACTIC CONTENT PLACEHOLDERS
   // ─────────────────────────────────────────────────────────────────────────
-  for (let i = 0; i < 3; i++) {
+  const tacticCount = Math.min(data.tactics.length, 4);
+  for (let i = 0; i < tacticCount; i++) {
     const tactic = data.tactics[i];
     if (!tactic) continue;
 
@@ -672,6 +698,18 @@ function processTemplate(template, data) {
     // Resources HTML
     const resourcesHtml = generateResourcesHtml(tactic.resources, n);
     html = html.split(`{{TACTIC_${n}_RESOURCES}}`).join(resourcesHtml);
+
+    // Breakdown placeholders (Part A/B/C/D titles and descriptions)
+    for (let m = 1; m <= 4; m++) {
+      const breakdown = tactic.breakdowns[m - 1] || { title: '', description: '' };
+      html = html.split(`{{T${n}_BREAKDOWN_${m}_TITLE}}`).join(escapeHtml(breakdown.title));
+      html = html.split(`{{T${n}_BREAKDOWN_${m}_DESC}}`).join(escapeHtml(breakdown.description));
+    }
+
+    // Time commitment placeholders (derived from step count)
+    const timeCommitment = estimateTimeCommitment(tactic);
+    html = html.split(`{{TACTIC_${n}_TIME_VALUE}}`).join(timeCommitment.value);
+    html = html.split(`{{TACTIC_${n}_TIME_CONTEXT}}`).join(timeCommitment.context);
   }
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -908,6 +946,68 @@ function escapeHtml(text) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#039;');
+}
+
+function shortenPartTitle(partTitle) {
+  // Convert long "Part A: Section Name" titles to short 2-4 word breakdown titles
+  // Examples:
+  // "Decide and Create" -> "Decide & Create"
+  // "Complete Each Listing" -> "Complete Listings"
+  // "Posts, Reviews, and the Weekly Routine" -> "Posts & Reviews"
+  // "Build the Pages That Do the Work" -> "Build Key Pages"
+
+  if (!partTitle) return '';
+
+  // Remove common filler words and simplify
+  let short = partTitle
+    .replace(/\band\b/gi, '&')
+    .replace(/\bthe\b/gi, '')
+    .replace(/\beach\b/gi, '')
+    .replace(/\bthat\b/gi, '')
+    .replace(/\bdo\b/gi, '')
+    .replace(/\bwork\b/gi, '')
+    .replace(/,\s*/g, ' & ')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  // Clean up dangling articles and prepositions at the end
+  short = short.replace(/\s+(of|for|to|in|on|at|&)\s*$/i, '');
+
+  // If still too long (more than 4 words), take first 3 words
+  const words = short.split(' ').filter(w => w.length > 0);
+  if (words.length > 4) {
+    // Try to find a natural break point
+    short = words.slice(0, 3).join(' ');
+    // Clean up if ends with &
+    short = short.replace(/\s*&\s*$/, '');
+  }
+
+  // If result is too short or awkward, use original trimmed to 4 words
+  if (short.length < 4) {
+    const origWords = partTitle.split(' ').slice(0, 4);
+    short = origWords.join(' ');
+  }
+
+  return short;
+}
+
+function estimateTimeCommitment(tactic) {
+  // Estimate time commitment based on number of steps and bullets
+  const totalSteps = tactic.implementationSteps?.length || 0;
+  const totalBullets = tactic.implementationSteps?.reduce((sum, step) => sum + (step.bullets?.length || 0), 0) || 0;
+
+  // Rough heuristic: ~15 min per step, ~5 min per bullet
+  const totalMinutes = (totalSteps * 15) + (totalBullets * 5);
+
+  if (totalMinutes <= 60) {
+    return { value: '30-60 min', context: 'per week' };
+  } else if (totalMinutes <= 120) {
+    return { value: '1-2 hrs', context: 'per week' };
+  } else if (totalMinutes <= 180) {
+    return { value: '2-3 hrs', context: 'per week' };
+  } else {
+    return { value: '3-4 hrs', context: 'per week' };
+  }
 }
 
 function generateImplementationStepsHtml(steps, tacticNum) {
