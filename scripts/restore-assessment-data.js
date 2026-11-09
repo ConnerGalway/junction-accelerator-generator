@@ -123,7 +123,28 @@ function generateCategoryCardsHtml(categories) {
     if (cat.breakdown) {
       const metrics = Object.entries(cat.breakdown).slice(0, 4).map(([k, v]) => {
         const label = k.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
-        const value = v.value !== undefined ? (typeof v.value === 'boolean' ? (v.value ? 'Yes' : 'No') : v.value) : v.score;
+        let value;
+        if (v.value === undefined || v.value === null) {
+          value = v.score !== undefined ? v.score : '--';
+        } else if (typeof v.value === 'boolean') {
+          value = v.value ? 'Yes' : 'No';
+        } else if (typeof v.value === 'object') {
+          // Handle nested objects - extract meaningful value
+          if (v.value.count !== undefined) {
+            value = v.value.count;
+          } else if (v.value.found !== undefined) {
+            value = v.value.found ? 'Yes' : 'No';
+          } else if (v.value.platforms) {
+            value = v.value.platforms.join(', ');
+          } else if (v.value.completeness) {
+            value = v.value.completeness.replace(/_/g, ' ');
+          } else {
+            // Fallback: use score or grade
+            value = v.score !== undefined ? v.score : (v.grade || '--');
+          }
+        } else {
+          value = v.value;
+        }
         return `<div class="category-metric"><span class="metric-label">${escapeHtml(label)}</span><span class="metric-value">${escapeHtml(String(value))}</span></div>`;
       });
       metricsHtml = metrics.join('\n              ');
