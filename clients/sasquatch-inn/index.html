@@ -5160,12 +5160,89 @@ body:not(.has-plan) .plan-content{display:none}
   height:auto;
   display:block;
 }
+.tactic-mockup-body{aspect-ratio:16/10;overflow:hidden}
+.tactic-mockup-body img{width:100%;height:100%;object-fit:cover;object-position:top center;cursor:zoom-in}
+.tactic-mockup--page .tactic-mockup-body::after{content:"Full page ↗";position:absolute;right:10px;bottom:10px;background:rgba(20,26,26,.72);color:#fff;font-size:11px;letter-spacing:.3px;padding:4px 9px;border-radius:20px;pointer-events:none}
 .tactic-mockup-label{
   padding:12px 16px;
   font-size:12px;
   color:#8a7f68;
   text-align:center;
   background:#f7f2e9;
+}
+
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
+}
+
+/* Two mockups side by side, stacked on mobile */
+.tactic-mockup-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.tactic-mockup-pair > *{min-width:0}
+.tactic-mockup-pair .tactic-mockup{margin-top:0}
+@media(max-width:768px){
+  .tactic-mockup-pair{grid-template-columns:1fr}
+}
+
+/* Four mockups in one row, stacked on mobile */
+.tactic-mockup-pair.tactic-mockup-four{grid-template-columns:repeat(4,1fr)}
+@media(max-width:768px){
+  .tactic-mockup-pair.tactic-mockup-four{grid-template-columns:1fr}
+}
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
 }
 
 /* Two-column step layout */
@@ -6459,6 +6536,17 @@ button,
                       <li data-editable-key="t1-bullet-3">For each of the three businesses, write down the name exactly as it appears on your signage, the opening hours, the phone number, the primary category, and which page on your website it will link to. Anywhere you see square brackets in this plan, such as [INSERT PHONE NUMBER], fill in the real detail before anything gets published.</li>
                       <li data-editable-key="t1-bullet-4">Check that each business has a different primary category and different hours. A pub, a hotel, and a liquor store do, and that difference is what Google looks for when deciding whether separate listings at one address are legitimate.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t1-s1-listing-audit.png" alt="Listing audit worksheet showing the current Sasquatch Inn listing, a review tally, and the name, category, hours, phone and page for the pub, hotel and liquor store" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
@@ -6471,6 +6559,17 @@ button,
                       <li data-editable-key="t1-bullet-7">Set the hours to the pub&#039;s real hours, starting at 11 AM. If Google offers a Happy Hour option under &quot;More hours,&quot; add it so the listing shows it directly.</li>
                       <li data-editable-key="t1-bullet-8">Make all of these edits in one sitting. Google sometimes asks for re-verification after a name or category change, and it is much easier to deal with once than three times.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.google.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t1-s2-reset-pub-listing.png" alt="Google Business information panel with the name set to Sasquatch Inn Pub, primary category Pub, and pub opening hours from 11 a.m. with Happy hours under More hours" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-3">
@@ -6483,6 +6582,33 @@ button,
                       <li data-editable-key="t1-bullet-11">Keep all three listings under the same owner Google account. If Google flags a listing as a duplicate, do not delete it. Appeal with photos of the separate signage and a note about the different hours and categories, since those are exactly the criteria Google&#039;s own guidelines use.</li>
                       <li data-editable-key="t1-bullet-12">Do not give two listings the same primary category. That is the most common reason department listings get filtered out of results.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.google.com/locations</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t1-s3-add-business.png" alt="Business Profile Manager with Add business open on Add single business, and the new profile form on a phone with name Sasquatch Inn and category Hotel" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <a href="https://support.google.com/business/answer/14271705" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Google help page on video verification (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">support.google.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/sasquatch-inn-mockups/media/t1-s3-video-verification-help.png" alt="Google help page: Verify your business with a video recording" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6508,6 +6634,17 @@ button,
                       <li data-editable-key="t1-bullet-15">Point each listing to its own page on the website once those pages exist (Tactic 2, Step 6): pub to the pub page, hotel to the hotel page, liquor store to the liquor store page. Until then, use the homepage and update the link as soon as the pages are live.</li>
                       <li data-editable-key="t1-bullet-16">Add special hours for holidays as they approach. Christmas Day, New Year&#039;s Day, and any closure should be set at least a week ahead so nobody drives out to a dark building.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">google.com/maps</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t1-s4-three-listings.png" alt="Three Google Maps listings side by side for Sasquatch Inn Pub, Sasquatch Inn hotel and Sasquatch Liquor Store, each with its own hours, phone and website page" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
@@ -6521,6 +6658,30 @@ button,
                       <li data-editable-key="t1-bullet-20">Under attributes, turn on only what is true for each business. For the pub that likely includes outdoor seating and, if Google offers it for your category, dogs allowed. For the hotel, parking and pet policy. Accurate attributes get you into filtered searches like &quot;pet-friendly patio near me&quot; without any extra work.</li>
                       <li data-editable-key="t1-bullet-21">On the pub listing, add a link to the menu and list the popular dishes by name. On the liquor store listing, use the Products section to add the Sasquatch merchandise with photos and prices.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.google.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t1-s5-description-attributes.png" alt="Google Business information panels showing the pub description at 326 of 750 characters and attributes including outdoor seating and dogs allowed" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.google.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t1-s5-products-merch.png" alt="Add product form for a Sasquatch plush, and the liquor store listing&#039;s Products tab showing Sasquatch merchandise" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-6">
@@ -6568,6 +6729,30 @@ button,
                       <li data-editable-key="t1-bullet-30">For the pub, put a small QR code on the receipt holder or the table, and for the liquor store, a QR code at the counter. Print a laminated card with &quot;Enjoyed your visit? A quick Google review helps a family business like ours.&quot;</li>
                       <li data-editable-key="t1-bullet-31">Never offer a discount, a free drink, or any incentive in exchange for a review. It breaks Google&#039;s policies and can get reviews removed.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.google.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t1-s8-review-qr-cards.png" alt="Printed review cards with QR codes for the Sasquatch Inn Pub table and the Sasquatch Liquor Store counter" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">littlehotelier.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t1-s8-post-stay-email.png" alt="Post-stay email from Sasquatch Inn on a phone with a Leave a Google review button and a Book direct link" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-9">
