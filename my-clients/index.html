@@ -1475,14 +1475,28 @@
       // Users with wildcard access see all assessments
       // Others only see assessments they created or are assigned to coach
       if (!hasWildcardAccess) {
-        // Get slugs where user is assigned as coach
-        const { data: coachAssignments } = await supabaseClient
-          .from('user_plans')
-          .select('client_slug')
-          .eq('coach_email', currentUser.email)
-          .eq('active', true);
+        // Get slugs where user is assigned as coach (two methods):
+        // 1. Rows where coach_email = user's email (legacy: coach assigned to manage client's user)
+        // 2. Rows where email = user's email AND role = 'coach' (direct coach assignment)
+        const [coachEmailResult, directCoachResult] = await Promise.all([
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug')
+            .eq('coach_email', currentUser.email)
+            .eq('active', true),
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug')
+            .eq('email', currentUser.email)
+            .eq('role', 'coach')
+            .eq('active', true)
+            .neq('client_slug', '*')
+        ]);
 
-        const coachSlugs = (coachAssignments || []).map(a => a.client_slug);
+        // Combine both results into a unique set of slugs
+        const coachSlugsFromEmail = (coachEmailResult.data || []).map(a => a.client_slug);
+        const coachSlugsFromDirect = (directCoachResult.data || []).map(a => a.client_slug);
+        const coachSlugs = [...new Set([...coachSlugsFromEmail, ...coachSlugsFromDirect])];
 
         // Filter to assessments user created OR is assigned to coach
         if (coachSlugs.length > 0) {
@@ -1545,14 +1559,28 @@
       // Users with wildcard access see all elevated clients
       // Others only see those they created or are assigned to coach
       if (!hasWildcardAccess) {
-        // Get slugs where user is assigned as coach
-        const { data: coachAssignments } = await supabaseClient
-          .from('user_plans')
-          .select('client_slug')
-          .eq('coach_email', currentUser.email)
-          .eq('active', true);
+        // Get slugs where user is assigned as coach (two methods):
+        // 1. Rows where coach_email = user's email (legacy: coach assigned to manage client's user)
+        // 2. Rows where email = user's email AND role = 'coach' (direct coach assignment)
+        const [coachEmailResult, directCoachResult] = await Promise.all([
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug')
+            .eq('coach_email', currentUser.email)
+            .eq('active', true),
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug')
+            .eq('email', currentUser.email)
+            .eq('role', 'coach')
+            .eq('active', true)
+            .neq('client_slug', '*')
+        ]);
 
-        const coachSlugs = (coachAssignments || []).map(a => a.client_slug);
+        // Combine both results into a unique set of slugs
+        const coachSlugsFromEmail = (coachEmailResult.data || []).map(a => a.client_slug);
+        const coachSlugsFromDirect = (directCoachResult.data || []).map(a => a.client_slug);
+        const coachSlugs = [...new Set([...coachSlugsFromEmail, ...coachSlugsFromDirect])];
 
         if (coachSlugs.length > 0) {
           query = query.or(`created_by.eq.${currentUser.email},client_slug.in.(${coachSlugs.join(',')})`);
@@ -1695,19 +1723,50 @@
       const section = document.getElementById('experienceSection');
 
       // Fetch experience projects from user_plans table
-      let query = supabaseClient
-        .from('user_plans')
-        .select('client_slug, cohort_start_date, coach_email, dashboard_state')
-        .eq('active', true)
-        .eq('dashboard_state', 'experience')
-        .neq('client_slug', '*');
+      // Users without wildcard access see projects where:
+      // 1. coach_email = their email (they're assigned as coach), OR
+      // 2. email = their email AND role = 'coach' (direct coach assignment)
+      let rows = [];
+      let error = null;
 
-      // Users without wildcard access only see projects they coach
-      if (!hasWildcardAccess) {
-        query = query.eq('coach_email', currentUser.email);
+      if (hasWildcardAccess) {
+        const result = await supabaseClient
+          .from('user_plans')
+          .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+          .eq('active', true)
+          .eq('dashboard_state', 'experience')
+          .neq('client_slug', '*');
+        rows = result.data || [];
+        error = result.error;
+      } else {
+        // Query for both coach assignment methods
+        const [coachEmailResult, directCoachResult] = await Promise.all([
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+            .eq('active', true)
+            .eq('dashboard_state', 'experience')
+            .eq('coach_email', currentUser.email)
+            .neq('client_slug', '*'),
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+            .eq('active', true)
+            .eq('dashboard_state', 'experience')
+            .eq('email', currentUser.email)
+            .eq('role', 'coach')
+            .neq('client_slug', '*')
+        ]);
+        error = coachEmailResult.error || directCoachResult.error;
+        // Combine results, deduping by client_slug
+        const combined = [...(coachEmailResult.data || []), ...(directCoachResult.data || [])];
+        const seen = new Set();
+        rows = combined.filter(r => {
+          if (seen.has(r.client_slug)) return false;
+          seen.add(r.client_slug);
+          return true;
+        });
       }
-
-      const { data: rows, error } = await query;
 
       if (error) {
         console.error('Error loading experience projects:', error);
@@ -1836,19 +1895,50 @@
       const sandboxSlugs = ['sample-demo', 'andreas-resort'];
 
       // Fetch projects this user has access to (exclude experience - they have their own section)
-      let query = supabaseClient
-        .from('user_plans')
-        .select('client_slug, cohort_start_date, coach_email, dashboard_state')
-        .eq('active', true)
-        .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
-        .neq('client_slug', '*');
+      // Users without wildcard access see projects where:
+      // 1. coach_email = their email (they're assigned as coach), OR
+      // 2. email = their email AND role = 'coach' (direct coach assignment)
+      let rows = [];
+      let error = null;
 
-      // Users without wildcard access only see projects they coach
-      if (!hasWildcardAccess) {
-        query = query.eq('coach_email', currentUser.email);
+      if (hasWildcardAccess) {
+        const result = await supabaseClient
+          .from('user_plans')
+          .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+          .eq('active', true)
+          .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
+          .neq('client_slug', '*');
+        rows = result.data || [];
+        error = result.error;
+      } else {
+        // Query for both coach assignment methods
+        const [coachEmailResult, directCoachResult] = await Promise.all([
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+            .eq('active', true)
+            .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
+            .eq('coach_email', currentUser.email)
+            .neq('client_slug', '*'),
+          supabaseClient
+            .from('user_plans')
+            .select('client_slug, cohort_start_date, coach_email, dashboard_state')
+            .eq('active', true)
+            .or('dashboard_state.is.null,dashboard_state.eq.accelerator')
+            .eq('email', currentUser.email)
+            .eq('role', 'coach')
+            .neq('client_slug', '*')
+        ]);
+        error = coachEmailResult.error || directCoachResult.error;
+        // Combine results, deduping by client_slug
+        const combined = [...(coachEmailResult.data || []), ...(directCoachResult.data || [])];
+        const seen = new Set();
+        rows = combined.filter(r => {
+          if (seen.has(r.client_slug)) return false;
+          seen.add(r.client_slug);
+          return true;
+        });
       }
-
-      const { data: rows, error } = await query;
 
       if (error) {
         gallery.innerHTML = `<div class="empty-state">
