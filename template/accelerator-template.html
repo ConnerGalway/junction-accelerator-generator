@@ -104,6 +104,14 @@ EDITABLE KEY PATTERNS:
 
 EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
   When generating implementation steps ({{TACTIC_N_IMPLEMENTATION_STEPS}}):
+  CRITICAL: Use the collapsible .tactic-parts-list structure. See CLAUDE.md Step 4 for full HTML.
+  Required elements:
+    - .tactic-parts-list wrapper
+    - .tactic-part (with .open on first part only)
+    - button.tactic-part-header with onclick="toggleTacticPart(this)"
+    - .tactic-part-tag, .tactic-part-title, .tactic-part-meta, .tactic-part-chevron
+    - .tactic-step-item with id="step-tN-M" (NOT .step-item)
+    - span.tactic-step-num (NOT div.step-num)
   - Step titles: data-editable-key="tactic-N-step-M-title"
     Example: <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Step Title</div>
   - Step bullets: data-editable-key="tN-bullet-M" (numbered sequentially across ALL steps in tactic)
@@ -120,10 +128,17 @@ EDITABLE KEY PATTERNS FOR GENERATED CONTENT:
     Example: <li><a href="url" data-editable-link="t1-resource-1">Resource name</a></li>
 
   When generating roadmap weeks ({{MONTH_N_WEEKS}}):
+  CRITICAL: See CLAUDE.md "Week Cards" section for complete structure with checkboxes and note areas.
+  Required elements:
+    - .week-card with id="wc-N" and data-week="N"
+    - Checkboxes: id="week-N-check-M" AND data-key="week-N-check-M" (both required)
+    - Each .check-item MUST have .note-area with matching ID pattern
   - Week titles: data-editable-key="week-N-title"
     Example: <span class="week-title" data-editable-key="week-1-title">Week 1: Getting Started</span>
   - Week actions: MUST wrap text in <span class="week-task-text"> with data-editable-key
     Example: <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-1">Action text</span></li>
+  - Checklist labels: data-editable-key="week-N-check-M-label"
+    Example: <label class="check-label" for="week-1-check-1" data-editable-key="week-1-check-1-label">Task text</label>
 
   When generating Quick Wins page ({{QUICK_WINS_PAGE_CONTENT}}):
   - Use .section-label for category headers (e.g., "On the Google Business Profile")
