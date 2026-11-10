@@ -318,3 +318,22 @@ describe('upload functions', () => {
     expect(commitAt).toBeGreaterThan(pageCheckAt);
   });
 });
+
+describe('test pack used for manual upload testing', () => {
+  const fixture = name => fs.readFileSync(path.join(ROOT, 'tests', 'fixtures', name), 'utf8');
+
+  test('the valid test plans pass', () => {
+    expect(validatePlan(fixture('neutral-plan.md'), { type: 'accelerator' }).errors).toEqual([]);
+    expect(validatePlan(fixture('neutral-plan-four-tactics.md'), { type: 'accelerator' }).errors).toEqual([]);
+    expect(validatePlan(fixture('neutral-experience-plan.md'), { type: 'experience' }).errors).toEqual([]);
+  });
+
+  test('the broken test plan reports exactly its four deliberate mistakes', () => {
+    const errors = validatePlan(fixture('broken-plan.md'), { type: 'accelerator' }).errors;
+    expect(errors.map(e => e.line)).toEqual([29, 80, 282, 302]);
+    expect(errors[0].message).toMatch(/"### Why This Matters" is not recognised/);
+    expect(errors[1].message).toMatch(/Tactic 2 is missing its "Short Label:" line/);
+    expect(errors[2].message).toMatch(/week heading is not recognised/);
+    expect(errors[3].message).toMatch(/points at Step 99/);
+  });
+});
