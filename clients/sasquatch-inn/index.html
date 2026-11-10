@@ -5247,6 +5247,19 @@ body:not(.has-plan) .plan-content{display:none}
   box-shadow:0 2px 6px rgba(17,21,75,.18);
 }
 
+/* Social reel cards (three phones side by side) */
+.tactic-reel-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;max-width:640px;margin-top:16px}
+.tactic-reel{display:block;color:inherit;text-decoration:none;border-radius:26px}
+.tactic-reel-phone{background:#16191d;border-radius:26px;padding:6px;box-shadow:0 12px 28px -14px rgba(30,25,15,.45);transition:transform .2s ease,box-shadow .2s ease}
+.tactic-reel-phone img{display:block;width:100%;aspect-ratio:9/16;object-fit:cover;border-radius:20px}
+.tactic-reel:hover .tactic-reel-phone,.tactic-reel:focus-visible .tactic-reel-phone{transform:translateY(-3px);box-shadow:0 18px 32px -14px rgba(30,25,15,.5)}
+.tactic-reel:hover,.tactic-reel:focus-visible{text-decoration:none}
+.tactic-reel:focus-visible{outline:2px solid var(--link-blue);outline-offset:3px}
+.tactic-reel-label{margin-top:10px;font-size:12px;line-height:1.4;text-align:center;color:#8a7f68}
+.tactic-reel-label strong{display:block;color:#3a3326;font-weight:600}
+.tactic-reel-open{color:var(--link-blue);font-weight:600}
+@media (max-width:560px){.tactic-reel-row{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px}.tactic-reel{scroll-snap-align:start}}
+
 /* Two-column step layout */
 .tactic-step-row{
   display:flex;
@@ -7511,6 +7524,17 @@ button,
                       <li data-editable-key="t3-bullet-2">The Stay pillar is the strategic one. It is where day visitors turn into overnight guests, so it gets the Book Direct link every time.</li>
                       <li data-editable-key="t3-bullet-3">Always ask staff before featuring them by name. Your reviews already mention Angie, Tara, and Jill, and being thanked publicly lands well, but it should be their choice.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">canva.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t3-s1-content-pillars.png" alt="Printable table of the five content pillars, The Pub, Stay, The Store, Out and About, and Events and Locals, with what each covers, how often to post and an example post" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-2">
@@ -7523,6 +7547,16 @@ button,
                       <li data-editable-key="t3-bullet-6">Over the next two weeks, film short clips of eagles and the salmon run from public viewing spots, staying a respectful distance from the wildlife. Aim for 10 to 15 clips of 10 to 20 seconds each. This is the raw material for the Stay pillar for the rest of the winter.</li>
                       <li data-editable-key="t3-bullet-7">Do not wait for perfect footage. Phone video in natural light is what performs, and the first ten clips will teach you more than any plan.</li>
                     </ul>
+                    <div class="tactic-reel-row">
+                      <a href="https://www.instagram.com/reel/DffDhBLJrZO/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the bald eagles reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/sasquatch-inn-mockups/media/t3-s2-ig-eagles.png" alt="Instagram reel from supernaturalbc of bald eagles over the river in fall" loading="lazy"></div>
+                        <div class="tactic-reel-label">instagram.com · <span class="tactic-reel-open">Open post ↗</span></div>
+                      </a>
+                      <a href="https://www.instagram.com/reel/De_KhgAqwxZ/" class="tactic-reel" target="_blank" rel="noopener" aria-label="Open the spawning salmon reel on Instagram (opens in a new tab)">
+                        <div class="tactic-reel-phone"><img src="/assets/sasquatch-inn-mockups/media/t3-s2-ig-salmon.png" alt="Instagram reel of spawning salmon in a clear BC creek" loading="lazy"></div>
+                        <div class="tactic-reel-label">instagram.com · <span class="tactic-reel-open">Open post ↗</span></div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-3">
@@ -7534,6 +7568,30 @@ button,
                       <li data-editable-key="t3-bullet-9">In Canva, set up a Brand Kit with your logo, colours, and fonts, so anyone who helps with content stays on brand without asking you.</li>
                       <li data-editable-key="t3-bullet-10">Share both with your helper. A library that only one person can find is a bottleneck waiting to happen.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">drive.google.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/sasquatch-inn-mockups/media/t3-s3-content-library.png" alt="Google Drive folder Sasquatch Inn Content Library with a sub-folder for each pillar and files named by pillar and date" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup tactic-embed">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">youtube.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <iframe src="https://www.youtube.com/embed/yoS6Lv0HbPI" title="Canva Brand Kit" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -7559,6 +7617,17 @@ button,
                       <li data-editable-key="t3-bullet-13">Aim for a minimum of four feed posts a week across Facebook and Instagram, with at least two as Reels. Add a Story whenever something is happening, because Stories take about 10 seconds and keep the account active in between.</li>
                       <li data-editable-key="t3-bullet-14">Always review the caption before it goes live. ChatGPT is a fast first draft, and your edits are what make it sound like the Inn.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t3-s4-meta-planner.png" alt="Meta Business Suite Planner showing a week of scheduled Facebook and Instagram posts, each tagged with its pillar" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-5">
@@ -7571,6 +7640,17 @@ button,
                       <li data-editable-key="t3-bullet-17">Start with one to two videos a week and build from there. TikTok does not need followers to show your video to new people, so a clip of eagles at Harrison Mills can reach people who have never heard of the Inn.</li>
                       <li data-editable-key="t3-bullet-18">Add a link to the hotel page or the EAGLE promo link in the bio, and update the Instagram bio and Facebook About section to use it too.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">tiktok.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t3-s5-tiktok-instagram-profiles.png" alt="TikTok and Instagram profiles side by side with the same handle, profile photo, bio and hotel page link" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-6">
@@ -7608,6 +7688,17 @@ button,
                       <li data-editable-key="t3-bullet-25">Use the same content on the hotel&#039;s Google listing as an Offer post (Tactic 1, Step 7) so it reaches people searching Google as well as people scrolling social.</li>
                       <li data-editable-key="t3-bullet-26">Track every promo redemption in Little Hotelier so you can see which posts brought bookings.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t3-s7-eagle-report-series.png" alt="Two weekly Eagle Report Instagram posts with the Book direct code EAGLE and the promo link in the first comment" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-8">
@@ -7632,6 +7723,17 @@ button,
                       <li data-editable-key="t3-bullet-33">Send one email a month with upcoming events, the winter special, and one story. The tulip festival package is a good first reason to write.</li>
                       <li data-editable-key="t3-bullet-34">Frame events around food, the experience, and staying the night. Given the rural location and no public transit, a room after the tasting is both the responsible option and an upsell.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">mailerlite.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/sasquatch-inn-mockups/media/t3-s9-email-signup.png" alt="Email sign-up form with a clear opt-in checkbox on a phone, and a printed QR card for the pub tables" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
