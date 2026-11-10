@@ -2767,26 +2767,43 @@
       const coachChanged = newCoachEmail && newCoachEmail.toLowerCase() !== (changeCoachOriginalEmail || '').toLowerCase();
 
       try {
-        // Check if user_plans entry exists for this client
-        const { data: existingPlans } = await supabaseClient
-          .from('user_plans')
-          .select('id, email, role')
+        // 1. Update client_assessments.coach_email so the assessment shows correct coach
+        const { error: assessmentError } = await supabaseClient
+          .from('client_assessments')
+          .update({ coach_email: newCoachEmail || null })
           .eq('client_slug', changeCoachTargetSlug);
 
+        if (assessmentError) {
+          console.warn('Could not update assessment coach_email:', assessmentError);
+          // Continue anyway - might not have permission or assessment might not exist
+        }
+
+        // 2. Check existing user_plans entries for this client
+        const { data: existingPlans } = await supabaseClient
+          .from('user_plans')
+          .select('id, email, role, coach_email')
+          .eq('client_slug', changeCoachTargetSlug);
+
+        // 3. Update coach_email on ALL existing entries (not just client role)
         if (existingPlans && existingPlans.length > 0) {
-          // Update existing entries - set coach_email on client entries
           const { error: updateError } = await supabaseClient
             .from('user_plans')
             .update({ coach_email: newCoachEmail || null })
-            .eq('client_slug', changeCoachTargetSlug)
-            .eq('role', 'client');
+            .eq('client_slug', changeCoachTargetSlug);
 
           if (updateError) throw updateError;
-        } else {
-          // No user_plans entry exists - we need to create one for coach access
-          // This happens for assessments that haven't been converted to projects yet
-          // Create a coach entry so the coach can access the assessment dashboard
-          if (newCoachEmail) {
+        }
+
+        // 4. Ensure the coach has their own user_plans entry for direct access
+        // This is the "direct coach assignment" that allows the coach to see the client
+        if (newCoachEmail) {
+          // Check if coach already has an entry for this client
+          const existingCoachEntry = (existingPlans || []).find(
+            p => p.email.toLowerCase() === newCoachEmail.toLowerCase() && p.role === 'coach'
+          );
+
+          if (!existingCoachEntry) {
+            // Create a direct coach assignment entry
             const { error: insertError } = await supabaseClient
               .from('user_plans')
               .insert({
@@ -2797,7 +2814,10 @@
                 active: true
               });
 
-            if (insertError) throw insertError;
+            if (insertError) {
+              console.warn('Could not create coach entry:', insertError);
+              // Continue anyway - the coach_email update should still work
+            }
           }
         }
 
