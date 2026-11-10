@@ -129,13 +129,18 @@ function updateProgress() { ... }
 Every dashboard has these four arrays/objects that must match the actual checklist IDs:
 
 ```javascript
-const ALL_CHECK_IDS = [/* all rw checklist IDs */];
-const WEEK_CHECKS   = { 1: ['rw1_d1', ...], 2: [...], ... };
+const ALL_CHECK_IDS = ["week-1-check-1", "week-1-check-2", "week-2-check-1", ...];
+const WEEK_CHECKS   = { 1: ['week-1-check-1', 'week-1-check-2', ...], 2: [...], ... };
 const MONTH_CHECKS  = { 1: [...], 2: [...], 3: [...] };
-const TACTIC_CHECKS = { 1: ['rw1_d1', ...], 2: [...], 3: [...] };
+const TACTIC_CHECKS = { 1: ['week-1-check-1', ...], 2: [...], 3: [...] };
 ```
 
-The checklist ID convention is `rwWEEK_dN`, e.g. `rw1_d1`, `rw3_d2`, etc.
+The checklist ID convention is `week-N-check-M`, e.g. `week-1-check-1`, `week-3-check-2`, etc.
+
+**Important:** These IDs must match:
+- The `id` attribute on the checkbox input
+- The `data-key` attribute on the checkbox input
+- The patterns used in `saveNote()` and `toggleNote()` calls
 
 ---
 
@@ -152,6 +157,9 @@ Run this mentally before writing any dashboard file:
 - [ ] localStorage keys use the client slug (not a hardcoded prefix)
 - [ ] Strategy page has goal, positioning, and all 3 objectives filled
 - [ ] Print-only content has correct client name, goal, and coach email
+- [ ] **Implementation Steps use collapsible `.tactic-parts-list` structure** (see Step 4)
+- [ ] **Roadmap checklists use `.check-item` structure with note areas** (see Week Cards)
+- [ ] **Quick Wins page uses `.check-item` structure with checkboxes** (see Step 3.6)
 
 ---
 
@@ -542,9 +550,81 @@ Fill `{{TN_BREAKDOWN_M_TITLE}}` and `{{TN_BREAKDOWN_M_DESC}}` for each breakdown
 - The 3rd (or 4th) item uses class `full-width` to span the grid
 
 **Implementation Steps tab** (Part A, B, C sections):
-- Numbered steps with sub-bullets
-- Add `id="step-tN-N"` to each `<li class="step-item">` (used by "how to" links)
-- Format: `id="step-t1-1"` through `id="step-t3-10"` (etc.)
+
+The Implementation Steps tab uses a collapsible accordion structure. Each part (A, B, C, etc.) is a collapsible section with a header button.
+
+**CRITICAL: Full HTML Structure for `{{TACTIC_N_IMPLEMENTATION_STEPS}}`:**
+
+```html
+<div class="tactic-parts-list">
+  <!-- Part A: First part is open by default -->
+  <div class="tactic-part open">
+    <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+      <span class="tactic-part-tag">Part A</span>
+      <span class="tactic-part-title">Part Title Here</span>
+      <span class="tactic-part-meta">3 steps</span>
+      <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+    </button>
+    <div class="tactic-part-body">
+      <ol class="tactic-steps-list">
+        <li class="tactic-step-item" id="step-t1-1">
+          <span class="tactic-step-num">1</span>
+          <div class="tactic-step-content">
+            <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Step title here.</div>
+            <ul class="tactic-step-bullets">
+              <li data-editable-key="t1-bullet-1">First bullet point.</li>
+              <li data-editable-key="t1-bullet-2">Second bullet point.</li>
+            </ul>
+          </div>
+        </li>
+        <!-- More steps in this part -->
+      </ol>
+    </div>
+  </div>
+
+  <!-- Part B: Subsequent parts are collapsed by default (no .open class) -->
+  <div class="tactic-part">
+    <button class="tactic-part-header" onclick="toggleTacticPart(this)">
+      <span class="tactic-part-tag">Part B</span>
+      <span class="tactic-part-title">Second Part Title</span>
+      <span class="tactic-part-meta">2 steps</span>
+      <svg class="tactic-part-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+    </button>
+    <div class="tactic-part-body">
+      <ol class="tactic-steps-list">
+        <!-- Steps continue from previous part's numbering -->
+        <li class="tactic-step-item" id="step-t1-4">
+          <span class="tactic-step-num">4</span>
+          <!-- ... -->
+        </li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Part C, D, etc. follow same pattern -->
+</div>
+```
+
+**Key requirements:**
+- `.tactic-parts-list` - Required wrapper for all collapsible parts
+- `.tactic-part` - Each collapsible section; add `.open` class ONLY to the first part
+- `.tactic-part-header` - Must be a `<button>` with `onclick="toggleTacticPart(this)"`
+- `.tactic-part-tag` - Part label (e.g., "Part A", "Part B")
+- `.tactic-part-title` - Part heading from the plan
+- `.tactic-part-meta` - Step count (e.g., "3 steps", "2 steps")
+- `.tactic-part-chevron` - SVG chevron icon (exact SVG shown above)
+- `.tactic-part-body` - Contains the steps list
+- `.tactic-steps-list` - Ordered list wrapper
+- `.tactic-step-item` - Each step; MUST have `id="step-tN-M"` for "how to" links
+- `.tactic-step-num` - MUST be a `<span>`, not a `<div>`
+- Step numbers continue sequentially across all parts within a tactic
+
+**DO NOT:**
+- Use plain `<div class="tactic-part-header">` without button/onclick (won't toggle)
+- Use `<div class="step-num">` (must be `<span class="tactic-step-num">`)
+- Use `.step-item` class (must be `.tactic-step-item`)
+- Put steps directly inside `<ol class="tactic-steps-list">` without the parts wrapper
+- Omit the `.tactic-parts-list` wrapper
 
 **Success Metrics tab**: fill the metrics table with 30/60/90 day targets
 
@@ -692,8 +772,10 @@ All generated content must include `data-editable-key` and `data-editable-link` 
 | Resource links | `data-editable-link` | `tN-resource-M` | `t1-resource-1`, `t2-resource-3` |
 | Week titles | `data-editable-key` | `week-N-title` | `week-1-title`, `week-12-title` |
 | Week actions | `data-editable-key` | `week-N-action-M` | `week-1-action-1`, `week-5-action-3` |
-| Checklist labels | `data-editable-key` | `rwN_dM-label` | `rw1_d1-label`, `rw3_d2-label` |
-| Quick wins | `data-editable-key` | `qw-N-label` | `qw-1-label`, `qw-5-label` |
+| Roadmap checklist labels | `data-editable-key` | `week-N-check-M-label` | `week-1-check-1-label`, `week-3-check-2-label` |
+| Roadmap checkbox IDs | `id` and `data-key` | `week-N-check-M` | `week-1-check-1`, `week-3-check-2` |
+| Quick wins labels | `data-editable-key` | `qw_N-label` | `qw_1-label`, `qw_5-label` |
+| Quick wins checkbox IDs | `id` | `qw_N` | `qw_1`, `qw_2` |
 
 Where:
 - `N` = tactic number (1-4) or week number (1-12)
@@ -702,17 +784,27 @@ Where:
 #### Implementation Examples
 
 **Implementation Steps** (when generating `{{TACTIC_N_IMPLEMENTATION_STEPS}}`):
+
+See the **CRITICAL: Full HTML Structure** in Step 4 above for the complete collapsible parts structure. The key editable elements within each step are:
+
 ```html
-<div class="tactic-step-content">
-  <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Set up Google Analytics 4</div>
-  <ul class="tactic-step-bullets">
-    <li data-editable-key="t1-bullet-1">Create a GA4 property</li>
-    <li data-editable-key="t1-bullet-2">Install the tracking code</li>
-  </ul>
-</div>
+<li class="tactic-step-item" id="step-t1-1">
+  <span class="tactic-step-num">1</span>
+  <div class="tactic-step-content">
+    <div class="tactic-step-title" data-editable-key="tactic-1-step-1-title">Step title here.</div>
+    <ul class="tactic-step-bullets">
+      <li data-editable-key="t1-bullet-1">First bullet point.</li>
+      <li data-editable-key="t1-bullet-2">Second bullet point.</li>
+    </ul>
+  </div>
+</li>
 ```
 
-**IMPORTANT:** Bullet numbering (`tN-bullet-M`) is sequential across ALL steps within a tactic. For example, if Tactic 1 Step 1 has 3 bullets (t1-bullet-1 through t1-bullet-3), then Step 2's first bullet is t1-bullet-4, not t1-bullet-1.
+**IMPORTANT:**
+- Bullet numbering (`tN-bullet-M`) is sequential across ALL steps within a tactic. For example, if Tactic 1 Step 1 has 3 bullets (t1-bullet-1 through t1-bullet-3), then Step 2's first bullet is t1-bullet-4, not t1-bullet-1.
+- Step numbers use `<span class="tactic-step-num">`, NOT `<div class="step-num">`
+- Step items use class `tactic-step-item`, NOT `step-item`
+- Steps MUST be wrapped in the collapsible `.tactic-parts-list` structure
 
 **Tips** (when generating `{{TACTIC_N_TIPS}}`):
 ```html
@@ -732,15 +824,20 @@ Where:
 ```
 
 **Week Cards** (when generating `{{MONTH_N_WEEKS}}`):
+
+Each week card has two columns: Actions and Completion Checklist. The checklist includes checkboxes with note areas.
+
 ```html
 <div class="week-card" id="wc-1" data-week="1">
   <div class="week-card-header" onclick="toggleWeek(1)">
     <div class="week-num">W1</div>
     <div class="week-title" data-editable-key="week-1-title">Week 1: Getting Found Online</div>
     <div class="week-progress-pill" id="wp-1">0 / 5</div>
+    <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
   </div>
   <div class="week-card-body">
     <div class="week-cols">
+      <!-- Actions Column -->
       <div>
         <div class="week-col-label">This Week's Actions</div>
         <ul class="week-tasks-list">
@@ -748,12 +845,41 @@ Where:
           <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text" data-editable-key="week-1-action-2">Verify your business information</span></li>
         </ul>
       </div>
+      <!-- Checklist Column -->
+      <div>
+        <div class="week-col-label">Completion Checklist</div>
+        <div class="check-list">
+          <div class="check-item">
+            <div class="check-row">
+              <input type="checkbox" class="check-input" id="week-1-check-1" data-key="week-1-check-1" onchange="onCheck(this)">
+              <label class="check-box" for="week-1-check-1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label>
+              <label class="check-label" for="week-1-check-1" data-editable-key="week-1-check-1-label">Google Business Profile is claimed and verified</label>
+              <button class="note-toggle-btn" onclick="toggleNote('week-1-check-1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13 2.5H3a.5.5 0 00-.5.5v14a.5.5 0 00.5.5h10a.5.5 0 00.5-.5V3a.5.5 0 00-.5-.5zM3 0h10a3 3 0 013 3v14a3 3 0 01-3 3H3a3 3 0 01-3-3V3a3 3 0 013-3zm2 5h6v2H5V5zm0 4h6v2H5V9z"/></svg></button>
+            </div>
+            <div class="note-area" id="note-area-week-1-check-1">
+              <textarea class="note-textarea" id="note-week-1-check-1" placeholder="Add a note…" oninput="saveNote('week-1-check-1',this.value)"></textarea>
+            </div>
+          </div>
+          <!-- More check-items follow same pattern -->
+        </div>
+      </div>
     </div>
+    <div class="week-note-section"><div class="week-note-label">Week Notes</div><textarea class="note-textarea" id="note-week-1" placeholder="Add general notes for this week…" oninput="saveNote('week_1',this.value)" style="width:100%"></textarea></div>
   </div>
 </div>
 ```
 
-**IMPORTANT:** The `data-editable-key` for week actions MUST be on a `<span class="week-task-text">` wrapper around the text only, NOT on the `<li>` element. This ensures only the text is editable, not the dot or howto button.
+**CRITICAL requirements for Week Cards:**
+- `data-week="N"` on `.week-card` container (required for progress tracking)
+- `data-key="week-N-check-M"` on each `.check-input` checkbox (required for Supabase sync)
+- `id="week-N-check-M"` on checkboxes matching the `data-key`
+- `data-editable-key="week-N-check-M-label"` on `.check-label` elements
+- Each check-item MUST have a `.note-area` with matching ID pattern
+- Week note textarea uses `saveNote('week_N',this.value)` with underscore
+
+**IMPORTANT:**
+- The `data-editable-key` for week actions MUST be on a `<span class="week-task-text">` wrapper around the text only, NOT on the `<li>` element. This ensures only the text is editable, not the dot or howto button.
+- The `howto-link` button targets step IDs in the format `step-tN-M` (e.g., `step-t1-1`)
 
 #### Quality Checklist for Editable Attributes
 - [ ] Every `.tactic-step-title` element has a `data-editable-key="tactic-N-step-M-title"` attribute
@@ -765,6 +891,32 @@ Where:
 - [ ] Every checklist label has `data-editable-key="week-N-check-M-label"` on the `.check-label` element
 - [ ] Indices (M) start at 1 and increment sequentially within each section
 - [ ] No duplicate keys exist in the generated output
+
+#### Quality Checklist for Implementation Steps Structure
+- [ ] Implementation Steps tab uses `.tactic-parts-list` wrapper
+- [ ] Each part is wrapped in `.tactic-part` (with `.open` on first part only)
+- [ ] Part headers are `<button class="tactic-part-header">` with `onclick="toggleTacticPart(this)"`
+- [ ] Part headers contain `.tactic-part-tag`, `.tactic-part-title`, `.tactic-part-meta`, and `.tactic-part-chevron`
+- [ ] Step items use `.tactic-step-item` class (NOT `.step-item`)
+- [ ] Step numbers use `<span class="tactic-step-num">` (NOT `<div class="step-num">`)
+- [ ] Every step has `id="step-tN-M"` for "how to" links
+- [ ] Step numbers continue sequentially across all parts within a tactic
+
+#### Quality Checklist for Roadmap Week Cards
+- [ ] Every `.week-card` has `data-week="N"` attribute
+- [ ] Week header has `.week-chevron` SVG
+- [ ] Actions column uses `.week-tasks-list` with `.week-task-item` elements
+- [ ] Checklist column uses `.check-list` with `.check-item` elements
+- [ ] Every checkbox has `data-key="week-N-check-M"` attribute matching its ID
+- [ ] Every `.check-item` has a `.note-area` with matching ID pattern
+- [ ] Week note section is present after `.week-cols`
+
+#### Quality Checklist for Quick Wins Page
+- [ ] Uses `.section-label` for category headers
+- [ ] Each category wrapped in `.card` with `.card-body` containing `.check-list`
+- [ ] Checkbox IDs use underscore pattern: `qw_1`, `qw_2`, etc.
+- [ ] Every `.check-item` has a `.note-area` with matching ID pattern
+- [ ] Labels use `data-editable-key="qw_N-label"` (with underscore)
 
 ### Accelerator-specific quality checklist
 In addition to the general checklist:
