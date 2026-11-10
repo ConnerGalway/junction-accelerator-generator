@@ -130,7 +130,7 @@ Month 3 Name: [e.g. Scale]
 ### Week 2: [Week Title]
 [same structure]
 
-[Continue through Week 12, or however many weeks the plan has]
+[Continue through Week 12. The roadmap must have exactly 12 weeks.]
 
 ---
 
@@ -156,6 +156,10 @@ This is the most important annotation for quality output. When you write the roa
 
 **Annotation format:** `→ links to: Tactic [1/2/3] / Step [N]`
 
+An action can also point at the Quick Wins page: `→ links to: GBP Quick Wins` (only when the plan has `Has GBP Quick Wins: yes`).
+
+**The upload checks every plan before generating anything.** If something is missing or misformatted, the Add Plan page lists each problem with its line number and the change to make, and nothing is created until the plan passes. The checks live in `shared/plan-validator.js`.
+
 ---
 
 ## Notes for plan writers
@@ -165,4 +169,4 @@ This is the most important annotation for quality output. When you write the roa
 - The checklist items should be **verifiable outcomes** ("GA4 is active and showing live visits") not action descriptions ("Install GA4")
 - Actions should be **instructions** ("Install Google Analytics 4 on Squarespace")
 - Weeks don't have to be exactly 4 checklist items — use as many as needed
-- The 12-week structure is standard but can flex to fewer weeks if the plan is shorter
+- The roadmap must have exactly 12 weeks, numbered 1 to 12. The upload is rejected otherwise

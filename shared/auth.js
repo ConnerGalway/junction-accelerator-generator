@@ -96,7 +96,7 @@ window.__authReady = (async function () {
           // Redirect to appropriate dashboard based on type
           const dashboardPath =
             clientRow.dashboard_state === 'elevated'   ? '/elevated/' :
-            clientRow.dashboard_state === 'experience' ? '/experience/' :
+            // Experience dashboards live in clients/[slug]/ alongside accelerator dashboards
             '/clients/';
           window.location.replace(dashboardPath + slug + '/');
         } else {

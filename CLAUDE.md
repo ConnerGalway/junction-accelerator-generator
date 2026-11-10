@@ -1217,6 +1217,23 @@ In addition to the general quality checklist, verify these for experience dashbo
 | `brand/elearningu-brand.md` | Brand colours, fonts, logo rules |
 | `PLAN_FORMAT.md` | Standard format for accelerator plans |
 | `PLAN_FORMAT_EXPERIENCE.md` | Standard format for experience design plans |
+| `shared/plan-generator.js` | **The accelerator generator.** Parses plan.md and fills the template. Used by the Add Plan upload (`netlify/functions/create-project.js`) and `scripts/regenerate-dashboards.js`. Never copy its functions into another file. |
+| `shared/experience-generator.js` | **The experience generator.** Used by `netlify/functions/create-experience-project.js`. Output goes to `clients/[slug]/`. |
+| `shared/plan-validator.js` | **The plan check.** Runs on every upload before anything is generated and returns each problem with its line number and fix. Also runs in the browser on the upload forms via `shared/plan-report-ui.js`. |
+| `tests/plan-generator.test.js`, `tests/experience-generator.test.js`, `tests/plan-validator.test.js` | Run every real plan through the validator and generators against the current templates. Run `npm test` after changing a template, a generator or the validator. |
+| `archive/` | Retired one-off scripts and working notes. Nothing depends on these files. |
+
+**When a template gains a new `{{PLACEHOLDER}}`**, add the code that fills it to the matching generator in the same change. The tests fail if a template placeholder is left unfilled.
+
+**Templates must never contain client content (hard rule).** A template holds only neutral program wording and `{{PLACEHOLDER}}` tokens. No client name, wording, figures, links, images or email address may be written into `template/*.html`, including inside scripts and HTML comments, because it would appear in every future dashboard. When a design change is copied from a client page (for example Andrea's Resort) into a template, copy the structure and styling only and replace all content with placeholders or neutral wording. `tests/no-client-content.test.js` enforces this: it compares every template, and pages generated from a neutral plan, against every client's plan and assessment in the repo. Run `npm test` after any template change.
+
+The projections block in `template/accelerator-template.html` uses placeholders (`{{PROJECTIONS_LABEL}}`, `{{PROJECTIONS_SUBTITLE}}`, `{{PROJECTION_NIGHTS}}`, `{{PROJECTION_NIGHTS_BAR}}`, `{{PROJECTION_REVENUE}}`, `{{PROJECTION_REVENUE_BAR}}`, `{{PROJECTION_EMAILS}}`, `{{PROJECTION_REVIEWS}}` and the `SCENARIOS` object). When adding projections by hand, fill every one from that client's own figures.
+
+**What the Add Plan upload does that differs from the manual steps above:**
+- The Assessment page is filled from the client's record in the Supabase `client_assessments` table. If a plan is being added to an assessment and that record cannot be loaded, the upload stops and the assessment page is left as it was.
+- "What This Breaks Into" uses one `{{TACTIC_N_BREAKDOWN_ITEMS}}` placeholder per tactic and shows one card per Part, however many there are.
+- Each checklist item is attributed to a tactic from the plan's own `→ links to: Tactic N / Step M` notes, not from fixed four-week blocks.
+- The projections block is always left out, because a plan.md has no projection figures. Add projections by hand when a client needs them.
 
 **DEPRECATED templates (do NOT use):**
 | File | Status |

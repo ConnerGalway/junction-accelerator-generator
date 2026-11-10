@@ -181,7 +181,7 @@ SECTIONS REBUILT PER CLIENT BY CLAUDE:
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>90-Day Accelerator — {{CLIENT_NAME}}</title>
+<title>90-Day Accelerator: {{CLIENT_NAME}}</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
@@ -5871,8 +5871,8 @@ button,
         </div>
       </div>
       <div class="dash-progress-content">
-        <h2 class="dash-headline" id="dash-headline">Getting those foundations sorted</h2>
-        <p class="dash-subcopy" id="dash-subcopy">You're in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.</p>
+        <h2 class="dash-headline" id="dash-headline">Getting started</h2>
+        <p class="dash-subcopy" id="dash-subcopy">You're in the first phase of your accelerator. Keep checking items off your roadmap to move forward.</p>
         <div class="dash-phases-label">THE 90 DAYS</div>
         <div class="dash-phases-grid">
           <div class="dash-phase" data-phase="1">
@@ -6116,7 +6116,7 @@ button,
 
     <div class="priority-section">
       <h2>Priority Recommendations</h2>
-      <p style="color:#666;font-size:14px;margin:-16px 0 24px 0;">Foundation projects for the first two weeks that set up everything else:</p>
+      <p style="color:#666;font-size:14px;margin:-16px 0 24px 0;">The changes that will make the biggest difference, in priority order:</p>
       <div class="priority-list" id="priorityList">
         {{PRIORITY_RECOMMENDATIONS}}
       </div>
@@ -6157,8 +6157,8 @@ button,
     <!-- PROJECTIONS -->
     <div class="projections-section">
       <div class="projections-header">
-        <div class="projections-label">Winter Season Projections</div>
-        <p class="projections-subtitle">Projected outcomes at <strong>$35,000 discretionary spend</strong> (December to March)</p>
+        <div class="projections-label">{{PROJECTIONS_LABEL}}</div>
+        <p class="projections-subtitle">{{PROJECTIONS_SUBTITLE}}</p>
       </div>
       <div class="projections-toggle">
         <button class="projection-btn" data-scenario="conservative" onclick="setScenario('conservative')">
@@ -6179,34 +6179,34 @@ button,
           <div class="projection-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
           </div>
-          <div class="projection-value" id="proj-nights">90–135</div>
+          <div class="projection-value" id="proj-nights">{{PROJECTION_NIGHTS}}</div>
           <div class="projection-label">Room Nights</div>
           <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-nights-bar" style="width:48%"></div>
+            <div class="projection-bar" id="proj-nights-bar" style="width:{{PROJECTION_NIGHTS_BAR}}%"></div>
           </div>
         </div>
         <div class="projection-card primary">
           <div class="projection-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
           </div>
-          <div class="projection-value" id="proj-revenue">$21,000–$31,500</div>
+          <div class="projection-value" id="proj-revenue">{{PROJECTION_REVENUE}}</div>
           <div class="projection-label">Room Revenue</div>
           <div class="projection-bar-wrap">
-            <div class="projection-bar" id="proj-revenue-bar" style="width:48%"></div>
+            <div class="projection-bar" id="proj-revenue-bar" style="width:{{PROJECTION_REVENUE_BAR}}%"></div>
           </div>
         </div>
         <div class="projection-card">
           <div class="projection-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
           </div>
-          <div class="projection-value" id="proj-emails">300</div>
+          <div class="projection-value" id="proj-emails">{{PROJECTION_EMAILS}}</div>
           <div class="projection-label">Email Subscribers</div>
         </div>
         <div class="projection-card">
           <div class="projection-icon">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
           </div>
-          <div class="projection-value" id="proj-reviews">25</div>
+          <div class="projection-value" id="proj-reviews">{{PROJECTION_REVIEWS}}</div>
           <div class="projection-label">New Google Reviews</div>
         </div>
       </div>
@@ -6301,7 +6301,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 1: Tracking, Website, SEO
+     TACTIC 1
      ════════════════════════════════════════════ -->
 <section id="page-tactic1" class="page">
   <div class="tactic-page-content">
@@ -6349,18 +6349,8 @@ button,
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-1-title">{{T1_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-1-desc">{{T1_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-2-title">{{T1_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-2-desc">{{T1_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t1-breakdown-3-title">{{T1_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t1-breakdown-3-desc">{{T1_BREAKDOWN_3_DESC}}</div>
-            </div>
+            <!-- GENERATOR: one .tactic-breakdown-item per Part in the plan -->
+            {{TACTIC_1_BREAKDOWN_ITEMS}}
           </div>
         </div>
       </div>
@@ -6442,7 +6432,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 2: Content and Story
+     TACTIC 2
      ════════════════════════════════════════════ -->
 <section id="page-tactic2" class="page">
   <div class="tactic-page-content">
@@ -6490,18 +6480,8 @@ button,
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-1-title">{{T2_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-1-desc">{{T2_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-2-title">{{T2_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-2-desc">{{T2_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t2-breakdown-3-title">{{T2_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t2-breakdown-3-desc">{{T2_BREAKDOWN_3_DESC}}</div>
-            </div>
+            <!-- GENERATOR: one .tactic-breakdown-item per Part in the plan -->
+            {{TACTIC_2_BREAKDOWN_ITEMS}}
           </div>
         </div>
       </div>
@@ -6583,7 +6563,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 3: Paid Acquisition
+     TACTIC 3
      ════════════════════════════════════════════ -->
 <section id="page-tactic3" class="page">
   <div class="tactic-page-content">
@@ -6631,22 +6611,8 @@ button,
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-1-title">{{T3_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-1-desc">{{T3_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-2-title">{{T3_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-2-desc">{{T3_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-3-title">{{T3_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-3-desc">{{T3_BREAKDOWN_3_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t3-breakdown-4-title">{{T3_BREAKDOWN_4_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t3-breakdown-4-desc">{{T3_BREAKDOWN_4_DESC}}</div>
-            </div>
+            <!-- GENERATOR: one .tactic-breakdown-item per Part in the plan -->
+            {{TACTIC_3_BREAKDOWN_ITEMS}}
           </div>
         </div>
       </div>
@@ -6728,7 +6694,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 4: Email Marketing & Reviews
+     TACTIC 4
      ════════════════════════════════════════════ -->
 <!-- IF:TACTIC_4 -->
 <section id="page-tactic4" class="page">
@@ -6777,18 +6743,8 @@ button,
         <div class="tactic-card-block">
           <div class="tactic-card-label">What This Breaks Into</div>
           <div class="tactic-breakdown-grid">
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-1-title">{{T4_BREAKDOWN_1_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-1-desc">{{T4_BREAKDOWN_1_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-2-title">{{T4_BREAKDOWN_2_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-2-desc">{{T4_BREAKDOWN_2_DESC}}</div>
-            </div>
-            <div class="tactic-breakdown-item full-width">
-              <div class="tactic-breakdown-title" data-editable-key="t4-breakdown-3-title">{{T4_BREAKDOWN_3_TITLE}}</div>
-              <div class="tactic-breakdown-desc" data-editable-key="t4-breakdown-3-desc">{{T4_BREAKDOWN_3_DESC}}</div>
-            </div>
+            <!-- GENERATOR: one .tactic-breakdown-item per Part in the plan -->
+            {{TACTIC_4_BREAKDOWN_ITEMS}}
           </div>
         </div>
       </div>
@@ -6988,7 +6944,7 @@ button,
     <div class="print-only print-footer">
       <div class="print-footer-brand">e<span>Learning</span>U</div>
       <div class="print-footer-contact">
-        <strong>Questions?</strong> Contact your coach at conner@elearningu.com
+        <strong>Questions?</strong> Contact your coach at {{COACH_EMAIL}}
       </div>
     </div>
   </div>
@@ -7003,7 +6959,7 @@ button,
   <div class="page-header">
     <div class="page-header-eyebrow">Quick-Hit Recommendations</div>
     <h1>Quick Wins</h1>
-    <p>Small jobs that pay back quickly and do not need the contractor or the budget. Most take under an hour. These should not wait for anything else in the plan.</p>
+    <p>Short, self-contained improvements. Each one stands alone, so they can be done in any order.</p>
   </div>
   <div class="content-area">
     <!-- GENERATOR: Replace this placeholder with Quick Wins page content from plan.md -->
@@ -7150,32 +7106,10 @@ function navigate(pageId) {
 }
 
 // ── Projections Scenario Toggle ─────────────────────────────
-const SCENARIOS = {
-  conservative: {
-    nights: '35–45',
-    nightsBar: 16,
-    revenue: '$8,000–$10,500',
-    revenueBar: 16,
-    emails: '150',
-    reviews: '10'
-  },
-  moderate: {
-    nights: '90–135',
-    nightsBar: 48,
-    revenue: '$21,000–$31,500',
-    revenueBar: 48,
-    emails: '300',
-    reviews: '25'
-  },
-  aggressive: {
-    nights: '210–280',
-    nightsBar: 100,
-    revenue: '$49,000–$65,500',
-    revenueBar: 100,
-    emails: '500',
-    reviews: '40'
-  }
-};
+// GENERATOR: projection figures for this client only. Each scenario is
+// { nights, nightsBar, revenue, revenueBar, emails, reviews }. Left empty when
+// the dashboard has no projections section.
+const SCENARIOS = { /* {{SCENARIOS}} */ };
 
 function setScenario(scenario) {
   const data = SCENARIOS[scenario];
@@ -7568,12 +7502,12 @@ const PHASES = [
 
 // Headlines based on progress percentage
 const PROGRESS_HEADLINES = [
-  { max: 10, headline: 'Getting those foundations sorted', subcopy: 'You\'re in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.' },
-  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the foundations. The tracking is taking shape and the site improvements are underway. Keep the pace going.' },
-  { max: 50, headline: 'Halfway there', subcopy: 'You\'ve crossed the halfway mark. The measurement system is in place, and now you\'re building the content and assets that will drive results.' },
-  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the groundwork is done and paid campaigns are running. Focus on optimization and scaling what\'s working.' },
-  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. You\'ve built something real: clean tracking, a converting site, and live campaigns. Finish strong.' },
-  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. You\'ve built clean measurement, a site that converts, and campaigns that are running. Time to see the results.' }
+  { max: 10, headline: 'Getting started', subcopy: 'You\'re in the first phase of your accelerator. Keep checking items off your roadmap to move forward.' },
+  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the early weeks. Keep the pace going.' },
+  { max: 50, headline: 'Halfway there', subcopy: 'You\'re closing in on the halfway mark. The work you\'ve done so far is the base for everything that follows.' },
+  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the plan is behind you. Keep working through the remaining weeks.' },
+  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. Finish strong.' },
+  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. Take a moment to look back at how much you\'ve put in place.' }
 ];
 
 function getDayInfo() {
@@ -7830,8 +7764,8 @@ const TOUR_STEPS = [
     mobileTargetId: 'nav-hamburger',
     page: 'dashboard',
     title: 'Navigate Your Plan',
-    desc: 'Use the sidebar to move between sections — tactics, your 90-day roadmap, and quick wins. Your progress is always visible at the top.',
-    mobileDesc: 'Tap the menu icon to move between sections — tactics, your 90-day roadmap, and quick wins.',
+    desc: 'Use the sidebar to move between sections: tactics, your 90-day roadmap, and quick wins. Your progress is always visible at the top.',
+    mobileDesc: 'Tap the menu icon to move between sections: tactics, your 90-day roadmap, and quick wins.',
     pos: 'right', pad: 0, mobilePos: 'below'
   },
   {
@@ -7853,7 +7787,7 @@ const TOUR_STEPS = [
     targetId: 'tactic-cards-section',
     page: 'dashboard',
     title: 'Track Each Tactic',
-    desc: 'These pills show progress on each of your four tactics. Click any to open the detailed guide and implementation steps.',
+    desc: 'These pills show progress on each of your tactics. Click any to open the detailed guide and implementation steps.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {
@@ -7870,7 +7804,7 @@ const TOUR_STEPS = [
     page: 'roadmap',
     weekToOpen: 1,
     title: 'Check Off Tasks as You Go',
-    desc: 'Each week has a completion checklist on the right. Check off each item as you finish it — your progress saves automatically.',
+    desc: 'Each week has a completion checklist on the right. Check off each item as you finish it. Your progress saves automatically.',
     pos: 'below', pad: 8
   },
   {
@@ -7878,7 +7812,7 @@ const TOUR_STEPS = [
     page: 'roadmap',
     weekToOpen: 1,
     title: '"How To" Links',
-    desc: 'Tap "how to" next to any action to jump straight to the step-by-step guide in the tactics section — exactly what to click, type, and verify.',
+    desc: 'Tap "how to" next to any action to jump straight to the step-by-step guide in the tactics section: exactly what to click, type, and verify.',
     pos: 'below', pad: 8
   },
   {
@@ -7886,7 +7820,7 @@ const TOUR_STEPS = [
     page: 'roadmap',
     weekToOpen: 1,
     title: 'Notes on Every Task',
-    desc: 'Tap the pencil icon on any checklist item to add a personal note — a login, a date, a decision. Notes save automatically and are here every time you return.',
+    desc: 'Tap the pencil icon on any checklist item to add a personal note: a reminder, a date, a decision. Notes save automatically and are here every time you return.',
     pos: 'below', pad: 8
   }
 ];

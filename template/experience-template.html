@@ -52,7 +52,17 @@ OPTIONAL BLOCKS (use markers in HTML, not inside this comment):
   IF:LAUNCH_TARGET         - Include when there is a launch target
   IF:BOOKABILITY_CHECKLIST - Include when operator needs a Bookability Checklist page
 
-SECTIONS REBUILT PER OPERATOR BY CLAUDE CODE (not template placeholders):
+SECTIONS FILLED BY THE GENERATOR (shared/experience-generator.js):
+  {{TACTIC_N_HEARD}} {{TACTIC_N_WHAT_IS}} {{TACTIC_N_MATTERS}}        Track overview paragraphs
+  {{TACTIC_N_IMPLEMENTATION_STEPS}} {{TACTIC_N_METRICS_ROWS}}         Track steps and metrics rows
+  {{TACTIC_N_TIPS}} {{TACTIC_N_RESOURCES}}                            Track tips and resources
+  {{MONTH_N_WEEKS}} {{MONTH_N_TOTAL}}                                 Roadmap week cards per month
+  {{BOOKABILITY_ITEMS}}                                               Bookability checklist items
+  ALL_CHECK_IDS, WEEK_CHECKS, MONTH_CHECKS, TACTIC_CHECKS             Replaced in the script block
+  Tour steps target #w1-howto-example and #w1-note-example, which the
+  generator places on the first action and first checklist item of Week 1.
+
+CONTENT THESE PLACEHOLDERS COVER:
   • All track page content (overview, implementation steps, metrics, tips, resources)
   • Launch Roadmap week cards (titles, action bullets, checklist items)
   • "How to" link mapping (annotated in plan.md as "→ links to: Track X / Step N")
@@ -4331,10 +4341,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
           <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
         <div class="section-block-body">
-          <div class="prose">
-            <p>The website is working. Organic search is the biggest source of inbound interest. The booking system on Bookable is finally stable after a difficult eight-month setup with a contractor who left things in a worse state than she found them. Reviews are coming in steadily through your post-rental email. What is missing is measurement, and a few specific friction points on the site that are costing bookings.</p>
-            <p>Visitors are emailing to ask whether you do individual rentals because the gear page is structured around bundles. There is appetite for more content that helps travellers plan their trip through to the west coast, but you have already tried a Squarespace blog and it looked dated within weeks. The priority is something more flexible than a blog.</p>
-          </div>
+          <div class="prose">{{TACTIC_1_HEARD}}</div>
         </div>
       </div>
       <div class="section-block open">
@@ -4343,10 +4350,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
           <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
         <div class="section-block-body">
-          <div class="prose">
-            <p>A three-part foundation project. The first piece is tracking installation: GA4 and the Meta Pixel, plus basic conversion events so every dollar of ad spend that comes next can be measured. The second is a set of targeted improvements to the homepage and gear page so visitors find what they came for in fewer clicks. The third is a small library of evergreen local guide pages published as standalone pages rather than blog posts, designed to capture search traffic from people planning trips to central and west Vancouver Island.</p>
-            <p>Each piece feeds the others. Tracking measures whether the conversion fixes are working, the new pages bring in qualified traffic, and the fixes themselves turn that traffic into bookings rather than emails.</p>
-          </div>
+          <div class="prose">{{TACTIC_1_WHAT_IS}}</div>
         </div>
       </div>
       <div class="section-block open">
@@ -4355,60 +4359,14 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
           <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
         </div>
         <div class="section-block-body">
-          <div class="prose">
-            <p>The $1,500 grant cannot be measured without tracking installed. There is no way to compare Google Ads to Meta Ads, see which keywords convert, or know whether the new content pages are pulling their weight. The conversion fixes matter because the email volume is telling you the page is leaking. The local guides matter because you are already at the ceiling of what your homepage alone can rank for.</p>
-            <p>Three months from now, with all three in place, you have the infrastructure for everything that follows, and the work itself costs mostly time spent in May and early June, before peak season pulls your attention elsewhere.</p>
-          </div>
+          <div class="prose">{{TACTIC_1_MATTERS}}</div>
         </div>
       </div>
     </div>
 
     <!-- Steps tab -->
     <div class="tab-pane" id="t1-steps">
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part A</span>
-          <span class="section-block-title">Install Tracking</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-1"><div class="step-num">1</div><div class="step-content"><h4>Install Google Analytics 4 on the Squarespace site</h4><ul><li>In Squarespace, open Settings → Developer Tools → External API Keys → Google Analytics</li><li>Create a GA4 property at analytics.google.com using the same Google account that owns your Business Profile</li><li>Paste the GA4 Measurement ID into Squarespace</li><li>Verify it is firing using the GA4 Realtime report by visiting the site in a separate browser</li></ul></div></li>
-            <li class="step-item" id="step-t1-2"><div class="step-num">2</div><div class="step-content"><h4>Install the Meta Pixel on the Squarespace site</h4><ul><li>Create a Meta Business account at business.facebook.com if you do not already have one</li><li>Create a new Pixel inside Events Manager and copy the Pixel ID</li><li>In Squarespace, paste the Pixel ID into Settings → Marketing → Facebook Pixel</li><li>Verify it is firing using the Meta Pixel Helper Chrome extension</li></ul></div></li>
-            <li class="step-item" id="step-t1-3"><div class="step-num">3</div><div class="step-content"><h4>Set up basic conversion tracking</h4><ul><li>In GA4, mark the Bookable click as a conversion event</li><li>In Meta Events Manager, set up a "Lead" event for the contact form submission and a "ViewContent" event for the gear page</li><li>Do not wait for these to be perfect. The point is data flowing now, refinement later.</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part B</span>
-          <span class="section-block-title">Improve Conversion on the Existing Site</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-4"><div class="step-num">4</div><div class="step-content"><h4>Add a "How to Get Here" link to the top navigation</h4><ul><li>In Squarespace, edit the main navigation and add a new link labelled "How to Get Here"</li><li>The page should be short: one paragraph about Port Alberni's position on the Tofino/Ucluelet route, an embedded Google Map, and brief driving directions from Nanaimo and Victoria</li><li>Add a single primary call to action at the bottom linking to the Bundles page</li></ul></div></li>
-            <li class="step-item" id="step-t1-5"><div class="step-num">5</div><div class="step-content"><h4>Restructure the gear page so individual rentals are visible above the fold</h4><ul><li>At the top of the page, add three or four tile-style entry points: Camping Bundle, Beach Bundle, Backpacking Bundle, Individual Rentals</li><li>Each tile should be a photo with a short label, clicking through to that section or a dedicated subpage</li><li>Add a short line of intro copy: "Not sure what you need? Scroll down or contact us and we'll put together a custom kit."</li></ul></div></li>
-            <li class="step-item" id="step-t1-6"><div class="step-num">6</div><div class="step-content"><h4>Fix the homepage text contrast</h4><ul><li>The white text over the hero image is hard to read against the lighter areas of the photo</li><li>In Squarespace, apply a text shadow or a semi-transparent dark band behind the headline and CTA button</li><li>Test on a phone in bright sunlight to confirm legibility</li></ul></div></li>
-            <li class="step-item" id="step-t1-7"><div class="step-num">7</div><div class="step-content"><h4>Replace plain-text email on the contact page</h4><ul><li>The assessment flagged plain-text email addresses as a spam risk and you have already mentioned getting spam</li><li>If the contact form is now your preferred path, remove the plain-text email entirely</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
-      <div class="section-block open">
-        <div class="section-block-header" onclick="toggleSection(this)">
-          <span class="section-block-badge">Part C</span>
-          <span class="section-block-title">Build the Local Guide Page Library</span>
-          <svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="section-block-body">
-          <ol class="steps-list">
-            <li class="step-item" id="step-t1-8"><div class="step-num">8</div><div class="step-content"><h4>Brainstorm twenty post ideas using ChatGPT as a partner</h4><ul><li>Prompt ChatGPT: "You are a young family planning a one-week trip to Vancouver Island in July, driving from Nanaimo to Tofino. List 20 things you would Google before and during the trip."</li><li>Repeat with a European backpacker and a retired couple in an RV as separate personas</li><li>Pick the five strongest ideas across all three lists</li></ul></div></li>
-            <li class="step-item" id="step-t1-9"><div class="step-num">9</div><div class="step-content"><h4>Add a "Local Guides" link to the top navigation</h4><ul><li>The link goes to a simple index page that displays each guide as a tile with a photo and title</li><li>Each guide is a standalone page, not a blog post. This gives more layout control and avoids the dated-look problem</li><li>Five starting ideas: "Your Last Stop Before Tofino", "Where to Camp Near Tofino and Ucluelet", "What to Do in Port Alberni on Your Way Through", "Vancouver Island Road Trip: A One-Week Itinerary", "Backpacking the West Coast Trail: The Gear You Actually Need"</li></ul></div></li>
-            <li class="step-item" id="step-t1-10"><div class="step-num">10</div><div class="step-content"><h4>Write the first guide using ChatGPT as a research partner, not the writer</h4><ul><li>Prompt: "I'm writing a guide called [title] for travellers heading to Vancouver Island. I run a camping gear rental business in Port Alberni. Give me an outline with section headings, the keywords each section should target, and three questions a traveller would have for each section."</li><li>Use the outline as a scaffold. Write the prose yourself so the voice stays yours.</li><li>End every guide with a clear next step: a button linking to the relevant bundle page on your site.</li></ul></div></li>
-            <li class="step-item" id="step-t1-11"><div class="step-num">11</div><div class="step-content"><h4>Publish one guide per fortnight for the rest of the 90-day window</h4><ul><li>Add each new guide to the Local Guides index page as it goes live</li><li>Share it on Instagram and Facebook the day it publishes</li><li>Link to it from at least one other page on the site (the homepage, a bundle page, or another guide)</li></ul></div></li>
-          </ol>
-        </div>
-      </div>
+      {{TACTIC_1_IMPLEMENTATION_STEPS}}
     </div>
 
     <!-- Metrics tab -->
@@ -4418,11 +4376,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
           <table class="metrics-table">
             <thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead>
             <tbody>
-              <tr><td>Google Analytics 4</td><td>Live and tracking sessions</td><td>Bookable click event firing as a conversion</td><td>At least 30 days of clean data for ad measurement</td></tr>
-              <tr><td>Meta Pixel</td><td>Live and firing on all pages</td><td>Custom audience of past 30-day visitors built</td><td>Audience large enough to retarget (500+ users)</td></tr>
-              <tr><td>Inbound emails re: individual rentals</td><td>Tracked baseline</td><td>Reduced by half</td><td>Reduced by 75% or more</td></tr>
-              <tr><td>Local guide pages published</td><td>1 page live</td><td>3 pages live</td><td>5 pages live, at least one in Google top 10</td></tr>
-              <tr><td>Google reviews</td><td>35+</td><td>45+</td><td>60+ on the path to 100 by end of season</td></tr>
+{{TACTIC_1_METRICS_ROWS}}
             </tbody>
           </table>
         </div>
@@ -4433,26 +4387,18 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
     <div class="tab-pane" id="t1-tips">
       <div class="section-label">Tips</div>
       <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">⏰</div><div class="tip-text">The single most important hour of this entire plan is the morning you install GA4 and the Pixel. Without them, everything else is guessing. Block a specific morning on your calendar, sit down with coffee, and do not get up until your own visit shows up in the GA4 Realtime report.</div></div>
-        <div class="tip-item"><div class="tip-icon">✍️</div><div class="tip-text">When you write the local guides, do not over-optimise. Carmen's posts at Glacier Raft Company still rank four years later because they answer real questions in plain English. Write the way you talk to renters at pickup.</div></div>
-        <div class="tip-item"><div class="tip-icon">📄</div><div class="tip-text">Do not turn the Local Guides into a blog. A blog that goes a month without an update starts to look like the business closed. Standalone evergreen pages do not have that problem.</div></div>
-        <div class="tip-item"><div class="tip-icon">🔍</div><div class="tip-text">When ChatGPT suggests a title with "Ultimate Guide" in it, change it. Travellers Google specific questions, not ultimate guides.</div></div>
-        <div class="tip-item"><div class="tip-icon">📱</div><div class="tip-text">Test the gear page restructure on your phone before publishing. The page needs to make sense on the screen most travellers are using.</div></div>
+{{TACTIC_1_TIPS}}
       </div>
       <div class="section-label" style="margin-top:24px">Resources</div>
       <div class="resources-list">
-        <div class="resource-item">📊 <a href="https://support.squarespace.com/hc/en-us/articles/205815608-Using-Google-Analytics-with-Squarespace" target="_blank">Google Analytics 4 setup guide for Squarespace</a></div>
-        <div class="resource-item">📘 <a href="https://support.squarespace.com/hc/en-us/articles/360022347072" target="_blank">Meta Pixel setup guide for Squarespace</a></div>
-        <div class="resource-item">🔧 <a href="https://chromewebstore.google.com/detail/meta-pixel-helper/fdgfkebogiimcoedlicjlajpkdmockpc" target="_blank">Meta Pixel Helper Chrome extension</a></div>
-        <div class="resource-item">📝 <a href="https://www.glacierraft.com/blog" target="_blank">Glacier Raft Company blog (content reference)</a></div>
-        <div class="resource-item">🏗️ <a href="https://support.squarespace.com/hc/en-us/articles/206543167" target="_blank">Squarespace navigation and page editing help</a></div>
+{{TACTIC_1_RESOURCES}}
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 2: Google Ads
+     TRACK 2
      ════════════════════════════════════════════ -->
 <section id="page-tactic2" class="page">
   <div class="page-header">
@@ -4468,59 +4414,34 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <button class="tab-btn" onclick="switchTab(this,'t2','tips')">Tips & Resources</button>
     </div>
     <div class="tab-pane active" id="t2-overview">
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What We Heard From You</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>You have $1,500 in grant money in the account, an open question about whether to spend it on Google or Meta, and no prior experience with paid ads. The honest answer to Google or Meta is both, in that order, and only after tracking is live. Your business has a structural advantage on Google that Meta cannot match. Someone searching "camping gear rental Tofino" has already worked out they need what you sell. They are looking for a vendor, not browsing for ideas.</p></div></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What This Is</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>A Search-only Google Ads campaign built in Expert Mode rather than Smart Mode, with $500 of grant money spread across two to three weeks. The campaign targets a tight set of high-intent keywords your website is not yet ranking number one for, sends clicks to the Bundles page, and is measured against actual Bookable clicks. The campaign does not include Display, Performance Max, or YouTube. Search is the only ad format that captures buying intent the way this business needs.</p></div></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">Why It Matters</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>For a business with limited time and a small budget, Search ads are the only paid channel with a real chance of paying for themselves in the first month. Display and Performance Max spend the budget faster and produce mostly impressions and unqualified clicks. Search lets you put a dollar amount on a specific search term, see what it returned in bookings, and decide whether to keep spending on that term or kill it. Run carefully, $500 should produce enough data to make a clear call on whether the remaining $500 reserve goes back into Google or shifts to Meta.</p></div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What We Heard From You</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_2_HEARD}}</div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What This Is</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_2_WHAT_IS}}</div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">Why It Matters</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_2_MATTERS}}</div></div></div>
     </div>
     <div class="tab-pane" id="t2-steps">
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part A</span><span class="section-block-title">Set Up the Account</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t2-1"><div class="step-num">1</div><div class="step-content"><h4>Create a Google Ads account at ads.google.com</h4><ul><li>Use the same Google account that owns your Business Profile and the new GA4 property</li><li>On the first screen, click <strong>"Switch to Expert Mode"</strong> at the bottom. Do not run a Smart Campaign.</li></ul></div></li>
-        <li class="step-item" id="step-t2-2"><div class="step-num">2</div><div class="step-content"><h4>Link Google Ads to your Google Analytics 4 property</h4><ul><li>In Google Ads, go to Tools → Linked Accounts → Google Analytics</li><li>Select your GA4 property and confirm the link. This lets you see which keywords produced actual sessions and Bookable clicks</li></ul></div></li>
-        <li class="step-item" id="step-t2-3"><div class="step-num">3</div><div class="step-content"><h4>Link Google Ads to your Google Business Profile</h4><ul><li>In Google Ads, go to Tools → Linked Accounts → Google Business Profile</li><li>This enables location extensions, which add your address and phone number to the ad</li></ul></div></li>
-      </ol></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part B</span><span class="section-block-title">Build the Campaign</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t2-4"><div class="step-num">4</div><div class="step-content"><h4>Create one Search campaign with one ad group</h4><ul><li>Campaign objective: Leads | Campaign type: Search only (untick Display Network and Search Partners)</li><li>Budget: $35/day cap | Bidding: Maximize Clicks with max CPC of $2.00 for first two weeks</li><li>Location: British Columbia and Alberta | Language: English</li></ul></div></li>
-        <li class="step-item" id="step-t2-5"><div class="step-num">5</div><div class="step-content"><h4>Add 8 to 12 keywords in phrase match</h4><ul><li>"camping gear rental Vancouver Island", "camping gear rental Tofino", "tent rental Tofino", "camping equipment rental BC"</li><li>"backpacking gear rental Vancouver Island", "rent camping gear Pacific Rim", "Tofino camping rental", "Ucluelet camping gear"</li><li>Skip "Port Alberni" keywords. You already rank number one organically</li></ul></div></li>
-        <li class="step-item" id="step-t2-6"><div class="step-num">6</div><div class="step-content"><h4>Write one Responsive Search Ad with 8–12 headlines and 3 descriptions</h4><ul><li>Headlines: test location ("Last Stop Before Tofino"), problem ("Don't Fly With Your Gear"), proof ("MEC Tents, Ready When You Arrive"), urgency ("Book Your Summer Rental Now")</li><li>Descriptions: clean gear, pickup in Port Alberni, book online</li><li>Final URL: send all traffic to the Bundles page</li></ul></div></li>
-        <li class="step-item" id="step-t2-7"><div class="step-num">7</div><div class="step-content"><h4>Add Sitelink, Callout, and Call extensions</h4><ul><li>Sitelinks: How It Works, Partners, About, Contact</li><li>Callouts: "Clean Quality Gear", "MEC Tents", "Easy Pickup in Port Alberni", "Free Local Cancellation"</li><li>Call extension: 250 720 7901, enabled during working hours</li></ul></div></li>
-      </ol></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part C</span><span class="section-block-title">Manage and Decide</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t2-8"><div class="step-num">8</div><div class="step-content"><h4>Check the Search Terms report twice a week</h4><ul><li>Google Ads → Insights and Reports → Search Terms</li><li>Off-topic terms (e.g. "free camping gear", "camping gear for sale") → add as negative keywords</li><li>Terms that produced bookings but aren't in your keyword list → add them</li></ul></div></li>
-        <li class="step-item" id="step-t2-9"><div class="step-num">9</div><div class="step-content"><h4>Pause underperforming keywords after 14 days</h4><ul><li>Any keyword with 50+ clicks and zero conversions → pause</li><li>Any keyword with zero clicks after 14 days → check the bid first</li></ul></div></li>
-        <li class="step-item" id="step-t2-10"><div class="step-num">10</div><div class="step-content"><h4>Make the spend decision at the end of Week 7</h4><ul><li>Look at three numbers: total spend, Bookable clicks generated, bookings confirmed</li><li>If cost per booking is below your average gear rental margin → remaining $500 goes back into Google Ads</li><li>If the campaign is not paying for itself → the reserve shifts to Meta</li></ul></div></li>
-      </ol></div></div>
+      {{TACTIC_2_IMPLEMENTATION_STEPS}}
     </div>
+
     <div class="tab-pane" id="t2-metrics">
       <div class="card"><div class="card-body" style="padding:0;overflow:auto"><table class="metrics-table"><thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead><tbody>
-        <tr><td>Google Ads account</td><td>Account created, Smart Mode skipped</td><td>First campaign live</td><td>Campaign optimised from Search Terms report</td></tr>
-        <tr><td>Keywords targeted</td><td>8–12 keywords, single themed ad group</td><td>Negative keywords list built</td><td>Top 3 performing keywords identified</td></tr>
-        <tr><td>Click-through rate</td><td>Above 3% within first 7 days</td><td>Above 5% after first headline test</td><td>Above 6% on best-performing ad</td></tr>
-        <tr><td>Cost per click</td><td>Under $2.00</td><td>Under $1.50</td><td>Under $1.25 on best keywords</td></tr>
-        <tr><td>Bookings attributed</td><td>At least 1 booking confirmed</td><td>At least 3 bookings confirmed</td><td>Clear answer to whether to scale spend</td></tr>
-      </tbody></table></div></div>
+{{TACTIC_2_METRICS_ROWS}}
+            </tbody></table></div></div>
     </div>
     <div class="tab-pane" id="t2-tips">
       <div class="section-label">Tips</div>
       <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">⚠️</div><div class="tip-text">The biggest mistake first-time Google Ads users make is leaving Smart Campaigns on by accident. The moment you see a recommendation to "let Google optimise your budget across more channels," ignore it.</div></div>
-        <div class="tip-item"><div class="tip-icon">🚫</div><div class="tip-text">Google will repeatedly nudge you to add Performance Max. Decline every time for the first 90 days. Performance Max spends fast and is opaque about where the spend went.</div></div>
-        <div class="tip-item"><div class="tip-icon">🔄</div><div class="tip-text">Bookable does not have a direct conversion event you can import into Google Ads, so for now use the Bookable click as your conversion. It is a proxy, but a tight one.</div></div>
-        <div class="tip-item"><div class="tip-icon">🎪</div><div class="tip-text">Do not run ads during the September Toy Run weekend. Those eight camping bundles are sold direct through the event organisers. Paid clicks during that window would burn money on demand you already have.</div></div>
-        <div class="tip-item"><div class="tip-icon">✏️</div><div class="tip-text">You do not need perfect ad copy. Google's machine learning is shockingly good at picking the right headline combinations once it has enough data. Write 10 reasonable headlines and let the system test them.</div></div>
+{{TACTIC_2_TIPS}}
       </div>
       <div class="section-label" style="margin-top:24px">Resources</div>
       <div class="resources-list">
-        <div class="resource-item">📖 <a href="https://support.google.com/google-ads/answer/6146252" target="_blank">Google Ads Help: Creating your first Search campaign</a></div>
-        <div class="resource-item">🔑 <a href="https://support.google.com/google-ads/answer/7478529" target="_blank">Google Ads keyword match types</a></div>
-        <div class="resource-item">📊 <a href="https://support.google.com/google-ads/answer/2472708" target="_blank">Search Terms report explained</a></div>
-        <div class="resource-item">⚙️ <a href="https://support.google.com/google-ads/answer/9028765" target="_blank">Google Ads Expert Mode setup</a></div>
+{{TACTIC_2_RESOURCES}}
       </div>
     </div>
   </div>
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 3: Meta Ads & Partnerships
+     TRACK 3
      ════════════════════════════════════════════ -->
 <section id="page-tactic3" class="page">
   <div class="page-header">
@@ -4536,53 +4457,27 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <button class="tab-btn" onclick="switchTab(this,'t3','tips')">Tips & Resources</button>
     </div>
     <div class="tab-pane active" id="t3-overview">
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What We Heard From You</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>Instagram is your largest social channel and the one you spend the most time on. A single giveaway with Bella Pacifica drove 500 to 600 new followers. You tried to set up a Meta ad before this coaching call and hit a payment-method error that has not been resolved. The May Bella Pacifica photoshoot is sitting unused, reciprocal 15% discount agreements with Hello Adventures and Triple Peak Sauna are in place but almost no customers know about them, and there are active conversations with content creators that have not been formalised.</div></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What This Is</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>A small paid Meta campaign run after Google Ads has a few weeks of data, plus a structured approach to partnership content that gives the paid spend more to work with. The campaign uses $500 of the grant over two weeks and is measured directly against the Google Ads campaign. The partnership component costs nothing in ad spend. It is a routine for capturing content from the photoshoots, collaborations, and creator visits you are already doing.</p></div></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">Why It Matters</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose"><p>Meta is where your existing audience already lives, which makes retargeting valuable even if the cold campaign performs only moderately. The Pixel installed in Tactic 1 is what makes retargeting possible. Partnership content is a force multiplier: ads built from real creator and partner content consistently outperform studio-style brand creative, and the content you are already producing for collaborations is exactly the kind that works. Skipping this tactic leaves grant money on the table and leaves the partnership network underused.</p></div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What We Heard From You</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_3_HEARD}}</div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">What This Is</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_3_WHAT_IS}}</div></div></div>
+      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-title">Why It Matters</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><div class="prose">{{TACTIC_3_MATTERS}}</div></div></div>
     </div>
     <div class="tab-pane" id="t3-steps">
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part A</span><span class="section-block-title">Resolve the Account and Confirm Pixel</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t3-1"><div class="step-num">1</div><div class="step-content"><h4>Resolve the existing Meta Business Suite payment issue</h4><ul><li>Go to business.facebook.com → Billing → Payment Methods</li><li>Remove and re-add your card. If the issue persists, contact Meta Business Support through the help chat with your business verification documents ready.</li><li>Do not try to launch an ad before this is sorted.</li></ul></div></li>
-        <li class="step-item" id="step-t3-2"><div class="step-num">2</div><div class="step-content"><h4>Confirm the Meta Pixel is firing on every page</h4><ul><li>Use Meta Pixel Helper Chrome extension to test the homepage, bundles page, and contact page</li><li>In Events Manager, confirm at minimum PageView and ViewContent events are firing</li></ul></div></li>
-        <li class="step-item" id="step-t3-3"><div class="step-num">3</div><div class="step-content"><h4>Build the retargeting audience in Meta Ads Manager</h4><ul><li>Audiences → Create Audience → Custom Audience → Website</li><li>Define audience: people who visited any page on alberniadventuregear.ca in the last 30 days</li><li>Hold this audience back from any ad set until it reaches at least 500 people</li></ul></div></li>
-      </ol></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part B</span><span class="section-block-title">Build the Content Workflow</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t3-4"><div class="step-num">4</div><div class="step-content"><h4>Create a simple content library in Google Drive or Dropbox</h4><ul><li>Folders: Photoshoots, Creator Content, Partner Collabs, UGC from Customers</li><li>Every shoot, every customer-submitted photo, every creator post gets saved here within a week of being captured</li></ul></div></li>
-        <li class="step-item" id="step-t3-5"><div class="step-num">5</div><div class="step-content"><h4>Capture the May Bella Pacifica photoshoot with paid ads in mind</h4><ul><li>Shoot vertical (9:16) and square (1:1) versions. Meta ads need vertical for Reels and Stories, square for feed.</li><li>Capture lifestyle shots that show people using the gear, not just product on its own</li><li>Get at least one short video clip of someone setting up a tent, even if it is 10 seconds</li></ul></div></li>
-        <li class="step-item" id="step-t3-6"><div class="step-num">6</div><div class="step-content"><h4>Set a partnership content rhythm</h4><ul><li>Once per quarter, schedule one creator collaboration: free gear rental in exchange for content and a post</li><li>Tourism Port Alberni is the best resource for finding local creators in the 5,000–50,000 follower range</li><li>Treat creator content as your highest-priority library asset</li></ul></div></li>
-      </ol></div></div>
-      <div class="section-block open"><div class="section-block-header" onclick="toggleSection(this)"><span class="section-block-badge">Part C</span><span class="section-block-title">Run the Paid Campaign</span><svg class="section-block-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div><div class="section-block-body"><ol class="steps-list">
-        <li class="step-item" id="step-t3-7"><div class="step-num">7</div><div class="step-content"><h4>Create a single Meta campaign with two ad sets</h4><ul><li>Campaign objective: Sales. Optimisation event: Bundles page view.</li><li>Budget: $35/day for 14 days, splitting ~$250 cold and ~$250 retargeting</li><li>Ad Set 1 (Cold): interests: camping, hiking, Vancouver Island travel, MEC, Tofino, Pacific Rim. Canada (excluding BC within 50km of Port Alberni). Age 25–55.</li><li>Ad Set 2 (Retargeting): 30-day visitor audience. Wait until it reaches 500 users.</li></ul></div></li>
-        <li class="step-item" id="step-t3-8"><div class="step-num">8</div><div class="step-content"><h4>Create three to four ads using your best partnership and creator content</h4><ul><li>One short headline, one line of body copy, a clear CTA button ("Book Now" or "Learn More")</li><li>Lead with the strongest hook: "Don't fly with your camping gear," "Last stop before Tofino," "Clean MEC tents ready when you arrive"</li></ul></div></li>
-        <li class="step-item" id="step-t3-9"><div class="step-num">9</div><div class="step-content"><h4>Check the campaign every two days</h4><ul><li>Ads Manager → Campaign view → Filter to "Last 7 days"</li><li>Watch: cost per click, click-through rate, and conversions (Bundles page views)</li><li>Frequency above 4 in 7 days → rotate the creative or expand the audience</li></ul></div></li>
-        <li class="step-item" id="step-t3-10"><div class="step-num">10</div><div class="step-content"><h4>Compare to Google Ads at the end of Week 9</h4><ul><li>Pull both reports side by side: total spend, clicks, conversions, cost per conversion</li><li>The remaining $500 reserve goes to whichever channel had the lower cost per booking</li><li>Do not split the reserve. Concentrating budget on the winner produces better data.</li></ul></div></li>
-      </ol></div></div>
+      {{TACTIC_3_IMPLEMENTATION_STEPS}}
     </div>
+
     <div class="tab-pane" id="t3-metrics">
       <div class="card"><div class="card-body" style="padding:0;overflow:auto"><table class="metrics-table"><thead><tr><th>Metric</th><th>30 Days</th><th>60 Days</th><th>90 Days</th></tr></thead><tbody>
-        <tr><td>Meta payment issue</td><td>Resolved</td><td>n/a</td><td>n/a</td></tr>
-        <tr><td>Meta Pixel</td><td>Live (set up in Track 1)</td><td>Custom audience of 30-day visitors built</td><td>Audience 500+ users</td></tr>
-        <tr><td>Paid Meta campaign</td><td>Account ready</td><td>Campaign live</td><td>Two weeks of spend complete</td></tr>
-        <tr><td>Cost per click on Meta</td><td>n/a</td><td>Under $0.80</td><td>Under $0.60</td></tr>
-        <tr><td>Bookings from Meta</td><td>Baseline</td><td>At least 2 bookings</td><td>Clear answer on whether to scale or shift</td></tr>
-        <tr><td>Creator/partner content</td><td>At least one shoot logged</td><td>3+ pieces in library</td><td>Library deep enough to run a second campaign</td></tr>
-      </tbody></table></div></div>
+{{TACTIC_3_METRICS_ROWS}}
+            </tbody></table></div></div>
     </div>
     <div class="tab-pane" id="t3-tips">
       <div class="section-label">Tips</div>
       <div class="tips-grid">
-        <div class="tip-item"><div class="tip-icon">🎥</div><div class="tip-text">When you work with a content creator, do not ask them to make an ad. Ask them to make their normal content using your gear. Real creator content used as an ad almost always outperforms creator content made to look like an ad.</div></div>
-        <div class="tip-item"><div class="tip-icon">💰</div><div class="tip-text">The 15% reciprocal discount with Hello Adventures and Triple Peak Sauna is undermarketed. Mention it on your gear page, in your Instagram bio, and in the post-rental email. It is a differentiator that costs you nothing extra.</div></div>
-        <div class="tip-item"><div class="tip-icon">🔧</div><div class="tip-text">If the Meta payment issue cannot be sorted in self-service within a week, give Meta Business Support one focused attempt through the help chat with your documents ready, then move on. The Google Ads campaign is enough on its own if Meta refuses to cooperate.</div></div>
-        <div class="tip-item"><div class="tip-icon">📱</div><div class="tip-text">Vertical video performs three to five times better than square or horizontal on Reels and Stories. Whenever you film, hold the phone vertically.</div></div>
-        <div class="tip-item"><div class="tip-icon">☕</div><div class="tip-text">Tourism Port Alberni has access to a creator network you cannot easily find on your own. A 15-minute coffee with their marketing team is probably worth more than two hours of independent creator research.</div></div>
+{{TACTIC_3_TIPS}}
       </div>
       <div class="section-label" style="margin-top:24px">Resources</div>
       <div class="resources-list">
-        <div class="resource-item">📘 <a href="https://www.facebook.com/business/help/205614130852988" target="_blank">Meta Business Suite getting started</a></div>
-        <div class="resource-item">🎯 <a href="https://www.facebook.com/business/help/1474662202748341" target="_blank">Meta Pixel and Custom Audiences</a></div>
-        <div class="resource-item">🎨 <a href="https://www.facebook.com/business/help/370852930116232?id=271710926837064" target="_blank">Meta Ads creative best practices</a></div>
-        <div class="resource-item">🌲 <a href="https://albernivalleytourism.com/" target="_blank">Alberni Valley Tourism (for creator introductions)</a></div>
+{{TACTIC_3_RESOURCES}}
       </div>
     </div>
   </div>
@@ -4645,124 +4540,9 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="month-header">
         <span class="month-badge">Month 1</span>
         <span class="month-title">{{MONTH_1_NAME}}</span>
-        <span class="month-progress" id="m1-prog"><span>0</span> of 11 done</span>
+        <span class="month-progress" id="m1-prog"><span>0</span> of {{MONTH_1_TOTAL}} done</span>
       </div>
-
-      <!-- Week 1 -->
-      <div class="week-card" id="wc-1">
-        <div class="week-card-header" onclick="toggleWeek(1)">
-          <div class="week-num">W1</div>
-          <div class="week-title">Tracking Setup</div>
-          <div class="week-progress-pill" id="wp-1">0 / 4</div>
-          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div>
-              <div class="week-col-label">This Week's Actions</div>
-              <ul class="week-tasks-list">
-                <li class="week-task-item" id="w1-howto-example"><div class="week-task-dot"></div><span class="week-task-text">Install Google Analytics 4 on Squarespace</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-1')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Install Meta Pixel on Squarespace</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-2')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Verify both are firing using the Realtime report and Meta Pixel Helper</li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Set Bookable click as a GA4 conversion event</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-3')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Update the Google Business Profile logo to the current version</li>
-              </ul>
-            </div>
-            <div>
-              <div class="week-col-label">Completion Checklist</div>
-              <div class="check-list">
-                <div class="check-item" id="w1-note-example">
-                  <div class="check-row"><input type="checkbox" class="check-input" id="rw1_d1" onchange="onCheck(this)"><label class="check-box" for="rw1_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d1">GA4 is active and showing live visits</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-                  <div class="note-area" id="note-area-rw1_d1"><textarea class="note-textarea" id="note-rw1_d1" placeholder="Add a note for this task…" oninput="saveNote('rw1_d1',this.value)"></textarea></div>
-                </div>
-                <div class="check-item">
-                  <div class="check-row"><input type="checkbox" class="check-input" id="rw1_d2" onchange="onCheck(this)"><label class="check-box" for="rw1_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d2">Meta Pixel is firing on every page</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-                  <div class="note-area" id="note-area-rw1_d2"><textarea class="note-textarea" id="note-rw1_d2" placeholder="Add a note for this task…" oninput="saveNote('rw1_d2',this.value)"></textarea></div>
-                </div>
-                <div class="check-item">
-                  <div class="check-row"><input type="checkbox" class="check-input" id="rw1_d3" onchange="onCheck(this)"><label class="check-box" for="rw1_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d3">Bookable click is recorded as a GA4 conversion</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-                  <div class="note-area" id="note-area-rw1_d3"><textarea class="note-textarea" id="note-rw1_d3" placeholder="Add a note for this task…" oninput="saveNote('rw1_d3',this.value)"></textarea></div>
-                </div>
-                <div class="check-item">
-                  <div class="check-row"><input type="checkbox" class="check-input" id="rw1_d4" onchange="onCheck(this)"><label class="check-box" for="rw1_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw1_d4">Current logo is showing on Google Business Profile</label><button class="note-toggle-btn" onclick="toggleNote('rw1_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-                  <div class="note-area" id="note-area-rw1_d4"><textarea class="note-textarea" id="note-rw1_d4" placeholder="Add a note for this task…" oninput="saveNote('rw1_d4',this.value)"></textarea></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="week-note-section">
-            <div class="week-note-label">📝 Week Notes</div>
-            <textarea class="note-textarea" id="note-week-1" placeholder="Add general notes for this week…" oninput="saveNote('week_1',this.value)" style="width:100%"></textarea>
-          </div>
-        </div>
-      </div>
-
-      <!-- Week 2 -->
-      <div class="week-card" id="wc-2">
-        <div class="week-card-header" onclick="toggleWeek(2)">
-          <div class="week-num">W2</div>
-          <div class="week-title">Website Conversion Fixes</div>
-          <div class="week-progress-pill" id="wp-2">0 / 4</div>
-          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div>
-              <div class="week-col-label">This Week's Actions</div>
-              <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Add "How to Get Here" page and link in top navigation</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-4')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Fix homepage text contrast over the hero image</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-6')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Restructure the Bundles page with tile-style entry points</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-5')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Remove plain-text email from the contact page</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-7')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Change Google Business Profile hours to Flexible</li>
-              </ul>
-            </div>
-            <div>
-              <div class="week-col-label">Completion Checklist</div>
-              <div class="check-list">
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d1" onchange="onCheck(this)"><label class="check-box" for="rw2_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d1">"How to Get Here" page is live</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d1"><textarea class="note-textarea" id="note-rw2_d1" placeholder="Add a note…" oninput="saveNote('rw2_d1',this.value)"></textarea></div></div>
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d2" onchange="onCheck(this)"><label class="check-box" for="rw2_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d2">Homepage text is legible in bright light</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d2"><textarea class="note-textarea" id="note-rw2_d2" placeholder="Add a note…" oninput="saveNote('rw2_d2',this.value)"></textarea></div></div>
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d3" onchange="onCheck(this)"><label class="check-box" for="rw2_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d3">Bundles page shows tiled entry points above the fold</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d3"><textarea class="note-textarea" id="note-rw2_d3" placeholder="Add a note…" oninput="saveNote('rw2_d3',this.value)"></textarea></div></div>
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw2_d4" onchange="onCheck(this)"><label class="check-box" for="rw2_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw2_d4">Contact form is the only contact method on the page</label><button class="note-toggle-btn" onclick="toggleNote('rw2_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw2_d4"><textarea class="note-textarea" id="note-rw2_d4" placeholder="Add a note…" oninput="saveNote('rw2_d4',this.value)"></textarea></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-2" placeholder="Add general notes for this week…" oninput="saveNote('week_2',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 3 -->
-      <div class="week-card" id="wc-3">
-        <div class="week-card-header" onclick="toggleWeek(3)">
-          <div class="week-num">W3</div>
-          <div class="week-title">First Local Guide</div>
-          <div class="week-progress-pill" id="wp-3">0 / 3</div>
-          <svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
-        </div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div>
-              <div class="week-col-label">This Week's Actions</div>
-              <ul class="week-tasks-list">
-                <li class="week-task-item"><div class="week-task-dot"></div>Brainstorm 20 post ideas using ChatGPT across three traveller personas</li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Pick the five strongest ideas for the Local Guides library</li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Add "Local Guides" page to top navigation as an index</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-9')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Write and publish the first guide (recommended: "Your Last Stop Before Tofino")</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-10')" title="See how to complete this step">how to</button></li>
-                <li class="week-task-item"><div class="week-task-dot"></div>Email past customers asking for Google reviews; goal of 5+ new reviews this week</li>
-              </ul>
-            </div>
-            <div>
-              <div class="week-col-label">Completion Checklist</div>
-              <div class="check-list">
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d1" onchange="onCheck(this)"><label class="check-box" for="rw3_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d1">Local Guides index page is live in top nav</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d1"><textarea class="note-textarea" id="note-rw3_d1" placeholder="Add a note…" oninput="saveNote('rw3_d1',this.value)"></textarea></div></div>
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d2" onchange="onCheck(this)"><label class="check-box" for="rw3_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d2">First guide is published and indexed in Google Search Console</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d2"><textarea class="note-textarea" id="note-rw3_d2" placeholder="Add a note…" oninput="saveNote('rw3_d2',this.value)"></textarea></div></div>
-                <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw3_d3" onchange="onCheck(this)"><label class="check-box" for="rw3_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw3_d3">At least three new Google reviews received this week</label><button class="note-toggle-btn" onclick="toggleNote('rw3_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw3_d3"><textarea class="note-textarea" id="note-rw3_d3" placeholder="Add a note…" oninput="saveNote('rw3_d3',this.value)"></textarea></div></div>
-              </div>
-            </div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-3" placeholder="Add general notes for this week…" oninput="saveNote('week_3',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
+{{MONTH_1_WEEKS}}
     </div>
 
     <!-- MONTH 2 -->
@@ -4770,76 +4550,9 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="month-header">
         <span class="month-badge">Month 2</span>
         <span class="month-title">{{MONTH_2_NAME}}</span>
-        <span class="month-progress" id="m2-prog"><span>0</span> of 12 done</span>
+        <span class="month-progress" id="m2-prog"><span>0</span> of {{MONTH_2_TOTAL}} done</span>
       </div>
-
-      <!-- Week 4 -->
-      <div class="week-card" id="wc-4">
-        <div class="week-card-header" onclick="toggleWeek(4)"><div class="week-num">W4</div><div class="week-title">Google Ads Setup</div><div class="week-progress-pill" id="wp-4">0 / 4</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Create Google Ads account in Expert Mode (skip Smart Mode)</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-1')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Link Google Ads to GA4 and Google Business Profile</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-2')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Write 8 to 12 headlines and 3 descriptions for the Responsive Search Ad</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-6')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Publish the second Local Guide ("Where to Camp Near Tofino and Ucluelet")</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-11')" title="See how to complete this step">how to</button></li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d1" onchange="onCheck(this)"><label class="check-box" for="rw4_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d1">Google Ads account is live in Expert Mode</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d1"><textarea class="note-textarea" id="note-rw4_d1" placeholder="Add a note…" oninput="saveNote('rw4_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d2" onchange="onCheck(this)"><label class="check-box" for="rw4_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d2">GA4 and GBP are both linked to Google Ads</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d2"><textarea class="note-textarea" id="note-rw4_d2" placeholder="Add a note…" oninput="saveNote('rw4_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d3" onchange="onCheck(this)"><label class="check-box" for="rw4_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d3">Ad copy is drafted and reviewed</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d3"><textarea class="note-textarea" id="note-rw4_d3" placeholder="Add a note…" oninput="saveNote('rw4_d3',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw4_d4" onchange="onCheck(this)"><label class="check-box" for="rw4_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw4_d4">Second Local Guide is published</label><button class="note-toggle-btn" onclick="toggleNote('rw4_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw4_d4"><textarea class="note-textarea" id="note-rw4_d4" placeholder="Add a note…" oninput="saveNote('rw4_d4',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-4" placeholder="Add general notes for this week…" oninput="saveNote('week_4',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 5 -->
-      <div class="week-card" id="wc-5">
-        <div class="week-card-header" onclick="toggleWeek(5)"><div class="week-num">W5</div><div class="week-title">Google Ads Launch</div><div class="week-progress-pill" id="wp-5">0 / 4</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Build Search campaign: $35/day, BC + AB, 8–12 phrase-match keywords</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-4')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Add Sitelinks, Callouts, and Call extensions</li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Set final URL to the Bundles page</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Launch the campaign</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-6')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Check Search Terms report after first 3 days</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-8')" title="See how to complete this step">how to</button></li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d1" onchange="onCheck(this)"><label class="check-box" for="rw5_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d1">Search campaign is live and spending</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d1"><textarea class="note-textarea" id="note-rw5_d1" placeholder="Add a note…" oninput="saveNote('rw5_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d2" onchange="onCheck(this)"><label class="check-box" for="rw5_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d2">Ad has appeared in at least one test search</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d2"><textarea class="note-textarea" id="note-rw5_d2" placeholder="Add a note…" oninput="saveNote('rw5_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d3" onchange="onCheck(this)"><label class="check-box" for="rw5_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d3">Search Terms report has been reviewed once</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d3"><textarea class="note-textarea" id="note-rw5_d3" placeholder="Add a note…" oninput="saveNote('rw5_d3',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw5_d4" onchange="onCheck(this)"><label class="check-box" for="rw5_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw5_d4">Cost per click is tracking under $2.00</label><button class="note-toggle-btn" onclick="toggleNote('rw5_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw5_d4"><textarea class="note-textarea" id="note-rw5_d4" placeholder="Add a note…" oninput="saveNote('rw5_d4',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-5" placeholder="Add general notes for this week…" oninput="saveNote('week_5',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 6 -->
-      <div class="week-card" id="wc-6">
-        <div class="week-card-header" onclick="toggleWeek(6)"><div class="week-num">W6</div><div class="week-title">Google Ads Optimisation</div><div class="week-progress-pill" id="wp-6">0 / 4</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div>Review Search Terms report twice</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Add negative keywords for off-topic terms</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-9')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Pause any keyword with 50+ clicks and zero conversions</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-9')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Confirm Meta Business Suite payment issue is resolved</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-1')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Publish the third Local Guide ("What to Do in Port Alberni on Your Way Through")</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-11')" title="See how to complete this step">how to</button></li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d1" onchange="onCheck(this)"><label class="check-box" for="rw6_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d1">Negative keyword list has at least 5 entries</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d1"><textarea class="note-textarea" id="note-rw6_d1" placeholder="Add a note…" oninput="saveNote('rw6_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d2" onchange="onCheck(this)"><label class="check-box" for="rw6_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d2">At least one keyword has been paused or refined</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d2"><textarea class="note-textarea" id="note-rw6_d2" placeholder="Add a note…" oninput="saveNote('rw6_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d3" onchange="onCheck(this)"><label class="check-box" for="rw6_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d3">Meta Business account is fully functional</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d3"><textarea class="note-textarea" id="note-rw6_d3" placeholder="Add a note…" oninput="saveNote('rw6_d3',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw6_d4" onchange="onCheck(this)"><label class="check-box" for="rw6_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw6_d4">Third Local Guide is published</label><button class="note-toggle-btn" onclick="toggleNote('rw6_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw6_d4"><textarea class="note-textarea" id="note-rw6_d4" placeholder="Add a note…" oninput="saveNote('rw6_d4',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-6" placeholder="Add general notes for this week…" oninput="saveNote('week_6',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
+{{MONTH_2_WEEKS}}
     </div>
 
     <!-- MONTH 3 -->
@@ -4847,138 +4560,10 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
       <div class="month-header">
         <span class="month-badge">Month 3</span>
         <span class="month-title">{{MONTH_3_NAME}}</span>
-        <span class="month-progress" id="m3-prog"><span>0</span> of 24 done</span>
+        <span class="month-progress" id="m3-prog"><span>0</span> of {{MONTH_3_TOTAL}} done</span>
       </div>
-
-      <!-- Week 7 -->
-      <div class="week-card" id="wc-7">
-        <div class="week-card-header" onclick="toggleWeek(7)"><div class="week-num">W7</div><div class="week-title">Google Ads Decision Point</div><div class="week-progress-pill" id="wp-7">0 / 3</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div>Review Google Ads performance over Weeks 5–6: spend, clicks, conversions, bookings</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Decide: scale Google with the $500 reserve, or shift it to Meta after Week 9 review</span><button class="howto-link" onclick="howToLink('tactic2','step-t2-10')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Build the Meta retargeting Custom Audience (30-day site visitors)</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-3')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Confirm audience is populating; target 500+ users before launch</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-3')" title="See how to complete this step">how to</button></li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d1" onchange="onCheck(this)"><label class="check-box" for="rw7_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d1">Google Ads decision is documented</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d1"><textarea class="note-textarea" id="note-rw7_d1" placeholder="Add a note…" oninput="saveNote('rw7_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d2" onchange="onCheck(this)"><label class="check-box" for="rw7_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d2">Custom Audience is created in Meta</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d2"><textarea class="note-textarea" id="note-rw7_d2" placeholder="Add a note…" oninput="saveNote('rw7_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw7_d3" onchange="onCheck(this)"><label class="check-box" for="rw7_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw7_d3">Audience size is tracked and growing</label><button class="note-toggle-btn" onclick="toggleNote('rw7_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw7_d3"><textarea class="note-textarea" id="note-rw7_d3" placeholder="Add a note…" oninput="saveNote('rw7_d3',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-7" placeholder="Add general notes for this week…" oninput="saveNote('week_7',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 8 -->
-      <div class="week-card" id="wc-8">
-        <div class="week-card-header" onclick="toggleWeek(8)"><div class="week-num">W8</div><div class="week-title">Meta Ads Launch</div><div class="week-progress-pill" id="wp-8">0 / 3</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Create Meta campaign: 1 ad set cold (interests), 1 ad set retargeting</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-7')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Build 3–4 ads using May Bella Pacifica photoshoot content</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-8')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Launch campaign at $35/day for 14 days</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Publish the fourth Local Guide ("Vancouver Island Road Trip Itinerary")</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-11')" title="See how to complete this step">how to</button></li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d1" onchange="onCheck(this)"><label class="check-box" for="rw8_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d1">Meta campaign is live and spending</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d1"><textarea class="note-textarea" id="note-rw8_d1" placeholder="Add a note…" oninput="saveNote('rw8_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d2" onchange="onCheck(this)"><label class="check-box" for="rw8_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d2">Three or more ads are running in rotation</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d2"><textarea class="note-textarea" id="note-rw8_d2" placeholder="Add a note…" oninput="saveNote('rw8_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw8_d3" onchange="onCheck(this)"><label class="check-box" for="rw8_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw8_d3">Fourth Local Guide is published</label><button class="note-toggle-btn" onclick="toggleNote('rw8_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw8_d3"><textarea class="note-textarea" id="note-rw8_d3" placeholder="Add a note…" oninput="saveNote('rw8_d3',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-8" placeholder="Add general notes for this week…" oninput="saveNote('week_8',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 9 -->
-      <div class="week-card" id="wc-9">
-        <div class="week-card-header" onclick="toggleWeek(9)"><div class="week-num">W9</div><div class="week-title">Meta Optimisation &amp; Toy Run Prep</div><div class="week-progress-pill" id="wp-9">0 / 3</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Check Meta campaign every two days; rotate creative if frequency hits 4</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-9')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Confirm September Toy Run inventory and logistics with event organisers</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Draft a dedicated Toy Run landing page or social campaign for the 8 camping bundles</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-6')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Email previous Toy Run customers (if any) with early booking access</li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d1" onchange="onCheck(this)"><label class="check-box" for="rw9_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d1">Meta campaign is being managed actively</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d1"><textarea class="note-textarea" id="note-rw9_d1" placeholder="Add a note…" oninput="saveNote('rw9_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d2" onchange="onCheck(this)"><label class="check-box" for="rw9_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d2">Toy Run bundle inventory is confirmed</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d2"><textarea class="note-textarea" id="note-rw9_d2" placeholder="Add a note…" oninput="saveNote('rw9_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw9_d3" onchange="onCheck(this)"><label class="check-box" for="rw9_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw9_d3">Toy Run promotion plan is drafted</label><button class="note-toggle-btn" onclick="toggleNote('rw9_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw9_d3"><textarea class="note-textarea" id="note-rw9_d3" placeholder="Add a note…" oninput="saveNote('rw9_d3',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-9" placeholder="Add general notes for this week…" oninput="saveNote('week_9',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 10 -->
-      <div class="week-card" id="wc-10">
-        <div class="week-card-header" onclick="toggleWeek(10)"><div class="week-num">W10</div><div class="week-title">Reserve Decision &amp; Scale</div><div class="week-progress-pill" id="wp-10">0 / 4</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Pull side-by-side report: Google Ads vs Meta Ads on cost per booking</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-10')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Allocate the remaining $500 reserve to whichever channel won; extend for 2–3 weeks</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-10')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Publish the fifth Local Guide ("Backpacking the West Coast Trail: The Gear You Actually Need")</span><button class="howto-link" onclick="howToLink('tactic1','step-t1-11')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Push for 10+ new Google reviews from August–September customers</li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d1" onchange="onCheck(this)"><label class="check-box" for="rw10_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d1">Channel decision is made and documented</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d1"><textarea class="note-textarea" id="note-rw10_d1" placeholder="Add a note…" oninput="saveNote('rw10_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d2" onchange="onCheck(this)"><label class="check-box" for="rw10_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d2">Reserve budget is allocated to the winning channel</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d2"><textarea class="note-textarea" id="note-rw10_d2" placeholder="Add a note…" oninput="saveNote('rw10_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d3" onchange="onCheck(this)"><label class="check-box" for="rw10_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d3">Fifth Local Guide is published</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d3"><textarea class="note-textarea" id="note-rw10_d3" placeholder="Add a note…" oninput="saveNote('rw10_d3',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw10_d4" onchange="onCheck(this)"><label class="check-box" for="rw10_d4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw10_d4">Review count is on track for 60+ by Week 13</label><button class="note-toggle-btn" onclick="toggleNote('rw10_d4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw10_d4"><textarea class="note-textarea" id="note-rw10_d4" placeholder="Add a note…" oninput="saveNote('rw10_d4',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-10" placeholder="Add general notes for this week…" oninput="saveNote('week_10',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 11 -->
-      <div class="week-card" id="wc-11">
-        <div class="week-card-header" onclick="toggleWeek(11)"><div class="week-num">W11</div><div class="week-title">Toy Run Weekend Execution</div><div class="week-progress-pill" id="wp-11">0 / 3</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div>Execute the Toy Run setup and takedown for the 8 camping bundles</li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Capture content on the day: photos, short video clips of setup and the event</li>
-              <li class="week-task-item"><div class="week-task-dot"></div><span class="week-task-text">Save content to the library; post organic content the week following</span><button class="howto-link" onclick="howToLink('tactic3','step-t3-4')" title="See how to complete this step">how to</button></li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Ask Toy Run customers for Google reviews directly at takedown</li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d1" onchange="onCheck(this)"><label class="check-box" for="rw11_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d1">Toy Run weekend is executed without operational issues</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d1"><textarea class="note-textarea" id="note-rw11_d1" placeholder="Add a note…" oninput="saveNote('rw11_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d2" onchange="onCheck(this)"><label class="check-box" for="rw11_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d2">Content from the day is captured and in the library</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d2"><textarea class="note-textarea" id="note-rw11_d2" placeholder="Add a note…" oninput="saveNote('rw11_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw11_d3" onchange="onCheck(this)"><label class="check-box" for="rw11_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw11_d3">Toy Run customers have been asked for reviews</label><button class="note-toggle-btn" onclick="toggleNote('rw11_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw11_d3"><textarea class="note-textarea" id="note-rw11_d3" placeholder="Add a note…" oninput="saveNote('rw11_d3',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-11" placeholder="Add general notes for this week…" oninput="saveNote('week_11',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
-
-      <!-- Week 12 -->
-      <div class="week-card" id="wc-12">
-        <div class="week-card-header" onclick="toggleWeek(12)"><div class="week-num">W12</div><div class="week-title">Review &amp; Plan Forward</div><div class="week-progress-pill" id="wp-12">0 / 3</div><svg class="week-chevron" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg></div>
-        <div class="week-card-body">
-          <div class="week-cols">
-            <div><div class="week-col-label">This Week's Actions</div><ul class="week-tasks-list">
-              <li class="week-task-item"><div class="week-task-dot"></div>Review the full 90-day data: GA4 sessions, ad spend, Bookable bookings, review count</li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Document what worked, what didn't, and what to repeat next season</li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Plan the Q4 content rhythm: one Local Guide per month, organic Instagram weekly</li>
-              <li class="week-task-item"><div class="week-task-dot"></div>Schedule a January planning week to set up the 2027 summer season early</li>
-            </ul></div>
-            <div><div class="week-col-label">Completion Checklist</div><div class="check-list">
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d1" onchange="onCheck(this)"><label class="check-box" for="rw12_d1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d1">90-day data is reviewed and summarised</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d1"><textarea class="note-textarea" id="note-rw12_d1" placeholder="Add a note…" oninput="saveNote('rw12_d1',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d2" onchange="onCheck(this)"><label class="check-box" for="rw12_d2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d2">Q4 maintenance plan is documented</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d2"><textarea class="note-textarea" id="note-rw12_d2" placeholder="Add a note…" oninput="saveNote('rw12_d2',this.value)"></textarea></div></div>
-              <div class="check-item"><div class="check-row"><input type="checkbox" class="check-input" id="rw12_d3" onchange="onCheck(this)"><label class="check-box" for="rw12_d3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="rw12_d3">2027 planning week is on the calendar</label><button class="note-toggle-btn" onclick="toggleNote('rw12_d3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div><div class="note-area" id="note-area-rw12_d3"><textarea class="note-textarea" id="note-rw12_d3" placeholder="Add a note…" oninput="saveNote('rw12_d3',this.value)"></textarea></div></div>
-            </div></div>
-          </div>
-          <div class="week-note-section"><div class="week-note-label">📝 Week Notes</div><textarea class="note-textarea" id="note-week-12" placeholder="Add general notes for this week…" oninput="saveNote('week_12',this.value)" style="width:100%"></textarea></div>
-        </div>
-      </div>
+{{MONTH_3_WEEKS}}
     </div>
-
-    <div class="callout" style="margin-top:8px">Three months from now, you will know which keywords are bringing in bookings, which ads are paying for themselves, and which content pages are doing real work in search. The system runs on a few hours a week, and you head into your second full season with the data and the content library to grow on your own terms.</div>
 
     <!-- PRINT-ONLY FOOTER -->
     <div class="print-only print-footer">
@@ -5064,26 +4649,7 @@ body:not([data-cohort-start]:not([data-cohort-start=""])) .sidebar-progress-sub{
     <div class="card" style="padding:0">
       <div class="card-body">
         <div class="check-list" style="gap:16px">
-          <div class="check-item">
-            <div class="check-row"><input type="checkbox" class="check-input" id="bookability_1" data-key="bookability-1" onchange="onCheck(this)"><label class="check-box" for="bookability_1"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="bookability_1"><strong>Replace the old logo on the Profile.</strong> Your Profile is still showing the green logo, not the updated one. Go to google.com/maps, find your business, click Edit Profile → Photos → Logo, and upload the current version from your computer (not your phone).</label><button class="note-toggle-btn" onclick="toggleNote('bookability_1')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-            <div class="note-area" id="note-area-bookability_1"><textarea class="note-textarea" id="note-bookability_1" placeholder="Add a note…" oninput="saveNote('bookability_1',this.value)"></textarea></div>
-          </div>
-          <div class="check-item">
-            <div class="check-row"><input type="checkbox" class="check-input" id="bookability_2" data-key="bookability-2" onchange="onCheck(this)"><label class="check-box" for="bookability_2"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="bookability_2"><strong>Change business hours to Flexible.</strong> Walk-up traffic is not your model, and the current 9–6 hours discourage email enquiries outside those windows.</label><button class="note-toggle-btn" onclick="toggleNote('bookability_2')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-            <div class="note-area" id="note-area-bookability_2"><textarea class="note-textarea" id="note-bookability_2" placeholder="Add a note…" oninput="saveNote('bookability_2',this.value)"></textarea></div>
-          </div>
-          <div class="check-item">
-            <div class="check-row"><input type="checkbox" class="check-input" id="bookability_3" data-key="bookability-3" onchange="onCheck(this)"><label class="check-box" for="bookability_3"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="bookability_3"><strong>Fill in every remaining field.</strong> The missing fields are likely accessibility attributes, additional categories, and service area boundaries. Fill in every field where the answer is actually yes.</label><button class="note-toggle-btn" onclick="toggleNote('bookability_3')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-            <div class="note-area" id="note-area-bookability_3"><textarea class="note-textarea" id="note-bookability_3" placeholder="Add a note…" oninput="saveNote('bookability_3',this.value)"></textarea></div>
-          </div>
-          <div class="check-item">
-            <div class="check-row"><input type="checkbox" class="check-input" id="bookability_4" data-key="bookability-4" onchange="onCheck(this)"><label class="check-box" for="bookability_4"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="bookability_4"><strong>Check the Q&amp;A section twice a month.</strong> Questions get posted there and stay unanswered unless you respond. Random users will answer with bad information if you do not get there first.</label><button class="note-toggle-btn" onclick="toggleNote('bookability_4')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-            <div class="note-area" id="note-area-bookability_4"><textarea class="note-textarea" id="note-bookability_4" placeholder="Add a note…" oninput="saveNote('bookability_4',this.value)"></textarea></div>
-          </div>
-          <div class="check-item">
-            <div class="check-row"><input type="checkbox" class="check-input" id="bookability_5" data-key="bookability-5" onchange="onCheck(this)"><label class="check-box" for="bookability_5"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="1.5,6 4.5,9 10.5,3"/></svg></label><label class="check-label" for="bookability_5"><strong>Set a goal of 100 reviews by end of summer 2026.</strong> You are at 30. Around 100 is the threshold where Google starts treating your Profile as a regional authority and showing it for broader searches like "camping gear Vancouver Island."</label><button class="note-toggle-btn" onclick="toggleNote('bookability_5')" title="Add note"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/></svg></button></div>
-            <div class="note-area" id="note-area-bookability_5"><textarea class="note-textarea" id="note-bookability_5" placeholder="Add a note…" oninput="saveNote('bookability_5',this.value)"></textarea></div>
-          </div>
+{{BOOKABILITY_ITEMS}}
         </div>
       </div>
     </div>
@@ -5646,7 +5212,11 @@ function updateDayWeek() {
 }
 
 function countChecked(ids) {
-  return ids.filter(id => state.checks[id]).length;
+  // Read from the DOM so progress reflects checkboxes loaded from Supabase
+  return ids.filter(id => {
+    const el = document.getElementById(id);
+    return el && el.checked;
+  }).length;
 }
 function updateProgress() {
   const done = countChecked(ALL_CHECK_IDS);
@@ -5690,7 +5260,7 @@ function updateProgress() {
     const stat = document.getElementById('tc'+t+'-stat');
     if (bar) bar.style.width = p + '%';
     if (stat) {
-      const labels = {1:'Foundation',2:'Paid Ads',3:'Scale'};
+      const labels = /* {{TACTIC_PHASE_LABELS}} */ {1:'',2:'',3:''};
       stat.textContent = d + ' of ' + tot + ' done · ' + labels[t];
     }
   });
@@ -5771,8 +5341,8 @@ const TOUR_STEPS = [
     mobileTargetId: 'nav-hamburger',
     page: 'dashboard',
     title: 'Navigate Your Plan',
-    desc: 'Use the sidebar to move between sections: tracks, your launch roadmap, and quick wins. Your progress is always visible at the top.',
-    mobileDesc: 'Tap the menu icon to move between sections: tracks, your launch roadmap, and quick wins.',
+    desc: 'Use the sidebar to move between sections: tracks, your launch roadmap, and your materials. Your progress is always visible at the top.',
+    mobileDesc: 'Tap the menu icon to move between sections: tracks, your launch roadmap, and your materials.',
     pos: 'right', pad: 0, mobilePos: 'below'
   },
   {
@@ -5787,7 +5357,7 @@ const TOUR_STEPS = [
     mobileTargetId: 'objectives-section',
     page: 'dashboard',
     title: 'Your Three Objectives',
-    desc: 'These are the three outcomes the plan is built around. Each one builds on the last: tracking comes first, then paid ads, then scale.',
+    desc: 'These are the three outcomes the plan is built around. Each one builds on the last.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {

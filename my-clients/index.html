@@ -1812,7 +1812,7 @@
     async function loadExperienceProjectProgress(project) {
       // Fetch plan.json for total item count
       try {
-        const res = await fetch(`/experience/${project.slug}/plan.json`);
+        const res = await fetch(`/clients/${project.slug}/plan.json`);
         if (res.ok) {
           const plan = await res.json();
           let total = 0;
@@ -1865,7 +1865,7 @@
           : 'Awaiting launch date';
 
         return `
-          <a href="/experience/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
+          <a href="/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
             <div class="project-card__header">
               <div class="project-card__info">
                 <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
