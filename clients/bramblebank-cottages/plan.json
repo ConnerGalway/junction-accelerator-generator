@@ -1,0 +1,232 @@
+{
+  "client_name": "Bramblebank Cottages",
+  "client_slug": "bramblebank-cottages",
+  "goal": "Bramblebank Cottages already does the hardest thing in hospitality. It is the top-rated place to stay in the village, with a 4.8-star average across 247 Google reviews, 170 nights booked last month, revenue and occupancy both up since the move to PriceLabs, and guests who keep coming back for anniversaries and family reunions. The most common line in your reviews is that people wish they had stayed longer, which tells you the product is not the problem. The problem is where the bookings come from. You are paying about $1,700 a month in OTA commissions at roughly 20 percent, and the assessment shows why discovery depends on the OTAs: a homepage that weighs 27.9 MB, five competing H1 headings, no embedded map, no social presence worth mentioning, and very little content answering the specific questions travellers now put to Google and to AI tools. The next ninety days fix those things in a deliberate order. First the website foundation and the direct-booking path, so everything you build afterward has somewhere good to send people. Then a body of local content built around eagle watching, hiking, fishing, and the experiences only your guests have, written as questions and answers so search engines and AI tools can quote it. Then a simple three-posts-a-week social routine across Facebook, Instagram, and TikTok, with a small boost budget to find out what is worth scaling. Everything built here is an asset that belongs to the business, including a faster website, a library of content, a guest list you own, and documented routines, which makes the business stronger to run now and easier to hand over whenever that day comes.",
+  "coach_email": "damon@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Quick Fixes, Baselines, and Eagle Capture",
+      "actions": [
+        "Fix the title tag, meta description, the five H1 tags, alt text on the eight icons, and make the phone number tap-to-call in the header and footer → links to: Tactic 1 / Step 2",
+        "Record your baselines: direct and OTA bookings, the $1,700 commission figure, average length of stay, and your current PageSpeed score → links to: Tactic 1 / Step 9",
+        "Gather your photos and video into one folder and capture 10 to 15 eagle clips and photos this week → links to: Tactic 3 / Step 2",
+        "Set up Meta Business Suite and link your Facebook Page and Instagram account → links to: Tactic 3 / Step 3"
+      ],
+      "checklist": [
+        "The homepage has one H1, a new title tag, and a new meta description",
+        "The phone number is tappable and visible in the header and footer",
+        "A baseline sheet records direct versus OTA bookings, commissions, and length of stay",
+        "10 or more eagle clips and photos are saved in one folder",
+        "Meta Business Suite shows Facebook and Instagram connected"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Images, Clusters, and Outreach",
+      "actions": [
+        "Cut the homepage image count, compress what remains, and re-upload → links to: Tactic 1 / Step 1",
+        "Run the one-hour cluster exercise and choose your top five → links to: Tactic 2 / Step 1",
+        "Email your local tourism organisation to ask for insider information and backlinks → links to: Tactic 2 / Step 2",
+        "Write the one-page social strategy and quality bar → links to: Tactic 3 / Step 1",
+        "Write down the facts the FAQ and cluster posts depend on: the pet policy, how the hot tub works, kayak access, and group booking rules → links to: Tactic 2 / Step 3"
+      ],
+      "checklist": [
+        "The homepage is under 10 MB and the new PageSpeed score is recorded",
+        "Five clusters and their questions are saved in a sheet",
+        "The outreach email has been sent with two photos attached",
+        "The one-page strategy and quality bar are written and printed",
+        "The pet policy, hot tub details, kayak access, and group booking rules are written down in one note"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Map, Pixel, and AI Baseline",
+      "actions": [
+        "Embed the Google Map and publish the Getting Here page with written directions from Highway 7 and Highway 9 → links to: Tactic 1 / Step 3",
+        "Install the Meta Pixel and confirm Google Analytics is recording → links to: Tactic 1 / Step 4",
+        "Run the baseline AI visibility test across ChatGPT, Perplexity, Gemini, and Google AI Overviews → links to: Tactic 2 / Step 8",
+        "Sort your photos and video into the five category folders and pick the 30 best → links to: Tactic 3 / Step 2",
+        "Create the TikTok Business account, connect Buffer, and update all three bios → links to: Tactic 3 / Step 3"
+      ],
+      "checklist": [
+        "The map and directions are live and linked from the footer",
+        "The Pixel fires a PageView event when you visit your homepage",
+        "Baseline AI test results for 10 prompts are saved",
+        "30 best assets are sorted into five folders",
+        "TikTok, Facebook, and Instagram bios match and link to the Book Direct page"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Launch Social and Publish the First Eagle Posts",
+      "actions": [
+        "Build your first weekly batch and start posting three times a week, two of them video → links to: Tactic 3 / Step 4",
+        "Write and publish the first two eagle question posts → links to: Tactic 2 / Step 6",
+        "Turn each eagle post into a Reel and a Google Business Profile post → links to: Tactic 3 / Step 5",
+        "Spend ten minutes a day on comments, messages, and review replies → links to: Tactic 3 / Step 6"
+      ],
+      "checklist": [
+        "Three posts went out across Facebook, Instagram, and TikTok",
+        "Two eagle question posts are live on the website with real facts",
+        "A Google Business Profile post is published with a link to an eagle page",
+        "Every comment and review has a reply"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: FAQ, Local Guide, and the Eagle Pillar",
+      "actions": [
+        "Build the property FAQ page with direct first-sentence answers → links to: Tactic 2 / Step 3",
+        "Create the Local Guide hub page and add it to the navigation → links to: Tactic 2 / Step 4",
+        "Write and publish the eagle pillar page → links to: Tactic 2 / Step 5",
+        "Post three times this week and schedule next week's posts in advance → links to: Tactic 3 / Step 4"
+      ],
+      "checklist": [
+        "The FAQ page is live with confirmed facts and no placeholders",
+        "The Local Guide hub is live and in the main navigation",
+        "The eagle cluster is complete: two question posts and a pillar page",
+        "Next week's posts are scheduled"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Direct Perks and Romance Content",
+      "actions": [
+        "Add the direct-perks block and the promo code next to every Book Now button → links to: Tactic 1 / Step 5",
+        "Add the guest testimonials section and star rating to the homepage and cottage pages → links to: Tactic 1 / Step 6",
+        "Publish the first two romantic getaway question posts → links to: Tactic 2 / Step 6",
+        "Turn the new posts into Reels and Google Business Profile posts → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "The perks line and promo code show beside every Book Now button",
+        "The promo code works from a booking link tested on your phone",
+        "Testimonials and the 4.8-star rating are on the homepage and cottage pages",
+        "Two romantic getaway posts are live"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Holiday Week, Light and Scheduled",
+      "actions": [
+        "Publish the romantic getaways pillar page and the first hiking question post → links to: Tactic 2 / Step 6",
+        "Schedule social content through the first week of January, using the eagle and hot tub clips → links to: Tactic 3 / Step 4",
+        "Add holiday hours and a seasonal post to the Google Business Profile",
+        "Keep replying to comments, messages, and reviews, even briefly → links to: Tactic 3 / Step 6"
+      ],
+      "checklist": [
+        "The romantic getaways cluster is complete",
+        "Social content is scheduled through early January",
+        "Holiday hours are set on the Google Business Profile",
+        "No comment or review has gone unanswered for more than two days"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Stay Longer Offer and First Boosts",
+      "actions": [
+        "Publish the second hiking question post and the hiking pillar page → links to: Tactic 2 / Step 6",
+        "Create the direct-only Stay Longer offer with its own promo code and link → links to: Tactic 1 / Step 7",
+        "Print the in-cottage cards and set up the sign-up form → links to: Tactic 1 / Step 8",
+        "Run the first boost on your best organic post, at $5 a day for four days → links to: Tactic 3 / Step 7"
+      ],
+      "checklist": [
+        "The hiking cluster is complete",
+        "The Stay Longer offer is live with a working booking link",
+        "Cards are in the cottages and the sign-up form works",
+        "The first boost is logged with spend, clicks, and cost per click"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: Water Content and the Cabin Keyword",
+      "actions": [
+        "Publish the two fishing and kayaking question posts → links to: Tactic 2 / Step 6",
+        "Add \"cabin\" naturally to H2 headings, the FAQ, and the guide, and add sections for Harrison Lake and Agassiz searches → links to: Tactic 2 / Step 7",
+        "Run the second and third boosts and log the results → links to: Tactic 3 / Step 7",
+        "Check Search Console for the first queries bringing visitors to the new pages → links to: Tactic 2 / Step 7"
+      ],
+      "checklist": [
+        "Two fishing and kayaking posts are live",
+        "The cabin term and the nearby-area sections are on the site",
+        "Three boosts are logged",
+        "The first Search Console queries are recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: Mid-Point Review and Group Content",
+      "actions": [
+        "Publish the water pillar page and the first group stays question post → links to: Tactic 2 / Step 6",
+        "Run the second AI visibility test and compare it with the baseline → links to: Tactic 2 / Step 8",
+        "Run the monthly review: top posts, best category, and cost per click by boost → links to: Tactic 3 / Step 8",
+        "Report direct versus OTA share and commissions for the past month → links to: Tactic 1 / Step 9"
+      ],
+      "checklist": [
+        "The water cluster is complete",
+        "AI test results are compared with the Week 3 baseline",
+        "The monthly review is written with the top three posts and best category",
+        "The direct versus OTA report has numbers beside the baseline"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Group Stays and Valentine's Push",
+      "actions": [
+        "Publish the second group stays question post and the group stays pillar page → links to: Tactic 2 / Step 6",
+        "Schedule Valentine's and anniversary content around the hot tub and cottage stays → links to: Tactic 3 / Step 4",
+        "Send the first email to your sign-up list with the Stay Longer offer → links to: Tactic 1 / Step 8",
+        "Run the fourth boost on a Valentine's or romance post → links to: Tactic 3 / Step 7"
+      ],
+      "checklist": [
+        "The group stays cluster is complete and the five-bedroom house is clearly described",
+        "Valentine's content is scheduled through mid-February",
+        "The first email has gone to the list",
+        "Four boosts are logged with a cost per click benchmark"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: 90-Day Review and Plan Forward",
+      "actions": [
+        "Run the final AI visibility test and compare it with the baseline and Week 10 → links to: Tactic 2 / Step 8",
+        "Compare direct versus OTA share, commissions, and length of stay against the Week 1 baseline → links to: Tactic 1 / Step 9",
+        "Pull the 90-day social summary: followers, engagement rate, best category, and visits from social → links to: Tactic 3 / Step 8",
+        "Compare boost cost per enquiry with your Google Ads and the cost of an OTA booking → links to: Tactic 3 / Step 8",
+        "Write three things that worked and one thing to change, and decide the next 90-day priorities"
+      ],
+      "checklist": [
+        "The final AI test is logged and the progress across three tests is written down",
+        "The direct versus OTA comparison is written with numbers",
+        "The 90-day social summary exists with specific numbers",
+        "Boost, Google Ads, and OTA costs are compared in one table",
+        "The next 90-day priorities are decided with a written reason",
+        "---"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/bramblebank-cottages/#week-12"
+    }
+  ]
+}
