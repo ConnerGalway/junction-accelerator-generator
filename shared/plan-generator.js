@@ -1306,7 +1306,7 @@ function generateQuickWinsHtml(content) {
       const boldMatch = text.match(/^\*\*(.+?)\*\*\.?\s*(.*)/);
       let labelContent;
       if (boldMatch) {
-        labelContent = `<strong>${plainText(boldMatch[1].replace(/[.\s]+$/, ''))}.</strong> ${inlineMarkdown(boldMatch[2])}`;
+        labelContent = `<strong>${plainText(boldMatch[1].replace(/[.:\s]+$/, ''))}.</strong> ${inlineMarkdown(boldMatch[2])}`;
       } else {
         labelContent = inlineMarkdown(text);
       }

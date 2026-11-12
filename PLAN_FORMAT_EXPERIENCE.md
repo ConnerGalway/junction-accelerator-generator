@@ -1,258 +1,477 @@
-# Standard Plan Format — Experience Design
+# Experience Design Plan Format
 
-Every experience design plan must follow this structure exactly.
-This ensures Claude can generate the experience page reliably.
+This is the exact format of an Experience Design `plan.md`. A plan in this format uploads through Create Experience and produces a complete dashboard.
 
----
+Every upload is checked before anything is created. A plan with a problem is rejected with a list of the lines to change. This file states every rule that check applies, so a plan written to it passes first time.
 
-## File naming
-`clients/[client-slug]/plan.md`
-Where `client-slug` is lowercase, hyphens only. e.g. `salt-spring-kayak-co`
+This file is tested: `npm test` fills the skeleton below with sample text and runs it through the upload check. If the format and the check ever disagree, the test fails.
 
 ---
 
-## Required Sections
+## Skeleton
+
+Copy this structure exactly. Replace every `[bracketed placeholder]` with real content. Keep every heading, label and symbol as written.
 
 ```markdown
-# [Operator Business Name] — Experience Design Implementation Plan
+# [Operator Business Name]: Experience Design Implementation Plan
 
 ## Meta
 Client Slug: [client-slug]
-Price Point: $[N] per guest          ← OMIT THIS LINE if not yet set
-Launch Target: [First departure date · Revenue target]   ← OMIT THIS LINE if not yet set
-Has Bookability Checklist: yes       ← Write "no" or omit if not applicable
+Price Point: [Price per guest]
+Launch Target: [First departure date] · [Revenue target]
+Has Bookability Checklist: yes
 
 ## Goal
-[One paragraph. What this operator will have launched in 90 days, in plain language.
-Must name the experience, the guest, the price and the first departure.]
+[One paragraph. What this operator will have launched in 90 days. Name the experience, the guest, the price and the first departure.]
 
 ## The Experience
-[One sentence. The experience as agreed in Coaching Call 1, in the operator's words.
-This is the sentence from the Call 1 exit condition. Do not rewrite it.]
+[One sentence. The experience as agreed in Coaching Call 1, in the operator's own words.]
 
 ## Strategic Positioning
 [One paragraph. What makes this experience worth travelling for, and who it is not for.]
 
 ## Welcome Message
-[1-2 sentences of warm encouragement for the welcome modal.
-Acknowledge the operator's starting point and frame the 90 days as the runway
-to their first paying guest. Keep it specific to this operator.]
+[1-2 sentences of warm encouragement, specific to this operator.]
 
 ---
 
 ## Track 1: Define the Experience
 Phase: Design
-Short Label: [2-4 words for sidebar nav e.g. Define It]
-Subtitle: [1 sentence describing what this track delivers]
+Short Label: [2-4 words]
+Subtitle: [One sentence describing what this track delivers.]
 
 ### What We Heard From You
-[2-4 sentences of operator-specific context from the questionnaire and Call 1.
-Reference something they actually said.]
+[2-4 sentences of operator-specific context from the questionnaire and Call 1.]
 
 ### What This Is
-[2-3 sentences explaining what this track involves]
+[2-3 sentences explaining what this track involves.]
 
 ### Why It Matters
-[2-3 sentences on the strategic reasoning]
+[2-3 sentences on the reasoning.]
 
 ### Implementation Steps
 
-#### Part A: [Section Name]
-1. **[Step Title]**
-   - Sub-bullet with specific instructions
-   - Sub-bullet
+#### Part A: [Part Name]
 
-2. **[Step Title]**
-   - Sub-bullet
+1. **[Step title]**
+   - [Specific instruction]
+   - [Specific instruction]
 
-#### Part B: [Section Name]
-3. **[Step Title]**
-   ...
+2. **[Step title]**
+   - [Specific instruction]
 
-#### Part C: [Section Name]
-...
+#### Part B: [Part Name]
+
+3. **[Step title]**
+   - [Specific instruction]
+
+4. **[Step title]**
+   - [Specific instruction]
 
 ### Success Metrics
 | Metric | 30 Days | 60 Days | 90 Days |
 |--------|---------|---------|---------|
-| [Metric name] | [target] | [target] | [target] |
+| [Metric name] | [Target] | [Target] | [Target] |
 
 ### Tips
-- [Tip text]
-- [Tip text]
+- [Practical tip]
+- [Practical tip]
 
 ### Resources
-- [Link text](URL)
-- [Link text](URL)
+- [Resource name](https://example.com)
+- [Resource name](https://example.com): [short description]
 
 ---
 
 ## Track 2: Make It Operable
 Phase: Operations
-Short Label: [2-4 words for sidebar nav e.g. Make It Work]
-Subtitle: [1 sentence describing what this track delivers]
+Short Label: [2-4 words]
+Subtitle: [One sentence describing what this track delivers.]
 
-[Same structure as Track 1. Content covers: costing and pricing, capacity planning,
-staffing requirements, partner agreements, insurance, permits and licences,
-safety protocols, weather contingency, cancellation policy.]
+### What We Heard From You
+[2-4 sentences of operator-specific context.]
+
+### What This Is
+[2-3 sentences.]
+
+### Why It Matters
+[2-3 sentences.]
+
+### Implementation Steps
+
+#### Part A: [Part Name]
+
+1. **[Step title]**
+   - [Specific instruction]
+
+2. **[Step title]**
+   - [Specific instruction]
+
+#### Part B: [Part Name]
+
+3. **[Step title]**
+   - [Specific instruction]
+
+4. **[Step title]**
+   - [Specific instruction]
+
+### Success Metrics
+| Metric | 30 Days | 60 Days | 90 Days |
+|--------|---------|---------|---------|
+| [Metric name] | [Target] | [Target] | [Target] |
+
+### Tips
+- [Practical tip]
+- [Practical tip]
+
+### Resources
+- [Resource name](https://example.com)
 
 ---
 
 ## Track 3: Make It Bookable
 Phase: Launch
-Short Label: [2-4 words for sidebar nav e.g. Go Live]
-Subtitle: [1 sentence describing what this track delivers]
+Short Label: [2-4 words]
+Subtitle: [One sentence describing what this track delivers.]
 
-[Same structure as Track 1. Content covers: booking system setup, listing copy,
-photography and shot list, pricing page, distribution channels, launch push,
-first-booking follow-up.]
+### What We Heard From You
+[2-4 sentences of operator-specific context.]
+
+### What This Is
+[2-3 sentences.]
+
+### Why It Matters
+[2-3 sentences.]
+
+### Implementation Steps
+
+#### Part A: [Part Name]
+
+1. **[Step title]**
+   - [Specific instruction]
+
+2. **[Step title]**
+   - [Specific instruction]
+
+#### Part B: [Part Name]
+
+3. **[Step title]**
+   - [Specific instruction]
+
+4. **[Step title]**
+   - [Specific instruction]
+
+### Success Metrics
+| Metric | 30 Days | 60 Days | 90 Days |
+|--------|---------|---------|---------|
+| [Metric name] | [Target] | [Target] | [Target] |
+
+### Tips
+- [Practical tip]
+- [Practical tip]
+
+### Resources
+- [Resource name](https://example.com)
 
 ---
 
 ## Objectives
 
 ### Objective 1
-Title: [Short title — matches Track 1 outcome]
-Description: [1-2 sentences]
-Track Pill: Track 1 · Weeks [X–Y]
+Title: [Short title matching the outcome of Track 1]
+Description: [1-2 sentences.]
+Track Pill: Track 1 · Weeks 1-4
 
 ### Objective 2
-Title: [Short title — matches Track 2 outcome]
-Description: [1-2 sentences]
-Track Pill: Track 2 · Weeks [X–Y]
+Title: [Short title matching the outcome of Track 2]
+Description: [1-2 sentences.]
+Track Pill: Track 2 · Weeks 5-8
 
 ### Objective 3
-Title: [Short title — matches Track 3 outcome]
-Description: [1-2 sentences]
-Track Pill: Track 3 · Weeks [X–Y]
+Title: [Short title matching the outcome of Track 3]
+Description: [1-2 sentences.]
+Track Pill: Track 3 · Weeks 9-12
 
 ---
 
 ## Launch Roadmap
 
-Month 1 Name: [e.g. Design and Decide]
-Month 2 Name: [e.g. Build and Cost]
-Month 3 Name: [e.g. List and Launch]
+Month 1 Name: [Month name]
+Month 2 Name: [Month name]
+Month 3 Name: [Month name]
 
-### Week 1: [Week Title]
+### Week 1: [Week title]
 **Actions:**
-- [Action bullet]
-- [Action bullet]  ← add "→ links to: Track 1 / Step 2" if there's a how-to step
-- [Action bullet] → links to: Track 1 / Step 3
+- [Instruction] → links to: Track 1 / Step 1
+- [Instruction with no matching step]
 
 **Checklist:**
-- [ ] [Checklist item — the verifiable outcome of one or more actions]
-- [ ] [Checklist item]
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
 
-### Week 2: [Week Title]
-[same structure]
+### Week 2: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 1 / Step 2
+- [Instruction]
 
-[Continue through Week 12. The roadmap must have exactly 12 weeks.]
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 3: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 1 / Step 3
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 4: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 1 / Step 4
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 5: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 2 / Step 1
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 6: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 2 / Step 2
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 7: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 2 / Step 3
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 8: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 2 / Step 4
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 9: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 3 / Step 1
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 10: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 3 / Step 2
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 11: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 3 / Step 3
+- [Instruction] → links to: Bookability Checklist
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
+
+### Week 12: [Week title]
+**Actions:**
+- [Instruction] → links to: Track 3 / Step 4
+- [Instruction]
+
+**Checklist:**
+- [ ] [Verifiable outcome]
+- [ ] [Verifiable outcome]
 
 ---
 
-## Bookability Checklist    ← OMIT THIS ENTIRE SECTION if Has Bookability Checklist: no
+## Bookability Checklist
 
-[The pre-launch readiness list. 5-8 items, each with a short title and a sentence
-explaining why it matters. This replaces the GBP Quick Wins page from the
-accelerator format.]
-
-### [Item Title]
+### [Item title]
 [One sentence on why this matters for launch readiness.]
 
-### [Item Title]
+### [Item title]
 [One sentence on why this matters for launch readiness.]
 
-[Continue for 5-8 items total]
+### [Item title]
+[One sentence on why this matters for launch readiness.]
+
+### [Item title]
+[One sentence on why this matters for launch readiness.]
+
+### [Item title]
+[One sentence on why this matters for launch readiness.]
 ```
 
 ---
 
-## The "→ links to:" annotation
+## Rules the upload enforces
 
-This is the most important annotation for quality output. When you write the roadmap:
+A plan that breaks any of these is rejected. Nothing is created until it passes.
 
-1. For each **Action bullet** that has a corresponding numbered step in the tracks section, add:
-   ```
-   - Write the experience description for your listing → links to: Track 3 / Step 4
-   ```
+### Top-level sections
 
-2. For each **Checklist item** that verifies an action with a how-to link, no annotation needed. Claude derives it from the action bullet.
+| Section | Rule |
+|---|---|
+| `## Goal` | Required, with text under it |
+| `## The Experience` | Required, with text under it |
+| `## Strategic Positioning` | Required, with text under it |
+| `## Objectives` | Required |
+| `## Track N: Title` | Exactly 3 tracks, numbered 1, 2, 3 in order, each with a title |
+| `### Week N: Title` | Exactly 12 weeks, numbered 1 to 12 in order, each with a title |
 
-3. If a roadmap action doesn't have a matching track step (e.g. "Confirm insurance coverage with your broker"), leave no annotation.
+All of these are level-2 headings (`##`), except weeks, which are level 3 (`###`).
 
-**Annotation format:** `→ links to: Track [1/2/3] / Step [N]`
+The headings say **Track**, not Tactic. A plan with `## Tactic N:` headings is treated as an accelerator plan and is rejected on the Create Experience page.
 
-An action can also point at the checklist page: `→ links to: Bookability Checklist` (only when the plan has `Has Bookability Checklist: yes`).
+### Each track
 
-**The upload checks every plan before generating anything.** If something is missing or misformatted, the Create Experience page lists each problem with its line number and the change to make, and nothing is created until the plan passes. The checks live in `shared/plan-validator.js`.
+1. **Header.** Directly under the `## Track N: Title` line, three lines: `Phase:`, `Short Label:` and `Subtitle:`. All three are required.
+2. **Seven sections,** each a level-3 heading with exactly this wording, and each with content:
+   - `### What We Heard From You`
+   - `### What This Is`
+   - `### Why It Matters`
+   - `### Implementation Steps`
+   - `### Success Metrics`
+   - `### Tips`
+   - `### Resources`
+3. **Implementation Steps.**
+   - Every step sits under a Part heading: `#### Part A: Name`, `#### Part B: Name`, and so on. Each Part has a name and at least one step.
+   - Each step is one line: a number, a full stop, a space, then the title in bold. Example: `3. **Set your per-guest price**`.
+   - Step numbers run 1, 2, 3 across the whole track. They never restart at a new Part.
+   - Step detail goes underneath as bullets starting with `- `.
+4. **Success Metrics.** A Markdown table with a header row, a `|---|` separator row and at least one data row. Every data row has all four columns filled. Write `n/a` where there is no target.
+5. **Tips.** At least one line starting with `- `.
+6. **Resources.** At least one line. Every line is a Markdown link with a full address: `- [Link text](https://...)`. A short description may follow after a colon.
 
-**Examples:**
-```markdown
-- Define your ideal guest persona → links to: Track 1 / Step 1
-- Calculate your per-guest cost breakdown → links to: Track 2 / Step 3
-- Upload photos to your Airbnb Experience listing → links to: Track 3 / Step 6
-```
+### Objectives
+
+- Three `### Objective N` blocks, one for each track.
+- Each block has three lines: `Title:`, `Description:` and `Track Pill:`.
+
+### Roadmap
+
+- Each week has a line `**Actions:**` followed by at least one `- ` bullet, then a line `**Checklist:**` followed by at least one `- [ ]` item. Actions come before the Checklist.
+- A "how to" link is written at the end of an action: `→ links to: Track 2 / Step 3`. The track and the step must exist.
+- An action may instead point at the checklist page: `→ links to: Bookability Checklist`. This is allowed only when the plan has a Bookability Checklist section.
+- Put "how to" links on actions only, never on checklist items.
+
+### Bookability Checklist
+
+- To include the page, Meta must say `Has Bookability Checklist: yes` and the plan must end with a `## Bookability Checklist` section.
+- Each item is a `### Item title` heading followed by a sentence of description. Every item needs a description. Aim for 5 to 8 items.
+- To leave the page out, write `Has Bookability Checklist: no` and omit the section.
+
+### Never include
+
+- Placeholder text in square brackets left over from the skeleton, such as `[Step title]`.
+- Template tokens in double braces, such as `{{NAME}}`.
 
 ---
 
-## Key differences from Accelerator format
+## What the upload warns about
 
-| Element | Accelerator | Experience Design |
-|---------|-------------|-------------------|
-| Main sections | Tactics 1-3 | Tracks 1-3 |
-| Section roadmap | 90-Day Roadmap | Launch Roadmap |
-| Optional page | GBP Quick Wins | Bookability Checklist |
-| Meta fields | Grant Budget, Target Milestone | Price Point, Launch Target |
-| New section | — | The Experience (Call 1 sentence) |
-| Phase names | Foundation, Paid Ads, Scale | Design, Operations, Launch |
+These do not block the upload, but each one means something will be missing or look wrong.
 
----
-
-## Notes for plan writers
-
-- Use plain Markdown. No custom formatting needed.
-- Steps must be numbered sequentially within each Part section (Part A starts at 1, Part B continues from where Part A ended. If Part A has 3 steps, Part B starts at 4).
-- The checklist items should be **verifiable outcomes** ("Booking page is live and accepting reservations") not action descriptions ("Set up booking page").
-- Actions should be **instructions** ("Configure your Fareharbor booking widget with the agreed pricing").
-- Weeks don't have to be exactly 4 checklist items. Use as many as needed.
-- The roadmap must have exactly 12 weeks, numbered 1 to 12. The upload is rejected otherwise.
-- **The Experience** section must be copied verbatim from Call 1 notes. Do not paraphrase or improve the operator's words.
-- **Price Point** should only be included once pricing is confirmed. Leave it out during early planning.
-- **Launch Target** should name a specific first-departure date and a revenue goal (e.g. "June 15, 2025 · $2,400 in first-month bookings").
+| Warning | What happens |
+|---|---|
+| No `## Welcome Message` | The welcome screen falls back to the start of the goal |
+| No `Month 1 Name:` (or 2, 3) line | The month is labelled "Month 1" |
+| No `## Meta` section | The price point, launch target and Bookability Checklist are all left out |
+| `Client Slug:` differs from the slug typed on the form | The form's slug is used |
+| A `## Bookability Checklist` section without `Has Bookability Checklist: yes` | The section is left out |
+| A line under a step, or under Actions or Checklist, that is not a bullet | That line does not appear |
+| A step with no bullets | The step shows its title only |
+| A Short Label longer than 28 characters | It may not fit the sidebar |
+| `[CONFIRM ...]` markers | They appear on the dashboard exactly as written |
+| Em dashes in body text | Style only. Use a colon, a comma or a new sentence |
 
 ---
 
-## Track content guidance
+## Optional Meta lines
 
-### Track 1: Define the Experience
-Focus on product design decisions:
-- Guest persona and why they would book
-- Experience format (duration, group size, inclusions)
-- The narrative arc (beginning, middle, end)
-- Unique selling proposition
-- What is explicitly not included
+| Line | Effect |
+|---|---|
+| `Price Point: $145 per guest` | Shown on the dashboard. Leave the line out until pricing is confirmed |
+| `Launch Target: June 15, 2027 · $2,400 in first-month bookings` | Shown on the dashboard as a date and a goal. Separate the two with ` · `. Leave the line out until it is agreed |
+| `Has Bookability Checklist: yes` | Includes the Bookability Checklist page |
 
-### Track 2: Make It Operable
-Focus on operational readiness:
-- Cost breakdown per departure
-- Pricing strategy and margin targets
-- Capacity limits and scheduling
-- Staffing and training needs
-- Partner and supplier agreements
-- Insurance requirements
-- Permits, licences, certifications
-- Safety protocols and emergency procedures
-- Weather policy and contingency plans
-- Cancellation and refund policy
+---
 
-### Track 3: Make It Bookable
-Focus on go-to-market:
-- Booking platform selection and setup
-- Listing copy that converts
-- Photography and visual assets
-- Pricing page or rate card
-- Distribution channels (OTAs, direct, partnerships)
-- Launch campaign and first-booking push
-- Review collection strategy
-- Post-experience follow-up sequence
+## How the dashboard uses each part
+
+| Part of the plan | Where it appears |
+|---|---|
+| Goal | Dashboard, Strategy page, welcome screen and the printed roadmap |
+| The Experience | Strategy page |
+| Strategic Positioning | Strategy page |
+| Welcome Message | Welcome screen |
+| Track title, Phase, Short Label, Subtitle | Track page header, sidebar and dashboard cards |
+| What We Heard From You, What This Is, Why It Matters | Track Overview tab, as paragraphs |
+| Steps and their bullets | Implementation Steps tab, grouped by Part |
+| Success Metrics | Success Metrics tab. The first four columns are used |
+| Tips and Resources | Tips and Resources tab |
+| Objectives | Strategy page |
+| Weeks, Actions, Checklist | Launch Roadmap. Checklist items become the tick boxes that track progress |
+| `→ links to:` notes | A "how to" button on that action. The note itself is not shown |
+| Bookability Checklist | Its own page, with a tick box per item |
+
+Weeks 1 to 4 count towards Track 1, weeks 5 to 8 towards Track 2 and weeks 9 to 12 towards Track 3. Keep each track's work in its own four weeks.
+
+Within body text, `**bold**`, `*italic*`, `` `code` `` and `[links](https://...)` are shown as formatted text. Titles, labels and headings are shown as plain text.
+
+The Guide and Materials pages start as "Coming Soon". They are filled in later and are not part of the plan.
+
+---
+
+## Writing guidance
+
+- **The Experience** is copied word for word from the Call 1 notes. Do not paraphrase or improve the operator's words.
+- Actions are instructions ("Configure your FareHarbor booking widget with the agreed pricing").
+- Checklist items are verifiable outcomes ("Booking page is live and accepting reservations"), not instructions.
+- A week can have as many actions and checklist items as it needs.
+- A step title may be followed by a short note on the same line.
+- Never use em dashes.
+
+### What each track covers
+
+- **Track 1: Define the Experience.** Guest persona and why they would book, format (duration, group size, inclusions), the arc of the experience, what makes it distinctive, and what is not included.
+- **Track 2: Make It Operable.** Cost per departure, pricing and margin, capacity and scheduling, staffing, partner and supplier agreements, insurance, permits and licences, safety and emergency procedures, weather contingency, and the cancellation policy.
+- **Track 3: Make It Bookable.** Booking platform setup, listing copy, photography, the pricing page, distribution channels, the launch push, review collection and follow-up after the experience.
+
+## Small variations the upload accepts
+
+Write plans exactly as in the skeleton. These variations are tolerated if they slip in, and are read the same way:
+
+- `## Track #1 - Title` in place of `## Track 1: Title`, and the same for weeks and Parts
+- `**Phase:** Design` in place of `Phase: Design`
+- `Actions:` without the bold
+- `*` in place of `-` for bullets, and `- []` in place of `- [ ]`
+- `->` in place of `→`
+- Header lines (`Phase:`, `Short Label:`, `Subtitle:`) in any order, with blank lines between them
+- A step written as `**1. Step title**`
