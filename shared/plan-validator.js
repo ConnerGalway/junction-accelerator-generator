@@ -244,6 +244,7 @@ function validatePlan(rawContent, options = {}) {
       let expected = 1;
       let numberingReported = false;
       let lastStep = null;
+      const looseStepLines = [];
       rows.forEach(({ text: l, index }) => {
         if (/^####\s*Part [A-Z]: /.test(l) || /^####\s*Part [A-Z]:$/.test(l)) {
           parts.push({ line: lineNo(index), steps: 0, title: l.replace(/^####\s*Part [A-Z]:\s*/, '').trim() });
@@ -279,9 +280,17 @@ function validatePlan(rawContent, options = {}) {
           expected = num + 1;
           return;
         }
-        if (isListItem(l) && lastStep) lastStep.bullets += 1;
+        if (isListItem(l) && lastStep) { lastStep.bullets += 1; return; }
+        // Anything else under a step that is not a bullet is not shown
+        if (lastStep && l.trim() && !isRule(l) && !/^#/.test(l.trim()) && !/^\|/.test(l.trim())) {
+          looseStepLines.push(lineNo(index));
+        }
       });
       if (lastStep && lastStep.bullets === 0) warn(lastStep.line, `${name}: Step ${lastStep.num} has no bullet points under it.`, 'Add the instructions as "- " bullets, or leave it if the title says it all.');
+
+      if (looseStepLines.length) {
+        warn(looseStepLines[0], `${name}: ${looseStepLines.length} line${looseStepLines.length === 1 ? '' : 's'} under the steps ${looseStepLines.length === 1 ? 'is' : 'are'} not written as a bullet, so ${looseStepLines.length === 1 ? 'it' : 'they'} will not appear on the dashboard${looseStepLines.length > 1 ? ` (first on line ${looseStepLines[0]})` : ''}.`, 'Start each line of step detail with "- ".');
+      }
 
       if (unit.steps === 0) {
         err(lineNo(stepsSec.start), `${name}: no implementation steps were found.`, 'Write each step as "1. **Step title**" followed by "- " bullets.');
@@ -515,6 +524,12 @@ function validatePlan(rawContent, options = {}) {
     .filter(({ l, i }) => l.includes('—') && i !== 0 && !(i >= metaRange[0] && i < metaRange[1]) && !/^#/.test(l));
   if (emDashLines.length) {
     warn(lineNo(emDashLines[0].i), `Em dashes (—) appear on ${emDashLines.length} line${emDashLines.length === 1 ? '' : 's'}${emDashLines.length > 1 ? `, first on line ${lineNo(emDashLines[0].i)}` : ''}.`, 'The style guide avoids em dashes. Use a colon, a comma or a new sentence.');
+  }
+
+  // Markers left for someone to resolve appear on the dashboard exactly as written
+  const confirmLines = lines.map((l, i) => ({ l, i })).filter(({ l }) => /\[CONFIRM\b/i.test(l));
+  if (confirmLines.length) {
+    warn(lineNo(confirmLines[0].i), `${confirmLines.length} [CONFIRM ...] marker${confirmLines.length === 1 ? '' : 's'} will appear on the dashboard exactly as written${confirmLines.length > 1 ? `, first on line ${lineNo(confirmLines[0].i)}` : ''}.`, 'Replace each one with the confirmed detail, or leave it if the client is meant to fill it in.');
   }
 
   // ── Safety net: compare with what the parser actually read ──────────────
