@@ -5761,8 +5761,8 @@ button,
         </div>
       </div>
       <div class="dash-progress-content">
-        <h2 class="dash-headline" id="dash-headline">Getting those foundations sorted</h2>
-        <p class="dash-subcopy" id="dash-subcopy">You're in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.</p>
+        <h2 class="dash-headline" id="dash-headline">Getting started</h2>
+        <p class="dash-subcopy" id="dash-subcopy">You're in the first phase of your accelerator. Keep checking items off your roadmap to move forward.</p>
         <div class="dash-phases-label">THE 90 DAYS</div>
         <div class="dash-phases-grid">
           <div class="dash-phase" data-phase="1">
@@ -6423,7 +6423,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 1: Tracking, Website, SEO
+     TACTIC 1
      ════════════════════════════════════════════ -->
 <section id="page-tactic1" class="page">
   <div class="tactic-page-content">
@@ -6913,7 +6913,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 2: Content and Story
+     TACTIC 2
      ════════════════════════════════════════════ -->
 <section id="page-tactic2" class="page">
   <div class="tactic-page-content">
@@ -7302,7 +7302,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 3: Paid Acquisition
+     TACTIC 3
      ════════════════════════════════════════════ -->
 <section id="page-tactic3" class="page">
   <div class="tactic-page-content">
@@ -7747,7 +7747,7 @@ button,
 </section>
 
 <!-- ════════════════════════════════════════════
-     TACTIC 4: Email Marketing & Reviews
+     TACTIC 4
      ════════════════════════════════════════════ -->
 
 
@@ -8866,7 +8866,7 @@ button,
     <div class="print-only print-footer">
       <div class="print-footer-brand">e<span>Learning</span>U</div>
       <div class="print-footer-contact">
-        <strong>Questions?</strong> Contact your coach at conner@elearningu.com
+        <strong>Questions?</strong> Contact your coach at damon@wearejunction.com
       </div>
     </div>
   </div>
@@ -8881,7 +8881,7 @@ button,
   <div class="page-header">
     <div class="page-header-eyebrow">Quick-Hit Recommendations</div>
     <h1>Quick Wins</h1>
-    <p>Small jobs that pay back quickly and do not need the contractor or the budget. Most take under an hour. These should not wait for anything else in the plan.</p>
+    <p>Short, self-contained improvements. Each one stands alone, so they can be done in any order.</p>
   </div>
   <div class="content-area">
     <!-- GENERATOR: Replace this placeholder with Quick Wins page content from plan.md -->
@@ -9152,32 +9152,7 @@ function navigate(pageId) {
 }
 
 // ── Projections Scenario Toggle ─────────────────────────────
-const SCENARIOS = {
-  conservative: {
-    nights: '35–45',
-    nightsBar: 16,
-    revenue: '$8,000–$10,500',
-    revenueBar: 16,
-    emails: '150',
-    reviews: '10'
-  },
-  moderate: {
-    nights: '90–135',
-    nightsBar: 48,
-    revenue: '$21,000–$31,500',
-    revenueBar: 48,
-    emails: '300',
-    reviews: '25'
-  },
-  aggressive: {
-    nights: '210–280',
-    nightsBar: 100,
-    revenue: '$49,000–$65,500',
-    revenueBar: 100,
-    emails: '500',
-    reviews: '40'
-  }
-};
+const SCENARIOS = {};
 
 function setScenario(scenario) {
   const data = SCENARIOS[scenario];
@@ -9564,12 +9539,12 @@ const PHASES = {"1":"Search and AI Visibility","2":"Content and Audience","3":"C
 
 // Headlines based on progress percentage
 const PROGRESS_HEADLINES = [
-  { max: 10, headline: 'Getting those foundations sorted', subcopy: 'You\'re in the first phase of your accelerator, setting up the tracking and infrastructure that will power everything else. Keep checking items off your roadmap to move forward.' },
-  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the foundations. The tracking is taking shape and the site improvements are underway. Keep the pace going.' },
-  { max: 50, headline: 'Halfway there', subcopy: 'You\'ve crossed the halfway mark. The measurement system is in place, and now you\'re building the content and assets that will drive results.' },
-  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the groundwork is done and paid campaigns are running. Focus on optimization and scaling what\'s working.' },
-  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. You\'ve built something real: clean tracking, a converting site, and live campaigns. Finish strong.' },
-  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. You\'ve built clean measurement, a site that converts, and campaigns that are running. Time to see the results.' }
+  { max: 10, headline: 'Getting started', subcopy: 'You\'re in the first phase of your accelerator. Keep checking items off your roadmap to move forward.' },
+  { max: 25, headline: 'Building momentum', subcopy: 'You\'ve made solid progress on the early weeks. Keep the pace going.' },
+  { max: 50, headline: 'Halfway there', subcopy: 'You\'re closing in on the halfway mark. The work you\'ve done so far is the base for everything that follows.' },
+  { max: 75, headline: 'The home stretch', subcopy: 'Impressive progress. Most of the plan is behind you. Keep working through the remaining weeks.' },
+  { max: 99, headline: 'Almost there', subcopy: 'Just a few more items to check off. Finish strong.' },
+  { max: 100, headline: 'You did it', subcopy: 'All 90 days complete. Take a moment to look back at how much you\'ve put in place.' }
 ];
 
 function getDayInfo() {
@@ -9849,7 +9824,7 @@ const TOUR_STEPS = [
     targetId: 'tactic-cards-section',
     page: 'dashboard',
     title: 'Track Each Tactic',
-    desc: 'These pills show progress on each of your four tactics. Click any to open the detailed guide and implementation steps.',
+    desc: 'These pills show progress on each of your tactics. Click any to open the detailed guide and implementation steps.',
     pos: 'below', pad: 8, mobileScrollBlock: 'start'
   },
   {

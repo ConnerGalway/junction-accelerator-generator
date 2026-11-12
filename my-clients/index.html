@@ -1812,7 +1812,7 @@
     async function loadExperienceProjectProgress(project) {
       // Fetch plan.json for total item count
       try {
-        const res = await fetch(`/experience/${project.slug}/plan.json`);
+        const res = await fetch(`/clients/${project.slug}/plan.json`);
         if (res.ok) {
           const plan = await res.json();
           let total = 0;
@@ -1865,7 +1865,7 @@
           : 'Awaiting launch date';
 
         return `
-          <a href="/experience/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
+          <a href="/${p.slug}/" class="project-card" style="animation-delay: ${i * 0.05}s" data-slug="${p.slug}">
             <div class="project-card__header">
               <div class="project-card__info">
                 <h2 class="project-card__name">${escapeHtml(p.name)}</h2>
@@ -2572,6 +2572,46 @@
 
         console.log('Updated rows:', updatedRows);
 
+        // Make sure the assigned coach can open the dashboard. The coach_email
+        // column above is only a label: shared/auth.js grants access from the
+        // coach's own row (email = coach, role = 'coach'), so create or
+        // reactivate that row here. Runs on every save, so re-saving a project
+        // repairs a coach who was assigned before this check existed.
+        let coachAccessError = null;
+        if (newCoachEmail) {
+          const coachEmailLower = newCoachEmail.toLowerCase();
+          const coachRow = updatedRows.find(
+            r => r.role === 'coach' && (r.email || '').toLowerCase() === coachEmailLower
+          );
+
+          if (!coachRow) {
+            const { error: insertError } = await supabaseClient
+              .from('user_plans')
+              .insert({
+                email: coachEmailLower,
+                client_slug: editTargetSlug,
+                role: 'coach',
+                active: true,
+                cohort_start_date: newStartDate || null,
+                coach_email: newCoachEmail,
+                dashboard_state: updatedRows[0].dashboard_state || null
+              });
+            coachAccessError = insertError;
+          } else if (!coachRow.active) {
+            const { error: reactivateError } = await supabaseClient
+              .from('user_plans')
+              .update({ active: true })
+              .eq('client_slug', editTargetSlug)
+              .eq('role', 'coach')
+              .eq('email', coachRow.email);
+            coachAccessError = reactivateError;
+          }
+
+          if (coachAccessError) {
+            console.error('Could not grant coach dashboard access:', coachAccessError);
+          }
+        }
+
         // Recalculate milestone due dates if start date changed
         const project = projects.find(p => p.slug === editTargetSlug);
         if (project && newStartDate && newStartDate !== project.cohort_start_date) {
@@ -2619,6 +2659,10 @@
         // Re-render projects and close modal
         renderProjects();
         closeEditProjectModal();
+
+        if (coachAccessError) {
+          alert('The project was saved, but ' + newCoachEmail + ' could not be given access to the dashboard. Please try saving again or contact an admin.');
+        }
 
       } catch (err) {
         console.error('Update error:', err);

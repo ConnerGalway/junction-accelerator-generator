@@ -778,6 +778,9 @@
           </div>
         </div>
 
+        <!-- Result of checking the chosen plan.md: what needs fixing, line by line -->
+        <div id="planReport" aria-live="polite"></div>
+
         <button type="submit" class="btn-submit" id="submitBtn">Create Project</button>
       </form>
     </div>
@@ -833,12 +836,14 @@
   <script src="/shared/supabase-client.js"></script>
   <script src="/shared/auth.js?v=2"></script>
   <script src="/shared/user-menu.js?v=2"></script>
+  <script src="/shared/plan-report-ui.js"></script>
   <script>
     // ══════════════════════════════════════════════════════════════
     // STATE
     // ══════════════════════════════════════════════════════════════
     let currentUser = null;
     let planMdContent = null;
+    let planCheck = null; // result of the plan check for the chosen file
     let linkedAssessment = null; // Assessment we're adding a plan to
 
     // ══════════════════════════════════════════════════════════════
@@ -1027,6 +1032,14 @@
       const content = await file.text();
       planMdContent = content;
 
+      // Check the plan and list anything that needs fixing, line by line.
+      // The server runs the same check again before anything is created.
+      planCheck = await PlanReportUI.check(content, 'accelerator', document.getElementById('slug').value.trim());
+      PlanReportUI.render(document.getElementById('planReport'), planCheck);
+
+      // Clear the input so choosing the same file again (after editing it) is picked up
+      document.getElementById('planFile').value = '';
+
       // Update UI
       fileUpload.classList.add('has-file');
       fileName.textContent = file.name;
@@ -1071,6 +1084,12 @@
       const coachEmail = document.getElementById('coachEmail').value.trim();
 
       // Validate
+      if (planCheck && !planCheck.ok) {
+        showError('This plan needs changes before it can be uploaded. See the list above the button, fix the plan.md file, then choose it again.');
+        document.getElementById('planReport').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
       if (!planMdContent) {
         showError('Please upload a plan.md file');
         return;
@@ -1121,6 +1140,14 @@
         const result = await response.json();
 
         if (!response.ok) {
+          if (Array.isArray(result.issues) && result.issues.length > 0) {
+            // The server rejected the upload with a list of specific problems
+            PlanReportUI.render(document.getElementById('planReport'), { errors: result.issues, warnings: result.warnings || [] });
+            document.getElementById('planReport').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            throw new Error(result.step === 'validate'
+              ? 'This plan needs changes before it can be uploaded. See the list above the button. Nothing was created.'
+              : (result.error || 'Failed to create project').split('\n')[0]);
+          }
           throw new Error(result.error || 'Failed to create project');
         }
 
@@ -1131,6 +1158,8 @@
         document.getElementById('fileName').textContent = '';
         document.getElementById('previewPanel').classList.remove('visible');
         planMdContent = null;
+        planCheck = null;
+        PlanReportUI.clear(document.getElementById('planReport'));
 
       } catch (err) {
         showError(err.message);
@@ -1146,6 +1175,7 @@
     function showError(message) {
       const el = document.getElementById('errorMessage');
       el.textContent = message;
+      el.style.whiteSpace = 'pre-line';
       el.classList.add('visible');
       document.getElementById('successMessage').classList.remove('visible');
     }

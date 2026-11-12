@@ -147,7 +147,7 @@ Month 3 Name: [e.g. List and Launch]
 ### Week 2: [Week Title]
 [same structure]
 
-[Continue through Week 12, or however many weeks the plan has]
+[Continue through Week 12. The roadmap must have exactly 12 weeks.]
 
 ---
 
@@ -183,6 +183,10 @@ This is the most important annotation for quality output. When you write the roa
 
 **Annotation format:** `→ links to: Track [1/2/3] / Step [N]`
 
+An action can also point at the checklist page: `→ links to: Bookability Checklist` (only when the plan has `Has Bookability Checklist: yes`).
+
+**The upload checks every plan before generating anything.** If something is missing or misformatted, the Create Experience page lists each problem with its line number and the change to make, and nothing is created until the plan passes. The checks live in `shared/plan-validator.js`.
+
 **Examples:**
 ```markdown
 - Define your ideal guest persona → links to: Track 1 / Step 1
@@ -212,7 +216,7 @@ This is the most important annotation for quality output. When you write the roa
 - The checklist items should be **verifiable outcomes** ("Booking page is live and accepting reservations") not action descriptions ("Set up booking page").
 - Actions should be **instructions** ("Configure your Fareharbor booking widget with the agreed pricing").
 - Weeks don't have to be exactly 4 checklist items. Use as many as needed.
-- The 12-week structure is standard but can flex to fewer weeks if the plan is shorter.
+- The roadmap must have exactly 12 weeks, numbered 1 to 12. The upload is rejected otherwise.
 - **The Experience** section must be copied verbatim from Call 1 notes. Do not paraphrase or improve the operator's words.
 - **Price Point** should only be included once pricing is confirmed. Leave it out during early planning.
 - **Launch Target** should name a specific first-departure date and a revenue goal (e.g. "June 15, 2025 · $2,400 in first-month bookings").

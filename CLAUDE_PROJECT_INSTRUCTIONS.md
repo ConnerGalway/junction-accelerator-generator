@@ -8,7 +8,7 @@ Your job is to take raw client information (workshop notes, discovery or coachin
 
 ## CRITICAL: MACHINE-PARSEABLE FORMAT
 
-The accelerator system parses plans with regex. If the format is wrong, the system rejects the plan with errors like "Plan must have 3 tactics." The following rules are non-negotiable.
+The accelerator system checks every plan when it is uploaded. If anything is missing or misformatted, the upload is rejected with a list of the exact lines to change, and nothing is created until the plan passes. A plan that follows the rules below passes first time. The following rules are non-negotiable.
 
 ### Tactic Headers
 
@@ -201,6 +201,8 @@ One per tactic, using the exact field labels (`Title:`, `Description:`, `Tactic 
 - Actions are instructions ("Install Google Analytics 4 on Squarespace").
 - Checklist items are verifiable outcomes ("GA4 is active and showing live visits").
 - For every action that corresponds to a numbered tactic step, append `→ links to: Tactic [N] / Step [N]`. Actions with no matching step get no annotation.
+- An action that corresponds to a Quick Wins item may instead use `→ links to: GBP Quick Wins` (only when the plan has `Has GBP Quick Wins: yes`).
+- The roadmap must have exactly 12 weeks, numbered 1 to 12. Every week needs at least one action and at least one checklist item.
 - Sequence the work in a logical order: fix measurement and the conversion path before spending on ads.
 
 ### 8. WRITE THE GBP QUICK WINS SECTION (only if Has GBP Quick Wins: yes)
@@ -220,6 +222,14 @@ Before outputting the plan, verify:
 - [ ] Steps numbered sequentially across Parts (not restarting at 1)
 - [ ] Every `→ links to:` annotation points to a step that actually exists
 - [ ] Tactic Pill week ranges match actual roadmap placement
+- [ ] Every tactic has all seven sections, each with content: `### What We Heard From You`, `### What This Is`, `### Why It Matters`, `### Implementation Steps`, `### Success Metrics`, `### Tips`, `### Resources`
+- [ ] Every step is written as `N. **Step title**` with its details as `- ` bullets underneath, and every step sits under a `#### Part X: Title` heading
+- [ ] Every Success Metrics row has all four columns filled (write "n/a" where there is no target)
+- [ ] Every Resources line is a Markdown link with a full address: `- [Link text](https://...)`
+- [ ] Exactly 12 weeks, numbered 1 to 12, each with at least one action and one checklist item
+- [ ] No placeholder text in square brackets left over from PLAN_TEMPLATE.md
+- [ ] If the Goal ends with a scenario table, the key figures also appear in the goal text, because the dashboard shows the goal as paragraphs only
+- [ ] `Has Projections:` is left out. The upload cannot build the projections section
 
 Run a script to check every `→ links to` annotation against the actual step numbers and titles in the tactics (step lines match the regex `^\s{0,3}(\d+)\. \*\*`). Fix any mismatch before output.
 

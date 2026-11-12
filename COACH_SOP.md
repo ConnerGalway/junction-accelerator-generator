@@ -95,7 +95,7 @@ Before moving to Phase 2, read through the plan and check:
 - [ ] Goal and Positioning are specific to this client (not generic)
 - [ ] All three tactics have: Phase, Sidebar Label, Subtitle, all four sub-sections, a metrics table, tips, and resources
 - [ ] All steps across all tactics are numbered sequentially
-- [ ] The 90-Day Roadmap has all 12 weeks (or however many weeks the plan runs)
+- [ ] The 90-Day Roadmap has all 12 weeks, numbered 1 to 12 (the upload is rejected otherwise)
 - [ ] `→ links to:` annotations are added where applicable
 - [ ] Welcome Message is written
 

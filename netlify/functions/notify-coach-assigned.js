@@ -137,7 +137,8 @@ export async function handler(event, context) {
     // Determine dashboard URL based on type
     let dashboardPath;
     if (dashboardType === 'experience') {
-      dashboardPath = `/experience/${encodeURIComponent(clientSlug)}/`;
+      // Experience dashboards live in clients/[slug]/ alongside accelerator dashboards
+      dashboardPath = `/clients/${encodeURIComponent(clientSlug)}/`;
     } else if (dashboardType === 'elevated') {
       dashboardPath = `/elevated/${encodeURIComponent(clientSlug)}/`;
     } else {
