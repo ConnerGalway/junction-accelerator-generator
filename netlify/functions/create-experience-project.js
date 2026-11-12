@@ -132,9 +132,24 @@ export async function handler(event, context) {
     });
 
     if (!templateRes.ok) {
+      // Say why GitHub refused, so a configuration problem can be fixed
+      // without guessing. GitHub's message never contains the token.
+      let githubMessage = '';
+      try { githubMessage = (await templateRes.json()).message || ''; } catch (e) { /* no JSON body */ }
+      const hint = templateRes.status === 401
+        ? 'The GitHub token in the site settings is not valid or has expired.'
+        : templateRes.status === 403
+          ? 'The GitHub token is not allowed to access this repository.'
+          : templateRes.status === 404
+            ? `The template was not found on the "${GITHUB_BRANCH}" branch, or the GitHub token cannot see this repository.`
+            : 'GitHub could not be reached.';
+      console.error('[github] Template fetch failed:', templateRes.status, githubMessage);
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'Failed to fetch template', step: 'github' })
+        body: JSON.stringify({
+          error: `Could not read the dashboard template from GitHub (status ${templateRes.status}${githubMessage ? `: ${githubMessage}` : ''}). ${hint} Nothing was created.`,
+          step: 'github'
+        })
       };
     }
 
