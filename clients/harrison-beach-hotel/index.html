@@ -5160,12 +5160,85 @@ body:not(.has-plan) .plan-content{display:none}
   height:auto;
   display:block;
 }
+.tactic-mockup-body{aspect-ratio:16/10;overflow:hidden}
+.tactic-mockup-body img{width:100%;height:100%;object-fit:cover;object-position:top center;cursor:zoom-in}
+.tactic-mockup--page .tactic-mockup-body::after{content:"Full page ↗";position:absolute;right:10px;bottom:10px;background:rgba(20,26,26,.72);color:#fff;font-size:11px;letter-spacing:.3px;padding:4px 9px;border-radius:20px;pointer-events:none}
+.tactic-embed .tactic-mockup-body{aspect-ratio:16/9}
+.tactic-embed iframe{width:100%;height:100%;border:0;display:block}
 .tactic-mockup-label{
   padding:12px 16px;
   font-size:12px;
   color:#8a7f68;
   text-align:center;
   background:#f7f2e9;
+}
+
+/* Linked mockup: opens the real site in a new tab (no lightbox) */
+.tactic-mockup-link{
+  display:block;
+  max-width:640px;
+  color:inherit;
+  text-decoration:none;
+  border-radius:12px;
+}
+.tactic-mockup-link .tactic-mockup{
+  transition:transform .2s ease,box-shadow .2s ease;
+}
+.tactic-mockup-link:hover .tactic-mockup,
+.tactic-mockup-link:focus-visible .tactic-mockup{
+  transform:translateY(-3px);
+  box-shadow:0 10px 24px rgba(30,25,15,.16);
+}
+.tactic-mockup-link:hover,
+.tactic-mockup-link:focus-visible{text-decoration:none}
+.tactic-mockup-link:focus-visible{
+  outline:2px solid var(--link-blue);
+  outline-offset:3px;
+}
+.tactic-mockup-open{
+  flex-shrink:0;
+  margin-left:4px;
+  font-size:11px;
+  font-weight:600;
+  color:#8a7f68;
+  white-space:nowrap;
+  transition:color .2s ease;
+}
+.tactic-mockup-link .tactic-mockup-url{min-width:0}
+.tactic-mockup-link:hover .tactic-mockup-open,
+.tactic-mockup-link:focus-visible .tactic-mockup-open{
+  color:var(--link-blue);
+}
+@media(max-width:480px){
+  .tactic-mockup-open-text{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  .tactic-mockup-link .tactic-mockup{transition:none}
+  .tactic-mockup-link:hover .tactic-mockup,
+  .tactic-mockup-link:focus-visible .tactic-mockup{transform:none}
+}
+
+/* Two mockups side by side, stacked on mobile */
+.tactic-mockup-pair{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px;
+}
+.tactic-mockup-pair > *{min-width:0}
+.tactic-mockup-pair .tactic-mockup{margin-top:0}
+@media(max-width:768px){
+  .tactic-mockup-pair{grid-template-columns:1fr}
+}
+
+/* "Example" badge in the top corner of a mockup */
+.tactic-mockup-body{position:relative}
+.tactic-mockup-badge{
+  position:absolute;
+  top:10px;
+  left:10px;
+  z-index:1;
+  box-shadow:0 2px 6px rgba(17,21,75,.18);
 }
 
 /* Two-column step layout */
@@ -6459,6 +6532,30 @@ button,
                       <li data-editable-key="t1-bullet-3">Pick the five questions per cluster that are most specific and most likely to lead to a booking or an enquiry. Specific beats broad. &quot;Is Harrison Beach Hotel pet friendly?&quot; is a better target than &quot;pet-friendly travel.&quot;</li>
                       <li data-editable-key="t1-bullet-4">Save the full list in a Google Sheet with columns for cluster, question, status, publish date, and the person responsible. The remaining questions become the next 90 days.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">Explore Harrison topic clusters</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s1-topic-clusters.png" alt="Table of the five Explore Harrison topic clusters, who each serves, and example questions for winter, pet-friendly stays, families, adventures, and meetings" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">docs.google.com/spreadsheets</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s1-question-bank.png" alt="Google Sheet question bank for the winter cluster with columns for cluster, question, source, pick, status, publish date, and person responsible, with the top five picks highlighted" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-2">
@@ -6470,6 +6567,17 @@ button,
                       <li data-editable-key="t1-bullet-6">Publish each cluster over a two-week window, with the question posts first and the pillar page last, so the pillar can link to posts that already exist. In each two-week window, that is three posts in the first week and two posts plus the pillar in the second.</li>
                       <li data-editable-key="t1-bullet-7">Assign one writer per cluster, and assign one person on the hotel side to confirm facts. Prices, policies, distances, and hours change, and a wrong answer in an AI result is worse than no answer.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Explore Harrison content calendar</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t1-s2-content-calendar.png" alt="Week 3 to Week 12 calendar showing each cluster published over two weeks, question posts first and the pillar page last, with a writer and fact checker for each cluster" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6494,6 +6602,18 @@ button,
                       <li data-editable-key="t1-bullet-9">Add a new item to the main navigation, something like &quot;Explore Harrison,&quot; and consider replacing the existing Activities link with it. If you replace Activities, set up 301 redirects from the old page to the new section so you keep the search equity the page has earned.</li>
                       <li data-editable-key="t1-bullet-10">Link the navigation item to a hub page that lists the five clusters with a one-line description of each, then link each cluster to its pillar page.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisonbeachhotel.com/explore-harrison</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t1-s3-explore-harrison-nav.png" alt="Website mockup with Explore Harrison in the main navigation and a hub page linking to the five cluster guides, on desktop and in the mobile menu" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-4">
@@ -6505,6 +6625,32 @@ button,
                       <li data-editable-key="t1-bullet-12">Use the same facts-first approach as your existing FAQ page, with schema that matches what you have already implemented. Your existing Hotel and LodgingBusiness schema stays as is, and the pillar and question pages add Article and FAQPage markup.</li>
                       <li data-editable-key="t1-bullet-13">Link each pillar to the other four, so the hub reads as one connected body of work. Internal linking is how the crawlers understand the cluster as a single authority.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/explore-harrison/winter</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s4-winter-pillar.png" alt="Winter pillar page mockup on desktop and mobile with one H1, a direct overview, and a Book Direct block with the best rate guarantee and flexible changes" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup tactic-mockup--page">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/explore-harrison/winter</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s4-winter-pillar-full.png" alt="Full winter pillar page with five question sections linking to full answers, links to the other four guides, a booking band, and footer" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-5">
@@ -6517,6 +6663,34 @@ button,
                       <li data-editable-key="t1-bullet-16">Use Claude to draft, but give it the facts. A reliable prompt: &quot;Write a 300-word answer for the Harrison Beach Hotel blog to the question below. The first sentence must answer the question directly. Use only the facts I provide, and do not invent policies, prices, or distances. Keep the tone warm, specific, and unfussy. Facts: [PASTE].&quot; Then have the team member who knows the topic check every claim before publishing.</li>
                       <li data-editable-key="t1-bullet-17">Add one detail only your team would know to every post, such as the room that gets the best sunset or what Megan tells dog owners at check-in. That is what separates your answer from an OTA summary.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/explore-harrison/is-harrison-beach-hotel-pet-friendly</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s5-pet-question-post.png" alt="Question post mockup where the H1 is the question and the first sentence answers it, with links to the pillar page, two sibling posts, and a Book Direct button" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <a href="https://validator.schema.org/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Schema Markup Validator (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">validator.schema.org</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/harrison-beach-hotel-mockups/media/t1-s5-schema-validator.png" alt="Schema Markup Validator detecting Article, FAQPage, and BreadcrumbList on the pet-friendly post with no errors" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-6">
@@ -6528,6 +6702,17 @@ button,
                       <li data-editable-key="t1-bullet-19">Capture the Reel footage when you capture the post photos. One shoot, several outputs.</li>
                       <li data-editable-key="t1-bullet-20">Log the social post links in the content calendar so you can see which written answers earn the most engagement. Those are the questions to expand next.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">One post, three formats</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t1-s6-one-post-three-ways.png" alt="One winter question post turned into an Instagram Reel, a carousel, and a Google Business Profile post" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6553,6 +6738,47 @@ button,
                       <li data-editable-key="t1-bullet-23">Claim and complete a Bing Places listing and an Apple Business Connect listing if you have not, since AI search tools draw on Bing and other sources as well as Google, and match the name, address, phone, and description exactly to the Google Business Profile.</li>
                       <li data-editable-key="t1-bullet-24">Retest the same prompt two weeks later. Corrections can take a few weeks to propagate, so keep a note of what you changed and when.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">chatgpt.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t1-s7-chatgpt-photo-source.png" alt="ChatGPT answer showing a harrisonresort.com photo under Harrison Beach Hotel, with the image source, the citation, and the thumbs-down feedback option highlighted" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
+                    <div class="tactic-mockup-pair">
+                      <a href="https://www.bingplaces.com" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Bing Places for Business (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">bingplaces.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/harrison-beach-hotel-mockups/media/t1-s7-bing-places.png" alt="Bing Places for Business with the option to import Harrison Beach Hotel from Google Business Profile" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                      <a href="https://business.apple.com/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open Apple Business (opens in a new tab)">
+                        <div class="tactic-mockup">
+                          <div class="tactic-mockup-chrome">
+                            <span class="tactic-mockup-dot red"></span>
+                            <span class="tactic-mockup-dot yellow"></span>
+                            <span class="tactic-mockup-dot green"></span>
+                            <div class="tactic-mockup-url">business.apple.com</div>
+                            <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                          </div>
+                          <div class="tactic-mockup-body">
+                            <img src="/assets/harrison-beach-hotel-mockups/media/t1-s7-apple-business.png" alt="Apple Business home page, where businesses manage how their place card appears in Apple Maps" loading="lazy">
+                          </div>
+                        </div>
+                      </a>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t1-8">
@@ -6566,6 +6792,30 @@ button,
                       <li data-editable-key="t1-bullet-28">Protect the number-one meetings ranking. That page and its supporting content are an asset, so check that prompt every month and do not change the page without testing the effect.</li>
                       <li data-editable-key="t1-bullet-29">In Google Analytics, check referrals from chatgpt.com, perplexity.ai, and similar sources each month. AI referrals are small but growing, and they tend to convert well.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">docs.google.com/spreadsheets</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s8-ai-visibility-tracker.png" alt="AI visibility test sheet with the same prompts run in ChatGPT, Perplexity, Gemini, and Google AI Overviews, recording whether the hotel is named, position, cited URL, accuracy, and OTAs" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">analytics.google.com</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t1-s8-ga4-ai-referrals.png" alt="GA4 Traffic acquisition filtered to AI sources such as chatgpt.com and perplexity.ai, showing sessions, engaged sessions, and key events" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6649,10 +6899,10 @@ button,
 <li><a href="https://perplexity.ai" data-editable-link="t1-resource-2" target="_blank">Perplexity AI</a></li>
 <li><a href="https://search.google.com/search-console" data-editable-link="t1-resource-3" target="_blank">Google Search Console</a></li>
 <li><a href="https://www.bingplaces.com" data-editable-link="t1-resource-4" target="_blank">Bing Places for Business</a></li>
-<li><a href="https://businessconnect.apple.com" data-editable-link="t1-resource-5" target="_blank">Apple Business Connect</a></li>
+<li><a href="https://business.apple.com" data-editable-link="t1-resource-5" target="_blank">Apple Business</a></li>
 <li><a href="https://business.google.com" data-editable-link="t1-resource-6" target="_blank">Google Business Profile Manager</a></li>
 <li><a href="https://schema.org/FAQPage" data-editable-link="t1-resource-7" target="_blank">Schema.org FAQPage</a></li>
-<li><a href="https://search.google.com/test/rich-results" data-editable-link="t1-resource-8" target="_blank">Google Rich Results Test</a></li>
+<li><a href="https://validator.schema.org/" data-editable-link="t1-resource-8" target="_blank">Schema Markup Validator</a></li>
               </ul>
             </div>
           </div>
@@ -6771,6 +7021,17 @@ button,
                       <li data-editable-key="t2-bullet-3">Write the ideas as a headline and a shot, not as finished posts. &quot;Room 214 sunset, 15-second pan&quot; is enough. The finished version happens in the weekly batch.</li>
                       <li data-editable-key="t2-bullet-4">Keep the list in one shared Google Sheet with a column for status, so anyone on the team can pick up an idea and know what has already been shot or posted.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">Content pillars</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t2-s1-content-pillars.png" alt="Table of eight content pillars for Harrison Beach Hotel, what each covers, and an example idea for each, from room tours to the water park package" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-2">
@@ -6783,6 +7044,17 @@ button,
                       <li data-editable-key="t2-bullet-7">Add an authenticity rule: every post includes one real detail that only someone at the hotel would know. It could be a guest&#039;s reaction, a team member&#039;s tip, or the exact view from a specific room.</li>
                       <li data-editable-key="t2-bullet-8">Build the visual templates once, in Canva or in the design system you saw on the call: a Reel cover, a carousel layout, a Story template, and a quote card for guest reviews. Save them in a shared brand kit. The coordinator and Megan should be able to produce a post without asking for a design.</li>
                     </ul>
+                    <div class="tactic-mockup tactic-embed">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">youtube.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <iframe src="https://www.youtube.com/embed/yoS6Lv0HbPI" title="Canva Brand Kit" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-3">
@@ -6819,6 +7091,17 @@ button,
                       <li data-editable-key="t2-bullet-15">Use Meta Business Suite (free) to schedule Instagram and Facebook together. For TikTok and YouTube Shorts, use Buffer or Later, or the native schedulers in each app, so the same video goes everywhere without manual posting.</li>
                       <li data-editable-key="t2-bullet-16">Stories are the exception to batching. They should be spontaneous and take 10 to 15 minutes a day: weather, the view, a dog arriving, something happening in the lobby.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.facebook.com/latest/planner</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t2-s4-meta-planner.png" alt="Meta Business Suite Planner with a week of five scheduled posts to Instagram and Facebook, three of them Reels, each tagged with its content pillar" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-5">
@@ -6831,6 +7114,17 @@ button,
                       <li data-editable-key="t2-bullet-19">Start at three to five posts a week on each. Both platforms are growing fastest among older audiences, which is the group that books multi-night stays.</li>
                       <li data-editable-key="t2-bullet-20">Do not wait for perfect footage. The first 20 videos are how the team learns what works.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">tiktok.com and youtube.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t2-s5-tiktok-youtube-profiles.png" alt="TikTok and YouTube Shorts profiles for Harrison Beach Hotel with matching bios and a link to the direct booking page" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-6">
@@ -6842,6 +7136,17 @@ button,
                       <li data-editable-key="t2-bullet-22">Update the Instagram and Facebook bios to match the positioning statement, with a link to the direct booking page. Use the same profile photo and handle style on all platforms.</li>
                       <li data-editable-key="t2-bullet-23">Pin three posts that do the most work: the best room tour, the best guest review, and the direct-booking offer.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">instagram.com/harrisonbeachhotel</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t2-s6-instagram-profile.png" alt="Instagram profile with an updated bio and booking link, Highlights for Rooms, Pool and Hot Tub, Location, Guest Reviews, and Pets, and three pinned posts" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -6866,6 +7171,17 @@ button,
                       <li data-editable-key="t2-bullet-26">Respond to Google reviews within 48 hours, which moves the response rate from about 60 percent to 90 percent or more. Prioritise one- to three-star reviews first, then recent five-star ones. Write three templates for common themes (staff praise, renovation compliments, a slow check-in) and edit each one so it sounds personal.</li>
                       <li data-editable-key="t2-bullet-27">Pass the slow check-in feedback to operations. A reply that acknowledges it is good, and a fix that reduces it is better, and Tactic 3 includes a pre-arrival message that helps.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">business.google.com/reviews</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t2-s7-review-reply.png" alt="Google review about a slow Friday check-in with a personal owner reply that thanks the guest by name and says what the team is doing about it" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t2-8">
@@ -6975,7 +7291,7 @@ button,
 <li><a href="https://business.tiktok.com" data-editable-link="t2-resource-5" target="_blank">TikTok Business</a></li>
 <li><a href="https://studio.youtube.com" data-editable-link="t2-resource-6" target="_blank">YouTube Studio</a></li>
 <li><a href="https://claude.ai" data-editable-link="t2-resource-7" target="_blank">Claude</a></li>
-<li><a href="https://ga-dev-tools.google.com/campaign-url-builder/" data-editable-link="t2-resource-8" target="_blank">Google Campaign URL Builder</a></li>
+<li><a href="https://ga-dev-tools.web.app/campaign-url-builder/" data-editable-link="t2-resource-8" target="_blank">Google Campaign URL Builder</a></li>
               </ul>
             </div>
           </div>
@@ -7098,6 +7414,18 @@ button,
                       <li data-editable-key="t3-bullet-3">Test two versions of the wording for two weeks each and compare the booking rate. The assessment notes the booking infrastructure is strong, so the copy is the variable worth testing.</li>
                       <li data-editable-key="t3-bullet-4">Make sure the same line appears in your Google Business Profile description, the website&#039;s meta description for the booking pages, and the footer of every confirmation email.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisonbeachhotel.com</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t3-s1-direct-perks.png" alt="Homepage mockup on desktop and mobile with the direct-booking perks, best rate guarantee, free changes up to 72 hours before arrival, and a personal pre-arrival note, shown under the booking search and next to Book Your Stay" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-2">
@@ -7110,6 +7438,46 @@ button,
                       <li data-editable-key="t3-bullet-7">Hold off on promoting the hot springs partnership. It is paused because of inconsistent hours and slow payments, and a package that depends on it risks the guest experience. Revisit it once the vendor is reliable.</li>
                       <li data-editable-key="t3-bullet-8">Add a midweek offer for January and February, since this is when occupancy is thinnest. Keep it direct-only, with the same flexible cancellation, so it reinforces the direct advantage.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/ski-and-stay</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s2-ski-stay-package.png" alt="Ski and Stay package page mockup with one H1, what's included, the price, a Book button, and a front desk code" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup tactic-mockup--page">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/ski-and-stay</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s2-ski-stay-package-full.png" alt="Full Ski and Stay package page with inclusions, booking box, short FAQ, links to the Family Adventure and Stay and Eat packages, and footer" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
+                    <a href="https://ga-dev-tools.web.app/campaign-url-builder/" class="tactic-mockup-link" target="_blank" rel="noopener" aria-label="Open the Google Campaign URL Builder (opens in a new tab)">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">ga-dev-tools.web.app</div>
+                          <span class="tactic-mockup-open" aria-hidden="true"><span class="tactic-mockup-open-text">Open site </span>↗</span>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s2-campaign-url-builder.png" alt="Campaign URL Builder creating a UTM-tagged link for the Ski and Stay page from an Instagram Reel" loading="lazy">
+                        </div>
+                      </div>
+                    </a>
                   </div>
                 </li>
               </ol>
@@ -7134,6 +7502,18 @@ button,
                       <li data-editable-key="t3-bullet-11">Keep your existing Facebook retargeting running and add the package pages to the audiences, so someone who read the ski page sees the ski offer. Landing pages come first and ads second, because ads sent to a general page lose the message.</li>
                       <li data-editable-key="t3-bullet-12">Review each campaign every week for the first month and every two weeks after that. Cut what does not produce enquiries and move the budget to what does.</li>
                     </ul>
+                    <div class="tactic-mockup">
+                      <div class="tactic-mockup-chrome">
+                        <span class="tactic-mockup-dot red"></span>
+                        <span class="tactic-mockup-dot yellow"></span>
+                        <span class="tactic-mockup-dot green"></span>
+                        <div class="tactic-mockup-url">harrisonbeachhotel.com/winter-escape</div>
+                      </div>
+                      <div class="tactic-mockup-body">
+                        <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                        <img src="/assets/harrison-beach-hotel-mockups/media/t3-s3-prairie-landing.png" alt="Prairie winter escape landing page mockup with a midweek winter rate, the Ski and Stay package, kitchenettes for longer stays, and links to the winter guides" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                      </div>
+                    </div>
                   </div>
                 </li>
                 <li class="tactic-step-item" id="step-t3-4">
@@ -7146,6 +7526,30 @@ button,
                       <li data-editable-key="t3-bullet-15">Use whichever property management or email system you already have for this, and write the messages in the brand voice brief so they sound like the team and not like a template.</li>
                       <li data-editable-key="t3-bullet-16">Track the open rate, the review rate, and the number of rebookings that come from each message.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">Pre-arrival email</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s4-pre-arrival-email.png" alt="Pre-arrival email sent three days before the stay with check-in time, express check-in, parking, and recommendations for a winter weekend" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">Post-stay email</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s4-post-stay-email.png" alt="Post-stay thank-you email with a Leave a Google Review button and a direct midweek return offer" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -7170,6 +7574,32 @@ button,
                       <li data-editable-key="t3-bullet-19">Build a list of 30 targets: employers within a 90 minute drive, associations, planners, and organisations that run small retreats or receptions. Send a short, specific email to five or six a week, with the page link and one clear offer, for example an off-site 90 minutes from Vancouver with a lake view.</li>
                       <li data-editable-key="t3-bullet-20">Support the page with the Meetings and Small Gatherings cluster from Tactic 1, and watch the monthly AI test to confirm the number-one ranking holds.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/meetings-events</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s5-meetings-page.png" alt="Meetings page mockup with key facts for the 600 sq. ft. room, capacity, AV, group rates and starting price, set-ups, catering, and a quote form promising a reply within one business day" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup tactic-mockup--page">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">harrisonbeachhotel.com/meetings-events</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <span class="tactic-step-media-badge tactic-mockup-badge">Mockup</span>
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s5-meetings-page-full.png" alt="Full meetings page with facts bar, set-up capacities, catering, quote form, photos of the room, and footer" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -7194,6 +7624,30 @@ button,
                       <li data-editable-key="t3-bullet-23">Winter has its own booking mix, so compare to the same period last year where you can, and use the 80/20 target as the direction, not a number to hit in the first month.</li>
                       <li data-editable-key="t3-bullet-24">Share the one-page summary with Nicole and the owners&#039; side as appropriate. It makes the case for the work and shows which offers and campaigns are earning their budget.</li>
                     </ul>
+                    <div class="tactic-mockup-pair">
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">Monthly direct vs OTA report</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s6-direct-ota-report.png" alt="One-page monthly report with total bookings, direct and OTA share against the August and September baseline, midweek occupancy, meeting enquiries, and bookings by package code" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                      <div class="tactic-mockup">
+                        <div class="tactic-mockup-chrome">
+                          <span class="tactic-mockup-dot red"></span>
+                          <span class="tactic-mockup-dot yellow"></span>
+                          <span class="tactic-mockup-dot green"></span>
+                          <div class="tactic-mockup-url">business.facebook.com/events_manager</div>
+                        </div>
+                        <div class="tactic-mockup-body">
+                          <img src="/assets/harrison-beach-hotel-mockups/media/t3-s6-meta-events-manager.png" alt="Meta Events Manager showing the Purchase event active and receiving from the browser and Conversions API" class="lightbox-trigger" onclick="openLightbox(this.src, this.alt)" loading="lazy">
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </li>
               </ol>
@@ -7279,7 +7733,7 @@ button,
               <div class="tactic-card-label">Resources</div>
               <ul class="tactic-resources-list">
                 <!-- GENERATOR: Replace with resources from plan.md Tactic 3 Resources section -->
-                <li><a href="https://ga-dev-tools.google.com/campaign-url-builder/" data-editable-link="t3-resource-1" target="_blank">Google Campaign URL Builder</a></li>
+                <li><a href="https://ga-dev-tools.web.app/campaign-url-builder/" data-editable-link="t3-resource-1" target="_blank">Google Campaign URL Builder</a></li>
 <li><a href="https://business.facebook.com/events_manager" data-editable-link="t3-resource-2" target="_blank">Meta Events Manager</a></li>
 <li><a href="https://support.google.com/google-ads/answer/1722022" data-editable-link="t3-resource-3" target="_blank">Google Ads conversion tracking help</a></li>
 <li><a href="https://business.google.com" data-editable-link="t3-resource-4" target="_blank">Google Business Profile Manager</a></li>
