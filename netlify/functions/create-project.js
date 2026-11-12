@@ -374,6 +374,25 @@ export async function handler(event, context) {
 // GITHUB COMMIT
 // ═══════════════════════════════════════════════════════════════════════════
 
+// Build an error that says which GitHub step failed and why. GitHub's
+// message never contains the token.
+async function githubError(action, response) {
+  let githubMessage = '';
+  try { githubMessage = (await response.json()).message || ''; } catch (e) { /* no JSON body */ }
+  const writeStep = action !== 'read the branch' && action !== 'read the latest commit';
+  const hint = response.status === 401
+    ? 'The GitHub token in the site settings is not valid or has expired.'
+    : (response.status === 403 || response.status === 404)
+      ? (writeStep
+        ? 'The GitHub token can read this repository but is not allowed to write to it. It needs read and write access to the repository contents.'
+        : 'The GitHub token cannot see this repository or branch.')
+      : response.status === 409 || response.status === 422
+        ? 'GitHub rejected the change. Someone else may have committed at the same moment. Try again.'
+        : 'GitHub could not complete the request.';
+  console.error(`[github] Could not ${action}:`, response.status, githubMessage);
+  return new Error(`Could not ${action} on GitHub (status ${response.status}${githubMessage ? `: ${githubMessage}` : ''}). ${hint} Nothing was created.`);
+}
+
 async function commitToGitHub(files, message) {
   const headers = {
     'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -387,13 +406,13 @@ async function commitToGitHub(files, message) {
   try {
     // 1. Get latest commit SHA
     const refRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/refs/heads/${branch}`, { headers });
-    if (!refRes.ok) throw new Error('Failed to get branch ref');
+    if (!refRes.ok) throw await githubError('read the branch', refRes);
     const refData = await refRes.json();
     const latestCommitSha = refData.object.sha;
 
     // 2. Get tree of latest commit
     const commitRes = await fetch(`https://api.github.com/repos/${owner}/${repo}/git/commits/${latestCommitSha}`, { headers });
-    if (!commitRes.ok) throw new Error('Failed to get commit');
+    if (!commitRes.ok) throw await githubError('read the latest commit', commitRes);
     const commitData = await commitRes.json();
     const baseTreeSha = commitData.tree.sha;
 
@@ -411,7 +430,7 @@ async function commitToGitHub(files, message) {
         }))
       })
     });
-    if (!treeRes.ok) throw new Error('Failed to create tree');
+    if (!treeRes.ok) throw await githubError('save the new files', treeRes);
     const treeData = await treeRes.json();
 
     // 4. Create commit
@@ -424,7 +443,7 @@ async function commitToGitHub(files, message) {
         parents: [latestCommitSha]
       })
     });
-    if (!newCommitRes.ok) throw new Error('Failed to create commit');
+    if (!newCommitRes.ok) throw await githubError('create the commit', newCommitRes);
     const newCommitData = await newCommitRes.json();
 
     // 5. Update branch reference
@@ -433,7 +452,7 @@ async function commitToGitHub(files, message) {
       headers: { ...headers, 'Content-Type': 'application/json' },
       body: JSON.stringify({ sha: newCommitData.sha })
     });
-    if (!updateRefRes.ok) throw new Error('Failed to update branch');
+    if (!updateRefRes.ok) throw await githubError('update the branch', updateRefRes);
 
     return { commitUrl: newCommitData.html_url };
 
