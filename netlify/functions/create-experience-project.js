@@ -5,6 +5,7 @@ import { createClient } from '@supabase/supabase-js';
 // Parsing and rendering live in a shared, tested module.
 import { parseExperiencePlanMd, renderExperienceDashboard, generateExperiencePlanJson, validateExperienceHtml } from '../../shared/experience-generator.js';
 import { validatePlan, formatReport } from '../../shared/plan-validator.js';
+import { ensureCoachAccess } from '../../shared/coach-access.js';
 
 // The branch this function reads templates from and commits to. Production
 // uses main. A Netlify deploy preview can set GITHUB_BRANCH to its own branch
@@ -210,46 +211,18 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 8. CREATE OR UPDATE SUPABASE ENTRY (upsert logic)
     // ─────────────────────────────────────────────────────────────────────────
-    // Check if coach already has an entry for this project
-    const { data: existingCoach } = await supabaseAdmin
-      .from('user_plans')
-      .select('id')
-      .eq('email', coachEmail)
-      .eq('client_slug', slug);
+    // The coach's own user_plans row is what lists this project in My Clients
+    // and lets the coach open it. The table requires a start date, so the row
+    // starts on today's date until staff or the operator's coach changes it.
+    // Files are already committed, so a failure is reported, not thrown.
+    const coachAccess = await ensureCoachAccess(supabaseAdmin, {
+      coachEmail,
+      slug,
+      dashboardState: 'experience'
+    });
 
-    if (existingCoach && existingCoach.length > 0) {
-      // Update existing record
-      const { error: updateError } = await supabaseAdmin
-        .from('user_plans')
-        .update({
-          role: 'coach',
-          coach_email: coachEmail,
-          dashboard_state: 'experience',
-          active: true
-        })
-        .eq('id', existingCoach[0].id);
-
-      if (updateError) {
-        console.error('Supabase update error:', updateError);
-      }
-    } else {
-      // Insert new record (no cohort_start_date - operator sets this themselves)
-      const { error: dbError } = await supabaseAdmin
-        .from('user_plans')
-        .insert({
-          email: coachEmail,
-          role: 'coach',
-          client_slug: slug,
-          coach_email: coachEmail,
-          dashboard_state: 'experience',
-          active: true
-        });
-
-      if (dbError) {
-        console.error('Supabase insert error:', dbError);
-        // Don't fail the whole request - files are already committed
-        // Log for manual recovery
-      }
+    if (!coachAccess.ok) {
+      console.error('[create-experience-project] Coach access not granted:', coachAccess.error);
     }
 
     // Note: Experience projects do NOT seed 30/60/90 day milestones.
@@ -366,7 +339,8 @@ export async function handler(event, context) {
         projectUrl: `/${slug}/`,
         warnings: report.warnings,
         summary: report.summary,
-        commitUrl: commitResult.commitUrl
+        commitUrl: commitResult.commitUrl,
+        coachAccessGranted: coachAccess.ok
       })
     };
 

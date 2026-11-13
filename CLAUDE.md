@@ -1220,6 +1220,7 @@ In addition to the general quality checklist, verify these for experience dashbo
 | `shared/plan-generator.js` | **The accelerator generator.** Parses plan.md and fills the template. Used by the Add Plan upload (`netlify/functions/create-project.js`) and `scripts/regenerate-dashboards.js`. Never copy its functions into another file. |
 | `shared/experience-generator.js` | **The experience generator.** Used by `netlify/functions/create-experience-project.js`. Output goes to `clients/[slug]/`. |
 | `shared/plan-validator.js` | **The plan check.** Runs on every upload before anything is generated and returns each problem with its line number and fix. Also runs in the browser on the upload forms via `shared/plan-report-ui.js`. |
+| `shared/coach-access.js` | **Coach dashboard access.** The only code that creates, reactivates or removes a coach's `user_plans` row. Used by the uploads, assessment generation and `netlify/functions/grant-coach-access.js` (called by Edit Project and Change Coach). Never insert a coach row any other way: the browser cannot insert into `user_plans`, and the row needs a start date. |
 | `tests/plan-generator.test.js`, `tests/experience-generator.test.js`, `tests/plan-validator.test.js` | Run every real plan through the validator and generators against the current templates. Run `npm test` after changing a template, a generator or the validator. |
 | `archive/` | Retired one-off scripts and working notes. Nothing depends on these files. |
 

@@ -2553,6 +2553,14 @@
       const coachChanged = newCoachEmail && newCoachEmail.toLowerCase() !== (originalCoachEmail || '').toLowerCase();
 
       try {
+        // Give the coach their own access row first. The coach_email column
+        // updated below is only a label: shared/auth.js lets a coach in from
+        // their own row. Runs on every save, so re-saving repairs a coach who
+        // was assigned without one. If it fails, nothing else is changed.
+        if (newCoachEmail) {
+          await grantCoachAccess(newCoachEmail, editTargetSlug, newStartDate);
+        }
+
         // Update user_plans table - use select() to verify rows were updated
         const { data: updatedRows, error: updateError } = await supabaseClient
           .from('user_plans')
@@ -2571,46 +2579,6 @@
         }
 
         console.log('Updated rows:', updatedRows);
-
-        // Make sure the assigned coach can open the dashboard. The coach_email
-        // column above is only a label: shared/auth.js grants access from the
-        // coach's own row (email = coach, role = 'coach'), so create or
-        // reactivate that row here. Runs on every save, so re-saving a project
-        // repairs a coach who was assigned before this check existed.
-        let coachAccessError = null;
-        if (newCoachEmail) {
-          const coachEmailLower = newCoachEmail.toLowerCase();
-          const coachRow = updatedRows.find(
-            r => r.role === 'coach' && (r.email || '').toLowerCase() === coachEmailLower
-          );
-
-          if (!coachRow) {
-            const { error: insertError } = await supabaseClient
-              .from('user_plans')
-              .insert({
-                email: coachEmailLower,
-                client_slug: editTargetSlug,
-                role: 'coach',
-                active: true,
-                cohort_start_date: newStartDate || null,
-                coach_email: newCoachEmail,
-                dashboard_state: updatedRows[0].dashboard_state || null
-              });
-            coachAccessError = insertError;
-          } else if (!coachRow.active) {
-            const { error: reactivateError } = await supabaseClient
-              .from('user_plans')
-              .update({ active: true })
-              .eq('client_slug', editTargetSlug)
-              .eq('role', 'coach')
-              .eq('email', coachRow.email);
-            coachAccessError = reactivateError;
-          }
-
-          if (coachAccessError) {
-            console.error('Could not grant coach dashboard access:', coachAccessError);
-          }
-        }
 
         // Recalculate milestone due dates if start date changed
         const project = projects.find(p => p.slug === editTargetSlug);
@@ -2638,10 +2606,15 @@
           }
         }
 
+        // The previous coach no longer needs this dashboard
+        const revokeWarning = await revokePreviousCoachAccess(originalCoachEmail, newCoachEmail, editTargetSlug);
+
         // Notify the new coach if checkbox is checked and coach changed
         if (coachChanged && shouldNotifyCoach) {
           await notifyCoachAssigned(newCoachEmail, editTargetSlug, project?.name || toTitleCase(editTargetSlug));
         }
+
+        if (revokeWarning) alert(revokeWarning);
 
         // Update local state
         if (project) {
@@ -2666,7 +2639,7 @@
 
       } catch (err) {
         console.error('Update error:', err);
-        alert('Failed to update project. Please try again.');
+        alert('Failed to update project. ' + (err.message || 'Please try again.'));
       } finally {
         btn.textContent = originalText;
         btn.disabled = false;
@@ -2674,6 +2647,69 @@
     }
 
     // Notify coach when they are assigned to a project
+    // Creates or reactivates the coach's own user_plans row through the server,
+    // because the browser is not allowed to insert into that table. Throws with
+    // a readable message when access could not be granted.
+    async function grantCoachAccess(coachEmail, clientSlug, startDate) {
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (!session) {
+        throw new Error('Your session has expired. Sign in again, then save.');
+      }
+
+      const response = await fetch('/.netlify/functions/grant-coach-access', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${session.access_token}`
+        },
+        body: JSON.stringify({ coachEmail, clientSlug, startDate: startDate || undefined })
+      });
+
+      if (!response.ok) {
+        let reason = `server returned ${response.status}`;
+        try {
+          reason = (await response.json()).error || reason;
+        } catch (parseError) { /* keep the status text */ }
+        throw new Error(`The coach could not be given dashboard access, so nothing was saved. ${reason}`);
+      }
+    }
+
+    // Removes the replaced coach's dashboard access after a save. Returns a
+    // message when it could not be removed, or null when it worked. It does not
+    // throw, because the new coach has already been saved by this point.
+    async function revokePreviousCoachAccess(previousCoachEmail, newCoachEmail, clientSlug) {
+      const previous = (previousCoachEmail || '').trim();
+      if (!previous || previous.toLowerCase() === (newCoachEmail || '').trim().toLowerCase()) {
+        return null;
+      }
+
+      let reason = '';
+      try {
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) throw new Error('your session has expired');
+
+        const response = await fetch('/.netlify/functions/grant-coach-access', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${session.access_token}`
+          },
+          body: JSON.stringify({ clientSlug, revokeCoachEmail: previous })
+        });
+
+        if (response.ok) return null;
+        reason = `server returned ${response.status}`;
+        try {
+          reason = (await response.json()).error || reason;
+        } catch (parseError) { /* keep the status text */ }
+      } catch (err) {
+        reason = err.message;
+      }
+
+      console.error('Could not remove previous coach access:', reason);
+      return `Your changes were saved, but ${previous} still has access to this dashboard. ${reason}`;
+    }
+
     async function notifyCoachAssigned(coachEmail, clientSlug, clientName, dashboardType = 'accelerator') {
       try {
         const { data: { session } } = await supabaseClient.auth.getSession();
@@ -2761,8 +2797,9 @@
         .from('user_plans')
         .select('coach_email')
         .eq('client_slug', slug)
-        .eq('role', 'client')
-        .single();
+        .not('coach_email', 'is', null)
+        .limit(1)
+        .maybeSingle();
 
       changeCoachOriginalEmail = existingPlan?.coach_email || '';
       if (changeCoachOriginalEmail) {
@@ -2811,6 +2848,12 @@
       const coachChanged = newCoachEmail && newCoachEmail.toLowerCase() !== (changeCoachOriginalEmail || '').toLowerCase();
 
       try {
+        // Give the coach their own access row first, so they can open the
+        // dashboard. If it fails, nothing else is changed.
+        if (newCoachEmail) {
+          await grantCoachAccess(newCoachEmail, changeCoachTargetSlug);
+        }
+
         // 1. Update client_assessments.coach_email so the assessment shows correct coach
         const { error: assessmentError } = await supabaseClient
           .from('client_assessments')
@@ -2838,32 +2881,8 @@
           if (updateError) throw updateError;
         }
 
-        // 4. Ensure the coach has their own user_plans entry for direct access
-        // This is the "direct coach assignment" that allows the coach to see the client
-        if (newCoachEmail) {
-          // Check if coach already has an entry for this client
-          const existingCoachEntry = (existingPlans || []).find(
-            p => p.email.toLowerCase() === newCoachEmail.toLowerCase() && p.role === 'coach'
-          );
-
-          if (!existingCoachEntry) {
-            // Create a direct coach assignment entry
-            const { error: insertError } = await supabaseClient
-              .from('user_plans')
-              .insert({
-                email: newCoachEmail,
-                client_slug: changeCoachTargetSlug,
-                role: 'coach',
-                coach_email: newCoachEmail,
-                active: true
-              });
-
-            if (insertError) {
-              console.warn('Could not create coach entry:', insertError);
-              // Continue anyway - the coach_email update should still work
-            }
-          }
-        }
+        // The previous coach no longer needs this dashboard
+        const revokeWarning = await revokePreviousCoachAccess(changeCoachOriginalEmail, newCoachEmail, changeCoachTargetSlug);
 
         // Get business name for notification
         const businessName = document.getElementById('changeCoachName').value;
@@ -2876,7 +2895,7 @@
 
         // Close modal and show success
         closeChangeCoachModal();
-        alert('Coach assignment updated successfully.');
+        alert(revokeWarning || 'Coach assignment updated successfully.');
 
         // Reload the page to reflect changes
         window.location.reload();
