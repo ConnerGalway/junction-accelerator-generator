@@ -1,0 +1,220 @@
+{
+  "client_name": "Sts'ailes Development Corp",
+  "client_slug": "stsailes-development-corp",
+  "goal": "This plan covers two of the businesses run from Morris Valley Road: Sasq'ets Journeys, the Indigenous-led boat, land and kayak tours, and Sasq'ets Burger, the café, catering and meeting room business. The lodge is left out on purpose. It is doing well on Airbnb as a whole-house rental and is due for redevelopment in a year or two. The other businesses are left out for a simpler reason: you have one to two hours a week for marketing, you are still getting access to some of the accounts, and you are looking after more than one business at once. A plan that tried to cover everything would not get done. This one is built to fit the hours you actually have.\n\nThe tours have a product guests rave about and a website that loses them on the way to booking. A guest from Vancouver called the boat journey the best cultural boat tour he had ever done, and that review sits on a homepage where the Book Boat Tour button leads to an error page. The Tours link in the footer and the kayak Book Now button both open a page called Tour Calendar that still shows the website template's sample bike tours in Croatia, Sardinia and Tuscany. The newsletter signup on every page has no storage connected, so anyone who subscribes is not saved. One tour was booked last month. Some of that is the season and some is the locked Viator account, but some of it is a booking path that breaks before a guest ever reaches Rezgo.\n\nSasq'ets Burger has the opposite problem. It is open year-round and its regulars are loyal, but almost all of them are local or from nearby First Nations communities, and outside visitors are the clear gap. Even closer to home there is room to grow: about 300 Sts'ailes staff work nearby, and three First Nations communities within roughly 30 minutes are not using the café or catering, even though they have no local alternative. Online, the café is a page inside the Development Corporation's website. That page shows the corporation's office hours instead of the café's, has a typo in the booking email address, and links to online ordering with a bare web address and no button.\n\nThe order matters, and so does the calendar. These 90 days fall in the tours' off-season. That makes it the right time to fix things and the wrong time to expect a lot of tour bookings. Weeks 1 to 5 repair both booking paths, move Sasq'ets Burger to its own web address and install the tracking that is currently missing. Weeks 1 to 8 get both Google Business Profiles complete and start a ten-minute weekly review routine. Weeks 7 to 12 build a content habit that fits inside an hour a week, using footage you already have or are about to receive. Weeks 8 to 12 agree the budget, then run a small, measured Meta ad test for the café, which is open now, and build the Google Ads campaign for the tours. That campaign stays paused until spring bookings open.\n\nThis plan does not include a revenue projection. There is no ad budget set yet, and there is no tracking on either site to build one from. Here is what day 90 looks like:\n- Every booking button works and is tracked.\n- Sasq'ets Burger has its own address.\n- Both Google profiles are complete, and every review has a reply.\n- One post a week goes out for each business.\n- One café ad test is finished, with real numbers to judge it by.\n- The Google Ads tour campaign is built and ready to switch on.\n\nMost of the tour revenue from this work will come in spring, after these 90 days. The exception is gift cards, which can sell through December if they are switched on in Week 4.",
+  "coach_email": "conner@elearningu.com",
+  "weeks": [
+    {
+      "week": 1,
+      "month": 1,
+      "title": "Week 1: Fix the Tour Buttons",
+      "actions": [
+        "Replace the broken Book Boat Tour link and point every tour button at its own Rezgo page → links to: Tactic 1 / Step 1",
+        "Change the kayak button to an email link to journeys@stsailes.com → links to: Tactic 1 / Step 1",
+        "Connect Google Drive storage to the newsletter block and fix the Request Information link → links to: Tactic 1 / Step 3",
+        "Email JJ about the Burger domain and the Squarespace plan cost → links to: Tactic 1 / Step 6",
+        "List every Google profile you manage and search Maps for any you do not → links to: Tactic 2 / Step 1"
+      ],
+      "checklist": [
+        "Every Book button on sasqetsjourneys.com opens a working Rezgo page or an email",
+        "A test newsletter signup appears in the Google Sheet",
+        "JJ has the domain and plan cost question in writing",
+        "A written list shows which Google profiles exist and who owns each one"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-1"
+    },
+    {
+      "week": 2,
+      "month": 1,
+      "title": "Week 2: Replace the Template Page",
+      "actions": [
+        "Delete the template bike tours and rebuild the Tours page with your real tours, prices and season → links to: Tactic 1 / Step 2",
+        "Decide which tours are offered and update the FAQ to match → links to: Tactic 1 / Step 2",
+        "Write the SEO titles and descriptions for the homepage and Tours page → links to: Tactic 1 / Step 4",
+        "Create the Sasq'ets Journeys Google profile and start verification if none exists → links to: Tactic 2 / Step 2"
+      ],
+      "checklist": [
+        "No sample bike tours remain anywhere on sasqetsjourneys.com",
+        "The FAQ and the Tours page list the same tours",
+        "Both pages have an SEO title and description saved",
+        "The Journeys profile is created or claimed and verification has been requested"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-2"
+    },
+    {
+      "week": 3,
+      "month": 1,
+      "title": "Week 3: Turn On Measurement",
+      "actions": [
+        "Create the GA4 properties and add the IDs to the Journeys site and to Rezgo → links to: Tactic 1 / Step 9",
+        "Add sasqetsjourneys.com and sasqets.rezgo.com under Configure your domains in GA4 → links to: Tactic 1 / Step 9",
+        "Create the Business portfolio and both Meta pixels, and add the Journeys pixel to Squarespace and Rezgo → links to: Tactic 1 / Step 10",
+        "Tap through every path on your phone and write the one-page baseline → links to: Tactic 1 / Step 11"
+      ],
+      "checklist": [
+        "GA4 Realtime shows your own visit on sasqetsjourneys.com",
+        "The Rezgo Analytics settings hold the Journeys GA4 ID",
+        "The Meta Pixel & Ads panel shows a green status on the Journeys site",
+        "The baseline page is saved in the shared folder and sent to Junction"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-3"
+    },
+    {
+      "week": 4,
+      "month": 1,
+      "title": "Week 4: Gift Cards and the Burger Copy",
+      "actions": [
+        "Confirm Rezgo gift cards are on sale and add a Give a Tour button to the homepage and Tours page → links to: Tactic 1 / Step 5",
+        "Register the Burger domain under the corporation's account once JJ approves → links to: Tactic 1 / Step 6",
+        "Duplicate the Development Corporation site and trim the copy to the Burger page → links to: Tactic 1 / Step 7"
+      ],
+      "checklist": [
+        "A gift card can be bought from sasqets.rezgo.com on a phone",
+        "The Burger domain is registered and its login is stored where JJ can reach it",
+        "The trial copy contains only the Burger page, set as the homepage"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-4"
+    },
+    {
+      "week": 5,
+      "month": 2,
+      "title": "Week 5: The Burger Site Goes Live",
+      "actions": [
+        "Fix the hours, the email typo, the order button and the SEO title on the new Burger site → links to: Tactic 1 / Step 7",
+        "Subscribe, connect the domain, and redirect the old Burger page → links to: Tactic 1 / Step 8",
+        "Add the Burger GA4 ID and Burger pixel to the new site → links to: Tactic 1 / Step 9",
+        "Complete the Sasq'ets Burger Google profile with hours, categories, attributes and photos → links to: Tactic 2 / Step 3"
+      ],
+      "checklist": [
+        "The new domain loads the Sasq'ets Burger site on a phone",
+        "stsailesdevcorp.com/sasqetsburger redirects to the new domain",
+        "GA4 Realtime shows a visit on the Burger site",
+        "The Burger profile shows the café's real hours and 10 or more photos"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-5"
+    },
+    {
+      "week": 6,
+      "month": 2,
+      "title": "Week 6: Both Profiles Complete",
+      "actions": [
+        "Complete the Journeys profile with a description, photos, services and season → links to: Tactic 2 / Step 4",
+        "Add the Rezgo booking link with its tracking tag to Journeys, and the order and menu links to the Burger profile → links to: Tactic 2 / Step 5",
+        "Ask Rezgo whether your plan includes the Google Things to Do connection → links to: Tactic 2 / Step 5"
+      ],
+      "checklist": [
+        "The Journeys profile shows a Booking link that opens Rezgo",
+        "The Burger profile shows working order and menu links",
+        "Rezgo's answer about Google Things to Do is recorded"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-6"
+    },
+    {
+      "week": 7,
+      "month": 2,
+      "title": "Week 7: Reviews and Accounts",
+      "actions": [
+        "Reply to every existing Google review on both profiles → links to: Tactic 2 / Step 6",
+        "Print the café QR review card, add the review link to Rezgo's post-tour email, and email last season's guests → links to: Tactic 2 / Step 7",
+        "Audit every social account, connect Instagram to Facebook, and fix the social links on both sites → links to: Tactic 3 / Step 1"
+      ],
+      "checklist": [
+        "No review on either profile is without a reply",
+        "The QR review card is at the café till",
+        "The past-guest review email has been sent",
+        "Each business has one Facebook Page and one Instagram account, both with two admins"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-7"
+    },
+    {
+      "week": 8,
+      "month": 2,
+      "title": "Week 8: Build the Content Library",
+      "actions": [
+        "Set up the shared Sasq'ets Content folder and gather the GoPro footage and existing photos → links to: Tactic 3 / Step 2",
+        "Follow up with JJ on videographer footage and usage rights → links to: Tactic 3 / Step 2",
+        "Install Edits and build one format for each business → links to: Tactic 3 / Step 3",
+        "Publish the first update on each Google profile → links to: Tactic 2 / Step 8",
+        "Agree the café test budget and the spring tour budget with JJ → links to: Tactic 4 / Step 1"
+      ],
+      "checklist": [
+        "The shared folder holds the GoPro footage in Journeys/Raw",
+        "One draft Edits format exists for each business",
+        "Each Google profile shows at least one update",
+        "The ad budget is approved in writing"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-8"
+    },
+    {
+      "week": 9,
+      "month": 3,
+      "title": "Week 9: The First Weekly Batch",
+      "actions": [
+        "Brief café staff on one clip per shift and on verbal consent, and ask the cultural ambassador for sharing guidance → links to: Tactic 3 / Step 4",
+        "Hold the first weekly editing session and schedule a week of posts in Business Suite → links to: Tactic 3 / Step 5",
+        "Run the first monthly AI ideas session → links to: Tactic 3 / Step 6",
+        "Create the Meta ad account and connect the Burger Page, Instagram account and pixel → links to: Tactic 4 / Step 2"
+      ],
+      "checklist": [
+        "Clips from at least three café shifts are in Burger/Raw",
+        "Cultural sharing guidance is written down",
+        "Two posts are scheduled to both Facebook and Instagram",
+        "The Meta ad account exists with a payment method and the pixel attached"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-9"
+    },
+    {
+      "week": 10,
+      "month": 3,
+      "title": "Week 10: The Café Ad Test Goes Live",
+      "actions": [
+        "Build the café Traffic campaign with a 30 km radius and a 21-day end date → links to: Tactic 4 / Step 3",
+        "Launch Ad A (food) and Ad B (staff face) side by side → links to: Tactic 4 / Step 4",
+        "Ask the burger creator for the original file or a collaborator post → links to: Tactic 3 / Step 7",
+        "Hold this week's editing session → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "Both café ads are approved and delivering",
+        "The campaign has an end date set",
+        "The tally sheet is at the till",
+        "The creator has been contacted"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-10"
+    },
+    {
+      "week": 11,
+      "month": 3,
+      "title": "Week 11: Build the Google Ads Campaign, Paused",
+      "actions": [
+        "Create the Google Ads account in Expert Mode, link GA4, and import the purchase conversion → links to: Tactic 4 / Step 6",
+        "Build the search campaign with two ad groups and leave it paused → links to: Tactic 4 / Step 7",
+        "Read week one of the café test, pause the weaker ad, and add a challenger → links to: Tactic 4 / Step 4",
+        "Hold this week's editing session → links to: Tactic 3 / Step 5"
+      ],
+      "checklist": [
+        "The Google Ads account shows purchase as an imported conversion",
+        "The campaign is built and set to Paused",
+        "The weaker café ad is paused and a new challenger is running"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-11"
+    },
+    {
+      "week": 12,
+      "month": 3,
+      "title": "Week 12: Review and Hand Off to Spring",
+      "actions": [
+        "Write the Google Ads launch checklist and put the launch date in your calendar → links to: Tactic 4 / Step 8",
+        "Review the café test results with JJ and decide what happens next → links to: Tactic 4 / Step 5",
+        "Write the spring creator brief and shortlist five creators → links to: Tactic 3 / Step 8",
+        "Compare this week's numbers against the Week 3 baseline and send the comparison to Junction"
+      ],
+      "checklist": [
+        "The launch checklist and launch date are written down",
+        "A decision on the café ads is recorded",
+        "The creator brief and shortlist are saved in the shared folder",
+        "The 90-day comparison has been sent to Junction"
+      ],
+      "deep_link": "https://accelerator.elearningu.com/stsailes-development-corp/#week-12"
+    }
+  ]
+}
