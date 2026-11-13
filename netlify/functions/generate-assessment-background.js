@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 // Import deterministic scoring engine
 import { calculateAllScores } from '../../shared/scoring-engine.js';
 import { SCORING_ENGINE_VERSION } from '../../shared/rubrics.js';
+import { ensureCoachAccess } from '../../shared/coach-access.js';
 
 // Import verification engine
 import {
@@ -1351,36 +1352,15 @@ export async function handler(event, context) {
       if (DEBUG) console.log('[STEP 9B] Assigning coach:', effectiveCoachEmail);
 
       try {
-        // Check if coach already has an entry for this project
-        const { data: existingCoach } = await supabaseAdmin
-          .from('user_plans')
-          .select('id')
-          .eq('email', effectiveCoachEmail.toLowerCase())
-          .eq('client_slug', slug);
-
-        if (existingCoach && existingCoach.length > 0) {
-          // Update existing record
-          await supabaseAdmin
-            .from('user_plans')
-            .update({
-              role: 'coach',
-              coach_email: effectiveCoachEmail.toLowerCase(),
-              active: true
-            })
-            .eq('id', existingCoach[0].id);
-          if (DEBUG) console.log('[STEP 9B] Updated existing coach record');
-        } else {
-          // Insert new record
-          await supabaseAdmin
-            .from('user_plans')
-            .insert({
-              email: effectiveCoachEmail.toLowerCase(),
-              role: 'coach',
-              client_slug: slug,
-              coach_email: effectiveCoachEmail.toLowerCase(),
-              active: true
-            });
-          if (DEBUG) console.log('[STEP 9B] Created new coach record');
+        // Give the coach their own user_plans row so they can open the dashboard
+        const coachAccess = await ensureCoachAccess(supabaseAdmin, {
+          coachEmail: effectiveCoachEmail,
+          slug
+        });
+        if (!coachAccess.ok) {
+          console.error('[STEP 9B] Coach access not granted:', coachAccess.error);
+        } else if (DEBUG) {
+          console.log('[STEP 9B] Coach access:', coachAccess.action);
         }
 
         // Send coach notification email

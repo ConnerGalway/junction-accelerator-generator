@@ -6,6 +6,7 @@ import { createClient } from '@supabase/supabase-js';
 // regeneration script and the tests can never drift apart.
 import { parsePlanMd, renderDashboard, generatePlanJson, validateDashboardHtml, hasAssessmentContent } from '../../shared/plan-generator.js';
 import { validatePlan, formatReport } from '../../shared/plan-validator.js';
+import { ensureCoachAccess } from '../../shared/coach-access.js';
 
 // The branch this function reads templates from and commits to. Production
 // uses main. A Netlify deploy preview can set GITHUB_BRANCH to its own branch
@@ -265,23 +266,16 @@ export async function handler(event, context) {
     // ─────────────────────────────────────────────────────────────────────────
     // 8. ENSURE COACH HAS USER_PLANS ENTRY WITH ONBOARDING CALL DATE
     // ─────────────────────────────────────────────────────────────────────────
-    // Coach may have been assigned during assessment generation (stored in client_assessments)
-    // but not have a user_plans entry. Upsert to ensure they have access and the date is set.
-    const { error: upsertError } = await supabaseAdmin
-      .from('user_plans')
-      .upsert({
-        email: coachEmail.toLowerCase(),
-        client_slug: slug,
-        role: 'coach',
-        active: true,
-        cohort_start_date: onboardingCallDate,
-        coach_email: null // coaches don't have coaches
-      }, {
-        onConflict: 'email,client_slug,role'
-      });
+    // The coach opens the dashboard through their own user_plans row. Without it
+    // they are sent back to login, so a failure here is reported to the uploader.
+    const coachAccess = await ensureCoachAccess(supabaseAdmin, {
+      coachEmail,
+      slug,
+      startDate: onboardingCallDate
+    });
 
-    if (upsertError) {
-      console.warn('Failed to upsert coach user_plans entry (non-fatal):', upsertError.message);
+    if (!coachAccess.ok) {
+      console.error('[create-project] Coach access not granted:', coachAccess.error);
     }
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -357,7 +351,8 @@ export async function handler(event, context) {
         commitUrl: commitResult.commitUrl,
         warnings: report.warnings,
         summary: report.summary,
-        assessmentIncluded: !!assessment
+        assessmentIncluded: !!assessment,
+        coachAccessGranted: coachAccess.ok
       })
     };
 

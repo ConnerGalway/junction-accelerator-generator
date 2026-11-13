@@ -1048,7 +1048,11 @@
         }
 
         // Success
-        showSuccess(`Experience project created successfully! <a href="/${slug}/">View project</a>`);
+        if (result.coachAccessGranted === false) {
+          showSuccess(`Experience project created, but the coach could not be given dashboard access, so it will not appear in My Clients yet. Ask an admin to add the coach's access. <a href="/${slug}/">View project</a>`);
+        } else {
+          showSuccess(`Experience project created successfully! <a href="/${slug}/">View project</a>`);
+        }
         document.getElementById('createProjectForm').reset();
         document.getElementById('fileUpload').classList.remove('has-file');
         document.getElementById('fileName').textContent = '';
